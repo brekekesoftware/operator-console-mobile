@@ -4,10 +4,14 @@ import { v4 as uuidv4 } from 'uuid'
  *  abstract class
  */
 export class ACallInfo {
+  _CallInfosAsParent
+  _CallInfoUuid
   constructor(callInfosAsParent) {
     this._CallInfosAsParent = callInfosAsParent
     this._CallInfoUuid = uuidv4()
   }
+
+  static CALL_STATUSES
 
   /**
    *  abstract method
@@ -167,7 +171,6 @@ export class ACallInfo {
    */
   toggleRecordingAsync() {
     throw new Error('Not implemented.')
-    return new Promise(null)
   }
 
   /**

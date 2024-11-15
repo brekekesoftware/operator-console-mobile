@@ -38,7 +38,9 @@ export class OCUtil {
     )
     const b =
       (status.find(s => s === 'talking') && true) ||
-      (status.find(s => ['holding', 'calling', 'ringing'].includes(s)) &&
+      (status.find(s =>
+        ['holding', 'calling', 'ringing'].includes(s as string),
+      ) &&
         true) ||
       (extensionsStatus?.[extensionId]?.registered ? true : false)
     return b
@@ -50,7 +52,9 @@ export class OCUtil {
     )
     const statusClassName =
       (status.find(s => s === 'talking') && 'led-red') ||
-      (status.find(s => ['holding', 'calling', 'ringing'].includes(s)) &&
+      (status.find(s =>
+        ['holding', 'calling', 'ringing'].includes(s as string),
+      ) &&
         'led-yellow') ||
       (extensionsStatus?.[extensionId]?.registered ? 'led-green' : 'led-grey')
     return statusClassName
@@ -64,7 +68,7 @@ export class OCUtil {
   static logErrorWithNotification(
     consoleErrorMessage,
     notificationErrorMessage = null,
-    oErr = null,
+    oErr: any = null,
     duration = 0,
   ) {
     if (oErr) {
@@ -118,7 +122,7 @@ export class OCUtil {
   }
 
   static getCallStatusFromWebphoneCallObject(webphoneCallObject) {
-    let status = null
+    let status: number | null = null
     if (webphoneCallObject.holding === true) {
       status = BROC_BROCCALLOBJECT_CALL_STATUSES.holding
     } else if (webphoneCallObject.answered === true) {
