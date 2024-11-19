@@ -4,8 +4,8 @@ import InputNumber from 'antd/lib/input-number'
 import { Colorpicker } from 'antd-colorpicker'
 
 import { i18n } from '../../../i18n'
-import OCUtil from '../../../OCUtil'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { OCUtil } from '../../../OCUtil'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 
 export class NoteEditorWidgetSettings extends EditorWidgetSettings {

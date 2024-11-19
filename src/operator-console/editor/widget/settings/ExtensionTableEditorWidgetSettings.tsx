@@ -6,7 +6,6 @@ import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 
 export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
-  _EditScreenViewAsParent
   _onChangeExtensiontableBgColor(color) {
     const widgetData = this._getWidgetData()
     widgetData.setExtensiontableBgColor(color)

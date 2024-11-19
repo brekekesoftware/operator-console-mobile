@@ -1,5 +1,5 @@
-import BaseDividerData from '../data/BaseDividerData'
-import EditorDivider from './EditorDivider'
+import { BaseDividerData } from '../data/BaseDividerData'
+import { EditorDivider } from './EditorDivider'
 
 export class HorizontalEditorDivider extends EditorDivider {
   constructor(props) {

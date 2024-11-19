@@ -1,7 +1,7 @@
 import Input from 'antd/lib/input'
 
-import i18n from '../../../../i18n'
-import LegacyButtonEditorSubWidgetSettings from './LegacyButtonEditorSubWidgetSettings'
+import { i18n } from '../../../../i18n'
+import { LegacyButtonEditorSubWidgetSettings } from './LegacyButtonEditorSubWidgetSettings'
 
 export class LegacyButtonEditorSubWidgetSettings_threeWayCallButton extends LegacyButtonEditorSubWidgetSettings {
   constructor(

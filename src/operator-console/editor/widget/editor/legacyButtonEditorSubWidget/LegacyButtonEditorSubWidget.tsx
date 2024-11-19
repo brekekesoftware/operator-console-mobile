@@ -36,7 +36,7 @@ export class LegacyButtonEditorSubWidget {
     throw new Error('Not implemented.')
   }
 
-  _getIconJsx(icon, label) {
+  _getIconJsx(icon = '', label = '') {
     const widgetData =
       this._LegacyButtonEditorSubWidgetData.getLegacyButtonWidgetDataAsParent()
     if (!icon) {

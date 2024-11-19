@@ -6,7 +6,6 @@ import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 
 export class CallPanelEditorWidgetSettings extends EditorWidgetSettings {
-  _EditScreenViewAsParent
   _onChangeCallpanelFgColor(color) {
     const widgetData = this._getWidgetData()
     widgetData.setCallpanelFgColor(color)

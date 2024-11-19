@@ -6,7 +6,6 @@ import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 
 export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
-  _EditScreenViewAsParent
   _onChangeCalltableBgColor(color) {
     const widgetData = this._getWidgetData()
     widgetData.setCalltableBgColor(color)

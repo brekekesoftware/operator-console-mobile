@@ -1,11 +1,12 @@
-import BaseDividerData from '../data/BaseDividerData'
-import PaneData from '../data/PaneData'
-import EditorChildPane from './EditorChildPane'
-import EditorPane from './EditorPane'
-import HorizontalEditorDivider from './HorizontalEditorDivider'
-import VerticalEditorDivider from './VerticalEditorDivider'
+import { BaseDividerData } from '../data/BaseDividerData'
+import { PaneData } from '../data/PaneData'
+import { EditorChildPane } from './EditorChildPane'
+import { EditorPane } from './EditorPane'
+import { HorizontalEditorDivider } from './HorizontalEditorDivider'
+import { VerticalEditorDivider } from './VerticalEditorDivider'
 
 export class EditorRootPane extends EditorPane {
+  _EditScreenViewAsParent
   constructor(props) {
     super(props)
     this._EditScreenViewAsParent = this.getEditScreenViewFromProps(props)

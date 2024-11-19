@@ -1130,15 +1130,12 @@ const EMPTY_SCREENS = [window.structuredClone(DEFAULT_SCREEN)]
 
 const INIT_STATE = {
   i18nReady: false,
-
   isInitialized: false,
   loginUser: null,
   syncDownedScreens: false,
   syncDownedSystemSettings: false,
   _downedLayoutAndSystemSettings: false,
   syncLoadedCallHistory: false,
-  // callIds: [],
-  // callById: {},
   dialing: '',
   extensions: [],
   autoRejectIncoming: false,
@@ -1148,33 +1145,82 @@ const INIT_STATE = {
   parksStatus: {},
   myParksStatus: {},
   usingLine: '',
-
   selectingWidgetIndex: -1,
-  // editingWidgets: [],
   editingScreenWidth: 400,
   editingScreenHeight: 400,
   editingScreenGrid: 10,
   editingScreenBackground: '#ffffff00',
   editingScreenForeground: '#000000',
-
   currentScreenQuickCallWidget: null,
   currentScreenQuickCallWidgetSubData: null,
   currentScreenIndex: 0,
   screens: [DEFAULT_SCREEN],
-
   locale: '',
   displayState: undefined,
   showAutoDialWidgets: [],
   showAutoDialWidgetSubDatas_ver2: [],
-  // isSaveEditingScreenButtonDisabled: false
   currentScreenTabIndex: 0,
   isSelectingTabInEditLayout: false,
   editingTabDatas: new Array(),
   isAboutOCModalOpen: false,
 }
 
-export class BrekekeOperatorConsole extends React.Component {
+type BrekekeOperatorConsoleProps = {}
+type BrekekeOperatorConsoleState = {
+  systemSettingsData: any
+  isAboutOCModalOpen: boolean
+  _downedLayoutAndSystemSettings: boolean
+  displayState?: number
+  screenData_ver2: any
+  editingTabDatas: Array<any>
+  isSelectingTabInEditLayout: boolean
+  currentScreenTabIndex: number
+  showAutoDialWidgetSubDatas_ver2: Array<any>
+  showAutoDialWidgets: Array<any>
+  locale: string
+  screens: Array<any>
+  currentScreenIndex: number
+  currentScreenQuickCallWidgetSubData: any
+  currentScreenQuickCallWidget: any
+  editingScreenForeground: string
+  editingScreenBackground: string
+  editingScreenWidth: number
+  editingScreenHeight: number
+  editingScreenGrid: number
+  selectingWidgetIndex: number
+  i18nReady: boolean
+  isInitialized: boolean
+  loginUser: any
+  syncDownedScreens: boolean
+  syncDownedSystemSettings: boolean
+  syncLoadedCallHistory: boolean
+  dialing: string
+  extensions: Array<any>
+  autoRejectIncoming: boolean
+  extensionsStatus: any
+  monitoringExtension: string
+  linesStatus: any
+  parksStatus: any
+  myParksStatus: any
+  usingLine: string
+  newLayoutModalOpen: boolean
+  lastLayoutShortname: string
+  showConfirmDeleteWidget: boolean
+  showConfirmDeleteTab: boolean
+  lastLoginAccount: any
+  refresh: boolean
+  isAdmin: boolean
+}
+
+export class BrekekeOperatorConsole extends React.Component<
+  BrekekeOperatorConsoleProps,
+  BrekekeOperatorConsoleState
+> {
   static WAIT_HOLD_TIMELIMIT_MILLIS_AT_ONETOUCHDIAL
+  static DIALING_MAX_LENGTH
+  static TAB_TITLE_MAX_LENGTH
+  static PAL_NOTE_USERACCESSES
+  static DTMF_CHARS
   _DefaultPbxDirectoryName: string
   _disableKeydownToDialingCounter: number
   _disablePasteToDialingCounter: number
@@ -1205,6 +1251,12 @@ export class BrekekeOperatorConsole extends React.Component {
   _OnBeforeUnloadFunc
   _OnUnloadFunc
   _defaultSystemSettingsData
+  _onPasteFunction
+  _onKeydownFunction
+  _editingScreenData_ver2
+  _onKeydownAtEditingScreenFunc
+  _quickBusy
+  _prevCurrentCallStatus
   constructor(props) {
     super(props)
     BREKEKE_OPERATOR_CONSOLE = this
@@ -1522,13 +1574,6 @@ export class BrekekeOperatorConsole extends React.Component {
     })
     i18n.defaultLocale = ''
 
-    // const lastLoginAccount = localStorage.getItem('lastLoginAccount') || '';
-    // try {
-    //   this.setState({lastLoginAccount: JSON.parse(lastLoginAccount)})
-    // } catch (err) {
-    //   console.log('failed to get last signed in account', err);
-    // }
-
     const this_ = this
     this._onPasteFunction = function (e) {
       this_._onPaste(e)
@@ -1565,275 +1610,7 @@ export class BrekekeOperatorConsole extends React.Component {
     this._disablePasteToDialingCounter--
   }
 
-  // _onKeydown(e){
-  // 	console.log("onKeydown.e=" , e );
-  //     if( this._disableKeydownToDialingCounter > 0  ){
-  //         return;
-  //     }
-  //
-  //     const isDowned = this.state._downedLayoutAndSystemSettings;
-  //     if( !isDowned ){
-  //         return;
-  //     }
-  //     const isScreenView = this.state.displayState === brOcDisplayStates.showScreen;
-  //     const isShowScreenView_ver2 = this.state.displayState === brOcDisplayStates.showScreen_ver2;
-  //     if( !isScreenView && !isShowScreenView_ver2 ){
-  //         return;
-  //     }
-  //
-  //     //const [newLayoutModalOpen, setNewLayoutModalOpen] = useState(false);
-  //     const newLayoutModalOpen = this.state.newLayoutModalOpen;
-  //     if( newLayoutModalOpen === true ){
-  //         return;
-  //     }
-  //
-  //     if (
-  //         e.getModifierState("Hyper") ||
-  //         e.getModifierState("Fn") ||
-  //         e.getModifierState("Super") ||
-  //         e.getModifierState("OS") ||
-  //         e.getModifierState("Win") ||  /* hack for IE */
-  //         e.getModifierState("Copilot") /* //!todo //!check //!forbug  work? */
-  //     ) {
-  //         return;
-  //     }
-  //
-  //     if (
-  //         e.getModifierState("Alt") +
-  //         e.getModifierState("Control") +
-  //         e.getModifierState("Meta") >
-  //         1
-  //     ) {
-  //         return;
-  //     }
-  //
-  //     if (
-  //         (e.getModifierState("ScrollLock") ||
-  //             e.getModifierState("Scroll")) /* hack for IE */ &&
-  //         !e.getModifierState("Control") &&
-  //         !e.getModifierState("Alt") &&
-  //         !e.getModifierState("Meta")
-  //     ) {
-  //         switch (e.key) {
-  //             case "ArrowDown":
-  //             case "Down":
-  //                 //e.preventDefault();
-  //                 //break;
-  //                 return;
-  //             case "ArrowLeft":
-  //             case "Left":
-  //                 //e.preventDefault();
-  //                 //break;
-  //                 return;
-  //             case "ArrowRight":
-  //             case "Right":
-  //                 //e.preventDefault();
-  //                 //break;
-  //                 return;
-  //             case "ArrowUp":
-  //             case "Up":
-  //                 //e.preventDefault();
-  //                 //break;
-  //                 return;
-  //             case "Process":
-  //                 //e.preventDefault()();
-  //                 //break;
-  //                 return;
-  //         }
-  //     }
-  //
-  //
-  //     const keyCode = e.keyCode;
-  //     switch( keyCode ) {
-  //         case 13:    //enter key
-  //             if( this._isDTMFInput === true ) {
-  //                 return;
-  //             }
-  //             this.makeCall();
-  //             this._clearDialing();
-  //             return;
-  //         case 8: //backspace
-  //         {
-  //             if( this._isDTMFInput === true ){
-  //                 return;
-  //             }
-  //             let dialing = this.state.dialing;
-  //             if (!dialing || dialing.length === 0) {
-  //                 return;
-  //             }
-  //             dialing = dialing.substring(0, dialing.length - 1);
-  //             this.setDialing(dialing);
-  //             return;
-  //         }
-  //             break;
-  //         case 46:    //delete
-  //         {
-  //             if( this._isDTMFInput === true ){
-  //                 return;
-  //             }
-  //
-  //             let dialing = this.state.dialing;
-  //             if (!dialing || dialing.length === 0) {
-  //                 return;
-  //             }
-  //             dialing = dialing.substring(1, dialing.length);
-  //             this.setDialing(dialing);
-  //             return;
-  //         }
-  //             break;
-  //         case 9: //tab
-  //         //case 32: //space
-  //         case 16: //shift
-  //         case 17: //control
-  //         case 18: //alt
-  //         case 112: //F1
-  //         case 113: //F2
-  //         case 114: //F3
-  //         case 115: //F4
-  //         case 116: //F5
-  //         case 117: //F6
-  //         case 118: //F7
-  //         case 119: //F8
-  //         case 120: //F9
-  //         case 121: //F10
-  //         case 122: //F11
-  //         case 123: //F12
-  //         case 37:    //Left arrow
-  //         case 39:    //Right arrow
-  //         case 38: //Up arrow
-  //         case 40: //Down arrow
-  //         case 93:    //menu
-  //         case 144: //Numlock
-  //         case 33: //pageup
-  //         case 34: //pagedown
-  //         case 38: //end
-  //         case 36: //home
-  //         case 45: //insert
-  //         case 145: //scroll lock
-  //         case 19: //pause
-  //         case 44: //print screen
-  //         //case ***; //copilot //!check //!todo //!check //!forbug
-  //         case 91: //meta
-  //         case 29: //NonConvert
-  //         case 0: //char key ( with F12?) //for Firefox
-  //         case 229: //char key ( with F12?)
-  //             return;
-  //             break;
-  //     }
-  //
-  //     //modify keychar
-  //     let keychar;
-  //     switch(keyCode) {
-  //         case 96:    //Num 0
-  //             keychar = '0';
-  //             break;
-  //         case 97:    //Num 1
-  //             keychar = '1';
-  //             break;
-  //         case 98: //Num 2
-  //             keychar = '2';
-  //             break;
-  //         case 99: //Num 3
-  //             keychar = '3';
-  //             break;
-  //         case 100: //Num 4
-  //             keychar = '4';
-  //             break;
-  //         case 101: //Num 5
-  //             keychar =  '5';
-  //             break;
-  //         case 102: //Num 6
-  //             keychar = '6';
-  //             break;
-  //         case 103: //Num 7
-  //             keychar = '7';
-  //             break;
-  //         case 104: //Num 8
-  //             keychar = '8';
-  //             break;
-  //         case 105: //Num 9
-  //             keychar = '9';
-  //             break;
-  //         case 111: //Num divide
-  //             keychar = '/';
-  //             break;
-  //         case 106: //Num multiply
-  //             keychar = '*';
-  //             break;
-  //         case 109: //Num subtract
-  //             keychar = '-';
-  //             break;
-  //         case 107: //Num add
-  //             keychar = '+'
-  //             break;
-  //         case 110: //Num decimal
-  //             keychar = '.';
-  //             break;
-  //         default:
-  //             keychar  = String.fromCharCode(keyCode);
-  //             break;
-  //     }
-  //     if( !keychar ){
-  //         return;
-  //     }
-  //     const isCaplockOn =  e.getModifierState( "CapsLock" );
-  //     if( isCaplockOn ){
-  //         if( e.shiftKey ){
-  //             keychar = keychar.toLowerCase();
-  //         }
-  //         else {
-  //             keychar = keychar.toUpperCase();
-  //         }
-  //     }
-  //     else{
-  //         if( e.shiftKey ) {
-  //             keychar = keychar.toUpperCase();
-  //         }
-  //         else{
-  //             keychar = keychar.toLowerCase();
-  //         }
-  //     }
-  //
-  //     if( this._isDTMFInput === true ){
-  //         if(  this._isSendDTMFChar( keychar ) !== true ) {
-  //             return;
-  //         }
-  //         let  dialing = this.state.dialing;
-  //         if( !dialing ){
-  //             dialing = keychar;
-  //         }
-  //         else {
-  //             dialing += keychar;
-  //         }
-  //
-  //         if( dialing.length > BrekekeOperatorConsole.DIALING_MAX_LENGTH ){
-  //             dialing = dialing.substring( dialing.length - BrekekeOperatorConsole.DIALING_MAX_LENGTH, dialing.length );
-  //         }
-  //         this.setDialing( dialing );
-  //
-  //         this.sendDTMFIfNeed(keychar);
-  //
-  //     }
-  //     else{
-  //         let  dialing = this.state.dialing;
-  //         if( dialing.length >= BrekekeOperatorConsole.DIALING_MAX_LENGTH ){
-  //             return;
-  //         }
-  //
-  //         if( !dialing ){
-  //             dialing = keychar;
-  //         }
-  //         else {
-  //             dialing += keychar;
-  //         }
-  //         this.setDialing( dialing );
-  //
-  //     }
-  //
-  // }
-
   _onKeydown(e) {
-    // console.log("onKeydown.e=" , e );
     if (this._disableKeydownToDialingCounter > 0) {
       return
     }
@@ -2072,91 +1849,8 @@ export class BrekekeOperatorConsole extends React.Component {
     this.setDialing(pasteString)
   }
 
-  // componentDidUpdate( prevProps ){
-  //     this._deformCallTablezTbodies( prevProps );
-  // }
-
-  // _deformCallTablezTbodies( prevProps ) {
-  //     const isDowned = this.state._downedLayoutAndSystemSettings;
-  //     if( !isDowned ){
-  //         return;
-  //     }
-  //     const isScreenView = this.state.displayState === brOcDisplayStates.showScreen;
-  //     if( !isScreenView ){
-  //         return;
-  //     }
-  //
-  //
-  //     //default view
-  //     const screens = [...this.state.screens];
-  //     for( let i = 0; i < screens.length; i++ ){
-  //         const screen = screens[i];
-  //         const widgets = screen.widgets;
-  //         for( let k = 0; k < widgets.length; k++ ){
-  //             const widget = widgets[k];
-  //             const widgetType = widget.type;
-  //             if( widgetType !== "CallTable" ){
-  //                 continue;
-  //             }
-  //             //Calltable
-  //             const widgetIndex = k;
-  //             const eWidget = document.querySelector('[data-broc-widgetindex="' + widgetIndex + '"]');;
-  //             const eTbody = eWidget.querySelector('tbody');
-  //
-  //             const eTbodyRows = eTbody.querySelectorAll("tr");
-  //             let tbodyRowsHeight = 0;
-  //             for( let r = 0; r < eTbodyRows.length; r++ ){
-  //                 const eTbodyRow = eTbodyRows[r];
-  //                 const h = eTbodyRows.offsetHeight;
-  //                 tbodyRowsHeight += h;
-  //             }
-  //
-  //             const eTbodyHeight = eTbody.offsetHeight;
-  //             const bNeedInsertEmptyTbodyRow = tbodyRowsHeight < eTbodyHeight;
-  //             let eEmptyTbodyRow = eTbody.querySelector('[data-broc-isemptytcalltableztbodyrow="true"]');
-  //             if( bNeedInsertEmptyTbodyRow){
-  //                 if( !eEmptyTbodyRow ){
-  //                     eEmptyTbodyRow = document.createElement("tr");
-  //                     const eThead = eTbody.parentElement.querySelector("thead");
-  //                     const eThreadRow = eThead.querySelector("tr");
-  //                     const eThreadCells = eThreadRow.querySelectorAll("th");
-  //                     const cellCount  = eThreadCells.length;
-  //                     eEmptyTbodyRow.setAttribute("colspan", cellCount.toString() );
-  //                     eEmptyTbodyRow.setAttribute("data-broc-isemptytcalltableztbodyrow", "true" );
-  //                     eTbody.appendChild( eEmptyTbodyRow );
-  //                 }
-  //                 else {
-  //                     const eTbodyRows = eTbody.querySelectorAll("tr");
-  //                     if (eTbodyRows && eTbodyRows.length !== 0 ){
-  //                         const eTbodyLastRow = eTbodyRows [eTbodyRows.length - 1];
-  //                         eTbodyLastRow.after(eEmptyTbodyRow);
-  //                     }
-  //                 }
-  //             }
-  //             else{
-  //                 if( eEmptyTbodyRow ){
-  //                     eEmptyTbodyRow.remove();
-  //                 }
-  //             }
-  //
-  //
-  //         }
-  //     }
-  //
-  //
-  // }
-
   _getLastLayoutLocalstorageKeyName() {
-    // let info = this.state.lastLoginAccount;
-    // if( !info ){
-    //     const lastLoginAccount = localStorage.getItem('lastLoginAccount');
-    //     info = JSON.parse( lastLoginAccount );
-    // }
-
     const info = this._getLastLoginAccount()
-    // const lastLoginAccount = localStorage.getItem('lastLoginAccount');
-    // const info = JSON.parse( lastLoginAccount );
-
     let pbxDirectoryName = info['pbxDirectoryName']
     if (!pbxDirectoryName || pbxDirectoryName.length === 0) {
       pbxDirectoryName = this._DefaultPbxDirectoryName
@@ -2197,14 +1891,6 @@ export class BrekekeOperatorConsole extends React.Component {
     }
     const pbxHost = this.state.loginUser.pbxHost
     return pbxHost
-  }
-
-  getLoggedinPbxPort() {
-    if (!this.state.loginUser) {
-      return null
-    }
-    const pbxPort = this.state.loginUser.pbxPort
-    return pbxPort
   }
 
   getLoggedinPbxPort() {
@@ -2273,7 +1959,7 @@ export class BrekekeOperatorConsole extends React.Component {
     return this.state.displayState
   }
 
-  setDisplayState(displayState, otherSetStates, callback) {
+  setDisplayState(displayState, otherSetStates = {}, callback = () => {}) {
     const states = { displayState, ...otherSetStates }
     this.setState(states, callback)
   }
@@ -3855,7 +3541,7 @@ export class BrekekeOperatorConsole extends React.Component {
     this.selectWidget(this.state.selectingWidgetIndex + 1)
   }
 
-  _getEditingNewTabTitle(newTabTitle, currentTabData) {
+  _getEditingNewTabTitle(newTabTitle, currentTabData = undefined) {
     const editingTabDatas = this.state.editingTabDatas
     let tabTitle = newTabTitle
     for (let i = 0; i < editingTabDatas.length; i++) {
@@ -3926,23 +3612,6 @@ export class BrekekeOperatorConsole extends React.Component {
       i !== this.state.selectingWidgetIndex &&
       this.state.selectingWidgetIndex >= 0
     ) {
-      // const editingWidgets = [...this.state.editingWidgets];
-      //
-      // const prevWidget =  editingWidgets[this.state.selectingWidgetIndex];
-      // for( let i = 0; i < this._OnDeselectWidgetFuncs.length; i++ ) {
-      //   this._OnDeselectWidgetFuncs[i]( this, prevWidget );
-      // }
-      // const wSelect = editingWidgets[i];
-      // for( let i = 0; i < this._OnSelectWidgetFuncs.length; i++ ) {
-      //   this._OnSelectWidgetFuncs[i]( this, wSelect );
-      // }
-      // const Widget = WidgetMap[prevWidget.type];
-      // if (Widget) {
-      //   const func = Widget.OnDeselectEditingWidget;
-      //   if (func) {
-      //     func(this);
-      //   }
-      // }
     }
 
     if (this._onKeydownAtEditingScreenFunc) {
@@ -3969,18 +3638,9 @@ export class BrekekeOperatorConsole extends React.Component {
       this._onKeydownAtEditingScreenFunc = null
       return
     }
-
-    // !later commentout
-    // if( ev.keyCode == 46 ){    //Not a delete key
-    //     this.setState({showConfirmDeleteWidget:true});
-    //     return;
-    // }
-
-    // alert( document.activeElement );    //!temp
   }
 
   makeWidgetOnTop = i => {
-    // const editingWidgets = [...this.state.editingWidgets];
     const editingWidgetDatas = [...this._getSelectingEditingWidgetDatas()]
     const [widget] = editingWidgetDatas.splice(i, 1)
     editingWidgetDatas.push(widget)
@@ -4697,7 +4357,7 @@ export class BrekekeOperatorConsole extends React.Component {
     })
   }
 
-  transferCall = async (dialing, mode, callInfo) => {
+  transferCall = async (dialing, mode, callInfo: any = undefined) => {
     if (!callInfo) {
       callInfo = this._aphone.getCallInfos().getCurrentCallInfo()
     }
@@ -5307,7 +4967,7 @@ export class BrekekeOperatorConsole extends React.Component {
       () => {
         //            this.syncDownScreens();
         //            this._syncDownLayout();
-
+        const fileRootUrl = ''
         const filesFileUrl = 'components/button/icons/default/filenames.txt'
         const loadDefaultButtonImageFileInfosOptions = {
           filesFileUrl,
@@ -5378,46 +5038,6 @@ export class BrekekeOperatorConsole extends React.Component {
       () => {},
     )
   }
-
-  //     onEndInitByWebphonePhoneClient( account ){
-  //         const this_ = this;
-  //         this.setState({
-  //             loginUser: account,
-  //             isInitialized: true,
-  //             systemSettingsData: new SystemSettingsData(this)
-  //         }, () => {
-  // //            this.syncDownScreens();
-  // //            this._syncDownLayout();
-  //             this._downLayoutAndSystemSettingsForLoggedin(
-  //                 function(){
-  //
-  //                 },
-  //                 function(){
-  //
-  //                 }
-  //             );
-  //         });
-  //
-  //     }
-
-  // /**
-  //  *
-  //  * @param oExtensions ex.[{id:111,name:"111name"},{id:222,name:"222name"}]
-  //  */
-  // onInitByAphone( oExtensions ){
-  //     console.log('extensions', oExtensions);
-  //     this.setState({ extensions: oExtensions });
-  //
-  // }
-
-  // getAdminExtensionPropertiesFromPal(){
-  //     const loginUser  = this.state.loginUser;
-  //     const tenant = loginUser?.pbxTenant;
-  //     const extension = loginUser?.pbxUsername;
-  //
-  //     const promise = this._aphone.getAdminExtensionPropertiesPromise( tenant, extension );
-  //     return promise;
-  // }
 
   getIsAdmin() {
     return this.getLoggedinUserIsAdmin()
@@ -5554,196 +5174,6 @@ export class BrekekeOperatorConsole extends React.Component {
     this.getPalRestApi().callPalRestApiMethod(setAppDataOptions)
   }
 
-  // !old
-  // _syncDownLayout = () => {
-  //     if( !this.pal || this.state.syncDownedLayout ){
-  //         return;
-  //     }
-  //
-  //     const layoutFullname = this._getLastLayoutFullname();
-  //   if( layoutFullname ) {
-  //       this.getNote( layoutFullname )
-  //           .then((result) => {
-  //               const temp = 0;
-  //           })
-  //           .catch((err) => {
-  //              console.error("Failed to getNote.", err );
-  //               this.setState({ error: true })
-  //               throw err;
-  //           });
-  //   }
-  // }
-
-  // !old
-  // syncDownScreens = async () => {
-  //   if (!this.pal || this.state.syncDownedScreens ) return;
-  //
-  //   const [err, data] = await this.pal.call_pal('getAppData', { data_id: PBX_APP_DATA_NAME })
-  //       .then((data) => {
-  //         if (!data) {
-  //           return [null, null];
-  //         }
-  //         let json = { error: 'failed to parse app data' };
-  //         try {
-  //           json = JSON.parse(data);
-  //         } catch(err) {
-  //           console.warn('failed to parse app data', err);
-  //         }
-  //         return [null, json];
-  //       })
-  //       .catch((err) => {
-  //         return [err, null];
-  //       });
-  //
-  //   // if data not found
-  //   if (err?.code === -2000 || !data) {
-  //     this.setState({ screens: DEFAULT_SCREENS, syncDownedScreens: true }, () => {
-  //       this.syncUp();
-  //       this._syncDownSystemSettings();
-  //     });
-  //   }
-  //   else if (err || data?.error) {
-  //     Notification.error({
-  //       key: 'sync',
-  //       message: i18n.t("failed_to_load_data_from_pbx"),
-  //       btn: (<>
-  //         <Button type="secondary" size="small" onClick={() => {
-  //           //Notification.close('sync');
-  //           this.setState({ screens: DEFAULT_SCREENS, syncDownedScreens: true });
-  //           this._syncDownSystemSettings();
-  //         }}>
-  //           {i18n.t('use_the_default')}
-  //         </Button>
-  //         <Button style={{marginLeft: 12}} type="primary" size="small" onClick={() => {
-  //           //Notification.close('sync');
-  //           this.syncDownScreens().then( () => {
-  //             this.setState({screens: data.screens, syncDownedScreens: true});
-  //             this._syncDownSystemSettings();
-  //           });
-  //         }}>
-  //           {i18n.t('retry')}
-  //         </Button>
-  //       </>),
-  //       duration: 0,
-  //     });
-  //   }
-  //   else if (data.version !== PBX_APP_DATA_VERSION) {
-  //     // TODO: handle sync data versioning
-  //     this.setState({ screens: DEFAULT_SCREENS, syncDownedScreens: true }, () => {
-  //       this.syncUp();
-  //       this._syncDownSystemSettings();
-  //     });
-  //   }
-  //   else{
-  //     this.setState({screens: data.screens, syncDownedScreens: true});
-  //     this._syncDownSystemSettings();
-  //   }
-  //
-  //
-  // }
-
-  setSystemSettingsView(view) {
-    this._systemSettingsView = view
-  }
-
-  // //!old
-  // _syncDownSystemSettings = async () => {
-  //   const pal = this.pal;
-  //   if (!pal || this.state.syncDownedSystemSettings ) return;
-  //
-  //   const [err, data] = await pal.call_pal('getAppData', { data_id: OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_ID })
-  //       .then((data) => {
-  //         if (!data) {
-  //           return [null, null];
-  //         }
-  //         let json = { error: 'failed to parse app data' };
-  //         try {
-  //           json = JSON.parse(data);
-  //         } catch(err) {
-  //           console.warn('failed to parse app data', err);
-  //         }
-  //         return [null, json];
-  //       })
-  //       .catch((err) => {
-  //         return [err, null];
-  //       });
-  //
-  //   // if data not found
-  //   if (err?.code === -2000 || !data) {
-  //     this.setState({ syncDownedSystemSettings: true } );
-  //   }
-  //   else if (err || data?.error) {
-  //     Notification.error({
-  //       key: 'sync',
-  //       message: i18n.t("failed_to_load_data_from_pbx"),
-  //       btn: (<>
-  //         <Button type="secondary" size="small" onClick={() => {
-  //           //Notification.close('sync');
-  //           this.setState({ syncDownedSystemSettings: true });
-  //         }}>
-  //           {i18n.t('use_the_default')}
-  //         </Button>
-  //         <Button style={{marginLeft: 12}} type="primary" size="small" onClick={() => {
-  //           //Notification.close('sync');
-  //           this._syncDown();
-  //         }}>
-  //           {i18n.t('retry')}
-  //         </Button>
-  //       </>),
-  //       duration: 0,
-  //     });
-  //     return;
-  //   }
-  //   else {
-  //
-  //     if (data.version !== OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_VERSION) {
-  //       // TODO: handle sync data versioning
-  //       this.setState({syncDownedSystemSettings: true});
-  //       return;
-  //     }
-  //     this.getSystemSettingsData().setData( data.appData );
-  //
-  //     this.setState({ syncDownedSystemSettings: true});
-  //   }
-  //
-  //   this._CallHistory.load();
-  //   this.setState( { syncLoadedCallHistory : true });
-  //
-  //
-  // }
-
-  // getNoteNames = () => {
-  //     const tenant = this.state.loginUser?.pbxTenant;
-  //     return this._aphone.getNoteNamesPromise( tenant );
-  // }
-
-  // getNote = (name) => {
-  //     const tenant = this.state.loginUser?.pbxTenant;
-  //     return this._aphone.getNote( tenant, name );
-  // }
-
-  // getNoteByLoggedinPal( name, onSuccessFunction, onErrorFunction ){
-  //     const tenant = this.state.loginUser.pbxTenant;
-  //     this._loggedinPal.getNote({tenant:tenant,name:name}, onSuccessFunction, onErrorFunction );
-  // }
-
-  // setNote = async(name, content) => {
-  //     const tenant = this.state.loginUser?.pbxTenant;
-  //     return this._aphone.setNoteByPhoneClient( tenant, name, content );
-  // }
-
-  // getOCNote = ( shortName ) => {
-  //     const noteName = BrekekeOperatorConsole.getOCNoteName( shortName );
-  //     const note = this.getNote( noteName );
-  //     return note;
-  // }
-
-  // setOCNoteByPal = async (shortName, content ) =>{
-  //     const noteName = BrekekeOperatorConsole.getOCNoteName( shortName );
-  //     const noteResultPromise = this.setNote(noteName, content);
-  //     return noteResultPromise;
-  // }
-
   setNoteByLoggedinPal(noteName, content, successFunction, errorFunction) {
     const tenant = this.state.loginUser.pbxTenant
     const description = ''
@@ -5780,7 +5210,7 @@ export class BrekekeOperatorConsole extends React.Component {
   }
 
   _convertAppData_version_0_1To2_0_0(oOldContent) {
-    const oContent = {}
+    const oContent: any = {}
     oContent.version = PBX_APP_DATA_VERSION
     const oldScreens = oOldContent.screens
     oContent.screens = oldScreens // !bad. Not used but still available  //!forBug. Need deep copy?
@@ -5825,11 +5255,6 @@ export class BrekekeOperatorConsole extends React.Component {
           )
         }
 
-        const editingScreenGrid = screenDataVer2.getEditingScreenGrid()
-        // const widgetRelativePositionX = oldWidget.x - oldWidget.x  % editingScreenGrid + ( WIDGET_LEFT_SPACE_FOR_IMPORT_FROM_VER_0_1 - WIDGET_LEFT_SPACE_FOR_IMPORT_FROM_VER_0_1 % editingScreenGrid );
-        // const widgetRelativePositionY = oldWidget.y - oldWidget.y  % editingScreenGrid + ( WIDGET_TOP_SPACE_FOR_IMPORT_FROM_VER_0_1 - WIDGET_TOP_SPACE_FOR_IMPORT_FROM_VER_0_1 % editingScreenGrid );
-        // const widgetRelativePositionX = oldWidget.x - oldWidget.x  % editingScreenGrid;
-        // const widgetRelativePositionY = oldWidget.y - oldWidget.y  % editingScreenGrid;
         const widgetRelativePositionX = oldWidget.x
         const widgetRelativePositionY = oldWidget.y
         const widgetData = widgetDatas.addWidgetData(
@@ -6029,21 +5454,7 @@ BrekekeOperatorConsole.DIALING_MAX_LENGTH = 20 // !const
 BrekekeOperatorConsole.TAB_TITLE_MAX_LENGTH = 30 // !const
 BrekekeOperatorConsole.WAIT_HOLD_TIMELIMIT_MILLIS_AT_ONETOUCHDIAL = 20 * 1000
 
-export function OperatorConsole(el, props) {
+export const OperatorConsole = (el, props) => {
   const root = ReactDOM.createRoot(el)
   root.render(<BrekekeOperatorConsole {...props} />)
 }
-
-// const root = ReactDOM.createRoot(document.getElementById('operator-root'));
-// root.render(<BrekekeOperatorConsole />);
-
-// export function OperatorConsole(el, props) {
-//     return new Promise((callback) => {
-//         const ref = React.createRef();
-//         ReactDOM.render(<BrekekeOperatorConsole {...props} ref={ref}/>, el, () => {
-//             if (ref && ref.current) {
-//                 callback(ref.current);
-//             }
-//         });
-//     })
-// }

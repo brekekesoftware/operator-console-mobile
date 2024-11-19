@@ -9,15 +9,6 @@ export class LegacyExtensionStatusEditorWidgetSettings extends EditorWidgetSetti
     super(props)
   }
 
-  // componentDidUpdate(){
-  //     super.componentDidUpdate();
-  //     const widgetData = this._getWidgetData();
-  //     if( this._latestWidgetData !== widgetData  ){
-  //
-  //     }
-  //     this._latestWidgetData = widgetData;
-  // }
-
   _onChangeExtension(e) {
     const extension = e.currentTarget.value
     this._getWidgetData().setExtension(extension)

@@ -8,6 +8,6 @@ export const loadTranslations = async locale => {
   i18n.store(data)
 }
 
-export const isValidLocale = async locale => ['en', 'ja'].includes(locale)
+export const isValidLocale = locale => ['en', 'ja'].includes(locale)
 
 export const DEFAULT_LOCALE = 'en'

@@ -12,7 +12,6 @@ import { EditorWidgetSettings } from './EditorWidgetSettings'
 import { LegacyButtonEditorSubWidgetSettingsFactory } from './legacyButtonEditorSubWidgetSettings/LegacyButtonEditorSubWidgetSettingsFactory'
 
 export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
-  _EditScreenViewAsParent
   constructor(props) {
     super(props)
   }

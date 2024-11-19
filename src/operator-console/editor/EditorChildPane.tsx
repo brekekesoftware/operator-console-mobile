@@ -1,10 +1,11 @@
-import BaseDividerData from '../data/BaseDividerData'
-import PaneData from '../data/PaneData'
+import { BaseDividerData } from '../data/BaseDividerData'
+import { PaneData } from '../data/PaneData'
 import { EditorPane } from './EditorPane'
-import HorizontalEditorDivider from './HorizontalEditorDivider'
-import VerticalEditorDivider from './VerticalEditorDivider'
+import { HorizontalEditorDivider } from './HorizontalEditorDivider'
+import { VerticalEditorDivider } from './VerticalEditorDivider'
 
 export class EditorChildPane extends EditorPane {
+  _EditScreenViewAsAncestor
   constructor(props) {
     super(props)
     // this._EditorPaneAsParent = props["editorPaneAsParent"];

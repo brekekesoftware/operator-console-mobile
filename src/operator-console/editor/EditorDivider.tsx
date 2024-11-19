@@ -1,5 +1,5 @@
 import { BaseDivider } from '../base/BaseDivider'
-import BaseDividerData from '../data/BaseDividerData'
+import { BaseDividerData } from '../data/BaseDividerData'
 import { EditorPane } from './EditorPane'
 
 let _EDITOR_DIVIDER_ID = -1
@@ -35,7 +35,7 @@ export class EditorDivider extends BaseDivider {
   }
 
   // !abstract
-  getDividerDirection() {
+  getDividerDirection(): number {
     throw new Error('Not implemented.')
   }
 

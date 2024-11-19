@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
-
 import {
   IconKeyboard,
   IconPhoneIncoming,
   IconPhoneOutgoing,
 } from '../../../icons'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 

@@ -1,9 +1,5 @@
-import { Input, Select } from 'antd'
-import Button from 'antd/lib/button'
-import Dropdown from 'antd/lib/dropdown'
+import { Button, Input } from '@ant-design/react-native'
 import InputNumber from 'antd/lib/input-number'
-import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import Space from 'antd/lib/space'
 import React from 'react'
 import { SketchPicker } from 'react-color'
@@ -12,6 +8,7 @@ import logo from '../logo.png'
 
 import { BaseDividerData } from '../data/BaseDividerData'
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { brOcDisplayStates } from '../OperatorConsole'
 import { EditorDivider } from './EditorDivider'
 import { EditorPane } from './EditorPane'
@@ -32,7 +29,22 @@ const _PROPERTIES_MODE = Object.freeze({
   widget: 3,
 })
 
-export class EditScreenView extends React.Component {
+type Props = {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+  screenData: any
+}
+
+type State = {
+  settingsContainerOrDivider: any
+  propertiesMode: number
+  selectingEditorWidgetData: any
+  rerender?: boolean
+}
+
+export class EditScreenView extends React.Component<Props, State> {
+  _OperatorConsoleAsParent: BrekekeOperatorConsole
+  _ScreenData
+  _RootPaneData
   constructor(props) {
     super(props)
     this._OperatorConsoleAsParent = props['operatorConsoleAsParent']

@@ -1,6 +1,12 @@
 import { Component } from 'react'
 
-export class RuntimeWidget extends Component {
+type Props = {}
+type State = {
+  duration: string
+}
+
+export class RuntimeWidget extends Component<Props, State> {
+  _RuntimePaneAsParent
   constructor(props) {
     super(props)
     this._RuntimePaneAsParent = props['runtimePane'] // tabs or noTabs
@@ -33,27 +39,7 @@ export class RuntimeWidget extends Component {
     const relativePositionY = widgetData.getWidgetRelativePositionY()
     const widgetWidth = widgetData.getWidgetWidth()
     const widgetHeight = widgetData.getWidgetHeight()
-    // const backgroundColor = this.getBackgroundColor();
-    // const widgetTypeId = this._WidgetData.getWidgetTypeId();
     const widgetIndex = this.props['widgetIndex']
-
-    // const  boundingRect = this._EditorPanelAsParent.getEditorPanelBoundingClientRect();
-
-    // const absolutePositionX = boundingRect["x"] + relativePositionX;    //!temp
-    // const absolutePositionY = boundingRect["y"] + relativePositionX;    //!temp
-
-    // const jsx = <div
-    //     style={{
-    //         position:"absolute",
-    //         left:relativePositionX,
-    //         top:relativePositionY,
-    //         width:widgetWidth,
-    //         height:widgetHeight,
-    //         border:"1px solid #000000",
-    //         backgroundColor:this.getBackgroundColor(),
-    //         //translate : relativePositionX + "px " + relativePositionY + "px"
-    //     }}
-    // ></div>;
 
     const css = {
       position: 'absolute',

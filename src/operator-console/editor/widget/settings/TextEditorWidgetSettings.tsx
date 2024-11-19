@@ -6,19 +6,9 @@ import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 
 export class TextEditorWidgetSettings extends EditorWidgetSettings {
-  _EditScreenViewAsParent
   constructor(props) {
     super(props)
   }
-
-  // componentDidUpdate(){
-  //     super.componentDidUpdate();
-  //     const widgetData = this._getWidgetData();
-  //     if( this._latestWidgetData !== widgetData  ){
-  //
-  //     }
-  //     this._latestWidgetData = widgetData;
-  // }
 
   _onChangeTextFontSize(n) {
     const widgetData = this._getWidgetData()

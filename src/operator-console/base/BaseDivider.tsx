@@ -1,6 +1,9 @@
 import { Component } from 'react'
 
-export class BaseDivider extends Component {
+type Props = {
+  editorPaneAsParent: any
+}
+export class BaseDivider extends Component<Props> {
   constructor(props: any) {
     super(props)
   }

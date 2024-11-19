@@ -67,7 +67,7 @@ export class OCUtil {
 
   static logErrorWithNotification(
     consoleErrorMessage,
-    notificationErrorMessage = null,
+    notificationErrorMessage: string | null = null,
     oErr: any = null,
     duration = 0,
   ) {

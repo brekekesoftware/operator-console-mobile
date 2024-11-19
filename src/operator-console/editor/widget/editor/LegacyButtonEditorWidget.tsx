@@ -1,5 +1,5 @@
 import { EditorWidget } from './EditorWidget'
-import LegacyButtonEditorSubWidgetFactory from './legacyButtonEditorSubWidget/LegacyButtonEditorSubWidgetFactory'
+import { LegacyButtonEditorSubWidgetFactory } from './legacyButtonEditorSubWidget/LegacyButtonEditorSubWidgetFactory'
 
 export class LegacyButtonEditorWidget extends EditorWidget {
   constructor(props) {

@@ -1,11 +1,11 @@
 import GridLines from 'react-gridlines'
 
 import { BasePane } from '../base/BasePane'
-import BaseDividerData from '../data/BaseDividerData'
-import WidgetData from '../data/widgetData/WidgetData'
-import EditorTabFunctionComponent from './EditorTabFunctionComponent'
-import EditorWidgetFactory from './widget/editor/EditorWidgetFactory'
-import EditorWidgetTemplateFactory from './widget/template/EditorWidgetTemplateFactory'
+import { BaseDividerData } from '../data/BaseDividerData'
+import { WidgetData } from '../data/widgetData/WidgetData'
+import { EditorTabFunctionComponent } from './EditorTabFunctionComponent'
+import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
+import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
 
 const _PANES = new Object()
 

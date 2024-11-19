@@ -1,13 +1,17 @@
-import Button from 'antd/lib/button'
-import Form from 'antd/lib/form'
-import Input from 'antd/lib/input'
+import { Button, Form, Input } from '@ant-design/react-native'
 import React, { createRef } from 'react'
 
 import './login.scss'
 
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
-export class Login extends React.Component {
+type Props = {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+  initialValues: any
+}
+
+export class Login extends React.Component<Props> {
   _OperatorConsoleAsParent
   _LoginMessageElementRef
   constructor(props) {

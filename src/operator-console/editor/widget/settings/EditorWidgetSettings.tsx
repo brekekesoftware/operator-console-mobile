@@ -5,7 +5,14 @@ import { Component } from 'react'
 import { i18n } from '../../../i18n'
 
 // !abstract
-export class EditorWidgetSettings extends Component {
+type Props = {
+  editScreenViewAsParent: any
+  widgetData: any
+}
+type State = {
+  nameOptions: any
+}
+export class EditorWidgetSettings extends Component<Props, State> {
   _EditScreenViewAsParent
   constructor(props) {
     super(props)
@@ -16,9 +23,8 @@ export class EditorWidgetSettings extends Component {
     return this.props['widgetData']
   }
 
-  _getRenderMainJsx() {
+  _getRenderMainJsx(): React.ReactNode {
     throw new Error('Not implemented.')
-    return null
   }
 
   componentDidUpdate() {

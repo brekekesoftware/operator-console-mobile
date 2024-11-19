@@ -3,9 +3,9 @@ import {
   IconPhoneIncoming,
   IconPhoneOutgoing,
 } from '../../../icons'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
-import RuntimeWidget from './RuntimeWidget'
+import { RuntimeWidget } from './RuntimeWidget'
 
 const formatSecondsToHHMMSS = seconds => {
   const secondsNum = Math.floor(seconds)
@@ -24,7 +24,7 @@ const formatSecondsToHHMMSS = seconds => {
 }
 
 export class CallPanelRuntimeWidget extends RuntimeWidget {
-  durationTimeout = null
+  durationTimeout: NodeJS.Timeout | null = null
 
   constructor(props) {
     super(props)
