@@ -2639,8 +2639,8 @@ export class BrekekeOperatorConsole extends React.Component<
                                     transferCall: this.transferCall,
                                     handleLine: this.handleLine,
                                     handlePark: this.handlePark,
-                                    getNote: this.getNote,
-                                    setNote: this.setNote,
+                                    // getNote: this.getNote,
+                                    // setNote: this.setNote,
                                     toggleQuickCallScreen:
                                       this.toggleQuickCallScreen,
                                     onClickAutoDial: this.onClickAutoDial,
@@ -3241,6 +3241,10 @@ export class BrekekeOperatorConsole extends React.Component<
     this.getPalRestApi().callPalRestApiMethod(setNoteOptions)
 
     // this.operatorConsoleAsParent.abortSystemSettings();
+  }
+
+  setSystemSettingsView(view) {
+    this._systemSettingsView = view
   }
 
   abortEditingScreen = () => {

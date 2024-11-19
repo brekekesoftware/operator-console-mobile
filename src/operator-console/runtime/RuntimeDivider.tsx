@@ -1,11 +1,14 @@
 import { BaseDivider } from '../base/BaseDivider'
 import { BaseDividerData } from '../data/BaseDividerData'
+import type { RuntimeChildPane } from './RuntimeChildPane'
 import { RuntimePane } from './RuntimePane'
 
 let _RUNTIME_DIVIDER_ID = -1
 const _RUNTIME_DIVIDER_OBJECT = new Object()
 
 export class RuntimeDivider extends BaseDivider {
+  _RuntimePaneAsParent: RuntimeChildPane
+  _RuntimeDividerId
   constructor(props) {
     super(props)
     this._RuntimePaneAsParent = props['runtimePaneAsParent']

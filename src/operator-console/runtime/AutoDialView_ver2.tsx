@@ -20,7 +20,20 @@ import { PhonebookContactInfozTelsView } from './PhonebookContactInfozTelsView'
 let AUTO_DIAL_VIEW_VER2
 const _GET_CONTACT_LIST_LIMIT = 1000 // !limit max 1000
 
-export class AutoDialView_ver2 extends React.Component {
+type Props = {
+  isVisible: boolean
+}
+
+type State = {
+  recentShowDetailChecked: boolean
+  rerender?: boolean
+}
+
+export class AutoDialView_ver2 extends React.Component<Props, State> {
+  _phonebookContactInfoArray
+  _latestSearchPhonebookName
+  _latestSearchPhonebookShared
+  _latestSearchPhonebookKeywords
   constructor(props) {
     super(props)
     this.state = {
@@ -71,7 +84,7 @@ export class AutoDialView_ver2 extends React.Component {
   //
   // }
 
-  _resetPhonebookContactInfoArrayAsync(pbKeywords, pbShared, pbName) {
+  _resetPhonebookContactInfoArrayAsync(pbKeywords, pbShared, pbName = '') {
     const oc = BrekekeOperatorConsole.getStaticInstance()
     const systemSettingsData = oc.getSystemSettingsData()
     if (!pbName) {

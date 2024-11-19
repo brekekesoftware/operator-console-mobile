@@ -1,6 +1,8 @@
 import { Component } from 'react'
 
-type Props = {}
+type Props = {
+  widgetData: any
+}
 type State = {
   duration: string
 }

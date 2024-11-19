@@ -1,4 +1,4 @@
-import LegacyButtonWidgetSubData from './LegacyButtonWidgetSubData'
+import { LegacyButtonWidgetSubData } from './LegacyButtonWidgetSubData'
 
 export class LegacyButtonWidgetSubData_unholdCallButton extends LegacyButtonWidgetSubData {
   _label

@@ -1,4 +1,4 @@
-import WidgetData from './WidgetData'
+import { WidgetData } from './WidgetData'
 
 export class LegacyExtensionStatusWidgetData extends WidgetData {
   _extensionStatusFgColor

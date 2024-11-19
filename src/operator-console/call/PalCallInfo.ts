@@ -2,9 +2,21 @@ import Notification from 'antd/lib/notification'
 
 import { i18n } from '../i18n'
 import { ACallInfo } from './ACallInfo'
-import PalCallInfos from './PalCallInfos'
+import { PalCallInfos } from './PalCallInfos'
 
 export class PalCallInfo extends ACallInfo {
+  _PalCallInfosAsParent
+  _OnHoldFunctions
+  _CallId
+  _pbxRoomId
+  _pbxTalkerId
+  _incoming: boolean
+  _answered: boolean
+  _answeredAt: Date
+  _holding: boolean
+  _recording: boolean
+  _partyName: string
+  _partyNumber?: string | null
   constructor(palCallInfosAsParent, callId, palNotifyStatusEventParam) {
     super(palCallInfosAsParent)
     this._PalCallInfosAsParent = palCallInfosAsParent
@@ -375,7 +387,7 @@ export class PalCallInfo extends ACallInfo {
           this,
           (res, obj) => {
             this_._recording = false
-            resolve()
+            resolve(true)
           },
           err => {
             console.error('Failed to stop recording. err=', err)
@@ -388,7 +400,7 @@ export class PalCallInfo extends ACallInfo {
           this,
           (res, obj) => {
             this_._recording = true
-            resolve()
+            resolve(true)
           },
           err => {
             console.error('Failed to start recording. err=', err)

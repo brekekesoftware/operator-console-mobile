@@ -15,10 +15,10 @@ export class DividerDataFactory {
     let dividerData
     switch (dividerDirection) {
       case BaseDividerData.DIVIDER_DIRECTIONS.vertical:
-        dividerData = new VerticalDividerData(paneDataAsParent, oDividerData)
+        dividerData = new VerticalDividerData(paneDataAsParent)
         break
       case BaseDividerData.DIVIDER_DIRECTIONS.horizontal:
-        dividerData = new HorizontalDividerData(paneDataAsParent, oDividerData)
+        dividerData = new HorizontalDividerData(paneDataAsParent)
         break
       default:
         throw new Error('Invalid operation.')

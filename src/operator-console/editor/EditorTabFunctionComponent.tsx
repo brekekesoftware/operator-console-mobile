@@ -7,7 +7,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Tabs } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 import GridLines from 'react-gridlines'
 
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
@@ -91,7 +91,7 @@ const _onDrop = function (ev, editorPane, tabData, tabId) {
   editorPane.getEditScreenView().setSelectingEditorWidgetDataToState(widgetData)
 }
 
-export function EditorTabFunctionComponent(props) {
+export const EditorTabFunctionComponent = props => {
   const editorPaneAsParent = props['editorPaneAsParent']
   const tabsData = props['tabsData']
 

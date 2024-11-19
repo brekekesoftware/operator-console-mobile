@@ -4,10 +4,10 @@ import { ExtensionTableWidgetData } from './ExtensionTableWidgetData'
 import { LegacyExtensionStatusWidgetData } from './LegacyExtensionStatusWidgetData'
 import { LegacyUccacWidgetData } from './LegacyUccacWidgetData'
 import { LineTableWidgetData } from './LineTableWidgetData'
-import LegacyButtonWidgetData from './LogacyButtonWidgetData'
-import NoteWidgetData from './NoteWidgetData'
-import TextWidgetData from './TextWidgetData'
-import WidgetData from './WidgetData'
+import { LegacyButtonWidgetData } from './LogacyButtonWidgetData'
+import { NoteWidgetData } from './NoteWidgetData'
+import { TextWidgetData } from './TextWidgetData'
+import { WidgetData } from './WidgetData'
 
 export class WidgetDataFactory {
   // !private

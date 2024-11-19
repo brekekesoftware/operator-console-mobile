@@ -1,10 +1,11 @@
 import { Text, TouchableOpacity } from 'react-native'
 
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { getIconJsx } from '../OperatorConsole'
 import { Util } from '../Util'
 
 type Props = {
-  operatorConsoleAsParent?: any
+  operatorConsoleAsParent?: BrekekeOperatorConsole
   subtype: string
   icon: string
   label: string

@@ -1,11 +1,24 @@
 import { WidgetDatasForTabs } from './WidgetDatasForTabs'
 
+type TabDataType = {
+  getTabLabel: () => string
+  getTabKeyAsInt: () => number
+  getTabKeyAsString: () => number
+  _WidgetDatas: any
+} | null
+
 export class TabData {
   _tabLabel
   _TabKeyAsInt
   _TabKeyAsString
   _WidgetDatas
-  constructor(tabDatasAsParent, tabKeyAsInt, tabTitle, srcTabData, oTab) {
+  constructor(
+    tabDatasAsParent,
+    tabKeyAsInt,
+    tabTitle,
+    srcTabData: TabDataType = null,
+    oTab = null,
+  ) {
     if (srcTabData) {
       this._tabLabel = srcTabData.getTabLabel()
       this._TabKeyAsInt = srcTabData.getTabKeyAsInt()

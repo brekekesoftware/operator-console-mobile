@@ -15,7 +15,7 @@ export class ScreenPaneDatas extends PaneDatas {
     paneType,
     parentPaneData,
     cloneSrcPaneData,
-  ): typeof ScreenPaneData {
+  ) {
     if (this._latestPaneNumber < paneNumber) {
       this._latestPaneNumber = paneNumber
     }

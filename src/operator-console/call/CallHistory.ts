@@ -1,9 +1,15 @@
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
+
 const _CallHistory_LOCAL_STORAGE_KEY_PREFIX =
   'com.brekeke.operatorconsole.callhistory.'
 
 const DEFAULT_MAX_DISPLAY_COUNT = 500
 const DEFAULT_MAX_SAVE_COUNT = 3000
 export class CallHistory {
+  _Parent: BrekekeOperatorConsole
+  _LocalstorageKey: string
+  _callNos: any[] = []
+  _sortedCallNos: any[] = []
   constructor(operatorConsoleAsParent) {
     this._Parent = operatorConsoleAsParent
     this._LocalstorageKey = this._getLocalStorageKey()
@@ -100,9 +106,9 @@ export class CallHistory {
       [...callNoScoreMap.entries()].sort((a, b) => b[1] - a[1]),
     )
 
-    const scoreDescDictAscCallNos = []
+    const scoreDescDictAscCallNos: any[] = []
     let latestScore = -1
-    const latestDictAscCallNos = []
+    const latestDictAscCallNos: any[] = []
     callNoDescScoreMap.forEach((currentScore, callNo) => {
       if (currentScore !== latestScore) {
         // sort

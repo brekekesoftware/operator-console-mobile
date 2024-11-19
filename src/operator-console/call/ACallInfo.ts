@@ -74,7 +74,6 @@ export class ACallInfo {
    */
   getPartyNumber() {
     throw new Error('Not implemented.')
-    return null
   }
 
   /**
@@ -83,7 +82,6 @@ export class ACallInfo {
    */
   getPartyName() {
     throw new Error('Not implemented.')
-    return ''
   }
 
   /**
@@ -108,7 +106,6 @@ export class ACallInfo {
    */
   getAnsweredAt() {
     throw new Error('Not implemented.')
-    return -1
   }
 
   /**

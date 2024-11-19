@@ -1,6 +1,6 @@
 import { reaction } from 'mobx'
 
-import ACallInfos from './ACallInfos'
+import { ACallInfos } from './ACallInfos'
 import { WebphoneCallInfo } from './WebphoneCallInfo'
 
 export class WebphoneCallInfos extends ACallInfos {

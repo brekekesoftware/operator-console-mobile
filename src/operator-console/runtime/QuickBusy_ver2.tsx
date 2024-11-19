@@ -4,10 +4,14 @@ import './reset.css'
 import './QuickBusy_ver2.css'
 
 import { OCUtil } from '../OCUtil'
-import BrekekeOperatorConsole, { brOcDisplayStates } from '../OperatorConsole'
+import { BrekekeOperatorConsole, brOcDisplayStates } from '../OperatorConsole'
 
 const QUICK_BUSY_CLICK_TO_CALL = true
-export class QuickBusy_ver2 extends Component {
+type Props = {}
+type State = {
+  candidateCallNos: any
+}
+export class QuickBusy_ver2 extends Component<Props, State> {
   constructor(props) {
     super(props)
     const oc = BrekekeOperatorConsole.getStaticInstance()
@@ -88,7 +92,7 @@ export class QuickBusy_ver2 extends Component {
     // history
     const historyCallNos = oc.getCallHistory().getSortedCallNos()
     // const callNos = Array.from(historyCallNos);
-    const callNos = []
+    const callNos: any[] = []
     if (historyCallNos) {
       for (let i = 0; i < historyCallNos.length; i++) {
         const historyCallNo = historyCallNos[i]
@@ -119,7 +123,7 @@ export class QuickBusy_ver2 extends Component {
     return callNos
   }
 
-  _resetCandidateCallNos(dialing) {
+  _resetCandidateCallNos(dialing = '') {
     if (!dialing || dialing.length === 0) {
       this.setState({ candidateCallNos: null })
       return

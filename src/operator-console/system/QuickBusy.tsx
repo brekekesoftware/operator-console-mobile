@@ -4,10 +4,20 @@ import './reset.css'
 import './QuickBusy.css'
 
 import { OCUtil } from '../OCUtil'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { brOcDisplayStates } from '../OperatorConsole'
 
 const QUICK_BUSY_CLICK_TO_CALL = true
-export class QuickBusy extends React.Component {
+type Props = {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+}
+
+type State = {
+  candidateCallNos: any
+}
+export class QuickBusy extends React.Component<Props, State> {
+  _operatorConsoleAsParent: BrekekeOperatorConsole
+
   constructor(props) {
     super(props)
     this._operatorConsoleAsParent = props.operatorConsoleAsParent
@@ -124,7 +134,7 @@ export class QuickBusy extends React.Component {
     return callNos
   }
 
-  _resetCandidateCallNos(dialing) {
+  _resetCandidateCallNos(dialing = '') {
     if (!dialing || dialing.length === 0) {
       this.setState({ candidateCallNos: null })
       return

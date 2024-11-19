@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 import { i18n } from '../../../i18n'
 import { OCUtil } from '../../../OCUtil'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 

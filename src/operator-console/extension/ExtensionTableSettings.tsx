@@ -6,9 +6,19 @@ import debounce from 'debounce'
 import React from 'react'
 
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'
 
-export class ExtensionTableSettings extends React.Component {
+type Props = {
+  widget: any
+  widgetIndex: number
+  onChange: () => void
+}
+
+export class ExtensionTableSettings extends React.Component<Props> {
+  formRef
+  _operatorConsoleAsParent: BrekekeOperatorConsole
+  onChangeDebounced
   constructor(props) {
     super(props)
     this.formRef = React.createRef()

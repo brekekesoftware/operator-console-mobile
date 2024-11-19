@@ -6,9 +6,19 @@ import debounce from 'debounce'
 import React from 'react'
 
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'
 
-export class LegacyCallPanelSettings extends React.Component {
+type Props = {
+  widgetIndex: number
+  widget: any
+  onChange: () => void
+}
+
+export class LegacyCallPanelSettings extends React.Component<Props> {
+  formRef
+  onChangeDebounced
+  _operatorConsoleAsParent: BrekekeOperatorConsole
   constructor(props) {
     super(props)
     // this._setDefaultValues( this.props.widget );

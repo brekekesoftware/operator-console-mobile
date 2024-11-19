@@ -291,11 +291,11 @@ export const NoScreensView = props => {
           operatorConsoleAsParent.setOCNote(
             shortname,
             oNote,
-            function () {
+            () => {
               setIsLoading(false)
-              operatorConsoleAsParent.onSelectOCNoteByShortnameFromNoScreensView(
-                this,
-              )
+              // operatorConsoleAsParent.onSelectOCNoteByShortnameFromNoScreensView(
+              //   this,
+              // )
             },
             e => {
               // !testit
@@ -344,7 +344,9 @@ export const NoScreensView = props => {
     setIsLoading(true)
   }
 
-  const [noteNamesContent, setNoteNamesContent] = useState(<Spin />)
+  const [noteNamesContent, setNoteNamesContent] = useState<
+    React.ReactNode | string
+  >(<Spin />)
   const [isLoading, setIsLoading] = useState(false)
 
   const refreshNoteNames = () => {
@@ -367,7 +369,7 @@ export const NoScreensView = props => {
         if (!noteNames || noteNames.length == 0) {
           setNoteNamesContent(i18n.t('Layout_does_not_exist'))
         } else {
-          const jsxContents = []
+          const jsxContents: JSX.Element[] = []
           for (let i = 0; i < noteNames.length; i++) {
             const noteName = noteNames[i]
             const noteShortname =

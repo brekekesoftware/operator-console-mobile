@@ -1,5 +1,8 @@
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
+
 export class ExtensionsStatus {
-  constructor(operatorConsoleAsParent) {
+  _operatorConsoleAsParent: BrekekeOperatorConsole
+  constructor(operatorConsoleAsParent: BrekekeOperatorConsole) {
     this._operatorConsoleAsParent = operatorConsoleAsParent
     // this.__ExtensionsStatuses = {};
     // this._OnSetExtensionStatusCallbacks = [];

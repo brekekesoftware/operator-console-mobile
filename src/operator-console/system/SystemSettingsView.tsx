@@ -18,7 +18,14 @@ export const OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_VERSION = '0.1'
 //     DownloadNg: 3,
 // };
 
-export class SystemSettingsView extends React.Component {
+type Props = {
+  operatorConsole: BrekekeOperatorConsole
+}
+
+export class SystemSettingsView extends React.Component<Props> {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+  setSystemSettingsUseFormBindedFunction
+  _systemSettingsUseForm
   constructor(props) {
     super(props)
     this.state = {}
@@ -155,60 +162,12 @@ export class SystemSettingsView extends React.Component {
   }
 
   _onSetSystemSettingsDataSuccess(systemSettings) {
-    this.operatorConsoleAsParent.onSavingSystemSettings(this, systemSettings)
+    this.operatorConsoleAsParent.onSavingSystemSettings(this)
     this._syncUp()
     this._onEndSetSystemSettings()
   }
 
-  // //old version
-  // _syncUp = async () => {
-  //     const pal = this.operatorConsoleAsParent.getPal();
-  //     //if (!pal) return;
-  //     const systemSettingsData = this.operatorConsoleAsParent.getSystemSettingsData();
-  //     const systemSettingsDataData = systemSettingsData.getData();
-  //     const [err] = await pal.call_pal('setAppData', {
-  //         data_id: OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_ID,
-  //         data: {
-  //             version: OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_VERSION,
-  //             appData: systemSettingsDataData
-  //         }
-  //     }).then((data) => ([null, data]))
-  //         .catch((err) => ([err, null]));
-  //
-  //     if (err) {
-  //         Notification.error({
-  //             key: 'sync',
-  //             message: i18n.t("failed_to_save_data_to_pbx"),
-  //             btn: (
-  //                 <Button type="primary" size="small" onClick={() => {
-  //                     //Notification.close('sync');
-  //                     this._syncUp();
-  //                 }}>
-  //                     {i18n.t('retry')}
-  //                 </Button>
-  //             ),
-  //             duration: 0,
-  //         });
-  //         return;
-  //     }
-
   _onSetOCNoteFailAtSyncUp(e) {
-    // const message = eventArg.message;
-    // console.error("Failed to setOCNote.", message  );
-    // Notification.error({
-    //     key: 'sync',
-    //     message: i18n.t("failed_to_save_data_to_pbx"),
-    //     btn: (
-    //         <Button type="primary" size="small" onClick={() => {
-    //             //Notification.close('sync');
-    //             this._syncUp();
-    //         }}>
-    //             {i18n.t('retry')}
-    //         </Button>
-    //     ),
-    //     duration: 0,
-    // });
-    // !testit
     if (Array.isArray(e)) {
       for (let i = 0; i < e.length; i++) {
         const err = e[i]

@@ -9,6 +9,9 @@ import { Util } from '../Util'
 import { Campon } from './Campon'
 
 export class SystemSettingsData {
+  _OperatorConsoleAsParent
+  _Data
+  _camponTimeoutMillis
   constructor(operatorConsoleAsParent) {
     this._OperatorConsoleAsParent = operatorConsoleAsParent
     this._Data = {}

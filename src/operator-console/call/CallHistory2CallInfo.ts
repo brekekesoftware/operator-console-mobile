@@ -1,5 +1,20 @@
+type Options = {
+  callHistory2AsParent: any
+  callInfo: {
+    getCallInfoUuid: () => string
+    getIsIncoming: () => boolean
+    getPartyNumber: () => string
+  }
+}
 export class CallHistory2CallInfo {
-  constructor(options) {
+  _CallHistory2AsParent
+  _CallInfoUuid: string
+  _IsIncoming: boolean
+  _AddCallMillisTime: number
+  _PartyNumber: string
+  _answeredAt: Date = new Date()
+  _endCallMillisTime: number = 0
+  constructor(options: Options) {
     this._CallHistory2AsParent = options['callHistory2AsParent']
     const aCallInfo = options['callInfo']
     if (aCallInfo) {
@@ -146,7 +161,7 @@ export class CallHistory2CallInfo {
       )
     }
 
-    let addCallMillisTimeValue = null
+    let addCallMillisTimeValue: number | null = null
     if (valueColumns.length <= addCallMillisTimeColumnIndex) {
       console.warn("The 'addCallMillisTime' column does not exist.")
       return null
@@ -165,7 +180,7 @@ export class CallHistory2CallInfo {
       }
     }
 
-    let endCallMillisTimeValue = null
+    let endCallMillisTimeValue: number | null = null
     if (valueColumns.length <= endCallMillisTimeColumnIndex) {
       // console.warn("The 'endCallMillisTime' column does not exist.");
     } else {
@@ -186,7 +201,7 @@ export class CallHistory2CallInfo {
       }
     }
 
-    let isIncomingColumnValue = null
+    let isIncomingColumnValue: boolean | null = null
     if (valueColumns.length <= isIncomingColumnIndex) {
       // console.warn("The 'isIncomingColumn' column does not exist.");
     } else {
@@ -201,7 +216,7 @@ export class CallHistory2CallInfo {
       }
     }
 
-    let answeredAtColumnValue = null
+    let answeredAtColumnValue: number | null = null
     if (valueColumns.length <= answeredAtColumnIndex) {
       // console.warn("The 'answeredAtColumn' column does not exist.");
     } else {
@@ -230,7 +245,7 @@ export class CallHistory2CallInfo {
       endCallMillisTime: endCallMillisTimeValue,
       isIncoming: isIncomingColumnValue,
       answeredAt: answeredAtColumnValue,
-    }
+    } as any
 
     const callHistory2CallInfo = new CallHistory2CallInfo(constructorOptions)
     return callHistory2CallInfo

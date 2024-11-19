@@ -1,5 +1,5 @@
-import LegacyButtonRuntimeSubWidgetFactory from './legacyButtonRuntimeSubWidget/LegacyButtonRuntimeSubWidgetFactory'
-import RuntimeWidget from './RuntimeWidget'
+import { LegacyButtonRuntimeSubWidgetFactory } from './legacyButtonRuntimeSubWidget/LegacyButtonRuntimeSubWidgetFactory'
+import { RuntimeWidget } from './RuntimeWidget'
 
 export class LegacyButtonRuntimeWidget extends RuntimeWidget {
   constructor(props) {

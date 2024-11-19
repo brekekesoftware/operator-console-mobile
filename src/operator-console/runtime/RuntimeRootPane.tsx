@@ -6,6 +6,7 @@ import { RuntimePane } from './RuntimePane'
 import { VerticalRuntimeDivider } from './VerticalRuntimeDivider'
 
 export class RuntimeRootPane extends RuntimePane {
+  _RuntimeScreenViewAsParent
   constructor(props) {
     super(props)
     this._RuntimeScreenViewAsParent = this.getRuntimeScreenViewFromProps(props)

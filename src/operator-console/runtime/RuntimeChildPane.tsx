@@ -1,10 +1,11 @@
 import { BaseDividerData } from '../data/BaseDividerData'
 import { PaneData } from '../data/PaneData'
-import HorizontalRuntimeDivider from './HorizontalRuntimeDivider'
+import { HorizontalRuntimeDivider } from './HorizontalRuntimeDivider'
 import { RuntimePane } from './RuntimePane'
 import { VerticalRuntimeDivider } from './VerticalRuntimeDivider'
 
 export class RuntimeChildPane extends RuntimePane {
+  _RuntimeScreenViewAsAncestor
   constructor(props) {
     super(props)
     // this._RuntimePaneAsParent = props["runtimePaneAsParent"];

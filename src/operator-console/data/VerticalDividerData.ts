@@ -1,7 +1,7 @@
 import { BaseDividerData } from './BaseDividerData'
 
 export class VerticalDividerData extends BaseDividerData {
-  constructor(panelDataAsParent) {
+  constructor(panelDataAsParent = {}) {
     super(panelDataAsParent)
   }
 

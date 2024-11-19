@@ -1,22 +1,15 @@
 import { Button, Modal } from 'antd'
 import Notification from 'antd/lib/notification'
 import Spin from 'antd/lib/spin'
-import React, { useState } from 'react'
 
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
 
 export const OpenLayoutModalForDropDownMenu = props => {
-  const operatorConsole = props.operatorConsole
   const open = props.useStateOpen
   const setOpen = props.useStateSetOpen
   const noteNamesContent = props.noteNamesContent
-  // const setNewOrOpenLayoutOpen = props.useStateSetNewOrOpenLayoutOpen;
-  // const noteNamesContent =  props.useStateNoteNamesContent;
-
-  const [openLayoutOpen, setOpenLayoutOpen] = useState(false)
-
   const handleOk = () => {
     setOpen(false)
   }
@@ -45,12 +38,12 @@ export const OpenLayoutModalForDropDownMenu = props => {
   )
 }
 
-export function refreshNoteNamesContent(
+export const refreshNoteNamesContent = (
   operatorConsole,
   setNoteNamesContentFunc,
   setOpenLayoutModalOpenFunc,
   setIsLoading,
-) {
+) => {
   const selectOCNoteByShortname = (operatorConsole, shortname) => {
     const noteName = BrekekeOperatorConsole.getOCNoteName(shortname)
     const getNoteOptions = {
@@ -146,7 +139,7 @@ export function refreshNoteNamesContent(
       if (!noteNames || noteNames.length == 0) {
         setNoteNamesContentFunc(i18n.t('Layout_does_not_exist'))
       } else {
-        const jsxContents = []
+        const jsxContents: JSX.Element[] = []
         for (let i = 0; i < noteNames.length; i++) {
           const noteName = noteNames[i]
           const noteShortname =

@@ -1,8 +1,17 @@
 // import {reaction} from "mobx";
 import debounce from 'debounce'
 
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
+
+declare global {
+  interface Window {
+    BrekekeOperatorConsoleEx: BrekekeOperatorConsoleEx
+  }
+}
+
 export class BrekekeOperatorConsoleEx {
-  constructor(operatorConsoleAsParent) {
+  _OperatorConsoleAsParent: BrekekeOperatorConsole
+  constructor(operatorConsoleAsParent: BrekekeOperatorConsole) {
     this._OperatorConsoleAsParent = operatorConsoleAsParent // !security
     window.BrekekeOperatorConsoleEx = this
   }

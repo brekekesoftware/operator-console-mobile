@@ -1,12 +1,22 @@
 import { i18n } from '../i18n'
 import { TabData } from './TabData'
 
+type TabsDataType = {
+  _TabDataArray: any[]
+  _selectedTabKeyAsInt: number
+  _selectedTabKeyAsString: string
+} | null
+
 export class TabsData {
   _PaneDataAsParent
   _TabDataArray
   _selectedTabKeyAsInt
   _selectedTabKeyAsString
-  constructor(paneDataAsParent, cloneSrcTabsData, oTabsData) {
+  constructor(
+    paneDataAsParent,
+    cloneSrcTabsData: TabsDataType = null,
+    oTabsData = {},
+  ) {
     this._PaneDataAsParent = paneDataAsParent
     this._TabDataArray = new Array()
 

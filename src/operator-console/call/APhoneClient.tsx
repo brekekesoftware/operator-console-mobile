@@ -2,6 +2,7 @@
  *  abstract class
  */
 export class APhoneClient {
+  _OperatorConsoleAsParent
   constructor(options) {
     this._OperatorConsoleAsParent = options['operatorConsoleAsParent']
   }

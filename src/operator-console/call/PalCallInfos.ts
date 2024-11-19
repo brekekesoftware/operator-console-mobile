@@ -1,9 +1,13 @@
 import { ACallInfo } from './ACallInfo'
 import { ACallInfos } from './ACallInfos'
 import { PalCallInfo } from './PalCallInfo'
-import PalPhoneClient from './PalPhoneClient'
+import { PalPhoneClient } from './PalPhoneClient'
 
 export class PalCallInfos extends ACallInfos {
+  _PalCallInfoArray
+  _PalCallInfoObject
+  _currentCallIndex: number
+  _latestCallId: number
   constructor(options) {
     super(options)
     this._PalCallInfoArray = new Array()

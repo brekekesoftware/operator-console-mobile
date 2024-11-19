@@ -2,12 +2,17 @@ import React from 'react'
 
 import logo from '../logo.png'
 
-import DropDownMenu from '../DropDownMenu'
-import AutoDialView_ver2 from './AutoDialView_ver2'
-import QuickBusy_ver2 from './QuickBusy_ver2'
-import RuntimeRootPane from './RuntimeRootPane'
+import { DropDownMenu } from '../dropdown-menu/DropDownMenu'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
+import { AutoDialView_ver2 } from './AutoDialView_ver2'
+import { QuickBusy_ver2 } from './QuickBusy_ver2'
+import { RuntimeRootPane } from './RuntimeRootPane'
 
-export class RuntimeScreenView_ver2 extends React.Component {
+type Props = {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+}
+export class RuntimeScreenView_ver2 extends React.Component<Props> {
+  _OperatorConsoleAsParent: BrekekeOperatorConsole
   constructor(props) {
     super(props)
     this._OperatorConsoleAsParent = props['operatorConsoleAsParent']

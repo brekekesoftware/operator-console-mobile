@@ -4,6 +4,7 @@ import { ACallInfo } from './ACallInfo'
  *  abstract class
  */
 export class ACallInfos {
+  _PhoneClientAsParent
   constructor(options) {
     this._PhoneClientAsParent = options['phoneClient']
   }
@@ -51,9 +52,8 @@ export class ACallInfos {
    *  abstract method
    *  //!danger return array reference
    */
-  getCallInfoArray() {
+  getCallInfoArray(): Array<any> {
     throw new Error('Not implemented.')
-    return null
   }
 
   getCallInfoCount() {
@@ -215,19 +215,5 @@ export class ACallInfos {
     const currentCallIndex = this.getCurrentCallIndex()
     const bCurrent = callIndex === currentCallIndex
     return bCurrent
-  }
-
-  _getCallInfoByCallId(id) {
-    const callInfo = this._getCallInfoObjects()[id]
-    return callInfo
-  }
-
-  getCurrentCallInfo() {
-    const currentCallIndex = this.getCurrentCallIndex()
-    if (currentCallIndex === -1) {
-      return null
-    }
-    const callInfo = this.getCallInfoAt(currentCallIndex)
-    return callInfo
   }
 }

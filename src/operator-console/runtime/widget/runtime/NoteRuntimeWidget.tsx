@@ -4,9 +4,9 @@ import Empty from 'antd/lib/empty'
 import Spin from 'antd/lib/spin'
 import debounce from 'debounce'
 
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
-import RuntimeWidget from './RuntimeWidget'
+import { RuntimeWidget } from './RuntimeWidget'
 
 export class NoteRuntimeWidget extends RuntimeWidget {
   constructor(props) {

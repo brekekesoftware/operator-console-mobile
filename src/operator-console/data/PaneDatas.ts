@@ -2,7 +2,7 @@ import { PaneData } from './PaneData'
 
 // !abstract
 export class PaneDatas {
-  _PaneDatas
+  _PaneDatas: any
   _latestPaneNumber
   constructor(cloneSrcPaneDatas: {
     _PaneDatas: {
@@ -61,13 +61,13 @@ export class PaneDatas {
   }
 
   // !abstract
-  _newPaneData<T = any>(
+  _newPaneData(
     paneDatasAsParent,
     paneNumber,
     paneType,
     parentPaneData,
     cloneSrcPaneData?,
-  ): T {
+  ): any {
     throw new Error('Not implemented.')
   }
 

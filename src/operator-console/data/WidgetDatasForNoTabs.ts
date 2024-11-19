@@ -4,8 +4,8 @@ export class WidgetDatasForNoTabs extends WidgetDatas {
   _PaneDataAsParent
   constructor(
     paneDataAsParent,
-    cloneSrcWidgetDatasForNoTabs,
-    oWidgetDatasForNoTabs,
+    cloneSrcWidgetDatasForNoTabs = null,
+    oWidgetDatasForNoTabs = null,
   ) {
     super(cloneSrcWidgetDatasForNoTabs, oWidgetDatasForNoTabs)
     this._PaneDataAsParent = paneDataAsParent

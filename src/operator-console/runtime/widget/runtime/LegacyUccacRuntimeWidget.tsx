@@ -1,11 +1,12 @@
 import { createRef } from 'react'
 
 import { i18n } from '../../../i18n'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
-import RuntimeWidget from './RuntimeWidget'
+import { RuntimeWidget } from './RuntimeWidget'
 
 export class LegacyUccacRuntimeWidget extends RuntimeWidget {
+  _UccacWrapper
   constructor(props) {
     super(props)
     const oc = BrekekeOperatorConsole.getStaticInstance()

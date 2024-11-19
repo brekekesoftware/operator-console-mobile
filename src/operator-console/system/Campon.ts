@@ -2,10 +2,13 @@ import Notification from 'antd/lib/notification'
 
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
 const DEFAULT_CAMPON_TIMEOUT_MILLI_SECONDS = 1000 * 60 * 60
 export class Campon {
-  constructor(operatorConsoleAsParent) {
+  _OperatorConsoleAsParent: BrekekeOperatorConsole
+  _WaitCamponObjects
+  constructor(operatorConsoleAsParent: BrekekeOperatorConsole) {
     this._OperatorConsoleAsParent = operatorConsoleAsParent
     this._WaitCamponObjects = {} // key = campon target extensionId, value = [   value=waitCamponObject{} ]
   }
@@ -60,7 +63,7 @@ export class Campon {
         isBlindTransfer,
         timeoutMillis,
         title,
-      }
+      } as any
       const timeoutId = setTimeout(
         () => this._onCamponTimeout(waitCamponObject),
         timeoutMillis,
@@ -98,7 +101,7 @@ export class Campon {
     const callInfo = waitCamponObject.callInfo
     delete callInfo['camponDstExtensionId']
 
-    this._OperatorConsoleAsParent.setState({ rerender: true }) // !for rerender
+    this._OperatorConsoleAsParent.setState({ rerender: true } as any) // !for rerender
   }
 
   onDeleteExtensionStatusFromExtensionsStatus(
@@ -180,7 +183,7 @@ export class Campon {
   _clearCampon() {
     const extensionzObjs = Object.values(this._WaitCamponObjects)
     for (let i = 0; i < extensionzObjs.length; i++) {
-      const waitCamponObjects = extensionzObjs[i]
+      const waitCamponObjects = extensionzObjs[i] as any
       for (let k = 0; k < waitCamponObjects.length; k++) {
         const waitCamponObject = waitCamponObjects[k]
         this._cancelCampOn(waitCamponObject)

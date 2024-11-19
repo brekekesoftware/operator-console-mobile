@@ -6,8 +6,8 @@ let _EDITOR_DIVIDER_ID = -1
 const _EDITOR_DIVIDER_OBJECT = new Object()
 
 export class EditorDivider extends BaseDivider {
-  _EditorPaneAsParent
-  _EditorDividerId
+  _EditorPaneAsParent: EditorPane
+  _EditorDividerId: number
   _element
   _upperContainerElement
   _startClientX
@@ -15,6 +15,7 @@ export class EditorDivider extends BaseDivider {
   _bottomContainerElement
   _startUpperHeight
   _mouseMoveEventListenerForHorizontalFunction
+  _mouseUpEventListenerForHorizontalFunction
 
   constructor(props) {
     super(props)
