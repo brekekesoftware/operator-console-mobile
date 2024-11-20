@@ -1,6 +1,6 @@
-import { Select } from 'antd'
-import Input from 'antd/lib/input'
+import { Input } from '@ant-design/react-native'
 
+import { Select, SelectOption } from '../../../../common/Select'
 import { i18n } from '../../../../i18n'
 import { LegacyButtonEditorSubWidgetSettings } from './LegacyButtonEditorSubWidgetSettings'
 
@@ -75,27 +75,25 @@ export class LegacyButtonEditorSubWidgetSettings_oneTouchDialButton extends Lega
         />
         <p>{i18n.t('mode')}</p>
         <Select
-          // onChange={(value) => {
-          // }}
           style={{ width: '100%' }}
           // placeholder="Please select a option"
           value={onetouchdialMode}
           defaultValue={onetouchdialMode}
           onSelect={e => this._onChangeOnetouchdialMode(e)}
         >
-          <Select.Option value='callOnly'>{i18n.t('callOnly')}</Select.Option>
-          <Select.Option value='attendedTransferOrCall'>
+          <SelectOption value='callOnly'>{i18n.t('callOnly')}</SelectOption>
+          <SelectOption value='attendedTransferOrCall'>
             {i18n.t('attendedTransferOrCall')}
-          </Select.Option>
-          <Select.Option value='blindTransferOrCall'>
+          </SelectOption>
+          <SelectOption value='blindTransferOrCall'>
             {i18n.t('blindTransferOrCall')}
-          </Select.Option>
-          <Select.Option value='attendedTransferOnly'>
+          </SelectOption>
+          <SelectOption value='attendedTransferOnly'>
             {i18n.t('attendedTransferOnly')}
-          </Select.Option>
-          <Select.Option value='blindTransferOnly'>
+          </SelectOption>
+          <SelectOption value='blindTransferOnly'>
             {i18n.t('blindTransferOnly')}
-          </Select.Option>
+          </SelectOption>
         </Select>
       </>
     )

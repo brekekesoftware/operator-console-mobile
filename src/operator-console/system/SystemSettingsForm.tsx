@@ -1,9 +1,14 @@
-import { Checkbox, Form, Radio, Select } from 'antd'
-import TextArea from 'antd/es/input/TextArea'
-import Input from 'antd/lib/input'
-import InputNumber from 'antd/lib/input-number'
+import {
+  Checkbox,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  TextArea,
+} from '@ant-design/react-native'
 
 import { CallHistory2 } from '../call/CallHistory2'
+import { Select, SelectOption } from '../common/Select'
 import { i18n } from '../i18n'
 import { RingtoneSettings } from './RingtoneSettings'
 import { ShortDialSettings } from './ShortDialSettings'
@@ -50,25 +55,25 @@ export const SystemSettingsForm = props => {
           name={'autoDialRecentDisplayOrder'}
         >
           <Select>
-            <Select.Option
+            <SelectOption
               value={
                 CallHistory2.RECENT_DISPLAY_ORDERS.CALL_OR_INCOMING_COUNT_DESC
               }
             >
               {i18n.t('CallOrIncomingCountDesc')}
-            </Select.Option>
-            <Select.Option
+            </SelectOption>
+            <SelectOption
               value={CallHistory2.RECENT_DISPLAY_ORDERS.ADD_DATETIME_DESC}
             >
               {i18n.t('StartDatetimeDesc')}
-            </Select.Option>
+            </SelectOption>
           </Select>
         </Form.Item>
         <Form.Item
           label={i18n.t('PhonebookName')}
           name={'autoDialPhonebookName'}
         >
-          <Input maxLength={300} style={{ width: '240px' }} />
+          <Input maxLength={300} style={{ width: 240 }} />
         </Form.Item>
         <h1>{i18n.t('ringtoneSettings')}</h1>
         <RingtoneSettings />
@@ -82,8 +87,8 @@ export const SystemSettingsForm = props => {
         >
           {/* <Radio.Group onChange={props.onChangeUcChatAgentComponentEnabledFunction}>*/}
           <Radio.Group>
-            <Radio value={false}>{i18n.t('off')}</Radio>
-            <Radio value={true}>{i18n.t('on')}</Radio>
+            <Radio value={0}>{i18n.t('off')}</Radio>
+            <Radio value={1}>{i18n.t('on')}</Radio>
           </Radio.Group>
         </Form.Item>
         <h1>{i18n.t('otherSettings')}</h1>
@@ -106,6 +111,3 @@ export const SystemSettingsForm = props => {
     </Form>
   )
 }
-
-const getSystemSettingsUseForm = () => systemSettingsUseForm
-// export default getSystemSettingsUseForm

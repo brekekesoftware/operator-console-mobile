@@ -1,5 +1,5 @@
 import { i18n } from '../../../i18n'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 

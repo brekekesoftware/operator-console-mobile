@@ -1,6 +1,6 @@
 import { i18n } from '../../../../i18n'
-import BrekekeOperatorConsole from '../../../../OperatorConsole'
-import Util from '../../../../Util'
+import { BrekekeOperatorConsole } from '../../../../OperatorConsole'
+import { Util } from '../../../../Util'
 import { LegacyButtonEditorSubWidget } from './LegacyButtonEditorSubWidget'
 
 export class LegacyButtonEditorSubWidget_quickCallButton extends LegacyButtonEditorSubWidget {

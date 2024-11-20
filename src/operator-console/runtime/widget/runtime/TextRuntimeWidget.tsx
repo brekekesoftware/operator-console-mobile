@@ -1,5 +1,5 @@
 import { Util } from '../../../Util'
-import RuntimeWidget from './RuntimeWidget'
+import { RuntimeWidget } from './RuntimeWidget'
 
 export class TextRuntimeWidget extends RuntimeWidget {
   constructor(props) {

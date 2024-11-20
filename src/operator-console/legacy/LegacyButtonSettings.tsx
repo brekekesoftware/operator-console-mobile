@@ -1,10 +1,16 @@
 import { Form, Input } from '@ant-design/react-native'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Colorpicker } from 'antd-colorpicker'
 import { debounce } from 'lodash'
 import { Component, createRef } from 'react'
+import { Text } from 'react-native'
 
+import { Select, SelectOption } from '../common/Select'
 import { i18n } from '../i18n'
+import { LegacyButtonMap } from '../OperatorConsole'
 import { LegacyKeypadButton } from './LegacyKeypadButton'
 import { LegacyLineButton } from './LegacyLineButton'
 import { LegacyOneTouchDialButton } from './LegacyOneTouchDialButton'
@@ -48,19 +54,19 @@ export class LegacyButtonSettings extends Component<Props, State> {
           (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
         }
       >
-        <Select.Option value={''}></Select.Option>
+        <SelectOption value={''}></SelectOption>
         {[
           ...Object.values(fas),
           ...Object.values(far),
           ...Object.values(fab),
-        ].map((icon, i) => {
+        ].map(icon => {
           const value = icon.prefix + ' fa-' + icon.iconName
           key++
           return (
-            <Select.Option key={key} value={value}>
+            <SelectOption key={key} value={value}>
               <FontAwesomeIcon fixedWidth icon={icon} />
-              <span style={{ marginLeft: 4 }}>{icon.iconName}</span>
-            </Select.Option>
+              <Text style={{ marginLeft: 4 }}>{icon.iconName}</Text>
+            </SelectOption>
           )
         })}
         {fileInfos.map((fileInfo, i) => {
@@ -69,7 +75,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
           const fileUrl = fileInfo['url']
           const value = 'PATH:' + fileUrl
           return (
-            <Select.Option key={key} value={value}>
+            <SelectOption key={key} value={value}>
               <div style={{ display: 'table', verticalAlign: 'middle' }}>
                 <img
                   src={fileUrl}
@@ -87,7 +93,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
                   {fileName}
                 </div>
               </div>
-            </Select.Option>
+            </SelectOption>
           )
         })}
       </Select>
@@ -129,13 +135,13 @@ export class LegacyButtonSettings extends Component<Props, State> {
           <Form.Item name='subtype' noStyle>
             <Select style={{ width: '100%' }} onSelect={this.onSubtypeSelected}>
               {Object.keys(LegacyButtonMap).map((subtype, i) => (
-                <Select.Option
+                <SelectOption
                   key={i}
                   value={subtype}
                   title={i18n.t(`legacy_button_description.${subtype}`)}
                 >
                   {i18n.t(`legacy_button_label.${subtype}`)}
-                </Select.Option>
+                </SelectOption>
               ))}
             </Select>
           </Form.Item>
@@ -225,19 +231,21 @@ export class LegacyButtonSettings extends Component<Props, State> {
                 // placeholder="Please select a option"
                 defaultValue={'callOnly'}
               >
-                <Option value='callOnly'>{i18n.t('callOnly')}</Option>
-                <Option value='attendedTransferOrCall'>
+                <SelectOption value='callOnly'>
+                  {i18n.t('callOnly')}
+                </SelectOption>
+                <SelectOption value='attendedTransferOrCall'>
                   {i18n.t('attendedTransferOrCall')}
-                </Option>
-                <Option value='blindTransferOrCall'>
+                </SelectOption>
+                <SelectOption value='blindTransferOrCall'>
                   {i18n.t('blindTransferOrCall')}
-                </Option>
-                <Option value='attendedTransferOnly'>
+                </SelectOption>
+                <SelectOption value='attendedTransferOnly'>
                   {i18n.t('attendedTransferOnly')}
-                </Option>
-                <Option value='blindTransferOnly'>
+                </SelectOption>
+                <SelectOption value='blindTransferOnly'>
                   {i18n.t('blindTransferOnly')}
-                </Option>
+                </SelectOption>
               </Select>
             </Form.Item>
           </>

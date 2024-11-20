@@ -10,6 +10,7 @@ import { NoteEditorWidgetTemplate } from './NoteEditorWidgetTemplate'
 import { TextEditorWidgetTemplate } from './TextEditorWidgetTemplate'
 
 export class EditorWidgetTemplateFactory {
+  _EditorWidgetTemplates: object
   // !private
   constructor() {
     // const legacyButtonWidgetTypeId = WidgetData.WIDGET_TYPE_IDS.legacyButton;

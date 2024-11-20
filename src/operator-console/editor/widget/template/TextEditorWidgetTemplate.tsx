@@ -18,7 +18,7 @@ export class TextEditorWidgetTemplate extends EditorWidgetTemplate {
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return (
       <div
         style={{

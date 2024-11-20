@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ActivityIndicator } from '@ant-design/react-native'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Checkbox, Input, Switch } from 'antd'
 import Button from 'antd/lib/button'
 import Notification from 'antd/lib/notification'
 import Popconfirm from 'antd/lib/popconfirm'
-import Spin from 'antd/lib/spin'
 import React from 'react'
 
 import './reset.css'
@@ -1099,7 +1099,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                 height: 'inherit',
                                               }}
                                             >
-                                              <Spin />
+                                              <ActivityIndicator />
                                             </div>
                                           )}
                                           {this._phonebookContactInfoArray !==

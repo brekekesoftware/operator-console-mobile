@@ -6,6 +6,7 @@ import { SketchPicker } from 'react-color'
 
 import logo from '../logo.png'
 
+import { Select, SelectOption } from '../common/Select'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -305,18 +306,15 @@ export class EditScreenView extends React.Component<Props, State> {
               <div>
                 <Select
                   name='enableTabs'
-                  // defaultValue={enableTabs.toString()}
                   onChange={value => this._onChangeTabsEnable(value)}
                   value={enableTabs.toString()}
                 >
-                  <Select.Option
-                    value={_TABS_SELECT_OPTIONS.disable.toString()}
-                  >
+                  <SelectOption value={_TABS_SELECT_OPTIONS.disable.toString()}>
                     {i18n.t('Disable')}
-                  </Select.Option>
-                  <Select.Option value={_TABS_SELECT_OPTIONS.enable.toString()}>
+                  </SelectOption>
+                  <SelectOption value={_TABS_SELECT_OPTIONS.enable.toString()}>
                     {i18n.t('Enable')}
-                  </Select.Option>
+                  </SelectOption>
                 </Select>
               </div>
             </div>

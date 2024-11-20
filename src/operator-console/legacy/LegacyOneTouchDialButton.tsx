@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 
 import { ACallInfo } from '../call/ACallInfo'
 import { CommonButton } from '../common/CommonButton'
@@ -12,7 +12,7 @@ export const LegacyOneTouchDialButton = props => {
         {...props}
         childNode={
           props.icon ? (
-            <FontAwesomeIcon size='lg' icon={props.icon} />
+            <FontAwesomeIcon size={20} icon={props.icon} />
           ) : (
             props.label
           )

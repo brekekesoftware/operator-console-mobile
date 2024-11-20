@@ -21,7 +21,7 @@ export class ExtensionTableEditorWidgetTemplate extends EditorWidgetTemplate {
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return (
       <table style={{ display: 'table' }}>
         <thead>

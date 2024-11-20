@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Button, Checkbox, Input } from 'antd'
 import Notification from 'antd/lib/notification'
 import Popconfirm from 'antd/lib/popconfirm'
@@ -8,9 +8,9 @@ import './reset.css'
 import './phonebookContactInfozInfoView.css'
 
 import { i18n } from '../i18n'
-import OCUtil from '../OCUtil'
-import BrekekeOperatorConsole from '../OperatorConsole'
-import PhonebookContactInfo_AutoDialView_ver2 from './PhonebookContactInfo_AutoDialView_ver2'
+import { OCUtil } from '../OCUtil'
+import { BrekekeOperatorConsole } from '../OperatorConsole'
+import { PhonebookContactInfo_AutoDialView_ver2 } from './PhonebookContactInfo_AutoDialView_ver2'
 
 const BUILTIN_CUSTOM_ITEM_KEYNAMES = Object.freeze([
   'Address(Work)',

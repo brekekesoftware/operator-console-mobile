@@ -47,7 +47,7 @@ const _getLightClassname = (line, context = {}) => {
   return lightClassname
 }
 
-function LineButton({
+const LineButton = ({
   label,
   line,
   width,
@@ -57,28 +57,26 @@ function LineButton({
   border,
   borderRadius,
   context = {},
-}) {
-  return (
-    <button
-      style={{
-        display: 'inline-block',
-        padding: 1,
-        margin: '0px 0px 0.75rem 0px',
-        color,
-        backgroundColor,
-        border,
-        borderRadius,
-        width,
-        height,
-      }}
-      title={i18n.t('legacy_button_description.LegacyLineButton')}
-      className={'kbc-button kbc-button-fill-parent'}
-      onClick={() => context.handleLine(line)}
-    >
-      {label}
-    </button>
-  )
-}
+}) => (
+  <button
+    style={{
+      display: 'inline-block',
+      padding: 1,
+      margin: '0px 0px 0.75rem 0px',
+      color,
+      backgroundColor,
+      border,
+      borderRadius,
+      width,
+      height,
+    }}
+    title={i18n.t('legacy_button_description.LegacyLineButton')}
+    className={'kbc-button kbc-button-fill-parent'}
+    onClick={() => context.handleLine(line)}
+  >
+    {label}
+  </button>
+)
 
 // function CamponButton({ context = {}}){
 //     const handleMenuClick = (e) => {
@@ -126,7 +124,7 @@ function LineButton({
 //     );
 // }
 
-function TransferCancelButton({
+const TransferCancelButton = ({
   context,
   lineInfo,
   callInfo,
@@ -137,7 +135,7 @@ function TransferCancelButton({
   transferCancelButtonOuterBorderThickness,
   transferCancelButtonWidth,
   transferCancelButtonHeight,
-}) {
+}) => {
   const confirm = e => {
     const oc = context.operatorConsole
     const campon = oc.getCampon()
@@ -207,7 +205,7 @@ function TransferCancelButton({
   )
 }
 
-function TransferButton({
+const TransferButton = ({
   context,
   lineInfo,
   callInfo,
@@ -219,7 +217,7 @@ function TransferButton({
   transferButtonOuterBorderColor,
   transferButtonOuterBorderRadius,
   transferButtonOuterBorderThickness,
-}) {
+}) => {
   const [open, setOpen] = useState(false)
 
   const oc = context.operatorConsole
@@ -543,7 +541,7 @@ function TransferButton({
   )
 }
 
-function LineTableRow({
+const LineTableRow = ({
   index,
   lineInfo,
   bodyFgColor,
@@ -572,7 +570,7 @@ function LineTableRow({
   transferCancelButtonOuterBorderRadius,
   transferCancelButtonOuterBorderThickness,
   context = {},
-}) {
+}) => {
   const lightClassname = _getLightClassname(lineInfo.line, context)
   const title = lineInfo.lineLabel ? lineInfo.lineLabel : lineInfo.line
   const oc = context.operatorConsole

@@ -1,5 +1,7 @@
 // !abstract class
 export class EditorWidgetTemplate {
+  _EditorWidgetTemplateFactoryAsParent
+  _WidgetTypeId
   constructor(editorWidgetTemplateFactoryAsParent, widgetTypeId) {
     this._EditorWidgetTemplateFactoryAsParent =
       editorWidgetTemplateFactoryAsParent
@@ -21,7 +23,7 @@ export class EditorWidgetTemplate {
   }
 
   // !abstract
-  getRenderMainJsx() {
+  getRenderMainJsx(): React.ReactNode {
     throw new Error('Not implemented.')
   }
 

@@ -1,5 +1,6 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Empty, Spin } from 'antd'
+import { ActivityIndicator } from '@ant-design/react-native'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { Empty } from 'antd'
 import { debounce } from 'lodash'
 import { Component } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
@@ -114,7 +115,7 @@ export class Note extends Component<NoteProps, NoteState> {
             </Text>
           </View>
           {this.state.loading ? (
-            <Empty image={null} description={<Spin />} />
+            <Empty image={null} description={<ActivityIndicator />} />
           ) : (
             <TextInput
               value={this.state.content}

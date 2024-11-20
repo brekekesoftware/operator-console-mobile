@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ActivityIndicator } from '@ant-design/react-native'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import TextArea from 'antd/es/input/TextArea'
 import Empty from 'antd/lib/empty'
-import Spin from 'antd/lib/spin'
 import debounce from 'debounce'
 
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -9,6 +9,8 @@ import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 
 export class NoteRuntimeWidget extends RuntimeWidget {
+  _readonly: boolean
+  _lastNoteName: string = ''
   constructor(props) {
     super(props)
     this._readonly = true
@@ -188,7 +190,7 @@ export class NoteRuntimeWidget extends RuntimeWidget {
           {noteName}
         </div>
         {this.state.loading ? (
-          <Empty image={null} description={<Spin />} />
+          <Empty image={null} description={<ActivityIndicator />} />
         ) : (
           <TextArea
             value={this.state.content}

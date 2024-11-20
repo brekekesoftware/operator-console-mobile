@@ -20,7 +20,7 @@ export class LegacyButtonEditorWidgetTemplate extends EditorWidgetTemplate {
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return (
       <button
         className='kbc-button kbc-button-fill-parent'

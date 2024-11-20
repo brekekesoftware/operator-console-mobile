@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 
 // !abstract
 import { LegacyButtonWidgetSubData } from '../../../../data/widgetData/legacyButtonWidgetSubData/LegacyButtonWidgetSubData'

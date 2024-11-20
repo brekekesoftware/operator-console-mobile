@@ -21,7 +21,7 @@ export class LegacyExtensionStatusEditorWidgetTemplate extends EditorWidgetTempl
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return (
       <div className='led-box' style={{}}>
         <div className='led-grey'></div>

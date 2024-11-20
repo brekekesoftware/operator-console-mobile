@@ -20,7 +20,7 @@ export class CallPanelEditorWidgetTemplate extends EditorWidgetTemplate {
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return <div className='brOCCallPanel' style={{}}></div>
   }
 }

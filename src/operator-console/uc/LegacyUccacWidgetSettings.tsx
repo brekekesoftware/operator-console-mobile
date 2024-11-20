@@ -1,15 +1,23 @@
-import { Divider } from 'antd'
-import Form from 'antd/lib/form'
-import Input from 'antd/lib/input'
-import InputNumber from 'antd/lib/input-number'
+import { Divider, Form, InputNumber } from '@ant-design/react-native'
 import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
 import React from 'react'
 
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'
 
-export class LegacyUccacWidgetSettings extends React.Component {
+type Props = {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+  widget: any
+  widgetIndex: number
+  onChange: () => void
+}
+
+export class LegacyUccacWidgetSettings extends React.Component<Props> {
+  formRef
+  _operatorConsoleAsParent: BrekekeOperatorConsole
+  onChangeDebounced
   constructor(props) {
     super(props)
     // this._setDefaultValues( this.props.widget );

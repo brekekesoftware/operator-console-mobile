@@ -1,11 +1,12 @@
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Select } from 'antd'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import InputNumber from 'antd/lib/input-number'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
+import { Select, SelectOption } from '../../../common/Select'
 import { LegacyButtonWidgetSubData } from '../../../data/widgetData/legacyButtonWidgetSubData/LegacyButtonWidgetSubData'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -58,28 +59,28 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
         onSelect={e => this._onFormIconSelected(e)}
         style={{ width: '100%' }}
       >
-        <Select.Option value={''}></Select.Option>
+        <SelectOption value={''}></SelectOption>
         {[
           ...Object.values(fas),
           ...Object.values(far),
           ...Object.values(fab),
-        ].map((icon, i) => {
+        ].map(icon => {
           const value = icon.prefix + ' fa-' + icon.iconName
           key++
           return (
-            <Select.Option key={key} value={value}>
+            <SelectOption key={key} value={value}>
               <FontAwesomeIcon fixedWidth icon={icon} />
-              <span style={{ marginLeft: 4 }}>{icon.iconName}</span>
-            </Select.Option>
+              <Text style={{ marginLeft: 4 }}>{icon.iconName}</Text>
+            </SelectOption>
           )
         })}
-        {fileInfos.map((fileInfo, i) => {
+        {fileInfos.map(fileInfo => {
           key++
           const fileName = fileInfo['name']
           const fileUrl = fileInfo['url']
           const value = 'PATH:' + fileUrl
           return (
-            <Select.Option key={key} value={value}>
+            <SelectOption key={key} value={value}>
               <div style={{ display: 'table', verticalAlign: 'middle' }}>
                 <img
                   src={fileUrl}
@@ -97,7 +98,7 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
                   {fileName}
                 </div>
               </div>
-            </Select.Option>
+            </SelectOption>
           )
         })}
       </Select>
@@ -108,8 +109,8 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
     // this._EditScreenViewAsParent.setState({rerender:true});
   }
 
-  _onFormSubtypeSelected(ev1, ev2) {
-    const selectedSubtypeId = parseInt(ev1)
+  _onFormSubtypeSelected(ev) {
+    const selectedSubtypeId = parseInt(ev)
     const widgetData = this._getWidgetData()
     widgetData.setSubDataBySubtypeId(selectedSubtypeId)
     this._EditScreenViewAsParent.setState({ rerender: true })
@@ -201,18 +202,18 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
         <p>{i18n.t('function')}</p>
         <Select
           style={{ width: '100%' }}
-          onSelect={(ev1, ev2) => this._onFormSubtypeSelected(ev1, ev2)}
+          onSelect={ev => this._onFormSubtypeSelected(ev)}
           defaultValue={sEditingWidgetSubtypeId}
           value={sEditingWidgetSubtypeId}
         >
           {enSubtype.map(([subtypeId, subtypeName], i) => (
-            <Select.Option
+            <SelectOption
               key={i}
               value={subtypeId}
               title={i18n.t(`legacy_button_description.${subtypeName}`)}
             >
               {i18n.t(`legacy_button_label.${subtypeName}`)}
-            </Select.Option>
+            </SelectOption>
           ))}
         </Select>
         <p

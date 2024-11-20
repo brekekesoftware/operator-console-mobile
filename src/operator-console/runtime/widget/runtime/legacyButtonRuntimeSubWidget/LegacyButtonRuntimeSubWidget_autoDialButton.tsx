@@ -1,7 +1,7 @@
 import { i18n } from '../../../../i18n'
-import BrekekeOperatorConsole from '../../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../../OperatorConsole'
 import { Util } from '../../../../Util'
-import LegacyButtonRuntimeSubWidget from './LegacyButtonRuntimeSubWidget'
+import { LegacyButtonRuntimeSubWidget } from './LegacyButtonRuntimeSubWidget'
 
 export class LegacyButtonRuntimeSubWidget_autoDialButton extends LegacyButtonRuntimeSubWidget {
   constructor(

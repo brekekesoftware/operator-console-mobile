@@ -1,12 +1,13 @@
-import DummyCallInfo from '../../../DummyCallInfo'
+import { DummyCallInfo } from '../../../call/DummyCallInfo'
 import { i18n } from '../../../i18n'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 
 const CELL_MARGIN = 4
 const CURRENT_CALL_INDEX = 1
 export class CallTableEditorWidget extends EditorWidget {
+  _CallInfoArray
   constructor(props) {
     super(props)
     this._CallInfoArray = Object.freeze([

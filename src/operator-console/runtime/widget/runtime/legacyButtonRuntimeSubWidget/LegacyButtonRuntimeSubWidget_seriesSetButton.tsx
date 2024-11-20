@@ -1,6 +1,6 @@
 import { i18n } from '../../../../i18n'
 import { Util } from '../../../../Util'
-import LegacyButtonRuntimeSubWidget from './LegacyButtonRuntimeSubWidget'
+import { LegacyButtonRuntimeSubWidget } from './LegacyButtonRuntimeSubWidget'
 
 export class LegacyButtonRuntimeSubWidget_seriesSetButton extends LegacyButtonRuntimeSubWidget {
   constructor(

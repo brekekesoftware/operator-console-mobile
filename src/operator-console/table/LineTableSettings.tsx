@@ -1,14 +1,24 @@
+import { Form, Input, InputNumber } from '@ant-design/react-native'
 import { Divider } from 'antd'
-import Form from 'antd/lib/form'
-import Input from 'antd/lib/input'
-import InputNumber from 'antd/lib/input-number'
 import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
 import React from 'react'
 
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
-export class LineTableSettings extends React.Component {
+type Props = {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+  widget: any
+  widgetIndex: number
+  onChange: () => void
+}
+type State = {}
+
+export class LineTableSettings extends React.Component<Props, State> {
+  formRef
+  _operatorConsoleAsParent: BrekekeOperatorConsole
+  onChangeDebounced
   constructor(props) {
     super(props)
     // this._setDefaultValues( this.props.widget );
@@ -397,21 +407,6 @@ export class LineTableSettings extends React.Component {
         >
           <Colorpicker format='rgb' />
         </Form.Item>
-
-        {/* <Form.Item label={i18n.t("bgColor")} name={`linetableBodyBgColor`} rules={[*/}
-        {/*    {*/}
-        {/*        required: false,*/}
-        {/*    }*/}
-        {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
-        {/* </Form.Item>*/}
-        {/* <Form.Item label={i18n.t("activeRowBgColor")} name={`linetableBodyActiveRowBgColor`} rules={[*/}
-        {/*    {*/}
-        {/*        required: false,*/}
-        {/*    }*/}
-        {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
-        {/* </Form.Item>*/}
 
         <divider>{i18n.t('lineButtonSettings')}</divider>
         <Form.Item

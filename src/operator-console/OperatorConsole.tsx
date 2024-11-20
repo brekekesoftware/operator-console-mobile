@@ -1,71 +1,30 @@
-import 'antd/lib/dropdown/style'
-import 'antd/lib/menu/style'
-import 'antd/lib/button/style'
-import 'antd/lib/carousel/style'
-import 'antd-button-color/dist/css/style.less'
-import 'antd/lib/input/style'
-import 'antd/lib/select/style'
-import 'antd/lib/input-number/style'
-import 'antd/lib/space/style'
-import 'antd/lib/empty/style'
-import 'antd/lib/form/style'
-import 'antd/lib/notification/style'
-import 'antd/lib/spin/style'
-// Popconfirm.defaultProps = {
-//   okButtonProps: {
-//     type: "danger",
-//     size: "medium",
-//   },
-//   cancelButtonProps: {
-//     type: "secondary",
-//     size: "medium",
-//   },
-// };
-import 'antd/lib/popconfirm/style'
-
-import MoreOutlined from '@ant-design/icons/MoreOutlined'
+import {
+  ActivityIndicator,
+  Button,
+  Dropdown,
+  Form,
+  Input,
+} from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Divider, Modal, Select, Tabs } from 'antd'
-import AutoComplete from 'antd/lib/auto-complete'
-import Button from 'antd/lib/button'
-import Dropdown from 'antd/lib/dropdown'
-import Empty from 'antd/lib/empty'
-import Form from 'antd/lib/form'
-import Input from 'antd/lib/input'
-import InputNumber from 'antd/lib/input-number'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { Modal, Tabs } from 'antd'
 import Notification from 'antd/lib/notification'
-// import 'antd/lib/auto-complete/style';  //!commentout build error antd ^5.3.1
-// import Message from 'antd/lib/message';
-// import 'antd/lib/message/style';
 import Popconfirm from 'antd/lib/popconfirm'
 import Space from 'antd/lib/space'
-// import Tooltip from 'antd/lib/tooltip';
-// import 'antd/lib/tooltip/style';
-import Spin from 'antd/lib/spin'
-import { Colorpicker } from 'antd-colorpicker'
-import debounce from 'debounce'
 import React from 'react'
 import { SketchPicker } from 'react-color'
 import ReactDOM from 'react-dom/client'
 import GridLines from 'react-gridlines'
-import {
-  Button as ButtonN,
-  Text as TextN,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Image } from 'react-native'
 import { Rnd } from 'react-rnd'
 
 import './index.scss'
 import logo from './logo.png'
 
 import { ACallInfo } from './call/ACallInfo'
-import { ACallInfos } from './call/ACallInfos'
-import { APhoneClient } from './call/APhoneClient'
 import { CallHistory } from './call/CallHistory'
 import { CallHistory2 } from './call/CallHistory2'
 import { CallPanel } from './call/CallPanel'
@@ -73,7 +32,7 @@ import { LegacyCallPanelSettings } from './call/LegacyCallPanelSettings'
 import { PalPhoneClient } from './call/PalPhoneClient'
 import { PalRestApi } from './call/PalRestApi'
 import { WebphonePhoneClient } from './call/WebphonePhoneClient'
-import { CommonButton } from './common/CommonButton'
+import { Empty } from './common/Empty'
 import { PaneData } from './data/PaneData'
 import { ScreenData } from './data/ScreenData'
 import { WidgetData } from './data/widgetData/WidgetData'
@@ -124,22 +83,18 @@ import { Login } from './login/Login'
 import { Note } from './note/Note'
 import { NotePreview } from './note/NotePreview'
 import { NoteSettings } from './note/NoteSettings'
-import { OperatorConsoleStyles } from './OperatorConsoleStyles'
 import { ShowScreenView_ver2 } from './runtime/ShowScreenView_ver2'
 import { Campon } from './system/Campon'
 import { NoScreensView } from './system/NoScreensView'
-import { QuickBusy } from './system/QuickBusy'
 import { SystemSettingsData } from './system/SystemSettingsData'
-import {
-  OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_ID,
-  OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_VERSION,
-  SystemSettingsView,
-} from './system/SystemSettingsView'
+import { SystemSettingsView } from './system/SystemSettingsView'
 import { CallTable } from './table/CallTable'
 import { CallTableSettings } from './table/CallTableSettings'
 import { ExtensionTable } from './table/ExtensionTable'
 import { LineTable } from './table/LineTable'
 import { LineTableSettings } from './table/LineTableSettings'
+import { TextSettings } from './text/TextSettings'
+import { TextWidget } from './text/TextWidget'
 import { LegacyUccacWidgetSettings } from './uc/LegacyUccacWidgetSettings'
 import { UccacWidget } from './uc/UccacWidget'
 import { UccacWrapper } from './uc/UccacWrapper'
@@ -297,52 +252,18 @@ export const getIconJsx = (icon, label) => {
   if (!icon) {
     iconJsx = label
   } else if (icon.startsWith('PATH:')) {
-    let alt
+    let alt = ''
     if (label) {
       alt = label
     } else {
       alt = icon
     }
     const src = icon.substring(5, icon.length) // 5 is path:
-    iconJsx = <img src={src} alt={alt} width={32} heigth={32} />
+    iconJsx = <Image source={{ uri: src }} style={{ width: 32, height: 32 }} />
   } else {
-    iconJsx = <FontAwesomeIcon size='lg' icon={icon} />
+    iconJsx = <FontAwesomeIcon size={20} icon={icon} />
   }
   return iconJsx
-}
-
-function Text({
-  operatorConsoleAsParent,
-  text,
-  textFgColor,
-  textBgColor,
-  textBorderRadius,
-}) {
-  const color = Util.isAntdRgbaProperty(textFgColor)
-    ? Util.getRgbaCSSStringFromAntdColor(textFgColor)
-    : ''
-  const backgroundColor = Util.isAntdRgbaProperty(textBgColor)
-    ? Util.getRgbaCSSStringFromAntdColor(textBgColor)
-    : '#f5f5f5' // !default
-  // const border = Util.isNumeric( buttonOuterBorderThickness ) && Util.isAntdRgbaProperty( buttonOuterBorderColor) ?
-  //    "solid " + buttonOuterBorderThickness + "px " + Util.getRgbaCSSStringFromAntdColor( buttonOuterBorderColor )  : "";
-  const borderRadius = Util.isNumber(textBorderRadius) ? textBorderRadius : 0
-
-  return (
-    <View
-      style={{
-        overflow: 'hidden',
-        width: '100%',
-        height: '100%',
-        backgroundColor,
-        borderRadius,
-      }}
-    >
-      <TextN style={{ color, textAlign: 'center' }} numberOfLines={1}>
-        {text}
-      </TextN>
-    </View>
-  )
 }
 
 function CallTablePreview() {
@@ -393,7 +314,7 @@ function UccacWidgetPreview() {
   )
 }
 
-const LegacyButtonMap = {
+export const LegacyButtonMap = {
   [LegacyDummyButton.name]: LegacyDummyButton,
   [LegacyCallTalkingButton.name]: LegacyCallTalkingButton,
   [LegacyNoAnswerButton.name]: LegacyNoAnswerButton,
@@ -430,7 +351,7 @@ const LegacyButtonMap = {
   [LegacyOneTouchDialButton.name]: LegacyOneTouchDialButton,
 }
 
-function LegacyButton(props) {
+const LegacyButton = props => {
   const Component = LegacyButtonMap[props.subtype]
   if (!Component) {
     return null
@@ -439,82 +360,11 @@ function LegacyButton(props) {
   return <Component {...props} label={label} />
 }
 
-class TextSettings extends React.Component {
-  constructor(props) {
-    super(props)
-    this.formRef = React.createRef()
-    this.state = {
-      widget: window.structuredClone(this.props.widget),
-    }
-    this.onChangeDebounced = debounce(props.onChange, 250)
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.widgetIndex != prevProps.widgetIndex) {
-      const widget = window.structuredClone(this.props.widget)
-      this.setState({ widget }, () => {
-        this.formRef.current.resetFields()
-      })
-    }
-    if (this.props.onChange != prevProps.onChange) {
-      this.onChangeDebounced = debounce(this.props.onChange, 250)
-    }
-  }
-
-  render() {
-    return (
-      <Form
-        ref={this.formRef}
-        layout='vertical'
-        initialValues={this.state.widget}
-        onValuesChange={this.onChangeDebounced}
-      >
-        <Form.Item label={i18n.t('text')} name='text'>
-          <Input.TextArea rows={6} />
-        </Form.Item>
-        <Form.Item
-          label={i18n.t('fgColor')}
-          name={'textFgColor'}
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Colorpicker format='rgb' />
-        </Form.Item>
-        <Form.Item
-          label={i18n.t('bgColor')}
-          name={'textBgColor'}
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Colorpicker format='rgb' />
-        </Form.Item>
-        <Form.Item
-          label={i18n.t('borderRadius')}
-          name='textBorderRadius'
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <InputNumber min='0' />
-        </Form.Item>
-      </Form>
-    )
-  }
-}
-
 const WidgetMap = {
   [LegacyButton.name]: LegacyButton,
   [LegacyCallPanel.name]: LegacyCallPanel,
   [LegacyExtensionStatus.name]: LegacyExtensionStatus,
-  [Text.name]: Text,
+  ['Text']: TextWidget,
   [CallTable.name]: CallTable,
   [ExtensionTable.name]: ExtensionTable,
   ['Note']: Note,
@@ -531,7 +381,7 @@ const WidgetPreviewMap = {
 const WidgetSettingsMap = {
   [LegacyButton.name]: LegacyButtonSettings,
   [LegacyExtensionStatus.name]: LegacyExtensionStatusSettings,
-  [Text.name]: TextSettings,
+  ['Text']: TextSettings,
   ['Note']: NoteSettings,
   [LineTable.name]: LineTableSettings,
   [LegacyCallPanel.name]: LegacyCallPanelSettings,
@@ -562,7 +412,7 @@ const ToolboxWidgets = [
     // insideShadow_color:{"r":48,"g":71,"b":1,"a":1} //"#304701"
   },
   { type: LegacyExtensionStatus.name, width: 64, extension: '' },
-  { type: Text.name, width: 64, height: 72, text: 'Text' },
+  { type: 'Text', width: 64, height: 72, text: 'Text' },
   {
     type: CallTable.name,
     width: 640,
@@ -1994,7 +1844,7 @@ export class BrekekeOperatorConsole extends React.Component<
 
   render() {
     if (!this.state.i18nReady) {
-      return <Empty image={null} description={<Spin />} />
+      return <Empty image={null} description={<ActivityIndicator />} />
     }
 
     const editingWidgetDatas = this._getSelectingEditingWidgetDatas()
@@ -2808,8 +2658,8 @@ export class BrekekeOperatorConsole extends React.Component<
                                     transferCall: this.transferCall,
                                     handleLine: this.handleLine,
                                     handlePark: this.handlePark,
-                                    getNote: this.getNote,
-                                    setNote: this.setNote,
+                                    // getNote: this.getNote,
+                                    // setNote: this.setNote,
                                     toggleQuickCallScreen:
                                       this.toggleQuickCallScreen,
                                     currentScreenQuickCallWidget:
@@ -2866,7 +2716,7 @@ export class BrekekeOperatorConsole extends React.Component<
             ) : this.state.displayState === brOcDisplayStates.noScreens ? (
               <NoScreensView operatorConsoleAsParent={this} />
             ) : (
-              <Empty image={null} description={<Spin />} />
+              <Empty image={null} description={<ActivityIndicator />} />
             )}
           </div>
         ) : (

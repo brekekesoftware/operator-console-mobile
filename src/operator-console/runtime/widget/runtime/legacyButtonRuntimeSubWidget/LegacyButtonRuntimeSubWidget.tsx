@@ -1,10 +1,13 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 
 import { LegacyButtonWidgetSubData } from '../../../../data/widgetData/legacyButtonWidgetSubData/LegacyButtonWidgetSubData'
 import { i18n } from '../../../../i18n'
 
 // !abstract
 export class LegacyButtonRuntimeSubWidget {
+  _LegacyButtonRuntimeWidgetAsParent
+  _LegacyButtonWidgetSubTypeId: string
+  _LegacyButtonRuntimeSubWidgetData
   constructor(
     legacyButtonRuntimeWidgetAsParent,
     legacyButtonRuntimeSubWidgetData,
@@ -32,7 +35,7 @@ export class LegacyButtonRuntimeSubWidget {
     throw new Error('Not implemented.')
   }
 
-  _getIconJsx(icon, label) {
+  _getIconJsx(icon = '', label = '') {
     const widgetData =
       this._LegacyButtonRuntimeSubWidgetData.getLegacyButtonWidgetDataAsParent()
     if (!icon) {
@@ -72,7 +75,7 @@ export class LegacyButtonRuntimeSubWidget {
       const iconWidth = widgetData.getIconWidth()
       const iconHeight = widgetData.getIconHeight()
       const oStyle = {}
-      let size = 'lg'
+      let size: number | null = 30
       if (iconWidth !== undefined && iconWidth !== null) {
         oStyle['width'] = iconWidth + 'px'
         size = null

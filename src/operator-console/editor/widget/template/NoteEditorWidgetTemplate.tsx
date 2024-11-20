@@ -18,7 +18,7 @@ export class NoteEditorWidgetTemplate extends EditorWidgetTemplate {
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return <div className='brOCStickyNote'>{i18n.t('Note')}</div>
   }
 }

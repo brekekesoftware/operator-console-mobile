@@ -1,7 +1,7 @@
+import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Form, Input, Modal } from 'antd'
 import Notification from 'antd/lib/notification'
 import Popconfirm from 'antd/lib/popconfirm'
-import Spin from 'antd/lib/spin'
 import { useRef, useState } from 'react'
 
 import { ScreenData } from '../data/ScreenData'
@@ -346,11 +346,11 @@ export const NoScreensView = props => {
 
   const [noteNamesContent, setNoteNamesContent] = useState<
     React.ReactNode | string
-  >(<Spin />)
+  >(<ActivityIndicator />)
   const [isLoading, setIsLoading] = useState(false)
 
   const refreshNoteNames = () => {
-    setNoteNamesContent(<Spin />)
+    setNoteNamesContent(<ActivityIndicator />)
 
     const getNoteNamesByPalRestApiOptions = {
       methodName: 'getNoteNames',
@@ -531,29 +531,27 @@ export const NoScreensView = props => {
       </Modal>
       <div ref={spinScreen} className='spinScreen'>
         <div>
-          <Spin />
+          <ActivityIndicator />
         </div>
       </div>
     </>
   )
 }
 
-function NewLayoutForm({ newLayoutUseForm }) {
-  return (
-    <Form form={newLayoutUseForm} layout='vertical'>
-      <section>
-        <Form.Item
-          name='layoutName'
-          rules={[
-            {
-              required: true,
-              message: i18n.t('layoutName_is_required'),
-            },
-          ]}
-        >
-          <Input placeholder={i18n.t('layoutName')} />
-        </Form.Item>
-      </section>
-    </Form>
-  )
-}
+const NewLayoutForm = ({ newLayoutUseForm }) => (
+  <Form form={newLayoutUseForm} layout='vertical'>
+    <section>
+      <Form.Item
+        name='layoutName'
+        rules={[
+          {
+            required: true,
+            message: i18n.t('layoutName_is_required'),
+          },
+        ]}
+      >
+        <Input placeholder={i18n.t('layoutName')} />
+      </Form.Item>
+    </section>
+  </Form>
+)

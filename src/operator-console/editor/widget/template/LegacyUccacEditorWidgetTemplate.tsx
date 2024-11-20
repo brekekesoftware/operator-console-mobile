@@ -21,7 +21,7 @@ export class LegacyUccacEditorWidgetTemplate extends EditorWidgetTemplate {
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return (
       <table>
         <thead>

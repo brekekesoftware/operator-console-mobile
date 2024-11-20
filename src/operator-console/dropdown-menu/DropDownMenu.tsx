@@ -1,8 +1,8 @@
 import MoreOutlined from '@ant-design/icons/MoreOutlined'
+import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Dropdown, Form, Input, Modal } from 'antd'
 import Notification from 'antd/lib/notification'
 import Popconfirm from 'antd/lib/popconfirm'
-import Spin from 'antd/lib/spin'
 import { useRef, useState } from 'react'
 
 import { ScreenData } from '../data/ScreenData'
@@ -27,7 +27,9 @@ export const DropDownMenu = ({ operatorConsole }) => {
   }
 
   const [openLayoutModalOpen, setOpenLayoutModalOpen] = useState(false)
-  const [noteNamesContent, setNoteNamesContent] = useState(<Spin />)
+  const [noteNamesContent, setNoteNamesContent] = useState(
+    <ActivityIndicator />,
+  )
   const [isLoading, setIsLoading] = useState(false)
   const showOpenLayoutModalFunc = () => {
     setOpenLayoutModalOpen(true)
@@ -219,7 +221,7 @@ export const DropDownMenu = ({ operatorConsole }) => {
       />
       <div ref={spinScreen} className='spinScreen'>
         <div>
-          <Spin />
+          <ActivityIndicator />
         </div>
       </div>
       <Dropdown

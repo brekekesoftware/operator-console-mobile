@@ -1,6 +1,6 @@
+import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Modal } from 'antd'
 import Notification from 'antd/lib/notification'
-import Spin from 'antd/lib/spin'
 
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
@@ -128,7 +128,7 @@ export const refreshNoteNamesContent = (
     operatorConsole.getPalRestApi().callPalRestApiMethod(getNoteOptions)
   }
 
-  setNoteNamesContentFunc(<Spin />)
+  setNoteNamesContentFunc(<ActivityIndicator />)
 
   const getNoteNamesOptions = {
     methodName: 'getNoteNames',

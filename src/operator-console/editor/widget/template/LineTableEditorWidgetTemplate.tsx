@@ -21,7 +21,7 @@ export class LineTableEditorWidgetTemplate extends EditorWidgetTemplate {
   }
 
   // !overload
-  getRenderMainJsx(jsxKey, editScreenViewAsCaller) {
+  getRenderMainJsx() {
     return (
       <table style={{ display: 'table' }}>
         <thead>
