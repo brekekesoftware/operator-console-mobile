@@ -1,12 +1,14 @@
-import Button from 'antd/lib/button'
-import Popconfirm from 'antd/lib/popconfirm'
+import { Button } from '@ant-design/react-native'
 import { Component } from 'react'
+import { Text, View } from 'react-native'
 
+import { Popconfirm } from '../../../common/Popconfirm'
 import { i18n } from '../../../i18n'
+import type { EditScreenView } from '../../EditScreenView'
 
 // !abstract
 type Props = {
-  editScreenViewAsParent: any
+  editScreenViewAsParent: EditScreenView
   widgetData: any
 }
 type State = {
@@ -44,25 +46,21 @@ export class EditorWidgetSettings extends Component<Props, State> {
     const widgetNameForII18n = widgetData.getWidgetNameForI18n()
     const jsx = (
       <>
-        <div style={{ padding: '12px 12px 0px 12px' }}>
-          {i18n.t(`widget_description.${widgetNameForII18n}`)}
-        </div>
-        <div
+        <View style={{ paddingTop: 12, paddingRight: 12, paddingLeft: 12 }}>
+          <Text> {i18n.t(`widget_description.${widgetNameForII18n}`)}</Text>
+        </View>
+        <View
           style={{
-            overflowY: 'auto',
-            flexGrow: '1',
-            height: '0px' /* height:0 is for show scrollbar */,
+            overflow: 'scroll',
+            flexGrow: 1,
+            height: 0,
             paddingLeft: 12,
             paddingRight: 12,
           }}
         >
           {this._getRenderMainJsx()}
-        </div>
-        <div style={{ padding: '0px 12px 12px 12px' }}>
-          {/* <Button type="secondary"*/}
-          {/*        onClick={() => this.duplicateWidget(this.state.selectingWidgetIndex)}>*/}
-          {/*    {i18n.t("duplicate")}*/}
-          {/* </Button>*/}
+        </View>
+        <View style={{ paddingBottom: 12, paddingRight: 12, paddingLeft: 12 }}>
           <Popconfirm
             title={i18n.t('are_you_sure')}
             onConfirm={() =>
@@ -75,7 +73,7 @@ export class EditorWidgetSettings extends Component<Props, State> {
           >
             <Button type='danger'>{i18n.t('remove')}</Button>
           </Popconfirm>
-        </div>
+        </View>
       </>
     )
     return jsx

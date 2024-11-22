@@ -4,6 +4,10 @@ import { ACallInfos } from './ACallInfos'
 import { WebphoneCallInfo } from './WebphoneCallInfo'
 
 export class WebphoneCallInfos extends ACallInfos {
+  _WebphoneCallInfoArray: Array<any>
+  _WebphoneCallInfoObject: object
+  _currentCallIndex: number
+  _WebphonePhoneClientAsParent: any
   constructor(options) {
     super(options)
     this._WebphoneCallInfoArray = new Array()

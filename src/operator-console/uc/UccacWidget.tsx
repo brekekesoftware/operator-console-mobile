@@ -2,11 +2,12 @@ import React, { createRef } from 'react'
 import { Button, Dimensions, StyleSheet, Text, View } from 'react-native'
 
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'
 
 type UccacWidgetProps = {
   context: any
-  operatorConsoleAsParent: any
+  operatorConsoleAsParent: BrekekeOperatorConsole
   uccacWrapper: any
   uccacwidgetFgColor: string
   borderRadius: string

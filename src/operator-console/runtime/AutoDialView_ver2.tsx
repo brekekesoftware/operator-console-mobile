@@ -1,9 +1,7 @@
-import { ActivityIndicator } from '@ant-design/react-native'
+import { ActivityIndicator, Button } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Checkbox, Input, Switch } from 'antd'
-import Button from 'antd/lib/button'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import React from 'react'
 
 import './reset.css'
@@ -11,6 +9,7 @@ import './AutoDialView_ver2.css'
 
 import { BrekekeOperatorConsole } from '..//OperatorConsole'
 import { CallHistory2 } from '../call/CallHistory2'
+import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { PhonebookContactInfo_AutoDialView_ver2 } from './PhonebookContactInfo_AutoDialView_ver2'
@@ -39,11 +38,8 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
     this.state = {
       recentShowDetailChecked: false,
     }
-    // const oc = BrekekeOperatorConsole.getStaticInstance();
-    // oc.getCallHistory2().sortIfNeed();
     AUTO_DIAL_VIEW_VER2 = this
     this._phonebookContactInfoArray = null
-    // this._PhonebookScrollableDivElement = null;
     this._latestSearchPhonebookName = null
     this._latestSearchPhonebookShared = null
     this._latestSearchPhonebookKeywords = null
@@ -53,12 +49,6 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
     return document.getElementById(
       'phonebookScrollableDiv_brOC_AutoDialView_ver2',
     )
-
-    // !commentOut It seems that caching is not possible with react.
-    // if( !this._PhonebookScrollableDivElement ){
-    //     this._PhonebookScrollableDivElement =document.getElementById("phonebookScrollableDiv_brOC_AutoDialView_ver2");
-    // }
-    // return this._PhonebookScrollableDivElement;
   }
 
   _isPhonebookScrollableDivzVerticalScrollbarVisible() {
@@ -68,21 +58,6 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
     const b = scrollHeight > clientHeight
     return b
   }
-
-  // componentDidMount(){
-  //     this._PhonebookScrollableDiv = document.getElementById("phonebookScrollableDiv_brOC_AutoDialView_ver2");
-  // }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //     const eRecentShowDetail = document.getElementById("recentShowDetail_brOC_AutoDialView_ver2");
-  //     if( eRecentShowDetail ){
-  //         if( eRecentShowDetail.checked !== this.state.recentShowDetailChecked ){
-  //             eRecentShowDetail.checked = this.state.recentShowDetailChecked;
-  //             this.setState({recentShowDetailChecked:this.state.recentShowDetailChecked});
-  //         }
-  //     }
-  //
-  // }
 
   _resetPhonebookContactInfoArrayAsync(pbKeywords, pbShared, pbName = '') {
     const oc = BrekekeOperatorConsole.getStaticInstance()
@@ -138,101 +113,9 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
     }, 1)
   }
 
-  // async _resetPhonebookContactInfoArrayAsync( pbKeywords, pbShared ){
-  // 	const oc = BrekekeOperatorConsole.getStaticInstance();
-  // 	const systemSettingsData = oc.getSystemSettingsData();
-  // 	const pbBaseName = systemSettingsData.getAutoDialPhonebookName();
-  //
-  // 	//const pbShared = this._getPhonebookSharedValue();
-  // 	//const pbKeywords = this._getPhonebookKeywordsValue();
-  // 	const options = {};
-  // 	if( pbBaseName && pbBaseName.length !== 0 ){
-  // 		options["phonebook"] = pbBaseName;
-  // 	}
-  // 	if( pbShared !== undefined && pbShared !== null ){
-  // 		options["shared"] = pbShared;
-  // 	}
-  // 	if( pbKeywords && pbKeywords.length !== 0 ){
-  // 		options["search_text"] = pbKeywords;
-  // 	}
-  //     if( _GET_CONTACT_LIST_LIMIT > 0 ){
-  //         options["limit"] = _GET_CONTACT_LIST_LIMIT;
-  //     }
-  //
-  //     if( this._phonebookContactInfoArray == null ){
-  //         this._phonebookContactInfoArray = new Array();
-  //     }
-  //     else {
-  //         this._phonebookContactInfoArray.length = 0; //clear array
-  //     }
-  //
-  //     const phoneClient = oc.getPhoneClient();
-  //     let offset = 0;
-  //     let bContinue;
-  //     do {
-  //         options["offset"] = offset;
-  //         const contactList = await phoneClient.getContactListAsync(options).catch((rej) => {
-  //             console.error("Failed to get phonebook contact list.", rej);
-  //             try {
-  //                 const sRej = JSON.stringify(rej);
-  //                 Notification.error({
-  //                     message: i18n.t('Failed_to_get_phone_book_contact_list') + "\r\n" + sRej,
-  //                     duration: 0
-  //                 });
-  //             } catch (err) {
-  //                 Notification.error({
-  //                     message: i18n.t('Failed_to_get_phone_book_contact_list') + "\r\n" + rej,
-  //                     duration: 0
-  //                 });
-  //             }
-  //         });
-  //         if (contactList) {
-  //             for (let i = 0; i < contactList.length; i++) {
-  //                 const contactListItem = contactList[i];
-  //                 const aid = contactListItem["aid"];
-  //                 const getContactOptions = {aid: aid};
-  //                 const contact = await phoneClient.getContactAsync(getContactOptions).catch((rej) => {
-  //                     console.error("Failed to get phonebook contact.", rej);
-  //                     try {
-  //                         const sRej = JSON.stringify(rej);
-  //                         Notification.error({
-  //                             message: i18n.t('Failed_to_get_phone_book_contact') + "\r\n" + sRej,
-  //                             duration: 0
-  //                         });
-  //                     } catch (err) {
-  //                         Notification.error({
-  //                             message: i18n.t('Failed_to_get_phone_book_contact') + "\r\n" + rej,
-  //                             duration: 0
-  //                         });
-  //                     }
-  //                 });
-  //                 const contactInfo = new PhonebookContactInfo_AutoDialView_ver2(contact);
-  //                 this._phonebookContactInfoArray.push(contactInfo);
-  //             }
-  //         }
-  //         if( contactList ) {
-  //             offset += contactList.length;
-  //         }
-  //         bContinue = ( contactList && contactList.length !== 0 ) && this._isPhonebookScrollableDivzVerticalScrollbarVisible() !== true;
-  //     }
-  //     while(bContinue === true );
-  //     this.setState({rerender:true});
-  // }
-
   static getStaticInstance() {
     return AUTO_DIAL_VIEW_VER2
   }
-
-  // _clearCallNoHistory( this_){
-  //     const oc = BrekekeOperatorConsole.getStaticInstance();
-  //     oc.getCallHistory().clearAndSave();
-  //     oc.setState({rerender:true},
-  //         () => {
-  //             Notification.success({ key: 'sync', message: i18n.t("saved_data_to_pbx_successfully") });
-  //         }
-  //     );  //!bad for rerender
-  //
-  // }
 
   _clearCallNoHistory2(this_) {
     const oc = BrekekeOperatorConsole.getStaticInstance()
@@ -455,25 +338,11 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
   }
 
   _openPhonebookCallInfozTelsView(pbContactInfo) {
-    // const telInfoArray = pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray();
-    // if( telInfoArray.length === 1 ){
-    //     const telInfo = telInfoArray[0];
-    //     const tel = telInfo.getValue();
-    //     const oc = BrekekeOperatorConsole.getStaticInstance();
-    //     oc.setDialingAndMakeCall( tel );
-    // }
-    // else{   // >1
-    // const pbContactInfozInfoView = PhonebookContactInfozInfoView.getStaticPhonebookContactInfozInfoViewInstance();
-    // //const infozInfozContactInfo =  pbContactInfozInfoView.getPhonebookContactInfoFromState();
-    // //if( infozInfozContactInfo && infozInfozContactInfo !== pbContactInfo ){
-    //     pbContactInfozInfoView.closePhonebookContactInfozInfoView();
-    // //}
     const pbContactInfozTelsView =
       PhonebookContactInfozTelsView.getStaticPhonebookContactInfozTelsViewInstance()
     pbContactInfozTelsView.closePhonebookContactInfozTelsView(() =>
       pbContactInfozTelsView.openPhonebookContactInfozTelsView(pbContactInfo),
     )
-    // }
   }
 
   _openPhonebookCallInfozInfoView(pbContactInfo) {
@@ -599,14 +468,11 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
     const recentDisplayOrder =
       systemSettingsData.getAutoDialRecentDisplayOrder()
     const recentDisplayCount = systemSettingsData.getAutoDialMaxDisplayCount()
-    // const eRecentShowDetail = document.getElementById("recentShowDetail_brOC_AutoDialView_ver2");
-    // const bRecentShowDetail = eRecentShowDetail.checked;
     return (
       <>
         <PhonebookContactInfozInfoView />
         <PhonebookContactInfozTelsView />
         <div className='brOCReset autoDialView'>
-          {/* <table className={"defaultBorderWithRadius outsidePaddingWithoutBorderRadius"} data-br-name="brOC_AutoDialView_ver2_rootTable">*/}
           <table
             className={
               'defaultBorderWithRadius outsidePaddingWithoutBorderRadius'
@@ -1054,13 +920,6 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                             ></path>
                                           </svg>
                                         </button>
-                                        {/* <svg height="24" viewBox="0 0 24 24" width="24"*/}
-                                        {/*     onClick={(e) => this._onClickGetContactList(e)}>*/}
-                                        {/*    <path*/}
-                                        {/*        d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"*/}
-                                        {/*        fill="black">*/}
-                                        {/*    </path>*/}
-                                        {/* </svg>*/}
                                       </td>
                                       <td style={{ width: '99%' }}></td>
                                     </tr>

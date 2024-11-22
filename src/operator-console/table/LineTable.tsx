@@ -1,9 +1,10 @@
-import { Button, Modal } from 'antd'
+import { Button } from '@ant-design/react-native'
+import { Modal } from 'antd'
 import Dropdown from 'antd/lib/dropdown'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import { useState } from 'react'
 
+import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { Util } from '../Util'
@@ -72,7 +73,7 @@ const LineButton = ({
     }}
     title={i18n.t('legacy_button_description.LegacyLineButton')}
     className={'kbc-button kbc-button-fill-parent'}
-    onClick={() => context.handleLine(line)}
+    onPress={() => context.handleLine(line)}
   >
     {label}
   </button>
@@ -136,7 +137,7 @@ const TransferCancelButton = ({
   transferCancelButtonWidth,
   transferCancelButtonHeight,
 }) => {
-  const confirm = e => {
+  const confirm = () => {
     const oc = context.operatorConsole
     const campon = oc.getCampon()
     const bSuccess = campon.tryCancelCampOn(callInfo)
@@ -148,7 +149,7 @@ const TransferCancelButton = ({
       Notification.error({ message: i18n.t('FailedToCancelTransfer') })
     }
   }
-  const cancel = e => {}
+  const cancel = () => {}
 
   const transferCancelButtonColor = Util.isAntdRgbaProperty(
     transferCancelButtonFgColor,
@@ -475,7 +476,7 @@ const TransferButton = ({
               key='submit'
               type='primary'
               loading={modalLoading}
-              onClick={handleBlindTransferNow}
+              onPress={handleBlindTransferNow}
             >
               {i18n.t('blindTransfer')}
             </Button>
@@ -483,14 +484,14 @@ const TransferButton = ({
               key='submit2'
               type='primary'
               loading={modalLoading}
-              onClick={handleActiveAndStartBlindTransferNow}
+              onPress={handleActiveAndStartBlindTransferNow}
               className='brOCMarginLeftButtonToButton'
             >
               {i18n.t('activateAndStartBlindTransfer')}
             </Button>
             <Button
               key='back'
-              onClick={handleModalCancel}
+              onPress={handleModalCancel}
               className='brOCMarginLeftButtonToButton'
             >
               {i18n.t('cancel')}
@@ -512,7 +513,7 @@ const TransferButton = ({
               key='submitForBusy'
               type='primary'
               loading={modalLoading}
-              onClick={handleCamponAuto}
+              onPress={handleCamponAuto}
             >
               {i18n.t('campOnAuto')}
             </Button>
@@ -520,14 +521,14 @@ const TransferButton = ({
               key='submitForBusy2'
               type='primary'
               loading={modalLoading}
-              onClick={handleCamponManual}
+              onPress={handleCamponManual}
               className='brOCMarginLeftButtonToButton'
             >
               {i18n.t('campOn')}
             </Button>
             <Button
               key='backForBusy'
-              onClick={handleModalForBusyCancel}
+              onPress={handleModalForBusyCancel}
               className='brOCMarginLeftButtonToButton'
             >
               {i18n.t('cancel')}

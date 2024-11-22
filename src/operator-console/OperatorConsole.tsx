@@ -12,13 +12,11 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Modal, Tabs } from 'antd'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import Space from 'antd/lib/space'
 import React from 'react'
 import { SketchPicker } from 'react-color'
 import ReactDOM from 'react-dom/client'
-import GridLines from 'react-gridlines'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 import { Rnd } from 'react-rnd'
 
 import './index.scss'
@@ -33,6 +31,8 @@ import { PalPhoneClient } from './call/PalPhoneClient'
 import { PalRestApi } from './call/PalRestApi'
 import { WebphonePhoneClient } from './call/WebphonePhoneClient'
 import { Empty } from './common/Empty'
+import { GridLines } from './common/GridLines'
+import { Popconfirm } from './common/Popconfirm'
 import { PaneData } from './data/PaneData'
 import { ScreenData } from './data/ScreenData'
 import { WidgetData } from './data/widgetData/WidgetData'
@@ -1911,7 +1911,7 @@ export class BrekekeOperatorConsole extends React.Component<
             }}
           >
             <GridLines
-              className='brOCEditingGridLines'
+              style={{ height: '100%' }}
               strokeWidth={2}
               cellWidth={this.state.editingScreenGrid * 10}
               cellWidth2={this.state.editingScreenGrid}
@@ -2014,7 +2014,7 @@ export class BrekekeOperatorConsole extends React.Component<
     return (
       <>
         {!!this.state.isInitialized ? (
-          <div
+          <View
             style={{
               flexGrow: 1,
               display: 'flex',
@@ -2022,20 +2022,21 @@ export class BrekekeOperatorConsole extends React.Component<
               overflow: 'hidden',
             }}
           >
-            <img
+            <Image
               style={{ position: 'absolute', top: 4, left: 4, zIndex: 1 }}
-              src={logo}
+              source={{ uri: logo }}
             />
             {this.state._downedLayoutAndSystemSettings ? (
               this.state.displayState === brOcDisplayStates.editingScreen ? ( // editMode
-                <div
+                <View
                   style={{ display: 'flex', flexGrow: 1, overflow: 'hidden' }}
                 >
-                  <div
-                    className='brOCWidgetBox'
+                  <View
                     style={{
                       width: 240,
-                      borderRight: 'solid 1px #e0e0e0',
+                      borderColor: '#e0e0e0',
+                      borderStyle: 'solid',
+                      borderRightWidth: 1,
                       display: 'flex',
                       flexDirection: 'column',
                       gap: 12,
@@ -2050,7 +2051,7 @@ export class BrekekeOperatorConsole extends React.Component<
                       const Preview = WidgetPreviewMap[widget.preview]
                       if (Preview) {
                         return (
-                          <div
+                          <View
                             key={i}
                             style={{
                               width: widget.previewWidth || widget.width,
@@ -2060,7 +2061,7 @@ export class BrekekeOperatorConsole extends React.Component<
                             onDragStart={ev => this.onDragStart(ev, i)}
                           >
                             <Preview />
-                          </div>
+                          </View>
                         )
                       }
                       const Widget = WidgetMap[widget.type]
@@ -2068,7 +2069,7 @@ export class BrekekeOperatorConsole extends React.Component<
                         return null
                       }
                       return (
-                        <div
+                        <View
                           key={i}
                           style={{ width: widget.width, height: widget.height }}
                           draggable
@@ -2079,11 +2080,11 @@ export class BrekekeOperatorConsole extends React.Component<
                             operatorConsoleAsParent={this}
                             uccacWrapper={this._UccacWrapper}
                           />
-                        </div>
+                        </View>
                       )
                     })}
-                  </div>
-                  <div
+                  </View>
+                  <View
                     style={{
                       flexGrow: 1,
                       display: 'flex',
@@ -2092,11 +2093,13 @@ export class BrekekeOperatorConsole extends React.Component<
                     onDragOver={this.onDragOver}
                     onDrop={this.onDrop}
                   >
-                    <div
+                    <View
                       style={{
                         display: 'flex',
                         padding: 4,
-                        borderBottom: 'solid 1px #e0e0e0',
+                        borderColor: '#e0e0e0',
+                        borderStyle: 'solid',
+                        borderBottomWidth: 1,
                       }}
                     >
                       <Space>
@@ -2170,7 +2173,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               />
                             }
                           >
-                            <div
+                            <View
                               style={{
                                 width: 48,
                                 height: 30,
@@ -2178,7 +2181,7 @@ export class BrekekeOperatorConsole extends React.Component<
                                 border: 'solid 1px #e0e0e0',
                                 background: this.state.editingScreenForeground,
                               }}
-                            ></div>
+                            ></View>
                           </Dropdown>
                         </label>
                         <label
@@ -2200,19 +2203,19 @@ export class BrekekeOperatorConsole extends React.Component<
                               />
                             }
                           >
-                            <div
+                            <View
                               style={{
                                 width: 48,
                                 height: 30,
-                                display: 'inline-block',
+                                // display: 'inline-block',
                                 border: 'solid 1px #e0e0e0',
                                 background: this.state.editingScreenBackground,
                               }}
-                            ></div>
+                            ></View>
                           </Dropdown>
                         </label>
                       </Space>
-                      <div style={{ marginLeft: 'auto' }}>
+                      <View style={{ marginLeft: 'auto' }}>
                         <Space>
                           <Popconfirm
                             title={i18n.t('are_you_sure')}
@@ -2228,20 +2231,20 @@ export class BrekekeOperatorConsole extends React.Component<
                           <Button
                             type='success'
                             htmlType='cancel'
-                            onClick={this.saveEditingScreen}
+                            onPress={this.saveEditingScreen}
                           >
                             {i18n.t('save')}
                           </Button>
                         </Space>
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', flexGrow: 1 }}>
-                      <div
+                      </View>
+                    </View>
+                    <View style={{ display: 'flex', flexGrow: 1 }}>
+                      <View
                         style={{
                           position: 'relative',
                           flexGrow: 1,
                           overflow: 'hidden',
-                          background: '#f5f5f5',
+                          backgroundColor: '#f5f5f5',
                         }}
                       >
                         <Tabs
@@ -2249,11 +2252,13 @@ export class BrekekeOperatorConsole extends React.Component<
                           items={editingTabItems}
                           onTabClick={key => this._onEditingTabClick(key)}
                         />
-                      </div>
-                      <div
+                      </View>
+                      <View
                         style={{
                           width: 262,
-                          borderLeft: 'solid 1px #e0e0e0',
+                          borderColor: '#e0e0e0',
+                          borderStyle: 'solid',
+                          borderLeftWidth: 1,
                           display: 'flex',
                           flexDirection: 'column',
                           gap: 12,
@@ -2261,13 +2266,19 @@ export class BrekekeOperatorConsole extends React.Component<
                         }}
                       >
                         {!!selectingEditingWidget?.type && (
-                          <div style={{ padding: '12px 12px 0px 12px' }}>
+                          <View
+                            style={{
+                              paddingTop: 12,
+                              paddingRight: 12,
+                              paddingLeft: 12,
+                            }}
+                          >
                             {i18n.t(
                               `widget_description.${selectingEditingWidget?.type}`,
                             )}
-                          </div>
+                          </View>
                         )}
-                        <div
+                        <View
                           style={{
                             overflowY: 'auto',
                             flexGrow: 1,
@@ -2304,12 +2315,18 @@ export class BrekekeOperatorConsole extends React.Component<
                               </Form.Item>
                             </Form>
                           )}
-                        </div>
+                        </View>
                         {this.state.selectingWidgetIndex !== -1 && (
-                          <div style={{ padding: '0px 12px 12px 12px' }}>
+                          <View
+                            style={{
+                              paddingBottom: 12,
+                              paddingRight: 12,
+                              paddingLeft: 12,
+                            }}
+                          >
                             <Button
                               type='secondary'
-                              onClick={() =>
+                              onPress={() =>
                                 this.duplicateWidget(
                                   this.state.selectingWidgetIndex,
                                 )
@@ -2337,25 +2354,31 @@ export class BrekekeOperatorConsole extends React.Component<
                             >
                               <p>{i18n.t('ConfirmDeleteWidgetText')}</p>
                             </Modal>
-                          </div>
+                          </View>
                         )}
                         {this.state.isSelectingTabInEditLayout === true && (
-                          <div style={{ padding: '0px 12px 12px 12px' }}>
+                          <View
+                            style={{
+                              paddingBottom: 12,
+                              paddingRight: 12,
+                              paddingLeft: 12,
+                            }}
+                          >
                             <Button
                               type='secondary'
-                              onClick={() => this.changeTabTitleInEditMode()}
+                              onPress={() => this.changeTabTitleInEditMode()}
                             >
                               {i18n.t('changeTitle')}
                             </Button>
                             <Button
                               type='secondary'
-                              onClick={() => this.addTabInEditMode()}
+                              onPress={() => this.addTabInEditMode()}
                             >
                               {i18n.t('add@AddTabButton')}
                             </Button>
                             <Button
                               type='secondary'
-                              onClick={() => this.duplicateTabInEditMode()}
+                              onPress={() => this.duplicateTabInEditMode()}
                             >
                               {i18n.t('duplicate')}
                             </Button>{' '}
@@ -2379,25 +2402,22 @@ export class BrekekeOperatorConsole extends React.Component<
                             >
                               <p>{i18n.t('ConfirmDeleteTabText')}</p>
                             </Modal>
-                          </div>
+                          </View>
                         )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : // ) : this.state.displayState === brOcDisplayStates.editingScreen_ver2 ? (
-              //     <EditScreen_ver2
-              //         operatorConsoleAsParent={this}
-              //     />
-              this.state.displayState === brOcDisplayStates.waitQuickCallKey ? (
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              ) : this.state.displayState ===
+                brOcDisplayStates.waitQuickCallKey ? (
                 <>
-                  <div
+                  <View
                     style={{
                       flexGrow: 1,
                       display: 'flex',
                       flexDirection: 'column',
                       overflow: 'hidden',
-                      background:
+                      backgroundColor:
                         this.state.screens[this.state.currentScreenIndex]
                           .background,
                       color:
@@ -2431,7 +2451,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               return null
                             }
                             return (
-                              <div
+                              <View
                                 key={i}
                                 style={{
                                   position: 'absolute',
@@ -2502,7 +2522,7 @@ export class BrekekeOperatorConsole extends React.Component<
                                     operatorConsole: this,
                                   }}
                                 />
-                              </div>
+                              </View>
                             )
                           })
                         }
@@ -2516,13 +2536,13 @@ export class BrekekeOperatorConsole extends React.Component<
                       }
 
                       return (
-                        <div key={screenIndex}>
-                          <div
+                        <View key={screenIndex}>
+                          <View
                             style={{
                               position: 'relative',
                               width: screen.width,
                               height: screen.height,
-                              margin: '0 auto',
+                              margin: 'auto',
                               marginTop: 48,
                             }}
                           >
@@ -2533,12 +2553,12 @@ export class BrekekeOperatorConsole extends React.Component<
                                 this._onShowScreenTabClick(key)
                               }
                             />
-                          </div>
-                        </div>
+                          </View>
+                        </View>
                       )
                     })}
                     {/* </Carousel>*/}
-                  </div>
+                  </View>
                   <DropDownMenu operatorConsole={this}></DropDownMenu>
                 </>
               ) : this.state.displayState ===
@@ -2549,14 +2569,13 @@ export class BrekekeOperatorConsole extends React.Component<
                 <ShowScreenView_ver2 operatorConsoleAsParent={this} />
               ) : (
                 <>
-                  {/* defaultView */}
-                  <div
+                  <View
                     style={{
                       flexGrow: 1,
                       display: 'flex',
                       flexDirection: 'column',
                       overflow: 'hidden',
-                      background:
+                      backgroundColor:
                         this.state.screens[this.state.currentScreenIndex]
                           .background,
                       color:
@@ -2564,19 +2583,7 @@ export class BrekekeOperatorConsole extends React.Component<
                           .foreground,
                     }}
                   >
-                    {/* <Carousel dotPosition="top" lazyLoad swipeToSlide draggable*/}
-                    {/*          beforeChange={this.onBeforeCurrentScreenIndexChange}*/}
-                    {/*          afterChange={this.setCurrentScreenIndex}*/}
-                    {/*          initialSlide={this.state.currentScreenIndex}>*/}
                     {this.state.screens.map((screen, screenIndex) => {
-                      // if( !screen.tabDatas ){
-                      //     //set default tabData
-                      //     screen.tabDatas = new Array(1);
-                      //     screen.tabDatas[0] = {
-                      //         tabTitle : "Untitled tab",
-                      //         widgetDatas : new Array()
-                      //     }
-                      // }
                       const tabItems = new Array(screen.tabDatas.length)
                       for (let i = 0; i < tabItems.length; i++) {
                         const tabData = screen.tabDatas[i]
@@ -2599,7 +2606,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               return null
                             }
                             return (
-                              <div
+                              <View
                                 key={i}
                                 style={{
                                   position: 'absolute',
@@ -2673,7 +2680,7 @@ export class BrekekeOperatorConsole extends React.Component<
                                     operatorConsole: this,
                                   }}
                                 />
-                              </div>
+                              </View>
                             )
                           })
                         }
@@ -2686,13 +2693,13 @@ export class BrekekeOperatorConsole extends React.Component<
                       }
 
                       return (
-                        <div key={screenIndex}>
-                          <div
+                        <View key={screenIndex}>
+                          <View
                             style={{
                               position: 'relative',
                               width: screen.width,
                               height: screen.height,
-                              margin: '0 auto',
+                              margin: 'auto',
                               marginTop: 48,
                             }}
                           >
@@ -2703,14 +2710,12 @@ export class BrekekeOperatorConsole extends React.Component<
                                 this._onShowScreenTabClick(key)
                               }
                             />
-                          </div>
-                        </div>
+                          </View>
+                        </View>
                       )
                     })}
-                    {/* </Carousel>*/}
-                  </div>
+                  </View>
                   <DropDownMenu operatorConsole={this}></DropDownMenu>
-                  {/* <QuickBusy operatorConsoleAsParent={this}/>*/}
                 </>
               )
             ) : this.state.displayState === brOcDisplayStates.noScreens ? (
@@ -2718,17 +2723,25 @@ export class BrekekeOperatorConsole extends React.Component<
             ) : (
               <Empty image={null} description={<ActivityIndicator />} />
             )}
-          </div>
+          </View>
         ) : (
-          <div className='brOCLoginPage'>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#fafafa',
+            }}
+          >
             <Login
               operatorConsoleAsParent={this}
               initialValues={this._getLastLoginAccount()}
             />
-          </div>
+          </View>
         )}
 
-        <div id='brOCPhone'></div>
+        <View id='brOCPhone'></View>
       </>
     )
   }
@@ -3022,7 +3035,7 @@ export class BrekekeOperatorConsole extends React.Component<
     return this.state.screenData_ver2
   }
 
-  _syncUp = async onSuccessFunction => {
+  _syncUp = async (onSuccessFunction = () => {}) => {
     // if (!pal) return;
     const systemSettingsData = this.getSystemSettingsData()
     const systemSettingsDataData = systemSettingsData.getData()
@@ -3068,7 +3081,7 @@ export class BrekekeOperatorConsole extends React.Component<
             <Button
               type='primary'
               size='small'
-              onClick={() => {
+              onPress={() => {
                 this._syncUp()
                 // Notification.close('sync');
               }}
@@ -3081,16 +3094,7 @@ export class BrekekeOperatorConsole extends React.Component<
       },
     }
 
-    //     const setNoteOptions = {
-    //         tenant : tenant,
-    //         name:name,
-    //         description : "",
-    //         useraccess : BrekekeOperatorConsole.PAL_NOTE_USERACCESSES.ReadWrite,
-    //         note : content
-    //     };
     this.getPalRestApi().callPalRestApiMethod(setNoteOptions)
-
-    // this.operatorConsoleAsParent.abortSystemSettings();
   }
 
   setSystemSettingsView(view) {
@@ -3110,13 +3114,7 @@ export class BrekekeOperatorConsole extends React.Component<
   }
 
   setCurrentScreenIndex = index => {
-    // const previousIndex = this.state.currentScreenIndex;
     this.setState({ currentScreenIndex: index })
-
-    // for( let i = 0; i < this._OnSetCurrentScreenIndexCallbacks.length; i++ ){
-    //   const callbackFunc = this._OnSetCurrentScreenIndexCallbacks[i];
-    //   callbackFunc( this, index, previousIndex );
-    // }
   }
 
   onBeforeCurrentScreenIndexChange = index => {
@@ -3126,19 +3124,9 @@ export class BrekekeOperatorConsole extends React.Component<
     })
     this._quickBusy.onBeforeCurrentScreenIndexChange(this, index)
   }
-
-  // onVisibleQuickBusy( quickBusyAsCaller ){
-  //   //invisible autoDialView
-  //   this.setState({ showAutoDialWidgets:[], currentScreenQuickCallWidget:null });
-  // }
-
   setQuickBusy = quickBusy => {
     this._quickBusy = quickBusy
   }
-
-  // addOnSetCurrentScreenIndexCallback( func ){
-  //   this._OnSetCurrentScreenIndexCallbacks.push(func);
-  // }
 
   duplicateScreen = () => {
     const screens = [...this.state.screens]

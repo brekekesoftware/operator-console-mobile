@@ -2,9 +2,9 @@ import MoreOutlined from '@ant-design/icons/MoreOutlined'
 import { ActivityIndicator } from '@ant-design/react-native'
 import { Button, Dropdown, Form, Input, Modal } from 'antd'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import { useRef, useState } from 'react'
 
+import { Popconfirm } from '../common/Popconfirm'
 import { ScreenData } from '../data/ScreenData'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
@@ -90,46 +90,6 @@ export const DropDownMenu = ({ operatorConsole }) => {
           </a>
         ),
       },
-      // {
-      //     key: '3',
-      //     label: (
-      //         <div onClick={operatorConsole.startEditingScreen}>
-      //             {i18n.t("editLayout")}
-      //         </div>
-      //     ),
-      // },
-      // {
-      //     key: '3',
-      //     label: (
-      //         <div onClick={operatorConsole.duplicateScreen}>
-      //             {i18n.t("duplicate_screen")}
-      //         </div>
-      //     ),
-      // },
-      // {
-      //     key: '4',
-      //     label: (
-      //         <div onClick={operatorConsole.addNextScreen}>
-      //             {i18n.t("add_next_screen")}
-      //         </div>
-      //     ),
-      // },
-      // {
-      //     key: '5',
-      //     label: (
-      //         <div onClick={operatorConsole.addPreviousScreen}>
-      //             {i18n.t("add_previous_screen")}
-      //         </div>
-      //     ),
-      // },
-      // {
-      //     key: '6',
-      //     label: (
-      //         <Popconfirm title={i18n.t("are_you_sure")} onConfirm={operatorConsole.removeCurrentScreen} placement="left">
-      //             {i18n.t("remove_screen")}
-      //         </Popconfirm>
-      //     ),
-      // },
       {
         key: '3',
         label: <a onClick={showNewLayoutModalFunc}>{i18n.t('newLayout')}</a>,
@@ -174,14 +134,6 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         type: 'divider',
       },
-      // {
-      //     key: '1',
-      //     label: (
-      //         <div onClick={operatorConsole.startShowScreen}>
-      //             {i18n.t("show_screen")}
-      //         </div>
-      //     ),
-      // },
       {
         key: '1',
         label: <a onClick={showOpenLayoutModalFunc}>{i18n.t('openLayout')}</a>,
@@ -235,109 +187,9 @@ export const DropDownMenu = ({ operatorConsole }) => {
           shape='circle'
           icon={<MoreOutlined />}
         ></Button>
-        {/* <Button style={{position: 'relative', top:"calc(36px - 100vh)",right:"calc(36px - 100vw)", zIndex: 15}} shape="circle" icon={<MoreOutlined/>}></Button>*/}
       </Dropdown>
     </>
   )
-
-  // return (
-  //     <Dropdown
-  //         menu={{
-  //             items,
-  //         }}
-  //     >
-  //         <a onClick={(e) => e.preventDefault()}>
-  //             <Space>
-  //                 Hover me
-  //                 <DownOutlined />
-  //             </Space>
-  //         </a>
-  //     </Dropdown>
-  // );
-
-  // function getItem(label, key, icon, children, type) {
-  //     return {
-  //         key,
-  //         icon,
-  //         children,
-  //         label,
-  //         type,
-  //     };
-  // }
-  //
-  // const items = [
-  //     getItem('Navigation One', 'sub1', <MailOutlined />, [
-  //         getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
-  //         getItem('Item 2', 'g2', null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
-  //     ]),
-  //     getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-  //         getItem('Option 5', '5'),
-  //         getItem('Option 6', '6'),
-  //         getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-  //     ]),
-  //     {
-  //         type: 'divider',
-  //     },
-  //     getItem('Navigation Three', 'sub4', <SettingOutlined />, [
-  //         getItem('Option 9', '9'),
-  //         getItem('Option 10', '10'),
-  //         getItem('Option 11', '11'),
-  //         getItem('Option 12', '12'),
-  //     ]),
-  //     getItem('Group', 'grp', null, [getItem('Option 13', '13'), getItem('Option 14', '14')], 'group'),
-  // ];
-  //
-  // const onClick = (e) => {
-  //     console.log('click ', e);
-  // };
-  // return (
-  // <Menu
-  //     onClick={onClick}
-  //     style={{
-  //         width: 256,
-  //     }}
-  //     defaultSelectedKeys={['1']}
-  //     defaultOpenKeys={['sub1']}
-  //     mode="inline"
-  //     items={items}
-  // />
-  // );
-
-  // return (
-  //     <Space wrap>
-  //         <Button type="primary">Primary Button</Button>
-  //         <Button>Default Button</Button>
-  //         <Button type="dashed">Dashed Button</Button>
-  //         <Button type="text">Text Button</Button>
-  //         <Button type="link">Link Button</Button>
-  //     </Space>
-  // );
-
-  // return (
-  //     <Dropdown trigger="click" onClick={(e) => {
-  //         operatorConsole.onClickDropDownMenu(e);
-  //     }} overlay={(
-  //         <Menu style={{ width: 'max-content' }}>
-  //             <Menu.SubMenu key="-1" title={`${operatorConsole.state.loginUser.pbxTenant ? operatorConsole.state.loginUser.pbxTenant + ' / ' : '' }${operatorConsole.state.loginUser.pbxUsername}`}>
-  //                 <Menu.Item key="0" onClick={operatorConsole.logout}>{i18n.t("signout")}</Menu.Item>
-  //             </Menu.SubMenu>
-  //             <Menu.Divider />
-  //             <Menu.Item key="1" onClick={operatorConsole.startShowScreen}>{i18n.t("show_screen")}</Menu.Item>
-  //             <Menu.Item key="2"  onClick={operatorConsole.startEditingScreen}>{i18n.t("editLayout")}</Menu.Item>
-  //             <Menu.Item key="3"  onClick={operatorConsole.duplicateScreen}>{i18n.t("duplicate_screen")}</Menu.Item>
-  //             <Menu.Item key="4"  onClick={operatorConsole.addNextScreen}>{i18n.t("add_next_screen")}</Menu.Item>
-  //             <Menu.Item key="5"  onClick={operatorConsole.addPreviousScreen}>{i18n.t("add_previous_screen")}</Menu.Item>
-  //             <Menu.Item  key="6" >
-  //                 <Popconfirm title={i18n.t("are_you_sure")} onConfirm={operatorConsole.removeCurrentScreen} placement="left">
-  //                     {i18n.t("remove_screen")}
-  //                 </Popconfirm>
-  //             </Menu.Item>
-  //             <Menu.Item  key="7"  onClick={operatorConsole.startSettingsScreen}>{i18n.t("settings_screen")}</Menu.Item>
-  //         </Menu>
-  //     )}>
-  //         <Button style={{position: 'absolute', top:4,right:4, zIndex: 1}} shape="circle" icon={<MoreOutlined/>}></Button>
-  //     </Dropdown>
-  // );
 }
 const NewLayoutDialog = ({ operatorConsole }) => {
   // const [loading, setLoading] = useState(false);
@@ -443,13 +295,6 @@ const NewLayoutDialog = ({ operatorConsole }) => {
                         i18n.t('failed_to_save_data_to_pbx') + '\r\n' + e,
                       duration: 0,
                     })
-                    // const message = eventArg.message;
-                    // //console.error("Failed to setOCNote.", sErr );
-                    // console.error("Failed to save data to PBX.", message);
-                    // const msg = i18n.t("failed_to_save_data_to_pbx") + " " + message;
-                    // Notification.error({message: msg, duration: 0});
-
-                    // operatorConsole.setState({newLayoutModalOpen:false});
                   },
                 )
               },
@@ -470,11 +315,6 @@ const NewLayoutDialog = ({ operatorConsole }) => {
                     errorOrResponse,
                   duration: 0,
                 })
-                // const message = eventArg.message;
-                // //console.error("Failed to setOCNote.", sErr );
-                // console.error("Failed to save data to PBX.", message);
-                // const msg = i18n.t("failed_to_save_data_to_pbx") + " " + message;
-                // Notification.error({message: msg, duration: 0});
                 operatorConsole.setState({ newLayoutModalOpen: false })
               },
             }
@@ -492,11 +332,6 @@ const NewLayoutDialog = ({ operatorConsole }) => {
       }
       operatorConsole.getPalRestApi().callPalRestApiMethod(getNoteNamesOptions)
     })
-    // setLoading(true);
-    // setTimeout(() => {
-    //     setLoading(false);
-    //     setNewLayoutModalOpen(false);
-    // }, 3000);
   }
   const handleCancel = () => {
     operatorConsole.setState({ newLayoutModalOpen: false })
@@ -573,12 +408,6 @@ const NewLayoutDialog = ({ operatorConsole }) => {
         )
       },
       onFailFunction: errorOrResponse => {
-        // const message = eventArg.message;
-        // //console.error("Failed to setOCNote.", sErr );
-        // console.error("Failed to save data to PBX.", message);
-        // const msg = i18n.t("failed_to_save_data_to_pbx") + " " + message;
-        // Notification.error({message: msg, duration: 0});
-        // !testit
         if (Array.isArray(errorOrResponse)) {
           for (let i = 0; i < errorOrResponse.length; i++) {
             const err = errorOrResponse[i]

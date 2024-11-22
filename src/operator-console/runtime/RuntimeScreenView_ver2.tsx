@@ -57,20 +57,6 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
           ></DropDownMenu>
           <AutoDialView_ver2 isVisible={isVisibleAutoDialView_Ver2} />
           <QuickBusy_ver2 />
-          {/* <div style={{marginLeft: "auto", marginRight: "4px"}}>*/}
-          {/*    <Space>*/}
-          {/*        <Popconfirm title={i18n.t("are_you_sure")} onConfirm={() => this._abortEditingScreen()}*/}
-          {/*                    okText={i18n.t("yes")}*/}
-          {/*                    cancelText={i18n.t("no")}*/}
-          {/*        >*/}
-          {/*            <Button type="secondary">{i18n.t("discard")}</Button>*/}
-          {/*        </Popconfirm>*/}
-          {/*        <Space/>*/}
-          {/*        <Button type="success" htmlType="cancel" onClick={() => this._saveEditingScreen()}>*/}
-          {/*            {i18n.t("save")}*/}
-          {/*        </Button>*/}
-          {/*    </Space>*/}
-          {/* </div>*/}
         </div>
         <div style={{ display: 'flex', height: 'calc(100% - 47px)' }}>
           <div

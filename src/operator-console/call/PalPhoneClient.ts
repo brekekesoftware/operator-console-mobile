@@ -7,6 +7,12 @@ import { APhoneClient } from './APhoneClient'
 import { PalCallInfos } from './PalCallInfos'
 
 export class PalPhoneClient extends APhoneClient {
+  _pal
+  _PalWrapper
+  _PalCallInfos
+  lineEvents
+  parkEvents
+  statusEvents
   constructor(options) {
     super(options)
     this._pal = null
@@ -40,7 +46,7 @@ export class PalPhoneClient extends APhoneClient {
    * @param talker_id
    * @returns {Promise<*>}
    */
-  async bargeAsync(tenant, user, talker_id) {
+  async bargeAsync(tenant, user, talker_id): Promise<any> {
     // !testit
     const iTalkerId = parseInt(talker_id)
     const options = {
@@ -292,181 +298,6 @@ export class PalPhoneClient extends APhoneClient {
     )
   }
 
-  // /**
-  //  *  overload method
-  //  * @param appData
-  //  * @returns {Promise<*>}
-  //  */
-  // async setAppDataAsync( dataId, data  ){
-  //     //!testit
-  //     const options = {
-  //         data_id: dataId,
-  //         data: {...data}
-  //     };
-  //
-  //     const promise =  new Promise(  ( resolve, reject ) =>
-  //         {
-  //             this._pal.setAppData(options,
-  //                 function( res, obj ){
-  //                     resolve(res);
-  //                 },
-  //                 function( err ){
-  //                     reject(err);
-  //                 }
-  //             );
-  //         }
-  //     );
-  //     return promise;
-  // }
-
-  // /**
-  //  *  Overload method
-  //  * @param dataId
-  //  * @returns {Promise<*>}
-  //  */
-  // async getAppDataAsync( dataId ){
-  //     const options = {
-  //         data_id: dataId
-  //     };
-  //     const promise =  new Promise(  ( resolve, reject ) =>
-  //         {
-  //             this._pal.getAppData(options,
-  //                 function( res, obj ){
-  //                     resolve(res);
-  //                 },
-  //                 function( err ){
-  //                     reject(err);
-  //                 }
-  //             );
-  //         }
-  //     );
-  //     return promise;
-  // }
-
-  // async getContactListAsync( options ){
-  //     const promise = new Promise( (resolve, reject ) => {
-  //             this._pal.getContactList( options,  //https://docs.brekeke.com/pbx/getcontactlist
-  //                 function( res, obj ){
-  //                     resolve(res);
-  //                 },
-  //                 function( err ){
-  //                     reject(err);
-  //                 }
-  //             );
-  //         }
-  //     );
-  //     return promise;
-  // }
-
-  // async getContactAsync( options ){
-  //     const promise = new Promise( (resolve, reject ) => {
-  //             this._pal.getContact( options,  //https://docs.brekeke.com/pbx/getcontact
-  //                 function( res, obj ){
-  //                     resolve(res);
-  //                 },
-  //                 function( err ){
-  //                     reject(err);
-  //                 }
-  //             );
-  //         }
-  //     );
-  //     return promise;
-  // }
-
-  // /**
-  //  *  overload method
-  //  * @param tenant
-  //  */
-  // getNoteNamesPromise(tenant, filter) {
-  //     const options ={
-  //         tenant:tenant
-  //     };
-  //
-  //     const promise =  new Promise(  ( resolve, reject ) =>
-  //         {
-  //             this._pal.getNoteNames(options,
-  //                 function( noteNames, obj ){
-  //                     if( filter !== undefined && filter !== null && Array.isArray(  noteNames  )  ){
-  //                         const filteredNoteNames = noteNames.filter(
-  //                             function( noteName ){
-  //                                 const b = noteName.match( filter );
-  //                                 return b;
-  //                             }
-  //                         );
-  //                         resolve( filteredNoteNames );
-  //                     }
-  //                     else {
-  //                         resolve(noteNames);
-  //                     }
-  //                 },
-  //                 function( err ){
-  //                     reject(err);
-  //                 }
-  //             );
-  //         }
-  //     );
-  //
-  //     return promise;
-  // }
-
-  // /**
-  //  *  overload method
-  //  * @param tenant
-  //  * @param name
-  //  * @returns {*}
-  //  */
-  // getNote( tenant, name ){
-  //     const options ={
-  //         tenant:tenant,
-  //         name:name
-  //     };
-  //
-  //     const promise =  new Promise(  ( resolve, reject ) =>
-  //         {
-  //             this._pal.getNote(options,
-  //                 function( note, obj ){
-  //                     resolve(note);
-  //                 },
-  //                 function( err ){
-  //                     reject(err);
-  //                 }
-  //             );
-  //         }
-  //     );
-  //     return promise;
-  // }
-
-  // /**
-  //  *  overload method
-  //  * @param name
-  //  * @param content
-  //  */
-  // async setNoteByPhoneClient( tenant, name, content ){
-  //
-  //     const setNoteOptions = {
-  //         tenant : tenant,
-  //         name:name,
-  //         description : "",
-  //         useraccess : BrekekeOperatorConsole.PAL_NOTE_USERACCESSES.ReadWrite,
-  //         note : content
-  //     };
-  //
-  //     const promise =  new Promise(  ( resolve, reject ) =>
-  //         {
-  //             this._pal.setNote(setNoteOptions,
-  //                 function( res, obj ){
-  //                     resolve(res);
-  //                 },
-  //                 function( err ){
-  //                     reject(err);
-  //                 }
-  //             );
-  //         }
-  //     );
-  //     return promise;
-  // }
-
-  // lineEvents = [];
   flushLineEvents = debounce(() => {
     console.log('pal.notify_line', this.lineEvents)
 
@@ -538,7 +369,7 @@ export class PalPhoneClient extends APhoneClient {
    * @param mode
    * @returns {Promise<*>}
    */
-  async transferAsync(tenant, dialing, talkerId, mode) {
+  async transferAsync(tenant, dialing, talkerId, mode): Promise<any> {
     // !testit
     const options = {
       user: dialing,
@@ -596,7 +427,7 @@ export class PalPhoneClient extends APhoneClient {
    * @param number
    * @returns {Promise<*>}
    */
-  async parkAsync(tenant, talkerId, number) {
+  async parkAsync(tenant, talkerId, number): Promise<any> {
     const options = {
       tenant,
       tid: talkerId,
@@ -624,7 +455,7 @@ export class PalPhoneClient extends APhoneClient {
    * @param status
    * @returns {Promise<*>}
    */
-  async lineAsync(line, status) {
+  async lineAsync(line, status): Promise<any> {
     const options = {
       line,
       status,

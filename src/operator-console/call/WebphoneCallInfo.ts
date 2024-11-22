@@ -4,6 +4,25 @@ import { i18n } from '../i18n'
 import { ACallInfo } from './ACallInfo'
 
 export class WebphoneCallInfo extends ACallInfo {
+  _WebphoneCallInfosAsParent
+  _OnHoldFunctions: Array<any>
+  _Id: string
+  _hangup
+  _conferenceTransferring
+  _pbxRoomId
+  _pbxTalkerId
+  _incoming
+  _answered: boolean
+  _partyNumber: string
+  _answer
+  _answeredAt: number
+  _holding: boolean
+  _recording: boolean
+  _muted: boolean
+  _partyName: string
+  _toggleHoldWithCheck
+  _toggleMuted
+  _toggleRecording
   constructor(webphoneCallInfosAsParent, callObject) {
     super(webphoneCallInfosAsParent)
     this._WebphoneCallInfosAsParent = webphoneCallInfosAsParent
@@ -242,7 +261,7 @@ export class WebphoneCallInfo extends ACallInfo {
         reject(errMsg)
         return
       }
-      resolve()
+      resolve(true)
     })
     return promise
   }
@@ -260,7 +279,7 @@ export class WebphoneCallInfo extends ACallInfo {
         reject(errMsg)
         return
       }
-      resolve()
+      resolve(true)
     })
     return promise
   }

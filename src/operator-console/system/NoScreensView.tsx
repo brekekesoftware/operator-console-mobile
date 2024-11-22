@@ -1,9 +1,14 @@
-import { ActivityIndicator } from '@ant-design/react-native'
-import { Button, Form, Input, Modal } from 'antd'
+import {
+  ActivityIndicator,
+  Button,
+  Form,
+  Input,
+  Modal,
+} from '@ant-design/react-native'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import { useRef, useState } from 'react'
 
+import { Popconfirm } from '../common/Popconfirm'
 import { ScreenData } from '../data/ScreenData'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
@@ -415,7 +420,7 @@ export const NoScreensView = props => {
     newOrOpenLayoutTitle = i18n.t('NewOrOpenLayoutTitle')
     newOrOpenLayoutText = i18n.t('NewOrOpenLayoutText')
     newOrOpenLayoutFooter = [
-      <Button key='back' onClick={() => handleCancel(operatorConsoleAsParent)}>
+      <Button key='back' onPress={() => handleCancel(operatorConsoleAsParent)}>
         {i18n.t('cancel')}
       </Button>,
       <Button
@@ -494,34 +499,21 @@ export const NoScreensView = props => {
             okText={i18n.t('ok')}
             cancelText={i18n.t('cancel')}
           >
-            {/* <Button type="link">Delete a task</Button>*/}
-            {/* <Button key="submit" type="primary" onClick={handleOk}>*/}
             <Button
               key='submit'
               type='primary'
-              onClick={handleNewLayoutOk}
+              onPress={handleNewLayoutOk}
               className='brOCMarginLeftButtonToButton'
             >
               {i18n.t('ok')}
             </Button>
           </Popconfirm>,
-
-          // <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-          // <Button
-          //     key="link"
-          //     href="https://google.com"
-          //     type="primary"
-          //     loading={loading}
-          //     onClick={handleOk}
-          // >
-          //     Search on Google
-          // </Button>,
         ]}
       >
         <NewLayoutForm newLayoutUseForm={newLayoutUseForm} />
       </Modal>
       <Modal
-        open={open}
+        visible={open}
         title={newOrOpenLayoutTitle}
         onOk={handleOk}
         onCancel={() => handleCancel(operatorConsoleAsParent)}

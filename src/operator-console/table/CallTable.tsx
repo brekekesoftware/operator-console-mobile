@@ -1,13 +1,11 @@
-import { borderColor, borderStyle, borderWidth } from 'polished'
 import {
-  Button,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Row, Rows, Table } from 'react-native-table-component'
+import { Row, Table } from 'react-native-table-component'
 
 import { i18n } from '../i18n'
 import { Util } from '../Util'

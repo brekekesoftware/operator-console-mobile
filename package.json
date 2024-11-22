@@ -33,6 +33,7 @@
     "buffer": "6.0.3",
     "circular-json": "0.5.9",
     "debounce": "1.2.1",
+    "dot-prop": "^9.0.0",
     "es6-shim": "0.35.8",
     "es7-shim": "6.0.0",
     "eventemitter3": "5.0.1",

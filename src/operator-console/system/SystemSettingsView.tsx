@@ -1,8 +1,9 @@
-import { Button, Space } from 'antd'
+import { Button } from '@ant-design/react-native'
+import { Space } from 'antd'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import React from 'react'
 
+import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
 import { SystemSettingsForm } from './SystemSettingsForm'
@@ -184,7 +185,7 @@ export class SystemSettingsView extends React.Component<Props> {
         <Button
           type='primary'
           size='small'
-          onClick={() => {
+          onPress={() => {
             // Notification.close('sync');
             this._syncUp()
           }}

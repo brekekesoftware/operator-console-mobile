@@ -1,14 +1,25 @@
+import { Form } from '@ant-design/react-native'
 import { Divider } from 'antd'
-import Form from 'antd/lib/form'
 import InputNumber from 'antd/lib/input-number'
 import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
 import React from 'react'
 
 import { i18n } from '../i18n'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'
 
-export class CallTableSettings extends React.Component {
+type Props = {
+  operatorConsoleAsParent: BrekekeOperatorConsole
+  widget: any
+  widgetIndex: number
+  onChange: () => void
+}
+
+export class CallTableSettings extends React.Component<Props> {
+  formRef
+  _operatorConsoleAsParent: BrekekeOperatorConsole
+  onChangeDebounced
   constructor(props) {
     super(props)
     this.formRef = React.createRef()
@@ -100,10 +111,6 @@ export class CallTableSettings extends React.Component {
       return i18n.t('header_rowUnderlineColor_is_not_valid')
     }
 
-    // if( calltableWidget.calltableHeaderBgColor && Util.isAntdRgbaProperty( calltableWidget.calltableHeaderBgColor ) !== true  ){
-    //         return i18n.t("header_bgColor_is_not_valid");
-    // }
-
     if (
       calltableWidget.calltableBodyFgColor &&
       Util.isAntdRgbaProperty(calltableWidget.calltableHeaderFgColor) !== true
@@ -126,10 +133,6 @@ export class CallTableSettings extends React.Component {
     ) {
       return i18n.t('body_rowUnderlineColor_is_not_valid')
     }
-
-    // if( calltableWidget.calltableBodyBgColor && Util.isAntdRgbaProperty( calltableWidget.calltableBodyBgColor ) !== true  ){
-    //     return i18n.t("body_bgColor_is_not_valid");
-    // }
 
     if (
       calltableWidget.calltableBodyActiveRowBgColor &&
@@ -262,14 +265,6 @@ export class CallTableSettings extends React.Component {
         >
           <Colorpicker format='rgb' />
         </Form.Item>
-
-        {/* <Form.Item label={i18n.t("bgColor")} name={`calltableHeaderBgColor`} rules={[*/}
-        {/*    {*/}
-        {/*        required: false,*/}
-        {/*    }*/}
-        {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
-        {/* </Form.Item>*/}
         <Divider>{i18n.t('body_settings')}</Divider>
         <Form.Item
           label={i18n.t('fgColor')}
@@ -305,14 +300,6 @@ export class CallTableSettings extends React.Component {
         >
           <Colorpicker format='rgb' />
         </Form.Item>
-
-        {/* <Form.Item label={i18n.t("bgColor")} name={`calltableBodyBgColor`} rules={[*/}
-        {/*    {*/}
-        {/*        required: false,*/}
-        {/*    }*/}
-        {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
-        {/* </Form.Item>*/}
         <Form.Item
           label={i18n.t('activeRowBgColor')}
           name={'calltableBodyActiveRowBgColor'}

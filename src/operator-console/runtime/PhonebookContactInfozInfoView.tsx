@@ -1,12 +1,13 @@
+import { Button } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { Button, Checkbox, Input } from 'antd'
+import { Checkbox, Input } from 'antd'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import React from 'react'
 
 import './reset.css'
 import './phonebookContactInfozInfoView.css'
 
+import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -276,7 +277,7 @@ export class PhonebookContactInfozInfoView extends React.Component {
     })
   }
 
-  closePhonebookContactInfozInfoView(thenFunc) {
+  closePhonebookContactInfozInfoView(thenFunc = () => {}) {
     this.setState({ pbContactInfo: null, sharedChecked: null }, () => {
       this._PbContactInfozCustomItemArray.length = 0
       if (thenFunc) {

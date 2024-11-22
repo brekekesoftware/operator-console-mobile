@@ -2,6 +2,7 @@
 // !ref https://docs.brekeke.com/pbx/pal-rest-api-sample-1
 const RELOGIN_RETRY_COUNT = 2
 export class PalRestApi {
+  _palRestApiToken
   constructor() {}
 
   initPalRestApi(options) {

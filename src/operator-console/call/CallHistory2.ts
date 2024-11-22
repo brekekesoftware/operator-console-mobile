@@ -15,6 +15,9 @@ const CALLHISTORY2_RECENT_DISPLAY_ORDERS = Object.freeze({
 
 class CallHistory2FoTInfo {
   // FoT is FREQUENCY_OF_TRANSMISSION
+  _ch2CallInfo
+  _hitCount: number
+  _isLoadedEvenOnce: boolean
   constructor(ch2CallInfo) {
     this._ch2CallInfo = ch2CallInfo
     this._hitCount = 0
@@ -60,6 +63,13 @@ class CallHistory2FoTInfo {
 }
 
 export class CallHistory2 {
+  _OperatorConsoleAsParent: BrekekeOperatorConsole
+  _CallHistoryCallInfosObject: object
+  _CallHistoryCallInfoArray: Array<any>
+  _prevSort
+  _FlushSave
+  _saveCount: number = 0
+  _isLoadedEvenOnce: boolean = false
   constructor(operatorConsoleAsParent) {
     this._OperatorConsoleAsParent = operatorConsoleAsParent
     this._CallHistoryCallInfosObject = new Object()

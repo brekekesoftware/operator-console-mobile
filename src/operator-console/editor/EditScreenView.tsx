@@ -6,6 +6,7 @@ import { SketchPicker } from 'react-color'
 
 import logo from '../logo.png'
 
+import { Popconfirm } from '../common/Popconfirm'
 import { Select, SelectOption } from '../common/Select'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { i18n } from '../i18n'

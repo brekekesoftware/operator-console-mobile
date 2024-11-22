@@ -1,8 +1,8 @@
 import React from 'react'
-
-import './callPanel.scss'
+import { StyleSheet, Text, View } from 'react-native'
 
 import { IconKeyboard, IconPhoneIncoming, IconPhoneOutgoing } from '../icons'
+import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'
 
 const formatSecondsToHHMMSS = (seconds: number) => {
@@ -24,10 +24,10 @@ type CallPanelProps = {
     getIsAnswered(): any
     getAnsweredAt(): any
   }
-  operatorConsoleAsParent: any
+  operatorConsoleAsParent: BrekekeOperatorConsole
   callpanelFgColor: string
   callpanelBgColor: string
-  borderRadius: string
+  borderRadius: number
   outsideShadow_horizontalOffset: string
   outsideShadow_verticalOffset: string
   outsideShadow_blur: string
@@ -80,13 +80,13 @@ export class CallPanel extends React.Component<CallPanelProps, CallPanelState> {
 
     const callpanelFgColor = Util.getRgbaCSSStringFromAntdColor(
       this.props.callpanelFgColor,
-      '',
+      '#304701',
     )
     const callpanelBgColor = Util.getRgbaCSSStringFromAntdColor(
       this.props.callpanelBgColor,
-      '',
+      '#A8C64E',
     )
-    const borderRadius = this.props.borderRadius ? this.props.borderRadius : ''
+    const borderRadius = this.props.borderRadius ? this.props.borderRadius : 8
     const outsideShadow_horizontalOffset = this.props
       .outsideShadow_horizontalOffset
       ? this.props.outsideShadow_horizontalOffset
@@ -178,50 +178,63 @@ export class CallPanel extends React.Component<CallPanelProps, CallPanelState> {
 
     if (this.props.isEditMode !== true) {
       return (
-        <div
-          className='brOCCallPanel'
+        <View
           style={{
             borderRadius,
             backgroundColor: callpanelBgColor,
-            boxShadow: sBoxShadow,
-            color: callpanelFgColor,
+            // boxShadow: sBoxShadow,
+            width: ' 100%',
+            height: ' 100%',
+            padding: 12,
           }}
         >
-          <div className='brOCCallPanelRow'>
-            <div className='brOCCallPanelLeft'>
+          <View style={styles.row}>
+            <View style={styles.left}>
               {!!currentCallInfo &&
                 (currentCallInfo.getIsIncoming()
                   ? IconPhoneIncoming
                   : IconPhoneOutgoing)}
-            </div>
-            <div className='brOCCallPanelMain'>
-              <div className='brOCCallPanelPartyNumber'>
-                {currentCallInfo?.getPartyNumber()}
-              </div>
-              <div className='brOCCallPanelDuration'>{this.state.duration}</div>
-            </div>
-          </div>
-          <div className='brOCCallPanelRow'>
+            </View>
+            <View style={styles.main}>
+              <View style={styles.item}>
+                <Text style={[styles.party, { color: callpanelFgColor }]}>
+                  {currentCallInfo?.getPartyNumber()}
+                </Text>
+              </View>
+              <View style={styles.item}>
+                {' '}
+                <Text style={[styles.party, { color: callpanelFgColor }]}>
+                  {this.state.duration}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.row}>
             {bIsDTMFInput !== true && dialing.length !== 0 && (
-              <div className='brOCCallPanelLeft'>{IconKeyboard}</div>
+              <View style={styles.left}>{IconKeyboard}</View>
             )}
-            <div className='brOCCallPanelMain'>
-              <div className='brOCCallPanelDialing'>{dialing}</div>
-            </div>
-          </div>
-        </div>
+            <View style={styles.main}>
+              <Text
+                style={[styles.party, { color: callpanelFgColor }]}
+                numberOfLines={2}
+              >
+                {dialing}
+              </Text>
+            </View>
+          </View>
+        </View>
       )
     } else {
       return (
-        <div
-          className='brOCCallPanel'
+        <View
           style={{
             borderRadius,
             backgroundColor: callpanelBgColor,
-            boxShadow: sBoxShadow,
-            color: callpanelFgColor,
+            width: ' 100%',
+            height: ' 100%',
+            padding: 12,
           }}
-        ></div>
+        />
       )
     }
   }
@@ -245,3 +258,25 @@ export class CallPanel extends React.Component<CallPanelProps, CallPanelState> {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  row: {
+    minHeight: 48,
+  },
+  left: {
+    width: 24,
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  main: {
+    flexGrow: 1,
+    marginLeft: 4,
+  },
+  party: {
+    fontSize: 19,
+    lineHeight: 19,
+  },
+  item: {
+    height: 19,
+  },
+})

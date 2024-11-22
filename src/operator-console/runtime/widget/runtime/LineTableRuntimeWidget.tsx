@@ -1,9 +1,9 @@
 import { Button, Modal } from 'antd'
 import Dropdown from 'antd/lib/dropdown'
 import Notification from 'antd/lib/notification'
-import Popconfirm from 'antd/lib/popconfirm'
 import { useState } from 'react'
 
+import { Popconfirm } from '../../../common/Popconfirm'
 import { i18n } from '../../../i18n'
 import { OCUtil } from '../../../OCUtil'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -56,7 +56,7 @@ const TransferCancelButton = ({
   transferCancelButtonOuterBorderThickness,
   transferCancelButtonFontSize,
 }) => {
-  const confirm = e => {
+  const confirm = () => {
     const oc = BrekekeOperatorConsole.getStaticInstance()
     const campon = oc.getCampon()
     const bSuccess = campon.tryCancelCampOn(callInfo)
@@ -68,7 +68,7 @@ const TransferCancelButton = ({
       Notification.error({ message: i18n.t('FailedToCancelTransfer') })
     }
   }
-  const cancel = e => {}
+  const cancel = () => {}
 
   const transferCancelButtonColor = Util.isAntdRgbaProperty(
     transferCancelButtonFgColor,

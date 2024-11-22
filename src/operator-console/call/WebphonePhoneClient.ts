@@ -8,6 +8,8 @@ import { APhoneClient } from './APhoneClient'
 import { WebphoneCallInfos } from './WebphoneCallInfos'
 
 export class WebphonePhoneClient extends APhoneClient {
+  _isPalReady: boolean
+  _webphoneCallInfos: WebphoneCallInfos
   constructor(options) {
     super(options)
     this._isPalReady = false

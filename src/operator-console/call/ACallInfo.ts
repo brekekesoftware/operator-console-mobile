@@ -88,9 +88,8 @@ export class ACallInfo {
    *  abstract method
    * @returns {null}
    */
-  getCallId() {
+  getCallId(): string {
     throw new Error('Not implemented.')
-    return null
   }
 
   /**
