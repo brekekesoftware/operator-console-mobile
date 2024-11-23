@@ -1,3 +1,5 @@
+import { Text, View } from 'react-native'
+
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 
@@ -27,23 +29,26 @@ export class TextRuntimeWidget extends RuntimeWidget {
         : ''
 
     return (
-      <div
+      <View
         style={{
-          textOverflow: 'ellipsis',
-          whiteSpace: 'pre-wrap',
           overflow: 'hidden',
-          wordBreak: 'break-all',
           width: '100%',
           height: '100%',
-          textAlign: 'center',
-          fontSize: textFontSize + 'px',
-          color: textFgColor,
           backgroundColor: textBgColor,
           borderRadius: textBorderRadius,
         }}
       >
-        {text}
-      </div>
+        <Text
+          style={{
+            color: textFgColor,
+            textAlign: 'center',
+            fontSize: textFontSize,
+          }}
+          numberOfLines={1}
+        >
+          {text}
+        </Text>
+      </View>
     )
   }
 }

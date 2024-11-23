@@ -1,7 +1,5 @@
-import { ActivityIndicator, Button } from '@ant-design/react-native'
+import { ActivityIndicator, Button, Switch } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { Checkbox, Input, Switch } from 'antd'
-import Notification from 'antd/lib/notification'
 import React from 'react'
 
 import './reset.css'
@@ -9,6 +7,7 @@ import './AutoDialView_ver2.css'
 
 import { BrekekeOperatorConsole } from '..//OperatorConsole'
 import { CallHistory2 } from '../call/CallHistory2'
+import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'

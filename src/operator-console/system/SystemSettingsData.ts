@@ -1,7 +1,6 @@
-import Notification from 'antd/lib/notification'
-
 import { CallHistory } from '../call/CallHistory'
 import { CallHistory2 } from '../call/CallHistory2'
+import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { QuickBusy_ver2 } from '../runtime/QuickBusy_ver2'

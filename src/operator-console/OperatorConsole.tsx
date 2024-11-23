@@ -4,15 +4,13 @@ import {
   Dropdown,
   Form,
   Input,
+  Tabs,
 } from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { Modal, Tabs } from 'antd'
-import Notification from 'antd/lib/notification'
-import Space from 'antd/lib/space'
 import React from 'react'
 import { SketchPicker } from 'react-color'
 import ReactDOM from 'react-dom/client'
@@ -32,7 +30,10 @@ import { PalRestApi } from './call/PalRestApi'
 import { WebphonePhoneClient } from './call/WebphonePhoneClient'
 import { Empty } from './common/Empty'
 import { GridLines } from './common/GridLines'
+import { Modal } from './common/Modal'
+import { Notification } from './common/Notification'
 import { Popconfirm } from './common/Popconfirm'
+import { Space } from './common/Space'
 import { PaneData } from './data/PaneData'
 import { ScreenData } from './data/ScreenData'
 import { WidgetData } from './data/widgetData/WidgetData'
@@ -3064,7 +3065,6 @@ export class BrekekeOperatorConsole extends React.Component<
       }),
       onSuccessFunction: res => {
         Notification.success({
-          key: 'sync',
           message: i18n.t('saved_data_to_pbx_successfully'),
         })
         // this.setLastSystemSettingsDataData( systemSettingsDataData );
@@ -3075,7 +3075,6 @@ export class BrekekeOperatorConsole extends React.Component<
       onFailFunction: errorOrResponse => {
         console.error('Failed to save data to PBX.', errorOrResponse)
         Notification.error({
-          key: 'sync',
           message: i18n.t('failed_to_save_data_to_pbx'),
           btn: (
             <Button
@@ -3169,7 +3168,7 @@ export class BrekekeOperatorConsole extends React.Component<
   }
   removeCurrentScreen = () => {
     if (this.state.screens.length <= 1) {
-      Notification.warn({ message: i18n.t('YouCanNotDeleteLastScreen') })
+      Notification.warning({ message: i18n.t('YouCanNotDeleteLastScreen') })
       return
     }
 

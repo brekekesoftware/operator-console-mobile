@@ -1,4 +1,5 @@
 import { createRef } from 'react'
+import { Dimensions, Text, View } from 'react-native'
 
 import { i18n } from '../../../i18n'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -246,83 +247,70 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
 
     if (!this._UccacWrapper.isInitialized()) {
       return (
-        <div
+        <View
           style={{
             display: 'flex',
             flexWrap: 'wrap',
             height: '100%',
             borderRadius,
             backgroundColor: uccacwidgetBgColor,
-            boxShadow: sBoxShadow,
-            color: uccacwidgetFgColor,
             padding: 6,
           }}
         >
-          {i18n.t('ucChatAgentComponentIsDisabled')}
-        </div>
+          <Text style={{ color: uccacwidgetFgColor }}>
+            {' '}
+            {i18n.t('ucChatAgentComponentIsDisabled')}
+          </Text>
+        </View>
       )
     } else {
       return (
-        <div
+        <View
           style={{
             height: '100%',
             borderRadius,
             backgroundColor: uccacwidgetBgColor,
-            boxShadow: sBoxShadow,
-            color: uccacwidgetFgColor,
+            // boxShadow: sBoxShadow,
           }}
         >
-          <div
+          <View
             ref={this._uccacRootElementRef}
             style={{
               display: 'flex',
               flexWrap: 'wrap',
-              height: 'calc(100% - 30px)',
+              height: Dimensions.get('screen').height - 30,
             }}
           >
-            <div style={{ position: 'relative', width: '50%', height: '100%' }}>
-              <span name={'webchatqueue'}></span>
-              <span name={'webchatpickup'}></span>
-              <span name={'search'}></span>
-            </div>
-            <div
+            <View
+              style={{ position: 'relative', width: '50%', height: '100%' }}
+            >
+              <Text
+                name={'webchatqueue'}
+                style={{ color: uccacwidgetFgColor }}
+              ></Text>
+              <Text
+                name={'webchatpickup'}
+                style={{ color: uccacwidgetFgColor }}
+              ></Text>
+              <Text
+                name={'search'}
+                style={{ color: uccacwidgetFgColor }}
+              ></Text>
+            </View>
+            <View
               name={'ucclientPanelRoot'}
               style={{ position: 'relative', width: '50%', height: '100%' }}
-            ></div>
-          </div>
-          <div style={{ height: 30, padding: 4 }}>
+            ></View>
+          </View>
+          <View style={{ height: 30, padding: 4 }}>
             <button
               disabled={this.state.isRestartButtonDisabled}
               onClick={this._onClickRestart.bind(this)}
             >
               {i18n.t('restart')}
             </button>
-          </div>
-        </div>
-        // <div className="brOCCallPanel" style={{
-        //     borderRadius: borderRadius,
-        //     backgroundColor: uccacWidgetBgColor,
-        //     boxShadow: sBoxShadow,
-        //     color: uccacWidgetFgColor
-        // }}>
-        //     <div className="brOCCallPanelRow">
-        //         <div className="brOCCallPanelLeft">
-        //             {!!call && (call.incoming ? IconPhoneIncoming : IconPhoneOutgoing)}
-        //         </div>
-        //         <div className="brOCCallPanelMain">
-        //             <div className="brOCCallPanelPartyNumber">{call?.partyNumber}</div>
-        //             <div className="brOCCallPanelDuration">{this.state.duration}</div>
-        //         </div>
-        //     </div>
-        //     <div className="brOCCallPanelRow">
-        //         {!!this.props.dialing && (
-        //             <div className="brOCCallPanelLeft">{IconKeyboard}</div>
-        //         )}
-        //         <div className="brOCCallPanelMain">
-        //             <div className="brOCCallPanelDialing">{this.props.dialing}</div>
-        //         </div>
-        //     </div>
-        // </div>
+          </View>
+        </View>
       )
     }
   }

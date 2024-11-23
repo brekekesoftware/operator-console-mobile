@@ -1,12 +1,11 @@
-import { Button } from '@ant-design/react-native'
+import { Button, Checkbox, Input } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { Checkbox, Input } from 'antd'
-import Notification from 'antd/lib/notification'
 import React from 'react'
 
 import './reset.css'
 import './phonebookContactInfozInfoView.css'
 
+import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
@@ -695,9 +694,9 @@ export class PhonebookContactInfozInfoView extends React.Component {
                                     infoKeyName
                                   }
                                   defaultValue={info.getValue()}
-                                  style={{ width: '300px' }}
+                                  style={{ width: 300 }}
                                   disabled={!isSaveable}
-                                  maxLength='1000'
+                                  maxLength={1000}
                                   onFocus={e => this._onInputFocus()}
                                   onBlur={e => this._onInputBlur()}
                                 />

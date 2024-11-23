@@ -3,11 +3,12 @@ import {
   Button,
   Form,
   Input,
-  Modal,
 } from '@ant-design/react-native'
-import Notification from 'antd/lib/notification'
 import { useRef, useState } from 'react'
+import { Text, View } from 'react-native'
 
+import { Modal } from '../common/Modal'
+import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { ScreenData } from '../data/ScreenData'
 import { i18n } from '../i18n'
@@ -43,7 +44,6 @@ export const NoScreensView = props => {
       layoutName = layoutName.trim()
       if (layoutName.length === 0) {
         Notification.error({
-          key: 'validation',
           message: i18n.t('OnlySpacesAreNotAllowed'),
           duration: 15,
         })
@@ -53,7 +53,6 @@ export const NoScreensView = props => {
       const bMatch = REGEX.test(layoutName)
       if (!bMatch) {
         Notification.error({
-          key: 'validation',
           message: i18n.t('newLayoutValidationError'),
           duration: 15,
         })
@@ -380,12 +379,12 @@ export const NoScreensView = props => {
             const noteShortname =
               BrekekeOperatorConsole.getOCNoteShortname(noteName)
             const sNoteShortname = (
-              <div key={i}>
-                <a onClick={() => selectOCNoteByShortname(noteShortname)}>
+              <View key={i}>
+                <Text onPress={() => selectOCNoteByShortname(noteShortname)}>
                   {noteShortname}
-                </a>
-                <br />
-              </div>
+                </Text>
+                {/* <br /> */}
+              </View>
             )
             jsxContents.push(sNoteShortname)
           }
@@ -426,8 +425,8 @@ export const NoScreensView = props => {
       <Button
         key='submit'
         type='primary'
-        className='brOCMarginLeftButtonToButton'
-        onClick={() => {
+        style={{ marginLeft: 6 }}
+        onPress={() => {
           setOpen(false)
           operatorConsoleAsParent.setState({ newLayoutModalOpen: true })
         }}
@@ -437,8 +436,8 @@ export const NoScreensView = props => {
       <Button
         key='submit2'
         type='primary'
-        className='brOCMarginLeftButtonToButton'
-        onClick={handleOpenLayoutOpen}
+        style={{ marginLeft: 6 }}
+        onPress={handleOpenLayoutOpen}
       >
         {i18n.t('openLayout')}
       </Button>,
@@ -447,25 +446,21 @@ export const NoScreensView = props => {
     newOrOpenLayoutTitle = i18n.t('OpenLayoutTitle')
     newOrOpenLayoutText = i18n.t('OpenLayoutText')
     newOrOpenLayoutFooter = [
-      <Button key='back' onClick={() => handleCancel(operatorConsoleAsParent)}>
+      <Button key='back' onPress={() => handleCancel(operatorConsoleAsParent)}>
         {i18n.t('cancel')}
       </Button>,
       <Button
         key='submit2'
         type='primary'
-        onClick={handleOpenLayoutOpen}
-        className='brOCMarginLeftButtonToButton'
+        onPress={handleOpenLayoutOpen}
+        style={{ marginLeft: 6 }}
       >
         {i18n.t('openLayout')}
       </Button>,
     ]
   }
 
-  const displayLoadingStyle = isLoading ? 'block' : 'none'
-  const spinScreen = useRef(null)
-  if (spinScreen.current) {
-    spinScreen.current.style.display = displayLoadingStyle
-  }
+  const displayLoadingStyle = isLoading ? 'flex' : 'none'
 
   const bNewLayoutModalOpen =
     operatorConsoleAsParent.getState().newLayoutModalOpen
@@ -484,7 +479,7 @@ export const NoScreensView = props => {
         onOk={handleNewLayoutOk}
         onCancel={handleNewLayoutCancel}
         footer={[
-          <Button key='back' onClick={handleNewLayoutCancel}>
+          <Button key='back' onPress={handleNewLayoutCancel}>
             {i18n.t('cancel')}
           </Button>,
 
@@ -503,7 +498,7 @@ export const NoScreensView = props => {
               key='submit'
               type='primary'
               onPress={handleNewLayoutOk}
-              className='brOCMarginLeftButtonToButton'
+              style={{ marginLeft: 6 }}
             >
               {i18n.t('ok')}
             </Button>
@@ -513,7 +508,7 @@ export const NoScreensView = props => {
         <NewLayoutForm newLayoutUseForm={newLayoutUseForm} />
       </Modal>
       <Modal
-        visible={open}
+        open={open}
         title={newOrOpenLayoutTitle}
         onOk={handleOk}
         onCancel={() => handleCancel(operatorConsoleAsParent)}
@@ -521,11 +516,19 @@ export const NoScreensView = props => {
       >
         {newOrOpenLayoutText}
       </Modal>
-      <div ref={spinScreen} className='spinScreen'>
-        <div>
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          zIndex: 100000000,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }}
+      >
+        <View>
           <ActivityIndicator />
-        </div>
-      </div>
+        </View>
+      </View>
     </>
   )
 }

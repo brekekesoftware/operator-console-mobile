@@ -1,6 +1,5 @@
-import Notification from 'antd/lib/notification'
-
 import { ACallInfo } from '../../../../call/ACallInfo'
+import { Notification } from '../../../../common/Notification'
 import { i18n } from '../../../../i18n'
 import { BrekekeOperatorConsole } from '../../../../OperatorConsole'
 import { Util } from '../../../../Util'

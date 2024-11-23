@@ -1,7 +1,7 @@
-import Notification from 'antd/lib/notification'
 import debounce from 'debounce'
 import { deleteProperty, setProperty } from 'dot-prop'
 
+import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
 import { BROC_BROCCALLOBJECT_CALL_STATUSES, OCUtil } from '../OCUtil'
 import { APhoneClient } from './APhoneClient'
@@ -236,7 +236,6 @@ export class WebphonePhoneClient extends APhoneClient {
             old_onClose && old_onClose(e) // call old listener
             if (!e.wasClean) {
               Notification.warning({
-                key: 'reconnecting',
                 message: i18n.t('reconnecting_pbx'),
                 duration: 20,
               })

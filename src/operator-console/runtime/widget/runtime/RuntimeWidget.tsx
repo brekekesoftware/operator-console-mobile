@@ -1,4 +1,6 @@
 import { Component } from 'react'
+import type { ViewStyle } from 'react-native'
+import { View } from 'react-native'
 
 type Props = {
   widgetData: any
@@ -47,19 +49,19 @@ export class RuntimeWidget extends Component<Props, State> {
     const widgetHeight = widgetData.getWidgetHeight()
     const widgetIndex = this.props['widgetIndex']
 
-    const css = {
+    const css: ViewStyle = {
       position: 'absolute',
-      left: relativePositionX + 'px',
-      top: relativePositionY + 'px',
-      width: widgetWidth + 'px',
-      height: widgetHeight + 'px',
+      left: relativePositionX,
+      top: relativePositionY,
+      width: widgetWidth,
+      height: widgetHeight,
     }
-    const jsx = <div style={css}>{this._getRenderMainJsx()}</div>
+    const jsx = <View style={css}>{this._getRenderMainJsx()}</View>
     return jsx
   }
 
   // abstract
-  _getRenderMainJsx() {
+  _getRenderMainJsx(): React.ReactNode {
     throw new Error('Not implemented.')
   }
 }

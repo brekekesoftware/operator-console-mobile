@@ -1,12 +1,14 @@
 import { Button } from '@ant-design/react-native'
-import { Modal } from 'antd'
 import Dropdown from 'antd/lib/dropdown'
-import Notification from 'antd/lib/notification'
 import { useState } from 'react'
+import { View } from 'react-native'
 
+import { Modal } from '../common/Modal'
+import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
+import { OperatorConsoleStyles } from '../OperatorConsoleStyles'
 import { Util } from '../Util'
 
 const _getLightClassname = (line, context = {}) => {
@@ -78,52 +80,6 @@ const LineButton = ({
     {label}
   </button>
 )
-
-// function CamponButton({ context = {}}){
-//     const handleMenuClick = (e) => {
-//         const camponExtension = context.operatorConsole.state.extensions[e.key];
-//
-//         alert( camponExtension );
-//     };
-//
-//     let extensions = context.operatorConsole.state.extensions;
-//     if( !extensions ){
-//         extensions = new Array();
-//     }
-//     const myExtensionId = context.operatorConsole.state.loginUser.pbxUsername;
-//
-//     //!optimize!
-//     const items = new Array( extensions.length );
-//     for( let i = 0; i < items.length; i++ ){
-//         const extension = extensions[i];
-//         if( extension.id === myExtensionId ){
-//             continue;
-//         }
-//
-//         const extensionsStatus = context.operatorConsole.state.extensionsStatus;
-//         const statusClassName = OCUtil.getExtensionStatusClassName( extension.id, extensionsStatus );
-//         //const label = extension.id + " " + (<div className={statusClassName}></div> );
-//         const label = (<>{extension.id} <div style={{display:"inline-block"}} className={statusClassName}></div></>);
-//         items[i] = {
-//             label: label,
-//             key: i
-//         };
-//     }
-//     const [open, setOpen] = useState(false);
-//     const handleOpenChange = (flag) => {
-//         setOpen(flag);
-//     };
-//     return (
-//         <Dropdown menu={{ items, onClick: handleMenuClick }} trigger="click" open={open} onOpenChange={handleOpenChange} >
-//         <button style={{padding:1,margin:"0px 0px 0.75rem 0px"}} title={i18n.t(`campOnButtonDescription`)}
-//             className={"kbc-button kbc-button-fill-parent"}
-//             //onClick={() => alert("onClick campon button!") }
-//         >
-//             {i18n.t("campOn")}
-//          </button>
-//         </Dropdown>
-//     );
-// }
 
 const TransferCancelButton = ({
   context,
@@ -264,14 +220,13 @@ const TransferButton = ({
       extensionCallNumber,
       extensionsStatus,
     )
-    // const label = extensionCallNumber + " " + (<div className={statusClassName}></div> );
     const label = (
       <>
         {extensionCallNumber}
-        <div
-          style={{ display: 'inline-block' }}
-          className={statusClassName}
-        ></div>
+        <View
+          // style={{ display: 'inline-block' }}
+          style={OperatorConsoleStyles[statusClassName]}
+        ></View>
       </>
     )
     const item = {
@@ -471,7 +426,7 @@ const TransferButton = ({
         onCancel={handleModalCancel}
         width={700}
         footer={[
-          <div key='0' style={{ whiteSpace: 'nowrap' }}>
+          <View key='0'>
             <Button
               key='submit'
               type='primary'
@@ -496,7 +451,7 @@ const TransferButton = ({
             >
               {i18n.t('cancel')}
             </Button>
-          </div>,
+          </View>,
         ]}
       >
         {i18n.t('confirmTransferNow')}
@@ -508,7 +463,7 @@ const TransferButton = ({
         onOk={handleCamponAuto}
         onCancel={handleModalForBusyCancel}
         footer={[
-          <div key='1' style={{ whiteSpace: 'nowrap' }}>
+          <View key='1'>
             <Button
               key='submitForBusy'
               type='primary'
@@ -533,7 +488,7 @@ const TransferButton = ({
             >
               {i18n.t('cancel')}
             </Button>
-          </div>,
+          </View>,
         ]}
       >
         {i18n.t('confirmTransferForBusy')}

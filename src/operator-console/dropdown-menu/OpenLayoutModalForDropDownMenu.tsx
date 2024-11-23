@@ -1,7 +1,8 @@
-import { ActivityIndicator } from '@ant-design/react-native'
-import { Button, Modal } from 'antd'
-import Notification from 'antd/lib/notification'
+import { ActivityIndicator, Button } from '@ant-design/react-native'
+import { Text, View } from 'react-native'
 
+import { Modal } from '../common/Modal'
+import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -19,7 +20,7 @@ export const OpenLayoutModalForDropDownMenu = props => {
   }
 
   const footer = [
-    <Button key='back' onClick={handleCancel}>
+    <Button key='back' onPress={handleCancel}>
       {i18n.t('cancel')}
     </Button>,
   ]
@@ -33,7 +34,7 @@ export const OpenLayoutModalForDropDownMenu = props => {
       onCancel={handleCancel}
       footer={footer}
     >
-      <div className='brOCReset'>{noteNamesContent}</div>
+      <View>{noteNamesContent}</View>
     </Modal>
   )
 }
@@ -145,17 +146,15 @@ export const refreshNoteNamesContent = (
           const noteShortname =
             BrekekeOperatorConsole.getOCNoteShortname(noteName)
           const sNoteShortname = (
-            <div key={i}>
-              <a
-                className='test'
-                onClick={() =>
+            <View key={i}>
+              <Text
+                onPress={() =>
                   selectOCNoteByShortname(operatorConsole, noteShortname)
                 }
               >
                 {noteShortname}
-              </a>
-              <br />
-            </div>
+              </Text>
+            </View>
           )
           jsxContents.push(sNoteShortname)
         }

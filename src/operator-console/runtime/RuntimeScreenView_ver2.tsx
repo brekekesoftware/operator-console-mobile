@@ -1,4 +1,5 @@
 import React from 'react'
+import { Dimensions, Image, View } from 'react-native'
 
 import logo from '../logo.png'
 
@@ -32,39 +33,47 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
       this._OperatorConsoleAsParent.state.showAutoDialWidgetSubDatas_ver2
         .length !== 0
     return (
-      <div
+      <View
         style={{
           display: 'flex',
-          flexFlow: 'column',
+          flexDirection: 'column',
           alignItems: 'stretch',
           height: '100%',
         }}
       >
-        <div
+        <View
           style={{
             display: 'flex',
             alignItems: 'center',
-            height: '47ox',
-            color: screenData_ver2.getScreenForegroundColor(),
+            height: 47,
+            // color: screenData_ver2.getScreenForegroundColor(),
             backgroundColor: screenData_ver2.getScreenBackgroundColor(),
           }}
         >
-          <div>
-            <img style={{ marginTop: '4px', marginLeft: '4px' }} src={logo} />
-          </div>
+          <View>
+            <Image
+              style={{ marginTop: 4, marginLeft: 4 }}
+              source={{ uri: logo }}
+            />
+          </View>
           <DropDownMenu
             operatorConsole={this._OperatorConsoleAsParent}
           ></DropDownMenu>
           <AutoDialView_ver2 isVisible={isVisibleAutoDialView_Ver2} />
           <QuickBusy_ver2 />
-        </div>
-        <div style={{ display: 'flex', height: 'calc(100% - 47px)' }}>
-          <div
+        </View>
+        <View
+          style={{
+            display: 'flex',
+            height: Dimensions.get('screen').height - 47,
+          }}
+        >
+          <View
             style={{
               width: '100%',
-              overflow: 'auto',
-              marginLeft: '10px',
-              marginBottom: '10px',
+              overflow: 'scroll',
+              marginLeft: 10,
+              marginBottom: 10,
             }}
           >
             <RuntimeRootPane
@@ -72,9 +81,9 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
               runtimeScreenViewAsParent={this}
               className='width100percentAndHeight100percent'
             />
-          </div>
-        </div>
-      </div>
+          </View>
+        </View>
+      </View>
     )
   }
 }

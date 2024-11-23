@@ -1,9 +1,16 @@
 import MoreOutlined from '@ant-design/icons/MoreOutlined'
-import { ActivityIndicator } from '@ant-design/react-native'
-import { Button, Dropdown, Form, Input, Modal } from 'antd'
-import Notification from 'antd/lib/notification'
+import {
+  ActivityIndicator,
+  Button,
+  Form,
+  Input,
+} from '@ant-design/react-native'
+import { Dropdown } from 'antd'
 import { useRef, useState } from 'react'
+import { Text, View } from 'react-native'
 
+import { Modal } from '../common/Modal'
+import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { ScreenData } from '../data/ScreenData'
 import { i18n } from '../i18n'
@@ -156,11 +163,7 @@ export const DropDownMenu = ({ operatorConsole }) => {
       },
     ]
   }
-  const displayLoadingStyle = isLoading ? 'block' : 'none'
-  const spinScreen = useRef(null)
-  if (spinScreen.current) {
-    spinScreen.current.style.display = displayLoadingStyle
-  }
+  const displayLoadingStyle = isLoading ? 'flex' : 'none'
 
   return (
     <>
@@ -171,11 +174,20 @@ export const DropDownMenu = ({ operatorConsole }) => {
         useStateOpen={openLayoutModalOpen}
         useStateSetOpen={setOpenLayoutModalOpen}
       />
-      <div ref={spinScreen} className='spinScreen'>
-        <div>
+      <View
+        style={{
+          display: displayLoadingStyle,
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          zIndex: 100000000,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }}
+      >
+        <View>
           <ActivityIndicator />
-        </div>
-      </div>
+        </View>
+      </View>
       <Dropdown
         menu={{
           items,
@@ -204,7 +216,6 @@ const NewLayoutDialog = ({ operatorConsole }) => {
       layoutName = layoutName.trim()
       if (layoutName.length === 0) {
         Notification.error({
-          key: 'validation',
           message: i18n.t('OnlySpacesAreNotAllowed'),
           duration: 15,
         })
@@ -214,7 +225,6 @@ const NewLayoutDialog = ({ operatorConsole }) => {
       const bMatch = REGEX.test(layoutName)
       if (!bMatch) {
         Notification.error({
-          key: 'validation',
           message: i18n.t('newLayoutValidationError'),
           duration: 15,
         })
@@ -458,7 +468,7 @@ const NewLayoutDialog = ({ operatorConsole }) => {
           <Button
             key='submit'
             type='primary'
-            onClick={() => {
+            onPress={() => {
               operatorConsole.closeAboutOCModalByState()
             }}
           >
@@ -466,21 +476,21 @@ const NewLayoutDialog = ({ operatorConsole }) => {
           </Button>,
         ]}
       >
-        <div>
-          Brekeke Operator Console, {i18n.t('Version')}{' '}
-          {BrekekeOperatorConsole.BREKEKE_OPERATOR_CONSOLE_VERSION}
-        </div>
+        <View>
+          <Text> Brekeke Operator Console, {i18n.t('Version')}</Text>{' '}
+          <Text>
+            {' '}
+            {BrekekeOperatorConsole.BREKEKE_OPERATOR_CONSOLE_VERSION}
+          </Text>
+        </View>
       </Modal>
-      {/* <Button type="primary" onClick={showNewLayoutModalFunc}>*/}
-      {/*    Open Modal with customized footer*/}
-      {/* </Button>*/}
       <Modal
         open={operatorConsole.getState().newLayoutModalOpen}
         title={i18n.t('newLayout')}
         onOk={() => handleOk()}
         onCancel={handleCancel}
         footer={[
-          <Button key='back' onClick={handleCancel}>
+          <Button key='back' onPress={handleCancel}>
             {i18n.t('cancel')}
           </Button>,
 
@@ -495,23 +505,10 @@ const NewLayoutDialog = ({ operatorConsole }) => {
             okText={i18n.t('ok')}
             cancelText={i18n.t('no')}
           >
-            {/* <Button type="link">Delete a task</Button>*/}
-            {/* <Button key="submit" type="primary" onClick={handleOk}>*/}
-            <Button key='submit' type='primary' onClick={handleOk}>
+            <Button key='submit' type='primary' onPress={handleOk}>
               {i18n.t('ok')}
             </Button>
           </Popconfirm>,
-
-          // <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
-          // <Button
-          //     key="link"
-          //     href="https://google.com"
-          //     type="primary"
-          //     loading={loading}
-          //     onClick={handleOk}
-          // >
-          //     Search on Google
-          // </Button>,
         ]}
       >
         <NewLayoutForm newLayoutUseForm={newLayoutUseForm} />

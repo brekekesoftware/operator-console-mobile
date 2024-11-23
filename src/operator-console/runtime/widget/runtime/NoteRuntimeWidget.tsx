@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import TextArea from 'antd/es/input/TextArea'
 import Empty from 'antd/lib/empty'
 import debounce from 'debounce'
+import { Text, View } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
@@ -172,55 +174,66 @@ export class NoteRuntimeWidget extends RuntimeWidget {
         : ''
 
     return (
-      <div
-        className='brOCStickyNote'
-        style={{
-          borderRadius,
-          background,
-        }}
-      >
-        <div
-          className='brOCStickyNoteName'
+      <LinearGradient colors={['#F9EFAF', '#F7E98D']}>
+        <View
           style={{
-            fontSize: noteTitleFontSize,
-            color: noteNameFgColor,
-            backgroundColor: noteNameBackground,
+            borderRadius,
+            backgroundColor: background,
+            overflow: 'hidden',
+            flexDirection: 'column',
+            width: '100%',
+            height: '100%',
           }}
         >
-          {noteName}
-        </div>
-        {this.state.loading ? (
-          <Empty image={null} description={<ActivityIndicator />} />
-        ) : (
-          <TextArea
-            value={this.state.content}
-            onChange={this._onContentChanged}
-            onFocus={() => {
-              const oc = BrekekeOperatorConsole.getStaticInstance()
-              oc.addDisableKeydownToDialingCounter()
-              oc.addDisablePasteToDialingCounter()
-            }}
-            onBlur={() => {
-              const oc = BrekekeOperatorConsole.getStaticInstance()
-              oc.subtractDisableKeydownToDialingCounter()
-              oc.subtractDisablePasteToDialingCounter()
-            }}
-            readOnly={this._readonly}
-            maxLength={10000000}
+          <View
             style={{
-              fontSize: noteBodyFontSize,
-              color: noteTextForegroundColor,
+              backgroundColor: noteNameBackground ?? '#f2dc50',
+              padding: 3,
             }}
-          />
-        )}
-        {(this.state.error || this.state.saving) && (
-          <FontAwesomeIcon
-            icon='fa-solid fa-cloud-arrow-up'
-            color={this.state.error ? '#FF4526' : 'black'}
-            style={{ position: 'absolute', top: 10, right: 12 }}
-          />
-        )}
-      </div>
+          >
+            <Text
+              style={{
+                fontSize: noteTitleFontSize,
+                color: noteNameFgColor,
+                lineHeight: 1.5,
+              }}
+            >
+              {noteName}
+            </Text>
+          </View>
+          {this.state.loading ? (
+            <Empty image={null} description={<ActivityIndicator />} />
+          ) : (
+            <TextArea
+              value={this.state.content}
+              onChange={this._onContentChanged}
+              onFocus={() => {
+                const oc = BrekekeOperatorConsole.getStaticInstance()
+                oc.addDisableKeydownToDialingCounter()
+                oc.addDisablePasteToDialingCounter()
+              }}
+              onBlur={() => {
+                const oc = BrekekeOperatorConsole.getStaticInstance()
+                oc.subtractDisableKeydownToDialingCounter()
+                oc.subtractDisablePasteToDialingCounter()
+              }}
+              readOnly={this._readonly}
+              maxLength={10000000}
+              style={{
+                fontSize: noteBodyFontSize,
+                color: noteTextForegroundColor,
+              }}
+            />
+          )}
+          {(this.state.error || this.state.saving) && (
+            <FontAwesomeIcon
+              icon='fa-solid fa-cloud-arrow-up'
+              color={this.state.error ? '#FF4526' : 'black'}
+              style={{ position: 'absolute', top: 10, right: 12 }}
+            />
+          )}
+        </View>
+      </LinearGradient>
     )
   }
 }

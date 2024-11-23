@@ -1,13 +1,15 @@
 import { Button, Input } from '@ant-design/react-native'
 import InputNumber from 'antd/lib/input-number'
-import Space from 'antd/lib/space'
 import React from 'react'
 import { SketchPicker } from 'react-color'
+import { Dimensions, Image, Text, View } from 'react-native'
 
 import logo from '../logo.png'
 
+import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { Select, SelectOption } from '../common/Select'
+import { Space } from '../common/Space'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -278,18 +280,18 @@ export class EditScreenView extends React.Component<Props, State> {
       EditorWidgetTemplateFactory.getStaticEditorWidgetSettingsFactoryInstance().getEditorWidgetTemplateArray()
 
     return (
-      <div
+      <View
         style={{
           display: 'flex',
           justifyContent: 'center',
-          flexFlow: 'column',
+          flexDirection: 'column',
           alignItems: 'center',
         }}
       >
         {widgetTemplateArray.map((widgetTemplate, index) =>
           widgetTemplate.getRenderJsx(index, this),
         )}
-      </div>
+      </View>
     )
   }
 
@@ -302,9 +304,9 @@ export class EditScreenView extends React.Component<Props, State> {
         const enableTabs = currentEditingPane.getEditorPanezEnableTabs()
         jsx = (
           <>
-            <div>
-              <div>{i18n.t('Tabs')}:</div>
-              <div>
+            <View>
+              <Text>{i18n.t('Tabs')}:</Text>
+              <View>
                 <Select
                   name='enableTabs'
                   onChange={value => this._onChangeTabsEnable(value)}
@@ -317,31 +319,31 @@ export class EditScreenView extends React.Component<Props, State> {
                     {i18n.t('Enable')}
                   </SelectOption>
                 </Select>
-              </div>
-            </div>
-            <div>
-              <div>{i18n.t('Area')}:</div>
-              <div>
+              </View>
+            </View>
+            <View>
+              <Text>{i18n.t('Area')}:</Text>
+              <View>
                 <Button
                   style={{ width: '100%' }}
-                  onClick={() => {
+                  onPress={() => {
                     this._splitVertically()
                   }}
                 >
                   {i18n.t('splitVertically')}
                 </Button>
-              </div>
-              <div>
+              </View>
+              <View>
                 <Button
                   style={{ width: '100%' }}
-                  onClick={() => {
+                  onPress={() => {
                     this._splitHorizontally()
                   }}
                 >
                   {i18n.t('splitHorizontally')}
                 </Button>
-              </div>
-            </div>
+              </View>
+            </View>
           </>
         )
         break
@@ -362,20 +364,20 @@ export class EditScreenView extends React.Component<Props, State> {
       case _PROPERTIES_MODE.tab: {
         jsx = (
           <>
-            <div>
+            <View>
               <Input
                 type='text'
                 name='tabLabel'
                 defaultValue={i18n.t('UntitledTab')}
               />
-              <Button onClick={ev => this._onClickAddTab(ev)}>
+              <Button onPress={ev => this._onClickAddTab(ev)}>
                 {i18n.t('Add_tab')}
               </Button>
-              <Button onClick={ev => this._onClickRenameTab(ev)}>
+              <Button onPress={ev => this._onClickRenameTab(ev)}>
                 {i18n.t('Rename_tab')}
               </Button>
-            </div>
-            <div>
+            </View>
+            <View>
               <Popconfirm
                 title={i18n.t('Are_you_sure_you_want_to_remove_the_tab')}
                 onConfirm={() => this._onClickRemoveTab()}
@@ -384,7 +386,7 @@ export class EditScreenView extends React.Component<Props, State> {
               >
                 <Button>{i18n.t('Remove_tab')}</Button>
               </Popconfirm>
-            </div>
+            </View>
           </>
         )
         break
@@ -411,22 +413,24 @@ export class EditScreenView extends React.Component<Props, State> {
   render() {
     const settingsAreaJsx = this._getSettingsAreaJsx()
     return (
-      <div
+      <View
         style={{
           display: 'flex',
-          flexFlow: 'column',
+          flexDirection: 'column',
           alignItems: 'stretch',
           height: '100%',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', height: '47ox' }}>
-          <div style={{ width: '240px' }}>
-            <img style={{ marginTop: '4px', marginLeft: '4px' }} src={logo} />
-          </div>
-          {/* <DropDownMenu operatorConsole={this._OperatorConsoleAsParent}></DropDownMenu>*/}
+        <View style={{ display: 'flex', alignItems: 'center', height: 47 }}>
+          <View style={{ width: 240 }}>
+            <Image
+              style={{ marginTop: 4, marginLeft: 4 }}
+              source={{ uri: logo }}
+            />
+          </View>
           <Space>
-            <label>
-              {i18n.t('grid')}
+            <>
+              <Text>{i18n.t('grid')}</Text>
               {': '}
               <InputNumber
                 value={this.getEditingScreenGrid()}
@@ -435,12 +439,11 @@ export class EditScreenView extends React.Component<Props, State> {
                 }
                 onStep={v => this.setEditingScreenGrid(v)}
               />
-            </label>
-            <label
+            </>
+            <View
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                whiteSpace: 'pre',
               }}
             >
               {i18n.t('foreground')}
@@ -453,25 +456,26 @@ export class EditScreenView extends React.Component<Props, State> {
                   />
                 }
               >
-                <div
+                <View
                   style={{
                     width: 48,
                     height: 30,
-                    display: 'inline-block',
-                    border: 'solid 1px #e0e0e0',
-                    background: this._ScreenData.getScreenForegroundColor(),
+                    borderColor: ' #e0e0e0',
+                    borderStyle: 'solid',
+                    borderWidth: 1,
+                    backgroundColor:
+                      this._ScreenData.getScreenForegroundColor(),
                   }}
-                ></div>
+                ></View>
               </Dropdown>
-            </label>
-            <label
+            </View>
+            <View
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                whiteSpace: 'pre',
               }}
             >
-              {i18n.t('background')}
+              <Text>{i18n.t('background')}</Text>
               {': '}
               <Dropdown
                 overlay={
@@ -481,19 +485,21 @@ export class EditScreenView extends React.Component<Props, State> {
                   />
                 }
               >
-                <div
+                <View
                   style={{
                     width: 48,
                     height: 30,
-                    display: 'inline-block',
-                    border: 'solid 1px #e0e0e0',
-                    background: this._ScreenData.getScreenBackgroundColor(),
+                    borderColor: ' #e0e0e0',
+                    borderStyle: 'solid',
+                    borderWidth: 1,
+                    backgroundColor:
+                      this._ScreenData.getScreenBackgroundColor(),
                   }}
-                ></div>
+                ></View>
               </Dropdown>
-            </label>
+            </View>
           </Space>
-          <div style={{ marginLeft: 'auto', marginRight: '4px' }}>
+          <View style={{ marginLeft: 'auto', marginRight: 4 }}>
             <Space>
               <Popconfirm
                 title={i18n.t('are_you_sure')}
@@ -507,19 +513,24 @@ export class EditScreenView extends React.Component<Props, State> {
               <Button
                 type='success'
                 htmlType='cancel'
-                onClick={() => this._saveEditingScreen()}
+                onPress={() => this._saveEditingScreen()}
               >
                 {i18n.t('save')}
               </Button>
             </Space>
-          </div>
-        </div>
-        <div style={{ display: 'flex', height: 'calc(100% - 47px)' }}>
-          <div style={{ width: '240px', overflowY: 'auto' }}>
+          </View>
+        </View>
+        <View
+          style={{
+            display: 'flex',
+            height: Dimensions.get('screen').height - 47,
+          }}
+        >
+          <View style={{ width: 240 }}>
             {/* left -  widget templates area*/}
             {this._getWidgetTemplatesAreaJsx()}
-          </div>
-          <div style={{ width: 'calc(100% - 500px)', overflow: 'auto' }}>
+          </View>
+          <View style={{ width: Dimensions.get('screen').height - 500 }}>
             <EditorRootPane
               paneData={this._RootPaneData}
               editScreenViewAsParent={this}
@@ -527,22 +538,20 @@ export class EditScreenView extends React.Component<Props, State> {
               backgroundColor={this._ScreenData.getScreenBackgroundColor()}
               className='width100percentAndHeight100percent'
             />
-          </div>
-          <div
+          </View>
+          <View
             style={{
-              width: '260px',
-              borderLeft: 'rgb(224,224,224)',
+              width: 260,
               display: 'flex',
               flexDirection: 'column',
-              gap: '12px',
-              overflow: 'hidden',
-              margin: '4px',
+              gap: 12,
+              margin: 4,
             }}
           >
             {settingsAreaJsx}
-          </div>
-        </div>
-      </div>
+          </View>
+        </View>
+      </View>
     )
   }
 }

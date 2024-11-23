@@ -1,5 +1,4 @@
-import Notification from 'antd/lib/notification'
-
+import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'

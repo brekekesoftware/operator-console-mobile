@@ -1,9 +1,10 @@
 import { Button } from '@ant-design/react-native'
-import { Space } from 'antd'
-import Notification from 'antd/lib/notification'
 import React from 'react'
+import { Dimensions, View } from 'react-native'
 
+import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
+import { Space } from '../common/Space'
 import { i18n } from '../i18n'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
 import { SystemSettingsForm } from './SystemSettingsForm'
@@ -22,8 +23,11 @@ export const OPERATOR_CONSOLE_SYSTEM_SETTINGS_DATA_VERSION = '0.1'
 type Props = {
   operatorConsole: BrekekeOperatorConsole
 }
+type State = {
+  isSystemSettingsSaving?: boolean
+}
 
-export class SystemSettingsView extends React.Component<Props> {
+export class SystemSettingsView extends React.Component<Props, State> {
   operatorConsoleAsParent: BrekekeOperatorConsole
   setSystemSettingsUseFormBindedFunction
   _systemSettingsUseForm
@@ -179,7 +183,6 @@ export class SystemSettingsView extends React.Component<Props> {
     }
     // Notification.error({message: i18n.t('failed_to_save_data_to_pbx') + "\r\n" +  e, duration:0 });
     Notification.error({
-      key: 'sync',
       message: i18n.t('failed_to_save_data_to_pbx'),
       btn: (
         <Button
@@ -199,7 +202,6 @@ export class SystemSettingsView extends React.Component<Props> {
 
   _onSetOCNoteSuccessAtSyncUp() {
     Notification.success({
-      key: 'sync',
       message: i18n.t('saved_data_to_pbx_successfully'),
     })
     this.operatorConsoleAsParent.abortSystemSettings()
@@ -306,15 +308,17 @@ export class SystemSettingsView extends React.Component<Props> {
     const isButtonsEnabled = this.state.isSystemSettingsSaving === true
     return (
       <>
-        <div
+        <View
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
             padding: 4,
-            borderBottom: 'solid 1px #e0e0e0',
+            borderColor: '#e0e0e0',
+            borderStyle: 'solid',
+            borderBottomWidth: 1,
           }}
         >
-          <div>
+          <View>
             <Space>
               <Popconfirm
                 title={i18n.t('are_you_sure')}
@@ -330,28 +334,27 @@ export class SystemSettingsView extends React.Component<Props> {
               <Button
                 type='success'
                 htmlType='cancel'
-                onClick={this.saveSystemSettings}
+                onPress={this.saveSystemSettings}
                 disabled={isButtonsEnabled}
               >
                 {i18n.t('save')}
               </Button>
             </Space>
-          </div>
-        </div>
-        {/* <div style={{position:"absolute",top:40,margin:"0px 20px 0px 20px",paddingBottom:"20px",height:"calc(100% - 40px)",overflow:"scroll",width:"calc(100% - 20px)"}}>*/}
-        <div
+          </View>
+        </View>
+
+        <View
           style={{
             position: 'absolute',
             left: 20,
             top: 40,
             paddingRight: 20,
             paddingBottom: 20,
-            width: 'calc(100% - 40px)',
-            height: 'calc(100% - 60px)',
-            overflow: 'scroll',
+            width: Dimensions.get('screen').width - 40,
+            height: Dimensions.get('screen').height - 60,
           }}
         >
-          <div>
+          <View>
             <SystemSettingsForm
               hasCall={hasCall}
               setSystemSettingsUseFormBindedFunction={
@@ -361,8 +364,8 @@ export class SystemSettingsView extends React.Component<Props> {
               // onChangeUcChatAgentComponentEnabledFunction ={this._onChangeUcChatAgentComponentEnabled}
               // setAceEditorFunction={ function( aceEditor ){ this_.setAceEditor( aceEditor ) }}
             />
-          </div>
-        </div>
+          </View>
+        </View>
       </>
     )
   }

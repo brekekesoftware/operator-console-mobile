@@ -1,7 +1,11 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Space } from 'antd'
+import {
+  MinusCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons-react-native'
+import { Button, Form, Input } from '@ant-design/react-native'
 import React from 'react'
 
+import { Space } from '../common/Space'
 import { i18n } from '../i18n'
 
 export class RingtoneSettings extends React.Component {
@@ -10,7 +14,6 @@ export class RingtoneSettings extends React.Component {
   }
 
   render() {
-    // return <div>Hello {this.text}</div>
     return (
       <Form.List name='ringtoneInfos'>
         {(fields, { add, remove }) => (
@@ -51,7 +54,7 @@ export class RingtoneSettings extends React.Component {
                     style={{ width: 600 }}
                   />
                 </Form.Item>
-                <MinusCircleOutlined onClick={() => remove(name)} />
+                <MinusCircleOutlined onPress={() => remove(name)} />
               </Space>
             ))}
             <Form.Item>

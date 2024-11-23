@@ -1,3 +1,5 @@
+import { StyleSheet, Text, View } from 'react-native'
+
 import {
   IconKeyboard,
   IconPhoneIncoming,
@@ -177,47 +179,45 @@ export class CallPanelRuntimeWidget extends RuntimeWidget {
     const partyName = currentCallInfo?.getPartyName()
     const hasPartyName = partyName && partyName.length !== 0
     return (
-      <div
-        className='brOCCallPanel'
+      <View
         style={{
           borderRadius: callpanelBorderRadius,
           backgroundColor: callpanelBgColor,
-          boxShadow: sBoxShadow,
-          color: callpanelFgColor,
+          // boxShadow: sBoxShadow,
         }}
       >
-        <div className='brOCCallPanelRow'>
-          <div className='brOCCallPanelLeft'>
+        <View style={styles.row}>
+          <View style={styles.left}>
             {!!currentCallInfo &&
               (currentCallInfo.getIsIncoming()
                 ? IconPhoneIncoming
                 : IconPhoneOutgoing)}
-          </div>
-          <div className='brOCCallPanelMain'>
+          </View>
+          <View style={styles.main}>
             {hasPartyName && (
-              <div className='brOCCallPanelPartyName'>{partyName}</div>
+              <Text style={[styles.party, { color: callpanelFgColor }]}>
+                {partyName}
+              </Text>
             )}
-            <div
-              className={
-                hasPartyName
-                  ? 'brOCCallPanelPartyNumber_small'
-                  : 'brOCCallPanelPartyNumber'
-              }
-            >
+            <Text style={[hasPartyName ? styles.small : styles.party]}>
               {currentCallInfo?.getPartyNumber()}
-            </div>
-            <div className='brOCCallPanelDuration'>{this.state.duration}</div>
-          </div>
-        </div>
-        <div className='brOCCallPanelRow'>
+            </Text>
+            <Text style={[styles.party, { color: callpanelFgColor }]}>
+              {this.state.duration}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.row}>
           {bIsDTMFInput !== true && dialing.length !== 0 && (
-            <div className='brOCCallPanelLeft'>{IconKeyboard}</div>
+            <View style={styles.left}>{IconKeyboard}</View>
           )}
-          <div className='brOCCallPanelMain'>
-            <div className='brOCCallPanelDialing'>{dialing}</div>
-          </div>
-        </div>
-      </div>
+          <View style={styles.main}>
+            <Text style={[styles.party, { color: callpanelFgColor }]}>
+              {dialing}
+            </Text>
+          </View>
+        </View>
+      </View>
     )
   }
 
@@ -241,3 +241,29 @@ export class CallPanelRuntimeWidget extends RuntimeWidget {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  row: {
+    minHeight: 48,
+  },
+  left: {
+    width: 24,
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  main: {
+    flexGrow: 1,
+    marginLeft: 4,
+  },
+  party: {
+    fontSize: 19,
+    lineHeight: 19,
+  },
+  item: {
+    height: 19,
+  },
+  small: {
+    fontSize: 14,
+    lineHeight: 14,
+  },
+})

@@ -1,12 +1,15 @@
-import { Button, Modal } from 'antd'
+import { Button } from '@ant-design/react-native'
 import Dropdown from 'antd/lib/dropdown'
-import Notification from 'antd/lib/notification'
 import { useState } from 'react'
+import { Text, View } from 'react-native'
 
+import { Modal } from '../../../common/Modal'
+import { Notification } from '../../../common/Notification'
 import { Popconfirm } from '../../../common/Popconfirm'
 import { i18n } from '../../../i18n'
 import { OCUtil } from '../../../OCUtil'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
+import { OperatorConsoleStyles } from '../../../OperatorConsoleStyles'
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 
@@ -38,7 +41,7 @@ const LineButton = ({
       }}
       title={i18n.t('legacy_button_description.LegacyLineButton')}
       className={'kbc-button kbc-button-fill-parent'}
-      onClick={() => oc.handleLine(line)}
+      onPress={() => oc.handleLine(line)}
     >
       {label}
     </button>
@@ -118,7 +121,7 @@ const TransferCancelButton = ({
         }}
         title={i18n.t('transferCancelButtonDesc')}
         className={'kbc-button kbc-button-fill-parent'}
-        // onClick={() => alert("onClick campon button!") }
+        // onPress={() => alert("onPress campon button!") }
       >
         {i18n.t('cancel')}
       </button>
@@ -186,10 +189,10 @@ const TransferButton = ({
     const label = (
       <>
         {extensionCallNumber}
-        <div
-          style={{ display: 'inline-block' }}
-          className={statusClassName}
-        ></div>
+        <View
+          // style={{ display: 'inline-block' }}
+          style={OperatorConsoleStyles[statusClassName]}
+        ></View>
       </>
     )
     const item = {
@@ -357,7 +360,7 @@ const TransferButton = ({
     <>
       <Dropdown
         key='dropdown'
-        menu={{ items, onClick: handleMenuClick }}
+        menu={{ items, onPress: handleMenuClick }}
         trigger='click'
         open={open}
         onOpenChange={handleOpenChange}
@@ -377,7 +380,7 @@ const TransferButton = ({
           }}
           title={i18n.t('transferButtonDesc')}
           className={'kbc-button kbc-button-fill-parent'}
-          // onClick={() => alert("onClick campon button!") }
+          // onPress={() => alert("onPress campon button!") }
         >
           {i18n.t('transfer')}
         </button>
@@ -390,12 +393,12 @@ const TransferButton = ({
         onCancel={handleModalCancel}
         width={700}
         footer={[
-          <div key='0' style={{ whiteSpace: 'nowrap' }}>
+          <View key='0'>
             <Button
               key='submit'
               type='primary'
               loading={modalLoading}
-              onClick={handleBlindTransferNow}
+              onPress={handleBlindTransferNow}
             >
               {i18n.t('blindTransfer')}
             </Button>
@@ -403,19 +406,19 @@ const TransferButton = ({
               key='submit2'
               type='primary'
               loading={modalLoading}
-              onClick={handleActiveAndStartBlindTransferNow}
-              className='brOCMarginLeftButtonToButton'
+              onPress={handleActiveAndStartBlindTransferNow}
+              style={{ marginLeft: 6 }}
             >
               {i18n.t('activateAndStartBlindTransfer')}
             </Button>
             <Button
               key='back'
-              onClick={handleModalCancel}
-              className='brOCMarginLeftButtonToButton'
+              onPress={handleModalCancel}
+              style={{ marginLeft: 6 }}
             >
               {i18n.t('cancel')}
             </Button>
-          </div>,
+          </View>,
         ]}
       >
         {i18n.t('confirmTransferNow')}
@@ -427,12 +430,12 @@ const TransferButton = ({
         onOk={handleCamponAuto}
         onCancel={handleModalForBusyCancel}
         footer={[
-          <div key='1' style={{ whiteSpace: 'nowrap' }}>
+          <View key='1'>
             <Button
               key='submitForBusy'
               type='primary'
               loading={modalLoading}
-              onClick={handleCamponAuto}
+              onPress={handleCamponAuto}
             >
               {i18n.t('campOnAuto')}
             </Button>
@@ -440,22 +443,22 @@ const TransferButton = ({
               key='submitForBusy2'
               type='primary'
               loading={modalLoading}
-              onClick={handleCamponManual}
-              className='brOCMarginLeftButtonToButton'
+              onPress={handleCamponManual}
+              style={{ marginLeft: 6 }}
             >
               {i18n.t('campOn')}
             </Button>
             <Button
               key='backForBusy'
-              onClick={handleModalForBusyCancel}
-              className='brOCMarginLeftButtonToButton'
+              onPress={handleModalForBusyCancel}
+              style={{ marginLeft: 6 }}
             >
               {i18n.t('cancel')}
             </Button>
-          </div>,
+          </View>,
         ]}
       >
-        {i18n.t('confirmTransferForBusy')}
+        <Text>{i18n.t('confirmTransferForBusy')}</Text>
       </Modal>
     </>
   )

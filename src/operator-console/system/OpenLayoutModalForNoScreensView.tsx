@@ -1,5 +1,6 @@
-import { Button, Modal } from 'antd'
+import { Button } from '@ant-design/react-native'
 
+import { Modal } from '../common/Modal'
 import { i18n } from '../i18n'
 
 export const OpenLayoutModalForNoScreensView = props => {
@@ -26,7 +27,7 @@ export const OpenLayoutModalForNoScreensView = props => {
     footer = []
   } else {
     footer = [
-      <Button key='back' onClick={handleCancel}>
+      <Button key='back' onPress={handleCancel}>
         {i18n.t('cancel')}
       </Button>,
     ]

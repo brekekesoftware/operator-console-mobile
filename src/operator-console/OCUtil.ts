@@ -1,4 +1,4 @@
-import Notification from 'antd/lib/notification'
+import { Notification } from './common/Notification'
 
 export class OCUtil {
   // static removeElementFromArray( array, element ){
@@ -46,16 +46,15 @@ export class OCUtil {
     return b
   }
 
-  static getExtensionStatusClassName(extensionId, extensionsStatus) {
+  static getExtensionStatusClassName(extensionId, extensionsStatus): string {
     const status = Object.values(
       extensionsStatus?.[extensionId]?.callStatus || {},
     )
-    const statusClassName =
-      (status.find(s => s === 'talking') && 'led-red') ||
-      (status.find(s =>
-        ['holding', 'calling', 'ringing'].includes(s as string),
-      ) &&
-        'led-yellow') ||
+    const statusClassName: string =
+      (status.find(s => s === 'talking') ? 'led-red' : '') ||
+      (status.find(s => ['holding', 'calling', 'ringing'].includes(s as string))
+        ? 'led-yellow'
+        : '') ||
       (extensionsStatus?.[extensionId]?.registered ? 'led-green' : 'led-grey')
     return statusClassName
   }
