@@ -1,7 +1,8 @@
-import { Divider, Input } from 'antd'
-import InputNumber from 'antd/lib/input-number'
+import { Input } from '@ant-design/react-native'
+import { Divider } from 'antd'
 import { Colorpicker } from 'antd-colorpicker'
 
+import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 

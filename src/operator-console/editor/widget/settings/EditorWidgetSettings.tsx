@@ -1,7 +1,7 @@
-import { Button } from '@ant-design/react-native'
 import { Component } from 'react'
 import { Text, View } from 'react-native'
 
+import { Button } from '../../../common/Button'
 import { Popconfirm } from '../../../common/Popconfirm'
 import { i18n } from '../../../i18n'
 import type { EditScreenView } from '../../EditScreenView'
@@ -71,7 +71,7 @@ export class EditorWidgetSettings extends Component<Props, State> {
             okText={i18n.t('yes')}
             cancelText={i18n.t('no')}
           >
-            <Button type='danger'>{i18n.t('remove')}</Button>
+            <Button type='warning'>{i18n.t('remove')}</Button>
           </Popconfirm>
         </View>
       </>

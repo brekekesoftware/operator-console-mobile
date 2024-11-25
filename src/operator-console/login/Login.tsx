@@ -1,8 +1,9 @@
-import { Button, Form, Input } from '@ant-design/react-native'
+import { Form, Input } from '@ant-design/react-native'
 import React, { createRef } from 'react'
 
 import './login.scss'
 
+import { Button } from '../common/Button'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
@@ -290,7 +291,6 @@ export class Login extends React.Component<Props> {
             <Form.Item>
               <Button
                 type='success'
-                htmlType='submit'
                 className='brOCLoginButton'
                 disabled={this.state.isSigningin}
               >

@@ -3,6 +3,7 @@ import { Colorpicker } from 'antd-colorpicker'
 import { debounce } from 'lodash'
 import { Component, createRef } from 'react'
 
+import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
 
 type Props = {

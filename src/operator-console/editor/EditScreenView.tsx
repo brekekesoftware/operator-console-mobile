@@ -1,11 +1,12 @@
-import { Button, Input } from '@ant-design/react-native'
-import InputNumber from 'antd/lib/input-number'
+import { Input } from '@ant-design/react-native'
 import React from 'react'
 import { SketchPicker } from 'react-color'
 import { Dimensions, Image, Text, View } from 'react-native'
 
 import logo from '../logo.png'
 
+import { Button } from '../common/Button'
+import { InputNumber } from '../common/InputNumber'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { Select, SelectOption } from '../common/Select'
@@ -434,9 +435,9 @@ export class EditScreenView extends React.Component<Props, State> {
               {': '}
               <InputNumber
                 value={this.getEditingScreenGrid()}
-                onPressEnter={e =>
-                  this.setEditingScreenGrid(parseInt(e.target.value))
-                }
+                // onPressEnter={e =>
+                //   this.setEditingScreenGrid(parseInt(e.target.value))
+                // }
                 onStep={v => this.setEditingScreenGrid(v)}
               />
             </>
@@ -510,11 +511,7 @@ export class EditScreenView extends React.Component<Props, State> {
                 <Button type='secondary'>{i18n.t('discard')}</Button>
               </Popconfirm>
               <Space />
-              <Button
-                type='success'
-                htmlType='cancel'
-                onPress={() => this._saveEditingScreen()}
-              >
+              <Button type='success' onPress={() => this._saveEditingScreen()}>
                 {i18n.t('save')}
               </Button>
             </Space>

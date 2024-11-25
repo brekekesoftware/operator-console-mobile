@@ -8,6 +8,7 @@ import { debounce } from 'lodash'
 import { Component, createRef } from 'react'
 import { Text } from 'react-native'
 
+import { InputNumber } from '../common/InputNumber'
 import { Select, SelectOption } from '../common/Select'
 import { i18n } from '../i18n'
 import { LegacyButtonMap } from '../OperatorConsole'

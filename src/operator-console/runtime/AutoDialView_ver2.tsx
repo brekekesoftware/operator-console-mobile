@@ -1,4 +1,4 @@
-import { ActivityIndicator, Button, Switch } from '@ant-design/react-native'
+import { ActivityIndicator, Switch } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
 
@@ -7,6 +7,7 @@ import './AutoDialView_ver2.css'
 
 import { BrekekeOperatorConsole } from '..//OperatorConsole'
 import { CallHistory2 } from '../call/CallHistory2'
+import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
@@ -1156,7 +1157,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                           }}
                                         >
                                           <Button
-                                            onClick={e =>
+                                            onPress={e =>
                                               this._openAddContactView()
                                             }
                                           >

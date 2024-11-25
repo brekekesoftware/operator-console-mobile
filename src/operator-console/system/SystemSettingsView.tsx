@@ -1,7 +1,7 @@
-import { Button } from '@ant-design/react-native'
 import React from 'react'
 import { Dimensions, View } from 'react-native'
 
+import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { Space } from '../common/Space'
@@ -333,7 +333,6 @@ export class SystemSettingsView extends React.Component<Props, State> {
               <Space />
               <Button
                 type='success'
-                htmlType='cancel'
                 onPress={this.saveSystemSettings}
                 disabled={isButtonsEnabled}
               >

@@ -1,6 +1,7 @@
-import { Button } from '@ant-design/react-native'
 import { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
+import { Button } from './Button'
 
 type Props = {
   title: string
@@ -48,7 +49,7 @@ export const Popconfirm = ({
           </View>
           <View style={styles.buttons}>
             <Button style={styles.button} onPress={onCancel}>
-              {cancelText}
+              <Text>{cancelText}</Text>
             </Button>
             <Button type='primary' style={styles.button} onPress={onConfirm}>
               {okText}

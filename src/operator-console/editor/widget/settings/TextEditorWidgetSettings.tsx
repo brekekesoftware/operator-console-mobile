@@ -1,7 +1,7 @@
-import { Input } from 'antd'
-import InputNumber from 'antd/lib/input-number'
+import { Input } from '@ant-design/react-native'
 import { Colorpicker } from 'antd-colorpicker'
 
+import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 
@@ -51,7 +51,7 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
       <>
         <p>{i18n.t('text')}</p>
         <Input.TextArea
-          style={{ width: '100%', height: '160px' }}
+          style={{ width: '100%', height: 160 }}
           value={widgetData.getText()}
           onChange={e => this._onChangeTextArea(e)}
         />

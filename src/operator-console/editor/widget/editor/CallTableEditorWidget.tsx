@@ -1,4 +1,5 @@
 import { DummyCallInfo } from '../../../call/DummyCallInfo'
+import { WidgetButton } from '../../../common/WidgetButton'
 import { i18n } from '../../../i18n'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
@@ -244,14 +245,13 @@ export class CallTableEditorWidget extends EditorWidget {
                       margin: '0 auto',
                     }}
                   >
-                    <button
+                    <WidgetButton
                       title={i18n.t('activeButtonDesc')}
-                      className='kbc-button kbc-button-fill-parent'
                       style={{ fontSize: activeButtonFontSize }}
                       disabled={true}
                     >
                       {i18n.t('active')}
-                    </button>
+                    </WidgetButton>
                   </div>
                 )
               }

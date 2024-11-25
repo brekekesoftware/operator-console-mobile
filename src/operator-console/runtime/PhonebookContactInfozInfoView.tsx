@@ -1,10 +1,11 @@
-import { Button, Checkbox, Input } from '@ant-design/react-native'
+import { Checkbox, Input } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
 
 import './reset.css'
 import './phonebookContactInfozInfoView.css'
 
+import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
 import { i18n } from '../i18n'
@@ -958,17 +959,14 @@ export class PhonebookContactInfozInfoView extends React.Component {
                       okText={i18n.t('yes')}
                       cancelText={i18n.t('no')}
                     >
-                      <Button
-                        style={{ marginRight: '4px' }}
-                        disabled={!isSaveable}
-                      >
+                      <Button style={{ marginRight: 4 }} disabled={!isSaveable}>
                         {i18n.t('Delete')}
                       </Button>
                     </Popconfirm>
                   )}
                   <Button
                     type='success'
-                    onClick={e => this._save()}
+                    onPress={e => this._save()}
                     disabled={!isSaveable}
                   >
                     {i18n.t('save')}

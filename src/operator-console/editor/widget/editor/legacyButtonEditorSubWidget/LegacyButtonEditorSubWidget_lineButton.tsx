@@ -1,5 +1,5 @@
-import { i18n } from '../../../../i18n'
-import BrekekeOperatorConsole from '../../../../OperatorConsole'
+import { WidgetButton } from '../../../../common/WidgetButton'
+import { BrekekeOperatorConsole } from '../../../../OperatorConsole'
 import { Util } from '../../../../Util'
 import { LegacyButtonEditorSubWidget } from './LegacyButtonEditorSubWidget'
 
@@ -15,32 +15,7 @@ export class LegacyButtonEditorSubWidget_lineButton extends LegacyButtonEditorSu
   getRenderJsx() {
     const widgetData =
       this.getLegacyButtonSubWidgetData().getLegacyButtonWidgetDataAsParent()
-    const sButtonFontSize = widgetData.getFontSize()
-      ? widgetData.getFontSize() + 'px'
-      : '1rem' // !default
-    const buttonFgColor = widgetData.getFgColor()
-    const buttonBgColor = widgetData.getBgColor()
-    const buttonOuterBorderColor = widgetData.getOuterBorderColor()
-    const buttonOuterBorderThickness = widgetData.getOuterBorderThickness()
-    const buttonOuterBorderRadius = widgetData.getOuterBorderRadius()
-
-    const color = Util.isAntdRgbaProperty(buttonFgColor)
-      ? Util.getRgbaCSSStringFromAntdColor(buttonFgColor)
-      : ''
-    const backgroundColor = Util.isAntdRgbaProperty(buttonBgColor)
-      ? Util.getRgbaCSSStringFromAntdColor(buttonBgColor)
-      : ''
-    const border =
-      Util.isNumeric(buttonOuterBorderThickness) &&
-      Util.isAntdRgbaProperty(buttonOuterBorderColor)
-        ? 'solid ' +
-          buttonOuterBorderThickness +
-          'px ' +
-          Util.getRgbaCSSStringFromAntdColor(buttonOuterBorderColor)
-        : ''
-    const borderRadius = Util.isNumber(buttonOuterBorderRadius)
-      ? buttonOuterBorderRadius + 'px'
-      : ''
+    const cStyle = Util.getLegacyButtonEditorStyle(widgetData)
 
     const oc = BrekekeOperatorConsole.getStaticInstance()
     const callInfos = oc.getPhoneClient().getCallInfos()
@@ -76,29 +51,11 @@ export class LegacyButtonEditorSubWidget_lineButton extends LegacyButtonEditorSu
       }
     }
 
-    // if( light && light.length !== 0 ){
-    //     //Use default
-    //     color = null;
-    //     backgroundColor = null;
-    // }
-
-    const subtypeName = this._getLegacyButtonWidgetSubTypeName()
     const iconJsx = this._getIconJsx()
     return (
-      <button
-        title={i18n.t(`legacy_button_description.${subtypeName}`)}
-        className={clsx('kbc-button kbc-button-fill-parent', light)}
-        style={{
-          fontSize: sButtonFontSize,
-          border,
-          borderRadius,
-          color,
-          backgroundColor,
-        }}
-        disabled={true}
-      >
+      <WidgetButton style={cStyle.s} textStyle={cStyle.tStyle} disabled={true}>
         {iconJsx}
-      </button>
+      </WidgetButton>
     )
   }
 }

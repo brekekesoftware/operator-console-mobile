@@ -1,9 +1,11 @@
-import { Form, Input, InputNumber } from '@ant-design/react-native'
+import { Form, Input } from '@ant-design/react-native'
 import { Divider } from 'antd'
 import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
 import React from 'react'
+import { Text, View } from 'react-native'
 
+import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
@@ -258,8 +260,8 @@ export class LineTableSettings extends React.Component<Props, State> {
           <InputNumber min='1' max={LineTableSettings.MAX_LINE_NO} />
         </Form.Item>
         {lineInfos.map((lineInfo, i) => (
-          <div key={divKey++}>
-            <h3>{i18n.t('line') + ' ' + (i + 1)}</h3>
+          <View key={divKey++}>
+            <Text>{i18n.t('line') + ' ' + (i + 1)}</Text>
             <Form.Item
               key={key++}
               label={i18n.t('resourceName')}
@@ -282,7 +284,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             >
               <Input allowClear />
             </Form.Item>
-          </div>
+          </View>
         ))}
         <Form.Item
           label={i18n.t('bgColor')}

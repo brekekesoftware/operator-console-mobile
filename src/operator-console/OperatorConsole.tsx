@@ -1,6 +1,5 @@
 import {
   ActivityIndicator,
-  Button,
   Dropdown,
   Form,
   Input,
@@ -11,10 +10,11 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { cloneDeep } from 'lodash'
 import React from 'react'
 import { SketchPicker } from 'react-color'
 import ReactDOM from 'react-dom/client'
-import { Image, View } from 'react-native'
+import { Image, ScrollView, Text, View } from 'react-native'
 import { Rnd } from 'react-rnd'
 
 import './index.scss'
@@ -28,8 +28,10 @@ import { LegacyCallPanelSettings } from './call/LegacyCallPanelSettings'
 import { PalPhoneClient } from './call/PalPhoneClient'
 import { PalRestApi } from './call/PalRestApi'
 import { WebphonePhoneClient } from './call/WebphonePhoneClient'
+import { Button } from './common/Button'
 import { Empty } from './common/Empty'
 import { GridLines } from './common/GridLines'
+import { InputNumber } from './common/InputNumber'
 import { Modal } from './common/Modal'
 import { Notification } from './common/Notification'
 import { Popconfirm } from './common/Popconfirm'
@@ -1018,11 +1020,11 @@ const INIT_STATE = {
 
 type BrekekeOperatorConsoleProps = {}
 type BrekekeOperatorConsoleState = {
-  systemSettingsData: any
+  systemSettingsData?: any
   isAboutOCModalOpen: boolean
   _downedLayoutAndSystemSettings: boolean
   displayState?: number
-  screenData_ver2: any
+  screenData_ver2?: any
   editingTabDatas: Array<any>
   isSelectingTabInEditLayout: boolean
   currentScreenTabIndex: number
@@ -1054,13 +1056,13 @@ type BrekekeOperatorConsoleState = {
   parksStatus: any
   myParksStatus: any
   usingLine: string
-  newLayoutModalOpen: boolean
-  lastLayoutShortname: string
-  showConfirmDeleteWidget: boolean
-  showConfirmDeleteTab: boolean
-  lastLoginAccount: any
-  refresh: boolean
-  isAdmin: boolean
+  newLayoutModalOpen?: boolean
+  lastLayoutShortname?: string
+  showConfirmDeleteWidget?: boolean
+  showConfirmDeleteTab?: boolean
+  lastLoginAccount?: any
+  refresh?: boolean
+  isAdmin?: boolean
 }
 
 export class BrekekeOperatorConsole extends React.Component<
@@ -1112,29 +1114,22 @@ export class BrekekeOperatorConsole extends React.Component<
     super(props)
     BREKEKE_OPERATOR_CONSOLE = this
     this._DefaultPbxDirectoryName = 'pbx'
-    // this.callById = {};
-    // this._callIds = new Array();
     this._disableKeydownToDialingCounter = 0
     this._disablePasteToDialingCounter = 0
     this._isDTMFInput = false
     this._OnBackspaceKeypadValueCallbacks = []
     this._OnAppendKeypadValueCallbacks = []
     this._OnClearDialingCallbacks = []
-    // this._OnSetCurrentScreenIndexCallbacks = [];
     this._systemSettingsView = null
-    this.state = window.structuredClone(INIT_STATE)
+    this.state = cloneDeep(INIT_STATE)
     this._PalRestApi = new PalRestApi()
-    // this.state.operatorConsole = this;
     this._CallHistory = new CallHistory(this)
     this._CallHistory2 = new CallHistory2(this)
     this._OnBeginSaveEditingScreenFunctions = []
-    // this._OnSelectWidgetFuncs = [];
-    // this._OnDeselectWidgetFuncs =
     this._Campon = new Campon(this)
     this._ExtensionsStatus = new ExtensionsStatus(this)
     this._UccacWrapper = new UccacWrapper(this)
     this._BrekekeOperatorConsoleEx = new BrekekeOperatorConsoleEx(this)
-    // this._OnChangeCallEventListeners = new Array();
 
     this._OnAddCallInfoEventListeners = new Array()
     this._OnUpdateCallInfoEventListeners = new Array()
@@ -1142,10 +1137,7 @@ export class BrekekeOperatorConsole extends React.Component<
     this._OnUnholdCallInfoEventListeners = new Array()
     this._OnRemoveCallInfoEventListeners = new Array()
 
-    // this._OnChangeCurrentCallIdEventListeners = new Array();
     this._OnUnloadExtensionScriptEventListeners = new Array()
-    // this._OnPalNotifyStatusEventListeners = new Array();
-    // this._BusylightStatusChanger = new BusylightStatusChanger(this); //!dev
     this._aphone = null
     this._loggedinPal = null
 
@@ -1424,25 +1416,10 @@ export class BrekekeOperatorConsole extends React.Component<
       }
     })
     i18n.defaultLocale = ''
-
-    const this_ = this
-    this._onPasteFunction = function (e) {
-      this_._onPaste(e)
-    }
-    window.addEventListener('paste', this._onPasteFunction)
-    this._onKeydownFunction = function (e) {
-      this_._onKeydown(e)
-    }
-    window.addEventListener('keydown', this._onKeydownFunction)
   }
 
   getIsDTMFInput() {
     return this._isDTMFInput
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('paste', this._onPasteFunction)
-    window.removeEventListener('keydown', this._onKeydown)
   }
 
   addDisableKeydownToDialingCounter() {
@@ -1459,245 +1436,6 @@ export class BrekekeOperatorConsole extends React.Component<
 
   subtractDisablePasteToDialingCounter() {
     this._disablePasteToDialingCounter--
-  }
-
-  _onKeydown(e) {
-    if (this._disableKeydownToDialingCounter > 0) {
-      return
-    }
-
-    const isDowned = this.state._downedLayoutAndSystemSettings
-    if (!isDowned) {
-      return
-    }
-    const isScreenView =
-      this.state.displayState === brOcDisplayStates.showScreen
-    const isShowScreenView_ver2 =
-      this.state.displayState === brOcDisplayStates.showScreen_ver2
-    if (!isScreenView && !isShowScreenView_ver2) {
-      return
-    }
-
-    // const [newLayoutModalOpen, setNewLayoutModalOpen] = useState(false);
-    const newLayoutModalOpen = this.state.newLayoutModalOpen
-    if (newLayoutModalOpen === true) {
-      return
-    }
-
-    if (e.getModifierState) {
-      // check for datalist input
-      if (
-        e.getModifierState('Hyper') ||
-        e.getModifierState('Fn') ||
-        e.getModifierState('Super') ||
-        e.getModifierState('OS') ||
-        e.getModifierState('Win') /* hack for IE */ ||
-        e.getModifierState('Copilot') /* //!todo //!check //!forbug  work? */
-      ) {
-        return
-      }
-
-      if (
-        e.getModifierState('Alt') +
-          e.getModifierState('Control') +
-          e.getModifierState('Meta') >
-        1
-      ) {
-        return
-      }
-
-      if (
-        (e.getModifierState('ScrollLock') ||
-          e.getModifierState('Scroll')) /* hack for IE */ &&
-        !e.getModifierState('Control') &&
-        !e.getModifierState('Alt') &&
-        !e.getModifierState('Meta')
-      ) {
-        switch (e.key) {
-          case 'ArrowDown':
-          case 'Down':
-            // e.preventDefault();
-            // break;
-            return
-          case 'ArrowLeft':
-          case 'Left':
-            // e.preventDefault();
-            // break;
-            return
-          case 'ArrowRight':
-          case 'Right':
-            // e.preventDefault();
-            // break;
-            return
-          case 'ArrowUp':
-          case 'Up':
-            // e.preventDefault();
-            // break;
-            return
-          case 'Process':
-            // e.preventDefault()();
-            // break;
-            return
-        }
-      }
-    }
-
-    const keyCode = e.keyCode
-    switch (keyCode) {
-      case 13: // enter key
-        if (this._isDTMFInput === true) {
-          return
-        }
-        this.makeCall()
-        this._clearDialing()
-        return
-      case 8: // backspace
-        {
-          if (this._isDTMFInput === true) {
-            return
-          }
-          let dialing = this.state.dialing
-          if (!dialing || dialing.length === 0) {
-            return
-          }
-          dialing = dialing.substring(0, dialing.length - 1)
-          this.setDialing(dialing)
-          return
-        }
-        break
-      case 46: // delete
-        {
-          if (this._isDTMFInput === true) {
-            return
-          }
-
-          let dialing = this.state.dialing
-          if (!dialing || dialing.length === 0) {
-            return
-          }
-          dialing = dialing.substring(1, dialing.length)
-          this.setDialing(dialing)
-          return
-        }
-        break
-      case 9: // tab
-      // case 32: //space
-      case 16: // shift
-      case 17: // control
-      case 18: // alt
-      case 112: // F1
-      case 113: // F2
-      case 114: // F3
-      case 115: // F4
-      case 116: // F5
-      case 117: // F6
-      case 118: // F7
-      case 119: // F8
-      case 120: // F9
-      case 121: // F10
-      case 122: // F11
-      case 123: // F12
-      case 37: // Left arrow
-      case 39: // Right arrow
-      case 38: // Up arrow
-      case 40: // Down arrow
-      case 93: // menu
-      case 144: // Numlock
-      case 33: // pageup
-      case 34: // pagedown
-      case 38: // end
-      case 36: // home
-      case 45: // insert
-      case 145: // scroll lock
-      case 19: // pause
-      case 44: // print screen
-      // case ***; //copilot //!check //!todo //!check //!forbug
-      case 91: // meta
-      case 29: // NonConvert
-      case 0: // char key ( with F12?) //for Firefox
-      case 229: // char key ( with F12?)
-        return
-        break
-    }
-
-    const sKey = e.key
-    if (!sKey || sKey.length === 0) {
-      return
-    }
-
-    if (this._isDTMFInput === true) {
-      if (this._isSendDTMFChar(sKey) !== true) {
-        return
-      }
-      let dialing = this.state.dialing
-      if (!dialing) {
-        dialing = sKey
-      } else {
-        dialing += sKey
-      }
-
-      if (dialing.length > BrekekeOperatorConsole.DIALING_MAX_LENGTH) {
-        dialing = dialing.substring(
-          dialing.length - BrekekeOperatorConsole.DIALING_MAX_LENGTH,
-          dialing.length,
-        )
-      }
-      this.setDialing(dialing)
-
-      this.sendDTMFIfNeed(sKey)
-    } else {
-      let dialing = this.state.dialing
-      if (dialing.length >= BrekekeOperatorConsole.DIALING_MAX_LENGTH) {
-        return
-      }
-
-      if (!dialing) {
-        dialing = sKey
-      } else {
-        dialing += sKey
-      }
-      this.setDialing(dialing)
-    }
-  }
-
-  _onPaste(e) {
-    if (this._disablePasteToDialingCounter > 0) {
-      return
-    }
-
-    const isDowned = this.state._downedLayoutAndSystemSettings
-    if (!isDowned) {
-      return
-    }
-    const isScreenView =
-      this.state.displayState === brOcDisplayStates.showScreen
-    const isShowScreenView_ver2 =
-      this.state.displayState === brOcDisplayStates.showScreen_ver2
-    if (!isScreenView && !isShowScreenView_ver2) {
-      return
-    }
-
-    if (this._isDTMFInput === true) {
-      return
-    }
-
-    const paste = (e.clipboardData || window.clipboardData).getData('text')
-    if (!paste) {
-      return
-    }
-
-    let pasteString
-    if (paste.length > BrekekeOperatorConsole.DIALING_MAX_LENGTH) {
-      pasteString = paste.substring(
-        0,
-        BrekekeOperatorConsole.DIALING_MAX_LENGTH,
-      )
-    } else {
-      pasteString = paste
-    }
-
-    e.preventDefault()
-    this.setDialing(pasteString)
   }
 
   _getLastLayoutLocalstorageKeyName() {
@@ -2044,46 +1782,49 @@ export class BrekekeOperatorConsole extends React.Component<
                       padding: 12,
                       paddingTop: 48,
                       alignItems: 'center',
-                      overflowY: 'auto',
-                      overflowX: 'hidden',
                     }}
                   >
-                    {ToolboxWidgets.map((widget, i) => {
-                      const Preview = WidgetPreviewMap[widget.preview]
-                      if (Preview) {
+                    <ScrollView>
+                      {ToolboxWidgets.map((widget, i) => {
+                        const Preview = WidgetPreviewMap[widget.preview ?? '']
+                        if (Preview) {
+                          return (
+                            <View
+                              key={i}
+                              style={{
+                                width: widget.previewWidth || widget.width,
+                                height: widget.previewHeight || widget.height,
+                              }}
+                              draggable
+                              onDragStart={ev => this.onDragStart(ev, i)}
+                            >
+                              <Preview />
+                            </View>
+                          )
+                        }
+                        const Widget = WidgetMap[widget.type]
+                        if (!Widget) {
+                          return null
+                        }
                         return (
                           <View
                             key={i}
                             style={{
-                              width: widget.previewWidth || widget.width,
-                              height: widget.previewHeight || widget.height,
+                              width: widget.width,
+                              height: widget.height,
                             }}
                             draggable
                             onDragStart={ev => this.onDragStart(ev, i)}
                           >
-                            <Preview />
+                            <Widget
+                              {...widget}
+                              operatorConsoleAsParent={this}
+                              uccacWrapper={this._UccacWrapper}
+                            />
                           </View>
                         )
-                      }
-                      const Widget = WidgetMap[widget.type]
-                      if (!Widget) {
-                        return null
-                      }
-                      return (
-                        <View
-                          key={i}
-                          style={{ width: widget.width, height: widget.height }}
-                          draggable
-                          onDragStart={ev => this.onDragStart(ev, i)}
-                        >
-                          <Widget
-                            {...widget}
-                            operatorConsoleAsParent={this}
-                            uccacWrapper={this._UccacWrapper}
-                          />
-                        </View>
-                      )
-                    })}
+                      })}
+                    </ScrollView>
                   </View>
                   <View
                     style={{
@@ -2109,12 +1850,12 @@ export class BrekekeOperatorConsole extends React.Component<
                           {': '}
                           <InputNumber
                             value={this.state.editingScreenWidth}
-                            onPressEnter={e =>
-                              this.setEditingScreenSize(
-                                parseInt(e.target.value),
-                                this.state.editingScreenHeight,
-                              )
-                            }
+                            // onPressEnter={e =>
+                            //   this.setEditingScreenSize(
+                            //     parseInt(e.target.value),
+                            //     this.state.editingScreenHeight,
+                            //   )
+                            // }
                             onStep={v =>
                               this.setEditingScreenSize(
                                 v,
@@ -2128,12 +1869,12 @@ export class BrekekeOperatorConsole extends React.Component<
                           {': '}
                           <InputNumber
                             value={this.state.editingScreenHeight}
-                            onPressEnter={e =>
-                              this.setEditingScreenSize(
-                                this.state.editingScreenWidth,
-                                parseInt(e.target.value),
-                              )
-                            }
+                            // onPressEnter={e =>
+                            //   this.setEditingScreenSize(
+                            //     this.state.editingScreenWidth,
+                            //     parseInt(e.target.value),
+                            //   )
+                            // }
                             onStep={v =>
                               this.setEditingScreenSize(
                                 this.state.editingScreenWidth,
@@ -2147,11 +1888,11 @@ export class BrekekeOperatorConsole extends React.Component<
                           {': '}
                           <InputNumber
                             value={this.state.editingScreenGrid}
-                            onPressEnter={e =>
-                              this.setEditingScreenGrid(
-                                parseInt(e.target.value),
-                              )
-                            }
+                            // onPressEnter={e =>
+                            //   this.setEditingScreenGrid(
+                            //     parseInt(e.target.value),
+                            //   )
+                            // }
                             onStep={v => this.setEditingScreenGrid(v)}
                           />
                         </label>
@@ -2178,9 +1919,12 @@ export class BrekekeOperatorConsole extends React.Component<
                               style={{
                                 width: 48,
                                 height: 30,
-                                display: 'inline-block',
-                                border: 'solid 1px #e0e0e0',
-                                background: this.state.editingScreenForeground,
+                                // display: 'inline-block',
+                                borderColor: '#e0e0e0',
+                                borderStyle: 'solid',
+                                borderWidth: 1,
+                                backgroundColor:
+                                  this.state.editingScreenForeground,
                               }}
                             ></View>
                           </Dropdown>
@@ -2231,7 +1975,6 @@ export class BrekekeOperatorConsole extends React.Component<
                           <Space />
                           <Button
                             type='success'
-                            htmlType='cancel'
                             onPress={this.saveEditingScreen}
                           >
                             {i18n.t('save')}
@@ -2288,7 +2031,6 @@ export class BrekekeOperatorConsole extends React.Component<
                             paddingRight: 12,
                           }}
                         >
-                          {' '}
                           {/* height:0 is for show scrollbar */}
                           {!!SeletingEditingWidgetSettings && (
                             <SeletingEditingWidgetSettings
@@ -2296,7 +2038,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               widgetIndex={this.state.selectingWidgetIndex}
                               widget={{ ...selectingEditingWidget }}
                               onChange={this.updateSelectingWidgetSettings}
-                              getNoteNames={this.getNoteNames}
+                              // getNoteNames={this.getNoteNames}
                               operatorConsoleAsParent={this}
                             />
                           )}
@@ -2345,7 +2087,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               okText={i18n.t('yes')}
                               cancelText={i18n.t('no')}
                             >
-                              <Button type='danger'>{i18n.t('remove')}</Button>
+                              <Button type='warning'>{i18n.t('remove')}</Button>
                             </Popconfirm>
                             <Modal
                               title={i18n.t('ConfirmDeleteWidgetTitle')}
@@ -2393,7 +2135,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               okText={i18n.t('yes')}
                               cancelText={i18n.t('no')}
                             >
-                              <Button type='danger'>{i18n.t('remove')}</Button>
+                              <Button type='warning'>{i18n.t('remove')}</Button>
                             </Popconfirm>
                             <Modal
                               title={i18n.t('ConfirmDeleteTabTitle')}
@@ -2401,7 +2143,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               onOk={handleShowConfirmDeleteTabOk}
                               onCancel={handleShowConfirmDeleteTabCancel}
                             >
-                              <p>{i18n.t('ConfirmDeleteTabText')}</p>
+                              <Text>{i18n.t('ConfirmDeleteTabText')}</Text>
                             </Modal>
                           </View>
                         )}
@@ -2426,9 +2168,6 @@ export class BrekekeOperatorConsole extends React.Component<
                           .foreground,
                     }}
                   >
-                    {/* <Carousel dotPosition="top" lazyLoad swipeToSlide draggable*/}
-                    {/*          beforeChange={this.onBeforeCurrentScreenIndexChange}*/}
-                    {/*          afterChange={this.setCurrentScreenIndex} initialSlide={this.state.currentScreenIndex}>*/}
                     {this.state.screens.map((screen, screenIndex) => {
                       const tabItems = new Array(screen.tabDatas.length)
                       for (let i = 0; i < tabItems.length; i++) {
@@ -5000,7 +4739,7 @@ export class BrekekeOperatorConsole extends React.Component<
             <Button
               type='primary'
               size='small'
-              onClick={() => {
+              onPress={() => {
                 this.syncUp()
                 Notification.destroy('sync')
               }}

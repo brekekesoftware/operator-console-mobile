@@ -1,10 +1,10 @@
+import { Form } from '@ant-design/react-native'
 import { Divider } from 'antd'
-import Form from 'antd/lib/form'
-import InputNumber from 'antd/lib/input-number'
 import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
 import React from 'react'
 
+import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'
@@ -282,14 +282,6 @@ export class ExtensionTableSettings extends React.Component<Props> {
         >
           <Colorpicker format='rgb' />
         </Form.Item>
-
-        {/* <Form.Item label={i18n.t("bgColor")} name={`extensiontableHeaderBgColor`} rules={[*/}
-        {/*    {*/}
-        {/*        required: false,*/}
-        {/*    }*/}
-        {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
-        {/* </Form.Item>*/}
         <Divider>{i18n.t('body_settings')}</Divider>
         <Form.Item
           label={i18n.t('fgColor')}
@@ -325,22 +317,6 @@ export class ExtensionTableSettings extends React.Component<Props> {
         >
           <Colorpicker format='rgb' />
         </Form.Item>
-
-        {/* <Form.Item label={i18n.t("bgColor")} name={`extensiontableBodyBgColor`} rules={[*/}
-        {/*    {*/}
-        {/*        required: false,*/}
-        {/*    }*/}
-        {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
-        {/* </Form.Item>*/}
-
-        {/* <Form.Item label={i18n.t("activeRowBgColor")} name={`extensiontableBodyActiveRowBgColor`} rules={[*/}
-        {/*    {*/}
-        {/*        required: false,*/}
-        {/*    }*/}
-        {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
-        {/* </Form.Item>*/}
       </Form>
     )
   }

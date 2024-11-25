@@ -1,6 +1,7 @@
-import { Input, InputNumber } from 'antd'
+import { Input } from '@ant-design/react-native'
 import { Colorpicker } from 'antd-colorpicker'
 
+import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
 

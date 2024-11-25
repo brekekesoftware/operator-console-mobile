@@ -1,5 +1,4 @@
-import { Button } from '@ant-design/react-native'
-
+import { Button } from '../common/Button'
 import { Modal } from '../common/Modal'
 import { i18n } from '../i18n'
 

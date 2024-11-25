@@ -1,10 +1,10 @@
 import { Form } from '@ant-design/react-native'
 import { Divider } from 'antd'
-import InputNumber from 'antd/lib/input-number'
 import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
 import React from 'react'
 
+import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { Util } from '../Util'

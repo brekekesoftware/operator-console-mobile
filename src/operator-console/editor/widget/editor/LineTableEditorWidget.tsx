@@ -1,3 +1,4 @@
+import { WidgetButton } from '../../../common/WidgetButton'
 import { i18n } from '../../../i18n'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
@@ -47,30 +48,30 @@ const EditorLineButton_ver2 = ({
   height,
   color,
   backgroundColor,
-  border,
+  borderStyle,
+  borderWidth,
+  borderColor,
   borderRadius,
   fontSize,
 }) => {
-  ;<button
+  ;<WidgetButton
     style={{
-      display: 'inline-block',
       padding: 1,
-      margin: '0px 0px 0.75rem 0px',
-      color,
+      marginBottom: 12,
       backgroundColor,
-      border,
+      borderStyle,
+      borderWidth,
+      borderColor,
       borderRadius,
       width,
       height,
-      fontSize: fontSize + 'px',
     }}
-    title={i18n.t('legacy_button_description.LegacyLineButton')}
-    className={'kbc-button kbc-button-fill-parent'}
-    // onClick={() => oc.handleLine(line)}
+    textStyle={{ color, fontSize }}
+    // onPress={() => oc.handleLine(line)}
     disabled={true}
   >
     {label}
-  </button>
+  </WidgetButton>
 }
 
 const EditorTransferCancelButton_ver2 = ({
@@ -98,38 +99,36 @@ const EditorTransferCancelButton_ver2 = ({
   const transferCancelButtonBorder =
     Util.isNumeric(transferCancelButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferCancelButtonOuterBorderColor)
-      ? 'solid ' +
-        transferCancelButtonOuterBorderThickness +
-        'px ' +
-        Util.getRgbaCSSStringFromAntdColor(transferCancelButtonOuterBorderColor)
-      : ''
+
   const transferCancelButtonBorderRadius = Util.isNumber(
     transferCancelButtonOuterBorderRadius,
   )
-    ? transferCancelButtonOuterBorderRadius + 'px'
-    : ''
+    ? transferCancelButtonOuterBorderRadius
+    : 0
 
   return (
-    <button
+    <WidgetButton
       style={{
-        display: 'inline-block',
         padding: 1,
-        margin: '0px 0px 0.75rem 0px',
-        color: transferCancelButtonColor,
+        marginBottom: 12,
         backgroundColor: transferCancelButtonBackgroundColor,
-        border: transferCancelButtonBorder,
         borderRadius: transferCancelButtonBorderRadius,
         width: transferCancelButtonWidth,
         height: transferCancelButtonHeight,
-        fontSize: transferCancelButtonFontSize + 'px',
+        ...Util.getBorderStyle({
+          isShowBorder: transferCancelButtonBorder,
+          borderWidth: transferCancelButtonOuterBorderThickness,
+          borderColor: transferCancelButtonOuterBorderColor,
+        }),
       }}
-      title={i18n.t('transferCancelButtonDesc')}
-      className={'kbc-button kbc-button-fill-parent'}
-      // onClick={() => alert("onClick campon button!") }
+      textStyle={{
+        color: transferCancelButtonColor,
+        fontSize: transferCancelButtonFontSize,
+      }}
       disabled={true}
     >
       {i18n.t('cancel')}
-    </button>
+    </WidgetButton>
   )
 }
 
@@ -157,38 +156,37 @@ const EditorTransferButton_ver2 = ({
   const transferButtonBorder =
     Util.isNumeric(transferButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferButtonOuterBorderColor)
-      ? 'solid ' +
-        transferButtonOuterBorderThickness +
-        'px ' +
-        Util.getRgbaCSSStringFromAntdColor(transferButtonOuterBorderColor)
-      : ''
+
   const transferButtonBorderRadius = Util.isNumber(
     transferButtonOuterBorderRadius,
   )
-    ? transferButtonOuterBorderRadius + 'px'
-    : ''
+    ? transferButtonOuterBorderRadius
+    : 0
 
   return (
-    <button
+    <WidgetButton
       style={{
-        display: 'inline-block',
         padding: 1,
-        margin: '0px 0px 0.75rem 0px',
-        color: transferButtonColor,
+        marginBottom: 12,
         backgroundColor: transferButtonBackgroundColor,
-        border: transferButtonBorder,
         borderRadius: transferButtonBorderRadius,
         width: transferButtonWidth,
         height: transferButtonHeight,
-        fontSize: transferButtonFontSize + 'px',
+        ...Util.getBorderStyle({
+          isShowBorder: transferButtonBorder,
+          borderWidth: transferButtonOuterBorderThickness,
+          borderColor: transferButtonOuterBorderColor,
+        }),
       }}
-      title={i18n.t('transferButtonDesc')}
-      className={'kbc-button kbc-button-fill-parent'}
+      textStyle={{
+        color: transferButtonColor,
+        fontSize: transferButtonFontSize,
+      }}
       // onClick={() => alert("onClick campon button!") }
       disabled={true}
     >
       {i18n.t('transfer')}
-    </button>
+    </WidgetButton>
   )
 }
 
@@ -244,14 +242,9 @@ const EditorLineTableRow_ver2 = ({
   const lineButtonBorder =
     Util.isNumeric(lineButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(lineButtonOuterBorderColor)
-      ? 'solid ' +
-        lineButtonOuterBorderThickness +
-        'px ' +
-        Util.getRgbaCSSStringFromAntdColor(lineButtonOuterBorderColor)
-      : ''
   const lineButtonBorderRadius = Util.isNumber(lineButtonOuterBorderRadius)
-    ? lineButtonOuterBorderRadius + 'px'
-    : ''
+    ? lineButtonOuterBorderRadius
+    : 0
 
   return (
     <tr
@@ -287,7 +280,15 @@ const EditorLineTableRow_ver2 = ({
           height={lineButtonHeight}
           color={lineButtonColor}
           backgroundColor={lineButtonBackgroundColor}
-          border={lineButtonBorder}
+          borderStyle={lineButtonBorder ? 'solid' : undefined}
+          borderWidth={
+            lineButtonBorder ? lineButtonOuterBorderThickness : undefined
+          }
+          borderColor={
+            lineButtonBorder
+              ? Util.getRgbaCSSStringFromAntdColor(lineButtonOuterBorderColor)
+              : undefined
+          }
           borderRadius={lineButtonBorderRadius}
           fontSize={lineButtonFontSize}
         ></EditorLineButton_ver2>

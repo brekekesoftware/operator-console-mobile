@@ -1,3 +1,5 @@
+import type { TextStyle, ViewStyle } from 'react-native'
+
 export class Util {
   static isNumber(val) {
     const b = /^\d+$/.test(val)
@@ -147,5 +149,66 @@ export class Util {
     xhr.open('HEAD', url, false)
     xhr.send()
     return xhr.status
+  }
+
+  static getBorderStyle({
+    isShowBorder,
+    borderWidth,
+    borderColor,
+  }: {
+    isShowBorder: boolean
+    borderWidth: number
+    borderColor: string
+  }): ViewStyle {
+    return {
+      borderStyle: isShowBorder ? 'solid' : undefined,
+      borderWidth: isShowBorder ? borderWidth : undefined,
+      borderColor: isShowBorder
+        ? Util.getRgbaCSSStringFromAntdColor(borderColor)
+        : undefined,
+    }
+  }
+  static getLegacyButtonEditorStyle(widgetData: any): {
+    s: ViewStyle
+    tStyle: TextStyle
+  } {
+    const fontSize = widgetData.getFontSize() ? widgetData.getFontSize() : 16
+    const buttonFgColor = widgetData.getFgColor()
+    const buttonBgColor = widgetData.getBgColor()
+    const buttonOuterBorderColor = widgetData.getOuterBorderColor()
+    const buttonOuterBorderThickness = widgetData.getOuterBorderThickness()
+    const buttonOuterBorderRadius = widgetData.getOuterBorderRadius()
+
+    const color = Util.isAntdRgbaProperty(buttonFgColor)
+      ? Util.getRgbaCSSStringFromAntdColor(buttonFgColor)
+      : undefined
+    const backgroundColor = Util.isAntdRgbaProperty(buttonBgColor)
+      ? Util.getRgbaCSSStringFromAntdColor(buttonBgColor)
+      : undefined
+    const border =
+      Util.isNumeric(buttonOuterBorderThickness) &&
+      Util.isAntdRgbaProperty(buttonOuterBorderColor)
+
+    const borderRadius = Util.isNumber(buttonOuterBorderRadius)
+      ? buttonOuterBorderRadius
+      : undefined
+    const borderStyle = border ? 'solid' : undefined
+    const borderWidth = border ? buttonOuterBorderThickness : undefined
+    const borderColor = border
+      ? Util.getRgbaCSSStringFromAntdColor(buttonOuterBorderColor)
+      : undefined
+    return {
+      s: {
+        borderRadius,
+        borderStyle,
+        borderWidth,
+        borderColor,
+        backgroundColor,
+      },
+      tStyle: {
+        color,
+        fontSize,
+      },
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { WidgetButton } from '../../../common/WidgetButton'
 import { WidgetData } from '../../../data/widgetData/WidgetData'
 import { EditorWidgetTemplate } from './EditorWidgetTemplate'
 
@@ -21,11 +22,6 @@ export class LegacyButtonEditorWidgetTemplate extends EditorWidgetTemplate {
 
   // !overload
   getRenderMainJsx() {
-    return (
-      <button
-        className='kbc-button kbc-button-fill-parent'
-        disabled={true}
-      ></button>
-    )
+    return <WidgetButton disabled={true}></WidgetButton>
   }
 }

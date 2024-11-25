@@ -1,8 +1,8 @@
-import { Button } from '@ant-design/react-native'
 import Dropdown from 'antd/lib/dropdown'
 import { useState } from 'react'
 import { Text, View } from 'react-native'
 
+import { Button } from '../../../common/Button'
 import { Modal } from '../../../common/Modal'
 import { Notification } from '../../../common/Notification'
 import { Popconfirm } from '../../../common/Popconfirm'

@@ -1,8 +1,8 @@
 import { Divider } from 'antd'
 import AutoComplete from 'antd/lib/auto-complete'
-import InputNumber from 'antd/lib/input-number'
 import { Colorpicker } from 'antd-colorpicker'
 
+import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { OCUtil } from '../../../OCUtil'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'

@@ -1,13 +1,7 @@
-import {
-  Checkbox,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  TextArea,
-} from '@ant-design/react-native'
+import { Checkbox, Form, Input, Radio } from '@ant-design/react-native'
 
 import { CallHistory2 } from '../call/CallHistory2'
+import { InputNumber } from '../common/InputNumber'
 import { Select, SelectOption } from '../common/Select'
 import { i18n } from '../i18n'
 import { RingtoneSettings } from './RingtoneSettings'
@@ -101,7 +95,7 @@ export const SystemSettingsForm = props => {
           </Radio.Group>
         </Form.Item>
         <Form.Item label={i18n.t('extensionScript')} name='extensionScript'>
-          <TextArea
+          <Input.TextArea
             rows={30}
             maxLength={1000000}
             style={{ minHeight: 600, minWidth: 800, marginRight: 30 }}
