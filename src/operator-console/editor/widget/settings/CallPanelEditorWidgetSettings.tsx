@@ -1,6 +1,7 @@
-import { Divider } from 'antd'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
+import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -89,81 +90,81 @@ export class CallPanelEditorWidgetSettings extends EditorWidgetSettings {
     const widgetData = this._getWidgetData()
     const jsx = (
       <>
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCallpanelFgColor()}
           onChange={color => this._onChangeCallpanelFgColor(color)}
         />
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCallpanelBgColor()}
           onChange={color => this._onChangeCallpanelBgColor(color)}
         />
-        <p>{i18n.t('borderRadius')}</p>
+        <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCallpanelBorderRadius()}
           onChange={n => this._onChangeCallpanelBorderRadius(n)}
         />
         <Divider>{i18n.t('insideShadow_settings')}</Divider>
-        <p>{i18n.t('horizontalOffset')}</p>
+        <Text>{i18n.t('horizontalOffset')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getInsideShadow_horizontalOffset()}
           onChange={n => this._onChangeInsideShadow_horizontalOffset(n)}
         />
-        <p>{i18n.t('verticalOffset')}</p>
+        <Text>{i18n.t('verticalOffset')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getInsideShadow_verticalOffset()}
           onChange={n => this._onChangeInsideShadow_verticalOffset(n)}
         />
-        <p>{i18n.t('blur')}</p>
+        <Text>{i18n.t('blur')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getInsideShadow_blur()}
           onChange={n => this._onChangeInsideShadow_blur(n)}
         />
-        <p>{i18n.t('spread')}</p>
+        <Text>{i18n.t('spread')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getInsideShadow_spread()}
           onChange={n => this._onChangeInsideShadow_spread(n)}
         />
-        <p>{i18n.t('color')}</p>
+        <Text>{i18n.t('color')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getInsideShadow_color()}
           onChange={color => this._onChangeInsideShadow_color(color)}
         />
         <Divider>{i18n.t('outsideShadow_settings')}</Divider>
-        <p>{i18n.t('horizontalOffset')}</p>
+        <Text>{i18n.t('horizontalOffset')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getOutsideShadow_horizontalOffset()}
           onChange={n => this._onChangeOutsideShadow_horizontalOffset(n)}
         />
-        <p>{i18n.t('verticalOffset')}</p>
+        <Text>{i18n.t('verticalOffset')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getOutsideShadow_verticalOffset()}
           onChange={n => this._onChangeOutsideShadow_verticalOffset(n)}
         />
-        <p>{i18n.t('blur')}</p>
+        <Text>{i18n.t('blur')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getOutsideShadow_blur()}
           onChange={n => this._onChangeOutsideShadow_blur(n)}
         />
-        <p>{i18n.t('spread')}</p>
+        <Text>{i18n.t('spread')}</Text>
         <InputNumber
           step={1}
           value={widgetData.getOutsideShadow_spread()}
           onChange={n => this._onChangeOutsideShadow_spread(n)}
         />
-        <p>{i18n.t('color')}</p>
+        <Text>{i18n.t('color')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getOutsideShadow_color()}

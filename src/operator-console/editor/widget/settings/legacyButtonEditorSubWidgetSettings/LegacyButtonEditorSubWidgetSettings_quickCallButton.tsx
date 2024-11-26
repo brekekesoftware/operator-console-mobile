@@ -1,4 +1,5 @@
-import Input from 'antd/lib/input'
+import { Input } from '@ant-design/react-native'
+import { Text } from 'react-native'
 
 import { i18n } from '../../../../i18n'
 import { LegacyButtonEditorSubWidgetSettings } from './LegacyButtonEditorSubWidgetSettings'
@@ -168,7 +169,7 @@ export class LegacyButtonEditorSubWidgetSettings_quickCallButton extends LegacyB
 
     return (
       <>
-        <p>{i18n.t('label')}</p>
+        <Text>{i18n.t('label')}</Text>
         <Input
           placeholder={i18n.t(`legacy_button_label.${subtypeName}`)}
           allowClear
@@ -176,84 +177,84 @@ export class LegacyButtonEditorSubWidgetSettings_quickCallButton extends LegacyB
           defaultValue={sLabel}
           onChange={e => this._onChangeLabel(e)}
         />
-        <p>0</p>
+        <Text>0</Text>
         <Input
           allowClear
           value={sKeypadZero}
           defaultValue={sKeypadZero}
           onChange={e => this._onChangeKeypadZero(e)}
         />
-        <p>1</p>
+        <Text>1</Text>
         <Input
           allowClear
           value={sKeypadOne}
           defaultValue={sKeypadOne}
           onChange={e => this._onChangeKeypadOne(e)}
         />
-        <p>2</p>
+        <Text>2</Text>
         <Input
           allowClear
           value={sKeypadTwo}
           defaultValue={sKeypadTwo}
           onChange={e => this._onChangeKeypadTwo(e)}
         />
-        <p>3</p>
+        <Text>3</Text>
         <Input
           allowClear
           value={sKeypadThree}
           defaultValue={sKeypadThree}
           onChange={e => this._onChangeKeypadThree(e)}
         />
-        <p>4</p>
+        <Text>4</Text>
         <Input
           allowClear
           value={sKeypadFour}
           defaultValue={sKeypadFour}
           onChange={e => this._onChangeKeypadFour(e)}
         />
-        <p>5</p>
+        <Text>5</Text>
         <Input
           allowClear
           value={sKeypadFive}
           defaultValue={sKeypadFive}
           onChange={e => this._onChangeKeypadFive(e)}
         />
-        <p>6</p>
+        <Text>6</Text>
         <Input
           allowClear
           value={sKeypadSix}
           defaultValue={sKeypadSix}
           onChange={e => this._onChangeKeypadSix(e)}
         />
-        <p>7</p>
+        <Text>7</Text>
         <Input
           allowClear
           value={sKeypadSeven}
           defaultValue={sKeypadSeven}
           onChange={e => this._onChangeKeypadSeven(e)}
         />
-        <p>8</p>
+        <Text>8</Text>
         <Input
           allowClear
           value={sKeypadEight}
           defaultValue={sKeypadEight}
           onChange={e => this._onChangeKeypadEight(e)}
         />
-        <p>9</p>
+        <Text>9</Text>
         <Input
           allowClear
           value={sKeypadNine}
           defaultValue={sKeypadNine}
           onChange={e => this._onChangeKeypadNine(e)}
         />
-        <p>*</p>
+        <Text>*</Text>
         <Input
           allowClear
           value={sKeypadAsterisk}
           defaultValue={sKeypadAsterisk}
           onChange={e => this._onChangeKeypadAsterisk(e)}
         />
-        <p>#</p>
+        <Text>#</Text>
         <Input
           allowClear
           value={sKeypadSharp}

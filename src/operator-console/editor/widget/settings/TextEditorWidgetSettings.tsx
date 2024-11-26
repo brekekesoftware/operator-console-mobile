@@ -1,5 +1,6 @@
 import { Input } from '@ant-design/react-native'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
@@ -49,31 +50,31 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
     const widgetData = this._getWidgetData()
     const jsx = (
       <>
-        <p>{i18n.t('text')}</p>
+        <Text>{i18n.t('text')}</Text>
         <Input.TextArea
           style={{ width: '100%', height: 160 }}
           value={widgetData.getText()}
           onChange={e => this._onChangeTextArea(e)}
         />
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getTextFontSize()}
           onChange={n => this._onChangeTextFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTextFgColor()}
           onChange={color => this._onChangeTextFgColor(color)}
         />
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTextBgColor()}
           onChange={color => this._onChangeTextBgColor(color)}
         />
-        <p>{i18n.t('borderRadius')}</p>
+        <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getTextBorderRadius()}

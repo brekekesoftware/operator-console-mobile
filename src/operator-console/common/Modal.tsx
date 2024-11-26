@@ -1,4 +1,5 @@
 import AntmModal from '@ant-design/react-native/lib/modal/Modal'
+import { Text } from 'react-native'
 
 type Props = {
   children?: string | JSX.Element | JSX.Element[]
@@ -37,7 +38,7 @@ export const Modal = ({
       footer={!footer ? footerButtons : undefined}
       title={title}
     >
-      {children}
+      {typeof children === 'string' ? <Text>{children}</Text> : children}
       {footer}
     </AntmModal>
   )

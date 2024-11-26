@@ -1,10 +1,11 @@
 import MoreOutlined from '@ant-design/icons/MoreOutlined'
 import { ActivityIndicator, Form, Input } from '@ant-design/react-native'
-import { Dropdown } from 'antd'
 import { useRef, useState } from 'react'
-import { Text, View } from 'react-native'
+import type { TextStyle } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 import { Button } from '../common/Button'
+import { DropdownMenu } from '../common/DropdownMenu'
 import { Modal } from '../common/Modal'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
@@ -46,12 +47,12 @@ export const DropDownMenu = ({ operatorConsole }) => {
 
   let items
 
-  let signOutStyle
+  let signOutStyle: TextStyle | undefined
   let signOutOnClick
   const hasCall =
     operatorConsole.getPhoneClient().getCallInfos().getCallInfoCount() !== 0
   if (hasCall) {
-    signOutStyle = { color: '#DDDDDD', cursor: 'default' }
+    signOutStyle = { color: '#DDDDDD' }
     signOutOnClick = undefined
   } else {
     signOutStyle = undefined
@@ -67,9 +68,9 @@ export const DropDownMenu = ({ operatorConsole }) => {
           {
             key: '101',
             label: (
-              <a style={signOutStyle} onClick={signOutOnClick}>
-                {i18n.t('signout')}
-              </a>
+              <TouchableOpacity onPress={signOutOnClick}>
+                <Text style={signOutStyle}>{i18n.t('signout')}</Text>
+              </TouchableOpacity>
             ),
           },
         ],
@@ -80,42 +81,52 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         key: '1',
         label: (
-          <a onClick={operatorConsole.startEditingScreen_ver2}>
-            {i18n.t('editLayout')}
-          </a>
+          <TouchableOpacity onPress={operatorConsole.startEditingScreen_ver2}>
+            <Text>{i18n.t('editLayout')}</Text>
+          </TouchableOpacity>
         ),
       },
       {
         key: '2',
         label: (
-          <a onClick={operatorConsole.startShowScreen_ver2}>
-            {i18n.t('show_screen')}
-          </a>
+          <TouchableOpacity onPress={operatorConsole.startShowScreen_ver2}>
+            <Text>{i18n.t('show_screen')}</Text>
+          </TouchableOpacity>
         ),
       },
       {
         key: '3',
-        label: <a onClick={showNewLayoutModalFunc}>{i18n.t('newLayout')}</a>,
+        label: (
+          <TouchableOpacity onPress={showNewLayoutModalFunc}>
+            <Text>{i18n.t('newLayout')}</Text>
+          </TouchableOpacity>
+        ),
       },
       {
         key: '4',
-        label: <a onClick={showOpenLayoutModalFunc}>{i18n.t('openLayout')}</a>,
+        label: (
+          <TouchableOpacity onPress={showOpenLayoutModalFunc}>
+            <Text>{i18n.t('openLayout')}</Text>
+          </TouchableOpacity>
+        ),
       },
       ,
       {
         key: '5',
         label: (
-          <a onClick={operatorConsole.startSettingsScreen}>
-            {i18n.t('settings_screen')}
-          </a>
+          <TouchableOpacity onPress={operatorConsole.startSettingsScreen}>
+            <Text>{i18n.t('settings_screen')}</Text>
+          </TouchableOpacity>
         ),
       },
       {
         key: '6',
         label: (
-          <a onClick={() => operatorConsole.openAboutOCModalByState()}>
-            {i18n.t('About_OperatorConsole')}
-          </a>
+          <TouchableOpacity
+            onPress={() => operatorConsole.openAboutOCModalByState()}
+          >
+            <Text>{i18n.t('About_OperatorConsole')}</Text>
+          </TouchableOpacity>
         ),
       },
     ]
@@ -129,7 +140,9 @@ export const DropDownMenu = ({ operatorConsole }) => {
           {
             key: '101',
             label: (
-              <a onClick={showOpenLayoutModalFunc}>{i18n.t('openLayout')}</a>
+              <TouchableOpacity onPress={showOpenLayoutModalFunc}>
+                <Text>{i18n.t('openLayout')}</Text>
+              </TouchableOpacity>
             ),
           },
         ],
@@ -139,22 +152,28 @@ export const DropDownMenu = ({ operatorConsole }) => {
       },
       {
         key: '1',
-        label: <a onClick={showOpenLayoutModalFunc}>{i18n.t('openLayout')}</a>,
+        label: (
+          <TouchableOpacity onPress={showOpenLayoutModalFunc}>
+            <Text>{i18n.t('openLayout')}</Text>
+          </TouchableOpacity>
+        ),
       },
       {
         key: '2',
         label: (
-          <a onClick={operatorConsole.startSettingsScreen}>
-            {i18n.t('settings_screen')}
-          </a>
+          <TouchableOpacity onPress={operatorConsole.startSettingsScreen}>
+            <Text>{i18n.t('settings_screen')}</Text>
+          </TouchableOpacity>
         ),
       },
       {
         key: '3',
         label: (
-          <a onClick={() => operatorConsole.openAboutOCModalByState()}>
-            {i18n.t('About_OperatorConsole')}
-          </a>
+          <TouchableOpacity
+            onPress={() => operatorConsole.openAboutOCModalByState()}
+          >
+            <Text>{i18n.t('About_OperatorConsole')}</Text>
+          </TouchableOpacity>
         ),
       },
     ]
@@ -184,18 +203,17 @@ export const DropDownMenu = ({ operatorConsole }) => {
           <ActivityIndicator />
         </View>
       </View>
-      <Dropdown
+      <DropdownMenu
         menu={{
           items,
         }}
-        trigger='click'
       >
         <Button
           style={{ position: 'absolute', top: 4, right: 4, zIndex: 15 }}
           shape='circle'
           icon={<MoreOutlined />}
         ></Button>
-      </Dropdown>
+      </DropdownMenu>
     </>
   )
 }

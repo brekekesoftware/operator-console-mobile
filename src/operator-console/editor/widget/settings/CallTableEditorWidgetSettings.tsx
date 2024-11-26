@@ -1,6 +1,7 @@
-import { Divider } from 'antd'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
+import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -107,50 +108,50 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
     const widgetData = this._getWidgetData()
     const jsx = (
       <>
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCalltableBgColor()}
           onChange={color => this._onChangeCalltableBgColor(color)}
         />
-        <p>{i18n.t('outerBorderThickness')}</p>
+        <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableOuterBorderThickness()}
           onChange={n => this._onChangeCalltableOuterBorderThickness(n)}
         />
-        <p>{i18n.t('outerBorderColor')}</p>
+        <Text>{i18n.t('outerBorderColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCalltableOuterBorderColor()}
           onChange={color => this._onChangeCalltableOuterBorderColor(color)}
         />
-        <p>{i18n.t('outerBorderRadius')}</p>
+        <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableOuterBorderRadius()}
           onChange={n => this._onChangeCalltableOuterBorderRadius(n)}
         />
         <Divider>{i18n.t('header_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableHeaderFontSize()}
           onChange={size => this._onChangeCalltableHeaderFontSize(size)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCalltableHeaderFgColor()}
           onChange={color => this._onChangeCalltableHeaderFgColor(color)}
         />
-        <p>{i18n.t('rowUnderlineThickness')}</p>
+        <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableHeaderRowUnderlineThickness()}
           onChange={n => this._onChangeCalltableHeaderRowUnderlineThickness(n)}
         />
-        <p>{i18n.t('rowUnderlineColor')}</p>
+        <Text>{i18n.t('rowUnderlineColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCalltableHeaderRowUnderlineColor()}
@@ -159,25 +160,25 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
           }
         />
         <Divider>{i18n.t('body_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableBodyFontSize()}
           onChange={size => this._onChangeCalltableBodyFontSize(size)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCalltableBodyFgColor()}
           onChange={color => this._onChangeCalltableBodyFgColor(color)}
         />
-        <p>{i18n.t('rowUnderlineThickness')}</p>
+        <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableBodyRowUnderlineThickness()}
           onChange={n => this._onChangeCalltableBodyRowUnderlineThickness(n)}
         />
-        <p>{i18n.t('rowUnderlineColor')}</p>
+        <Text>{i18n.t('rowUnderlineColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCalltableBodyRowUnderlineColor()}
@@ -185,26 +186,26 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
             this._onChangeCalltableBodyRowUnderlineColor(color)
           }
         />
-        <p>{i18n.t('activeRowBgColor')}</p>
+        <Text>{i18n.t('activeRowBgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getCalltableBodyActiveRowBgColor()}
           onChange={color => this._onChangeCalltableBodyActiveRowBgColor(color)}
         />
         <Divider>{i18n.t('Active_button_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableActiveButtonFontSize()}
           onChange={n => this._onChangeCalltableActiveButtonFontSize(n)}
         />
-        <p>{i18n.t('width')}</p>
+        <Text>{i18n.t('width')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableActiveButtonWidth()}
           onChange={n => this._onChangeCalltableActiveButtonWidth(n)}
         />
-        <p>{i18n.t('height')}</p>
+        <Text>{i18n.t('height')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getCalltableActiveButtonHeight()}

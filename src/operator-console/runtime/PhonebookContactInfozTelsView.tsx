@@ -4,6 +4,7 @@ import { Component } from 'react'
 import './reset.css'
 import './phonebookContactInfozTelsView.css'
 
+import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -108,10 +109,9 @@ export class PhonebookContactInfozTelsView extends Component {
                           </td>
                           <td>
                             {
-                              <button
-                                title={i18n.t('Call')}
-                                className='kbc-button kbc-button-fill-parent legacyButtonPadding'
-                                onClick={e =>
+                              <WidgetButton
+                                style={{ padding: 2 }}
+                                onPress={e =>
                                   this._makeCall(telInfo.getValue())
                                 }
                               >
@@ -119,7 +119,7 @@ export class PhonebookContactInfozTelsView extends Component {
                                   size='lg'
                                   icon='fas fa-phone'
                                 />
-                              </button>
+                              </WidgetButton>
                             }
                           </td>
                         </tr>

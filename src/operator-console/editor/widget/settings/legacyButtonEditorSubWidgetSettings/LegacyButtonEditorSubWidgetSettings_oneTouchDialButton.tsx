@@ -1,4 +1,5 @@
 import { Input } from '@ant-design/react-native'
+import { Text } from 'react-native'
 
 import { Select, SelectOption } from '../../../../common/Select'
 import { i18n } from '../../../../i18n'
@@ -58,7 +59,7 @@ export class LegacyButtonEditorSubWidgetSettings_oneTouchDialButton extends Lega
 
     return (
       <>
-        <p>{i18n.t('label')}</p>
+        <Text>{i18n.t('label')}</Text>
         <Input
           placeholder={i18n.t(`legacy_button_label.${subtypeName}`)}
           allowClear
@@ -66,14 +67,14 @@ export class LegacyButtonEditorSubWidgetSettings_oneTouchDialButton extends Lega
           defaultValue={sLabel}
           onChange={e => this._onChangeLabel(e)}
         />
-        <p>{i18n.t('number')}</p>
+        <Text>{i18n.t('number')}</Text>
         <Input
           allowClear
           value={sNumber}
           defaultValue={sNumber}
           onChange={e => this._onChangeNumber(e)}
         />
-        <p>{i18n.t('mode')}</p>
+        <Text>{i18n.t('mode')}</Text>
         <Select
           style={{ width: '100%' }}
           // placeholder="Please select a option"

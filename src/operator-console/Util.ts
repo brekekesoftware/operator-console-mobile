@@ -168,7 +168,10 @@ export class Util {
         : undefined,
     }
   }
-  static getLegacyButtonEditorStyle(widgetData: any): {
+  static getLegacyButtonEditorStyle(
+    widgetData: any,
+    isDanger: boolean = false,
+  ): {
     s: ViewStyle
     tStyle: TextStyle
   } {
@@ -205,10 +208,16 @@ export class Util {
         borderColor,
         backgroundColor,
       },
-      tStyle: {
-        color,
-        fontSize,
-      },
+      tStyle: isDanger
+        ? {
+            color: '#f8f9fa',
+            backgroundColor:
+              'rgb(227.5316455696, 96.4683544304, 109.0253164557)',
+          }
+        : {
+            color,
+            fontSize,
+          },
     }
   }
 }

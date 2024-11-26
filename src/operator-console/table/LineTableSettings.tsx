@@ -1,10 +1,10 @@
 import { Form, Input } from '@ant-design/react-native'
-import { Divider } from 'antd'
 import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
 import React from 'react'
 import { Text, View } from 'react-native'
 
+import { Divider } from '../common/Divider'
 import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -410,7 +410,7 @@ export class LineTableSettings extends React.Component<Props, State> {
           <Colorpicker format='rgb' />
         </Form.Item>
 
-        <divider>{i18n.t('lineButtonSettings')}</divider>
+        <Divider>{i18n.t('lineButtonSettings')}</Divider>
         <Form.Item
           label={i18n.t('width')}
           name='lineButtonWidth'
@@ -489,7 +489,7 @@ export class LineTableSettings extends React.Component<Props, State> {
           <InputNumber min='1' />
         </Form.Item>
 
-        <divider>{i18n.t('transferButtonSettings')}</divider>
+        <Divider>{i18n.t('transferButtonSettings')}</Divider>
 
         <Form.Item
           label={i18n.t('width')}
@@ -568,8 +568,7 @@ export class LineTableSettings extends React.Component<Props, State> {
         >
           <InputNumber min='1' />
         </Form.Item>
-
-        <divider>{i18n.t('transferCancelButtonSettings')}</divider>
+        <Divider>{i18n.t('transferCancelButtonSettings')}</Divider>
         <Form.Item
           label={i18n.t('width')}
           name='transferCancelButtonWidth'

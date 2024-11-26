@@ -8,6 +8,7 @@ import './phonebookContactInfozInfoView.css'
 import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
+import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -803,16 +804,15 @@ export class PhonebookContactInfozInfoView extends React.Component {
                                               justifyContent: 'center',
                                             }}
                                           >
-                                            <button
-                                              title={i18n.t('Call')}
-                                              className='kbc-button kbc-button-fill-parent legacyButtonPadding'
-                                              onClick={e => this._makeCall(tel)}
+                                            <WidgetButton
+                                              style={{ padding: 2 }}
+                                              onPress={e => this._makeCall(tel)}
                                             >
                                               <FontAwesomeIcon
                                                 size='lg'
                                                 icon='fas fa-phone'
                                               />
-                                            </button>
+                                            </WidgetButton>
                                           </div>
                                         )}
                                       </td>

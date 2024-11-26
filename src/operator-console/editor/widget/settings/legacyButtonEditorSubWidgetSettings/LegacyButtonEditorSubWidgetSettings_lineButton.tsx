@@ -1,4 +1,5 @@
-import Input from 'antd/lib/input'
+import { Input } from '@ant-design/react-native'
+import { Text } from 'react-native'
 
 import { i18n } from '../../../../i18n'
 import { LegacyButtonEditorSubWidgetSettings } from './LegacyButtonEditorSubWidgetSettings'
@@ -48,7 +49,7 @@ export class LegacyButtonEditorSubWidgetSettings_lineButton extends LegacyButton
     }
     return (
       <>
-        <p>{i18n.t('label')}</p>
+        <Text>{i18n.t('label')}</Text>
         <Input
           placeholder={i18n.t(`legacy_button_label.${subtypeName}`)}
           allowClear
@@ -56,7 +57,7 @@ export class LegacyButtonEditorSubWidgetSettings_lineButton extends LegacyButton
           defaultValue={sLabel}
           onChange={e => this._onChangeLabel(e)}
         />
-        <p>{i18n.t('line')}</p>
+        <Text>{i18n.t('line')}</Text>
         <Input
           allowClear
           defaultValue={sLine}

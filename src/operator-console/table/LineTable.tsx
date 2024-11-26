@@ -1,11 +1,12 @@
-import Dropdown from 'antd/lib/dropdown'
 import { useState } from 'react'
 import { View } from 'react-native'
 
 import { Button } from '../common/Button'
+import { DropdownMenu } from '../common/DropdownMenu'
 import { Modal } from '../common/Modal'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
+import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { OperatorConsoleStyles } from '../OperatorConsoleStyles'
@@ -57,28 +58,29 @@ const LineButton = ({
   height,
   color,
   backgroundColor,
-  border,
+  borderColor,
+  borderWidth,
+  borderStyle,
   borderRadius,
   context = {},
 }) => (
-  <button
+  <WidgetButton
     style={{
-      display: 'inline-block',
       padding: 1,
-      margin: '0px 0px 0.75rem 0px',
-      color,
+      marginBottom: 12,
       backgroundColor,
-      border,
+      borderColor,
+      borderWidth,
+      borderStyle,
       borderRadius,
       width,
       height,
     }}
-    title={i18n.t('legacy_button_description.LegacyLineButton')}
-    className={'kbc-button kbc-button-fill-parent'}
+    textStyle={{ color }}
     onPress={() => context.handleLine(line)}
   >
     {label}
-  </button>
+  </WidgetButton>
 )
 
 const TransferCancelButton = ({
@@ -120,16 +122,12 @@ const TransferCancelButton = ({
   const transferCancelButtonBorder =
     Util.isNumeric(transferCancelButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferCancelButtonOuterBorderColor)
-      ? 'solid ' +
-        transferCancelButtonOuterBorderThickness +
-        'px ' +
-        Util.getRgbaCSSStringFromAntdColor(transferCancelButtonOuterBorderColor)
-      : ''
+
   const transferCancelButtonBorderRadius = Util.isNumber(
     transferCancelButtonOuterBorderRadius,
   )
-    ? transferCancelButtonOuterBorderRadius + 'px'
-    : ''
+    ? transferCancelButtonOuterBorderRadius
+    : 0
 
   return (
     <Popconfirm
@@ -140,24 +138,24 @@ const TransferCancelButton = ({
       okText={i18n.t('yes')}
       cancelText={i18n.t('no')}
     >
-      <button
+      <WidgetButton
         style={{
-          display: 'inline-block',
           padding: 1,
-          margin: '0px 0px 0.75rem 0px',
-          color: transferCancelButtonColor,
+          marginBottom: 12,
           backgroundColor: transferCancelButtonBackgroundColor,
-          border: transferCancelButtonBorder,
           borderRadius: transferCancelButtonBorderRadius,
           width: transferCancelButtonWidth,
           height: transferCancelButtonHeight,
+          ...Util.getBorderStyle({
+            isShowBorder: transferCancelButtonBorder,
+            borderWidth: transferCancelButtonOuterBorderThickness,
+            borderColor: transferCancelButtonOuterBorderColor,
+          }),
         }}
-        title={i18n.t('transferCancelButtonDesc')}
-        className={'kbc-button kbc-button-fill-parent'}
-        // onClick={() => alert("onClick campon button!") }
+        textStyle={{ color: transferCancelButtonColor }}
       >
         {i18n.t('cancel')}
-      </button>
+      </WidgetButton>
     </Popconfirm>
   )
 }
@@ -310,10 +308,6 @@ const TransferButton = ({
     setModalOpen(null) // close modal
   }
 
-  const handleOpenChange = flag => {
-    setOpen(flag)
-  }
-
   const [modalForBusyOpen, setModalForBusyOpen] = useState(null)
   const showModalForBusy = ({ camponExtension, callInfo, title }) => {
     setModalForBusyOpen({ camponExtension, callInfo, title })
@@ -379,45 +373,39 @@ const TransferButton = ({
   const transferButtonBorder =
     Util.isNumeric(transferButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferButtonOuterBorderColor)
-      ? 'solid ' +
-        transferButtonOuterBorderThickness +
-        'px ' +
-        Util.getRgbaCSSStringFromAntdColor(transferButtonOuterBorderColor)
-      : ''
+
   const transferButtonBorderRadius = Util.isNumber(
     transferButtonOuterBorderRadius,
   )
-    ? transferButtonOuterBorderRadius + 'px'
-    : ''
+    ? transferButtonOuterBorderRadius
+    : 0
 
   return (
     <>
-      <Dropdown
+      <DropdownMenu
         key='dropdown'
-        menu={{ items, onClick: handleMenuClick }}
-        trigger='click'
+        menu={{ items, onPress: handleMenuClick }}
         open={open}
-        onOpenChange={handleOpenChange}
       >
-        <button
+        <WidgetButton
           style={{
-            display: 'inline-block',
             padding: 1,
-            margin: '0px 0px 0.75rem 0px',
-            color: transferButtonColor,
+            marginBottom: 12,
             backgroundColor: transferButtonBackgroundColor,
-            border: transferButtonBorder,
             borderRadius: transferButtonBorderRadius,
             width: transferButtonWidth,
             height: transferButtonHeight,
+            ...Util.getBorderStyle({
+              isShowBorder: transferButtonBorder,
+              borderWidth: transferButtonOuterBorderThickness,
+              borderColor: transferButtonOuterBorderColor,
+            }),
           }}
-          title={i18n.t('transferButtonDesc')}
-          className={'kbc-button kbc-button-fill-parent'}
-          // onClick={() => alert("onClick campon button!") }
+          textStyle={{ color: transferButtonColor }}
         >
           {i18n.t('transfer')}
-        </button>
-      </Dropdown>
+        </WidgetButton>
+      </DropdownMenu>
       <Modal
         key='modal'
         open={modalOpen != null}
@@ -546,14 +534,10 @@ const LineTableRow = ({
   const lineButtonBorder =
     Util.isNumeric(lineButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(lineButtonOuterBorderColor)
-      ? 'solid ' +
-        lineButtonOuterBorderThickness +
-        'px ' +
-        Util.getRgbaCSSStringFromAntdColor(lineButtonOuterBorderColor)
-      : ''
+
   const lineButtonBorderRadius = Util.isNumber(lineButtonOuterBorderRadius)
-    ? lineButtonOuterBorderRadius + 'px'
-    : ''
+    ? lineButtonOuterBorderRadius
+    : 0
 
   return (
     <tr
@@ -582,7 +566,11 @@ const LineTableRow = ({
           height={lineButtonHeight}
           color={lineButtonColor}
           backgroundColor={lineButtonBackgroundColor}
-          border={lineButtonBorder}
+          {...Util.getBorderStyle({
+            isShowBorder: lineButtonBorder,
+            borderWidth: lineButtonOuterBorderThickness,
+            borderColor: lineButtonOuterBorderColor,
+          })}
           borderRadius={lineButtonBorderRadius}
           context={context}
         ></LineButton>

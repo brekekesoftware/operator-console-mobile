@@ -5,11 +5,13 @@ import React from 'react'
 import './reset.css'
 import './AutoDialView_ver2.css'
 
+import { RnIcon } from '../../components/RnIcon'
 import { BrekekeOperatorConsole } from '..//OperatorConsole'
 import { CallHistory2 } from '../call/CallHistory2'
 import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
+import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { PhonebookContactInfo_AutoDialView_ver2 } from './PhonebookContactInfo_AutoDialView_ver2'
@@ -614,10 +616,14 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                           'center',
                                                       }}
                                                     >
-                                                      <button
-                                                        title={i18n.t('Call')}
-                                                        className='kbc-button kbc-button-fill-parent legacyButtonPadding brOCDefaultKbcButtonMargin'
-                                                        onClick={() => {
+                                                      <WidgetButton
+                                                        style={{
+                                                          padding: 2,
+                                                          marginLeft: 2,
+                                                          marginRight: 2,
+                                                          marginBottom: 8,
+                                                        }}
+                                                        onPress={() => {
                                                           oc.abortAutoDialView_ver2()
                                                           // this.props.operatorConsoleAsParent.setDialingAndMakeCall2( callNo, this.props.currentCallIndex, this.props.callIds, this.props.callById );
                                                           oc.setDialingAndMakeCall2(
@@ -631,7 +637,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                             icon='fas fa-phone'
                                                           />
                                                         }
-                                                      </button>
+                                                      </WidgetButton>
                                                     </div>
                                                   )}
                                                 </td>
@@ -761,10 +767,14 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                             'center',
                                                         }}
                                                       >
-                                                        <button
-                                                          title={i18n.t('Call')}
-                                                          className='kbc-button kbc-button-fill-parent legacyButtonPadding brOCDefaultKbcButtonMargin'
-                                                          onClick={() => {
+                                                        <WidgetButton
+                                                          style={{
+                                                            padding: 2,
+                                                            marginLeft: 2,
+                                                            marginRight: 2,
+                                                            marginBottom: 8,
+                                                          }}
+                                                          onPress={() => {
                                                             oc.abortAutoDialView_ver2()
                                                             // this.props.operatorConsoleAsParent.setDialingAndMakeCall2( callNo, this.props.currentCallIndex, this.props.callIds, this.props.callById );
                                                             oc.setDialingAndMakeCall2(
@@ -778,7 +788,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                               icon='fas fa-phone'
                                                             />
                                                           }
-                                                        </button>
+                                                        </WidgetButton>
                                                       </div>
                                                     )}
                                                   </td>
@@ -851,10 +861,14 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                   justifyContent: 'center',
                                                 }}
                                               >
-                                                <button
-                                                  title={i18n.t('Call')}
-                                                  className='kbc-button kbc-button-fill-parent legacyButtonPadding brOCDefaultKbcButtonMargin'
-                                                  onClick={() => {
+                                                <WidgetButton
+                                                  style={{
+                                                    padding: 2,
+                                                    marginLeft: 2,
+                                                    marginRight: 2,
+                                                    marginBottom: 8,
+                                                  }}
+                                                  onPress={() => {
                                                     // oc.setDialingAndMakeCall2( ext.id, this.props.currentCallIndex, this.props.callIds, this.props.callById );
                                                     oc.setDialingAndMakeCall2(
                                                       ext.id,
@@ -868,7 +882,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                       icon='fas fa-phone'
                                                     />
                                                   }
-                                                </button>
+                                                </WidgetButton>
                                               </div>
                                             </td>
                                           </tr>
@@ -902,24 +916,19 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                         />
                                       </td>
                                       <td style={{ paddingLeft: '4px' }}>
-                                        <button
-                                          title={i18n.t('Search')}
-                                          className='kbc-button kbc-button-fill-parent legacyButtonPadding brOCDefaultKbcButtonMargin'
-                                          onClick={e =>
+                                        <WidgetButton
+                                          style={{
+                                            padding: 2,
+                                            marginLeft: 2,
+                                            marginRight: 2,
+                                            marginBottom: 8,
+                                          }}
+                                          onPress={e =>
                                             this._onClickGetContactList(e)
                                           }
                                         >
-                                          <svg
-                                            height='24'
-                                            viewBox='0 0 24 24'
-                                            width='24'
-                                          >
-                                            <path
-                                              d='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z'
-                                              fill='black'
-                                            ></path>
-                                          </svg>
-                                        </button>
+                                          <RnIcon path='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' />
+                                        </WidgetButton>
                                       </td>
                                       <td style={{ width: '99%' }}></td>
                                     </tr>
@@ -1031,12 +1040,14 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                           >
                                                             {pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
                                                               .length === 1 && (
-                                                              <button
-                                                                title={i18n.t(
-                                                                  'Call',
-                                                                )}
-                                                                className='kbc-button kbc-button-fill-parent legacyButtonPadding brOCDefaultKbcButtonMargin'
-                                                                onClick={e =>
+                                                              <WidgetButton
+                                                                style={{
+                                                                  padding: 2,
+                                                                  marginLeft: 2,
+                                                                  marginRight: 2,
+                                                                  marginBottom: 8,
+                                                                }}
+                                                                onPress={e =>
                                                                   this._callPhonebookCallInfozTel(
                                                                     pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()[0],
                                                                   )
@@ -1046,7 +1057,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                                   size='lg'
                                                                   icon='fas fa-phone'
                                                                 />
-                                                              </button>
+                                                              </WidgetButton>
                                                             )}
                                                             {pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
                                                               .length > 1 && (

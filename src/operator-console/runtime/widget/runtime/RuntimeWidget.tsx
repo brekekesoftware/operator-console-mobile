@@ -7,10 +7,11 @@ type Props = {
 }
 type State = {
   duration?: string
-  loading: boolean
-  content: string
-  error: boolean
-  saving: boolean
+  loading?: boolean
+  content?: string
+  error?: boolean
+  saving?: boolean
+  isRestartButtonDisabled?: boolean
 }
 
 export class RuntimeWidget extends Component<Props, State> {

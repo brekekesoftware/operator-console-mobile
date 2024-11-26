@@ -1,6 +1,7 @@
-import { Divider } from 'antd'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
+import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -83,19 +84,19 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
     const widgetData = this._getWidgetData()
     const jsx = (
       <>
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getExtensiontableBgColor()}
           onChange={color => this._onChangeExtensiontableBgColor(color)}
         />
-        <p>{i18n.t('outerBorderThickness')}</p>
+        <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getExtensiontableOuterBorderThickness()}
           onChange={n => this._onChangeExtensiontableOuterBorderThickness(n)}
         />
-        <p>{i18n.t('outerBorderColor')}</p>
+        <Text>{i18n.t('outerBorderColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getExtensiontableOuterBorderColor()}
@@ -103,26 +104,26 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
             this._onChangeExtensiontableOuterBorderColor(color)
           }
         />
-        <p>{i18n.t('outerBorderRadius')}</p>
+        <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getExtensiontableOuterBorderRadius()}
           onChange={n => this._onChangeExtensiontableOuterBorderRadius(n)}
         />
         <Divider>{i18n.t('header_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getExtensiontableHeaderFontSize()}
           onChange={n => this._onChangeExtensiontableHeaderFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getExtensiontableHeaderFgColor()}
           onChange={color => this._onChangeExtensiontableHeaderFgColor(color)}
         />
-        <p>{i18n.t('rowUnderlineThickness')}</p>
+        <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getExtensiontableHeaderRowUnderlineThickness()}
@@ -130,7 +131,7 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
             this._onChangeExtensiontableHeaderRowUnderlineThickness(n)
           }
         />
-        <p>{i18n.t('rowUnderlineColor')}</p>
+        <Text>{i18n.t('rowUnderlineColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getExtensiontableHeaderRowUnderlineColor()}
@@ -139,19 +140,19 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
           }
         />
         <Divider>{i18n.t('body_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getExtensiontableBodyFontSize()}
           onChange={n => this._onChangeExtensiontableBodyFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getExtensiontableBodyFgColor()}
           onChange={color => this._onChangeExtensiontableBodyFgColor(color)}
         />
-        <p>{i18n.t('rowUnderlineThickness')}</p>
+        <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getExtensiontableBodyRowUnderlineThickness()}
@@ -159,7 +160,7 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
             this._onChangeExtensiontableBodyRowUnderlineThickness(n)
           }
         />
-        <p>{i18n.t('rowUnderlineColor')}</p>
+        <Text>{i18n.t('rowUnderlineColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getExtensiontableBodyRowUnderlineColor()}

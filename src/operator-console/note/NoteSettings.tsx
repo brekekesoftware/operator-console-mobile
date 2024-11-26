@@ -3,6 +3,7 @@ import { Colorpicker } from 'antd-colorpicker'
 import { debounce } from 'lodash'
 import { Component, createRef } from 'react'
 
+import { Divider } from '../common/Divider'
 import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
 
@@ -96,7 +97,7 @@ export class NoteSettings extends Component<Props, State> {
         >
           <Colorpicker format='rgb' />
         </Form.Item>
-        <divider>{i18n.t('noteText_settings')}</divider>
+        <Divider>{i18n.t('noteText_settings')}</Divider>
         <Form.Item
           label={i18n.t('fgColor')}
           name={'noteTextFgColor'}

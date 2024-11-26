@@ -199,7 +199,7 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
     const sEditingWidgetSubtypeId = editingWidgetSubtypeId.toString()
     const jsx = (
       <>
-        <p>{i18n.t('function')}</p>
+        <Text>{i18n.t('function')}</Text>
         <Select
           style={{ width: '100%' }}
           onSelect={ev => this._onFormSubtypeSelected(ev)}
@@ -216,60 +216,60 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
             </SelectOption>
           ))}
         </Select>
-        <p
+        <Text
           style={{
             marginTop: 12,
             marginBottom: 0,
           }}
         >
           {i18n.t(`legacy_button_description.${editingWidgetSubtypeName}`)}
-        </p>
-        <p>{i18n.t('icon')}</p>
+        </Text>
+        <Text>{i18n.t('icon')}</Text>
         {iconSelectJsx}
-        <p>{i18n.t('Icon_width')}</p>
+        <Text>{i18n.t('Icon_width')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getIconWidth()}
           onChange={n => this._onChangeIconWidth(n)}
         />
-        <p>{i18n.t('Icon_height')}</p>
+        <Text>{i18n.t('Icon_height')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getIconHeight()}
           onChange={n => this._onChangeIconHeight(n)}
         />
         {subWidgetSettingsJsx}
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getFontSize()}
           onChange={n => this._onChangeFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getFgColor()}
           onChange={color => this._onChangeFgColor(color)}
         />
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getBgColor()}
           onChange={color => this._onChangeBgColor(color)}
         />
-        <p>{i18n.t('outerBorderColor')}</p>
+        <Text>{i18n.t('outerBorderColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getOuterBorderColor()}
           onChange={color => this._onChangeOuterBorderColor(color)}
         />
-        <p>{i18n.t('outerBorderRadius')}</p>
+        <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getOuterBorderRadius()}
           onChange={n => this._onChangeOuterBorderRadius(n)}
         />
-        <p>{i18n.t('outerBorderThickness')}</p>
+        <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getOuterBorderThickness()}

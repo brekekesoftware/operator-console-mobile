@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Dropdown,
-  Form,
-  Input,
-  Tabs,
-} from '@ant-design/react-native'
+import { ActivityIndicator, Form, Input, Tabs } from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -29,6 +23,7 @@ import { PalPhoneClient } from './call/PalPhoneClient'
 import { PalRestApi } from './call/PalRestApi'
 import { WebphonePhoneClient } from './call/WebphonePhoneClient'
 import { Button } from './common/Button'
+import { DropdownOverlay } from './common/DropdownOverlay'
 import { Empty } from './common/Empty'
 import { GridLines } from './common/GridLines'
 import { InputNumber } from './common/InputNumber'
@@ -1905,7 +1900,7 @@ export class BrekekeOperatorConsole extends React.Component<
                         >
                           {i18n.t('foreground')}
                           {': '}
-                          <Dropdown
+                          <DropdownOverlay
                             overlay={
                               <SketchPicker
                                 color={this.state.editingScreenForeground}
@@ -1919,15 +1914,14 @@ export class BrekekeOperatorConsole extends React.Component<
                               style={{
                                 width: 48,
                                 height: 30,
-                                // display: 'inline-block',
                                 borderColor: '#e0e0e0',
                                 borderStyle: 'solid',
                                 borderWidth: 1,
                                 backgroundColor:
                                   this.state.editingScreenForeground,
                               }}
-                            ></View>
-                          </Dropdown>
+                            />
+                          </DropdownOverlay>
                         </label>
                         <label
                           style={{
@@ -1938,7 +1932,7 @@ export class BrekekeOperatorConsole extends React.Component<
                         >
                           {i18n.t('background')}
                           {': '}
-                          <Dropdown
+                          <DropdownOverlay
                             overlay={
                               <SketchPicker
                                 color={this.state.editingScreenBackground}
@@ -1952,12 +1946,14 @@ export class BrekekeOperatorConsole extends React.Component<
                               style={{
                                 width: 48,
                                 height: 30,
-                                // display: 'inline-block',
-                                border: 'solid 1px #e0e0e0',
-                                background: this.state.editingScreenBackground,
+                                borderColor: '#e0e0e0',
+                                borderWidth: 1,
+                                borderStyle: 'solid',
+                                backgroundColor:
+                                  this.state.editingScreenBackground,
                               }}
-                            ></View>
-                          </Dropdown>
+                            />
+                          </DropdownOverlay>
                         </label>
                       </Space>
                       <View style={{ marginLeft: 'auto' }}>
@@ -2024,40 +2020,40 @@ export class BrekekeOperatorConsole extends React.Component<
                         )}
                         <View
                           style={{
-                            overflowY: 'auto',
                             flexGrow: 1,
                             height: 0,
                             paddingLeft: 12,
                             paddingRight: 12,
                           }}
                         >
-                          {/* height:0 is for show scrollbar */}
-                          {!!SeletingEditingWidgetSettings && (
-                            <SeletingEditingWidgetSettings
-                              key={selectingWidgetSettingsKey++}
-                              widgetIndex={this.state.selectingWidgetIndex}
-                              widget={{ ...selectingEditingWidget }}
-                              onChange={this.updateSelectingWidgetSettings}
-                              // getNoteNames={this.getNoteNames}
-                              operatorConsoleAsParent={this}
-                            />
-                          )}
-                          {this.state.isSelectingTabInEditLayout === true && (
-                            <Form
-                              id='tabFormInEditMode'
-                              layout='vertical'
-                              initialValues={{
-                                tabTitle: editingTabData.tabTitle,
-                              }}
-                            >
-                              <Form.Item
-                                label={i18n.t('tabTitle')}
-                                name='tabTitle'
+                          <ScrollView>
+                            {!!SeletingEditingWidgetSettings && (
+                              <SeletingEditingWidgetSettings
+                                key={selectingWidgetSettingsKey++}
+                                widgetIndex={this.state.selectingWidgetIndex}
+                                widget={{ ...selectingEditingWidget }}
+                                onChange={this.updateSelectingWidgetSettings}
+                                // getNoteNames={this.getNoteNames}
+                                operatorConsoleAsParent={this}
+                              />
+                            )}
+                            {this.state.isSelectingTabInEditLayout === true && (
+                              <Form
+                                id='tabFormInEditMode'
+                                layout='vertical'
+                                initialValues={{
+                                  tabTitle: editingTabData.tabTitle,
+                                }}
                               >
-                                <Input maxLength={30} />
-                              </Form.Item>
-                            </Form>
-                          )}
+                                <Form.Item
+                                  label={i18n.t('tabTitle')}
+                                  name='tabTitle'
+                                >
+                                  <Input maxLength={30} />
+                                </Form.Item>
+                              </Form>
+                            )}
+                          </ScrollView>
                         </View>
                         {this.state.selectingWidgetIndex !== -1 && (
                           <View
@@ -2095,7 +2091,7 @@ export class BrekekeOperatorConsole extends React.Component<
                               onOk={handleShowConfirmDeleteWidgetOk}
                               onCancel={handleShowConfirmDeleteWidgetCancel}
                             >
-                              <p>{i18n.t('ConfirmDeleteWidgetText')}</p>
+                              {i18n.t('ConfirmDeleteWidgetText')}
                             </Modal>
                           </View>
                         )}

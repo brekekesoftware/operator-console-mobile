@@ -1,3 +1,4 @@
+import { Tabs } from '@ant-design/react-native'
 import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core'
 import {
   horizontalListSortingStrategy,
@@ -5,7 +6,6 @@ import {
   useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Tabs } from 'antd'
 import { cloneElement } from 'react'
 
 import { RuntimeWidgetFactory } from './widget/runtime/RuntimeWidgetFactory'

@@ -1,4 +1,5 @@
-import Input from 'antd/lib/input'
+import { Input } from '@ant-design/react-native'
+import { Text } from 'react-native'
 
 import { i18n } from '../../../../i18n'
 import { LegacyButtonEditorSubWidgetSettings } from './LegacyButtonEditorSubWidgetSettings'
@@ -50,7 +51,7 @@ export class LegacyButtonEditorSubWidgetSettings_parkCallButton extends LegacyBu
 
     return (
       <>
-        <p>{i18n.t('label')}</p>
+        <Text>{i18n.t('label')}</Text>
         <Input
           placeholder={i18n.t(`legacy_button_label.${subtypeName}`)}
           allowClear
@@ -58,7 +59,7 @@ export class LegacyButtonEditorSubWidgetSettings_parkCallButton extends LegacyBu
           defaultValue={sLabel}
           onChange={e => this._onChangeLabel(e)}
         />
-        <p>{i18n.t('number')}</p>
+        <Text>{i18n.t('number')}</Text>
         <Input
           allowClear
           defaultValue={sNumber}

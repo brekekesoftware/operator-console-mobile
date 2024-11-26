@@ -1,7 +1,8 @@
-import { Divider } from 'antd'
 import AutoComplete from 'antd/lib/auto-complete'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
+import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { OCUtil } from '../../../OCUtil'
@@ -135,58 +136,58 @@ export class NoteEditorWidgetSettings extends EditorWidgetSettings {
     const noteName = widgetData.getNoteName()
     const jsx = (
       <>
-        <p>{i18n.t('borderRadius')}</p>
+        <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getNoteBorderRadius()}
           onChange={n => this._onChangeNoteBorderRadius(n)}
         />
         <Divider>{i18n.t('Note_name_settings')}</Divider>
-        <p>{i18n.t('Name')}</p>
+        <Text>{i18n.t('Name')}</Text>
         <AutoComplete
           value={noteName}
           options={this.state.nameOptions}
           onChange={noteName => this._onChangeNoteName(noteName)}
           style={{ width: '100%' }}
         />
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getNoteTitleFontSize()}
           onChange={n => this._onChangeNoteTitleFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getNoteNameFgColor()}
           onChange={color => this._onChangeNoteNameFgColor(color)}
         />
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getNoteNameBgColor()}
           onChange={color => this._onChangeNoteNameBgColor(color)}
         />
         <Divider>{i18n.t('noteText_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getNoteBodyFontSize()}
           onChange={n => this._onChangeNoteBodyFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getNoteTextFgColor()}
           onChange={color => this._onChangeNoteTextFgColor(color)}
         />
-        <p>{i18n.t('startBgColor')}</p>
+        <Text>{i18n.t('startBgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getNoteBgStartColor()}
           onChange={color => this._onChangeNoteBgStartColor(color)}
         />
-        <p>{i18n.t('endBgColor')}</p>
+        <Text>{i18n.t('endBgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getNoteBgEndColor()}

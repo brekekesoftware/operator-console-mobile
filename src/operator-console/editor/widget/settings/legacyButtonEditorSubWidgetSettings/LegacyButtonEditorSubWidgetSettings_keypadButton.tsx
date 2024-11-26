@@ -1,4 +1,5 @@
-import Input from 'antd/lib/input'
+import { Input } from '@ant-design/react-native'
+import { Text } from 'react-native'
 
 import { i18n } from '../../../../i18n'
 import { LegacyButtonEditorSubWidgetSettings } from './LegacyButtonEditorSubWidgetSettings'
@@ -34,7 +35,7 @@ export class LegacyButtonEditorSubWidgetSettings_keypadButton extends LegacyButt
     }
     return (
       <>
-        <p>{i18n.t('symbol')}</p>
+        <Text>{i18n.t('symbol')}</Text>
         <Input
           maxLength={1}
           allowClear

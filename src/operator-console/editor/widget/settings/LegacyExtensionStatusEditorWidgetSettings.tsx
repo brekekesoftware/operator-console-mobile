@@ -1,5 +1,6 @@
 import { Input } from '@ant-design/react-native'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
@@ -49,31 +50,31 @@ export class LegacyExtensionStatusEditorWidgetSettings extends EditorWidgetSetti
     const widgetData = this._getWidgetData()
     const jsx = (
       <>
-        <p>{i18n.t('extension')}</p>
+        <Text>{i18n.t('extension')}</Text>
         <Input
           value={widgetData.getExtension()}
           onChange={e => this._onChangeExtension(e)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getExtensionStatusFgColor()}
           onChange={color => this._onChangeExtensionStatusFgColor(color)}
         />
-        <p>{i18n.t('Lamp_size')}</p>
+        <Text>{i18n.t('Lamp_size')}</Text>
         <InputNumber
           min={0}
           value={widgetData.getExtensionStatusLampSize()}
           onChange={val => this._onChangeExtensionStatusLampSize(val)}
         />
-        <p>{i18n.t('Text_top_margin')}</p>
+        <Text>{i18n.t('Text_top_margin')}</Text>
         <InputNumber
           value={widgetData.getExtensionStatusExtensionTextTopMargin()}
           onChange={val =>
             this._onChangeExtensionStatusExtensionTextTopMargin(val)
           }
         />
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min={0}
           value={widgetData.getExtensionStatusExtensionFontSize()}

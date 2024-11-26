@@ -1,7 +1,8 @@
 import { Input } from '@ant-design/react-native'
-import { Divider } from 'antd'
 import { Colorpicker } from 'antd-colorpicker'
+import { Text } from 'react-native'
 
+import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -270,7 +271,7 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
     const lineCount = lineDataArray.length
     const jsx = (
       <>
-        <p>{i18n.t('lineCount')}</p>
+        <Text>{i18n.t('lineCount')}</Text>
         <InputNumber
           min='0'
           max={MAX_LINE_COUNT}
@@ -280,14 +281,14 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         {lineDataArray.map((lineData, i) => (
           <div key={i}>
             <h3>{i18n.t('line') + ' ' + (i + 1)}</h3>
-            <p>{i18n.t('resourceName')}</p>
+            <Text>{i18n.t('resourceName')}</Text>
             <Input
               maxLength={300}
               allowClear
               value={lineData.getResourceName()}
               onChange={e => this._onChangeResourceName(e, i)}
             />
-            <p>{i18n.t('lineLabel')}</p>
+            <Text>{i18n.t('lineLabel')}</Text>
             <Input
               allowClear
               maxLength={300}
@@ -296,50 +297,50 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
             />
           </div>
         ))}
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLinetableBgColor()}
           onChange={color => this._onChangeLinetableBgColor(color)}
         />
-        <p>{i18n.t('outerBorderThickness')}</p>
+        <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLinetableOuterBorderThickness()}
           onChange={n => this._onChangeLinetableOuterBorderThickness(n)}
         />
-        <p>{i18n.t('outerBorderColor')}</p>
+        <Text>{i18n.t('outerBorderColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLinetableOuterBorderColor()}
           onChange={color => this._onChangeLinetableOuterBorderColor(color)}
         />
-        <p>{i18n.t('outerBorderRadius')}</p>
+        <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLinetableOuterBorderRadius()}
           onChange={n => this._onChangeLinetableOuterBorderRadius(n)}
         />
         <Divider>{i18n.t('header_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLinetableHeaderFontSize()}
           onChange={n => this._onChangeLinetableHeaderFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLinetableHeaderFgColor()}
           onChange={color => this._onChangeLinetableHeaderFgColor(color)}
         />
-        <p>{i18n.t('rowUnderlineThickness')}</p>
+        <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLinetableHeaderRowUnderlineThickness()}
           onChange={n => this._onChangeLinetableHeaderRowUnderlineThickness(n)}
         />
-        <p>{i18n.t('rowUnderlineColor')}</p>
+        <Text>{i18n.t('rowUnderlineColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLinetableHeaderRowUnderlineColor()}
@@ -348,25 +349,25 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
           }
         />
         <Divider>{i18n.t('body_settings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLinetableBodyFontSize()}
           onChange={n => this._onChangeLinetableBodyFontSize(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLinetableBodyFgColor()}
           onChange={color => this._onChangeLinetableBodyFgColor(color)}
         />
-        <p>{i18n.t('rowUnderlineThickness')}</p>
+        <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLinetableBodyRowUnderlineThickness()}
           onChange={n => this._onChangeLinetableBodyRowUnderlineThickness(n)}
         />
-        <p>{i18n.t('rowUnderlineColor')}</p>
+        <Text>{i18n.t('rowUnderlineColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLinetableBodyRowUnderlineColor()}
@@ -375,86 +376,86 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
           }
         />
         <Divider>{i18n.t('lineButtonSettings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLineButtonFontSize()}
           onChange={n => this._onChangeLineButtonFontSize(n)}
         />
-        <p>{i18n.t('width')}</p>
+        <Text>{i18n.t('width')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getLineButtonWidth()}
           onChange={n => this._onChangeLineButtonWidth(n)}
         />
-        <p>{i18n.t('height')}</p>
+        <Text>{i18n.t('height')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getLineButtonHeight()}
           onChange={n => this._onChangeLineButtonHeight(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLineButtonFgColor()}
           onChange={color => this._onChangeLineButtonFgColor(color)}
         />
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLineButtonBgColor()}
           onChange={color => this._onChangeLineButtonBgColor(color)}
         />
-        <p>{i18n.t('outerBorderColor')}</p>
+        <Text>{i18n.t('outerBorderColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getLineButtonOuterBorderColor()}
           onChange={color => this._onChangeLineButtonOuterBorderColor(color)}
         />
-        <p>{i18n.t('outerBorderRadius')}</p>
+        <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getLineButtonOuterBorderRadius()}
           onChange={n => this._onChangeLineButtonOuterBorderRadius(n)}
         />
-        <p>{i18n.t('outerBorderThickness')}</p>
+        <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getLineButtonOuterBorderThickness()}
           onChange={n => this._onChangeLineButtonOuterBorderThickness(n)}
         />
         <Divider>{i18n.t('transferButtonSettings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getTransferButtonFontSize()}
           onChange={n => this._onChangeTransferButtonFontSize(n)}
         />
-        <p>{i18n.t('width')}</p>
+        <Text>{i18n.t('width')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getTransferButtonWidth()}
           onChange={n => this._onChangeTransferButtonWidth(n)}
         />
-        <p>{i18n.t('height')}</p>
+        <Text>{i18n.t('height')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getTransferButtonHeight()}
           onChange={n => this._onChangeTransferButtonHeight(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTransferButtonFgColor()}
           onChange={color => this._onChangeTransferButtonFgColor(color)}
         />
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTransferButtonBgColor()}
           onChange={color => this._onChangeTransferButtonBgColor(color)}
         />
-        <p>{i18n.t('outerBorderColor')}</p>
+        <Text>{i18n.t('outerBorderColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTransferButtonOuterBorderColor()}
@@ -462,50 +463,50 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
             this._onChangeTransferButtonOuterBorderColor(color)
           }
         />
-        <p>{i18n.t('outerBorderRadius')}</p>
+        <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getTransferButtonOuterBorderRadius()}
           onChange={n => this._onChangeTransferButtonOuterBorderRadius(n)}
         />
-        <p>{i18n.t('outerBorderThickness')}</p>
+        <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getTransferButtonOuterBorderThickness()}
           onChange={n => this._onChangeTransferButtonOuterBorderThickness(n)}
         />
         <Divider>{i18n.t('transferCancelButtonSettings')}</Divider>
-        <p>{i18n.t('Text_size')}</p>
+        <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getTransferCancelButtonFontSize()}
           onChange={n => this._onChangeTransferCancelButtonFontSize(n)}
         />
-        <p>{i18n.t('width')}</p>
+        <Text>{i18n.t('width')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getTransferCancelButtonWidth()}
           onChange={n => this._onChangeTransferCancelButtonWidth(n)}
         />
-        <p>{i18n.t('height')}</p>
+        <Text>{i18n.t('height')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getTransferCancelButtonHeight()}
           onChange={n => this._onChangeTransferCancelButtonHeight(n)}
         />
-        <p>{i18n.t('fgColor')}</p>
+        <Text>{i18n.t('fgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTransferCancelButtonFgColor()}
           onChange={color => this._onChangeTransferCancelButtonFgColor(color)}
         />
-        <p>{i18n.t('bgColor')}</p>
+        <Text>{i18n.t('bgColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTransferCancelButtonBgColor()}
           onChange={color => this._onChangeTransferCancelButtonBgColor(color)}
         />
-        <p>{i18n.t('outerBorderColor')}</p>
+        <Text>{i18n.t('outerBorderColor')}</Text>
         <Colorpicker
           format='rgb'
           value={widgetData.getTransferCancelButtonOuterBorderColor()}
@@ -513,13 +514,13 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
             this._onChangeTransferCancelButtonOuterBorderColor(color)
           }
         />
-        <p>{i18n.t('outerBorderRadius')}</p>
+        <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
           min='0'
           value={widgetData.getTransferCancelButtonOuterBorderRadius()}
           onChange={n => this._onChangeTransferCancelButtonOuterBorderRadius(n)}
         />
-        <p>{i18n.t('outerBorderThickness')}</p>
+        <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
           min='1'
           value={widgetData.getTransferCancelButtonOuterBorderThickness()}

@@ -1,4 +1,4 @@
-import { i18n } from '../../../../i18n'
+import { WidgetButton } from '../../../../common/WidgetButton'
 import { BrekekeOperatorConsole } from '../../../../OperatorConsole'
 import { Util } from '../../../../Util'
 import { LegacyButtonRuntimeSubWidget } from './LegacyButtonRuntimeSubWidget'
@@ -15,39 +15,12 @@ export class LegacyButtonRuntimeSubWidget_parkCallButton extends LegacyButtonRun
   getRenderJsx() {
     const widgetData =
       this.getLegacyButtonSubWidgetData().getLegacyButtonWidgetDataAsParent()
-    const sButtonFontSize = widgetData.getFontSize()
-      ? widgetData.getFontSize() + 'px'
-      : '1rem' // !default
-    const buttonFgColor = widgetData.getFgColor()
-    const buttonBgColor = widgetData.getBgColor()
-    const buttonOuterBorderColor = widgetData.getOuterBorderColor()
-    const buttonOuterBorderThickness = widgetData.getOuterBorderThickness()
-    const buttonOuterBorderRadius = widgetData.getOuterBorderRadius()
-
-    const color = Util.isAntdRgbaProperty(buttonFgColor)
-      ? Util.getRgbaCSSStringFromAntdColor(buttonFgColor)
-      : ''
-    const backgroundColor = Util.isAntdRgbaProperty(buttonBgColor)
-      ? Util.getRgbaCSSStringFromAntdColor(buttonBgColor)
-      : ''
-    const border =
-      Util.isNumeric(buttonOuterBorderThickness) &&
-      Util.isAntdRgbaProperty(buttonOuterBorderColor)
-        ? 'solid ' +
-          buttonOuterBorderThickness +
-          'px ' +
-          Util.getRgbaCSSStringFromAntdColor(buttonOuterBorderColor)
-        : ''
-    const borderRadius = Util.isNumber(buttonOuterBorderRadius)
-      ? buttonOuterBorderRadius + 'px'
-      : ''
+    const cStyle = Util.getLegacyButtonEditorStyle(widgetData)
 
     const oc = BrekekeOperatorConsole.getStaticInstance()
     const myParksStatus = oc.getMyParksStatus()
     const parksStatus = oc.getParksStatus()
     const number = this._LegacyButtonRuntimeSubWidgetData.getNumber()
-
-    const subtypeName = this._getLegacyButtonWidgetSubTypeName()
     const light = myParksStatus[number]
       ? 'kbc-button-success-flash-slow'
       : parksStatus[number]
@@ -55,20 +28,13 @@ export class LegacyButtonRuntimeSubWidget_parkCallButton extends LegacyButtonRun
         : ''
     const iconJsx = this._getIconJsx()
     return (
-      <button
-        title={i18n.t(`legacy_button_description.${subtypeName}`)}
-        className={clsx('kbc-button kbc-button-fill-parent', light)}
-        style={{
-          fontSize: sButtonFontSize,
-          border,
-          borderRadius,
-          color,
-          backgroundColor,
-        }}
-        onClick={() => oc.handlePark(number)}
+      <WidgetButton
+        style={cStyle.s}
+        textStyle={cStyle.tStyle}
+        onPress={() => oc.handlePark(number)}
       >
         {iconJsx}
-      </button>
+      </WidgetButton>
     )
   }
 }

@@ -1,5 +1,5 @@
 import { createRef } from 'react'
-import { Dimensions, Text, View } from 'react-native'
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native'
 
 import { i18n } from '../../../i18n'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -8,6 +8,10 @@ import { RuntimeWidget } from './RuntimeWidget'
 
 export class LegacyUccacRuntimeWidget extends RuntimeWidget {
   _UccacWrapper
+  _uccacAc
+  _uccacRootElementRef
+  _onUccacInitSuccessFunction
+  _onUccacDeinitFunction
   constructor(props) {
     super(props)
     const oc = BrekekeOperatorConsole.getStaticInstance()
@@ -303,12 +307,12 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
             ></View>
           </View>
           <View style={{ height: 30, padding: 4 }}>
-            <button
+            <TouchableOpacity
               disabled={this.state.isRestartButtonDisabled}
-              onClick={this._onClickRestart.bind(this)}
+              onPress={this._onClickRestart.bind(this)}
             >
-              {i18n.t('restart')}
-            </button>
+              <Text>{i18n.t('restart')}</Text>
+            </TouchableOpacity>
           </View>
         </View>
       )

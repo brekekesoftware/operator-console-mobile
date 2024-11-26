@@ -1,5 +1,6 @@
+import { WidgetButton } from '../../../common/WidgetButton'
 import { i18n } from '../../../i18n'
-import BrekekeOperatorConsole from '../../../OperatorConsole'
+import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 
@@ -220,14 +221,12 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
                       margin: '0 auto',
                     }}
                   >
-                    <button
-                      title={i18n.t('activeButtonDesc')}
-                      className='kbc-button kbc-button-fill-parent'
-                      style={{ fontSize: activeButtonFontSize }}
-                      onClick={() => oc.switchCallIndex(i)}
+                    <WidgetButton
+                      textStyle={{ fontSize: activeButtonFontSize }}
+                      onPress={() => oc.switchCallIndex(i)}
                     >
                       {i18n.t('active')}
-                    </button>
+                    </WidgetButton>
                   </div>
                 )
               }

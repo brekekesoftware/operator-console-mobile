@@ -1,5 +1,8 @@
+import { Text, View } from 'react-native'
+
 import { WidgetData } from '../../../data/widgetData/WidgetData'
 import { i18n } from '../../../i18n'
+import { OperatorConsoleStyles } from '../../../OperatorConsoleStyles'
 import { EditorWidgetTemplate } from './EditorWidgetTemplate'
 
 export class LegacyExtensionStatusEditorWidgetTemplate extends EditorWidgetTemplate {
@@ -23,10 +26,10 @@ export class LegacyExtensionStatusEditorWidgetTemplate extends EditorWidgetTempl
   // !overload
   getRenderMainJsx() {
     return (
-      <div className='led-box' style={{}}>
-        <div className='led-grey'></div>
-        <p>{i18n.t('extension_status')}</p>
-      </div>
+      <View style={OperatorConsoleStyles['led-red']}>
+        <View style={OperatorConsoleStyles['led-grey']}></View>
+        <Text>{i18n.t('extension_status')}</Text>
+      </View>
     )
   }
 }
