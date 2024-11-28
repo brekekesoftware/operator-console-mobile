@@ -75,6 +75,8 @@
 		CB8766E128E87C59002261CB /* BrekekeLPCExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9C972B8C28E1B34C00DD89B4 /* BrekekeLPCExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CBAD324D29F374A20057D82C /* ding.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CBAD324C29F374A20057D82C /* ding.mp3 */; };
 		D350DEB38433C27219DABB7B /* libPods-BrekekePhone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6030A14479A9BB192539F2C4 /* libPods-BrekekePhone.a */; };
+		3670834306BB42599A5D9CA6 /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2BE58FF807A4562B38B899D /* antfill.ttf */; };
+		2C1CD842E9BD43BFB024D0F8 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 923052EDDB9D4DD797A67571 /* antoutline.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +157,8 @@
 		CB8766BF28E83920002261CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CBAD324C29F374A20057D82C /* ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ding.mp3; path = ../src/assets/ding.mp3; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		A2BE58FF807A4562B38B899D /* antfill.ttf */ = {isa = PBXFileReference; name = "antfill.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		923052EDDB9D4DD797A67571 /* antoutline.ttf */ = {isa = PBXFileReference; name = "antoutline.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +239,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				79C57AF890EDEFC18471D005 /* Pods */,
+				CCDC13A941804BB1A31F905B /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -331,6 +336,16 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		CCDC13A941804BB1A31F905B /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				A2BE58FF807A4562B38B899D /* antfill.ttf */,
+				923052EDDB9D4DD797A67571 /* antoutline.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -426,6 +441,8 @@
 				9CE4DA042565F16E00512187 /* incallmanager_ringback.mp3 in Resources */,
 				9CE4DA052565F16E00512187 /* incallmanager_ringtone.mp3 in Resources */,
 				CBAD324D29F374A20057D82C /* ding.mp3 in Resources */,
+				3670834306BB42599A5D9CA6 /* antfill.ttf in Resources */,
+				2C1CD842E9BD43BFB024D0F8 /* antoutline.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,7 +636,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.phonedev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.operatorconsole;
 				PRODUCT_NAME = "Brekeke Phone Dev";
 				PROVISIONING_PROFILE_SPECIFIER = "phonedev-provisioning-profile";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "phonedev-provisioning-profile";
@@ -655,7 +672,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.phonedev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.operatorconsole;
 				PRODUCT_NAME = "Brekeke Phone Dev";
 				PROVISIONING_PROFILE_SPECIFIER = "phonedev-provisioning-profile";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "phonedev-provisioning-profile";
@@ -819,7 +836,7 @@
 				MARKETING_VERSION = 2.15.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.phonedev.BrekekeLPCExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.operatorconsole.BrekekeLPCExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "phonedevLPCExtension-provisioning-profile";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "phonedevLPCExtension-provisioning-profile";
@@ -860,7 +877,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift$(inherited)";
 				MARKETING_VERSION = 2.15.1;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.phonedev.BrekekeLPCExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.brekeke.operatorconsole.BrekekeLPCExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "phonedevLPCExtension-provisioning-profile";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "phonedevLPCExtension-provisioning-profile";

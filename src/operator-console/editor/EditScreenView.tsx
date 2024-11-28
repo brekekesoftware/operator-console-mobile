@@ -1,11 +1,11 @@
 import { Input } from '@ant-design/react-native'
 import React from 'react'
-import { SketchPicker } from 'react-color'
 import { Dimensions, Image, Text, View } from 'react-native'
 
 import logo from '../logo.png'
 
 import { Button } from '../common/Button'
+import { PickerColor } from '../common/ColorPicker'
 import { DropdownOverlay } from '../common/DropdownOverlay'
 import { InputNumber } from '../common/InputNumber'
 import { Notification } from '../common/Notification'
@@ -452,9 +452,9 @@ export class EditScreenView extends React.Component<Props, State> {
               {': '}
               <DropdownOverlay
                 overlay={
-                  <SketchPicker
+                  <PickerColor
                     color={this._ScreenData.getScreenForegroundColor()}
-                    onChangeComplete={this.setScreenForegroundColor}
+                    onColorChangeComplete={this.setScreenForegroundColor}
                   />
                 }
               >
@@ -481,9 +481,9 @@ export class EditScreenView extends React.Component<Props, State> {
               {': '}
               <DropdownOverlay
                 overlay={
-                  <SketchPicker
+                  <PickerColor
                     color={this._ScreenData.getScreenBackgroundColor()}
-                    onChangeComplete={this.setScreenBackgroundColor}
+                    onColorChangeComplete={this.setScreenBackgroundColor}
                   />
                 }
               >

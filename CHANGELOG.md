@@ -101,7 +101,7 @@
 #### 2.13.3
 
 - Disable adding OS call history
-- Fix it should include X-Requested-With header in webview, the value will be com.brekeke.phone or com.brekeke.phonedev depends on the build
+- Fix it should include X-Requested-With header in webview, the value will be com.brekeke.phone or com.brekeke.operatorconsole depends on the build
 - Fix ios it should not show error in avatar: do not load webview if the url is empty
 - Fix it should not open dev version if try to open from webphone
 - Fix ios open from url should work without crash

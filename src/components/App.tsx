@@ -19,6 +19,7 @@ import SplashScreen from 'react-native-splash-screen'
 import { sip } from '../api/sip'
 import { SyncPnToken } from '../api/syncPnToken'
 import { getWebRootIdProps } from '../embed/polyfill'
+import { BrekekeOperatorConsole } from '../operator-console/OperatorConsole'
 import { RenderAllCalls } from '../pages/PageCallManage'
 import { PageCustomPageView } from '../pages/PageCustomPageView'
 import { accountStore, getLastSignedInId } from '../stores/accountStore'
@@ -321,7 +322,7 @@ export const App = observer(() => {
       <ChatGroupInvite />
       <UnreadChatNoti />
 
-      <View style={css.App_Inner}>
+      {/* <View style={css.App_Inner}>
         <RnStackerRoot />
         <RenderAllCalls />
         {cp && <PageCustomPageView id={cp.id} />}
@@ -334,7 +335,7 @@ export const App = observer(() => {
             onPress={resetFailureStateIncludeUcLoginFromAnotherPlace}
           />
         )}
-      </View>
+      </View> */}
       {Platform.OS === 'ios' && <KeyboardSpacer />}
 
       {!accountStore.appInitDone && (
@@ -342,6 +343,9 @@ export const App = observer(() => {
           <ActivityIndicator size='large' color='white' />
         </View>
       )}
+      <View style={css.App_Inner}>
+        <BrekekeOperatorConsole />
+      </View>
     </View>
   )
 })

@@ -1,4 +1,4 @@
-package com.brekeke.phonedev;
+package com.brekeke.operatorconsole;
 
 import android.util.Log;
 import com.facebook.react.ReactApplication;

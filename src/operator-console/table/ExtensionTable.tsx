@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
-import { Cell, Table, TableWrapper } from 'react-native-table-component'
 
+import { Cell, Table, TableWrapper } from '../common/Table'
 import { i18n } from '../i18n'
 import { Util } from '../Util'
 
@@ -82,8 +82,6 @@ export const ExtensionTable = props => {
     <Table
       style={{
         backgroundColor,
-      }}
-      borderStyle={{
         borderWidth: outerBorderThickness,
         borderStyle: 'solid',
         borderColor: outerBorderColor,
@@ -94,9 +92,9 @@ export const ExtensionTable = props => {
           styles.row,
           {
             backgroundColor,
-            borderWidth: outerBorderThickness,
+            borderBottomWidth: headerRowUnderlineThickness,
             borderStyle: 'solid',
-            borderBottomColor: outerBorderColor,
+            borderColor: headerRowUnderlineColor,
           },
         ]}
       >
@@ -105,7 +103,8 @@ export const ExtensionTable = props => {
           textStyle={{ textTransform: 'uppercase' }}
           style={{
             height: EXTENSION_TABLE_TH_HEIGHT,
-            borderLeftRadius: outerBorderRadius,
+            borderTopLeftRadius: outerBorderRadius,
+            borderBottomLeftRadius: outerBorderRadius,
           }}
         />
         <Cell
@@ -120,7 +119,8 @@ export const ExtensionTable = props => {
           textStyle={{ textTransform: 'uppercase' }}
           style={{
             height: EXTENSION_TABLE_TH_HEIGHT,
-            borderRightRadius: outerBorderRadius,
+            borderTopRightRadius: outerBorderRadius,
+            borderBottomRightRadius: outerBorderRadius,
           }}
         />
       </TableWrapper>
@@ -129,16 +129,17 @@ export const ExtensionTable = props => {
           style={[
             styles.row,
             {
-              borderWidth: bodyRowUnderlineThickness,
+              borderBottomWidth: bodyRowUnderlineThickness,
               borderStyle: 'solid',
-              borderBottomColor: bodyRowUnderlineThickness,
+              borderColor: bodyRowUnderlineColor,
             },
           ]}
         >
           <Cell
             style={{
               height: EXTENSION_TABLE_TD_HEIGHT,
-              borderRightRadius: outerBorderRadius,
+              borderTopRightRadius: outerBorderRadius,
+              borderBottomRightRadius: outerBorderRadius,
             }}
             data={ext?.id}
           />
@@ -151,7 +152,8 @@ export const ExtensionTable = props => {
           <Cell
             style={{
               height: EXTENSION_TABLE_TD_HEIGHT,
-              borderLeftRadius: outerBorderRadius,
+              borderTopLeftRadius: outerBorderRadius,
+              borderBottomLeftRadius: outerBorderRadius,
             }}
             data={Object.values(
               extensionsStatus?.[ext?.id]?.callStatus || {},

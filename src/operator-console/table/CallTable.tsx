@@ -5,8 +5,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { Row, Table } from 'react-native-table-component'
 
+import { Row, Table } from '../common/Table'
 import { i18n } from '../i18n'
 import { Util } from '../Util'
 
@@ -173,14 +173,13 @@ export const CallTable = props => {
             const row: any = []
 
             CallTableColumns.forEach((column, i) => {
-              let borderRadiusTD
+              let borderRadiusTD = 0
               const isFirstTD = i == 0
               if (isFirstTD === true) {
-                borderRadiusTD = '0 ' + outerBorderRadius + 'px 0 0'
+                borderRadiusTD = outerBorderRadius
               } else {
-                borderRadiusTD = '' // "0"
+                borderRadiusTD = 0 // "0"
               }
-              borderRadiusTD = '' // "0"
 
               const key = column.key
               const formatter = column.formatter

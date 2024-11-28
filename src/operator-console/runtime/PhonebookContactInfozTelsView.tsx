@@ -1,16 +1,23 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Component } from 'react'
+import { View } from 'react-native'
 
-import './reset.css'
 import './phonebookContactInfozTelsView.css'
 
+import { Cell, Table, TableWrapper } from '../common/Table'
 import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
+import { OperatorConsoleStyles } from '../OperatorConsoleStyles'
 
 let _INSTANCE
-export class PhonebookContactInfozTelsView extends Component {
+
+type State = {
+  pbContactInfo: any
+}
+type Props = {}
+export class PhonebookContactInfozTelsView extends Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
@@ -27,7 +34,7 @@ export class PhonebookContactInfozTelsView extends Component {
     this.setState({ pbContactInfo })
   }
 
-  closePhonebookContactInfozTelsView(thenFunc) {
+  closePhonebookContactInfozTelsView(thenFunc = () => {}) {
     this.setState({ pbContactInfo: null }, () => {
       if (thenFunc) {
         thenFunc()
@@ -52,43 +59,58 @@ export class PhonebookContactInfozTelsView extends Component {
     const telInfoArray =
       this.state.pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
     return (
-      <div className='brOCReset phonebookContactInfozTelsView'>
-        <table
-          className={
-            'defaultBorderWithRadius outsidePaddingWithoutBorderRadius'
-          }
+      <View
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: 48,
+          borderRadius: 5,
+          zIndex: 113,
+        }}
+      >
+        <Table
+          style={{
+            borderRadius: 5,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: '#e0e0e0',
+            padding: 15,
+          }}
         >
-          <tbody>
-            <tr>
-              <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+          <View>
+            <TableWrapper>
+              <Cell textStyle={{ textAlign: 'right', verticalAlign: 'top' }}>
                 <FontAwesomeIcon
                   icon='far fa-window-close'
                   onClick={e => this.closePhonebookContactInfozTelsView()}
                   className='closeFontAwesomeIcon'
                 />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <table className='defaultContentTable'>
-                  <thead>
-                    <tr>
-                      <th
-                        colSpan='4'
-                        className='displayNameTitleTh'
-                        style={{ textTransform: 'unset' }}
+              </Cell>
+            </TableWrapper>
+            <TableWrapper>
+              <Cell>
+                <Table style={{ paddingLeft: 20 }}>
+                  <TableWrapper>
+                    <TableWrapper>
+                      <Cell
+                        textStyle={{
+                          textTransform: 'none',
+                          backgroundColor: '#5C9842',
+                          color: '#FFFFFF',
+                          paddingTop: 6,
+                        }}
                       >
                         {this.state.pbContactInfo.getDisplayName()}
-                      </th>
-                    </tr>
-                    <tr>
-                      <th>{i18n.t('Type')}</th>
-                      <th>{i18n.t('Tel')}</th>
-                      <th>{i18n.t('Status')}</th>
-                      <th>{i18n.t('Call')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                      </Cell>
+                    </TableWrapper>
+                    <TableWrapper>
+                      <Cell>{i18n.t('Type')}</Cell>
+                      <Cell>{i18n.t('Tel')}</Cell>
+                      <Cell>{i18n.t('Status')}</Cell>
+                      <Cell>{i18n.t('Call')}</Cell>
+                    </TableWrapper>
+                  </TableWrapper>
+                  <View>
                     {telInfoArray.map((telInfo, i) => {
                       const tel = telInfo.getValue()
                       const isExtension =
@@ -101,13 +123,15 @@ export class PhonebookContactInfozTelsView extends Component {
                           )
                         : ''
                       return (
-                        <tr key={i}>
-                          <td>{telInfo.getTitle()}</td>
-                          <td>{telInfo.getValue()}</td>
-                          <td>
-                            <div className={statusClassName}></div>
-                          </td>
-                          <td>
+                        <TableWrapper key={i}>
+                          <Cell>{telInfo.getTitle()}</Cell>
+                          <Cell>{telInfo.getValue()}</Cell>
+                          <Cell>
+                            <View
+                              style={OperatorConsoleStyles[statusClassName]}
+                            ></View>
+                          </Cell>
+                          <Cell>
                             {
                               <WidgetButton
                                 style={{ padding: 2 }}
@@ -121,17 +145,17 @@ export class PhonebookContactInfozTelsView extends Component {
                                 />
                               </WidgetButton>
                             }
-                          </td>
-                        </tr>
+                          </Cell>
+                        </TableWrapper>
                       )
                     })}
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                  </View>
+                </Table>
+              </Cell>
+            </TableWrapper>
+          </View>
+        </Table>
+      </View>
     )
   }
 }

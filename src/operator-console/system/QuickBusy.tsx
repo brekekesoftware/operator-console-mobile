@@ -1,11 +1,11 @@
 import React from 'react'
+import { TouchableOpacity, View } from 'react-native'
 
-import './reset.css'
-import './QuickBusy.css'
-
+import { Cell, Table, TableWrapper } from '../common/Table'
 import { OCUtil } from '../OCUtil'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { brOcDisplayStates } from '../OperatorConsole'
+import { OperatorConsoleStyles } from '../OperatorConsoleStyles'
 
 const QUICK_BUSY_CLICK_TO_CALL = true
 type Props = {
@@ -182,17 +182,29 @@ export class QuickBusy extends React.Component<Props, State> {
     const extensionsStatus = ocState.extensionsStatus
 
     return (
-      <div className='brOCReset quickBusy'>
-        <table
-          className={
-            'defaultBorderWithRadius outsidePaddingWithoutBorderRadius'
-          }
+      <View
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: 48,
+          borderRadius: 5,
+          zIndex: 114,
+        }}
+      >
+        <Table
+          style={{
+            borderRadius: 5,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: '#e0e0e0',
+            padding: 15,
+          }}
         >
-          <tbody>
-            <tr>
-              <td>
-                <table className='defaultContentTable noBorderTopForFirstRowzCell'>
-                  <tbody>
+          <View>
+            <TableWrapper>
+              <Cell>
+                <Table>
+                  <View style={{ paddingLeft: 20 }}>
                     {this.state.candidateCallNos.map((callNo, i) => {
                       const isExtension =
                         OCUtil.indexOfArrayFromExtensions(
@@ -209,25 +221,27 @@ export class QuickBusy extends React.Component<Props, State> {
                         : ''
 
                       return (
-                        <tr
-                          key={i}
-                          onClick={this._onClickCallNo.bind(this, callNo)}
-                          className='linkDeco'
+                        <TouchableOpacity
+                          onPress={this._onClickCallNo.bind(this, callNo)}
                         >
-                          <td>{callNo}</td>
-                          <td>
-                            <div className={statusClassName}></div>
-                          </td>
-                        </tr>
+                          <TableWrapper key={i}>
+                            <Cell>{callNo}</Cell>
+                            <Cell>
+                              <View
+                                style={OperatorConsoleStyles[statusClassName]}
+                              ></View>
+                            </Cell>
+                          </TableWrapper>
+                        </TouchableOpacity>
                       )
                     })}
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                  </View>
+                </Table>
+              </Cell>
+            </TableWrapper>
+          </View>
+        </Table>
+      </View>
     )
   }
 }

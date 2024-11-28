@@ -1,3 +1,7 @@
+import type { ViewStyle } from 'react-native'
+import { View } from 'react-native'
+
+import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { WidgetButton } from '../../../common/WidgetButton'
 import { i18n } from '../../../i18n'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -246,103 +250,118 @@ const EditorLineTableRow_ver2 = ({
     ? lineButtonOuterBorderRadius
     : 0
 
+  const lightStyle: { [key: string]: ViewStyle } = {
+    'kbc-button-success-flash': {},
+    'kbc-button-success-flash-slow': {},
+    'kbc-button-danger-flash-slow': {},
+    'kbc-button-danger-flash': {},
+    'kbc-button-success': {},
+    'kbc-button-danger': {},
+  }
+
   return (
-    <tr
+    <TableWrapper
       key={index}
-      className={lightClassname}
-      style={{
-        color: bodyFgColor,
-        borderBottom:
-          bodyRowUnderlineThickness + 'px solid ' + bodyRowUnderlineColor,
-      }}
+      style={[
+        lightStyle[lightClassname],
+        {
+          borderBottomWidth: bodyRowUnderlineThickness,
+          borderStyle: 'solid',
+          borderColor: bodyRowUnderlineColor,
+        },
+      ]}
     >
-      <td
+      <Cell
         style={{
-          fontSize: bodyFontSize + 'px',
-          borderRadius: '0 ' + outerBorderRadius + 'px 0 0',
+          borderTopRightRadius: outerBorderRadius,
+          borderBottomRightRadius: outerBorderRadius,
         }}
-      >
-        {title}
-      </td>
-      <td
+        textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
+        data={title}
+      ></Cell>
+      <Cell
+        textStyle={{
+          fontSize: bodyFontSize,
+          color: bodyFgColor,
+        }}
+        data={lineInfo.talker}
+      ></Cell>
+      <Cell
+        data={
+          <EditorLineButton_ver2
+            line={lineInfo.line}
+            label={lineInfo.label}
+            width={lineButtonWidth}
+            height={lineButtonHeight}
+            color={lineButtonColor}
+            backgroundColor={lineButtonBackgroundColor}
+            borderStyle={lineButtonBorder ? 'solid' : undefined}
+            borderWidth={
+              lineButtonBorder ? lineButtonOuterBorderThickness : undefined
+            }
+            borderColor={
+              lineButtonBorder
+                ? Util.getRgbaCSSStringFromAntdColor(lineButtonOuterBorderColor)
+                : undefined
+            }
+            borderRadius={lineButtonBorderRadius}
+            fontSize={lineButtonFontSize}
+          ></EditorLineButton_ver2>
+        }
+      ></Cell>
+      <Cell
+        data={
+          index % 2 === 0 ? (
+            <EditorTransferButton_ver2
+              lineInfo={lineInfo}
+              callInfo={callInfo}
+              title={title}
+              transferButtonWidth={transferButtonWidth}
+              transferButtonHeight={transferButtonHeight}
+              transferButtonFgColor={transferButtonFgColor}
+              transferButtonBgColor={transferButtonBgColor}
+              transferButtonOuterBorderColor={transferButtonOuterBorderColor}
+              transferButtonOuterBorderRadius={transferButtonOuterBorderRadius}
+              transferButtonOuterBorderThickness={
+                transferButtonOuterBorderThickness
+              }
+              transferButtonFontSize={transferButtonFontSize}
+            ></EditorTransferButton_ver2>
+          ) : (
+            <EditorTransferCancelButton_ver2
+              lineInfo={lineInfo}
+              callInfo={callInfo}
+              transferCancelButtonWidth={transferCancelButtonWidth}
+              transferCancelButtonHeight={transferCancelButtonHeight}
+              transferCancelButtonFgColor={transferCancelButtonFgColor}
+              transferCancelButtonBgColor={transferCancelButtonBgColor}
+              transferCancelButtonOuterBorderColor={
+                transferCancelButtonOuterBorderColor
+              }
+              transferCancelButtonOuterBorderRadius={
+                transferCancelButtonOuterBorderRadius
+              }
+              transferCancelButtonOuterBorderThickness={
+                transferCancelButtonOuterBorderThickness
+              }
+              transferCancelButtonFontSize={transferCancelButtonFontSize}
+            ></EditorTransferCancelButton_ver2>
+          )
+        }
+      ></Cell>
+      <Cell
         style={{
-          fontSize: bodyFontSize + 'px',
+          borderTopRightRadius: outerBorderRadius,
+          borderBottomRightRadius: outerBorderRadius,
         }}
-      >
-        {lineInfo.talker}
-      </td>
-      {/* <td style={{width:70,height:70}}>*/}
-      <td>
-        <EditorLineButton_ver2
-          line={lineInfo.line}
-          label={lineInfo.label}
-          width={lineButtonWidth}
-          height={lineButtonHeight}
-          color={lineButtonColor}
-          backgroundColor={lineButtonBackgroundColor}
-          borderStyle={lineButtonBorder ? 'solid' : undefined}
-          borderWidth={
-            lineButtonBorder ? lineButtonOuterBorderThickness : undefined
-          }
-          borderColor={
-            lineButtonBorder
-              ? Util.getRgbaCSSStringFromAntdColor(lineButtonOuterBorderColor)
-              : undefined
-          }
-          borderRadius={lineButtonBorderRadius}
-          fontSize={lineButtonFontSize}
-        ></EditorLineButton_ver2>
-      </td>
-      {/* <td style={{width:100,height:70}}>*/}
-      <td>
-        {index % 2 === 0 ? (
-          <EditorTransferButton_ver2
-            lineInfo={lineInfo}
-            callInfo={callInfo}
-            title={title}
-            transferButtonWidth={transferButtonWidth}
-            transferButtonHeight={transferButtonHeight}
-            transferButtonFgColor={transferButtonFgColor}
-            transferButtonBgColor={transferButtonBgColor}
-            transferButtonOuterBorderColor={transferButtonOuterBorderColor}
-            transferButtonOuterBorderRadius={transferButtonOuterBorderRadius}
-            transferButtonOuterBorderThickness={
-              transferButtonOuterBorderThickness
-            }
-            transferButtonFontSize={transferButtonFontSize}
-          ></EditorTransferButton_ver2>
-        ) : (
-          <EditorTransferCancelButton_ver2
-            lineInfo={lineInfo}
-            callInfo={callInfo}
-            transferCancelButtonWidth={transferCancelButtonWidth}
-            transferCancelButtonHeight={transferCancelButtonHeight}
-            transferCancelButtonFgColor={transferCancelButtonFgColor}
-            transferCancelButtonBgColor={transferCancelButtonBgColor}
-            transferCancelButtonOuterBorderColor={
-              transferCancelButtonOuterBorderColor
-            }
-            transferCancelButtonOuterBorderRadius={
-              transferCancelButtonOuterBorderRadius
-            }
-            transferCancelButtonOuterBorderThickness={
-              transferCancelButtonOuterBorderThickness
-            }
-            transferCancelButtonFontSize={transferCancelButtonFontSize}
-          ></EditorTransferCancelButton_ver2>
-        )}
-      </td>
-      <td
-        style={{
-          fontSize: bodyFontSize + 'px',
-          borderRadius: '0 ' + outerBorderRadius + 'px 0 0 ',
-        }}
-      >
-        {callInfo && callInfo.camponDstExtensionId
-          ? callInfo.camponDstExtensionId
-          : ''}
-      </td>
-    </tr>
+        textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
+        data={
+          callInfo && callInfo.camponDstExtensionId
+            ? callInfo.camponDstExtensionId
+            : ''
+        }
+      ></Cell>
+    </TableWrapper>
   )
 }
 
@@ -449,70 +468,66 @@ export class LineTableEditorWidget extends EditorWidget {
         : 14 // !default
 
     return (
-      <table
-        className='brOCLinetable'
+      <Table
         style={{
           borderRadius: outerBorderRadius,
-          border: outerBorderThickness + 'px solid ' + outerBorderColor,
+          borderWidth: outerBorderThickness,
+          borderStyle: 'solid',
+          borderColor: outerBorderColor,
           backgroundColor,
         }}
       >
-        <thead>
-          <tr
+        <View>
+          <TableWrapper
             style={{
-              color: headerFgColor,
-              borderBottom:
-                headerRowUnderlineThickness +
-                'px solid ' +
-                headerRowUnderlineColor,
+              borderBottomWidth: headerRowUnderlineThickness,
+              borderStyle: 'solid',
+              borderColor: headerRowUnderlineColor,
             }}
           >
-            <th
+            <Cell
               style={{
-                fontSize: headerFontSize + 'px',
-                borderRadius: outerBorderRadius + 'px 0 0 0',
+                borderTopLeftRadius: outerBorderRadius,
+                borderTopRightRadius: outerBorderRadius,
               }}
-            >
-              {i18n.t('name')}
-            </th>
-            <th
+              textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
+              data={i18n.t('name')}
+            ></Cell>
+            <Cell
+              textStyle={{
+                fontSize: headerFontSize,
+                color: headerFgColor,
+              }}
+              data={i18n.t('responder')}
+            ></Cell>
+            <Cell
+              textStyle={{
+                fontSize: headerFontSize,
+                color: headerFgColor,
+              }}
+              data={i18n.t('line')}
+            ></Cell>
+            <Cell
+              textStyle={{
+                fontSize: headerFontSize,
+                color: headerFgColor,
+              }}
+              data={i18n.t('transfer')}
+            ></Cell>
+            <Cell
               style={{
-                fontSize: headerFontSize + 'px',
+                borderTopRightRadius: outerBorderRadius,
+                borderBottomRightRadius: outerBorderRadius,
               }}
-            >
-              {i18n.t('responder')}
-            </th>
-            {/* <th style={{width:70}}>{i18n.t("line")}</th>*/}
-            <th
-              style={{
-                fontSize: headerFontSize + 'px',
+              textStyle={{
+                fontSize: headerFontSize,
+                color: headerFgColor,
               }}
-            >
-              {i18n.t('line')}
-            </th>
-            {/* <th style={{width:120}}>{i18n.t("transfer")}</th>*/}
-            <th
-              style={{
-                fontSize: headerFontSize + 'px',
-              }}
-            >
-              {i18n.t('transfer')}
-            </th>
-            <th
-              style={{
-                fontSize: headerFontSize + 'px',
-                borderRadius: '0 ' + outerBorderRadius + 'px 0 0',
-              }}
-            >
-              {i18n.t('camponDest')}
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          style={{
-            color: bodyFgColor,
-          }}
-        >
+              data={i18n.t('camponDest')}
+            ></Cell>
+          </TableWrapper>
+        </View>
+        <View>
           {lineInfos.map((lineInfo, index) => (
             <EditorLineTableRow_ver2
               key={index}
@@ -549,8 +564,8 @@ export class LineTableEditorWidget extends EditorWidget {
               transferCancelButtonFontSize={transferCancelButtonFontSize}
             />
           ))}
-        </tbody>
-      </table>
+        </View>
+      </Table>
     )
   }
 }

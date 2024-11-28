@@ -1,4 +1,4 @@
-package com.brekeke.phonedev;
+package com.brekeke.operatorconsole;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;

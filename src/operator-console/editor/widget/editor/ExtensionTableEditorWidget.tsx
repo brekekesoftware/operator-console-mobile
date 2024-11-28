@@ -1,3 +1,6 @@
+import { View } from 'react-native'
+
+import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { i18n } from '../../../i18n'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
@@ -89,101 +92,96 @@ export class ExtensionTableEditorWidget extends EditorWidget {
 
     let key = 0
     return (
-      <table
-        className='brOCExtensiontable'
+      <Table
         style={{
           borderRadius: outerBorderRadius,
-          border: outerBorderThickness + 'px solid ' + outerBorderColor,
           backgroundColor,
+          borderWidth: outerBorderThickness,
+          borderStyle: 'solid',
+          borderColor: outerBorderColor,
         }}
       >
-        <thead>
-          <tr
+        <View>
+          <TableWrapper
             style={{
-              color: headerFgColor,
-              borderBottom:
-                headerRowUnderlineThickness +
-                'px solid ' +
-                headerRowUnderlineColor,
+              borderBottomWidth: headerRowUnderlineThickness,
+              borderStyle: 'solid',
+              borderColor: headerRowUnderlineColor,
             }}
           >
-            <th
+            <Cell
               style={{
-                fontSize: headerFontSize + 'px',
-                textTransform: 'uppercase',
-                // height:EXTENSION_TABLE_TH_HEIGHT,
-                borderRadius: outerBorderRadius + 'px 0 0 0',
+                borderTopLeftRadius: outerBorderRadius,
+                borderTopRightRadius: outerBorderRadius,
               }}
-            >
-              {i18n.t('id')}
-            </th>
-            <th
+              textStyle={{
+                fontSize: headerFontSize,
+                textTransform: 'uppercase',
+                color: headerFgColor,
+              }}
+              data={i18n.t('id')}
+            ></Cell>
+            <Cell
+              textStyle={{
+                fontSize: headerFontSize,
+                textTransform: 'uppercase',
+                color: headerFgColor,
+              }}
+              data={i18n.t('name')}
+            ></Cell>
+            <Cell
               style={{
-                fontSize: headerFontSize + 'px',
-                textTransform: 'uppercase',
-                // height:EXTENSION_TABLE_TH_HEIGHT,
+                borderTopRightRadius: outerBorderRadius,
+                borderBottomRightRadius: outerBorderRadius,
               }}
-            >
-              {i18n.t('name')}
-            </th>
-            <th
-              style={{
-                fontSize: headerFontSize + 'px',
+              textStyle={{
+                fontSize: headerFontSize,
                 textTransform: 'uppercase',
-                // height:EXTENSION_TABLE_TH_HEIGHT,
-                borderRadius: '0 ' + outerBorderRadius + 'px 0 0',
+                color: headerFgColor,
               }}
-            >
-              {i18n.t('status')}
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          style={{
-            color: bodyFgColor,
-          }}
-        >
+              data={i18n.t('status')}
+            ></Cell>
+          </TableWrapper>
+        </View>
+        <View>
           {extensions.map(ext => (
-            <tr
+            <TableWrapper
               key={key++}
               style={{
-                color: bodyFgColor,
-                borderBottom:
-                  bodyRowUnderlineThickness +
-                  'px solid ' +
-                  bodyRowUnderlineColor,
+                borderBottomWidth: bodyRowUnderlineThickness,
+                borderStyle: 'solid',
+                borderColor: bodyRowUnderlineColor,
               }}
             >
-              <td
+              <Cell
                 style={{
-                  fontSize: bodyFontSize + 'px',
-                  // height:EXTENSION_TABLE_TD_HEIGHT,
-                  borderRadius: '0 ' + outerBorderRadius + 'px 0 0',
+                  borderTopRightRadius: outerBorderRadius,
+                  borderBottomRightRadius: outerBorderRadius,
                 }}
-              >
-                {ext?.id}
-              </td>
-              <td
-                style={{
-                  fontSize: bodyFontSize + 'px',
+                textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
+                data={ext?.id}
+              ></Cell>
+              <Cell
+                textStyle={{
+                  fontSize: bodyFontSize,
+                  color: bodyFgColor,
                   // height:EXTENSION_TABLE_TD_HEIGHT
                 }}
-              >
-                {ext?.name}
-              </td>
-              <td
+                data={ext?.name}
+              ></Cell>
+              <Cell
                 style={{
-                  fontSize: bodyFontSize + 'px',
                   // height:EXTENSION_TABLE_TD_HEIGHT,
-                  borderRadius: '0 ' + outerBorderRadius + 'px 0 0 ',
+                  borderTopRightRadius: outerBorderRadius,
+                  borderBottomRightRadius: outerBorderRadius,
                 }}
-              >
-                {extensionsStatus[ext.id]}
-              </td>
-            </tr>
+                textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
+                data={extensionsStatus[ext.id]}
+              ></Cell>
+            </TableWrapper>
           ))}
-        </tbody>
-      </table>
+        </View>
+      </Table>
     )
   }
 }

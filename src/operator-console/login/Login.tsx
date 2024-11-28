@@ -1,7 +1,8 @@
 import { Form, Input } from '@ant-design/react-native'
 import React, { createRef } from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
 
-import './login.scss'
+import Logo from '../logo.png'
 
 import { Button } from '../common/Button'
 import { i18n } from '../i18n'
@@ -11,27 +12,26 @@ type Props = {
   operatorConsoleAsParent: BrekekeOperatorConsole
   initialValues: any
 }
+type State = {
+  isSigningin: boolean
+  message: string
+}
 
-export class Login extends React.Component<Props> {
+export class Login extends React.Component<Props, State> {
   _OperatorConsoleAsParent
   _LoginMessageElementRef
   constructor(props) {
     super(props)
     this._OperatorConsoleAsParent = props.operatorConsoleAsParent
-    this.state = { isSigningin: false }
-    // this._pal = null;
-    this._LoginMessageElementRef = createRef()
+    this.state = { isSigningin: false, message: '' }
   }
 
   _setMessage(message) {
-    const eLoginMessage = this._LoginMessageElementRef.current
-    eLoginMessage.style.display = ''
-    eLoginMessage.innerHTML = message
+    this.setState({ message })
   }
 
   _hideMessage() {
-    const eLoginMessage = this._LoginMessageElementRef.current
-    eLoginMessage.style.display = 'none'
+    this.setState({ message: '' })
   }
 
   // componentWillUnmount(){
@@ -184,18 +184,95 @@ export class Login extends React.Component<Props> {
 
   render() {
     return (
-      <div>
-        <div className='brOCLoginHeaderLogo'>
-          <div className='brOCLoginHeaderLogoImage'></div>
-          <div className='brOCLoginHeaderLogoProduct'>Operator Console</div>
-        </div>
-        <div className={'brOCLoginBody'}>
-          <div className='brOCLoginTitle'>Sign In</div>
-          <div
-            ref={this._LoginMessageElementRef}
-            className='brOCLoginMessageDiv'
-            style={{ display: 'none' }}
-          ></div>
+      <View>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginLeft: -4,
+          }}
+        >
+          <Image width={158} height={39} source={{ uri: Logo }} />
+          <View
+            style={{
+              backgroundColor: '#4bc5de',
+              borderRadius: 3,
+              padding: 4,
+              position: 'relative',
+              top: 3,
+              marginLeft: -24,
+              marginTop: 2,
+            }}
+          >
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 12,
+                textTransform: 'uppercase',
+                color: '#FFFFFF',
+              }}
+            >
+              Operator Console
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            marginTop: 10,
+            marginBottom: 10,
+            width: 352,
+            borderStyle: 'solid',
+            borderWidth: 1,
+            borderColor: '#e0e0e0',
+            paddingTop: 30,
+            paddingRight: 20,
+            paddingBottom: 7,
+            paddingLeft: 20,
+            backgroundColor: '#ffffff',
+          }}
+        >
+          <Text
+            style={{
+              marginBottom: 20,
+              textAlign: 'left',
+              textTransform: 'capitalize',
+              fontSize: 24,
+              fontWeight: 'bold',
+              fontStyle: 'normal',
+              lineHeight: 1.23,
+              letterSpacing: 0.3,
+              color: '#212121',
+            }}
+          >
+            Sign In
+          </Text>
+          {!!this.state.message && (
+            <View
+              style={{
+                borderLeftWidth: 2,
+                borderColor: 'rgb(112, 180, 197)',
+                borderStyle: 'solid',
+                marginTop: 2,
+                marginBottom: 18,
+                borderRadius: 4,
+                paddingTop: 15,
+                paddingRight: 26,
+                paddingBottom: 15,
+                paddingLeft: 32,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.62,
+                  letterSpacing: 0.3,
+                  color: '#000',
+                }}
+              >
+                {this.state.message}
+              </Text>
+            </View>
+          )}
           <Form
             name='login'
             initialValues={this.props.initialValues}
@@ -210,10 +287,7 @@ export class Login extends React.Component<Props> {
                 },
               ]}
             >
-              <Input
-                className='ant-input-forBrOCLogin'
-                placeholder={i18n.t('hostname')}
-              />
+              <Input style={styles.input} placeholder={i18n.t('hostname')} />
             </Form.Item>
             <Form.Item
               name='port'
@@ -224,10 +298,7 @@ export class Login extends React.Component<Props> {
                 },
               ]}
             >
-              <Input
-                className='ant-input-forBrOCLogin'
-                placeholder={i18n.t('port')}
-              />
+              <Input style={styles.input} placeholder={i18n.t('port')} />
             </Form.Item>
             <Form.Item
               name='tenant'
@@ -238,10 +309,7 @@ export class Login extends React.Component<Props> {
                 },
               ]}
             >
-              <Input
-                className='ant-input-forBrOCLogin'
-                placeholder={i18n.t('tenant')}
-              />
+              <Input style={styles.input} placeholder={i18n.t('tenant')} />
             </Form.Item>
             <Form.Item
               name='username'
@@ -252,10 +320,7 @@ export class Login extends React.Component<Props> {
                 },
               ]}
             >
-              <Input
-                className='ant-input-forBrOCLogin'
-                placeholder={i18n.t('username')}
-              />
+              <Input style={styles.input} placeholder={i18n.t('username')} />
             </Form.Item>
             <Form.Item
               name='password'
@@ -267,7 +332,7 @@ export class Login extends React.Component<Props> {
               ]}
             >
               <Input
-                className='ant-input-forBrOCLogin'
+                style={styles.input}
                 type='password'
                 placeholder={i18n.t('password')}
               />
@@ -283,23 +348,34 @@ export class Login extends React.Component<Props> {
               style={{ display: 'none' }}
             >
               <Input
-                className='ant-input-forBrOCLogin'
+                style={styles.input}
                 placeholder={i18n.t('username')}
                 type='hidden'
               />
             </Form.Item>
             <Form.Item>
-              <Button
-                type='success'
-                className='brOCLoginButton'
-                disabled={this.state.isSigningin}
-              >
-                {i18n.t('signin')}
+              <Button type='success' disabled={this.state.isSigningin}>
+                <Text style={styles.button}>{i18n.t('signin')}</Text>
               </Button>
             </Form.Item>
           </Form>
-        </div>
-      </div>
+        </View>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: '#f5f5f5',
+    height: 40,
+  },
+  button: {
+    textTransform: 'uppercase',
+    fontSize: 13,
+    fontWeight: 'bold',
+    height: 40,
+    textAlign: 'center',
+    width: '100%',
+  },
+})

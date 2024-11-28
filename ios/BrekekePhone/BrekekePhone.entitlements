@@ -30,7 +30,7 @@
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.brekeke.phonedev</string>
+		<string>$(AppIdentifierPrefix)com.brekeke.operatorconsole</string>
 	</array>
 </dict>
 </plist>

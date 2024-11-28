@@ -1,3 +1,6 @@
+import { View } from 'react-native'
+
+import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { WidgetData } from '../../../data/widgetData/WidgetData'
 import { i18n } from '../../../i18n'
 import { EditorWidgetTemplate } from './EditorWidgetTemplate'
@@ -23,13 +26,13 @@ export class LegacyUccacEditorWidgetTemplate extends EditorWidgetTemplate {
   // !overload
   getRenderMainJsx() {
     return (
-      <table>
-        <thead>
-          <tr>
-            <th>{i18n.t('ucChatAgentComponent')}</th>
-          </tr>
-        </thead>
-      </table>
+      <Table>
+        <View>
+          <TableWrapper style={{ height: '100%' }}>
+            <Cell data={i18n.t('ucChatAgentComponent')}></Cell>
+          </TableWrapper>
+        </View>
+      </Table>
     )
   }
 }

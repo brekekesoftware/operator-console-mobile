@@ -1,9 +1,12 @@
-import { ActivityIndicator, Switch } from '@ant-design/react-native'
+import {
+  ActivityIndicator,
+  Checkbox,
+  Input,
+  Switch,
+} from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
-
-import './reset.css'
-import './AutoDialView_ver2.css'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import { RnIcon } from '../../components/RnIcon'
 import { BrekekeOperatorConsole } from '..//OperatorConsole'
@@ -11,9 +14,11 @@ import { CallHistory2 } from '../call/CallHistory2'
 import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
+import { Cell, Table, TableWrapper } from '../common/Table'
 import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
+import { OperatorConsoleStyles } from '../OperatorConsoleStyles'
 import { PhonebookContactInfo_AutoDialView_ver2 } from './PhonebookContactInfo_AutoDialView_ver2'
 import { PhonebookContactInfozInfoView } from './PhonebookContactInfozInfoView'
 import { PhonebookContactInfozTelsView } from './PhonebookContactInfozTelsView'
@@ -474,22 +479,31 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
       <>
         <PhonebookContactInfozInfoView />
         <PhonebookContactInfozTelsView />
-        <div className='brOCReset autoDialView'>
-          <table
-            className={
-              'defaultBorderWithRadius outsidePaddingWithoutBorderRadius'
-            }
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 48,
+            zIndex: 111,
+            borderRadius: 5,
+          }}
+        >
+          <Table
+            style={{
+              borderRadius: 5,
+              borderWidth: 1,
+              borderStyle: 'solid',
+              borderColor: '#e0e0e0',
+              padding: 15,
+            }}
           >
-            <tbody>
-              <tr>
-                <td>
-                  <table
-                    className='defaultTranparentTable defaultSpaceBottom'
-                    style={{ width: '100%' }}
-                  >
-                    <tbody>
-                      <tr>
-                        <td style={{ width: '99%' }}>
+            <View>
+              <TableWrapper>
+                <Cell>
+                  <Table style={{ width: '100%' }}>
+                    <View>
+                      <TableWrapper>
+                        <Cell style={{ width: '99%' }}>
                           <Popconfirm
                             title={i18n.t('are_you_sure')}
                             onConfirm={() => this._clearCallNoHistory2(this)}
@@ -498,28 +512,31 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                           >
                             <Button>{i18n.t('ClearRecent')}</Button>
                           </Popconfirm>
-                        </td>
-                        <td
-                          style={{ textAlign: 'right', verticalAlign: 'top' }}
+                        </Cell>
+                        <Cell
+                          textStyle={{
+                            textAlign: 'right',
+                            verticalAlign: 'top',
+                          }}
                         >
                           <FontAwesomeIcon
                             icon='far fa-window-close'
                             onClick={this._onClickClose.bind(this)}
                             className='closeFontAwesomeIcon'
                           />
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <table className='defaultItemMarginTop'>
-                    <tbody>
-                      <tr style={{ border: 0 }}>
-                        <td>
-                          <div className='tab-panel'>
+                        </Cell>
+                      </TableWrapper>
+                    </View>
+                  </Table>
+                </Cell>
+              </TableWrapper>
+              <TableWrapper>
+                <Cell>
+                  <Table style={{ marginTop: 6 }}>
+                    <View>
+                      <TableWrapper>
+                        <Cell>
+                          <View className='tab-panel'>
                             <ul className='tab-group'>
                               <li
                                 className='tab tab-A is-active'
@@ -550,31 +567,33 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                               </li>
                             </ul>
 
-                            <div className='panel-group defaultBorderRadiusBottom'>
-                              <div className='panel tab-A is-show'>
+                            <View className='panel-group defaultBorderRadiusBottom'>
+                              <View className='panel tab-A is-show'>
                                 {recentDisplayOrder ===
                                   CallHistory2.RECENT_DISPLAY_ORDERS
                                     .CALL_OR_INCOMING_COUNT_DESC && (
-                                  <div
+                                  <View
                                     className={'autoDialView_ver2_RecentRoot'}
                                   >
-                                    <table
+                                    <Table
                                       style={{ border: '0' }}
-                                      className={'defaultContentTable'}
+                                      style={{ marginLeft: 20 }}
                                     >
-                                      <thead>
-                                        <tr className='defaultItemPaddingForTr'>
-                                          <th style={{ width: '1%' }}>
+                                      <View>
+                                        <TableWrapper style={{ paddingTop: 6 }}>
+                                          <Cell style={{ width: '1%' }}>
                                             {i18n.t('CallNo')}
-                                          </th>
-                                          <th style={{ width: 20 }}>
+                                          </Cell>
+                                          <Cell style={{ width: 20 }}>
                                             {i18n.t('Status')}
-                                          </th>
-                                          <th></th>
-                                          <th>{i18n.t('LatestStartedAt')}</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
+                                          </Cell>
+                                          <Cell></Cell>
+                                          <Cell>
+                                            {i18n.t('LatestStartedAt')}
+                                          </Cell>
+                                        </TableWrapper>
+                                      </View>
+                                      <View>
                                         {callHistory2
                                           .getCallHistory2CallInfoArray()
                                           .slice(0, recentDisplayCount)
@@ -598,18 +617,18 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                               callHistory2CallInfo.getAddCallMillisTime(),
                                             ).toLocaleString()
                                             return (
-                                              <tr key={i}>
-                                                <td style={{ width: '1%' }}>
+                                              <TableWrapper key={i}>
+                                                <Cell style={{ width: '1%' }}>
                                                   {partyNumber}
-                                                </td>
-                                                <td>
-                                                  <div
+                                                </Cell>
+                                                <Cell>
+                                                  <View
                                                     className={statusClassName}
-                                                  ></div>
-                                                </td>
-                                                <td>
+                                                  ></View>
+                                                </Cell>
+                                                <Cell>
                                                   {partyNumber && (
-                                                    <div
+                                                    <View
                                                       style={{
                                                         display: 'flex',
                                                         justifyContent:
@@ -638,30 +657,30 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                           />
                                                         }
                                                       </WidgetButton>
-                                                    </div>
+                                                    </View>
                                                   )}
-                                                </td>
-                                                <td>{sAddDateTime}</td>
-                                              </tr>
+                                                </Cell>
+                                                <Cell>{sAddDateTime}</Cell>
+                                              </TableWrapper>
                                             )
                                           })}
-                                      </tbody>
-                                    </table>
-                                  </div>
+                                      </View>
+                                    </Table>
+                                  </View>
                                 )}
                                 {recentDisplayOrder ===
                                   CallHistory2.RECENT_DISPLAY_ORDERS
                                     .ADD_DATETIME_DESC && (
                                   <>
-                                    <div
+                                    <View
                                       style={{
                                         display: 'flex',
                                         alignItems: 'center',
-                                        margin: '4px',
+                                        margin: 4,
                                       }}
                                     >
                                       <Checkbox
-                                        id='recentShowDetail_brOC_AutoDialView_ver2'
+                                        // id='recentShowDetail_brOC_AutoDialView_ver2'
                                         checked={
                                           this.state.recentShowDetailChecked
                                         }
@@ -669,169 +688,173 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                           this._onRecentShowDetailChange(e)
                                         }
                                       />
-                                      <label
-                                        style={{ marginLeft: '2px' }}
+                                      <Text
+                                        style={{ marginLeft: 2 }}
                                         htmlFor='recentShowDetail_brOC_AutoDialView_ver2'
                                       >
                                         {i18n.t('Show_detail')}
-                                      </label>
-                                    </div>
-                                    <div
-                                      className={
-                                        'autoDialView_ver2_tableParent'
-                                      }
-                                    >
-                                      <table
-                                        style={{ border: '0' }}
-                                        className={'defaultContentTable'}
-                                      >
-                                        <thead>
-                                          <tr className='defaultItemPaddingForTr'>
-                                            <th style={{ width: '1%' }}>
-                                              {i18n.t('Tel')}
-                                            </th>
-                                            <th style={{ width: 20 }}>
-                                              {i18n.t('Status')}
-                                            </th>
-                                            <th></th>
-                                            <th>{i18n.t('Incoming')}</th>
-                                            <th>{i18n.t('StartedAt')}</th>
-                                            {this.state
-                                              .recentShowDetailChecked && (
-                                              <th>{i18n.t('AnsweredAt')}</th>
-                                            )}
-                                            {this.state
-                                              .recentShowDetailChecked && (
-                                              <th>{i18n.t('EndedAt')}</th>
-                                            )}
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {callHistory2
-                                            .getCallHistory2CallInfoArray()
-                                            .slice(0, recentDisplayCount)
-                                            .map((callHistory2CallInfo, i) => {
-                                              const partyNumber =
-                                                callHistory2CallInfo.getPartyNumber()
-                                              const isExtension =
-                                                OCUtil.indexOfArrayFromExtensions(
-                                                  oc.state.extensions,
-                                                  partyNumber,
-                                                ) !== -1
-                                              const extensionsStatus =
-                                                oc.state.extensionsStatus
-                                              const statusClassName =
-                                                isExtension
-                                                  ? OCUtil.getExtensionStatusClassName(
+                                      </Text>
+                                    </View>
+                                    <View style={{ maxHeight: 400 }}>
+                                      <ScrollView>
+                                        <Table style={{ marginLeft: 20 }}>
+                                          <View>
+                                            <TableWrapper
+                                              style={{ paddingTop: 6 }}
+                                            >
+                                              <Cell style={{ width: '1%' }}>
+                                                {i18n.t('Tel')}
+                                              </Cell>
+                                              <Cell style={{ width: 20 }}>
+                                                {i18n.t('Status')}
+                                              </Cell>
+                                              <Cell></Cell>
+                                              <Cell>{i18n.t('Incoming')}</Cell>
+                                              <Cell>{i18n.t('StartedAt')}</Cell>
+                                              {this.state
+                                                .recentShowDetailChecked && (
+                                                <Cell>
+                                                  {i18n.t('AnsweredAt')}
+                                                </Cell>
+                                              )}
+                                              {this.state
+                                                .recentShowDetailChecked && (
+                                                <Cell>{i18n.t('EndedAt')}</Cell>
+                                              )}
+                                            </TableWrapper>
+                                          </View>
+                                          <View>
+                                            {callHistory2
+                                              .getCallHistory2CallInfoArray()
+                                              .slice(0, recentDisplayCount)
+                                              .map(
+                                                (callHistory2CallInfo, i) => {
+                                                  const partyNumber =
+                                                    callHistory2CallInfo.getPartyNumber()
+                                                  const isExtension =
+                                                    OCUtil.indexOfArrayFromExtensions(
+                                                      oc.state.extensions,
                                                       partyNumber,
-                                                      extensionsStatus,
-                                                    )
-                                                  : ''
-                                              const sIsIncoming =
-                                                callHistory2CallInfo.getIsIncoming()
-                                                  ? '✓'
-                                                  : ''
-                                              const sStartedAt = new Date(
-                                                callHistory2CallInfo.getAddCallMillisTime(),
-                                              ).toLocaleString()
-                                              const sAnsweredAt =
-                                                callHistory2CallInfo.getAnsweredAt()
-                                                  ? new Date(
-                                                      callHistory2CallInfo.getAnsweredAt(),
-                                                    ).toLocaleString()
-                                                  : ''
-                                              const sEndedAt =
-                                                callHistory2CallInfo.getEndCallMillisTime()
-                                                  ? new Date(
-                                                      callHistory2CallInfo.getEndCallMillisTime(),
-                                                    ).toLocaleString()
-                                                  : ''
-                                              return (
-                                                <tr key={i}>
-                                                  <td style={{ width: '1%' }}>
-                                                    {partyNumber}
-                                                  </td>
-                                                  <td>
-                                                    <div
-                                                      className={
-                                                        statusClassName
-                                                      }
-                                                    ></div>
-                                                  </td>
-                                                  <td>
-                                                    {partyNumber && (
-                                                      <div
-                                                        style={{
-                                                          display: 'flex',
-                                                          justifyContent:
-                                                            'center',
+                                                    ) !== -1
+                                                  const extensionsStatus =
+                                                    oc.state.extensionsStatus
+                                                  const statusClassName =
+                                                    isExtension
+                                                      ? OCUtil.getExtensionStatusClassName(
+                                                          partyNumber,
+                                                          extensionsStatus,
+                                                        )
+                                                      : ''
+                                                  const sIsIncoming =
+                                                    callHistory2CallInfo.getIsIncoming()
+                                                      ? '✓'
+                                                      : ''
+                                                  const sStartedAt = new Date(
+                                                    callHistory2CallInfo.getAddCallMillisTime(),
+                                                  ).toLocaleString()
+                                                  const sAnsweredAt =
+                                                    callHistory2CallInfo.getAnsweredAt()
+                                                      ? new Date(
+                                                          callHistory2CallInfo.getAnsweredAt(),
+                                                        ).toLocaleString()
+                                                      : ''
+                                                  const sEndedAt =
+                                                    callHistory2CallInfo.getEndCallMillisTime()
+                                                      ? new Date(
+                                                          callHistory2CallInfo.getEndCallMillisTime(),
+                                                        ).toLocaleString()
+                                                      : ''
+                                                  return (
+                                                    <TableWrapper key={i}>
+                                                      <Cell
+                                                        style={{ width: '1%' }}
+                                                      >
+                                                        {partyNumber}
+                                                      </Cell>
+                                                      <Cell>
+                                                        <View
+                                                          style={
+                                                            OperatorConsoleStyles[
+                                                              statusClassName
+                                                            ]
+                                                          }
+                                                        ></View>
+                                                      </Cell>
+                                                      <Cell>
+                                                        {partyNumber && (
+                                                          <View
+                                                            style={{
+                                                              display: 'flex',
+                                                              justifyContent:
+                                                                'center',
+                                                            }}
+                                                          >
+                                                            <WidgetButton
+                                                              style={{
+                                                                padding: 2,
+                                                                marginLeft: 2,
+                                                                marginRight: 2,
+                                                                marginBottom: 8,
+                                                              }}
+                                                              onPress={() => {
+                                                                oc.abortAutoDialView_ver2()
+                                                                // this.props.operatorConsoleAsParent.setDialingAndMakeCall2( callNo, this.props.currentCallIndex, this.props.callIds, this.props.callById );
+                                                                oc.setDialingAndMakeCall2(
+                                                                  partyNumber,
+                                                                )
+                                                              }}
+                                                            >
+                                                              {
+                                                                <FontAwesomeIcon
+                                                                  size='lg'
+                                                                  icon='fas fa-phone'
+                                                                />
+                                                              }
+                                                            </WidgetButton>
+                                                          </View>
+                                                        )}
+                                                      </Cell>
+                                                      <Cell
+                                                        textStyle={{
+                                                          textAlign: 'center',
                                                         }}
                                                       >
-                                                        <WidgetButton
-                                                          style={{
-                                                            padding: 2,
-                                                            marginLeft: 2,
-                                                            marginRight: 2,
-                                                            marginBottom: 8,
-                                                          }}
-                                                          onPress={() => {
-                                                            oc.abortAutoDialView_ver2()
-                                                            // this.props.operatorConsoleAsParent.setDialingAndMakeCall2( callNo, this.props.currentCallIndex, this.props.callIds, this.props.callById );
-                                                            oc.setDialingAndMakeCall2(
-                                                              partyNumber,
-                                                            )
-                                                          }}
-                                                        >
-                                                          {
-                                                            <FontAwesomeIcon
-                                                              size='lg'
-                                                              icon='fas fa-phone'
-                                                            />
-                                                          }
-                                                        </WidgetButton>
-                                                      </div>
-                                                    )}
-                                                  </td>
-                                                  <td
-                                                    style={{
-                                                      textAlign: 'center',
-                                                    }}
-                                                  >
-                                                    {sIsIncoming}
-                                                  </td>
-                                                  <td>{sStartedAt}</td>
-                                                  {this.state
-                                                    .recentShowDetailChecked && (
-                                                    <td>{sAnsweredAt}</td>
-                                                  )}
-                                                  {this.state
-                                                    .recentShowDetailChecked && (
-                                                    <td>{sEndedAt}</td>
-                                                  )}
-                                                </tr>
-                                              )
-                                            })}
-                                        </tbody>
-                                      </table>
-                                    </div>
+                                                        {sIsIncoming}
+                                                      </Cell>
+                                                      <Cell>{sStartedAt}</Cell>
+                                                      {this.state
+                                                        .recentShowDetailChecked && (
+                                                        <Cell>
+                                                          {sAnsweredAt}
+                                                        </Cell>
+                                                      )}
+                                                      {this.state
+                                                        .recentShowDetailChecked && (
+                                                        <Cell>{sEndedAt}</Cell>
+                                                      )}
+                                                    </TableWrapper>
+                                                  )
+                                                },
+                                              )}
+                                          </View>
+                                        </Table>
+                                      </ScrollView>
+                                    </View>
                                   </>
                                 )}
-                              </div>
-                              <div className='panel tab-B'>
-                                <div className='autoDialView_ver2_tableParent'>
-                                  <table
-                                    className={'defaultContentTable'}
-                                    style={{ border: '0' }}
-                                  >
-                                    <thead>
-                                      <tr className='defaultItemPaddingForTr'>
-                                        <th>{i18n.t('ID')}</th>
-                                        <th>{i18n.t('Name')}</th>
-                                        <th>{i18n.t('Status')}</th>
-                                        <th></th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
+                              </View>
+                              <View className='panel tab-B'>
+                                <View style={{ maxHeight: 400 }}>
+                                  <Table>
+                                    <View style={{ paddingLeft: 20 }}>
+                                      <TableWrapper style={{ paddingTop: 6 }}>
+                                        <Cell>{i18n.t('ID')}</Cell>
+                                        <Cell>{i18n.t('Name')}</Cell>
+                                        <Cell>{i18n.t('Status')}</Cell>
+                                        <Cell></Cell>
+                                      </TableWrapper>
+                                    </View>
+                                    <View>
                                       {oc.state.extensions.map((ext, i) => {
                                         const extensionsStatus =
                                           oc.state.extensionsStatus
@@ -842,20 +865,24 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                           )
 
                                         return (
-                                          <tr key={i}>
-                                            <td style={{ width: 100 }}>
+                                          <TableWrapper key={i}>
+                                            <Cell style={{ width: 100 }}>
                                               {ext.id}
-                                            </td>
-                                            <td style={{ width: 100 }}>
+                                            </Cell>
+                                            <Cell style={{ width: 100 }}>
                                               {ext.name}
-                                            </td>
-                                            <td style={{ width: 20 }}>
-                                              <div
-                                                className={statusClassName}
-                                              ></div>
-                                            </td>
-                                            <td style={{ width: 50 }}>
-                                              <div
+                                            </Cell>
+                                            <Cell style={{ width: 20 }}>
+                                              <View
+                                                style={
+                                                  OperatorConsoleStyles[
+                                                    statusClassName
+                                                  ]
+                                                }
+                                              ></View>
+                                            </Cell>
+                                            <Cell style={{ width: 50 }}>
+                                              <View
                                                 style={{
                                                   display: 'flex',
                                                   justifyContent: 'center',
@@ -883,23 +910,20 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                     />
                                                   }
                                                 </WidgetButton>
-                                              </div>
-                                            </td>
-                                          </tr>
+                                              </View>
+                                            </Cell>
+                                          </TableWrapper>
                                         )
                                       })}
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
-                              <div className='panel tab-C'>
-                                <table
-                                  className={'defaultContentTable'}
-                                  style={{ border: '0' }}
-                                >
-                                  <tbody>
-                                    <tr className='defaultItemPaddingForTr'>
-                                      <td>
+                                    </View>
+                                  </Table>
+                                </View>
+                              </View>
+                              <View className='panel tab-C'>
+                                <Table style={{ paddingLeft: 20 }}>
+                                  <View>
+                                    <TableWrapper style={{ paddingTop: 6 }}>
+                                      <Cell>
                                         <Input
                                           id='brOC_autoDialView_ver2_phonebook_keywords'
                                           maxLength={1000}
@@ -912,10 +936,10 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                           onBlur={e =>
                                             this._onPhonebookKeywordsBlur(e)
                                           }
-                                          style={{ width: '300px' }}
+                                          style={{ width: 300 }}
                                         />
-                                      </td>
-                                      <td style={{ paddingLeft: '4px' }}>
+                                      </Cell>
+                                      <Cell style={{ paddingLeft: 4 }}>
                                         <WidgetButton
                                           style={{
                                             padding: 2,
@@ -929,85 +953,84 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                         >
                                           <RnIcon path='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' />
                                         </WidgetButton>
-                                      </td>
-                                      <td style={{ width: '99%' }}></td>
-                                    </tr>
-                                    <tr className='defaultItemPaddingForTr'>
-                                      <td>{i18n.t('OnlySharedContacts')}</td>
-                                      <td style={{ paddingLeft: '0' }}>
+                                      </Cell>
+                                      <Cell style={{ width: '99%' }}></Cell>
+                                    </TableWrapper>
+                                    <TableWrapper style={{ paddingTop: 6 }}>
+                                      <Cell>
+                                        {i18n.t('OnlySharedContacts')}
+                                      </Cell>
+                                      <Cell style={{ paddingLeft: 0 }}>
                                         <Switch
                                           id='brOC_autoDialView_ver2_phonebook_onlySharedContacts'
                                           // defaultChecked={false}   //!bug? Sometimes it stops working.
                                         />
-                                      </td>
-                                      <td style={{ width: '99%' }}></td>
-                                    </tr>
-                                    <tr className='defaultItemPaddingForTr'>
-                                      <td
-                                        colSpan='3'
-                                        className='paddingTopZeroImportant_AutoDialView_ver2'
-                                        style={{ padding: '0', width: '100%' }}
+                                      </Cell>
+                                      <Cell style={{ width: '99%' }}></Cell>
+                                    </TableWrapper>
+                                    <TableWrapper style={{ paddingTop: 6 }}>
+                                      <Cell
+                                        // colSpan='3'
+                                        style={{ padding: 0, width: '100%' }}
                                       >
-                                        <div
-                                          className='autoDialView_ver2_tableParent'
+                                        <View
+                                          style={{ maxHeight: 400 }}
                                           id='phonebookScrollableDiv_brOC_AutoDialView_ver2'
-                                          onScroll={e =>
-                                            this._onScrollPhonebookScrollableDiv(
-                                              e,
-                                            )
-                                          }
+                                          // onScroll={e =>
+                                          //   this._onScrollPhonebookScrollableDiv(
+                                          //     e,
+                                          //   )
+                                          // }
                                         >
                                           {this._phonebookContactInfoArray ===
                                             null && (
-                                            <div
+                                            <View
                                               style={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 alignItems: 'center',
-                                                height: 'inherit',
+                                                height: 'auto',
                                               }}
                                             >
                                               <ActivityIndicator />
-                                            </div>
+                                            </View>
                                           )}
                                           {this._phonebookContactInfoArray !==
                                             null && (
-                                            <table
-                                              className={'defaultContentTable'}
+                                            <Table
                                               style={{
-                                                border: '0',
                                                 width: '100%',
                                               }}
                                             >
-                                              <thead>
-                                                <tr>
-                                                  <th>
+                                              <View style={{ paddingLeft: 20 }}>
+                                                <TableWrapper>
+                                                  <Cell>
                                                     {i18n.t('DisplayName')}
-                                                  </th>
-                                                  <th
-                                                    style={{
+                                                  </Cell>
+                                                  <Cell
+                                                    textStyle={{
                                                       textAlign: 'center',
                                                     }}
                                                   >
                                                     {i18n.t('Call')}
-                                                  </th>
-                                                  <th
-                                                    style={{
+                                                  </Cell>
+                                                  <Cell
+                                                    textStyle={{
                                                       textAlign: 'center',
                                                     }}
                                                   >
                                                     {i18n.t('Info')}
-                                                  </th>
-                                                  <th
-                                                    style={{
+                                                  </Cell>
+                                                  <Cell
+                                                    textStyle={{
                                                       textAlign: 'center',
                                                     }}
                                                   >
                                                     {i18n.t('Delete')}
-                                                  </th>
-                                                </tr>
-                                              </thead>
-                                              <tbody>
+                                                  </Cell>
+                                                </TableWrapper>
+                                              </View>
+                                              <View>
                                                 {this._phonebookContactInfoArray.map(
                                                   (pbContactInfo, i) => {
                                                     const isShared =
@@ -1019,17 +1042,17 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                       (isShared === true &&
                                                         isAdmin === true)
                                                     return (
-                                                      <tr
+                                                      <TableWrapper
                                                         key={i}
                                                         style={{
-                                                          height: '42px',
+                                                          height: 42,
                                                         }}
                                                       >
-                                                        <td>
+                                                        <Cell>
                                                           {pbContactInfo.getDisplayName()}
-                                                        </td>
-                                                        <td>
-                                                          <div
+                                                        </Cell>
+                                                        <Cell>
+                                                          <View
                                                             style={{
                                                               display: 'flex',
                                                               alignItems:
@@ -1061,8 +1084,8 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                             )}
                                                             {pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
                                                               .length > 1 && (
-                                                              <a
-                                                                onClick={e =>
+                                                              <TouchableOpacity
+                                                                onPress={e =>
                                                                   this._openPhonebookCallInfozTelsView(
                                                                     pbContactInfo,
                                                                   )
@@ -1072,12 +1095,12 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                                   size='lg'
                                                                   icon='fas fa-phone'
                                                                 />
-                                                              </a>
+                                                              </TouchableOpacity>
                                                             )}
-                                                          </div>
-                                                        </td>
-                                                        <td>
-                                                          <div
+                                                          </View>
+                                                        </Cell>
+                                                        <Cell>
+                                                          <View
                                                             style={{
                                                               display: 'flex',
                                                               alignItems:
@@ -1086,8 +1109,8 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                                 'center',
                                                             }}
                                                           >
-                                                            <a
-                                                              onClick={e =>
+                                                            <TouchableOpacity
+                                                              onPress={e =>
                                                                 this._openPhonebookCallInfozInfoView(
                                                                   pbContactInfo,
                                                                 )
@@ -1099,12 +1122,12 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                                   icon='fas fa-info-circle'
                                                                 />
                                                               }
-                                                            </a>
-                                                          </div>
-                                                        </td>
-                                                        <td>
+                                                            </TouchableOpacity>
+                                                          </View>
+                                                        </Cell>
+                                                        <Cell>
                                                           {isDeletable && (
-                                                            <div
+                                                            <View
                                                               style={{
                                                                 display: 'flex',
                                                                 alignItems:
@@ -1129,42 +1152,44 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                                   'no',
                                                                 )}
                                                               >
-                                                                <a>
+                                                                <View>
                                                                   {
                                                                     <FontAwesomeIcon
                                                                       size='lg'
                                                                       icon='fa fa-trash'
                                                                     />
                                                                   }
-                                                                </a>
+                                                                </View>
                                                               </Popconfirm>
-                                                            </div>
+                                                            </View>
                                                           )}
-                                                        </td>
-                                                      </tr>
+                                                        </Cell>
+                                                      </TableWrapper>
                                                     )
                                                   },
                                                 )}
-                                              </tbody>
-                                            </table>
+                                              </View>
+                                            </Table>
                                           )}
-                                        </div>
-                                      </td>
-                                    </tr>
-                                    <tr className='addContact_AutoDialView_ver2'>
-                                      <td
-                                        colSpan='3'
-                                        className='addContact_AutoDialView_ver2'
+                                        </View>
+                                      </Cell>
+                                    </TableWrapper>
+                                    <TableWrapper
+                                      style={{ backgroundColor: 'transparent' }}
+                                    >
+                                      <Cell
+                                        // colSpan='3'
                                         style={{
-                                          paddingRight: '4px',
-                                          paddingTop: '4px',
+                                          paddingRight: 4,
+                                          paddingTop: 4,
+                                          backgroundColor: 'transparent',
                                         }}
                                       >
-                                        <div
+                                        <View
                                           style={{
                                             display: 'flex',
                                             alignItems: 'center',
-                                            justifyContent: 'end',
+                                            justifyContent: 'flex-end',
                                           }}
                                         >
                                           <Button
@@ -1174,23 +1199,23 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                           >
                                             {i18n.t('Add_contact')}
                                           </Button>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                                        </View>
+                                      </Cell>
+                                    </TableWrapper>
+                                  </View>
+                                </Table>
+                              </View>
+                            </View>
+                          </View>
+                        </Cell>
+                      </TableWrapper>
+                    </View>
+                  </Table>
+                </Cell>
+              </TableWrapper>
+            </View>
+          </Table>
+        </View>
         {/* <DropDownMenu operatorConsole={oc} ></DropDownMenu>*/}
       </>
     )

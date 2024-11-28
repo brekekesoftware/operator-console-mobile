@@ -1,11 +1,13 @@
 import { useState } from 'react'
-import { View } from 'react-native'
+import type { ViewStyle } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { Button } from '../common/Button'
 import { DropdownMenu } from '../common/DropdownMenu'
 import { Modal } from '../common/Modal'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
+import { Cell, Table, TableWrapper } from '../common/Table'
 import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
@@ -428,14 +430,14 @@ const TransferButton = ({
               type='primary'
               loading={modalLoading}
               onPress={handleActiveAndStartBlindTransferNow}
-              className='brOCMarginLeftButtonToButton'
+              style={styles.marginLeftButton}
             >
               {i18n.t('activateAndStartBlindTransfer')}
             </Button>
             <Button
               key='back'
               onPress={handleModalCancel}
-              className='brOCMarginLeftButtonToButton'
+              style={styles.marginLeftButton}
             >
               {i18n.t('cancel')}
             </Button>
@@ -465,14 +467,14 @@ const TransferButton = ({
               type='primary'
               loading={modalLoading}
               onPress={handleCamponManual}
-              className='brOCMarginLeftButtonToButton'
+              style={styles.marginLeftButton}
             >
               {i18n.t('campOn')}
             </Button>
             <Button
               key='backForBusy'
               onPress={handleModalForBusyCancel}
-              className='brOCMarginLeftButtonToButton'
+              style={styles.marginLeftButton}
             >
               {i18n.t('cancel')}
             </Button>
@@ -539,97 +541,116 @@ const LineTableRow = ({
     ? lineButtonOuterBorderRadius
     : 0
 
+  const lightStyle: { [key: string]: ViewStyle } = {
+    'kbc-button-success-flash': {},
+    'kbc-button-success-flash-slow': {},
+    'kbc-button-danger-flash-slow': {},
+    'kbc-button-danger-flash': {},
+    'kbc-button-success': {},
+    'kbc-button-danger': {},
+  }
+
   return (
-    <tr
+    <TableWrapper
       key={index}
-      className={lightClassname}
-      style={{
-        color: bodyFgColor,
-        borderBottom:
-          bodyRowUnderlineThickness + 'px solid ' + bodyRowUnderlineColor,
-      }}
+      style={[
+        {
+          borderBottomWidth: bodyRowUnderlineThickness,
+          borderStyle: 'solid',
+          borderColor: bodyRowUnderlineColor,
+        },
+        lightStyle[lightClassname],
+      ]}
     >
-      <td
+      <Cell
         style={{
-          borderRadius: '0 ' + outerBorderRadius + 'px 0 0',
+          borderTopRightRadius: outerBorderRadius,
+          borderBottomRightRadius: outerBorderRadius,
         }}
-      >
-        {title}
-      </td>
-      <td>{lineInfo.talker}</td>
-      {/* <td style={{width:70,height:70}}>*/}
-      <td>
-        <LineButton
-          line={lineInfo.line}
-          label={lineInfo.label}
-          width={lineButtonWidth}
-          height={lineButtonHeight}
-          color={lineButtonColor}
-          backgroundColor={lineButtonBackgroundColor}
-          {...Util.getBorderStyle({
-            isShowBorder: lineButtonBorder,
-            borderWidth: lineButtonOuterBorderThickness,
-            borderColor: lineButtonOuterBorderColor,
-          })}
-          borderRadius={lineButtonBorderRadius}
-          context={context}
-        ></LineButton>
-      </td>
-      {/* <td style={{width:100,height:70}}>*/}
-      <td>
-        {callInfo &&
-        (callInfo.getIsIncoming() && !callInfo.getIsAnswered()) === false &&
-        lineInfo.talker ? (
-          callInfo.camponDstExtensionId ? (
-            <TransferCancelButton
-              context={context}
-              lineInfo={lineInfo}
-              callInfo={callInfo}
-              transferCancelButtonWidth={transferCancelButtonWidth}
-              transferCancelButtonHeight={transferCancelButtonHeight}
-              transferCancelButtonFgColor={transferCancelButtonFgColor}
-              transferCancelButtonBgColor={transferCancelButtonBgColor}
-              transferCancelButtonOuterBorderColor={
-                transferCancelButtonOuterBorderColor
-              }
-              transferCancelButtonOuterBorderRadius={
-                transferCancelButtonOuterBorderRadius
-              }
-              transferCancelButtonOuterBorderThickness={
-                transferCancelButtonOuterBorderThickness
-              }
-            ></TransferCancelButton>
+        textStyle={{ color: bodyFgColor }}
+        data={title}
+      ></Cell>
+      <Cell data={lineInfo.talker}></Cell>
+
+      <Cell
+        data={
+          <LineButton
+            line={lineInfo.line}
+            label={lineInfo.label}
+            width={lineButtonWidth}
+            height={lineButtonHeight}
+            color={lineButtonColor}
+            backgroundColor={lineButtonBackgroundColor}
+            {...Util.getBorderStyle({
+              isShowBorder: lineButtonBorder,
+              borderWidth: lineButtonOuterBorderThickness,
+              borderColor: lineButtonOuterBorderColor,
+            })}
+            borderRadius={lineButtonBorderRadius}
+            context={context}
+          ></LineButton>
+        }
+      ></Cell>
+      <Cell
+        data={
+          callInfo &&
+          (callInfo.getIsIncoming() && !callInfo.getIsAnswered()) === false &&
+          lineInfo.talker ? (
+            callInfo.camponDstExtensionId ? (
+              <TransferCancelButton
+                context={context}
+                lineInfo={lineInfo}
+                callInfo={callInfo}
+                transferCancelButtonWidth={transferCancelButtonWidth}
+                transferCancelButtonHeight={transferCancelButtonHeight}
+                transferCancelButtonFgColor={transferCancelButtonFgColor}
+                transferCancelButtonBgColor={transferCancelButtonBgColor}
+                transferCancelButtonOuterBorderColor={
+                  transferCancelButtonOuterBorderColor
+                }
+                transferCancelButtonOuterBorderRadius={
+                  transferCancelButtonOuterBorderRadius
+                }
+                transferCancelButtonOuterBorderThickness={
+                  transferCancelButtonOuterBorderThickness
+                }
+              ></TransferCancelButton>
+            ) : (
+              <TransferButton
+                context={context}
+                lineInfo={lineInfo}
+                callInfo={callInfo}
+                title={title}
+                transferButtonWidth={transferButtonWidth}
+                transferButtonHeight={transferButtonHeight}
+                transferButtonFgColor={transferButtonFgColor}
+                transferButtonBgColor={transferButtonBgColor}
+                transferButtonOuterBorderColor={transferButtonOuterBorderColor}
+                transferButtonOuterBorderRadius={
+                  transferButtonOuterBorderRadius
+                }
+                transferButtonOuterBorderThickness={
+                  transferButtonOuterBorderThickness
+                }
+              ></TransferButton>
+            )
           ) : (
-            <TransferButton
-              context={context}
-              lineInfo={lineInfo}
-              callInfo={callInfo}
-              title={title}
-              transferButtonWidth={transferButtonWidth}
-              transferButtonHeight={transferButtonHeight}
-              transferButtonFgColor={transferButtonFgColor}
-              transferButtonBgColor={transferButtonBgColor}
-              transferButtonOuterBorderColor={transferButtonOuterBorderColor}
-              transferButtonOuterBorderRadius={transferButtonOuterBorderRadius}
-              transferButtonOuterBorderThickness={
-                transferButtonOuterBorderThickness
-              }
-            ></TransferButton>
+            ''
           )
-        ) : (
-          ''
-        )}
-      </td>
-      <td
+        }
+      ></Cell>
+      <Cell
         style={{
-          borderRadius: '0 ' + outerBorderRadius + 'px 0 0 ',
+          borderTopRightRadius: outerBorderRadius,
+          borderBottomRightRadius: outerBorderRadius,
         }}
-      >
-        {callInfo && callInfo.camponDstExtensionId
-          ? callInfo.camponDstExtensionId
-          : ''}
-      </td>
-    </tr>
+        data={
+          callInfo && callInfo.camponDstExtensionId
+            ? callInfo.camponDstExtensionId
+            : ''
+        }
+      ></Cell>
+    </TableWrapper>
   )
 }
 
@@ -728,46 +749,48 @@ export const LineTable = props => {
   const lineButtonHeight = props.lineButtonHeight ? props.lineButtonHeight : 40 // !default
 
   return (
-    <table
-      className='brOCLinetable'
+    <Table
       style={{
         borderRadius: outerBorderRadius,
-        border: outerBorderThickness + 'px solid ' + outerBorderColor,
+        borderWidth: outerBorderThickness,
+        borderStyle: 'solid',
+        borderColor: outerBorderColor,
         backgroundColor,
       }}
     >
-      <thead>
-        <tr
+      <TableWrapper
+        style={{
+          borderBottomWidth: headerRowUnderlineThickness,
+          borderStyle: 'solid',
+          borderColor: headerRowUnderlineColor,
+        }}
+      >
+        <Cell
           style={{
-            color: headerFgColor,
-            borderBottom:
-              headerRowUnderlineThickness +
-              'px solid ' +
-              headerRowUnderlineColor,
+            borderTopLeftRadius: outerBorderRadius,
+            borderTopRightRadius: outerBorderRadius,
           }}
-        >
-          <th
-            style={{
-              borderRadius: outerBorderRadius + 'px 0 0 0',
-            }}
-          >
-            {i18n.t('name')}
-          </th>
-          <th>{i18n.t('responder')}</th>
-          {/* <th style={{width:70}}>{i18n.t("line")}</th>*/}
-          <th>{i18n.t('line')}</th>
-          {/* <th style={{width:120}}>{i18n.t("transfer")}</th>*/}
-          <th>{i18n.t('transfer')}</th>
-          <th
-            style={{
-              borderRadius: '0 ' + outerBorderRadius + 'px 0 0',
-            }}
-          >
-            {i18n.t('camponDest')}
-          </th>
-        </tr>
-      </thead>
-      <tbody
+          textStyle={{ color: headerFgColor }}
+          data={i18n.t('name')}
+        ></Cell>
+        <Cell
+          textStyle={{ color: headerFgColor }}
+          data={i18n.t('responder')}
+        ></Cell>
+        <Cell textStyle={{ color: headerFgColor }} data={i18n.t('line')}></Cell>
+        <Cell
+          textStyle={{ color: headerFgColor }}
+          data={i18n.t('transfer')}
+        ></Cell>
+        <Cell
+          style={{
+            borderTopRightRadius: outerBorderRadius,
+            borderBottomRightRadius: outerBorderRadius,
+          }}
+          data={i18n.t('camponDest')}
+        ></Cell>
+      </TableWrapper>
+      <View
         style={{
           color: bodyFgColor,
         }}
@@ -819,7 +842,13 @@ export const LineTable = props => {
             context={context}
           />
         ))}
-      </tbody>
-    </table>
+      </View>
+    </Table>
   )
 }
+
+const styles = StyleSheet.create({
+  marginLeftButton: {
+    marginLeft: 6,
+  },
+})

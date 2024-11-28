@@ -1,3 +1,5 @@
+import './lib/PalWrapper'
+
 import { ActivityIndicator, Form, Input, Tabs } from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -6,12 +8,10 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { cloneDeep } from 'lodash'
 import React from 'react'
-import { SketchPicker } from 'react-color'
 import ReactDOM from 'react-dom/client'
 import { Image, ScrollView, Text, View } from 'react-native'
 import { Rnd } from 'react-rnd'
 
-import './index.scss'
 import logo from './logo.png'
 
 import { ACallInfo } from './call/ACallInfo'
@@ -23,6 +23,7 @@ import { PalPhoneClient } from './call/PalPhoneClient'
 import { PalRestApi } from './call/PalRestApi'
 import { WebphonePhoneClient } from './call/WebphonePhoneClient'
 import { Button } from './common/Button'
+import { PickerColor } from './common/ColorPicker'
 import { DropdownOverlay } from './common/DropdownOverlay'
 import { Empty } from './common/Empty'
 import { GridLines } from './common/GridLines'
@@ -31,6 +32,7 @@ import { Modal } from './common/Modal'
 import { Notification } from './common/Notification'
 import { Popconfirm } from './common/Popconfirm'
 import { Space } from './common/Space'
+import { Cell, Table, TableWrapper } from './common/Table'
 import { PaneData } from './data/PaneData'
 import { ScreenData } from './data/ScreenData'
 import { WidgetData } from './data/widgetData/WidgetData'
@@ -264,53 +266,45 @@ export const getIconJsx = (icon, label) => {
   return iconJsx
 }
 
-function CallTablePreview() {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>{i18n.t('CallTable')}</th>
-        </tr>
-      </thead>
-    </table>
-  )
-}
+const CallTablePreview = () => (
+  <Table>
+    <View>
+      <TableWrapper>
+        <Cell data={i18n.t('CallTable')}></Cell>
+      </TableWrapper>
+    </View>
+  </Table>
+)
 
-function ExtensionTablePreview() {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>{i18n.t('ExtensionTable')}</th>
-        </tr>
-      </thead>
-    </table>
-  )
-}
+const ExtensionTablePreview = () => (
+  <Table>
+    <View>
+      <TableWrapper>
+        <Cell data={i18n.t('ExtensionTable')}></Cell>
+      </TableWrapper>
+    </View>
+  </Table>
+)
 
-function LineTablePreview() {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>{i18n.t('LineTable')}</th>
-        </tr>
-      </thead>
-    </table>
-  )
-}
+const LineTablePreview = () => (
+  <Table>
+    <View>
+      <TableWrapper>
+        <Cell data={i18n.t('LineTable')}></Cell>
+      </TableWrapper>
+    </View>
+  </Table>
+)
 
-function UccacWidgetPreview() {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>{i18n.t('ucChatAgentComponent')}</th>
-        </tr>
-      </thead>
-    </table>
-  )
-}
+const UccacWidgetPreview = () => (
+  <Table>
+    <View>
+      <TableWrapper>
+        <Cell data={i18n.t('LineTucChatAgentComponentable')}></Cell>
+      </TableWrapper>
+    </View>
+  </Table>
+)
 
 export const LegacyButtonMap = {
   [LegacyDummyButton.name]: LegacyDummyButton,
@@ -1902,9 +1896,9 @@ export class BrekekeOperatorConsole extends React.Component<
                           {': '}
                           <DropdownOverlay
                             overlay={
-                              <SketchPicker
+                              <PickerColor
                                 color={this.state.editingScreenForeground}
-                                onChangeComplete={
+                                onColorChangeComplete={
                                   this.setEditingScreenForeground
                                 }
                               />
@@ -1934,9 +1928,9 @@ export class BrekekeOperatorConsole extends React.Component<
                           {': '}
                           <DropdownOverlay
                             overlay={
-                              <SketchPicker
+                              <PickerColor
                                 color={this.state.editingScreenBackground}
-                                onChangeComplete={
+                                onColorChangeComplete={
                                   this.setEditingScreenBackground
                                 }
                               />
@@ -5006,7 +5000,7 @@ export class BrekekeOperatorConsole extends React.Component<
     return loginTenantname
   }
 }
-let BREKEKE_OPERATOR_CONSOLE
+let BREKEKE_OPERATOR_CONSOLE: BrekekeOperatorConsole
 BrekekeOperatorConsole.PAL_NOTE_USERACCESSES = {
   NoAccess: 0,
   ReadOnly: 1,

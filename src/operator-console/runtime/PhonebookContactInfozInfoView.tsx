@@ -1,17 +1,17 @@
 import { Checkbox, Input } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import React from 'react'
-
-import './reset.css'
-import './phonebookContactInfozInfoView.css'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 
 import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
+import { Cell, Table, TableWrapper } from '../common/Table'
 import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'
 import { OCUtil } from '../OCUtil'
 import { BrekekeOperatorConsole } from '../OperatorConsole'
+import { OperatorConsoleStyles } from '../OperatorConsoleStyles'
 import { PhonebookContactInfo_AutoDialView_ver2 } from './PhonebookContactInfo_AutoDialView_ver2'
 
 const BUILTIN_CUSTOM_ITEM_KEYNAMES = Object.freeze([
@@ -28,6 +28,8 @@ const BUILTIN_CUSTOM_ITEM_KEYNAMES = Object.freeze([
   'Website',
 ])
 class PbContactInfozCustomItem {
+  _name
+  _value
   constructor(options) {
     const pbContactInfozItem = options['pbContactInfozItem']
     if (pbContactInfozItem) {
@@ -64,7 +66,19 @@ class PbContactInfozCustomItem {
 }
 
 let _INSTANCE
-export class PhonebookContactInfozInfoView extends React.Component {
+
+type Props = {}
+type State = {
+  pbContactInfo: any
+  sharedChecked?: boolean | null
+  refresh?: boolean
+}
+export class PhonebookContactInfozInfoView extends React.Component<
+  Props,
+  State
+> {
+  _PbContactInfozCustomItemArray
+  _PbSummaryArray
   constructor(props) {
     super(props)
     this.state = {
@@ -560,15 +574,27 @@ export class PhonebookContactInfozInfoView extends React.Component {
     }
 
     return (
-      <div className='brOCReset phonebookContactInfozInfoView '>
-        <table
-          className={
-            'defaultBorderWithRadius outsidePaddingWithoutBorderRadius'
-          }
+      <View
+        style={{
+          position: 'absolute',
+          right: 0,
+          top: 48,
+          borderRadius: 5,
+          zIndex: 114,
+        }}
+      >
+        <Table
+          style={{
+            borderRadius: 5,
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: '#e0e0e0',
+            padding: 15,
+          }}
         >
-          <tbody>
-            <tr>
-              <td style={{ textAlign: 'right', verticalAlign: 'top' }}>
+          <View>
+            <TableWrapper>
+              <Cell textStyle={{ textAlign: 'right', verticalAlign: 'top' }}>
                 {isSaveable && (
                   <Popconfirm
                     title={i18n.t('are_you_sure')}
@@ -589,367 +615,387 @@ export class PhonebookContactInfozInfoView extends React.Component {
                     className='closeFontAwesomeIcon'
                   />
                 )}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div
-                  className={'autoDialView_ver2_tableParent'}
-                  style={{ maxHeight: '500px' }}
-                >
-                  <table className='defaultContentTable'>
-                    <thead>
-                      <tr>
-                        <th
-                          colSpan='2'
-                          className='displayNameTitleTh'
-                          style={{ textTransform: 'unset', height: '19px' }}
-                        >
-                          {this.state.pbContactInfo.getDisplayName()}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th>
-                          <label htmlFor='phonebookName_PhonebookContactInfozInfoView'>
-                            {i18n.t('Phonebook')}
-                          </label>
-                        </th>
-                        <td>
-                          {!this._isAddContact() && (
-                            <Input
-                              id='phonebookName_PhonebookContactInfozInfoView'
-                              defaultValue={this.state.pbContactInfo.getPhonebookName()}
-                              style={{ width: '300px', cursor: 'not-allowed' }}
-                              disabled={true}
-                            />
-                          )}
-                          {this._isAddContact() && (
-                            <>
-                              <Input
-                                type='text'
-                                id='phonebookName_PhonebookContactInfozInfoView'
-                                list='phonebookName_datalist_PhonebookContactInfozInfoView'
-                                maxLength={100}
-                                onFocus={e => this._onInputFocus()}
-                                onBlur={e => this._onInputBlur()}
-                                style={{ width: '300px' }}
-                              />
-                              <datalist id='phonebookName_datalist_PhonebookContactInfozInfoView'>
-                                {this._PbSummaryArray.map((pbSummary, i) => {
-                                  const phonebookName = pbSummary['phonebook']
-                                  return (
-                                    <option key={i} value={phonebookName}>
-                                      {phonebookName}
-                                    </option>
-                                  )
-                                })}
-                              </datalist>
-                            </>
-                          )}
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>
-                          <label
-                            htmlFor='shared_PhonebookContactInfozInfoView_brOC'
-                            style={{ cursor: 'pointer' }}
+              </Cell>
+            </TableWrapper>
+            <TableWrapper>
+              <Cell>
+                <View style={{ maxHeight: 500 }}>
+                  <ScrollView>
+                    <Table>
+                      <View style={{ paddingLeft: 20 }}>
+                        <TableWrapper>
+                          <Cell
+                            style={{
+                              backgroundColor: ' #5C9842',
+                              paddingTop: 6,
+                            }}
+                            textStyle={{
+                              textTransform: 'none',
+                              height: 19,
+                              color: '#FFFFFF',
+                            }}
                           >
-                            {i18n.t('Shared')}
-                          </label>
-                        </th>
-                        <td>
-                          <Checkbox
-                            id='shared_PhonebookContactInfozInfoView_brOC'
-                            // defaultChecked={sharedDefaultChecked}
-                            checked={sharedChecked}
-                            onClick={e => this._rerenderShared()}
-                            disabled={isAdmin !== true}
-                          />
-                        </td>
-                      </tr>
-                      {PhonebookContactInfo_AutoDialView_ver2.BUILTIN_DEFAULT_PHONEBOOK_CONTACTINFO_ITEM_KEYNAMES.map(
-                        (key, i) => {
-                          const info =
-                            this.state.pbContactInfo.getPhonebookContactInfoByKeyname(
-                              key,
-                            )
-                          if (info.isTelKey()) {
-                            return null
-                          }
-                          // if (info.getInfoKeyName() === "$lang") { //!comment Not editable
-                          //     return (null);
-                          // }
-                          // if( info.isCustomKey() === true ){
-                          //     return (null);
-                          // }
-                          const infoKeyName = info.getInfoKeyName()
-                          return (
-                            <tr key={i}>
-                              <th>{info.getTitle()}</th>
-                              <td>
+                            {this.state.pbContactInfo.getDisplayName()}
+                          </Cell>
+                        </TableWrapper>
+                      </View>
+                      <View>
+                        <TableWrapper>
+                          <Cell>
+                            <Text htmlFor='phonebookName_PhonebookContactInfozInfoView'>
+                              {i18n.t('Phonebook')}
+                            </Text>
+                          </Cell>
+                          <Cell>
+                            {!this._isAddContact() && (
+                              <Input
+                                id='phonebookName_PhonebookContactInfozInfoView'
+                                defaultValue={this.state.pbContactInfo.getPhonebookName()}
+                                style={{ width: 300 }}
+                                disabled={true}
+                              />
+                            )}
+                            {this._isAddContact() && (
+                              <>
                                 <Input
-                                  data-br-isinfoparam='true'
-                                  data-br-name={
-                                    'PhonebookContactInfozInfoView_infoItem_' +
-                                    infoKeyName
-                                  }
-                                  defaultValue={info.getValue()}
-                                  style={{ width: 300 }}
-                                  disabled={!isSaveable}
-                                  maxLength={1000}
+                                  type='text'
+                                  id='phonebookName_PhonebookContactInfozInfoView'
+                                  list='phonebookName_datalist_PhonebookContactInfozInfoView'
+                                  maxLength={100}
                                   onFocus={e => this._onInputFocus()}
                                   onBlur={e => this._onInputBlur()}
+                                  style={{ width: 300 }}
                                 />
-                              </td>
-                            </tr>
-                          )
-                        },
-                      )}
-                      <tr>
-                        <th style={{ verticalAlign: 'middle' }}>
-                          {i18n.t('Tels')}
-                        </th>
-                        <td>
-                          <table className='defaultContentTable PhonebookContactInfozInfoTelsTable'>
-                            <thead>
-                              <tr>
-                                <th className='defaultItemPaddingTopImportant'>
-                                  {i18n.t('Type')}
-                                </th>
-                                <th className='defaultItemPaddingTopImportant'>
-                                  {i18n.t('Tel')}
-                                </th>
-                                <th
-                                  className='defaultItemPaddingTopImportant'
-                                  style={{ textAlign: 'center' }}
-                                >
-                                  {i18n.t('Status')}
-                                </th>
-                                <th
-                                  className='defaultItemPaddingTopImportant'
-                                  style={{ textAlign: 'center' }}
-                                >
-                                  {i18n.t('Call')}
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {PhonebookContactInfo_AutoDialView_ver2.BUILTIN_DEFAULT_PHONEBOOK_CONTACTINFO_TEL_ITEM_KEYNAMES.map(
-                                (telKeyName, i) => {
-                                  const telInfo =
-                                    this.state.pbContactInfo.getPhonebookContactInfozInfoByInfoKeyName(
-                                      telKeyName,
+                                <datalist id='phonebookName_datalist_PhonebookContactInfozInfoView'>
+                                  {this._PbSummaryArray.map((pbSummary, i) => {
+                                    const phonebookName = pbSummary['phonebook']
+                                    return (
+                                      <option key={i} value={phonebookName}>
+                                        {phonebookName}
+                                      </option>
                                     )
-                                  let tel
-                                  if (telInfo) {
-                                    tel = telInfo.getValue()
-                                  } else {
-                                    tel = ''
-                                  }
-                                  const telTitle =
-                                    this.state.pbContactInfo.getFreezedTelInfoTitleArray()[
-                                      i
-                                    ]
-
-                                  const isExtension =
-                                    OCUtil.indexOfArrayFromExtensions(
-                                      extensions,
-                                      tel,
-                                    ) !== -1
-                                  const statusClassName = isExtension
-                                    ? OCUtil.getExtensionStatusClassName(
-                                        tel,
-                                        extensionsStatus,
+                                  })}
+                                </datalist>
+                              </>
+                            )}
+                          </Cell>
+                        </TableWrapper>
+                        <TableWrapper>
+                          <Cell>
+                            <Text htmlFor='shared_PhonebookContactInfozInfoView_brOC'>
+                              {i18n.t('Shared')}
+                            </Text>
+                          </Cell>
+                          <Cell>
+                            <Checkbox
+                              id='shared_PhonebookContactInfozInfoView_brOC'
+                              // defaultChecked={sharedDefaultChecked}
+                              checked={sharedChecked}
+                              onClick={e => this._rerenderShared()}
+                              disabled={isAdmin !== true}
+                            />
+                          </Cell>
+                        </TableWrapper>
+                        {PhonebookContactInfo_AutoDialView_ver2.BUILTIN_DEFAULT_PHONEBOOK_CONTACTINFO_ITEM_KEYNAMES.map(
+                          (key, i) => {
+                            const info =
+                              this.state.pbContactInfo.getPhonebookContactInfoByKeyname(
+                                key,
+                              )
+                            if (info.isTelKey()) {
+                              return null
+                            }
+                            // if (info.getInfoKeyName() === "$lang") { //!comment Not editable
+                            //     return (null);
+                            // }
+                            // if( info.isCustomKey() === true ){
+                            //     return (null);
+                            // }
+                            const infoKeyName = info.getInfoKeyName()
+                            return (
+                              <TableWrapper key={i}>
+                                <Cell>{info.getTitle()}</Cell>
+                                <Cell>
+                                  <Input
+                                    data-br-isinfoparam='true'
+                                    data-br-name={
+                                      'PhonebookContactInfozInfoView_infoItem_' +
+                                      infoKeyName
+                                    }
+                                    defaultValue={info.getValue()}
+                                    style={{ width: 300 }}
+                                    disabled={!isSaveable}
+                                    maxLength={1000}
+                                    onFocus={e => this._onInputFocus()}
+                                    onBlur={e => this._onInputBlur()}
+                                  />
+                                </Cell>
+                              </TableWrapper>
+                            )
+                          },
+                        )}
+                        <TableWrapper>
+                          <Cell textStyle={{ verticalAlign: 'middle' }}>
+                            {i18n.t('Tels')}
+                          </Cell>
+                          <Cell>
+                            <Table
+                              style={{
+                                paddingLeft: 20,
+                                width: '100%',
+                                backgroundColor: 'transparent',
+                              }}
+                            >
+                              <View>
+                                <TableWrapper>
+                                  <Cell style={{ paddingTop: 6 }}>
+                                    {i18n.t('Type')}
+                                  </Cell>
+                                  <Cell style={{ paddingTop: 6 }}>
+                                    {i18n.t('Tel')}
+                                  </Cell>
+                                  <Cell
+                                    style={{ paddingTop: 6 }}
+                                    textStyle={{ textAlign: 'center' }}
+                                  >
+                                    {i18n.t('Status')}
+                                  </Cell>
+                                  <Cell
+                                    style={{ paddingTop: 6 }}
+                                    textStyle={{ textAlign: 'center' }}
+                                  >
+                                    {i18n.t('Call')}
+                                  </Cell>
+                                </TableWrapper>
+                              </View>
+                              <View>
+                                {PhonebookContactInfo_AutoDialView_ver2.BUILTIN_DEFAULT_PHONEBOOK_CONTACTINFO_TEL_ITEM_KEYNAMES.map(
+                                  (telKeyName, i) => {
+                                    const telInfo =
+                                      this.state.pbContactInfo.getPhonebookContactInfozInfoByInfoKeyName(
+                                        telKeyName,
                                       )
-                                    : ''
-                                  return (
-                                    <tr key={i}>
-                                      <td>{telTitle}</td>
-                                      <td>
-                                        <Input
-                                          data-br-isinfoparam='true'
-                                          data-br-name={
-                                            'PhonebookContactInfozInfoView_infoItem_' +
-                                            telKeyName
-                                          }
-                                          defaultValue={tel}
-                                          style={{ width: '160px' }}
-                                          disabled={!isSaveable}
-                                          maxLength='1000'
-                                          onFocus={e => this._onInputFocus()}
-                                          onBlur={e => this._onInputBlur()}
-                                        />
-                                      </td>
-                                      <td>
-                                        <div
-                                          style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                          }}
-                                        >
-                                          <div
-                                            className={statusClassName}
-                                          ></div>
-                                        </div>
-                                      </td>
-                                      <td>
-                                        {tel.length !== 0 && (
-                                          <div
+                                    let tel
+                                    if (telInfo) {
+                                      tel = telInfo.getValue()
+                                    } else {
+                                      tel = ''
+                                    }
+                                    const telTitle =
+                                      this.state.pbContactInfo.getFreezedTelInfoTitleArray()[
+                                        i
+                                      ]
+
+                                    const isExtension =
+                                      OCUtil.indexOfArrayFromExtensions(
+                                        extensions,
+                                        tel,
+                                      ) !== -1
+                                    const statusClassName = isExtension
+                                      ? OCUtil.getExtensionStatusClassName(
+                                          tel,
+                                          extensionsStatus,
+                                        )
+                                      : ''
+                                    return (
+                                      <TableWrapper key={i}>
+                                        <Cell>{telTitle}</Cell>
+                                        <Cell>
+                                          <Input
+                                            data-br-isinfoparam='true'
+                                            data-br-name={
+                                              'PhonebookContactInfozInfoView_infoItem_' +
+                                              telKeyName
+                                            }
+                                            defaultValue={tel}
+                                            style={{ width: 160 }}
+                                            disabled={!isSaveable}
+                                            maxLength={1000}
+                                            onFocus={e => this._onInputFocus()}
+                                            onBlur={e => this._onInputBlur()}
+                                          />
+                                        </Cell>
+                                        <Cell>
+                                          <View
                                             style={{
                                               display: 'flex',
                                               alignItems: 'center',
                                               justifyContent: 'center',
                                             }}
                                           >
-                                            <WidgetButton
-                                              style={{ padding: 2 }}
-                                              onPress={e => this._makeCall(tel)}
+                                            <View
+                                              style={
+                                                OperatorConsoleStyles[
+                                                  statusClassName
+                                                ]
+                                              }
+                                            ></View>
+                                          </View>
+                                        </Cell>
+                                        <Cell>
+                                          {tel.length !== 0 && (
+                                            <View
+                                              style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                              }}
                                             >
-                                              <FontAwesomeIcon
-                                                size='lg'
-                                                icon='fas fa-phone'
-                                              />
-                                            </WidgetButton>
-                                          </div>
-                                        )}
-                                      </td>
-                                    </tr>
-                                  )
-                                },
-                              )}
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                      {this._PbContactInfozCustomItemArray.map(
-                        (customItem, i) => (
-                          <tr key={i}>
-                            <th>
-                              <Input
-                                id={
-                                  'brOC_PhonebookContactInfozInfoView_customItemName_' +
-                                  i
-                                }
-                                list={
-                                  'brOC_PhonebookContactInfozInfoView_datalist_customItemName_' +
-                                  i
-                                }
-                                // defaultValue={customItem.getName()}
-                                style={{ width: '200px' }}
-                                disabled={!isSaveable}
-                                maxLength='1000'
-                                onChange={e =>
-                                  this._onChangeCustomItemInputName(
-                                    customItem,
-                                    e,
-                                  )
-                                }
-                                onFocus={e =>
-                                  this._onCustomItemNameInputFocus(
-                                    customItem,
-                                    e,
-                                  )
-                                }
-                                onBlur={e =>
-                                  this._onCustomItemNameInputBlur(customItem, e)
-                                }
-                              />
-                              <datalist
-                                id={
-                                  'brOC_PhonebookContactInfozInfoView_datalist_customItemName_' +
-                                  i
-                                }
-                              >
-                                {BUILTIN_CUSTOM_ITEM_KEYNAMES.map(
-                                  (keyname, i) => (
-                                    <option key={i} value={keyname}>
-                                      {keyname}
-                                    </option>
-                                  ),
+                                              <WidgetButton
+                                                style={{ padding: 2 }}
+                                                onPress={e =>
+                                                  this._makeCall(tel)
+                                                }
+                                              >
+                                                <FontAwesomeIcon
+                                                  size='lg'
+                                                  icon='fas fa-phone'
+                                                />
+                                              </WidgetButton>
+                                            </View>
+                                          )}
+                                        </Cell>
+                                      </TableWrapper>
+                                    )
+                                  },
                                 )}
-                              </datalist>
-                            </th>
-                            <td>
-                              <Input
-                                data-br-name={
-                                  'PhonebookContactInfozInfoView_customItemValue_' +
-                                  i
-                                }
-                                // defaultValue={customItem.getValue()}
-                                style={{ width: '300px' }}
-                                disabled={!isSaveable}
-                                maxLength='1000'
-                                onChange={e =>
-                                  this._onChangeCustomItemInputValue(
-                                    customItem,
-                                    e,
-                                  )
-                                }
-                                onFocus={e =>
-                                  this._onCustomItemValueInputFocus(
-                                    customItem,
-                                    e,
-                                  )
-                                }
-                                onBlur={e =>
-                                  this._onCustomItemValueInputBlur(
-                                    customItem,
-                                    e,
-                                  )
-                                }
-                              />
-                            </td>
-                          </tr>
-                        ),
-                      )}
-                      <tr className='unsetBackgroundColor_important_PhonebookContactInfozInfoView'>
-                        <td
-                          colSpan={2}
-                          className='unsetBackgroundColor_important_PhonebookContactInfozInfoView'
-                          style={{ paddingTop: '4px', paddingRight: '4px' }}
+                              </View>
+                            </Table>
+                          </Cell>
+                        </TableWrapper>
+                        {this._PbContactInfozCustomItemArray.map(
+                          (customItem, i) => (
+                            <TableWrapper key={i}>
+                              <Cell>
+                                <Input
+                                  id={
+                                    'brOC_PhonebookContactInfozInfoView_customItemName_' +
+                                    i
+                                  }
+                                  list={
+                                    'brOC_PhonebookContactInfozInfoView_datalist_customItemName_' +
+                                    i
+                                  }
+                                  // defaultValue={customItem.getName()}
+                                  style={{ width: 200 }}
+                                  disabled={!isSaveable}
+                                  maxLength={1000}
+                                  onChange={e =>
+                                    this._onChangeCustomItemInputName(
+                                      customItem,
+                                      e,
+                                    )
+                                  }
+                                  onFocus={e =>
+                                    this._onCustomItemNameInputFocus(
+                                      customItem,
+                                      e,
+                                    )
+                                  }
+                                  onBlur={e =>
+                                    this._onCustomItemNameInputBlur(
+                                      customItem,
+                                      e,
+                                    )
+                                  }
+                                />
+                                <datalist
+                                  id={
+                                    'brOC_PhonebookContactInfozInfoView_datalist_customItemName_' +
+                                    i
+                                  }
+                                >
+                                  {BUILTIN_CUSTOM_ITEM_KEYNAMES.map(
+                                    (keyname, i) => (
+                                      <option key={i} value={keyname}>
+                                        {keyname}
+                                      </option>
+                                    ),
+                                  )}
+                                </datalist>
+                              </Cell>
+                              <Cell>
+                                <Input
+                                  data-br-name={
+                                    'PhonebookContactInfozInfoView_customItemValue_' +
+                                    i
+                                  }
+                                  // defaultValue={customItem.getValue()}
+                                  style={{ width: 300 }}
+                                  disabled={!isSaveable}
+                                  maxLength={1000}
+                                  onChange={e =>
+                                    this._onChangeCustomItemInputValue(
+                                      customItem,
+                                      e,
+                                    )
+                                  }
+                                  onFocus={e =>
+                                    this._onCustomItemValueInputFocus(
+                                      customItem,
+                                      e,
+                                    )
+                                  }
+                                  onBlur={e =>
+                                    this._onCustomItemValueInputBlur(
+                                      customItem,
+                                      e,
+                                    )
+                                  }
+                                />
+                              </Cell>
+                            </TableWrapper>
+                          ),
+                        )}
+                        <TableWrapper
+                          style={{ backgroundColor: 'transparent' }}
                         >
-                          {isSaveable && (
-                            <span
-                              onClick={e => this._addItem()}
-                              style={{
-                                textDecoration: 'underline',
-                                cursor: 'pointer',
-                              }}
-                            >
-                              &gt;&gt;{i18n.t('Add_item')}
-                            </span>
-                          )}
-                          {!isSaveable && (
-                            <span
-                              className='defaultDisabledTextColor'
-                              style={{
-                                textDecoration: 'underline',
-                                cursor: 'not-allowed',
-                              }}
-                            >
-                              &gt;&gt;{i18n.t('Add_item')}
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td
-                colSpan={2}
-                style={{ paddingTop: '4px', paddingRight: '4px' }}
-              >
-                <div
+                          <Cell
+                            style={{
+                              paddingTop: 4,
+                              paddingRight: 4,
+                              backgroundColor: 'transparent',
+                            }}
+                          >
+                            {isSaveable && (
+                              <TouchableOpacity onPress={e => this._addItem()}>
+                                <Text
+                                  style={
+                                    {
+                                      // textDecoration: 'underline',
+                                    }
+                                  }
+                                >
+                                  &gt;&gt;{i18n.t('Add_item')}
+                                </Text>
+                              </TouchableOpacity>
+                            )}
+                            {!isSaveable && (
+                              <Text
+                                style={{
+                                  // textDecoration: 'underline',
+                                  // cursor: 'not-allowed',
+                                  color: '#D8D8D8',
+                                }}
+                              >
+                                &gt;&gt;{i18n.t('Add_item')}
+                              </Text>
+                            )}
+                          </Cell>
+                        </TableWrapper>
+                      </View>
+                    </Table>
+                  </ScrollView>
+                </View>
+              </Cell>
+            </TableWrapper>
+            <TableWrapper>
+              <Cell style={{ paddingTop: 4, paddingRight: 4 }}>
+                <View
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'end',
+                    justifyContent: 'flex-end',
                   }}
                 >
                   {isSaveable && this._isAddContact() !== true && (
@@ -971,12 +1017,12 @@ export class PhonebookContactInfozInfoView extends React.Component {
                   >
                     {i18n.t('save')}
                   </Button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                </View>
+              </Cell>
+            </TableWrapper>
+          </View>
+        </Table>
+      </View>
     )
   }
 }
