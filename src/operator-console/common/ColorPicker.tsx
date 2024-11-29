@@ -1,4 +1,6 @@
 import type { ColorPickerProps } from 'react-native-wheel-color-picker'
-import ColorPicker from 'react-native-wheel-color-picker'
+import ColorPickerWheel from 'react-native-wheel-color-picker'
 
-export const PickerColor = (props: ColorPickerProps) => <ColorPicker />
+export const ColorPicker = (props: ColorPickerProps) => (
+  <ColorPickerWheel {...props} />
+)

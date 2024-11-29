@@ -1,7 +1,4 @@
-import {
-  MinusCircleOutlined,
-  PlusOutlined,
-} from '@ant-design/icons-react-native'
+import { IconOutline } from '@ant-design/icons-react-native'
 import { Button, Form, Input } from '@ant-design/react-native'
 import React from 'react'
 
@@ -40,7 +37,7 @@ export class ShortDialSettings extends React.Component {
                 >
                   <Input placeholder={i18n.t('dial')} />
                 </Form.Item>
-                <MinusCircleOutlined onPress={() => remove(name)} />
+                <IconOutline name='minus-circle' onPress={() => remove(name)} />
               </Space>
             ))}
             <Form.Item>
@@ -48,7 +45,7 @@ export class ShortDialSettings extends React.Component {
                 type='dashed'
                 onPress={() => add()}
                 block
-                icon={<PlusOutlined />}
+                icon={<IconOutline name='plus' />}
               >
                 {i18n.t('addField')}
               </Button>

@@ -1,8 +1,9 @@
 import { Form } from '@ant-design/react-native'
-import { Colorpicker } from 'antd-colorpicker'
-import { debounce } from 'lodash'
+import { cloneDeep, debounce } from 'lodash'
 import { Component, createRef } from 'react'
 
+import { AutoComplete } from '../common/AutoComplete'
+import { ColorPicker } from '../common/ColorPicker'
 import { Divider } from '../common/Divider'
 import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
@@ -26,7 +27,7 @@ export class NoteSettings extends Component<Props, State> {
     super(props)
     this.formRef = createRef()
     this.state = {
-      widget: window.structuredClone(this.props.widget),
+      widget: cloneDeep(this.props.widget),
       nameOptions: [],
     }
     this.onChangeDebounced = debounce(props.onChange, 250)
@@ -42,7 +43,7 @@ export class NoteSettings extends Component<Props, State> {
 
   componentDidUpdate(prevProps) {
     if (this.props.widgetIndex != prevProps.widgetIndex) {
-      const widget = window.structuredClone(this.props.widget)
+      const widget = cloneDeep(this.props.widget)
       this.setState({ widget }, () => {
         this.formRef.current.resetFields()
       })
@@ -84,7 +85,7 @@ export class NoteSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('bgColor')}
@@ -95,7 +96,7 @@ export class NoteSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Divider>{i18n.t('noteText_settings')}</Divider>
         <Form.Item
@@ -107,7 +108,7 @@ export class NoteSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('startBgColor')}
@@ -118,7 +119,7 @@ export class NoteSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('endBgColor')}
@@ -129,7 +130,7 @@ export class NoteSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
       </Form>
     )

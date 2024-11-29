@@ -1,7 +1,9 @@
 import { Form, Input } from '@ant-design/react-native'
-import { debounce } from 'lodash'
+import { cloneDeep, debounce } from 'lodash'
 import { Component, createRef } from 'react'
 
+import { ColorPicker } from '../common/ColorPicker'
+import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
 
 type Props = {
@@ -21,14 +23,14 @@ export class TextSettings extends Component<Props, State> {
     super(props)
     this.formRef = createRef()
     this.state = {
-      widget: window.structuredClone(this.props.widget),
+      widget: cloneDeep(this.props.widget),
     }
     this.onChangeDebounced = debounce(props.onChange, 250)
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.widgetIndex != prevProps.widgetIndex) {
-      const widget = window.structuredClone(this.props.widget)
+      const widget = cloneDeep(this.props.widget)
       this.setState({ widget }, () => {
         this.formRef.current.resetFields()
       })
@@ -58,7 +60,7 @@ export class TextSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('bgColor')}
@@ -69,7 +71,7 @@ export class TextSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('borderRadius')}
@@ -80,7 +82,7 @@ export class TextSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Input type='number' min='0' />
+          <InputNumber min={0} />
         </Form.Item>
       </Form>
     )

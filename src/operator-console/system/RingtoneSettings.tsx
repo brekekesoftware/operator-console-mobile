@@ -1,7 +1,4 @@
-import {
-  MinusCircleOutlined,
-  PlusOutlined,
-} from '@ant-design/icons-react-native'
+import { IconOutline } from '@ant-design/icons-react-native'
 import { Button, Form, Input } from '@ant-design/react-native'
 import React from 'react'
 
@@ -54,7 +51,7 @@ export class RingtoneSettings extends React.Component {
                     style={{ width: 600 }}
                   />
                 </Form.Item>
-                <MinusCircleOutlined onPress={() => remove(name)} />
+                <IconOutline name='minus-circle' onPress={() => remove(name)} />
               </Space>
             ))}
             <Form.Item>
@@ -62,7 +59,7 @@ export class RingtoneSettings extends React.Component {
                 type='dashed'
                 onClick={() => add()}
                 block
-                icon={<PlusOutlined />}
+                icon={<IconOutline name='plus' />}
               >
                 {i18n.t('addField')}
               </Button>

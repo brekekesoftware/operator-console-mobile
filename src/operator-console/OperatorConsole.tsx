@@ -23,7 +23,7 @@ import { PalPhoneClient } from './call/PalPhoneClient'
 import { PalRestApi } from './call/PalRestApi'
 import { WebphonePhoneClient } from './call/WebphonePhoneClient'
 import { Button } from './common/Button'
-import { PickerColor } from './common/ColorPicker'
+import { ColorPicker } from './common/ColorPicker'
 import { DropdownOverlay } from './common/DropdownOverlay'
 import { Empty } from './common/Empty'
 import { GridLines } from './common/GridLines'
@@ -963,12 +963,12 @@ const DEFAULT_SCREEN = {
   ],
 }
 const DEFAULT_SCREENS = [
-  window.structuredClone({ ...DEFAULT_SCREEN, widgets: DEFAULT_WIDGETS }),
-  window.structuredClone(DEFAULT_SCREEN),
-  window.structuredClone(DEFAULT_SCREEN),
+  cloneDeep({ ...DEFAULT_SCREEN, widgets: DEFAULT_WIDGETS }),
+  cloneDeep(DEFAULT_SCREEN),
+  cloneDeep(DEFAULT_SCREEN),
 ]
 
-const EMPTY_SCREENS = [window.structuredClone(DEFAULT_SCREEN)]
+const EMPTY_SCREENS = [cloneDeep(DEFAULT_SCREEN)]
 
 const INIT_STATE = {
   i18nReady: false,
@@ -1896,7 +1896,7 @@ export class BrekekeOperatorConsole extends React.Component<
                           {': '}
                           <DropdownOverlay
                             overlay={
-                              <PickerColor
+                              <ColorPicker
                                 color={this.state.editingScreenForeground}
                                 onColorChangeComplete={
                                   this.setEditingScreenForeground
@@ -1928,7 +1928,7 @@ export class BrekekeOperatorConsole extends React.Component<
                           {': '}
                           <DropdownOverlay
                             overlay={
-                              <PickerColor
+                              <ColorPicker
                                 color={this.state.editingScreenBackground}
                                 onColorChangeComplete={
                                   this.setEditingScreenBackground
@@ -2529,11 +2529,11 @@ export class BrekekeOperatorConsole extends React.Component<
     const { tabDatas, background, width, height, grid, foreground } =
       this.state.screens[this.state.currentScreenIndex]
 
-    const editingTabDatas = window.structuredClone(tabDatas)
+    const editingTabDatas = cloneDeep(tabDatas)
 
     // const currentTabData  = tabDatas[ this.state.currentScreenTabIndex ];
     // const widgets = currentTabData.widgetDatas;
-    // const editingWidgets = window.structuredClone(widgets || []);
+    // const editingWidgets = cloneDeep(widgets || []);
 
     this.setDisplayState(brOcDisplayStates.editingScreen, {
       //                editingWidgets: editingWidgets,
@@ -2718,7 +2718,7 @@ export class BrekekeOperatorConsole extends React.Component<
     // const tabData = tabDatas[ tabIndex ];
     // tabData.widgetDatas = this.state.editingWidgets;
 
-    const newTabDatas = window.structuredClone(this.state.editingTabDatas)
+    const newTabDatas = cloneDeep(this.state.editingTabDatas)
 
     const screens = [...this.state.screens]
     screens[this.state.currentScreenIndex] = {
@@ -2861,7 +2861,7 @@ export class BrekekeOperatorConsole extends React.Component<
     screens.splice(
       this.state.currentScreenIndex + 1,
       0,
-      window.structuredClone(screens[this.state.currentScreenIndex]),
+      cloneDeep(screens[this.state.currentScreenIndex]),
     )
     this.setState(
       { screens, currentScreenIndex: this.state.currentScreenIndex + 1 },
@@ -2875,7 +2875,7 @@ export class BrekekeOperatorConsole extends React.Component<
     screens.splice(
       this.state.currentScreenIndex + 1,
       0,
-      window.structuredClone(DEFAULT_SCREEN),
+      cloneDeep(DEFAULT_SCREEN),
     )
     this.setState(
       { screens, currentScreenIndex: this.state.currentScreenIndex + 1 },
@@ -2889,7 +2889,7 @@ export class BrekekeOperatorConsole extends React.Component<
     screens.splice(
       this.state.currentScreenIndex - 1,
       0,
-      window.structuredClone(DEFAULT_SCREEN),
+      cloneDeep(DEFAULT_SCREEN),
     )
     this.setState({ screens }, () => {
       this.syncUp()
@@ -2938,9 +2938,7 @@ export class BrekekeOperatorConsole extends React.Component<
     const offsetY = parseInt(ev.dataTransfer.getData('offset_y'))
 
     const screen = this.state.screens[this.state.currentScreenIndex]
-    const widget = window.structuredClone(
-      ToolboxWidgets[ev.dataTransfer.getData('index')],
-    )
+    const widget = cloneDeep(ToolboxWidgets[ev.dataTransfer.getData('index')])
     widget.x = ev.clientX - screenRect.left - offsetX
     widget.x -= widget.x % screen.grid
     widget.y = ev.clientY - screenRect.top - offsetY
@@ -3093,9 +3091,7 @@ export class BrekekeOperatorConsole extends React.Component<
   duplicateWidget = i => {
     const editingWidgetDatasOrg = this._getSelectingEditingWidgetDatas()
     const editingWidgets = [...editingWidgetDatasOrg]
-    const widget = window.structuredClone(
-      editingWidgets[this.state.selectingWidgetIndex],
-    )
+    const widget = cloneDeep(editingWidgets[this.state.selectingWidgetIndex])
     widget.x += 25
     widget.y += 25
     editingWidgets.splice(i + 1, 0, widget)
@@ -4670,7 +4666,7 @@ export class BrekekeOperatorConsole extends React.Component<
     this._PalRestApi.deinitPalRestApi()
 
     this.setState({
-      ...window.structuredClone(INIT_STATE),
+      ...cloneDeep(INIT_STATE),
       i18nReady: true,
       locale: this.state.locale,
     })

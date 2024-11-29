@@ -790,11 +790,7 @@ export const LineTable = props => {
           data={i18n.t('camponDest')}
         ></Cell>
       </TableWrapper>
-      <View
-        style={{
-          color: bodyFgColor,
-        }}
-      >
+      <View>
         {lineInfos.map((lineInfo, index) => (
           <LineTableRow
             key={index}

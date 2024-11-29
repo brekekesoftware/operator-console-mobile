@@ -1,3 +1,4 @@
+import { Tabs } from '@ant-design/react-native'
 import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core'
 import {
   arrayMove,
@@ -6,10 +7,10 @@ import {
   useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Tabs } from 'antd'
 import React from 'react'
-import GridLines from 'react-gridlines'
+import { ScrollView } from 'react-native'
 
+import { GridLines } from '../common/GridLines'
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
 
@@ -110,8 +111,7 @@ export const EditorTabFunctionComponent = props => {
     const tabChildren = (
       <GridLines
         data-broc-tab-id={tabId}
-        component='div'
-        className='editingGridLinesForTab'
+        style={{ width: '100%', height: '100%', position: 'relative' }}
         strokeWidth={2}
         cellWidth={editingScreenGrid * 10}
         cellWidth2={editingScreenGrid}
@@ -122,29 +122,21 @@ export const EditorTabFunctionComponent = props => {
           _onDragOver(ev)
         }}
         onDrop={ev => _onDrop(ev, editorPaneAsParent, tabData, tabId)}
-
-        // style={{width:"300px",height:"300px",position:"relative"}}
-        // height={"1000px"}
-        // style={{width:"auto"}}
-        //  style={{height:"100%"}}
-        // style={{overflow:"auto"}}
-        // style={{height:"100px",width:"100px"}}
-        // style={{overflow:"auto",position:"relative"}}
-        // style={{whiteSpace:"nowrap"}}
-        // style={{height:"auto",width:"auto"}}
       >
-        {widgetDataArray.map((widgetData, index) => {
-          const options = {
-            editorPane: editorPaneAsParent,
-            widgetData: widgetDataArray[index],
-            jsxKey: index,
-          }
-          const widgetJsx =
-            EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-              options,
-            )
-          return widgetJsx
-        })}
+        <ScrollView>
+          {widgetDataArray.map((widgetData, index) => {
+            const options = {
+              editorPane: editorPaneAsParent,
+              widgetData: widgetDataArray[index],
+              jsxKey: index,
+            }
+            const widgetJsx =
+              EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                options,
+              )
+            return widgetJsx
+          })}
+        </ScrollView>
       </GridLines>
     )
 
@@ -211,8 +203,8 @@ export const EditorTabFunctionComponent = props => {
   const css = props['css']
   const jsx = (
     <Tabs
-      style={css}
       data-br-container-id={paneId}
+      tabBarTextStyle={css}
       onMouseDown={ev => {
         ev.stopPropagation()
         // ev.preventDefault();
@@ -223,26 +215,25 @@ export const EditorTabFunctionComponent = props => {
       activeKey={activeKey}
       onChange={selectedKey => _onChangeByTabs(selectedKey)}
       onTabClick={(tabKey, mouseEvent) => {
-        mouseEvent.stopPropagation()
         _onTabClick(tabKey, mouseEvent, editorPaneAsParent)
       }}
       items={tabItems}
-      renderTabBar={(tabBarProps, DefaultTabBar) => (
-        <DndContext sensors={[sensor]} onDragEnd={onDragEnd}>
-          <SortableContext
-            items={tabItems.map(i => i.key)}
-            strategy={horizontalListSortingStrategy}
-          >
-            <DefaultTabBar {...tabBarProps}>
-              {node => (
-                <DraggableTabNode {...node.props} key={node.key}>
-                  {node}
-                </DraggableTabNode>
-              )}
-            </DefaultTabBar>
-          </SortableContext>
-        </DndContext>
-      )}
+      // renderTabBar={(tabBarProps, DefaultTabBar) => (
+      //   <DndContext sensors={[sensor]} onDragEnd={onDragEnd}>
+      //     <SortableContext
+      //       items={tabItems.map(i => i.key)}
+      //       strategy={horizontalListSortingStrategy}
+      //     >
+      //       <DefaultTabBar {...tabBarProps}>
+      //         {node => (
+      //           <DraggableTabNode {...node.props} key={node.key}>
+      //             {node}
+      //           </DraggableTabNode>
+      //         )}
+      //       </DefaultTabBar>
+      //     </SortableContext>
+      //   </DndContext>
+      // )}
     />
   )
   return jsx

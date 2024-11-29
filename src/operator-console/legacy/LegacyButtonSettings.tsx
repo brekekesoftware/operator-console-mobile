@@ -3,11 +3,11 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { Colorpicker } from 'antd-colorpicker'
-import { debounce } from 'lodash'
+import { cloneDeep, debounce } from 'lodash'
 import { Component, createRef } from 'react'
 import { Text } from 'react-native'
 
+import { ColorPicker } from '../common/ColorPicker'
 import { InputNumber } from '../common/InputNumber'
 import { Select, SelectOption } from '../common/Select'
 import { i18n } from '../i18n'
@@ -36,7 +36,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
     super(props)
     this.formRef = createRef()
     this.state = {
-      widget: window.structuredClone(this.props.widget),
+      widget: cloneDeep(this.props.widget),
     }
 
     const operatorConsoleAsParent = props.operatorConsoleAsParent
@@ -104,7 +104,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
 
   componentDidUpdate(prevProps) {
     if (this.props.widgetIndex != prevProps.widgetIndex) {
-      const widget = window.structuredClone(this.props.widget)
+      const widget = cloneDeep(this.props.widget)
       this.setState({ widget }, () => {
         this.formRef.current.resetFields()
       })
@@ -260,7 +260,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('bgColor')}
@@ -271,7 +271,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderColor')}
@@ -282,7 +282,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderRadius')}

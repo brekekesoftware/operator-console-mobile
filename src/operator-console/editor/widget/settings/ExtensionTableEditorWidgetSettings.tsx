@@ -1,6 +1,6 @@
-import { Colorpicker } from 'antd-colorpicker'
 import { Text } from 'react-native'
 
+import { ColorPicker } from '../../../common/ColorPicker'
 import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
@@ -85,10 +85,9 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
     const jsx = (
       <>
         <Text>{i18n.t('bgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getExtensiontableBgColor()}
-          onChange={color => this._onChangeExtensiontableBgColor(color)}
+        <ColorPicker
+          color={widgetData.getExtensiontableBgColor()}
+          onColorChange={color => this._onChangeExtensiontableBgColor(color)}
         />
         <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
@@ -97,10 +96,9 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeExtensiontableOuterBorderThickness(n)}
         />
         <Text>{i18n.t('outerBorderColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getExtensiontableOuterBorderColor()}
-          onChange={color =>
+        <ColorPicker
+          color={widgetData.getExtensiontableOuterBorderColor()}
+          onColorChange={color =>
             this._onChangeExtensiontableOuterBorderColor(color)
           }
         />
@@ -118,10 +116,11 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeExtensiontableHeaderFontSize(n)}
         />
         <Text>{i18n.t('fgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getExtensiontableHeaderFgColor()}
-          onChange={color => this._onChangeExtensiontableHeaderFgColor(color)}
+        <ColorPicker
+          color={widgetData.getExtensiontableHeaderFgColor()}
+          onColorChange={color =>
+            this._onChangeExtensiontableHeaderFgColor(color)
+          }
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -132,10 +131,9 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
           }
         />
         <Text>{i18n.t('rowUnderlineColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getExtensiontableHeaderRowUnderlineColor()}
-          onChange={color =>
+        <ColorPicker
+          color={widgetData.getExtensiontableHeaderRowUnderlineColor()}
+          onColorChange={color =>
             this._onChangeExtensiontableHeaderRowUnderlineColor(color)
           }
         />
@@ -147,10 +145,11 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeExtensiontableBodyFontSize(n)}
         />
         <Text>{i18n.t('fgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getExtensiontableBodyFgColor()}
-          onChange={color => this._onChangeExtensiontableBodyFgColor(color)}
+        <ColorPicker
+          color={widgetData.getExtensiontableBodyFgColor()}
+          onColorChange={color =>
+            this._onChangeExtensiontableBodyFgColor(color)
+          }
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -161,10 +160,9 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
           }
         />
         <Text>{i18n.t('rowUnderlineColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getExtensiontableBodyRowUnderlineColor()}
-          onChange={color =>
+        <ColorPicker
+          color={widgetData.getExtensiontableBodyRowUnderlineColor()}
+          onColorChange={color =>
             this._onChangeExtensiontableBodyRowUnderlineColor(color)
           }
         />

@@ -1,6 +1,6 @@
-import { Colorpicker } from 'antd-colorpicker'
 import { Text } from 'react-native'
 
+import { ColorPicker } from '../../../common/ColorPicker'
 import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
@@ -91,16 +91,14 @@ export class LegacyUccacEditorWidgetSettings extends EditorWidgetSettings {
     const jsx = (
       <>
         <Text>{i18n.t('fgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getUccacwidgetFgColor()}
-          onChange={color => this._onChangeUccacwidgetFgColor(color)}
+        <ColorPicker
+          color={widgetData.getUccacwidgetFgColor()}
+          onColorChange={color => this._onChangeUccacwidgetFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getUccacwidgetBgColor()}
-          onChange={color => this._onChangeUccacwidgetBgColor(color)}
+        <ColorPicker
+          color={widgetData.getUccacwidgetBgColor()}
+          onColorChange={color => this._onChangeUccacwidgetBgColor(color)}
         />
         <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber
@@ -134,10 +132,9 @@ export class LegacyUccacEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeInsideShadow_spread(n)}
         />
         <Text>{i18n.t('color')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getInsideShadow_color()}
-          onChange={color => this._onChangeInsideShadow_color(color)}
+        <ColorPicker
+          color={widgetData.getInsideShadow_color()}
+          onColorChange={color => this._onChangeInsideShadow_color(color)}
         />
         <Divider>{i18n.t('outsideShadow_settings')}</Divider>
         <Text>{i18n.t('horizontalOffset')}</Text>
@@ -165,10 +162,9 @@ export class LegacyUccacEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeOutsideShadow_spread(n)}
         />
         <Text>{i18n.t('color')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getOutsideShadow_color()}
-          onChange={color => this._onChangeOutsideShadow_color(color)}
+        <ColorPicker
+          color={widgetData.getOutsideShadow_color()}
+          onColorChange={color => this._onChangeOutsideShadow_color(color)}
         />
       </>
     )

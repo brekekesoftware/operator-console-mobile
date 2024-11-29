@@ -1,11 +1,10 @@
-import { ActivityIndicator } from '@ant-design/react-native'
+import { ActivityIndicator, Input } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import TextArea from 'antd/es/input/TextArea'
-import Empty from 'antd/lib/empty'
 import debounce from 'debounce'
 import { Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
+import { Empty } from '../../../common/Empty'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
@@ -204,7 +203,7 @@ export class NoteRuntimeWidget extends RuntimeWidget {
           {this.state.loading ? (
             <Empty image={null} description={<ActivityIndicator />} />
           ) : (
-            <TextArea
+            <Input.TextArea
               value={this.state.content}
               onChange={this._onContentChanged}
               onFocus={() => {
@@ -219,10 +218,10 @@ export class NoteRuntimeWidget extends RuntimeWidget {
               }}
               readOnly={this._readonly}
               maxLength={10000000}
-              style={{
-                fontSize: noteBodyFontSize,
-                color: noteTextForegroundColor,
-              }}
+              // style={{
+              //   fontSize: noteBodyFontSize,
+              //   color: noteTextForegroundColor,
+              // }}
             />
           )}
           {(this.state.error || this.state.saving) && (

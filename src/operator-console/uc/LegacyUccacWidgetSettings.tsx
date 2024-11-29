@@ -1,8 +1,9 @@
 import { Form } from '@ant-design/react-native'
-import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
+import { cloneDeep } from 'lodash'
 import React from 'react'
 
+import { ColorPicker } from '../common/ColorPicker'
 import { Divider } from '../common/Divider'
 import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
@@ -256,7 +257,7 @@ export class LegacyUccacWidgetSettings extends React.Component<Props> {
     //     });
 
     if (this.props.widgetIndex != prevProps.widgetIndex) {
-      const widget = window.structuredClone(this.props.widget)
+      const widget = cloneDeep(this.props.widget)
 
       this.setState({ widget }, () => {
         this.formRef.current.resetFields()
@@ -289,7 +290,7 @@ export class LegacyUccacWidgetSettings extends React.Component<Props> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('bgColor')}
@@ -300,7 +301,7 @@ export class LegacyUccacWidgetSettings extends React.Component<Props> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           key={key++}
@@ -373,7 +374,7 @@ export class LegacyUccacWidgetSettings extends React.Component<Props> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Divider>{i18n.t('outsideShadow_settings')}</Divider>
         <Form.Item
@@ -434,7 +435,7 @@ export class LegacyUccacWidgetSettings extends React.Component<Props> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
       </Form>
     )

@@ -5,7 +5,7 @@ import { Dimensions, Image, Text, View } from 'react-native'
 import logo from '../logo.png'
 
 import { Button } from '../common/Button'
-import { PickerColor } from '../common/ColorPicker'
+import { ColorPicker } from '../common/ColorPicker'
 import { DropdownOverlay } from '../common/DropdownOverlay'
 import { InputNumber } from '../common/InputNumber'
 import { Notification } from '../common/Notification'
@@ -452,7 +452,7 @@ export class EditScreenView extends React.Component<Props, State> {
               {': '}
               <DropdownOverlay
                 overlay={
-                  <PickerColor
+                  <ColorPicker
                     color={this._ScreenData.getScreenForegroundColor()}
                     onColorChangeComplete={this.setScreenForegroundColor}
                   />
@@ -481,7 +481,7 @@ export class EditScreenView extends React.Component<Props, State> {
               {': '}
               <DropdownOverlay
                 overlay={
-                  <PickerColor
+                  <ColorPicker
                     color={this._ScreenData.getScreenBackgroundColor()}
                     onColorChangeComplete={this.setScreenBackgroundColor}
                   />

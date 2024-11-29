@@ -2,8 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Component } from 'react'
 import { View } from 'react-native'
 
-import './phonebookContactInfozTelsView.css'
-
 import { Cell, Table, TableWrapper } from '../common/Table'
 import { WidgetButton } from '../common/WidgetButton'
 import { i18n } from '../i18n'

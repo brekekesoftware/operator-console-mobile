@@ -1,7 +1,7 @@
 import { Input } from '@ant-design/react-native'
-import { Colorpicker } from 'antd-colorpicker'
 import { Text } from 'react-native'
 
+import { ColorPicker } from '../../../common/ColorPicker'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -63,16 +63,14 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeTextFontSize(n)}
         />
         <Text>{i18n.t('fgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getTextFgColor()}
-          onChange={color => this._onChangeTextFgColor(color)}
+        <ColorPicker
+          color={widgetData.getTextFgColor()}
+          onColorChange={color => this._onChangeTextFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getTextBgColor()}
-          onChange={color => this._onChangeTextBgColor(color)}
+        <ColorPicker
+          color={widgetData.getTextBgColor()}
+          onColorChange={color => this._onChangeTextBgColor(color)}
         />
         <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber

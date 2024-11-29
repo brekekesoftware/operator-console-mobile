@@ -1,4 +1,4 @@
-import MoreOutlined from '@ant-design/icons/MoreOutlined'
+import { IconOutline } from '@ant-design/icons-react-native'
 import { ActivityIndicator, Form, Input } from '@ant-design/react-native'
 import { useRef, useState } from 'react'
 import type { TextStyle } from 'react-native'
@@ -211,7 +211,7 @@ export const DropDownMenu = ({ operatorConsole }) => {
         <Button
           style={{ position: 'absolute', top: 4, right: 4, zIndex: 15 }}
           shape='circle'
-          icon={<MoreOutlined />}
+          icon={<IconOutline name='more' />}
         ></Button>
       </DropdownMenu>
     </>

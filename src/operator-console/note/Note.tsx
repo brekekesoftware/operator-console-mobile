@@ -1,10 +1,10 @@
 import { ActivityIndicator } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { Empty } from 'antd'
 import { debounce } from 'lodash'
 import { Component } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 
+import { Empty } from '../common/Empty'
 import { Util } from '../Util'
 import { NoteGradient } from './NoteGradient'
 

@@ -1,8 +1,8 @@
 import { Form, Input } from '@ant-design/react-native'
-import { Colorpicker } from 'antd-colorpicker'
-import { debounce } from 'lodash'
+import { cloneDeep, debounce } from 'lodash'
 import { Component, createRef } from 'react'
 
+import { ColorPicker } from '../common/ColorPicker'
 import { i18n } from '../i18n'
 
 type Props = {
@@ -22,14 +22,14 @@ export class LegacyExtensionStatusSettings extends Component<Props, State> {
     super(props)
     this.formRef = createRef()
     this.state = {
-      widget: window.structuredClone(this.props.widget),
+      widget: cloneDeep(this.props.widget),
     }
     this.onChangeDebounced = debounce(props.onChange, 250)
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.widgetIndex != prevProps.widgetIndex) {
-      const widget = window.structuredClone(this.props.widget)
+      const widget = cloneDeep(this.props.widget)
       this.setState({ widget }, () => {
         this.formRef.current.resetFields()
       })
@@ -59,7 +59,7 @@ export class LegacyExtensionStatusSettings extends Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
       </Form>
     )

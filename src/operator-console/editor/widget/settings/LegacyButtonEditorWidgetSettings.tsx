@@ -2,9 +2,9 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { Colorpicker } from 'antd-colorpicker'
 import { Text } from 'react-native'
 
+import { ColorPicker } from '../../../common/ColorPicker'
 import { InputNumber } from '../../../common/InputNumber'
 import { Select, SelectOption } from '../../../common/Select'
 import { LegacyButtonWidgetSubData } from '../../../data/widgetData/legacyButtonWidgetSubData/LegacyButtonWidgetSubData'
@@ -246,22 +246,19 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeFontSize(n)}
         />
         <Text>{i18n.t('fgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getFgColor()}
-          onChange={color => this._onChangeFgColor(color)}
+        <ColorPicker
+          color={widgetData.getFgColor()}
+          onColorChange={color => this._onChangeFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getBgColor()}
-          onChange={color => this._onChangeBgColor(color)}
+        <ColorPicker
+          color={widgetData.getBgColor()}
+          onColorChange={color => this._onChangeBgColor(color)}
         />
         <Text>{i18n.t('outerBorderColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getOuterBorderColor()}
-          onChange={color => this._onChangeOuterBorderColor(color)}
+        <ColorPicker
+          color={widgetData.getOuterBorderColor()}
+          onColorChange={color => this._onChangeOuterBorderColor(color)}
         />
         <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber

@@ -1,6 +1,7 @@
-import GridLines from 'react-gridlines'
+import { ScrollView } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
+import { GridLines } from '../common/GridLines'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { WidgetData } from '../data/widgetData/WidgetData'
 import { EditorTabFunctionComponent } from './EditorTabFunctionComponent'
@@ -395,37 +396,30 @@ export class EditorPane extends BasePane {
             onDrop={ev => this._onDrop(ev)}
           >
             <GridLines
-              component='div'
-              className='editingGridLines'
+              style={{
+                width: '100%',
+                height: '100%',
+                position: 'relative',
+              }}
               strokeWidth={2}
               cellWidth={editingScreenGrid * 10}
               cellWidth2={editingScreenGrid}
               cellHeight={editingScreenGrid * 10}
               cellHeight2={editingScreenGrid}
-              // height={"100%"}
-              // width={"100%"}
-              // style={{width:"100%",height:"100%"}}
-              // style={{width:"300px",height:"300px",position:"relative"}}
-              // height={"1000px"}
-              // style={{width:"auto"}}
-              //  style={{height:"100%"}}
-              // style={{overflow:"auto"}}
-              // style={{height:"100px",width:"100px"}}
-              // style={{overflow:"auto",position:"relative"}}
-              // style={{whiteSpace:"nowrap"}}
-              // style={{height:"auto",width:"auto"}}
             >
-              {widgetDataArray.map((widgetData, index) => {
-                const widgetJsx =
-                  EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                    {
-                      editorPane: this,
-                      widgetData: widgetDataArray[index],
-                      jsxKey: index,
-                    },
-                  )
-                return widgetJsx
-              })}
+              <ScrollView>
+                {widgetDataArray.map((widgetData, index) => {
+                  const widgetJsx =
+                    EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                      {
+                        editorPane: this,
+                        widgetData: widgetDataArray[index],
+                        jsxKey: index,
+                      },
+                    )
+                  return widgetJsx
+                })}
+              </ScrollView>
             </GridLines>
           </div>
         )

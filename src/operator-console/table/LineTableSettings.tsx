@@ -1,9 +1,10 @@
 import { Form, Input } from '@ant-design/react-native'
-import { Colorpicker } from 'antd-colorpicker'
 import debounce from 'debounce'
+import { cloneDeep } from 'lodash'
 import React from 'react'
 import { Text, View } from 'react-native'
 
+import { ColorPicker } from '../common/ColorPicker'
 import { Divider } from '../common/Divider'
 import { InputNumber } from '../common/InputNumber'
 import { i18n } from '../i18n'
@@ -218,7 +219,7 @@ export class LineTableSettings extends React.Component<Props, State> {
     //     });
 
     if (this.props.widgetIndex != prevProps.widgetIndex) {
-      const widget = window.structuredClone(this.props.widget)
+      const widget = cloneDeep(this.props.widget)
 
       this.setState({ widget }, () => {
         this.formRef.current.resetFields()
@@ -295,7 +296,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
 
         <Form.Item
@@ -318,7 +319,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderRadius')}
@@ -341,7 +342,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
 
         <Form.Item
@@ -364,7 +365,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
 
         {/* <Form.Item label={i18n.t("bgColor")} name={`linetableHeaderBgColor`} rules={[*/}
@@ -372,7 +373,7 @@ export class LineTableSettings extends React.Component<Props, State> {
         {/*        required: false,*/}
         {/*    }*/}
         {/* ]}>*/}
-        {/*    <Colorpicker format="rgb" />*/}
+        {/*    <ColorPicker format="rgb" />*/}
         {/* </Form.Item>*/}
         <Divider>{i18n.t('body_settings')}</Divider>
         <Form.Item
@@ -384,7 +385,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
 
         <Form.Item
@@ -407,7 +408,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
 
         <Divider>{i18n.t('lineButtonSettings')}</Divider>
@@ -442,7 +443,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('bgColor')}
@@ -453,7 +454,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderColor')}
@@ -464,7 +465,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderRadius')}
@@ -522,7 +523,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('bgColor')}
@@ -533,7 +534,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderColor')}
@@ -544,7 +545,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderRadius')}
@@ -600,7 +601,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('bgColor')}
@@ -611,7 +612,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderColor')}
@@ -622,7 +623,7 @@ export class LineTableSettings extends React.Component<Props, State> {
             },
           ]}
         >
-          <Colorpicker format='rgb' />
+          <ColorPicker />
         </Form.Item>
         <Form.Item
           label={i18n.t('outerBorderRadius')}

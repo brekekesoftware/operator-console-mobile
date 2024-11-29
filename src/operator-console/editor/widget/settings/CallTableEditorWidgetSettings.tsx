@@ -1,6 +1,6 @@
-import { Colorpicker } from 'antd-colorpicker'
 import { Text } from 'react-native'
 
+import { ColorPicker } from '../../../common/ColorPicker'
 import { Divider } from '../../../common/Divider'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
@@ -109,10 +109,9 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
     const jsx = (
       <>
         <Text>{i18n.t('bgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getCalltableBgColor()}
-          onChange={color => this._onChangeCalltableBgColor(color)}
+        <ColorPicker
+          color={widgetData.getCalltableBgColor()}
+          onColorChange={color => this._onChangeCalltableBgColor(color)}
         />
         <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
@@ -121,10 +120,11 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeCalltableOuterBorderThickness(n)}
         />
         <Text>{i18n.t('outerBorderColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getCalltableOuterBorderColor()}
-          onChange={color => this._onChangeCalltableOuterBorderColor(color)}
+        <ColorPicker
+          color={widgetData.getCalltableOuterBorderColor()}
+          onColorChange={color =>
+            this._onChangeCalltableOuterBorderColor(color)
+          }
         />
         <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber
@@ -140,10 +140,9 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={size => this._onChangeCalltableHeaderFontSize(size)}
         />
         <Text>{i18n.t('fgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getCalltableHeaderFgColor()}
-          onChange={color => this._onChangeCalltableHeaderFgColor(color)}
+        <ColorPicker
+          color={widgetData.getCalltableHeaderFgColor()}
+          onColorChange={color => this._onChangeCalltableHeaderFgColor(color)}
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -152,10 +151,9 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeCalltableHeaderRowUnderlineThickness(n)}
         />
         <Text>{i18n.t('rowUnderlineColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getCalltableHeaderRowUnderlineColor()}
-          onChange={color =>
+        <ColorPicker
+          color={widgetData.getCalltableHeaderRowUnderlineColor()}
+          onColorChange={color =>
             this._onChangeCalltableHeaderRowUnderlineColor(color)
           }
         />
@@ -167,10 +165,9 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={size => this._onChangeCalltableBodyFontSize(size)}
         />
         <Text>{i18n.t('fgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getCalltableBodyFgColor()}
-          onChange={color => this._onChangeCalltableBodyFgColor(color)}
+        <ColorPicker
+          color={widgetData.getCalltableBodyFgColor()}
+          onColorChange={color => this._onChangeCalltableBodyFgColor(color)}
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -179,18 +176,18 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={n => this._onChangeCalltableBodyRowUnderlineThickness(n)}
         />
         <Text>{i18n.t('rowUnderlineColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getCalltableBodyRowUnderlineColor()}
-          onChange={color =>
+        <ColorPicker
+          color={widgetData.getCalltableBodyRowUnderlineColor()}
+          onColorChange={color =>
             this._onChangeCalltableBodyRowUnderlineColor(color)
           }
         />
         <Text>{i18n.t('activeRowBgColor')}</Text>
-        <Colorpicker
-          format='rgb'
-          value={widgetData.getCalltableBodyActiveRowBgColor()}
-          onChange={color => this._onChangeCalltableBodyActiveRowBgColor(color)}
+        <ColorPicker
+          color={widgetData.getCalltableBodyActiveRowBgColor()}
+          onColorChange={color =>
+            this._onChangeCalltableBodyActiveRowBgColor(color)
+          }
         />
         <Divider>{i18n.t('Active_button_settings')}</Divider>
         <Text>{i18n.t('Text_size')}</Text>
