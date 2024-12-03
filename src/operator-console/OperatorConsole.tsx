@@ -9,8 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { cloneDeep } from 'lodash'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Image, ScrollView, Text, View } from 'react-native'
-import { Rnd } from 'react-rnd'
+import { Dimensions, Image, ScrollView, Text, View } from 'react-native'
 
 import logo from './logo.png'
 
@@ -79,6 +78,8 @@ import { LegacyToggleMutedButton } from './legacy/LegacyToggleMutedButton'
 import { LegacyToggleRecordingButton } from './legacy/LegacyToggleRecordingButton'
 import { LegacyTransferButton } from './legacy/LegacyTransferButton'
 import { LegacyUnholdCallButton } from './legacy/LegacyUnholdCallButton'
+import { Draggable } from './lib/rnd/Draggable'
+import { Rnd } from './lib/rnd/Rnd'
 import { Login } from './login/Login'
 import { Note } from './note/Note'
 import { NotePreview } from './note/NotePreview'
@@ -1587,7 +1588,7 @@ export class BrekekeOperatorConsole extends React.Component<
     }
     const SeletingEditingWidgetSettings =
       WidgetSettingsMap[selectingEditingWidget?.type]
-    let selectingWidgetSettingsKey = 0
+    const selectingWidgetSettingsKey = 0
 
     const handleShowConfirmDeleteWidgetOk = () => {
       this.setState({ showConfirmDeleteWidget: false })
@@ -1620,22 +1621,23 @@ export class BrekekeOperatorConsole extends React.Component<
         const editingWidgetDatas = editingTabData.widgetDatas
         const editingTabJsx = (
           <Rnd
-            size={{
-              width: this.state.editingScreenWidth,
-              height: this.state.editingScreenHeight,
+            limitation={{
+              x: 0,
+              y: 0,
+              w: Dimensions.get('window').width,
+              h: Dimensions.get('window').height,
             }}
+            w={this.state.editingScreenWidth}
+            h={this.state.editingScreenHeight}
             style={{
-              border: 'solid 1px #E0E0E0',
-              background: this.state.editingScreenBackground,
-              color: this.state.editingScreenForeground,
+              borderStyle: 'solid',
+              borderColor: '#E0E0E0',
+              borderWidth: 1,
+              backgroundColor: this.state.editingScreenBackground,
+              // color: this.state.editingScreenForeground,
             }}
-            cancel='.brOCEditingWidget'
-            onResizeStop={(ev, dir, ref) => {
-              const style = window.getComputedStyle(ref)
-              this.setEditingScreenSize(
-                parseInt(style.width),
-                parseInt(style.height),
-              )
+            onResizeEnd={data => {
+              this.setEditingScreenSize(data.w, data.h)
             }}
           >
             <GridLines
@@ -1653,51 +1655,32 @@ export class BrekekeOperatorConsole extends React.Component<
                 }
                 return (
                   <Rnd
-                    key={i}
-                    className={clsx(
-                      'brOCEditingWidget',
-                      this.state.selectingWidgetIndex === i &&
-                        'brOCSelectingWidget',
-                    )}
-                    size={{ width: widget.width, height: widget.height }}
-                    position={{ x: widget.x, y: widget.y }}
-                    bounds='parent'
-                    dragGrid={[
-                      this.state.editingScreenGrid,
-                      this.state.editingScreenGrid,
-                    ]}
-                    resizeGrid={[
-                      this.state.editingScreenGrid,
-                      this.state.editingScreenGrid,
-                    ]}
-                    onMouseDown={e => {
-                      this.selectWidget(i)
-                      e.stopPropagation()
+                    limitation={{
+                      x: 0,
+                      y: 0,
+                      w: Dimensions.get('window').width,
+                      h: Dimensions.get('window').height,
                     }}
-                    onDragStop={(e, data) => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      this.onWidgetMoved(i, data.lastX, data.lastY)
+                    key={i}
+                    w={widget.width}
+                    h={widget.height}
+                    x={widget.x}
+                    y={widget.y}
+                    grid={[
+                      this.state.editingScreenGrid,
+                      this.state.editingScreenGrid,
+                    ]}
+                    onPress={e => {
+                      this.selectWidget(i)
+                      // e.stopPropagation()
+                    }}
+                    onDragEnd={([lastX, lastY]) => {
+                      this.onWidgetMoved(i, lastX, lastY)
                       this.makeWidgetOnTop(i)
                     }}
-                    onResize={e => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                    }}
-                    onResizeStart={e => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                    }}
-                    enableResizing={this.state.selectingWidgetIndex === i}
-                    onResizeStop={(e, dir, ref, delta, pos) => {
-                      const style = window.getComputedStyle(ref)
-                      this.onWidgetResized(
-                        i,
-                        pos.x,
-                        pos.y,
-                        parseInt(style.width),
-                        parseInt(style.height),
-                      )
+                    isDraggable={this.state.selectingWidgetIndex === i}
+                    onResizeEnd={data => {
+                      this.onWidgetResized(i, data.x, data.y, data.w, data.h)
                     }}
                   >
                     <Widget
@@ -1755,394 +1738,7 @@ export class BrekekeOperatorConsole extends React.Component<
               source={{ uri: logo }}
             />
             {this.state._downedLayoutAndSystemSettings ? (
-              this.state.displayState === brOcDisplayStates.editingScreen ? ( // editMode
-                <View
-                  style={{ display: 'flex', flexGrow: 1, overflow: 'hidden' }}
-                >
-                  <View
-                    style={{
-                      width: 240,
-                      borderColor: '#e0e0e0',
-                      borderStyle: 'solid',
-                      borderRightWidth: 1,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 12,
-                      padding: 12,
-                      paddingTop: 48,
-                      alignItems: 'center',
-                    }}
-                  >
-                    <ScrollView>
-                      {ToolboxWidgets.map((widget, i) => {
-                        const Preview = WidgetPreviewMap[widget.preview ?? '']
-                        if (Preview) {
-                          return (
-                            <View
-                              key={i}
-                              style={{
-                                width: widget.previewWidth || widget.width,
-                                height: widget.previewHeight || widget.height,
-                              }}
-                              draggable
-                              onDragStart={ev => this.onDragStart(ev, i)}
-                            >
-                              <Preview />
-                            </View>
-                          )
-                        }
-                        const Widget = WidgetMap[widget.type]
-                        if (!Widget) {
-                          return null
-                        }
-                        return (
-                          <View
-                            key={i}
-                            style={{
-                              width: widget.width,
-                              height: widget.height,
-                            }}
-                            draggable
-                            onDragStart={ev => this.onDragStart(ev, i)}
-                          >
-                            <Widget
-                              {...widget}
-                              operatorConsoleAsParent={this}
-                              uccacWrapper={this._UccacWrapper}
-                            />
-                          </View>
-                        )
-                      })}
-                    </ScrollView>
-                  </View>
-                  <View
-                    style={{
-                      flexGrow: 1,
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                    onDragOver={this.onDragOver}
-                    onDrop={this.onDrop}
-                  >
-                    <View
-                      style={{
-                        display: 'flex',
-                        padding: 4,
-                        borderColor: '#e0e0e0',
-                        borderStyle: 'solid',
-                        borderBottomWidth: 1,
-                      }}
-                    >
-                      <Space>
-                        <label>
-                          {i18n.t('width')}
-                          {': '}
-                          <InputNumber
-                            value={this.state.editingScreenWidth}
-                            // onPressEnter={e =>
-                            //   this.setEditingScreenSize(
-                            //     parseInt(e.target.value),
-                            //     this.state.editingScreenHeight,
-                            //   )
-                            // }
-                            onStep={v =>
-                              this.setEditingScreenSize(
-                                v,
-                                this.state.editingScreenHeight,
-                              )
-                            }
-                          />
-                        </label>
-                        <label>
-                          {i18n.t('height')}
-                          {': '}
-                          <InputNumber
-                            value={this.state.editingScreenHeight}
-                            // onPressEnter={e =>
-                            //   this.setEditingScreenSize(
-                            //     this.state.editingScreenWidth,
-                            //     parseInt(e.target.value),
-                            //   )
-                            // }
-                            onStep={v =>
-                              this.setEditingScreenSize(
-                                this.state.editingScreenWidth,
-                                v,
-                              )
-                            }
-                          />
-                        </label>
-                        <label>
-                          {i18n.t('grid')}
-                          {': '}
-                          <InputNumber
-                            value={this.state.editingScreenGrid}
-                            // onPressEnter={e =>
-                            //   this.setEditingScreenGrid(
-                            //     parseInt(e.target.value),
-                            //   )
-                            // }
-                            onStep={v => this.setEditingScreenGrid(v)}
-                          />
-                        </label>
-                        <label
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            whiteSpace: 'pre',
-                          }}
-                        >
-                          {i18n.t('foreground')}
-                          {': '}
-                          <DropdownOverlay
-                            overlay={
-                              <ColorPicker
-                                color={this.state.editingScreenForeground}
-                                onColorChangeComplete={
-                                  this.setEditingScreenForeground
-                                }
-                              />
-                            }
-                          >
-                            <View
-                              style={{
-                                width: 48,
-                                height: 30,
-                                borderColor: '#e0e0e0',
-                                borderStyle: 'solid',
-                                borderWidth: 1,
-                                backgroundColor:
-                                  this.state.editingScreenForeground,
-                              }}
-                            />
-                          </DropdownOverlay>
-                        </label>
-                        <label
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            whiteSpace: 'pre',
-                          }}
-                        >
-                          {i18n.t('background')}
-                          {': '}
-                          <DropdownOverlay
-                            overlay={
-                              <ColorPicker
-                                color={this.state.editingScreenBackground}
-                                onColorChangeComplete={
-                                  this.setEditingScreenBackground
-                                }
-                              />
-                            }
-                          >
-                            <View
-                              style={{
-                                width: 48,
-                                height: 30,
-                                borderColor: '#e0e0e0',
-                                borderWidth: 1,
-                                borderStyle: 'solid',
-                                backgroundColor:
-                                  this.state.editingScreenBackground,
-                              }}
-                            />
-                          </DropdownOverlay>
-                        </label>
-                      </Space>
-                      <View style={{ marginLeft: 'auto' }}>
-                        <Space>
-                          <Popconfirm
-                            title={i18n.t('are_you_sure')}
-                            onConfirm={this.abortEditingScreen}
-                            okText={i18n.t('yes')}
-                            cancelText={i18n.t('no')}
-                          >
-                            <Button type='secondary'>
-                              {i18n.t('discard')}
-                            </Button>
-                          </Popconfirm>
-                          <Space />
-                          <Button
-                            type='success'
-                            onPress={this.saveEditingScreen}
-                          >
-                            {i18n.t('save')}
-                          </Button>
-                        </Space>
-                      </View>
-                    </View>
-                    <View style={{ display: 'flex', flexGrow: 1 }}>
-                      <View
-                        style={{
-                          position: 'relative',
-                          flexGrow: 1,
-                          overflow: 'hidden',
-                          backgroundColor: '#f5f5f5',
-                        }}
-                      >
-                        <Tabs
-                          activeKey={tabsActiveKey}
-                          items={editingTabItems}
-                          onTabClick={key => this._onEditingTabClick(key)}
-                        />
-                      </View>
-                      <View
-                        style={{
-                          width: 262,
-                          borderColor: '#e0e0e0',
-                          borderStyle: 'solid',
-                          borderLeftWidth: 1,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: 12,
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {!!selectingEditingWidget?.type && (
-                          <View
-                            style={{
-                              paddingTop: 12,
-                              paddingRight: 12,
-                              paddingLeft: 12,
-                            }}
-                          >
-                            {i18n.t(
-                              `widget_description.${selectingEditingWidget?.type}`,
-                            )}
-                          </View>
-                        )}
-                        <View
-                          style={{
-                            flexGrow: 1,
-                            height: 0,
-                            paddingLeft: 12,
-                            paddingRight: 12,
-                          }}
-                        >
-                          <ScrollView>
-                            {!!SeletingEditingWidgetSettings && (
-                              <SeletingEditingWidgetSettings
-                                key={selectingWidgetSettingsKey++}
-                                widgetIndex={this.state.selectingWidgetIndex}
-                                widget={{ ...selectingEditingWidget }}
-                                onChange={this.updateSelectingWidgetSettings}
-                                // getNoteNames={this.getNoteNames}
-                                operatorConsoleAsParent={this}
-                              />
-                            )}
-                            {this.state.isSelectingTabInEditLayout === true && (
-                              <Form
-                                id='tabFormInEditMode'
-                                layout='vertical'
-                                initialValues={{
-                                  tabTitle: editingTabData.tabTitle,
-                                }}
-                              >
-                                <Form.Item
-                                  label={i18n.t('tabTitle')}
-                                  name='tabTitle'
-                                >
-                                  <Input maxLength={30} />
-                                </Form.Item>
-                              </Form>
-                            )}
-                          </ScrollView>
-                        </View>
-                        {this.state.selectingWidgetIndex !== -1 && (
-                          <View
-                            style={{
-                              paddingBottom: 12,
-                              paddingRight: 12,
-                              paddingLeft: 12,
-                            }}
-                          >
-                            <Button
-                              type='secondary'
-                              onPress={() =>
-                                this.duplicateWidget(
-                                  this.state.selectingWidgetIndex,
-                                )
-                              }
-                            >
-                              {i18n.t('duplicate')}
-                            </Button>
-                            <Popconfirm
-                              title={i18n.t('are_you_sure')}
-                              onConfirm={() =>
-                                this.onWidgetRemoved(
-                                  this.state.selectingWidgetIndex,
-                                )
-                              }
-                              okText={i18n.t('yes')}
-                              cancelText={i18n.t('no')}
-                            >
-                              <Button type='warning'>{i18n.t('remove')}</Button>
-                            </Popconfirm>
-                            <Modal
-                              title={i18n.t('ConfirmDeleteWidgetTitle')}
-                              open={this.state.showConfirmDeleteWidget}
-                              onOk={handleShowConfirmDeleteWidgetOk}
-                              onCancel={handleShowConfirmDeleteWidgetCancel}
-                            >
-                              {i18n.t('ConfirmDeleteWidgetText')}
-                            </Modal>
-                          </View>
-                        )}
-                        {this.state.isSelectingTabInEditLayout === true && (
-                          <View
-                            style={{
-                              paddingBottom: 12,
-                              paddingRight: 12,
-                              paddingLeft: 12,
-                            }}
-                          >
-                            <Button
-                              type='secondary'
-                              onPress={() => this.changeTabTitleInEditMode()}
-                            >
-                              {i18n.t('changeTitle')}
-                            </Button>
-                            <Button
-                              type='secondary'
-                              onPress={() => this.addTabInEditMode()}
-                            >
-                              {i18n.t('add@AddTabButton')}
-                            </Button>
-                            <Button
-                              type='secondary'
-                              onPress={() => this.duplicateTabInEditMode()}
-                            >
-                              {i18n.t('duplicate')}
-                            </Button>{' '}
-                            <Popconfirm
-                              title={i18n.t('are_you_sure')}
-                              onConfirm={() =>
-                                this.removeTabInEditMode(
-                                  this.state.currentScreenTabIndex,
-                                )
-                              }
-                              okText={i18n.t('yes')}
-                              cancelText={i18n.t('no')}
-                            >
-                              <Button type='warning'>{i18n.t('remove')}</Button>
-                            </Popconfirm>
-                            <Modal
-                              title={i18n.t('ConfirmDeleteTabTitle')}
-                              open={this.state.showConfirmDeleteTab}
-                              onOk={handleShowConfirmDeleteTabOk}
-                              onCancel={handleShowConfirmDeleteTabCancel}
-                            >
-                              <Text>{i18n.t('ConfirmDeleteTabText')}</Text>
-                            </Modal>
-                          </View>
-                        )}
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              ) : this.state.displayState ===
-                brOcDisplayStates.waitQuickCallKey ? (
+              this.state.displayState === brOcDisplayStates.waitQuickCallKey ? (
                 <>
                   <View
                     style={{
@@ -2525,29 +2121,6 @@ export class BrekekeOperatorConsole extends React.Component<
     this.setDisplayState(brOcDisplayStates.editingScreen_ver2)
   }
 
-  startEditingScreen = () => {
-    const { tabDatas, background, width, height, grid, foreground } =
-      this.state.screens[this.state.currentScreenIndex]
-
-    const editingTabDatas = cloneDeep(tabDatas)
-
-    // const currentTabData  = tabDatas[ this.state.currentScreenTabIndex ];
-    // const widgets = currentTabData.widgetDatas;
-    // const editingWidgets = cloneDeep(widgets || []);
-
-    this.setDisplayState(brOcDisplayStates.editingScreen, {
-      //                editingWidgets: editingWidgets,
-      editingTabDatas,
-      editingScreenBackground: background || '#ffffff00',
-      editingScreenForeground: foreground || '#000000',
-      editingScreenWidth: width || 800,
-      editingScreenHeight: height || 600,
-      editingScreenGrid: grid || 10,
-      isSelectingTabInEditLayout: true,
-      selectingWidgetIndex: -1,
-    })
-  }
-
   startShowScreen = () => {
     this.setDisplayState(brOcDisplayStates.showScreen)
   }
@@ -2914,53 +2487,6 @@ export class BrekekeOperatorConsole extends React.Component<
     this.setState({ screens }, () => {
       this.syncUp()
     })
-  }
-
-  onDragStart = (ev, i) => {
-    console.log('onDragStart', ev)
-    // ev.preventDefault();
-    ev.dataTransfer.clearData()
-    ev.dataTransfer.setData('index', i + '')
-    const itemRect = ev.target.getBoundingClientRect()
-    ev.dataTransfer.setData('offset_x', ev.clientX - itemRect.left)
-    ev.dataTransfer.setData('offset_y', ev.clientY - itemRect.top)
-  }
-  onDragOver = ev => {
-    ev.preventDefault()
-  }
-  onDrop = ev => {
-    console.log('onDrop', ev)
-    ev.preventDefault()
-    ev.stopPropagation()
-
-    const screenRect = ev.target.getBoundingClientRect()
-    const offsetX = parseInt(ev.dataTransfer.getData('offset_x'))
-    const offsetY = parseInt(ev.dataTransfer.getData('offset_y'))
-
-    const screen = this.state.screens[this.state.currentScreenIndex]
-    const widget = cloneDeep(ToolboxWidgets[ev.dataTransfer.getData('index')])
-    widget.x = ev.clientX - screenRect.left - offsetX
-    widget.x -= widget.x % screen.grid
-    widget.y = ev.clientY - screenRect.top - offsetY
-    widget.y -= widget.y % screen.grid
-
-    const editingTabDatas = this.state.editingTabDatas
-    const editingTabData = editingTabDatas[this.state.currentScreenTabIndex]
-    const editingWidgetDatas = editingTabData.widgetDatas
-    const newEditingWidgetDatas = [...editingWidgetDatas, widget]
-
-    editingTabData.widgetDatas = newEditingWidgetDatas
-    editingTabDatas[this.state.currentScreenTabIndex] = editingTabData // !optimize no need.
-
-    this.setState({
-      editingTabDatas,
-    })
-    // this.selectWidget(this.state.editingWidgets.length);
-
-    // const selectingTabData = this._getSelectingEditingTabData();
-    // const newEditingWidgets = [ ...selectingTabData.widgetDatas, widget ];
-    // selectingTabData.widgetDatas = newEditingWidgets;
-    // this.setState({ editingTabDatas : this.state.editingTabDatas });
   }
 
   _getSelectingEditingTabData() {

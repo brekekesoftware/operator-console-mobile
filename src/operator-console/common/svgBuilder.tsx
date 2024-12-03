@@ -54,7 +54,7 @@ const SIZES = {
   TABLOID: [792.0, 1224.0],
 }
 
-export function getPageSize(formatName = '', orientation = 'portrait') {
+export const getPageSize = (formatName = '', orientation = 'portrait') => {
   const f = formatName.toUpperCase()
   if (!SIZES[f]) {
     return null
@@ -87,7 +87,7 @@ const buildLine = (
   let cell = isVertical
     ? `<line x1='${offset}' y1='0' x2='${offset}' y2='${size}'`
     : `<line x1='0' y1='${offset}' x2='${size}' y2='${offset}'`
-  cell += ` style='stroke:${lineColor};stroke-width:${strokeWidth};stroke-dasharray="${dashArray}"' />`
+  cell += ` stroke="${lineColor}" stroke-width="${strokeWidth}" stroke-dasharray="${dashArray}" />`
   return cell
 }
 const buildCell = (w, h, lineColor, strokeWidth, dashArray) =>
@@ -142,7 +142,5 @@ export const buildGridSvg = (
   const svgW = page ? page.width : w
   const svgH = page ? page.height : h
   var svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${svgW}' height='${svgH}'>${pat}</svg>`
-  //   var svg64 = Base64.encode(svg); //window.btoa(svg);
-  //   var s = `url('data:image/svg+xml;base64,${svg64}')`;
   return <SvgXml xml={svg} width='100%' height='100%' />
 }

@@ -38,7 +38,7 @@ export const GridLines = React.forwardRef((props: GridLinesProps, ref) => {
     lineColor2 = '#ddd',
     strokeWidth2 = 1,
     dashArray2 = '0',
-    format,
+    format = 'A0',
     orientation,
     children,
     ...rest
@@ -88,11 +88,12 @@ export const GridLines = React.forwardRef((props: GridLinesProps, ref) => {
       style={[
         style,
         {
-          backgroundImage: bg,
+          zIndex: -1,
         },
       ]}
       {...rest}
     >
+      {bg}
       {children}
     </ComponentProp>
   )

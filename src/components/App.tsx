@@ -19,6 +19,7 @@ import SplashScreen from 'react-native-splash-screen'
 import { sip } from '../api/sip'
 import { SyncPnToken } from '../api/syncPnToken'
 import { getWebRootIdProps } from '../embed/polyfill'
+import { TestRnd } from '../operator-console/lib/rnd/TestRnd'
 import { BrekekeOperatorConsole } from '../operator-console/OperatorConsole'
 import { RenderAllCalls } from '../pages/PageCallManage'
 import { PageCustomPageView } from '../pages/PageCustomPageView'
@@ -344,7 +345,8 @@ export const App = observer(() => {
         </View>
       )}
       <View style={css.App_Inner}>
-        <BrekekeOperatorConsole />
+        {/* <BrekekeOperatorConsole /> */}
+        <TestRnd />
       </View>
     </View>
   )
