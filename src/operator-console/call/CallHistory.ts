@@ -1,3 +1,4 @@
+import { RnAsyncStorage } from '../../components/Rn'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
 const _CallHistory_LOCAL_STORAGE_KEY_PREFIX =
@@ -33,7 +34,7 @@ export class CallHistory {
   }
 
   clearAndSave() {
-    window.localStorage.removeItem(this._LocalstorageKey)
+    RnAsyncStorage.removeItem(this._LocalstorageKey)
     this._clear()
   }
 
@@ -48,7 +49,7 @@ export class CallHistory {
   }
 
   load() {
-    const sCallNos = window.localStorage.getItem(this._LocalstorageKey)
+    const sCallNos = RnAsyncStorage.getItem(this._LocalstorageKey)
     if (!sCallNos) {
       this._clear()
       console.log('CallHistory loaded. Call history is empty.')
@@ -188,7 +189,7 @@ export class CallHistory {
       sCallNos = sCallNos.substring(0, sCallNos.length - 1)
     }
 
-    window.localStorage.setItem(this._LocalstorageKey, sCallNos)
+    RnAsyncStorage.setItem(this._LocalstorageKey, sCallNos)
   }
 
   addCallNoAndSave(callNo) {

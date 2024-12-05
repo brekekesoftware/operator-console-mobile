@@ -2,7 +2,9 @@
 // !ref https://docs.brekeke.com/pbx/pal-rest-api-sample-1
 const RELOGIN_RETRY_COUNT = 2
 export class PalRestApi {
-  _palRestApiToken
+  _palRestApiToken: null | string = ''
+  _palRestApiBaseUrlPrefix: string | null = ''
+  _initPalRestApiFetchOptions
   constructor() {}
 
   initPalRestApi(options) {
@@ -27,6 +29,10 @@ export class PalRestApi {
       login_user: options.username,
       login_password: options.password,
     }
+    console.log(
+      '#Duy Phan console initPalRestApiOptions',
+      initPalRestApiOptions,
+    )
     const failFunc = options.onInitFailFunction
     const successFunc = options.onInitSuccessFunction
 
@@ -43,19 +49,24 @@ export class PalRestApi {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify(initPalRestApiOptions),
-    }
+    } as any
     const fetchPromise = fetch(
       initPalRestApiBaseUrlPrefix + 'login',
       initPalRestApiFetchOptions,
     )
     fetchPromise
-      .then(response => {
-        const json = response.json()
+      .then(async response => {
+        console.log('#Duy Phan console 123123222', response)
+        const json = await response.clone().json()
+        console.log('#Duy Phan console 123123', json)
         return json
       })
       .then(json => {
+        const d = JSON.parse(json)
+        console.log('#Duy Phan console d', d)
         const token = json.token
         if (!token || token.length === 0) {
           const err = new Error(
@@ -169,7 +180,7 @@ export class PalRestApi {
               newOptions['retryCount'] = retryCount - 1
               this._reloginAsync(newOptions)
                 .then(() => {
-                  resolve()
+                  resolve(true)
                 })
                 .catch(err => {
                   reject(err)
@@ -177,7 +188,7 @@ export class PalRestApi {
             }
           } else {
             this._palRestApiToken = token
-            resolve()
+            resolve(false)
           }
         })
         .catch(err => {
@@ -226,7 +237,7 @@ export class PalRestApi {
         Authorization: 'basic ' + this._palRestApiToken,
       },
       body: methodParams,
-    }
+    } as any
     const this_ = this
     let successError
     fetch(this._palRestApiBaseUrlPrefix + methodName, fetchOptions)
@@ -320,7 +331,7 @@ export class PalRestApi {
         Authorization: 'basic ' + this._palRestApiToken,
       },
       body: methodParams,
-    }
+    } as any
     const this_ = this
     const promise = new Promise((resolve, reject) => {
       fetch(this._palRestApiBaseUrlPrefix + methodName, fetchOptions)

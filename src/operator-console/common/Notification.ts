@@ -7,8 +7,20 @@ export const Notification = {
   info: ({ message, duration }: { message: string; duration?: number }) => {
     Toast.info(message, duration)
   },
-  error: ({ message, duration }: { message: string; duration?: number }) => {
-    Toast.fail(message, duration)
+  error: ({
+    message,
+    duration,
+    content,
+  }: {
+    message: string
+    duration?: number
+    content?: React.ReactNode
+  }) => {
+    if (content) {
+      Toast.fail({ content }, duration)
+    } else {
+      Toast.fail(message, duration)
+    }
   },
   warning: ({ message, duration }: { message: string; duration?: number }) => {
     Toast.show(

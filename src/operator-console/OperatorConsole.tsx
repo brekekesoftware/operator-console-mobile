@@ -1,5 +1,3 @@
-import './lib/PalWrapper'
-
 import { ActivityIndicator, Form, Input, Tabs } from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -13,6 +11,7 @@ import { Dimensions, Image, ScrollView, Text, View } from 'react-native'
 
 import logo from './logo.png'
 
+import { RnAsyncStorage } from '../components/Rn'
 import { ACallInfo } from './call/ACallInfo'
 import { CallHistory } from './call/CallHistory'
 import { CallHistory2 } from './call/CallHistory2'
@@ -78,6 +77,7 @@ import { LegacyToggleMutedButton } from './legacy/LegacyToggleMutedButton'
 import { LegacyToggleRecordingButton } from './legacy/LegacyToggleRecordingButton'
 import { LegacyTransferButton } from './legacy/LegacyTransferButton'
 import { LegacyUnholdCallButton } from './legacy/LegacyUnholdCallButton'
+import { PalWrapper } from './lib/PalWrapper'
 import { Draggable } from './lib/rnd/Draggable'
 import { Rnd } from './lib/rnd/Rnd'
 import { Login } from './login/Login'
@@ -260,7 +260,8 @@ export const getIconJsx = (icon, label) => {
       alt = icon
     }
     const src = icon.substring(5, icon.length) // 5 is path:
-    iconJsx = <Image source={{ uri: src }} style={{ width: 32, height: 32 }} />
+    // iconJsx = <Image source={{ uri: src || undefined }} style={{ width: 32, height: 32 }} />
+    iconJsx = <></>
   } else {
     iconJsx = <FontAwesomeIcon size={20} icon={icon} />
   }
@@ -1064,7 +1065,7 @@ export class BrekekeOperatorConsole extends React.Component<
   static TAB_TITLE_MAX_LENGTH
   static PAL_NOTE_USERACCESSES
   static DTMF_CHARS
-  _DefaultPbxDirectoryName: string
+  _DefaultPbxDirectoryName: string = 'pbx'
   _disableKeydownToDialingCounter: number
   _disablePasteToDialingCounter: number
   _isDTMFInput: boolean
@@ -1118,7 +1119,7 @@ export class BrekekeOperatorConsole extends React.Component<
     this._OnBeginSaveEditingScreenFunctions = []
     this._Campon = new Campon(this)
     this._ExtensionsStatus = new ExtensionsStatus(this)
-    this._UccacWrapper = new UccacWrapper(this)
+    // this._UccacWrapper = new UccacWrapper(this)
     this._BrekekeOperatorConsoleEx = new BrekekeOperatorConsoleEx(this)
 
     this._OnAddCallInfoEventListeners = new Array()
@@ -1133,17 +1134,9 @@ export class BrekekeOperatorConsole extends React.Component<
 
     this._LoginPalWrapper = new PalWrapper()
 
-    this._RootURLString = Util.getRootUrlString()
+    // this._RootURLString = Util.getRootUrlString()
     this._DefaultButtonImageFileInfos = new FileInfosLoader()
-    this._OnBeforeUnloadFunc = event => {
-      this._onBeforeUnload(event)
-    }
-    this._OnUnloadFunc = event => {
-      this._onUnload(event)
-    }
-    window.addEventListener('unload', this._OnUnloadFunc)
     this._defaultSystemSettingsData = new SystemSettingsData(this)
-    console.log('#Duy Phan console s')
   }
 
   static get BREKEKE_OPERATOR_CONSOLE_VERSION() {
@@ -1390,19 +1383,20 @@ export class BrekekeOperatorConsole extends React.Component<
 
     i18n.onChange(() => {
       if (i18n.locale !== this.state.locale) {
-        this.setState({ i18nReady: false, locale: i18n.locale }, () => {
-          loadTranslations(i18n.locale)
-            .then(() => {
-              this.setState({ i18nReady: true })
-            })
-            .catch(e => {
-              console.error('Load translations failed. error=', e)
-              Notification.error({
-                message: 'Load translations failed.',
-                duration: 0,
-              })
-            })
-        })
+        // this.setState({ i18nReady: false, locale: i18n.locale }, () => {
+        //   loadTranslations(i18n.locale)
+        //     .then(() => {
+        //       this.setState({ i18nReady: true })
+        //     })
+        //     .catch(e => {
+        //       console.error('Load translations failed. error=', e)
+        //       Notification.error({
+        //         message: 'Load translations failed.',
+        //         duration: 0,
+        //       })
+        //     })
+        // })
+        this.setState({ i18nReady: true })
       }
     })
     i18n.defaultLocale = ''
@@ -1502,7 +1496,7 @@ export class BrekekeOperatorConsole extends React.Component<
 
   _getLastLayoutShortname() {
     const key = this._getLastLayoutLocalstorageKeyName()
-    const shortName = window.localStorage.getItem(key)
+    const shortName = RnAsyncStorage.getItem(key)
     return shortName
   }
 
@@ -1521,13 +1515,13 @@ export class BrekekeOperatorConsole extends React.Component<
 
   setLastLayoutShortname(shortName) {
     const key = this._getLastLayoutLocalstorageKeyName()
-    window.localStorage.setItem(key, shortName)
+    RnAsyncStorage.setItem(key, shortName)
     this.setState({ lastLayoutShortname: shortName })
   }
 
   _removeLastLayoutShortname() {
     const key = this._getLastLayoutLocalstorageKeyName()
-    window.localStorage.removeItem(key)
+    RnAsyncStorage.removeItem(key)
   }
 
   getLastLayoutShortname() {
@@ -1634,7 +1628,6 @@ export class BrekekeOperatorConsole extends React.Component<
               borderColor: '#E0E0E0',
               borderWidth: 1,
               backgroundColor: this.state.editingScreenBackground,
-              // color: this.state.editingScreenForeground,
             }}
             onResizeEnd={data => {
               this.setEditingScreenSize(data.w, data.h)
@@ -1685,6 +1678,7 @@ export class BrekekeOperatorConsole extends React.Component<
                   >
                     <Widget
                       {...widget}
+                      color={this.state.editingScreenForeground}
                       operatorConsoleAsParent={this}
                       uccacWrapper={this._UccacWrapper}
                     />
@@ -1721,366 +1715,386 @@ export class BrekekeOperatorConsole extends React.Component<
         ></EditScreenView>
       )
     }
+    console.log(
+      '#Duy Phan console this.state.isInitialized',
+      this.state.isInitialized,
+    )
 
     return (
-      <>
-        {!!this.state.isInitialized ? (
-          <View
-            style={{
-              flexGrow: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden',
-            }}
-          >
-            <Image
-              style={{ position: 'absolute', top: 4, left: 4, zIndex: 1 }}
-              source={{ uri: logo }}
-            />
-            {this.state._downedLayoutAndSystemSettings ? (
-              this.state.displayState === brOcDisplayStates.waitQuickCallKey ? (
-                <>
-                  <View
-                    style={{
-                      flexGrow: 1,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      overflow: 'hidden',
-                      backgroundColor:
-                        this.state.screens[this.state.currentScreenIndex]
-                          .background,
-                      color:
-                        this.state.screens[this.state.currentScreenIndex]
-                          .foreground,
-                    }}
-                  >
-                    {this.state.screens.map((screen, screenIndex) => {
-                      const tabItems = new Array(screen.tabDatas.length)
-                      for (let i = 0; i < tabItems.length; i++) {
-                        const tabData = screen.tabDatas[i]
-                        const tabTitle = tabData.tabTitle
-                        let tabJsx
-                        if (
-                          !tabData.widgetDatas ||
-                          tabData.widgetDatas.length === 0
-                        ) {
-                          tabJsx = (
-                            <Empty
-                              image={null}
-                              description={i18n.t('no_widgets')}
-                            />
-                          )
-                        } else {
-                          tabJsx = tabData.widgetDatas.map((widgetData, i) => {
-                            const Widget = WidgetMap[widgetData.type]
-                            if (!Widget) {
-                              return null
-                            }
-                            return (
-                              <View
-                                key={i}
-                                style={{
-                                  position: 'absolute',
-                                  left: widgetData.x,
-                                  top: widgetData.y,
-                                  width: widgetData.width,
-                                  height: widgetData.height,
-                                }}
-                                onMouseMove={e => e.stopPropagation()}
-                              >
-                                <Widget
-                                  {...widgetData}
-                                  operatorConsoleAsParent={this}
-                                  uccacWrapper={this._UccacWrapper}
-                                  context={{
-                                    loginUser: this.state.loginUser,
-                                    currentCallIndex:
-                                      this._getCurrentCallIndex(),
-                                    // callIds: this._callIds,
-                                    // callById: this.callById,
-                                    dialing: this.state.dialing,
-                                    extensions: this.state.extensions,
-                                    extensionsStatus:
-                                      this.state.extensionsStatus,
-                                    linesStatus: this.state.linesStatus,
-                                    parksStatus: this.state.parksStatus,
-                                    myParksStatus: this.state.myParksStatus,
-                                    usingLine: this.state.usingLine,
-                                    autoRejectIncoming:
-                                      this.state.autoRejectIncoming,
-                                    monitoringExtension:
-                                      this.state.monitoringExtension,
-                                    switchCallUp: this.switchCallUp,
-                                    switchCallDown: this.switchCallDown,
-                                    switchCallIndex: this.switchCallIndex,
-                                    monitorDialingExtension:
-                                      this.monitorDialingExtension,
-                                    joinConversation: this.joinConversation,
-                                    appendKeypadValue: this.appendKeypadValue,
-                                    setDialingAndMakeCall:
-                                      this.setDialingAndMakeCall,
-                                    backspaceKeypadValue:
-                                      this.backspaceKeypadValue,
-                                    toggleCallRecording:
-                                      this.toggleCallRecording,
-                                    toggleCallMuted: this.toggleCallMuted,
-                                    toggleAutoRejectIncoming:
-                                      this.toggleAutoRejectIncoming,
-                                    resumeCall: this.resumeCall,
-                                    holdCall: this.holdCall,
-                                    hangUpCall: this.hangUpCall,
-                                    answerCall: this.answerCall,
-                                    sendDTMFIfNeed: this.sendDTMFIfNeed,
-                                    makeCall: this.makeCall,
-                                    transferCall: this.transferCall,
-                                    handleLine: this.handleLine,
-                                    handlePark: this.handlePark,
-                                    // getNote: this.getNote,
-                                    // setNote: this.setNote,
-                                    toggleQuickCallScreen:
-                                      this.toggleQuickCallScreen,
-                                    onClickAutoDial: this.onClickAutoDial,
-                                    currentScreenQuickCallWidget:
-                                      this.state.currentScreenQuickCallWidget,
-                                    widget: widgetData,
-                                    showAutoDialWidgets:
-                                      this.state.showAutoDialWidgets,
-                                    operatorConsole: this,
-                                  }}
-                                />
-                              </View>
-                            )
-                          })
-                        }
-                        const key = i.toString()
-                        const tabItem = {
-                          key,
-                          label: tabTitle,
-                          children: tabJsx,
-                        }
-                        tabItems[i] = tabItem
-                      }
-
-                      return (
-                        <View key={screenIndex}>
-                          <View
-                            style={{
-                              position: 'relative',
-                              width: screen.width,
-                              height: screen.height,
-                              margin: 'auto',
-                              marginTop: 48,
-                            }}
-                          >
-                            <Tabs
-                              activeKey={tabsActiveKey}
-                              items={tabItems}
-                              onTabClick={key =>
-                                this._onShowScreenTabClick(key)
-                              }
-                            />
-                          </View>
-                        </View>
-                      )
-                    })}
-                    {/* </Carousel>*/}
-                  </View>
-                  <DropDownMenu operatorConsole={this}></DropDownMenu>
-                </>
-              ) : this.state.displayState ===
-                brOcDisplayStates.systemSettingsView ? (
-                <SystemSettingsView operatorConsole={this} />
-              ) : this.state.displayState ===
-                brOcDisplayStates.showScreen_ver2 ? (
-                <ShowScreenView_ver2 operatorConsoleAsParent={this} />
-              ) : (
-                <>
-                  <View
-                    style={{
-                      flexGrow: 1,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      overflow: 'hidden',
-                      backgroundColor:
-                        this.state.screens[this.state.currentScreenIndex]
-                          .background,
-                      color:
-                        this.state.screens[this.state.currentScreenIndex]
-                          .foreground,
-                    }}
-                  >
-                    {this.state.screens.map((screen, screenIndex) => {
-                      const tabItems = new Array(screen.tabDatas.length)
-                      for (let i = 0; i < tabItems.length; i++) {
-                        const tabData = screen.tabDatas[i]
-                        const tabTitle = tabData.tabTitle
-                        let tabJsx
-                        if (
-                          !tabData.widgetDatas ||
-                          tabData.widgetDatas.length === 0
-                        ) {
-                          tabJsx = (
-                            <Empty
-                              image={null}
-                              description={i18n.t('no_widgets')}
-                            />
-                          )
-                        } else {
-                          tabJsx = tabData.widgetDatas.map((widgetData, i) => {
-                            const Widget = WidgetMap[widgetData.type]
-                            if (!Widget) {
-                              return null
-                            }
-                            return (
-                              <View
-                                key={i}
-                                style={{
-                                  position: 'absolute',
-                                  left: widgetData.x,
-                                  top: widgetData.y,
-                                  width: widgetData.width,
-                                  height: widgetData.height,
-                                }}
-                                onMouseMove={e => e.stopPropagation()}
-                              >
-                                <Widget
-                                  {...widgetData}
-                                  widgetIndex={i}
-                                  operatorConsoleAsParent={this}
-                                  uccacWrapper={this._UccacWrapper}
-                                  context={{
-                                    loginUser: this.state.loginUser,
-                                    currentCallIndex:
-                                      this._getCurrentCallIndex(),
-                                    // callIds: this._callIds,
-                                    // callById: this.callById,
-                                    dialing: this.state.dialing,
-                                    extensions: this.state.extensions,
-                                    extensionsStatus:
-                                      this.state.extensionsStatus,
-                                    linesStatus: this.state.linesStatus,
-                                    parksStatus: this.state.parksStatus,
-                                    myParksStatus: this.state.myParksStatus,
-                                    usingLine: this.state.usingLine,
-                                    autoRejectIncoming:
-                                      this.state.autoRejectIncoming,
-                                    monitoringExtension:
-                                      this.state.monitoringExtension,
-                                    switchCallUp: this.switchCallUp,
-                                    switchCallDown: this.switchCallDown,
-                                    switchCallIndex: this.switchCallIndex,
-                                    monitorDialingExtension:
-                                      this.monitorDialingExtension,
-                                    joinConversation: this.joinConversation,
-                                    appendKeypadValue: this.appendKeypadValue,
-                                    setDialingAndMakeCall:
-                                      this.setDialingAndMakeCall,
-                                    backspaceKeypadValue:
-                                      this.backspaceKeypadValue,
-                                    toggleCallRecording:
-                                      this.toggleCallRecording,
-                                    toggleCallMuted: this.toggleCallMuted,
-                                    toggleAutoRejectIncoming:
-                                      this.toggleAutoRejectIncoming,
-                                    resumeCall: this.resumeCall,
-                                    holdCall: this.holdCall,
-                                    hangUpCall: this.hangUpCall,
-                                    answerCall: this.answerCall,
-                                    sendDTMFIfNeed: this.sendDTMFIfNeed,
-                                    makeCall: this.makeCall,
-                                    transferCall: this.transferCall,
-                                    handleLine: this.handleLine,
-                                    handlePark: this.handlePark,
-                                    // getNote: this.getNote,
-                                    // setNote: this.setNote,
-                                    toggleQuickCallScreen:
-                                      this.toggleQuickCallScreen,
-                                    currentScreenQuickCallWidget:
-                                      this.state.currentScreenQuickCallWidget,
-                                    onClickAutoDial: this.onClickAutoDial,
-                                    widget: widgetData,
-                                    makeCallWithShortDial:
-                                      this.makeCallWithShortDial,
-                                    showAutoDialWidgets:
-                                      this.state.showAutoDialWidgets,
-                                    operatorConsole: this,
-                                  }}
-                                />
-                              </View>
-                            )
-                          })
-                        }
-                        const tabItem = {
-                          key: i.toString(),
-                          label: tabTitle,
-                          children: tabJsx,
-                        }
-                        tabItems[i] = tabItem
-                      }
-
-                      return (
-                        <View key={screenIndex}>
-                          <View
-                            style={{
-                              position: 'relative',
-                              width: screen.width,
-                              height: screen.height,
-                              margin: 'auto',
-                              marginTop: 48,
-                            }}
-                          >
-                            <Tabs
-                              activeKey={tabsActiveKey}
-                              items={tabItems}
-                              onTabClick={key =>
-                                this._onShowScreenTabClick(key)
-                              }
-                            />
-                          </View>
-                        </View>
-                      )
-                    })}
-                  </View>
-                  <DropDownMenu operatorConsole={this}></DropDownMenu>
-                </>
-              )
-            ) : this.state.displayState === brOcDisplayStates.noScreens ? (
-              <NoScreensView operatorConsoleAsParent={this} />
-            ) : (
-              <Empty image={null} description={<ActivityIndicator />} />
-            )}
-          </View>
-        ) : (
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#fafafa',
-            }}
-          >
-            <Login
-              operatorConsoleAsParent={this}
-              initialValues={this._getLastLoginAccount()}
-            />
-          </View>
-        )}
-
-        <View id='brOCPhone'></View>
-      </>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#fafafa',
+        }}
+      >
+        <Login
+          operatorConsoleAsParent={this}
+          initialValues={this._getLastLoginAccount()}
+        />
+      </View>
     )
+
+    // return (
+    //   <>
+    //     {!!this.state.isInitialized ? (
+    //       <View
+    //         style={{
+    //           flexGrow: 1,
+    //           display: 'flex',
+    //           flexDirection: 'column',
+    //           overflow: 'hidden',
+    //         }}
+    //       >
+    //         {/* <Image
+    //           style={{ position: 'absolute', top: 4, left: 4, zIndex: 1 }}
+    //           source={{ uri: logo }}
+    //         /> */}
+    //         {this.state._downedLayoutAndSystemSettings ? (
+    //           this.state.displayState === brOcDisplayStates.waitQuickCallKey ? (
+    //             <>
+    //               <View
+    //                 style={{
+    //                   flexGrow: 1,
+    //                   display: 'flex',
+    //                   flexDirection: 'column',
+    //                   overflow: 'hidden',
+    //                   backgroundColor:
+    //                     this.state.screens[this.state.currentScreenIndex]
+    //                       .background,
+    //                   // color:
+    //                   //   this.state.screens[this.state.currentScreenIndex]
+    //                   //     .foreground,
+    //                 }}
+    //               >
+    //                 {this.state.screens.map((screen, screenIndex) => {
+    //                   const tabItems = new Array(screen.tabDatas.length)
+    //                   for (let i = 0; i < tabItems.length; i++) {
+    //                     const tabData = screen.tabDatas[i]
+    //                     const tabTitle = tabData.tabTitle
+    //                     let tabJsx
+    //                     if (
+    //                       !tabData.widgetDatas ||
+    //                       tabData.widgetDatas.length === 0
+    //                     ) {
+    //                       tabJsx = (
+    //                         <Empty
+    //                           image={null}
+    //                           description={i18n.t('no_widgets')}
+    //                         />
+    //                       )
+    //                     } else {
+    //                       tabJsx = tabData.widgetDatas.map((widgetData, i) => {
+    //                         const Widget = WidgetMap[widgetData.type]
+    //                         if (!Widget) {
+    //                           return null
+    //                         }
+    //                         return (
+    //                           <View
+    //                             key={i}
+    //                             style={{
+    //                               position: 'absolute',
+    //                               left: widgetData.x,
+    //                               top: widgetData.y,
+    //                               width: widgetData.width,
+    //                               height: widgetData.height,
+    //                             }}
+    //                           >
+    //                             <Widget
+    //                               {...widgetData}
+    //                               operatorConsoleAsParent={this}
+    //                               uccacWrapper={this._UccacWrapper}
+    //                               context={{
+    //                                 loginUser: this.state.loginUser,
+    //                                 currentCallIndex:
+    //                                   this._getCurrentCallIndex(),
+    //                                 // callIds: this._callIds,
+    //                                 // callById: this.callById,
+    //                                 dialing: this.state.dialing,
+    //                                 extensions: this.state.extensions,
+    //                                 extensionsStatus:
+    //                                   this.state.extensionsStatus,
+    //                                 linesStatus: this.state.linesStatus,
+    //                                 parksStatus: this.state.parksStatus,
+    //                                 myParksStatus: this.state.myParksStatus,
+    //                                 usingLine: this.state.usingLine,
+    //                                 autoRejectIncoming:
+    //                                   this.state.autoRejectIncoming,
+    //                                 monitoringExtension:
+    //                                   this.state.monitoringExtension,
+    //                                 switchCallUp: this.switchCallUp,
+    //                                 switchCallDown: this.switchCallDown,
+    //                                 switchCallIndex: this.switchCallIndex,
+    //                                 monitorDialingExtension:
+    //                                   this.monitorDialingExtension,
+    //                                 joinConversation: this.joinConversation,
+    //                                 appendKeypadValue: this.appendKeypadValue,
+    //                                 setDialingAndMakeCall:
+    //                                   this.setDialingAndMakeCall,
+    //                                 backspaceKeypadValue:
+    //                                   this.backspaceKeypadValue,
+    //                                 toggleCallRecording:
+    //                                   this.toggleCallRecording,
+    //                                 toggleCallMuted: this.toggleCallMuted,
+    //                                 toggleAutoRejectIncoming:
+    //                                   this.toggleAutoRejectIncoming,
+    //                                 resumeCall: this.resumeCall,
+    //                                 holdCall: this.holdCall,
+    //                                 hangUpCall: this.hangUpCall,
+    //                                 answerCall: this.answerCall,
+    //                                 sendDTMFIfNeed: this.sendDTMFIfNeed,
+    //                                 makeCall: this.makeCall,
+    //                                 transferCall: this.transferCall,
+    //                                 handleLine: this.handleLine,
+    //                                 handlePark: this.handlePark,
+    //                                 // getNote: this.getNote,
+    //                                 // setNote: this.setNote,
+    //                                 toggleQuickCallScreen:
+    //                                   this.toggleQuickCallScreen,
+    //                                 onClickAutoDial: this.onClickAutoDial,
+    //                                 currentScreenQuickCallWidget:
+    //                                   this.state.currentScreenQuickCallWidget,
+    //                                 widget: widgetData,
+    //                                 showAutoDialWidgets:
+    //                                   this.state.showAutoDialWidgets,
+    //                                 operatorConsole: this,
+    //                               }}
+    //                             />
+    //                           </View>
+    //                         )
+    //                       })
+    //                     }
+    //                     const key = i.toString()
+    //                     const tabItem = {
+    //                       key,
+    //                       label: tabTitle,
+    //                       children: tabJsx,
+    //                     }
+    //                     tabItems[i] = tabItem
+    //                   }
+
+    //                   return (
+    //                     <View key={screenIndex}>
+    //                       <View
+    //                         style={{
+    //                           position: 'relative',
+    //                           width: screen.width,
+    //                           height: screen.height,
+    //                           margin: 'auto',
+    //                           marginTop: 48,
+    //                         }}
+    //                       >
+    //                         {/* <Tabs
+    //                           activeKey={tabsActiveKey}
+    //                           items={tabItems}
+    //                           onTabClick={key =>
+    //                             this._onShowScreenTabClick(key)
+    //                           }
+    //                         /> */}
+    //                       </View>
+    //                     </View>
+    //                   )
+    //                 })}
+    //                 {/* </Carousel>*/}
+    //               </View>
+    //               <DropDownMenu operatorConsole={this}></DropDownMenu>
+    //             </>
+    //           ) : this.state.displayState ===
+    //             brOcDisplayStates.systemSettingsView ? (
+    //             <SystemSettingsView operatorConsole={this} />
+    //           ) : this.state.displayState ===
+    //             brOcDisplayStates.showScreen_ver2 ? (
+    //             <ShowScreenView_ver2 operatorConsoleAsParent={this} />
+    //           ) : (
+    //             <>
+    //               <View
+    //                 style={{
+    //                   flexGrow: 1,
+    //                   display: 'flex',
+    //                   flexDirection: 'column',
+    //                   overflow: 'hidden',
+    //                   backgroundColor:
+    //                     this.state.screens[this.state.currentScreenIndex]
+    //                       .background,
+    //                   // color:
+    //                   //   this.state.screens[this.state.currentScreenIndex]
+    //                   //     .foreground,
+    //                 }}
+    //               >
+    //                 {this.state.screens.map((screen, screenIndex) => {
+    //                   const tabItems = new Array(screen.tabDatas.length)
+    //                   for (let i = 0; i < tabItems.length; i++) {
+    //                     const tabData = screen.tabDatas[i]
+    //                     const tabTitle = tabData.tabTitle
+    //                     let tabJsx
+    //                     if (
+    //                       !tabData.widgetDatas ||
+    //                       tabData.widgetDatas.length === 0
+    //                     ) {
+    //                       tabJsx = (
+    //                         <Empty
+    //                           image={null}
+    //                           description={i18n.t('no_widgets')}
+    //                         />
+    //                       )
+    //                     } else {
+    //                       tabJsx = tabData.widgetDatas.map((widgetData, i) => {
+    //                         const Widget = WidgetMap[widgetData.type]
+    //                         if (!Widget) {
+    //                           return null
+    //                         }
+    //                         return (
+    //                           <View
+    //                             key={i}
+    //                             style={{
+    //                               position: 'absolute',
+    //                               left: widgetData.x,
+    //                               top: widgetData.y,
+    //                               width: widgetData.width,
+    //                               height: widgetData.height,
+    //                             }}
+    //                           >
+    //                             <Widget
+    //                               {...widgetData}
+    //                               widgetIndex={i}
+    //                               operatorConsoleAsParent={this}
+    //                               uccacWrapper={this._UccacWrapper}
+    //                               context={{
+    //                                 loginUser: this.state.loginUser,
+    //                                 currentCallIndex:
+    //                                   this._getCurrentCallIndex(),
+    //                                 // callIds: this._callIds,
+    //                                 // callById: this.callById,
+    //                                 dialing: this.state.dialing,
+    //                                 extensions: this.state.extensions,
+    //                                 extensionsStatus:
+    //                                   this.state.extensionsStatus,
+    //                                 linesStatus: this.state.linesStatus,
+    //                                 parksStatus: this.state.parksStatus,
+    //                                 myParksStatus: this.state.myParksStatus,
+    //                                 usingLine: this.state.usingLine,
+    //                                 autoRejectIncoming:
+    //                                   this.state.autoRejectIncoming,
+    //                                 monitoringExtension:
+    //                                   this.state.monitoringExtension,
+    //                                 switchCallUp: this.switchCallUp,
+    //                                 switchCallDown: this.switchCallDown,
+    //                                 switchCallIndex: this.switchCallIndex,
+    //                                 monitorDialingExtension:
+    //                                   this.monitorDialingExtension,
+    //                                 joinConversation: this.joinConversation,
+    //                                 appendKeypadValue: this.appendKeypadValue,
+    //                                 setDialingAndMakeCall:
+    //                                   this.setDialingAndMakeCall,
+    //                                 backspaceKeypadValue:
+    //                                   this.backspaceKeypadValue,
+    //                                 toggleCallRecording:
+    //                                   this.toggleCallRecording,
+    //                                 toggleCallMuted: this.toggleCallMuted,
+    //                                 toggleAutoRejectIncoming:
+    //                                   this.toggleAutoRejectIncoming,
+    //                                 resumeCall: this.resumeCall,
+    //                                 holdCall: this.holdCall,
+    //                                 hangUpCall: this.hangUpCall,
+    //                                 answerCall: this.answerCall,
+    //                                 sendDTMFIfNeed: this.sendDTMFIfNeed,
+    //                                 makeCall: this.makeCall,
+    //                                 transferCall: this.transferCall,
+    //                                 handleLine: this.handleLine,
+    //                                 handlePark: this.handlePark,
+    //                                 // getNote: this.getNote,
+    //                                 // setNote: this.setNote,
+    //                                 toggleQuickCallScreen:
+    //                                   this.toggleQuickCallScreen,
+    //                                 currentScreenQuickCallWidget:
+    //                                   this.state.currentScreenQuickCallWidget,
+    //                                 onClickAutoDial: this.onClickAutoDial,
+    //                                 widget: widgetData,
+    //                                 makeCallWithShortDial:
+    //                                   this.makeCallWithShortDial,
+    //                                 showAutoDialWidgets:
+    //                                   this.state.showAutoDialWidgets,
+    //                                 operatorConsole: this,
+    //                               }}
+    //                             />
+    //                           </View>
+    //                         )
+    //                       })
+    //                     }
+    //                     const tabItem = {
+    //                       key: i.toString(),
+    //                       label: tabTitle,
+    //                       children: tabJsx,
+    //                     }
+    //                     tabItems[i] = tabItem
+    //                   }
+
+    //                   return (
+    //                     <View key={screenIndex}>
+    //                       <View
+    //                         style={{
+    //                           position: 'relative',
+    //                           width: screen.width,
+    //                           height: screen.height,
+    //                           margin: 'auto',
+    //                           marginTop: 48,
+    //                         }}
+    //                       >
+    //                         <Tabs
+    //                           // activeKey={tabsActiveKey}
+    //                           tabs={tabItems}
+    //                           onTabClick={key =>
+    //                             this._onShowScreenTabClick(key)
+    //                           }
+    //                         />
+    //                       </View>
+    //                     </View>
+    //                   )
+    //                 })}
+    //               </View>
+    //               <DropDownMenu operatorConsole={this}></DropDownMenu>
+    //             </>
+    //           )
+    //         ) : this.state.displayState === brOcDisplayStates.noScreens ? (
+    //           <NoScreensView operatorConsoleAsParent={this} />
+    //         ) : (
+    //           <Empty image={null} description={<ActivityIndicator />} />
+    //         )}
+    //       </View>
+    //     ) : (
+    //       <View
+    //         style={{
+    //           justifyContent: 'center',
+    //           alignItems: 'center',
+    //           width: '100%',
+    //           height: '100%',
+    //           backgroundColor: '#fafafa',
+    //         }}
+    //       >
+    //         <Login
+    //           operatorConsoleAsParent={this}
+    //           initialValues={this._getLastLoginAccount()}
+    //         />
+    //       </View>
+    //     )}
+
+    //     <View id='brOCPhone'></View>
+    //   </>
+    // )
   }
 
   setLastLoginAccount(lastLoginAccount) {
     this.setState({ lastLoginAccount })
   }
 
-  _getLastLoginAccount() {
-    const sLastLoginAccount = localStorage.getItem('lastLoginAccount')
+  async _getLastLoginAccount() {
+    const sLastLoginAccount = await RnAsyncStorage.getItem('lastLoginAccount')
     if (sLastLoginAccount) {
       try {
         const lastLoginAccount = JSON.parse(sLastLoginAccount)
+        console.log('#Duy Phan console lastLoginAccount', lastLoginAccount)
 
         if (
           !lastLoginAccount['pbxDirectoryName'] ||
@@ -2247,34 +2261,6 @@ export class BrekekeOperatorConsole extends React.Component<
     return tabData
   }
 
-  changeTabTitleInEditMode() {
-    const form = document.getElementById('tabFormInEditMode')
-    const eTabTitle = form.tabTitle
-    let tabTitle = eTabTitle.value.trim()
-    if (tabTitle.length === 0) {
-      Notification.warning({ message: i18n.t('tabTitleIsEmpty') })
-      return
-    }
-    tabTitle = this._getEditingNewTabTitle(
-      tabTitle,
-      this._getSelectingEditingTabData(),
-    )
-    if (tabTitle === null) {
-      Notification.warning({ message: i18n.t('tabTitleIsTooLong.') })
-      return
-    }
-
-    const tabData = this._getSelectingEditingTabData()
-    tabData.tabTitle = tabTitle
-    this.setState({ editingTabDatas: this.state.editingTabDatas })
-  }
-
-  // _onKeydownTabTitleInEditMode( ev ){
-  //     const form = document.getElementById("tabFormInEditMode");
-  //     const tabTitle = form.tabTitle.value;
-  //     this._previousTabTitleInEditMode = tabTitle;
-  // }
-
   saveEditingScreen = () => {
     for (let i = 0; i < this._OnBeginSaveEditingScreenFunctions.length; i++) {
       const cantSaveMessage = this._OnBeginSaveEditingScreenFunctions[i](this)
@@ -2378,17 +2364,20 @@ export class BrekekeOperatorConsole extends React.Component<
         console.error('Failed to save data to PBX.', errorOrResponse)
         Notification.error({
           message: i18n.t('failed_to_save_data_to_pbx'),
-          btn: (
-            <Button
-              type='primary'
-              size='small'
-              onPress={() => {
-                this._syncUp()
-                // Notification.close('sync');
-              }}
-            >
-              {i18n.t('retry')}
-            </Button>
+          content: (
+            <>
+              <Text>{i18n.t('failed_to_save_data_to_pbx')}</Text>
+              <Button
+                type='primary'
+                size='small'
+                onPress={() => {
+                  this._syncUp()
+                  // Notification.close('sync');
+                }}
+              >
+                {i18n.t('retry')}
+              </Button>
+            </>
           ),
           duration: 0,
         })
@@ -2674,31 +2663,6 @@ export class BrekekeOperatorConsole extends React.Component<
     this.setState({ editingTabDatas })
   }
 
-  addTabInEditMode() {
-    const form = document.getElementById('tabFormInEditMode')
-    let newTabTitle = form.tabTitle.value.trim()
-    if (newTabTitle.length === 0) {
-      Notification.warning({ message: i18n.t('tabTitleIsEmpty') })
-      return
-    }
-
-    newTabTitle = this._getEditingNewTabTitle(newTabTitle)
-    if (newTabTitle === null) {
-      Notification.warning({ message: i18n.t('tabTitleIsTooLong.') })
-      return
-    }
-
-    const editingTabDatas = this.state.editingTabDatas
-    const newTabData = {
-      tabTitle: newTabTitle,
-      widgetDatas: new Array(),
-    }
-
-    const insertIndex = this.state.currentScreenTabIndex
-    editingTabDatas.splice(insertIndex, 0, newTabData)
-    this.setState({ editingTabDatas })
-  }
-
   selectWidget = i => {
     if (
       i !== this.state.selectingWidgetIndex &&
@@ -2706,30 +2670,10 @@ export class BrekekeOperatorConsole extends React.Component<
     ) {
     }
 
-    if (this._onKeydownAtEditingScreenFunc) {
-      window.removeEventListener('keydown', this._onKeydownAtEditingScreenFunc)
-      this._onKeydownAtEditingScreenFunc = null
-    }
-
-    if (i !== -1) {
-      this._onKeydownAtEditingScreenFunc = ev =>
-        this._onKeydownAtEditingScreen(ev)
-      window.addEventListener('keydown', this._onKeydownAtEditingScreenFunc)
-    }
-
     this.setState({
       selectingWidgetIndex: i,
       isSelectingTabInEditLayout: false,
     })
-  }
-
-  _onKeydownAtEditingScreen(ev) {
-    if (this.state.displayState !== brOcDisplayStates.editingScreen) {
-      // not editing
-      window.removeEventListener('keydown', this._onKeydownAtEditingScreenFunc)
-      this._onKeydownAtEditingScreenFunc = null
-      return
-    }
   }
 
   makeWidgetOnTop = i => {
@@ -4037,7 +3981,6 @@ export class BrekekeOperatorConsole extends React.Component<
     isAdmin,
     language,
   ) {
-    window.addEventListener('beforeunload', this._OnBeforeUnloadFunc)
     this._loggedinPal = loggedinPal
     i18n.locale = isValidLocale(language) ? language : DEFAULT_LOCALE
     const this_ = this
@@ -4177,10 +4120,6 @@ export class BrekekeOperatorConsole extends React.Component<
   logout = () => {
     this._CallHistory2.onBeginLogoutForCallHistory2(this)
     this._Campon.onBeginLogout(this)
-    window.removeEventListener('beforeunload', this._OnBeforeUnloadFunc)
-    if (this._OnUnloadFunc) {
-      window.removeEventListener('unload', this._OnUnloadFunc)
-    }
 
     this._deinitAphoneClient()
 
@@ -4238,26 +4177,27 @@ export class BrekekeOperatorConsole extends React.Component<
       }),
       onSuccessFunction: res => {
         Notification.success({
-          key: 'sync',
           message: i18n.t('saved_data_to_pbx_successfully'),
         })
       },
       onFailFunction: errorOrResponse => {
         console.error(errorOrResponse)
         Notification.error({
-          key: 'sync',
           message: i18n.t('failed_to_save_data_to_pbx'),
-          btn: (
-            <Button
-              type='primary'
-              size='small'
-              onPress={() => {
-                this.syncUp()
-                Notification.destroy('sync')
-              }}
-            >
-              {i18n.t('retry')}
-            </Button>
+          content: (
+            <>
+              <Text>{i18n.t('failed_to_save_data_to_pbx')}</Text>
+              <Button
+                type='primary'
+                size='small'
+                onPress={() => {
+                  this.syncUp()
+                  Notification.removeAll()
+                }}
+              >
+                {i18n.t('retry')}
+              </Button>
+            </>
           ),
           duration: 0,
         })

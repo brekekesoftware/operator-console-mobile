@@ -13,12 +13,12 @@ export class EditorWidgetTemplate {
   }
 
   // !abstract
-  getWidth() {
+  getWidth(): number {
     throw new Error('Not implemented.')
   }
 
   // !abstract
-  getHeight() {
+  getHeight(): number {
     throw new Error('Not implemented.')
   }
 
@@ -34,12 +34,11 @@ export class EditorWidgetTemplate {
     return (
       <div
         key={jsxKey}
-        className='grabbable'
         data-br-widget-type-id={this._WidgetTypeId}
         style={{
-          width: width + 'px',
-          height: height + 'px',
-          marginBottom: '4px',
+          width,
+          height,
+          marginBottom: 4,
         }}
         draggable={true}
         onDragStart={ev =>

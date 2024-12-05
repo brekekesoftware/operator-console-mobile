@@ -345,8 +345,8 @@ export const App = observer(() => {
         </View>
       )}
       <View style={css.App_Inner}>
-        {/* <BrekekeOperatorConsole /> */}
-        <TestRnd />
+        <BrekekeOperatorConsole />
+        {/* <TestRnd /> */}
       </View>
     </View>
   )

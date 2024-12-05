@@ -43,8 +43,8 @@ export class LegacyExtensionStatusEditorWidget extends EditorWidget {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
             style={{
-              width: extensionStatusLampSize + 'px',
-              height: extensionStatusLampSize + 'px',
+              width: extensionStatusLampSize,
+              height: extensionStatusLampSize,
             }}
             className={
               (status.find(s => s === 'talking') && 'led-red') ||
@@ -62,10 +62,10 @@ export class LegacyExtensionStatusEditorWidget extends EditorWidget {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            marginTop: extensionStatusExtensionTextTopMargin + 'px',
+            marginTop: extensionStatusExtensionTextTopMargin,
           }}
         >
-          <span style={{ fontSize: extensionStatusExtensionFontSize + 'px' }}>
+          <span style={{ fontSize: extensionStatusExtensionFontSize }}>
             {ext?.name || extension || i18n.t('extension_status')}
           </span>
         </div>

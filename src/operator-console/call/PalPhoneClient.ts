@@ -3,6 +3,7 @@ import { deleteProperty, setProperty } from 'dot-prop'
 
 import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
+import { PalWrapper } from '../lib/PalWrapper'
 import { APhoneClient } from './APhoneClient'
 import { PalCallInfos } from './PalCallInfos'
 

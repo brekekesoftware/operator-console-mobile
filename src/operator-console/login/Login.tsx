@@ -1,9 +1,12 @@
 import { Form, Input } from '@ant-design/react-native'
+import type { FormInstance } from '@ant-design/react-native/lib/form/Form'
+import { useForm } from '@ant-design/react-native/lib/form/Form'
 import React, { createRef } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 
 import Logo from '../logo.png'
 
+import { RnAsyncStorage } from '../../components/Rn'
 import { Button } from '../common/Button'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -11,18 +14,28 @@ import type { BrekekeOperatorConsole } from '../OperatorConsole'
 type Props = {
   operatorConsoleAsParent: BrekekeOperatorConsole
   initialValues: any
+  form: FormInstance
 }
 type State = {
   isSigningin: boolean
   message: string
 }
 
-export class Login extends React.Component<Props, State> {
+const withMyHook = Component =>
+  function WrappedComponent(props) {
+    const [form] = useForm()
+    return <Component {...props} form={form} />
+  }
+
+class LoginC extends React.Component<Props, State> {
   _OperatorConsoleAsParent
   _LoginMessageElementRef
+  refForm
+
   constructor(props) {
     super(props)
     this._OperatorConsoleAsParent = props.operatorConsoleAsParent
+    this.refForm = createRef<any>()
     this.state = { isSigningin: false, message: '' }
   }
 
@@ -33,15 +46,6 @@ export class Login extends React.Component<Props, State> {
   _hideMessage() {
     this.setState({ message: '' })
   }
-
-  // componentWillUnmount(){
-  //     // if( this._pal ){
-  //     //     this._pal.close();
-  //     //     this._pal = null;
-  //     // }
-  //
-  //     //this._OperatorConsoleAsParent.getLoginPalWrapper().deinitPalWrapper();
-  // }
 
   _onInitPalWrapperSuccess(loginParams) {
     const palWrapper = this._OperatorConsoleAsParent.getLoginPalWrapper()
@@ -73,6 +77,7 @@ export class Login extends React.Component<Props, State> {
       pal.close()
       this_._setMessage(i18n.t('failedToLogin'))
     }
+    console.log('#Duy Phan console success')
     // !fixit pal bug
     pal.login(
       (res, obj) => {
@@ -115,8 +120,18 @@ export class Login extends React.Component<Props, State> {
     )
   }
 
-  _login = params => {
-    console.log('login:', params)
+  _login = () => {
+    const f = this.props.form
+    f.submit()
+    // if(f.getFieldsError())
+    const fErrs = f.getFieldsError()
+    const hasErr = fErrs.some(fe => fe.errors.length > 0)
+    if (hasErr) {
+      return
+    }
+    const params = f.getFieldsValue()
+    console.log('#Duy Phan console', f.getFieldsValue())
+
     // this._deinitAphone();
     this.setState({ isSigningin: true }, () => {
       const lastLoginAccount = {
@@ -128,7 +143,7 @@ export class Login extends React.Component<Props, State> {
         pbxDirectoryName: params.pbxDirectoryName,
       }
       this._OperatorConsoleAsParent.setLastLoginAccount(lastLoginAccount)
-      window.localStorage.setItem(
+      RnAsyncStorage.setItem(
         'lastLoginAccount',
         JSON.stringify(lastLoginAccount),
       )
@@ -140,18 +155,11 @@ export class Login extends React.Component<Props, State> {
         const initPalWrapperOptions = {
           pbxHost: params.hostname,
           pbxPort: params.port,
-          secure_login_password: false, // !important skip loading md5.js
-          onInitFailFunction(ev) {
-            console.error('Failed to init PalWrapper eventArg=' + ev)
-            this_.setState({ isSigningin: false })
-            this_._setMessage(i18n.t('failedToInitPalWrapper'))
-          },
-          onInitSuccessFunction() {
-            this_._onInitPalWrapperSuccess(params)
-          },
+          secure_login_password: false,
           pbxDirectoryName: params.pbxDirectoryName,
         }
         palWrapper.initPalWrapper(initPalWrapperOptions)
+        this_._onInitPalWrapperSuccess(params)
       }
       const onInitPalRestApiFailFunction = err => {
         this.setState({ isSigningin: false })
@@ -183,6 +191,7 @@ export class Login extends React.Component<Props, State> {
   } // ~login
 
   render() {
+    console.log('#Duy Phan console initialValues', this.props.initialValues)
     return (
       <View>
         <View
@@ -192,7 +201,7 @@ export class Login extends React.Component<Props, State> {
             marginLeft: -4,
           }}
         >
-          <Image width={158} height={39} source={{ uri: Logo }} />
+          <Image width={158} height={39} source={Logo} />
           <View
             style={{
               backgroundColor: '#4bc5de',
@@ -276,7 +285,9 @@ export class Login extends React.Component<Props, State> {
           <Form
             name='login'
             initialValues={this.props.initialValues}
-            onFinish={this._login}
+            onFinish={() => console.log('#Duy Phan console finish')}
+            ref={r => (this.refForm = r)}
+            form={this.props.form}
           >
             <Form.Item
               name='hostname'
@@ -350,11 +361,15 @@ export class Login extends React.Component<Props, State> {
               <Input
                 style={styles.input}
                 placeholder={i18n.t('username')}
-                type='hidden'
+                // type='hidden'
               />
             </Form.Item>
             <Form.Item>
-              <Button type='success' disabled={this.state.isSigningin}>
+              <Button
+                type='success'
+                disabled={this.state.isSigningin}
+                onPress={this._login}
+              >
                 <Text style={styles.button}>{i18n.t('signin')}</Text>
               </Button>
             </Form.Item>
@@ -364,6 +379,8 @@ export class Login extends React.Component<Props, State> {
     )
   }
 }
+
+export const Login = withMyHook(LoginC)
 
 const styles = StyleSheet.create({
   input: {
@@ -377,5 +394,6 @@ const styles = StyleSheet.create({
     height: 40,
     textAlign: 'center',
     width: '100%',
+    color: 'white',
   },
 })

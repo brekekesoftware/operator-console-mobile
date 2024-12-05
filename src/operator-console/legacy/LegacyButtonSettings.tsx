@@ -146,9 +146,9 @@ export class LegacyButtonSettings extends Component<Props, State> {
               ))}
             </Select>
           </Form.Item>
-          <p style={{ marginTop: 12, marginBottom: 0 }}>
+          <Text style={{ marginTop: 12, marginBottom: 0 }}>
             {i18n.t(`legacy_button_description.${this.state.widget.subtype}`)}
-          </p>
+          </Text>
         </Form.Item>
 
         <Form.Item label={i18n.t('icon')} name='icon'>

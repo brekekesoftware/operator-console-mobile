@@ -36,7 +36,7 @@ export class TextEditorWidget extends EditorWidget {
           width: '100%',
           height: '100%',
           textAlign: 'center',
-          fontSize: textFontSize + 'px',
+          fontSize: textFontSize,
           color: textFgColor,
           backgroundColor: textBgColor,
           borderRadius: textBorderRadius,

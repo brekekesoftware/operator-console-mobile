@@ -1,5 +1,6 @@
 import React from 'react'
-import { Rnd } from 'react-rnd'
+
+import { Rnd } from '../../../lib/rnd/Rnd'
 
 export class EditorWidget extends React.Component<any, any> {
   _EditorPaneAsParent
@@ -82,17 +83,11 @@ export class EditorWidget extends React.Component<any, any> {
     this._EditorPaneAsParent.setState({ rerender: true })
   }
 
-  _onResizeStop(ev, dir, element, delta, pos, widgetData) {
-    const style = window.getComputedStyle(element)
-    const w = parseInt(style.width)
-    const h = parseInt(style.height)
-    this._onWidgetResized(dir, pos.x, pos.y, delta, w, h, widgetData)
+  _onResizeStop(pos, widgetData) {
+    this._onWidgetResized(null, pos.x, pos.y, null, pos.w, pos.h, widgetData)
   }
 
   _onWidgetResized = (dir, x, y, delta, width, height, widgetData) => {
-    // const editorViewAsParent = this._EditorPanelAsParent.getEditorViewAsParent();
-    // const editingScreenGrid = editorViewAsParent.getEditingScreenGrid();
-
     const paneData = this._EditorPaneAsParent.getEditingPaneData()
     let widgetDatas
     if (paneData.getEnableTabs() === true) {
@@ -102,10 +97,6 @@ export class EditorWidget extends React.Component<any, any> {
     } else {
       widgetDatas = paneData.getWidgetDatasForNoTabs()
     }
-
-    // const widgetDataArray = widgetDatas.getWidgetDataArray();
-    // const widgetData = widgetDataArray[ widgetIndex ];
-    // const widgetData = this.getWidgetData();
 
     const editView = this._EditorPaneAsParent.getEditScreenView()
     const editingScreenGrid = editView.getEditingScreenGrid()
@@ -181,25 +172,17 @@ export class EditorWidget extends React.Component<any, any> {
     // ></div>;
     const jsx = (
       <Rnd
-        size={{ width: widgetWidth, height: widgetHeight }}
-        position={{ x: relativePositionX, y: relativePositionY }}
-        // bounds="parent"
-        dragGrid={[editingScreenGrid, editingScreenGrid]}
-        resizeGrid={[editingScreenGrid, editingScreenGrid]}
-        enableResizing={true}
-        onDragStop={(ev, data) => this._onDragStop(ev, data, widgetData)}
-        onResizeStop={(e, dir, ref, delta, pos) =>
-          this._onResizeStop(e, dir, ref, delta, pos, widgetData)
+        w={widgetWidth}
+        h={widgetHeight}
+        x={relativePositionX}
+        y={relativePositionY}
+        grid={[editingScreenGrid, editingScreenGrid]}
+        isResizable={true}
+        onDragEnd={([x, y]) =>
+          this._onDragStop({}, { lastX: x, lastY: y }, widgetData)
         }
-        onMouseDown={ev => this._onMouseDown(ev, widgetData)}
-        // onResize={(e) => {
-        //     e.stopPropagation();
-        //     e.preventDefault();
-        // }}
-        // onResizeStart={(e) => {
-        //     e.stopPropagation();
-        //     e.preventDefault();
-        // }}
+        onResizeEnd={data => this._onResizeStop(data, widgetData)}
+        // onMouseDown={ev => this._onMouseDown(ev, widgetData)}
       >
         {this._getRenderMainJsx()}
       </Rnd>

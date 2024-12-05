@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, View } from 'react-native'
+import { Dimensions, Text, View } from 'react-native'
 
 import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
@@ -184,17 +184,20 @@ export class SystemSettingsView extends React.Component<Props, State> {
     // Notification.error({message: i18n.t('failed_to_save_data_to_pbx') + "\r\n" +  e, duration:0 });
     Notification.error({
       message: i18n.t('failed_to_save_data_to_pbx'),
-      btn: (
-        <Button
-          type='primary'
-          size='small'
-          onPress={() => {
-            // Notification.close('sync');
-            this._syncUp()
-          }}
-        >
-          {i18n.t('retry')}
-        </Button>
+      content: (
+        <>
+          <Text>{i18n.t('failed_to_save_data_to_pbx')}</Text>
+          <Button
+            type='primary'
+            size='small'
+            onPress={() => {
+              // Notification.close('sync');
+              this._syncUp()
+            }}
+          >
+            {i18n.t('retry')}
+          </Button>
+        </>
       ),
       duration: 0,
     })

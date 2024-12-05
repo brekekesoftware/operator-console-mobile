@@ -6,6 +6,7 @@ type Props = Omit<ButtonProps, 'type'> & {
   type?: ButtonPropsType['type'] | 'secondary' | 'success'
   shape?: 'circle'
   icon?: React.ReactNode
+  // children?: React.ReactNode | string
 }
 export const Button = (props: Props) => {
   const color = props.type === 'success' ? '#ffffff' : undefined
@@ -27,6 +28,7 @@ export const Button = (props: Props) => {
       ]}
     >
       {props.icon}
+      {props.children}
     </Btn>
   )
 }

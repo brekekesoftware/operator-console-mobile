@@ -1,4 +1,6 @@
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { Image } from 'react-native'
 
 // !abstract
 import { LegacyButtonWidgetSubData } from '../../../../data/widgetData/legacyButtonWidgetSubData/LegacyButtonWidgetSubData'
@@ -36,7 +38,7 @@ export class LegacyButtonEditorSubWidget {
     throw new Error('Not implemented.')
   }
 
-  _getIconJsx(icon = '', label = '') {
+  _getIconJsx(icon: IconProp | string = '', label = '') {
     const widgetData =
       this._LegacyButtonEditorSubWidgetData.getLegacyButtonWidgetDataAsParent()
     if (!icon) {
@@ -55,35 +57,31 @@ export class LegacyButtonEditorSubWidget {
     let iconJsx
     if (!icon) {
       iconJsx = label
-    } else if (icon.startsWith('PATH:')) {
-      let alt
-      if (label) {
-        alt = label
-      } else {
-        alt = icon
+    } else if (typeof icon === 'string') {
+      if (icon.startsWith('PATH:')) {
+        const src = icon.substring(5, icon.length) // 5 is path:
+        const iconWidth = widgetData.getIconWidth()
+          ? widgetData.getIconWidth()
+          : 32
+        const iconHeight = widgetData.getIconHeight()
+          ? widgetData.getIconHeight()
+          : 32
+        iconJsx = (
+          <Image source={{ uri: src }} width={iconWidth} height={iconHeight} />
+        )
       }
-      const src = icon.substring(5, icon.length) // 5 is path:
-      const iconWidth = widgetData.getIconWidth()
-        ? widgetData.getIconWidth()
-        : 32
-      const iconHeight = widgetData.getIconHeight()
-        ? widgetData.getIconHeight()
-        : 32
-      iconJsx = (
-        <img src={src} alt={alt} width={iconWidth} height={iconHeight} />
-      )
     } else {
       const iconWidth = widgetData.getIconWidth()
       const iconHeight = widgetData.getIconHeight()
       const oStyle = {}
-      let size: string | null = 'lg'
+      let size: number | undefined = 30
       if (iconWidth !== undefined && iconWidth !== null) {
-        oStyle['width'] = iconWidth + 'px'
-        size = null
+        oStyle['width'] = iconWidth
+        size = undefined
       }
       if (iconHeight !== undefined && iconHeight !== null) {
-        oStyle['height'] = iconHeight + 'px'
-        size = null
+        oStyle['height'] = iconHeight
+        size = undefined
       }
       if (size === null) {
         iconJsx = <FontAwesomeIcon style={oStyle} icon={icon} />
