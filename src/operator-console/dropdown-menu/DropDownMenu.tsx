@@ -21,6 +21,7 @@ import {
 const REGEX = /^[0-9a-zA-Z\-\_\ ]*$/
 
 export const DropDownMenu = ({ operatorConsole }) => {
+  console.log('#Duy Phan console aaasdasdas')
   let loginLabel = operatorConsole.state.loginUser.pbxTenant
     ? operatorConsole.state.loginUser.pbxTenant + ' / '
     : ''
@@ -207,12 +208,20 @@ export const DropDownMenu = ({ operatorConsole }) => {
         menu={{
           items,
         }}
+        style={{ position: 'absolute', top: 4, right: 4 }}
       >
-        <Button
-          style={{ position: 'absolute', top: 4, right: 4, zIndex: 15 }}
-          shape='circle'
-          icon={<IconOutline name='more' />}
-        ></Button>
+        <View
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 16,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white',
+          }}
+        >
+          <IconOutline name='more' size={20} />
+        </View>
       </DropdownMenu>
     </>
   )

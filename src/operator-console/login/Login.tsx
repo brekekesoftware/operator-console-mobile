@@ -2,6 +2,7 @@ import { Form, Input } from '@ant-design/react-native'
 import type { FormInstance } from '@ant-design/react-native/lib/form/Form'
 import { useForm } from '@ant-design/react-native/lib/form/Form'
 import React, { createRef } from 'react'
+import type { ImageSourcePropType } from 'react-native'
 import { Image, StyleSheet, Text, View } from 'react-native'
 
 import Logo from '../logo.png'
@@ -9,16 +10,18 @@ import Logo from '../logo.png'
 import { RnAsyncStorage } from '../../components/Rn'
 import { Button } from '../common/Button'
 import { i18n } from '../i18n'
+import type { LoginParams } from '../octypes'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
 type Props = {
   operatorConsoleAsParent: BrekekeOperatorConsole
-  initialValues: any
+  initialValues: Promise<LoginParams>
   form: FormInstance
 }
 type State = {
   isSigningin: boolean
   message: string
+  initialValues?: LoginParams
 }
 
 const withMyHook = Component =>
@@ -41,6 +44,13 @@ class LoginC extends React.Component<Props, State> {
 
   _setMessage(message) {
     this.setState({ message })
+  }
+
+  componentDidMount(): void {
+    this.props.initialValues.then(v => {
+      this.setState({ initialValues: v })
+      this.props.form.setFieldsValue(v)
+    })
   }
 
   _hideMessage() {
@@ -123,14 +133,12 @@ class LoginC extends React.Component<Props, State> {
   _login = () => {
     const f = this.props.form
     f.submit()
-    // if(f.getFieldsError())
     const fErrs = f.getFieldsError()
     const hasErr = fErrs.some(fe => fe.errors.length > 0)
     if (hasErr) {
       return
     }
     const params = f.getFieldsValue()
-    console.log('#Duy Phan console', f.getFieldsValue())
 
     // this._deinitAphone();
     this.setState({ isSigningin: true }, () => {
@@ -199,9 +207,10 @@ class LoginC extends React.Component<Props, State> {
             justifyContent: 'center',
             alignItems: 'center',
             marginLeft: -4,
+            flexDirection: 'row',
           }}
         >
-          <Image width={158} height={39} source={Logo} />
+          <Image width={158} height={39} source={Logo as ImageSourcePropType} />
           <View
             style={{
               backgroundColor: '#4bc5de',
@@ -238,6 +247,7 @@ class LoginC extends React.Component<Props, State> {
             paddingBottom: 7,
             paddingLeft: 20,
             backgroundColor: '#ffffff',
+            borderRadius: 5,
           }}
         >
           <Text
@@ -248,7 +258,7 @@ class LoginC extends React.Component<Props, State> {
               fontSize: 24,
               fontWeight: 'bold',
               fontStyle: 'normal',
-              lineHeight: 1.23,
+              // lineHeight: 1.23,
               letterSpacing: 0.3,
               color: '#212121',
             }}
@@ -268,12 +278,13 @@ class LoginC extends React.Component<Props, State> {
                 paddingRight: 26,
                 paddingBottom: 15,
                 paddingLeft: 32,
+                // elevation: 0.5
               }}
             >
               <Text
                 style={{
                   fontSize: 13,
-                  lineHeight: 1.62,
+                  // lineHeight: 1.62,
                   letterSpacing: 0.3,
                   color: '#000',
                 }}
@@ -284,19 +295,39 @@ class LoginC extends React.Component<Props, State> {
           )}
           <Form
             name='login'
-            initialValues={this.props.initialValues}
+            initialValues={this.state.initialValues}
             onFinish={() => console.log('#Duy Phan console finish')}
             ref={r => (this.refForm = r)}
             form={this.props.form}
+            styles={{
+              Body: {
+                backgroundColor: 'transparent',
+                elevation: 0,
+                borderColor: 'transparent',
+              },
+            }}
+            style={{
+              backgroundColor: 'transparent',
+              elevation: 0,
+              borderColor: 'transparent',
+            }}
           >
             <Form.Item
               name='hostname'
+              style={{ elevation: 0 }}
               rules={[
                 {
                   required: true,
                   message: i18n.t('hostname_is_required'),
                 },
               ]}
+              styles={{
+                Line: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+              }}
             >
               <Input style={styles.input} placeholder={i18n.t('hostname')} />
             </Form.Item>
@@ -308,6 +339,13 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('port_is_required'),
                 },
               ]}
+              styles={{
+                Line: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+              }}
             >
               <Input style={styles.input} placeholder={i18n.t('port')} />
             </Form.Item>
@@ -319,6 +357,13 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('tenant_is_required'),
                 },
               ]}
+              styles={{
+                Line: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+              }}
             >
               <Input style={styles.input} placeholder={i18n.t('tenant')} />
             </Form.Item>
@@ -330,6 +375,13 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('username_is_required'),
                 },
               ]}
+              styles={{
+                Line: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+              }}
             >
               <Input style={styles.input} placeholder={i18n.t('username')} />
             </Form.Item>
@@ -341,6 +393,13 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('password_is_required'),
                 },
               ]}
+              styles={{
+                Line: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+              }}
             >
               <Input
                 style={styles.input}
@@ -364,11 +423,20 @@ class LoginC extends React.Component<Props, State> {
                 // type='hidden'
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item
+              styles={{
+                Line: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+              }}
+            >
               <Button
                 type='success'
                 disabled={this.state.isSigningin}
                 onPress={this._login}
+                style={{ height: 40, borderRadius: 5 }}
               >
                 <Text style={styles.button}>{i18n.t('signin')}</Text>
               </Button>
@@ -386,12 +454,13 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: '#f5f5f5',
     height: 40,
+    borderRadius: 5,
   },
   button: {
     textTransform: 'uppercase',
     fontSize: 13,
     fontWeight: 'bold',
-    height: 40,
+    // height: 40,
     textAlign: 'center',
     width: '100%',
     color: 'white',

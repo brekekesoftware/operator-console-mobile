@@ -20,6 +20,7 @@ export const OpenLayoutModalForNoScreensView = props => {
   console.log(
     'noteNamesContent.type?.displayName=' + noteNamesContent.type?.displayName,
   )
+  console.log('#Duy Phan console open', open)
 
   let footer
   if (noteNamesContent.type?.displayName === 'Spin') {
@@ -39,6 +40,8 @@ export const OpenLayoutModalForNoScreensView = props => {
       title={i18n.t('selectLayout')}
       onOk={handleOk}
       onCancel={handleCancel}
+      style={{ width: 500, height: 200 }}
+      closable
       footer={footer}
     >
       {noteNamesContent}

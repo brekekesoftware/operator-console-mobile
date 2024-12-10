@@ -1,6 +1,13 @@
 import { FilesFile } from './FilesFile'
 
 export class FileInfosLoader {
+  _fileInfos
+  _filesFileUrl: string = ''
+  _loadSuccessFunction: (options: any) => void = () => {}
+  _loadTimeoutFunction: (options: any) => void = () => {}
+  _loadFailFunction: (options: any) => void = () => {}
+  _loadErrorFunction: (options: any) => void = () => {}
+  _fileRootUrl: string = ''
   constructor() {}
 
   load(options) {

@@ -76,6 +76,7 @@ export class PalPhoneClient extends APhoneClient {
    *  override mothod
    * @param options
    */
+
   initPhoneClient(options) {
     this.statusEvents = new Array()
     this.parkEvents = new Array()
@@ -92,111 +93,112 @@ export class PalPhoneClient extends APhoneClient {
         console.error('Failed to init PalWrapper eventArg=' + ev)
         // !fixit call onInitFailFunction
       },
-      onInitSuccessFunction() {
-        const getPalOptions = {
-          tenant: options.tenant,
-          login_user: options.username,
-          login_password: options.password,
-          user: '*',
-          line: '*',
-          callrecording: 'self',
-          voicemail: 'self',
-          park: '*',
-          status: true,
-          registered: 'self',
-          secure_login_password: false,
-        }
-        const pal = this_._PalWrapper.getPal(getPalOptions)
-        pal.debugLevel = 2
+    }
+    const successFunction = () => {
+      const getPalOptions = {
+        tenant: options.tenant,
+        login_user: options.username,
+        login_password: options.password,
+        user: '*',
+        line: '*',
+        callrecording: 'self',
+        voicemail: 'self',
+        park: '*',
+        status: true,
+        registered: 'self',
+        secure_login_password: false,
+      }
+      const pal = this_._PalWrapper.getPal(getPalOptions)
+      pal.debugLevel = 2
 
-        pal.onClose = function () {
-          console.log('Pal closed.')
-          // this_._PalWrapper.deinitPalWrapper();
-          // this_.setState({isSigningin:false});
-          this_._pal = null
-        }
-        pal.onError = function (err) {
-          // !fixit pal login error bug
-          console.error('Pal error occurred.', err)
-          // pal.close();
-        }
+      pal.onClose = function () {
+        console.log('Pal closed.')
+        // this_._PalWrapper.deinitPalWrapper();
+        // this_.setState({isSigningin:false});
+        this_._pal = null
+      }
+      pal.onError = function (err) {
+        // !fixit pal login error bug
+        console.error('Pal error occurred.', err)
+        // pal.close();
+      }
 
-        // !fixit pal bug
-        pal.login(
-          (res, obj) => {
-            const tenant = options.tenant
-            const getExtensionsOptions = {
-              tenant,
-              pattern: '..*',
-              limit: -1,
-              type: 'user',
-              property_names: ['name'],
-              offset: 0,
-            }
-            pal.getExtensions(
-              getExtensionsOptions,
-              (res, obj) => {
-                const oExtensions = res.map(([id, name]) => ({ id, name }))
-                // this_.setState({isSigningin: false});
-                this_._pal = pal
-                onInitSuccessFunction(oExtensions)
-              },
-              error => {
-                console.error('Faild to getExtensionProperties. error=', error)
-                pal.close()
-                // !fixit call oninitFailFunction
-              },
-            )
-          },
-          ev => {
-            console.error('Faild to login. eventArg=', ev)
-            pal.close()
-            // !fixit call oninitFailFunction
-          },
-        )
-        pal.notify_serverstatus = function (param) {
-          pal.printDebug('*** serverstatus ***')
-          pal.printDebug(param)
-        }
-        pal.notify_status = function (param) {
-          pal.printDebug('*** status ***')
-          pal.printDebug(param)
-          this_.statusEvents.push(param)
-          this_.flushStatusEvents()
-          // last_talker_id = param.talker_id;
-        }
-        pal.notify_voicemail = function (param) {
-          pal.printDebug('*** voicemail ***')
-          pal.printDebug(param)
-        }
-        pal.notify_registered = function (param) {
-          pal.printDebug('*** registered ***')
-          pal.printDebug(param)
-        }
-        pal.notify_park = function (param) {
-          pal.printDebug('*** park ***')
-          pal.printDebug(param)
-          this_.parkEvents.push(param)
-          this_.flushParkEvents()
-        }
-        pal.notify_line = function (param) {
-          pal.printDebug('*** line ***')
-          pal.printDebug(param)
-          this_.lineEvents.push(param)
-          this_.flushLineEvents()
-        }
-        pal.notify_callrecording = function (param) {
-          pal.printDebug('*** callrecording ***')
-          pal.printDebug(param)
-        }
-        pal.notify_queue = function (param) {
-          // !for PBX version 3.6 or later
-          pal.printDebug('*** notify_queue ***')
-          pal.printDebug(param)
-        }
-      },
+      // !fixit pal bug
+      pal.login(
+        (res, obj) => {
+          const tenant = options.tenant
+          const getExtensionsOptions = {
+            tenant,
+            pattern: '..*',
+            limit: -1,
+            type: 'user',
+            property_names: ['name'],
+            offset: 0,
+          }
+          pal.getExtensions(
+            getExtensionsOptions,
+            (res, obj) => {
+              const oExtensions = res.map(([id, name]) => ({ id, name }))
+              // this_.setState({isSigningin: false});
+              this_._pal = pal
+              onInitSuccessFunction(oExtensions)
+            },
+            error => {
+              console.error('Faild to getExtensionProperties. error=', error)
+              pal.close()
+              // !fixit call oninitFailFunction
+            },
+          )
+        },
+        ev => {
+          console.error('Faild to login. eventArg=', ev)
+          pal.close()
+          // !fixit call oninitFailFunction
+        },
+      )
+      pal.notify_serverstatus = function (param) {
+        pal.printDebug('*** serverstatus ***')
+        pal.printDebug(param)
+      }
+      pal.notify_status = function (param) {
+        pal.printDebug('*** status ***')
+        pal.printDebug(param)
+        this_.statusEvents.push(param)
+        this_.flushStatusEvents()
+        // last_talker_id = param.talker_id;
+      }
+      pal.notify_voicemail = function (param) {
+        pal.printDebug('*** voicemail ***')
+        pal.printDebug(param)
+      }
+      pal.notify_registered = function (param) {
+        pal.printDebug('*** registered ***')
+        pal.printDebug(param)
+      }
+      pal.notify_park = function (param) {
+        pal.printDebug('*** park ***')
+        pal.printDebug(param)
+        this_.parkEvents.push(param)
+        this_.flushParkEvents()
+      }
+      pal.notify_line = function (param) {
+        pal.printDebug('*** line ***')
+        pal.printDebug(param)
+        this_.lineEvents.push(param)
+        this_.flushLineEvents()
+      }
+      pal.notify_callrecording = function (param) {
+        pal.printDebug('*** callrecording ***')
+        pal.printDebug(param)
+      }
+      pal.notify_queue = function (param) {
+        // !for PBX version 3.6 or later
+        pal.printDebug('*** notify_queue ***')
+        pal.printDebug(param)
+      }
     }
     this._PalWrapper.initPalWrapper(initPalWrapperOptions)
+    successFunction()
   }
 
   // statusEvents = [];

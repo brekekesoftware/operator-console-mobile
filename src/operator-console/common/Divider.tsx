@@ -8,7 +8,13 @@ export const Divider = ({
   if (children) {
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+        <View
+          style={{
+            flex: 1,
+            height: 0.5,
+            backgroundColor: 'rgba(5, 5, 5, 0.06)',
+          }}
+        />
         <View>
           {typeof children === 'string' ? (
             <Text style={{ width: 50, textAlign: 'center' }}>{children}</Text>
@@ -16,7 +22,13 @@ export const Divider = ({
             children
           )}
         </View>
-        <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
+        <View
+          style={{
+            flex: 1,
+            height: 0.5,
+            backgroundColor: 'rgba(5, 5, 5, 0.06)',
+          }}
+        />
       </View>
     )
   }
@@ -26,7 +38,7 @@ export const Divider = ({
 const styles = StyleSheet.create({
   lineStyle: {
     borderWidth: 0.5,
-    borderColor: 'black',
-    margin: 10,
+    borderColor: 'rgba(5, 5, 5, 0.06)',
+    marginVertical: 10,
   },
 })

@@ -25,7 +25,7 @@ export const NoScreensView = props => {
   }
   const handleCancel = operatorConsoleAsParent => {
     setOpen(false)
-    operatorConsoleAsParent.logout()
+    // operatorConsoleAsParent.logout()
   }
 
   const [newLayoutUseForm] = Form.useForm()
@@ -264,6 +264,7 @@ export const NoScreensView = props => {
   const [openLayoutOpen, setOpenLayoutOpen] = useState(false)
 
   const selectOCNoteByShortname = shortname => {
+    console.log('#Duy Phan console select short')
     const noteName = BrekekeOperatorConsole.getOCNoteName(shortname)
 
     const getNoteByPalRestApiOptions = {
@@ -273,6 +274,7 @@ export const NoScreensView = props => {
         name: noteName,
       }),
       onSuccessFunction: res => {
+        console.log('#Duy Phan console res', res)
         if (res) {
           const noteInfo = res
           const sNote = noteInfo.note
@@ -293,9 +295,9 @@ export const NoScreensView = props => {
             oNote,
             () => {
               setIsLoading(false)
-              // operatorConsoleAsParent.onSelectOCNoteByShortnameFromNoScreensView(
-              //   this,
-              // )
+              operatorConsoleAsParent.onSelectOCNoteByShortnameFromNoScreensView(
+                this,
+              )
             },
             e => {
               // !testit
@@ -376,7 +378,10 @@ export const NoScreensView = props => {
               BrekekeOperatorConsole.getOCNoteShortname(noteName)
             const sNoteShortname = (
               <View key={i}>
-                <Text onPress={() => selectOCNoteByShortname(noteShortname)}>
+                <Text
+                  style={{ color: '#1677ff' }}
+                  onPress={() => selectOCNoteByShortname(noteShortname)}
+                >
                   {noteShortname}
                 </Text>
                 {/* <br /> */}
@@ -403,8 +408,10 @@ export const NoScreensView = props => {
 
   const handleOpenLayoutOpen = () => {
     setOpen(false)
-    setOpenLayoutOpen(true)
     refreshNoteNames()
+    setTimeout(() => {
+      setOpenLayoutOpen(true)
+    }, 2000)
   }
 
   let newOrOpenLayoutFooter
@@ -474,6 +481,7 @@ export const NoScreensView = props => {
         title={i18n.t('newLayout')}
         onOk={handleNewLayoutOk}
         onCancel={handleNewLayoutCancel}
+        style={{ width: 400, height: 300 }}
         footer={[
           <Button key='back' onPress={handleNewLayoutCancel}>
             {i18n.t('cancel')}
@@ -508,11 +516,14 @@ export const NoScreensView = props => {
         title={newOrOpenLayoutTitle}
         onOk={handleOk}
         onCancel={() => handleCancel(operatorConsoleAsParent)}
+        onClose={() => setOpen(false)}
         footer={newOrOpenLayoutFooter}
+        style={{ width: 500, height: 170 }}
+        closable
       >
         {newOrOpenLayoutText}
       </Modal>
-      <View
+      {/* <View
         style={{
           width: '100%',
           height: '100%',
@@ -524,25 +535,25 @@ export const NoScreensView = props => {
         <View>
           <ActivityIndicator />
         </View>
-      </View>
+      </View> */}
     </>
   )
 }
 
 const NewLayoutForm = ({ newLayoutUseForm }) => (
   <Form form={newLayoutUseForm} layout='vertical'>
-    <section>
-      <Form.Item
-        name='layoutName'
-        rules={[
-          {
-            required: true,
-            message: i18n.t('layoutName_is_required'),
-          },
-        ]}
-      >
-        <Input placeholder={i18n.t('layoutName')} />
-      </Form.Item>
-    </section>
+    {/* <section> */}
+    <Form.Item
+      name='layoutName'
+      rules={[
+        {
+          required: true,
+          message: i18n.t('layoutName_is_required'),
+        },
+      ]}
+    >
+      <Input placeholder={i18n.t('layoutName')} />
+    </Form.Item>
+    {/* </section> */}
   </Form>
 )

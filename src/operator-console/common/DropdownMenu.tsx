@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import { useState } from 'react'
+import type { StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { RnText } from '../../components/RnText'
@@ -25,6 +26,7 @@ type Props = {
     }>
     onPress?: (key: string | number) => void
   }
+  style?: StyleProp<ViewStyle>
 }
 
 export type DropdownItemProps = {
@@ -47,11 +49,16 @@ export const Item: FC<DropdownItemProps> = ({
   </RnTouchableOpacity>
 )
 
-export const DropdownMenu = ({ children, menu }: Props) => {
+export const DropdownMenu = ({ children, menu, style }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <View style={styles.dropdown}>
-      <TouchableOpacity onPress={() => setIsOpen(!isOpen)}>
+    <View style={[styles.dropdown, style]}>
+      <TouchableOpacity
+        onPress={() => {
+          setIsOpen(!isOpen)
+        }}
+      >
         {children}
       </TouchableOpacity>
       {isOpen && (
@@ -87,7 +94,18 @@ const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
     zIndex: 9999,
-    top: 0,
+    top: 35,
+    right: 10,
+    borderRadius: 5,
+    backgroundColor: 'white',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#fefefe',
+    borderStyle: 'solid',
+    padding: 20,
+    minWidth: 200,
   },
   container: {
     paddingVertical: 5,

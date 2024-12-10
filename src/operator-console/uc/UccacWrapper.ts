@@ -1,3 +1,4 @@
+import { Uccac, UCCAC_UCCAC_STATES } from '../lib/Uccac'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 
 // !requre uccac.js
@@ -8,6 +9,7 @@ export class UccacWrapper {
   _initialized: boolean
   _OnUccacDeinitFunctions: Array<any>
   _OnUccacInitSuccessFunctions: Array<any>
+  _Uccac: Uccac
   constructor(operatorConsoleAsParent: BrekekeOperatorConsole) {
     this._OperatorConsoleAsParent = operatorConsoleAsParent
     this._Uccac = new Uccac()

@@ -1,4 +1,10 @@
-import { ActivityIndicator, Form, Input, Tabs } from '@ant-design/react-native'
+import {
+  ActivityIndicator,
+  Form,
+  Input,
+  Provider,
+  Tabs,
+} from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -7,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { cloneDeep } from 'lodash'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, ScrollView, Text, View } from 'react-native'
 
 import logo from './logo.png'
@@ -84,6 +91,7 @@ import { Login } from './login/Login'
 import { Note } from './note/Note'
 import { NotePreview } from './note/NotePreview'
 import { NoteSettings } from './note/NoteSettings'
+import type { LoginParams, OptionsInitSystem } from './octypes'
 import { ShowScreenView_ver2 } from './runtime/ShowScreenView_ver2'
 import { Campon } from './system/Campon'
 import { NoScreensView } from './system/NoScreensView'
@@ -1202,6 +1210,7 @@ export class BrekekeOperatorConsole extends React.Component<
 
   onSelectOCNoteByShortnameFromNoScreensView(noScreensViewAsCaller) {
     // this.reloadSystemSettingsExtensionScript();
+    console.log('#Duy Phan console ahihi')
     this.setState({
       _downedLayoutAndSystemSettings: true,
       displayState: brOcDisplayStates.showScreen_ver2,
@@ -1251,7 +1260,7 @@ export class BrekekeOperatorConsole extends React.Component<
     )
   }
 
-  _initAphoneClient(aphone, initOptions) {
+  _initAphoneClient(aphone, initOptions: OptionsInitSystem) {
     this._aphone = aphone
     this._aphone.initPhoneClient(initOptions)
   }
@@ -1328,35 +1337,41 @@ export class BrekekeOperatorConsole extends React.Component<
       }
       const pt = newData.phoneTerminal
       let phoneClient
-      if (pt === 'phoneTerminal_pal') {
-        phoneClient = new PalPhoneClient(options)
-      } else {
-        phoneClient = new WebphonePhoneClient(options)
-      }
+      console.log('#Duy Phan console pt', pt)
+      // if (pt === 'phoneTerminal_pal') {
+      //   phoneClient = new PalPhoneClient(options)
+      // } else {
+      //   phoneClient = new WebphonePhoneClient(options)
+      // }
+      phoneClient = new PalPhoneClient(options)
 
-      const initOptions = { ...this._getLastLoginAccount() }
+      this._getLastLoginAccount().then(initOptions => {
+        const newOptions: OptionsInitSystem = { ...initOptions }
+        newOptions.onInitSuccessFunction = function (oExtensions) {
+          console.log('extensions', oExtensions)
+          this_.setState({ extensions: oExtensions }, () => {
+            // Todo:
+            // const initAsync =
+            //   this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
+            //     newData,
+            //     systemSettingsDataAsCaller,
+            //     () => {
+            //       onInitSuccessUccacFunction()
+            //       this_._deinitPalWrapper()
+            //     },
+            //     onInitFailUccacFunction,
+            //     isUCMinScript,
+            //   )
+            // return initAsync;
+            onInitSuccessUccacFunction()
+          })
+        }
+        newOptions.onInitFailFunction = function (error) {
+          onInitFailUccacFunction(error)
+        }
+        this._initAphoneClient(phoneClient, newOptions)
+      })
 
-      initOptions.onInitSuccessFunction = function (oExtensions) {
-        console.log('extensions', oExtensions)
-        this_.setState({ extensions: oExtensions }, () => {
-          const initAsync =
-            this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
-              newData,
-              systemSettingsDataAsCaller,
-              () => {
-                onInitSuccessUccacFunction()
-                this_._deinitPalWrapper()
-              },
-              onInitFailUccacFunction,
-              isUCMinScript,
-            )
-          // return initAsync;
-        })
-      }
-      initOptions.onInitFailFunction = function (error) {
-        onInitFailUccacFunction(error)
-      }
-      this._initAphoneClient(phoneClient, initOptions)
       return false
     } else {
       const initAsync =
@@ -1422,8 +1437,8 @@ export class BrekekeOperatorConsole extends React.Component<
     this._disablePasteToDialingCounter--
   }
 
-  _getLastLayoutLocalstorageKeyName() {
-    const info = this._getLastLoginAccount()
+  async _getLastLayoutLocalstorageKeyName() {
+    const info = await this._getLastLoginAccount()
     let pbxDirectoryName = info['pbxDirectoryName']
     if (!pbxDirectoryName || pbxDirectoryName.length === 0) {
       pbxDirectoryName = this._DefaultPbxDirectoryName
@@ -1494,9 +1509,9 @@ export class BrekekeOperatorConsole extends React.Component<
     return this.state.dialing
   }
 
-  _getLastLayoutShortname() {
-    const key = this._getLastLayoutLocalstorageKeyName()
-    const shortName = RnAsyncStorage.getItem(key)
+  async _getLastLayoutShortname() {
+    const key = await this._getLastLayoutLocalstorageKeyName()
+    const shortName = await RnAsyncStorage.getItem(key)
     return shortName
   }
 
@@ -1513,14 +1528,14 @@ export class BrekekeOperatorConsole extends React.Component<
     return fullName
   }
 
-  setLastLayoutShortname(shortName) {
-    const key = this._getLastLayoutLocalstorageKeyName()
-    RnAsyncStorage.setItem(key, shortName)
+  async setLastLayoutShortname(shortName) {
+    const key = await this._getLastLayoutLocalstorageKeyName()
+    await RnAsyncStorage.setItem(key, shortName)
     this.setState({ lastLayoutShortname: shortName })
   }
 
-  _removeLastLayoutShortname() {
-    const key = this._getLastLayoutLocalstorageKeyName()
+  async _removeLastLayoutShortname() {
+    const key = await this._getLastLayoutLocalstorageKeyName()
     RnAsyncStorage.removeItem(key)
   }
 
@@ -1717,372 +1732,372 @@ export class BrekekeOperatorConsole extends React.Component<
     }
     console.log(
       '#Duy Phan console this.state.isInitialized',
-      this.state.isInitialized,
-    )
-
-    return (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#fafafa',
-        }}
-      >
-        <Login
-          operatorConsoleAsParent={this}
-          initialValues={this._getLastLoginAccount()}
-        />
-      </View>
+      this.state.displayState,
     )
 
     // return (
-    //   <>
-    //     {!!this.state.isInitialized ? (
-    //       <View
-    //         style={{
-    //           flexGrow: 1,
-    //           display: 'flex',
-    //           flexDirection: 'column',
-    //           overflow: 'hidden',
-    //         }}
-    //       >
-    //         {/* <Image
-    //           style={{ position: 'absolute', top: 4, left: 4, zIndex: 1 }}
-    //           source={{ uri: logo }}
-    //         /> */}
-    //         {this.state._downedLayoutAndSystemSettings ? (
-    //           this.state.displayState === brOcDisplayStates.waitQuickCallKey ? (
-    //             <>
-    //               <View
-    //                 style={{
-    //                   flexGrow: 1,
-    //                   display: 'flex',
-    //                   flexDirection: 'column',
-    //                   overflow: 'hidden',
-    //                   backgroundColor:
-    //                     this.state.screens[this.state.currentScreenIndex]
-    //                       .background,
-    //                   // color:
-    //                   //   this.state.screens[this.state.currentScreenIndex]
-    //                   //     .foreground,
-    //                 }}
-    //               >
-    //                 {this.state.screens.map((screen, screenIndex) => {
-    //                   const tabItems = new Array(screen.tabDatas.length)
-    //                   for (let i = 0; i < tabItems.length; i++) {
-    //                     const tabData = screen.tabDatas[i]
-    //                     const tabTitle = tabData.tabTitle
-    //                     let tabJsx
-    //                     if (
-    //                       !tabData.widgetDatas ||
-    //                       tabData.widgetDatas.length === 0
-    //                     ) {
-    //                       tabJsx = (
-    //                         <Empty
-    //                           image={null}
-    //                           description={i18n.t('no_widgets')}
-    //                         />
-    //                       )
-    //                     } else {
-    //                       tabJsx = tabData.widgetDatas.map((widgetData, i) => {
-    //                         const Widget = WidgetMap[widgetData.type]
-    //                         if (!Widget) {
-    //                           return null
-    //                         }
-    //                         return (
-    //                           <View
-    //                             key={i}
-    //                             style={{
-    //                               position: 'absolute',
-    //                               left: widgetData.x,
-    //                               top: widgetData.y,
-    //                               width: widgetData.width,
-    //                               height: widgetData.height,
-    //                             }}
-    //                           >
-    //                             <Widget
-    //                               {...widgetData}
-    //                               operatorConsoleAsParent={this}
-    //                               uccacWrapper={this._UccacWrapper}
-    //                               context={{
-    //                                 loginUser: this.state.loginUser,
-    //                                 currentCallIndex:
-    //                                   this._getCurrentCallIndex(),
-    //                                 // callIds: this._callIds,
-    //                                 // callById: this.callById,
-    //                                 dialing: this.state.dialing,
-    //                                 extensions: this.state.extensions,
-    //                                 extensionsStatus:
-    //                                   this.state.extensionsStatus,
-    //                                 linesStatus: this.state.linesStatus,
-    //                                 parksStatus: this.state.parksStatus,
-    //                                 myParksStatus: this.state.myParksStatus,
-    //                                 usingLine: this.state.usingLine,
-    //                                 autoRejectIncoming:
-    //                                   this.state.autoRejectIncoming,
-    //                                 monitoringExtension:
-    //                                   this.state.monitoringExtension,
-    //                                 switchCallUp: this.switchCallUp,
-    //                                 switchCallDown: this.switchCallDown,
-    //                                 switchCallIndex: this.switchCallIndex,
-    //                                 monitorDialingExtension:
-    //                                   this.monitorDialingExtension,
-    //                                 joinConversation: this.joinConversation,
-    //                                 appendKeypadValue: this.appendKeypadValue,
-    //                                 setDialingAndMakeCall:
-    //                                   this.setDialingAndMakeCall,
-    //                                 backspaceKeypadValue:
-    //                                   this.backspaceKeypadValue,
-    //                                 toggleCallRecording:
-    //                                   this.toggleCallRecording,
-    //                                 toggleCallMuted: this.toggleCallMuted,
-    //                                 toggleAutoRejectIncoming:
-    //                                   this.toggleAutoRejectIncoming,
-    //                                 resumeCall: this.resumeCall,
-    //                                 holdCall: this.holdCall,
-    //                                 hangUpCall: this.hangUpCall,
-    //                                 answerCall: this.answerCall,
-    //                                 sendDTMFIfNeed: this.sendDTMFIfNeed,
-    //                                 makeCall: this.makeCall,
-    //                                 transferCall: this.transferCall,
-    //                                 handleLine: this.handleLine,
-    //                                 handlePark: this.handlePark,
-    //                                 // getNote: this.getNote,
-    //                                 // setNote: this.setNote,
-    //                                 toggleQuickCallScreen:
-    //                                   this.toggleQuickCallScreen,
-    //                                 onClickAutoDial: this.onClickAutoDial,
-    //                                 currentScreenQuickCallWidget:
-    //                                   this.state.currentScreenQuickCallWidget,
-    //                                 widget: widgetData,
-    //                                 showAutoDialWidgets:
-    //                                   this.state.showAutoDialWidgets,
-    //                                 operatorConsole: this,
-    //                               }}
-    //                             />
-    //                           </View>
-    //                         )
-    //                       })
-    //                     }
-    //                     const key = i.toString()
-    //                     const tabItem = {
-    //                       key,
-    //                       label: tabTitle,
-    //                       children: tabJsx,
-    //                     }
-    //                     tabItems[i] = tabItem
-    //                   }
-
-    //                   return (
-    //                     <View key={screenIndex}>
-    //                       <View
-    //                         style={{
-    //                           position: 'relative',
-    //                           width: screen.width,
-    //                           height: screen.height,
-    //                           margin: 'auto',
-    //                           marginTop: 48,
-    //                         }}
-    //                       >
-    //                         {/* <Tabs
-    //                           activeKey={tabsActiveKey}
-    //                           items={tabItems}
-    //                           onTabClick={key =>
-    //                             this._onShowScreenTabClick(key)
-    //                           }
-    //                         /> */}
-    //                       </View>
-    //                     </View>
-    //                   )
-    //                 })}
-    //                 {/* </Carousel>*/}
-    //               </View>
-    //               <DropDownMenu operatorConsole={this}></DropDownMenu>
-    //             </>
-    //           ) : this.state.displayState ===
-    //             brOcDisplayStates.systemSettingsView ? (
-    //             <SystemSettingsView operatorConsole={this} />
-    //           ) : this.state.displayState ===
-    //             brOcDisplayStates.showScreen_ver2 ? (
-    //             <ShowScreenView_ver2 operatorConsoleAsParent={this} />
-    //           ) : (
-    //             <>
-    //               <View
-    //                 style={{
-    //                   flexGrow: 1,
-    //                   display: 'flex',
-    //                   flexDirection: 'column',
-    //                   overflow: 'hidden',
-    //                   backgroundColor:
-    //                     this.state.screens[this.state.currentScreenIndex]
-    //                       .background,
-    //                   // color:
-    //                   //   this.state.screens[this.state.currentScreenIndex]
-    //                   //     .foreground,
-    //                 }}
-    //               >
-    //                 {this.state.screens.map((screen, screenIndex) => {
-    //                   const tabItems = new Array(screen.tabDatas.length)
-    //                   for (let i = 0; i < tabItems.length; i++) {
-    //                     const tabData = screen.tabDatas[i]
-    //                     const tabTitle = tabData.tabTitle
-    //                     let tabJsx
-    //                     if (
-    //                       !tabData.widgetDatas ||
-    //                       tabData.widgetDatas.length === 0
-    //                     ) {
-    //                       tabJsx = (
-    //                         <Empty
-    //                           image={null}
-    //                           description={i18n.t('no_widgets')}
-    //                         />
-    //                       )
-    //                     } else {
-    //                       tabJsx = tabData.widgetDatas.map((widgetData, i) => {
-    //                         const Widget = WidgetMap[widgetData.type]
-    //                         if (!Widget) {
-    //                           return null
-    //                         }
-    //                         return (
-    //                           <View
-    //                             key={i}
-    //                             style={{
-    //                               position: 'absolute',
-    //                               left: widgetData.x,
-    //                               top: widgetData.y,
-    //                               width: widgetData.width,
-    //                               height: widgetData.height,
-    //                             }}
-    //                           >
-    //                             <Widget
-    //                               {...widgetData}
-    //                               widgetIndex={i}
-    //                               operatorConsoleAsParent={this}
-    //                               uccacWrapper={this._UccacWrapper}
-    //                               context={{
-    //                                 loginUser: this.state.loginUser,
-    //                                 currentCallIndex:
-    //                                   this._getCurrentCallIndex(),
-    //                                 // callIds: this._callIds,
-    //                                 // callById: this.callById,
-    //                                 dialing: this.state.dialing,
-    //                                 extensions: this.state.extensions,
-    //                                 extensionsStatus:
-    //                                   this.state.extensionsStatus,
-    //                                 linesStatus: this.state.linesStatus,
-    //                                 parksStatus: this.state.parksStatus,
-    //                                 myParksStatus: this.state.myParksStatus,
-    //                                 usingLine: this.state.usingLine,
-    //                                 autoRejectIncoming:
-    //                                   this.state.autoRejectIncoming,
-    //                                 monitoringExtension:
-    //                                   this.state.monitoringExtension,
-    //                                 switchCallUp: this.switchCallUp,
-    //                                 switchCallDown: this.switchCallDown,
-    //                                 switchCallIndex: this.switchCallIndex,
-    //                                 monitorDialingExtension:
-    //                                   this.monitorDialingExtension,
-    //                                 joinConversation: this.joinConversation,
-    //                                 appendKeypadValue: this.appendKeypadValue,
-    //                                 setDialingAndMakeCall:
-    //                                   this.setDialingAndMakeCall,
-    //                                 backspaceKeypadValue:
-    //                                   this.backspaceKeypadValue,
-    //                                 toggleCallRecording:
-    //                                   this.toggleCallRecording,
-    //                                 toggleCallMuted: this.toggleCallMuted,
-    //                                 toggleAutoRejectIncoming:
-    //                                   this.toggleAutoRejectIncoming,
-    //                                 resumeCall: this.resumeCall,
-    //                                 holdCall: this.holdCall,
-    //                                 hangUpCall: this.hangUpCall,
-    //                                 answerCall: this.answerCall,
-    //                                 sendDTMFIfNeed: this.sendDTMFIfNeed,
-    //                                 makeCall: this.makeCall,
-    //                                 transferCall: this.transferCall,
-    //                                 handleLine: this.handleLine,
-    //                                 handlePark: this.handlePark,
-    //                                 // getNote: this.getNote,
-    //                                 // setNote: this.setNote,
-    //                                 toggleQuickCallScreen:
-    //                                   this.toggleQuickCallScreen,
-    //                                 currentScreenQuickCallWidget:
-    //                                   this.state.currentScreenQuickCallWidget,
-    //                                 onClickAutoDial: this.onClickAutoDial,
-    //                                 widget: widgetData,
-    //                                 makeCallWithShortDial:
-    //                                   this.makeCallWithShortDial,
-    //                                 showAutoDialWidgets:
-    //                                   this.state.showAutoDialWidgets,
-    //                                 operatorConsole: this,
-    //                               }}
-    //                             />
-    //                           </View>
-    //                         )
-    //                       })
-    //                     }
-    //                     const tabItem = {
-    //                       key: i.toString(),
-    //                       label: tabTitle,
-    //                       children: tabJsx,
-    //                     }
-    //                     tabItems[i] = tabItem
-    //                   }
-
-    //                   return (
-    //                     <View key={screenIndex}>
-    //                       <View
-    //                         style={{
-    //                           position: 'relative',
-    //                           width: screen.width,
-    //                           height: screen.height,
-    //                           margin: 'auto',
-    //                           marginTop: 48,
-    //                         }}
-    //                       >
-    //                         <Tabs
-    //                           // activeKey={tabsActiveKey}
-    //                           tabs={tabItems}
-    //                           onTabClick={key =>
-    //                             this._onShowScreenTabClick(key)
-    //                           }
-    //                         />
-    //                       </View>
-    //                     </View>
-    //                   )
-    //                 })}
-    //               </View>
-    //               <DropDownMenu operatorConsole={this}></DropDownMenu>
-    //             </>
-    //           )
-    //         ) : this.state.displayState === brOcDisplayStates.noScreens ? (
-    //           <NoScreensView operatorConsoleAsParent={this} />
-    //         ) : (
-    //           <Empty image={null} description={<ActivityIndicator />} />
-    //         )}
-    //       </View>
-    //     ) : (
-    //       <View
-    //         style={{
-    //           justifyContent: 'center',
-    //           alignItems: 'center',
-    //           width: '100%',
-    //           height: '100%',
-    //           backgroundColor: '#fafafa',
-    //         }}
-    //       >
-    //         <Login
-    //           operatorConsoleAsParent={this}
-    //           initialValues={this._getLastLoginAccount()}
-    //         />
-    //       </View>
-    //     )}
-
-    //     <View id='brOCPhone'></View>
-    //   </>
+    //   <View
+    //     style={{
+    //       justifyContent: 'center',
+    //       alignItems: 'center',
+    //       width: '100%',
+    //       height: '100%',
+    //       backgroundColor: '#fafafa',
+    //     }}
+    //   >
+    //     <Login
+    //       operatorConsoleAsParent={this}
+    //       initialValues={this._getLastLoginAccount()}
+    //     />
+    //   </View>
     // )
+
+    return (
+      <Provider>
+        {!!this.state.isInitialized ? (
+          <View
+            style={{
+              flexGrow: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+            }}
+          >
+            <Image
+              style={{ position: 'absolute', top: 4, left: 4, zIndex: 1 }}
+              source={logo as ImageSourcePropType}
+            />
+            {this.state._downedLayoutAndSystemSettings ? (
+              this.state.displayState === brOcDisplayStates.waitQuickCallKey ? (
+                <>
+                  <View
+                    style={{
+                      flexGrow: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      overflow: 'hidden',
+                      backgroundColor:
+                        this.state.screens[this.state.currentScreenIndex]
+                          .background,
+                      // color:
+                      //   this.state.screens[this.state.currentScreenIndex]
+                      //     .foreground,
+                    }}
+                  >
+                    {this.state.screens.map((screen, screenIndex) => {
+                      const tabItems = new Array(screen.tabDatas.length)
+                      for (let i = 0; i < tabItems.length; i++) {
+                        const tabData = screen.tabDatas[i]
+                        const tabTitle = tabData.tabTitle
+                        let tabJsx
+                        if (
+                          !tabData.widgetDatas ||
+                          tabData.widgetDatas.length === 0
+                        ) {
+                          tabJsx = (
+                            <Empty
+                              image={null}
+                              description={i18n.t('no_widgets')}
+                            />
+                          )
+                        } else {
+                          tabJsx = tabData.widgetDatas.map((widgetData, i) => {
+                            const Widget = WidgetMap[widgetData.type]
+                            if (!Widget) {
+                              return null
+                            }
+                            return (
+                              <View
+                                key={i}
+                                style={{
+                                  position: 'absolute',
+                                  left: widgetData.x,
+                                  top: widgetData.y,
+                                  width: widgetData.width,
+                                  height: widgetData.height,
+                                }}
+                              >
+                                <Widget
+                                  {...widgetData}
+                                  operatorConsoleAsParent={this}
+                                  uccacWrapper={this._UccacWrapper}
+                                  context={{
+                                    loginUser: this.state.loginUser,
+                                    currentCallIndex:
+                                      this._getCurrentCallIndex(),
+                                    // callIds: this._callIds,
+                                    // callById: this.callById,
+                                    dialing: this.state.dialing,
+                                    extensions: this.state.extensions,
+                                    extensionsStatus:
+                                      this.state.extensionsStatus,
+                                    linesStatus: this.state.linesStatus,
+                                    parksStatus: this.state.parksStatus,
+                                    myParksStatus: this.state.myParksStatus,
+                                    usingLine: this.state.usingLine,
+                                    autoRejectIncoming:
+                                      this.state.autoRejectIncoming,
+                                    monitoringExtension:
+                                      this.state.monitoringExtension,
+                                    switchCallUp: this.switchCallUp,
+                                    switchCallDown: this.switchCallDown,
+                                    switchCallIndex: this.switchCallIndex,
+                                    monitorDialingExtension:
+                                      this.monitorDialingExtension,
+                                    joinConversation: this.joinConversation,
+                                    appendKeypadValue: this.appendKeypadValue,
+                                    setDialingAndMakeCall:
+                                      this.setDialingAndMakeCall,
+                                    backspaceKeypadValue:
+                                      this.backspaceKeypadValue,
+                                    toggleCallRecording:
+                                      this.toggleCallRecording,
+                                    toggleCallMuted: this.toggleCallMuted,
+                                    toggleAutoRejectIncoming:
+                                      this.toggleAutoRejectIncoming,
+                                    resumeCall: this.resumeCall,
+                                    holdCall: this.holdCall,
+                                    hangUpCall: this.hangUpCall,
+                                    answerCall: this.answerCall,
+                                    sendDTMFIfNeed: this.sendDTMFIfNeed,
+                                    makeCall: this.makeCall,
+                                    transferCall: this.transferCall,
+                                    handleLine: this.handleLine,
+                                    handlePark: this.handlePark,
+                                    // getNote: this.getNote,
+                                    // setNote: this.setNote,
+                                    toggleQuickCallScreen:
+                                      this.toggleQuickCallScreen,
+                                    onClickAutoDial: this.onClickAutoDial,
+                                    currentScreenQuickCallWidget:
+                                      this.state.currentScreenQuickCallWidget,
+                                    widget: widgetData,
+                                    showAutoDialWidgets:
+                                      this.state.showAutoDialWidgets,
+                                    operatorConsole: this,
+                                  }}
+                                />
+                              </View>
+                            )
+                          })
+                        }
+                        const key = i.toString()
+                        const tabItem = {
+                          key,
+                          label: tabTitle,
+                          children: tabJsx,
+                        }
+                        tabItems[i] = tabItem
+                      }
+
+                      return (
+                        <View key={screenIndex}>
+                          <View
+                            style={{
+                              position: 'relative',
+                              width: screen.width,
+                              height: screen.height,
+                              margin: 'auto',
+                              marginTop: 48,
+                            }}
+                          >
+                            {/* <Tabs
+                              activeKey={tabsActiveKey}
+                              items={tabItems}
+                              onTabClick={key =>
+                                this._onShowScreenTabClick(key)
+                              }
+                            /> */}
+                          </View>
+                        </View>
+                      )
+                    })}
+                    {/* </Carousel>*/}
+                  </View>
+                  <DropDownMenu operatorConsole={this}></DropDownMenu>
+                </>
+              ) : this.state.displayState ===
+                brOcDisplayStates.systemSettingsView ? (
+                <SystemSettingsView operatorConsole={this} />
+              ) : this.state.displayState ===
+                brOcDisplayStates.showScreen_ver2 ? (
+                <ShowScreenView_ver2 operatorConsoleAsParent={this} />
+              ) : (
+                <>
+                  <View
+                    style={{
+                      flexGrow: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      overflow: 'hidden',
+                      backgroundColor:
+                        this.state.screens[this.state.currentScreenIndex]
+                          .background,
+                      // color:
+                      //   this.state.screens[this.state.currentScreenIndex]
+                      //     .foreground,
+                    }}
+                  >
+                    {this.state.screens.map((screen, screenIndex) => {
+                      const tabItems = new Array(screen.tabDatas.length)
+                      for (let i = 0; i < tabItems.length; i++) {
+                        const tabData = screen.tabDatas[i]
+                        const tabTitle = tabData.tabTitle
+                        let tabJsx
+                        if (
+                          !tabData.widgetDatas ||
+                          tabData.widgetDatas.length === 0
+                        ) {
+                          tabJsx = (
+                            <Empty
+                              image={null}
+                              description={i18n.t('no_widgets')}
+                            />
+                          )
+                        } else {
+                          tabJsx = tabData.widgetDatas.map((widgetData, i) => {
+                            const Widget = WidgetMap[widgetData.type]
+                            if (!Widget) {
+                              return null
+                            }
+                            return (
+                              <View
+                                key={i}
+                                style={{
+                                  position: 'absolute',
+                                  left: widgetData.x,
+                                  top: widgetData.y,
+                                  width: widgetData.width,
+                                  height: widgetData.height,
+                                }}
+                              >
+                                <Widget
+                                  {...widgetData}
+                                  widgetIndex={i}
+                                  operatorConsoleAsParent={this}
+                                  uccacWrapper={this._UccacWrapper}
+                                  context={{
+                                    loginUser: this.state.loginUser,
+                                    currentCallIndex:
+                                      this._getCurrentCallIndex(),
+                                    // callIds: this._callIds,
+                                    // callById: this.callById,
+                                    dialing: this.state.dialing,
+                                    extensions: this.state.extensions,
+                                    extensionsStatus:
+                                      this.state.extensionsStatus,
+                                    linesStatus: this.state.linesStatus,
+                                    parksStatus: this.state.parksStatus,
+                                    myParksStatus: this.state.myParksStatus,
+                                    usingLine: this.state.usingLine,
+                                    autoRejectIncoming:
+                                      this.state.autoRejectIncoming,
+                                    monitoringExtension:
+                                      this.state.monitoringExtension,
+                                    switchCallUp: this.switchCallUp,
+                                    switchCallDown: this.switchCallDown,
+                                    switchCallIndex: this.switchCallIndex,
+                                    monitorDialingExtension:
+                                      this.monitorDialingExtension,
+                                    joinConversation: this.joinConversation,
+                                    appendKeypadValue: this.appendKeypadValue,
+                                    setDialingAndMakeCall:
+                                      this.setDialingAndMakeCall,
+                                    backspaceKeypadValue:
+                                      this.backspaceKeypadValue,
+                                    toggleCallRecording:
+                                      this.toggleCallRecording,
+                                    toggleCallMuted: this.toggleCallMuted,
+                                    toggleAutoRejectIncoming:
+                                      this.toggleAutoRejectIncoming,
+                                    resumeCall: this.resumeCall,
+                                    holdCall: this.holdCall,
+                                    hangUpCall: this.hangUpCall,
+                                    answerCall: this.answerCall,
+                                    sendDTMFIfNeed: this.sendDTMFIfNeed,
+                                    makeCall: this.makeCall,
+                                    transferCall: this.transferCall,
+                                    handleLine: this.handleLine,
+                                    handlePark: this.handlePark,
+                                    // getNote: this.getNote,
+                                    // setNote: this.setNote,
+                                    toggleQuickCallScreen:
+                                      this.toggleQuickCallScreen,
+                                    currentScreenQuickCallWidget:
+                                      this.state.currentScreenQuickCallWidget,
+                                    onClickAutoDial: this.onClickAutoDial,
+                                    widget: widgetData,
+                                    makeCallWithShortDial:
+                                      this.makeCallWithShortDial,
+                                    showAutoDialWidgets:
+                                      this.state.showAutoDialWidgets,
+                                    operatorConsole: this,
+                                  }}
+                                />
+                              </View>
+                            )
+                          })
+                        }
+                        const tabItem = {
+                          key: i.toString(),
+                          label: tabTitle,
+                          children: tabJsx,
+                        }
+                        tabItems[i] = tabItem
+                      }
+
+                      return (
+                        <View key={screenIndex}>
+                          <View
+                            style={{
+                              position: 'relative',
+                              width: screen.width,
+                              height: screen.height,
+                              margin: 'auto',
+                              marginTop: 48,
+                            }}
+                          >
+                            <Tabs
+                              // activeKey={tabsActiveKey}
+                              tabs={tabItems}
+                              onTabClick={key =>
+                                this._onShowScreenTabClick(key)
+                              }
+                            />
+                          </View>
+                        </View>
+                      )
+                    })}
+                  </View>
+                  <DropDownMenu operatorConsole={this}></DropDownMenu>
+                </>
+              )
+            ) : this.state.displayState === brOcDisplayStates.noScreens ? (
+              <NoScreensView operatorConsoleAsParent={this} />
+            ) : (
+              <Empty image={null} description={<ActivityIndicator />} />
+            )}
+          </View>
+        ) : (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#fafafa',
+            }}
+          >
+            <Login
+              operatorConsoleAsParent={this}
+              initialValues={this._getLastLoginAccount()}
+            />
+          </View>
+        )}
+
+        <View id='brOCPhone'></View>
+      </Provider>
+    )
   }
 
   setLastLoginAccount(lastLoginAccount) {
@@ -2093,7 +2108,7 @@ export class BrekekeOperatorConsole extends React.Component<
     const sLastLoginAccount = await RnAsyncStorage.getItem('lastLoginAccount')
     if (sLastLoginAccount) {
       try {
-        const lastLoginAccount = JSON.parse(sLastLoginAccount)
+        const lastLoginAccount: LoginParams = JSON.parse(sLastLoginAccount)
         console.log('#Duy Phan console lastLoginAccount', lastLoginAccount)
 
         if (
@@ -2109,7 +2124,7 @@ export class BrekekeOperatorConsole extends React.Component<
       }
     }
     // const lastLoginAccount = this.state.lastLoginAccount;
-    const lastLoginAccount = {
+    const lastLoginAccount: LoginParams = {
       hostname: location.hostname,
       port: location.port,
       pbxDirectoryName: this._DefaultPbxDirectoryName,
@@ -4036,13 +4051,13 @@ export class BrekekeOperatorConsole extends React.Component<
               ',responseOptions=',
               options,
             )
-            Notification.error({
-              message:
-                i18n.t('AnErrorOccurredWhileLoadingTheFileList') +
-                '\r\n' +
-                fileRootUrl,
-              duration: 0,
-            })
+            // Notification.error({
+            //   message:
+            //     i18n.t('AnErrorOccurredWhileLoadingTheFileList') +
+            //     '\r\n' +
+            //     fileRootUrl,
+            //   duration: 0,
+            // })
             this._startDownLayoutAndSystemSettingsForLoggedin()
           },
           loadTimeoutFunction: options => {
@@ -4060,6 +4075,7 @@ export class BrekekeOperatorConsole extends React.Component<
             this._startDownLayoutAndSystemSettingsForLoggedin()
           },
         }
+        // Todo
         this._DefaultButtonImageFileInfos.load(
           loadDefaultButtonImageFileInfosOptions,
         )
@@ -4440,8 +4456,8 @@ export class BrekekeOperatorConsole extends React.Component<
     }
   }
 
-  getLoginPassword() {
-    const password = this._getLastLoginAccount().password
+  async getLoginPassword() {
+    const { password } = await this._getLastLoginAccount()
     return password
   }
 

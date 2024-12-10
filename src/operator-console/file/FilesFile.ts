@@ -1,5 +1,6 @@
 export class FilesFile {
   constructor() {}
+  _fileNames: Array<any> | null = null
 
   load(options) {
     this._fileNames = null

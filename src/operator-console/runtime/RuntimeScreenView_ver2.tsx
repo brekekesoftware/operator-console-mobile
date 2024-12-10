@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, Image, View } from 'react-native'
+import { Dimensions, Image, ImageSourcePropType, View } from 'react-native'
 
 import logo from '../logo.png'
 
@@ -50,17 +50,17 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
             backgroundColor: screenData_ver2.getScreenBackgroundColor(),
           }}
         >
-          <View>
+          {/* <View>
             <Image
               style={{ marginTop: 4, marginLeft: 4 }}
-              source={{ uri: logo }}
+              source={logo as ImageSourcePropType}
             />
-          </View>
+          </View> */}
           <DropDownMenu
             operatorConsole={this._OperatorConsoleAsParent}
           ></DropDownMenu>
-          <AutoDialView_ver2 isVisible={isVisibleAutoDialView_Ver2} />
-          <QuickBusy_ver2 />
+          {/* <AutoDialView_ver2 isVisible={isVisibleAutoDialView_Ver2} />
+          <QuickBusy_ver2 /> */}
         </View>
         <View
           style={{
@@ -76,11 +76,11 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
               marginBottom: 10,
             }}
           >
-            <RuntimeRootPane
+            {/* <RuntimeRootPane
               paneData={rootPaneData}
               runtimeScreenViewAsParent={this}
               className='width100percentAndHeight100percent'
-            />
+            /> */}
           </View>
         </View>
       </View>

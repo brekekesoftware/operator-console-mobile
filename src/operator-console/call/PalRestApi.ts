@@ -49,7 +49,6 @@ export class PalRestApi {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
       },
       body: JSON.stringify(initPalRestApiOptions),
     } as any
@@ -58,16 +57,15 @@ export class PalRestApi {
       initPalRestApiFetchOptions,
     )
     fetchPromise
-      .then(async response => {
-        console.log('#Duy Phan console 123123222', response)
-        const json = await response.clone().json()
-        console.log('#Duy Phan console 123123', json)
+      .then(response => {
+        // console.log('#Duy Phan console 123123222', response)
+        const json = response.json()
+        // console.log('#Duy Phan console 123123', json)
         return json
       })
       .then(json => {
-        const d = JSON.parse(json)
-        console.log('#Duy Phan console d', d)
-        const token = json.token
+        const token: string = json.token
+        console.log('#Duy Phan console token', token)
         if (!token || token.length === 0) {
           const err = new Error(
             'Failed to get PAL REST API token. token=' + token,
@@ -85,6 +83,7 @@ export class PalRestApi {
         }
       })
       .catch(err => {
+        console.log('#Duy Phan console', err)
         console.error(
           'Failed to login(Failed to init PAL REST API). error=',
           err,
@@ -280,6 +279,7 @@ export class PalRestApi {
           pJson
             .then(json => {
               if (onSuccessFunction) {
+                alert(22)
                 try {
                   onSuccessFunction(json)
                 } catch (err) {

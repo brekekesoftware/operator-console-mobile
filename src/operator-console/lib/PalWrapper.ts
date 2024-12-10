@@ -36,7 +36,7 @@ export class PalWrapper {
 
   initPalWrapper(options) {
     if (this._state !== PalWrapper.PALWRAPPER_STATES.deinit) {
-      console.log('#Duy Phan console deinit')
+      console.log('# console deinit')
       return false
     }
     this._state = PalWrapper.PALWRAPPER_STATES.initing
@@ -57,6 +57,7 @@ export class PalWrapper {
     this._pbxUrlEndsWithSlash = pbxUrl + '/'
     this._pbxUrlEndsWithSlash = this._pbxUrl + '/'
 
+    this._state = PalWrapper.PALWRAPPER_STATES.init
     return true
   }
 

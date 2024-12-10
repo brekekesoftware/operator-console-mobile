@@ -1,16 +1,32 @@
 import type { ButtonProps } from '@ant-design/react-native'
 import { Button as Btn } from '@ant-design/react-native'
 import type { ButtonPropsType } from '@ant-design/react-native/lib/button/PropsType'
+import { Text } from 'react-native'
 
 type Props = Omit<ButtonProps, 'type'> & {
   type?: ButtonPropsType['type'] | 'secondary' | 'success'
   shape?: 'circle'
   icon?: React.ReactNode
-  // children?: React.ReactNode | string
 }
 export const Button = (props: Props) => {
-  const color = props.type === 'success' ? '#ffffff' : undefined
-  const bgColor = props.type === 'success' ? '#40742a' : undefined
+  let color: string | undefined = ''
+  let bgColor: string | undefined = ''
+  switch (props.type) {
+    case 'success': {
+      color = '#ffffff'
+      bgColor = '#40742a'
+      break
+    }
+    case 'primary': {
+      color = '#ffffff'
+      bgColor = '#1677ff'
+      break
+    }
+    default: {
+      color = undefined
+      bgColor = undefined
+    }
+  }
   return (
     <Btn
       {...props}
@@ -22,13 +38,23 @@ export const Button = (props: Props) => {
       style={[
         {
           backgroundColor: bgColor,
-          borderRadius: props.shape === 'circle' ? 25 : undefined,
+          minWidth: 100,
+          height: 30,
+          padding: 0,
+          borderRadius: props.shape === 'circle' ? 25 : 5,
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'row',
         },
         props.style,
       ]}
     >
-      {props.icon}
-      {props.children}
+      {/* {props.icon} */}
+      {typeof props.children === 'string' ? (
+        <Text style={{ color }}>{props.children}</Text>
+      ) : (
+        props.children
+      )}
     </Btn>
   )
 }
