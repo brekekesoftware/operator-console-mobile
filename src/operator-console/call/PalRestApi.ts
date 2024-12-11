@@ -279,7 +279,6 @@ export class PalRestApi {
           pJson
             .then(json => {
               if (onSuccessFunction) {
-                alert(22)
                 try {
                   onSuccessFunction(json)
                 } catch (err) {

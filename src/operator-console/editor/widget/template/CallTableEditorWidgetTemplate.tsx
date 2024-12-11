@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { WidgetData } from '../../../data/widgetData/WidgetData'
@@ -26,13 +26,25 @@ export class CallTableEditorWidgetTemplate extends EditorWidgetTemplate {
   // !overload
   getRenderMainJsx() {
     return (
-      <Table>
-        <View>
-          <TableWrapper style={{ height: '100%' }}>
-            <Cell data={i18n.t('CallTable')}></Cell>
-          </TableWrapper>
-        </View>
-      </Table>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: '#e0e0e0',
+          backgroundColor: '#f8f8f8',
+          padding: 14,
+        }}
+      >
+        <Text
+          style={{
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            fontSize: 14,
+            fontWeight: 'bold',
+          }}
+        >
+          {i18n.t('CallTable')}
+        </Text>
+      </View>
     )
   }
 }

@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { WidgetData } from '../../../data/widgetData/WidgetData'
@@ -20,19 +20,32 @@ export class LegacyUccacEditorWidgetTemplate extends EditorWidgetTemplate {
 
   // !overload
   getHeight() {
-    return 48
+    return 58
   }
 
   // !overload
   getRenderMainJsx() {
     return (
-      <Table>
-        <View>
-          <TableWrapper style={{ height: '100%' }}>
-            <Cell data={i18n.t('ucChatAgentComponent')}></Cell>
-          </TableWrapper>
-        </View>
-      </Table>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: '#e0e0e0',
+          backgroundColor: '#f8f8f8',
+          padding: 12,
+        }}
+      >
+        <Text
+          style={{
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            fontSize: 14,
+            fontWeight: 'bold',
+          }}
+          numberOfLines={2}
+        >
+          {i18n.t('ucChatAgentComponent')}
+        </Text>
+      </View>
     )
   }
 }

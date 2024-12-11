@@ -21,6 +21,7 @@ export const WidgetButton = ({ style, children, textStyle }: Props) => (
         borderStyle: 'solid',
         borderColor: 'rgb(229.5, 229.5, 229.5)',
         borderWidth: 1,
+        elevation: 3,
       },
       style,
     ]}

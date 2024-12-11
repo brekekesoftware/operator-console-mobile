@@ -20,7 +20,7 @@ type GridLinesProps = {
   dashArray2?: string
   format?: any
   orientation?: any
-  children?: string | JSX.Element | JSX.Element[] | (() => JSX.Element)
+  children?: string | JSX.Element | JSX.Element[]
 }
 
 export const GridLines = React.forwardRef((props: GridLinesProps, ref) => {
@@ -88,13 +88,23 @@ export const GridLines = React.forwardRef((props: GridLinesProps, ref) => {
       style={[
         style,
         {
-          zIndex: -1,
+          // zIndex: -1,
         },
       ]}
       {...rest}
     >
-      {bg}
-      {children}
+      <View style={{ zIndex: -1 }}>{bg}</View>
+      <View
+        style={{
+          flex: 1,
+          zIndex: 999,
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        {children}
+      </View>
     </ComponentProp>
   )
 })

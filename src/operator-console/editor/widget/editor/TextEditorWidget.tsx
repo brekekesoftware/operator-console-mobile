@@ -1,3 +1,5 @@
+import { Text, View } from 'react-native'
+
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 
@@ -24,26 +26,29 @@ export class TextEditorWidget extends EditorWidget {
     const textBorderRadius =
       widgetData.getTextBorderRadius() || widgetData.getTextBorderRadius() === 0
         ? widgetData.getTextBorderRadius()
-        : ''
-
+        : 0
     return (
-      <div
+      <View
         style={{
-          textOverflow: 'ellipsis',
-          whiteSpace: 'pre-wrap',
           overflow: 'hidden',
-          wordBreak: 'break-all',
           width: '100%',
           height: '100%',
-          textAlign: 'center',
-          fontSize: textFontSize,
-          color: textFgColor,
           backgroundColor: textBgColor,
           borderRadius: textBorderRadius,
         }}
       >
-        {text}
-      </div>
+        <Text
+          numberOfLines={1}
+          style={{
+            textAlign: 'center',
+            fontSize: textFontSize,
+            color: textFgColor,
+          }}
+        >
+          {' '}
+          {text}
+        </Text>
+      </View>
     )
   }
 }

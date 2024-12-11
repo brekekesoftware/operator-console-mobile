@@ -98,7 +98,11 @@ export class TableWrapper extends Component<TProps> {
 
   render() {
     const { style } = this.props
-    return <View style={style}>{this._renderChildren(this.props)}</View>
+    return (
+      <View style={[{ flexDirection: 'row' }, style]}>
+        {this._renderChildren(this.props)}
+      </View>
+    )
   }
 }
 
@@ -222,15 +226,15 @@ export class Cell extends Component<CeProps> {
     const textDom = children ? (
       typeof children === 'string' ? (
         <Text style={[textStyle]}>{children}</Text>
-      ) : React.isValidElement(data) ? (
-        data
       ) : (
-        <Text style={[textStyle]} {...p}>
-          {data}
-        </Text>
+        children
       )
+    ) : React.isValidElement(data) ? (
+      data
     ) : (
-      children
+      <Text style={[textStyle]} {...p}>
+        {data}
+      </Text>
     )
     const borderTopWidth = (style && style.borderWidth) || undefined
     const borderRightWidth = borderTopWidth
@@ -250,7 +254,7 @@ export class Cell extends Component<CeProps> {
             height,
             flex,
           },
-          !width && !flex && !height && !style && { flex: 1 },
+          !width && !flex && !height ? { flex: 1 } : {},
           style,
         ]}
       >

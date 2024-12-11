@@ -20,12 +20,7 @@ export type SelectProps = {
 type OptionProps = {
   value: string | Element
   isSelected?: boolean
-  children?:
-    | string
-    | JSX.Element
-    | JSX.Element[]
-    | (() => JSX.Element)
-    | React.ReactNode
+  children?: string | JSX.Element | JSX.Element[] | React.ReactNode
   title?: string
 }
 
@@ -57,7 +52,7 @@ const Select = ({
 const SelectOption = ({ value, isSelected, children, title }: OptionProps) => (
   <>
     {Children.map(children, child => (
-      <View>{child}</View>
+      <View>{typeof child === 'string' ? <Text>{child}</Text> : child}</View>
     ))}
     <View
       style={{

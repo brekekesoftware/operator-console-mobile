@@ -1,3 +1,5 @@
+import { Text, View } from 'react-native'
+
 import { i18n } from '../../../i18n'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
@@ -23,7 +25,7 @@ export class LegacyUccacEditorWidget extends EditorWidget {
     const borderRadius =
       widgetData.getBorderRadius() || widgetData.getBorderRadius() === 0
         ? widgetData.getBorderRadius()
-        : ''
+        : 0
 
     const outsideShadow_horizontalOffset =
       widgetData.getOutsideShadow_horizontalOffset() ||
@@ -116,7 +118,7 @@ export class LegacyUccacEditorWidget extends EditorWidget {
       sBoxshadowInside
 
     return (
-      <div
+      <View
         style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -124,13 +126,15 @@ export class LegacyUccacEditorWidget extends EditorWidget {
           width: '100%',
           borderRadius,
           backgroundColor: uccacwidgetBgColor,
-          boxShadow: sBoxShadow,
-          color: uccacwidgetFgColor,
+          // boxShadow: sBoxShadow,
+
           padding: 6,
         }}
       >
-        {i18n.t('ucChatAgentComponentIsInEditMode')}
-      </div>
+        <Text style={{ color: uccacwidgetFgColor }}>
+          {i18n.t('ucChatAgentComponentIsInEditMode')}
+        </Text>
+      </View>
     )
   }
 }

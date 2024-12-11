@@ -268,6 +268,7 @@ const EditorLineTableRow_ver2 = ({
           borderBottomWidth: bodyRowUnderlineThickness,
           borderStyle: 'solid',
           borderColor: bodyRowUnderlineColor,
+          height: 50,
         },
       ]}
     >
@@ -385,7 +386,7 @@ export class LineTableEditorWidget extends EditorWidget {
       const lineData = lineDataArray[i]
       const line = lineData.getResourceName()
       const { line_talker, room_id, line_talker_id } = linesStatus[line] || {}
-      const lineInfo = {}
+      const lineInfo: any = {}
       lineInfo.line = line
       lineInfo.lineLabel = lineData.getLineLabel()
       lineInfo.label = i18n.t('line') + ' ' + (i + 1)
@@ -475,59 +476,75 @@ export class LineTableEditorWidget extends EditorWidget {
           borderStyle: 'solid',
           borderColor: outerBorderColor,
           backgroundColor,
+          height: 128,
+          // backgroundColor: 'white'
         }}
       >
-        <View>
-          <TableWrapper
+        <TableWrapper
+          style={{
+            borderBottomWidth: headerRowUnderlineThickness,
+            borderStyle: 'solid',
+            borderColor: headerRowUnderlineColor,
+            height: 60,
+            backgroundColor: 'white',
+          }}
+        >
+          <Cell
             style={{
-              borderBottomWidth: headerRowUnderlineThickness,
-              borderStyle: 'solid',
-              borderColor: headerRowUnderlineColor,
+              borderTopLeftRadius: outerBorderRadius,
+              borderTopRightRadius: outerBorderRadius,
             }}
-          >
-            <Cell
-              style={{
-                borderTopLeftRadius: outerBorderRadius,
-                borderTopRightRadius: outerBorderRadius,
-              }}
-              textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-              data={i18n.t('name')}
-            ></Cell>
-            <Cell
-              textStyle={{
-                fontSize: headerFontSize,
-                color: headerFgColor,
-              }}
-              data={i18n.t('responder')}
-            ></Cell>
-            <Cell
-              textStyle={{
-                fontSize: headerFontSize,
-                color: headerFgColor,
-              }}
-              data={i18n.t('line')}
-            ></Cell>
-            <Cell
-              textStyle={{
-                fontSize: headerFontSize,
-                color: headerFgColor,
-              }}
-              data={i18n.t('transfer')}
-            ></Cell>
-            <Cell
-              style={{
-                borderTopRightRadius: outerBorderRadius,
-                borderBottomRightRadius: outerBorderRadius,
-              }}
-              textStyle={{
-                fontSize: headerFontSize,
-                color: headerFgColor,
-              }}
-              data={i18n.t('camponDest')}
-            ></Cell>
-          </TableWrapper>
-        </View>
-        <View>
+            textStyle={{
+              fontSize: headerFontSize,
+              color: headerFgColor,
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('name')}
+          ></Cell>
+          <Cell
+            textStyle={{
+              fontSize: headerFontSize,
+              color: headerFgColor,
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('responder')}
+          ></Cell>
+          <Cell
+            textStyle={{
+              fontSize: headerFontSize,
+              color: headerFgColor,
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('line')}
+          ></Cell>
+          <Cell
+            textStyle={{
+              fontSize: headerFontSize,
+              color: headerFgColor,
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('transfer')}
+          ></Cell>
+          <Cell
+            style={{
+              borderTopRightRadius: outerBorderRadius,
+              borderBottomRightRadius: outerBorderRadius,
+            }}
+            textStyle={{
+              fontSize: headerFontSize,
+              color: headerFgColor,
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('camponDest')}
+          ></Cell>
+        </TableWrapper>
+
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
           {lineInfos.map((lineInfo, index) => (
             <EditorLineTableRow_ver2
               key={index}

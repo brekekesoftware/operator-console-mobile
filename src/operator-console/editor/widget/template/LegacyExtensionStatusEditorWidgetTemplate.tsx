@@ -26,9 +26,11 @@ export class LegacyExtensionStatusEditorWidgetTemplate extends EditorWidgetTempl
   // !overload
   getRenderMainJsx() {
     return (
-      <View style={OperatorConsoleStyles['led-red']}>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View style={OperatorConsoleStyles['led-grey']}></View>
-        <Text>{i18n.t('extension_status')}</Text>
+        <Text numberOfLines={2} style={{ textAlign: 'center' }}>
+          {i18n.t('extension_status')}
+        </Text>
       </View>
     )
   }

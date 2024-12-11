@@ -1,5 +1,6 @@
 import { Input } from '@ant-design/react-native'
 import React from 'react'
+import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, Text, View } from 'react-native'
 
 import logo from '../logo.png'
@@ -403,8 +404,12 @@ export class EditScreenView extends React.Component<Props, State> {
         break
       }
       default: {
-        jsx = i18n.t(
-          'Click_on_any_area_or_splitter_or_widget_or_tab_on_the_left',
+        jsx = (
+          <Text>
+            {i18n.t(
+              'Click_on_any_area_or_splitter_or_widget_or_tab_on_the_left',
+            )}
+          </Text>
         )
         break
       }
@@ -414,6 +419,7 @@ export class EditScreenView extends React.Component<Props, State> {
 
   render() {
     const settingsAreaJsx = this._getSettingsAreaJsx()
+    console.log('#Duy Phan console render edit')
     return (
       <View
         style={{
@@ -423,33 +429,40 @@ export class EditScreenView extends React.Component<Props, State> {
           height: '100%',
         }}
       >
-        <View style={{ display: 'flex', alignItems: 'center', height: 47 }}>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: 47,
+            flexDirection: 'row',
+          }}
+        >
           <View style={{ width: 240 }}>
             <Image
               style={{ marginTop: 4, marginLeft: 4 }}
-              source={{ uri: logo }}
+              source={logo as ImageSourcePropType}
             />
           </View>
-          <Space>
-            <>
-              <Text>{i18n.t('grid')}</Text>
-              {': '}
+          <Space style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ fontSize: 14 }}>{i18n.t('grid')} : </Text>
               <InputNumber
                 value={this.getEditingScreenGrid()}
+                style={{ width: 120 }}
                 // onPressEnter={e =>
                 //   this.setEditingScreenGrid(parseInt(e.target.value))
                 // }
                 onStep={v => this.setEditingScreenGrid(v)}
               />
-            </>
+            </View>
             <View
               style={{
                 display: 'flex',
                 alignItems: 'center',
+                flexDirection: 'row',
               }}
             >
-              {i18n.t('foreground')}
-              {': '}
+              <Text style={{ fontSize: 14 }}>{i18n.t('foreground')}: </Text>
               <DropdownOverlay
                 overlay={
                   <ColorPicker
@@ -475,10 +488,10 @@ export class EditScreenView extends React.Component<Props, State> {
               style={{
                 display: 'flex',
                 alignItems: 'center',
+                flexDirection: 'row',
               }}
             >
-              <Text>{i18n.t('background')}</Text>
-              {': '}
+              <Text style={{ fontSize: 14 }}>{i18n.t('background')}: </Text>
               <DropdownOverlay
                 overlay={
                   <ColorPicker
@@ -509,10 +522,16 @@ export class EditScreenView extends React.Component<Props, State> {
                 okText={i18n.t('yes')}
                 cancelText={i18n.t('no')}
               >
-                <Button type='secondary'>{i18n.t('discard')}</Button>
+                <Button type='secondary' style={{ minWidth: 80 }} disabled>
+                  {i18n.t('discard')}
+                </Button>
               </Popconfirm>
-              <Space />
-              <Button type='success' onPress={() => this._saveEditingScreen()}>
+              <Space size={0} />
+              <Button
+                type='success'
+                style={{ minWidth: 80 }}
+                onPress={() => this._saveEditingScreen()}
+              >
                 {i18n.t('save')}
               </Button>
             </Space>
@@ -522,13 +541,14 @@ export class EditScreenView extends React.Component<Props, State> {
           style={{
             display: 'flex',
             height: Dimensions.get('screen').height - 47,
+            flexDirection: 'row',
           }}
         >
           <View style={{ width: 240 }}>
             {/* left -  widget templates area*/}
             {this._getWidgetTemplatesAreaJsx()}
           </View>
-          <View style={{ width: Dimensions.get('screen').height - 500 }}>
+          <View style={{ width: Dimensions.get('screen').height }}>
             <EditorRootPane
               paneData={this._RootPaneData}
               editScreenViewAsParent={this}

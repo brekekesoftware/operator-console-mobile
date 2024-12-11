@@ -18,7 +18,11 @@ type Props = {
   backgroundColor?: string
   editScreenViewAsParent?: EditScreenView
 }
-export class BasePane extends React.Component<Props> {
+
+type State = {
+  parentContainer?: any
+}
+export class BasePane extends React.Component<Props, State> {
   constructor(props) {
     super(props)
   }

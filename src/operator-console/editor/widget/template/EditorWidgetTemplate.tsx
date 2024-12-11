@@ -1,3 +1,7 @@
+import { View } from 'react-native'
+
+import { Draggable } from '../../../lib/rnd/Draggable'
+
 // !abstract class
 export class EditorWidgetTemplate {
   _EditorWidgetTemplateFactoryAsParent
@@ -32,7 +36,7 @@ export class EditorWidgetTemplate {
     const height = this.getHeight()
     const renderMainJsx = this.getRenderMainJsx()
     return (
-      <div
+      <Draggable
         key={jsxKey}
         data-br-widget-type-id={this._WidgetTypeId}
         style={{
@@ -40,13 +44,13 @@ export class EditorWidgetTemplate {
           height,
           marginBottom: 4,
         }}
-        draggable={true}
-        onDragStart={ev =>
-          editScreenViewAsCaller.onDragEditorWidgetTemplateStart(ev)
-        }
+        // draggable={true}
+        // onDragStart={ev =>
+        //   editScreenViewAsCaller.onDragEditorWidgetTemplateStart(ev)
+        // }
       >
         {renderMainJsx}
-      </div>
+      </Draggable>
     )
   }
 }

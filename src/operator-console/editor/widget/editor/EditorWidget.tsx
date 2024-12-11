@@ -178,6 +178,7 @@ export class EditorWidget extends React.Component<any, any> {
         y={relativePositionY}
         grid={[editingScreenGrid, editingScreenGrid]}
         isResizable={true}
+        isDraggable
         onDragEnd={([x, y]) =>
           this._onDragStop({}, { lastX: x, lastY: y }, widgetData)
         }

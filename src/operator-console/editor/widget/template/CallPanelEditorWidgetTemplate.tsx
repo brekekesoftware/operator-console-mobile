@@ -1,3 +1,5 @@
+import { View } from 'react-native'
+
 import { WidgetData } from '../../../data/widgetData/WidgetData'
 import { EditorWidgetTemplate } from './EditorWidgetTemplate'
 
@@ -21,6 +23,17 @@ export class CallPanelEditorWidgetTemplate extends EditorWidgetTemplate {
 
   // !overload
   getRenderMainJsx() {
-    return <div className='brOCCallPanel' style={{}}></div>
+    return (
+      <View
+        style={{
+          borderRadius: 8,
+          width: '100%',
+          height: ' 100%',
+          // color: #304701;
+          backgroundColor: '#A8C64E',
+          elevation: 4,
+        }}
+      ></View>
+    )
   }
 }

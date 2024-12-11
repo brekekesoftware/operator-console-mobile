@@ -46,14 +46,27 @@ export const InputNumber = ({
       {...props}
       value={String(v || '')}
       onChange={e => e.target}
+      style={[
+        {
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderRadius: 5,
+          borderColor: '#d9d9d9',
+          height: 40,
+        },
+        props.style,
+      ]}
       type='number-pad'
       suffix={
         <View style={styles.suffix}>
-          <TouchableOpacity style={styles.btn} onPress={increase}>
-            <IconArrowUp />
+          <TouchableOpacity
+            style={[styles.btn, styles.increaseBtn]}
+            onPress={increase}
+          >
+            <IconArrowUp size={20} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.btn} onPress={decrease}>
-            <IconArrowDown />
+            <IconArrowDown size={20} />
           </TouchableOpacity>
         </View>
       }
@@ -64,12 +77,18 @@ export const InputNumber = ({
 const styles = StyleSheet.create({
   suffix: {
     flexDirection: 'column',
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
+    borderLeftWidth: 1,
+    borderColor: '#d9d9d9',
   },
   btn: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
+  },
+  increaseBtn: {
+    borderBottomWidth: 1,
+    borderColor: '#d9d9d9',
   },
 })

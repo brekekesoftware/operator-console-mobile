@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
     zIndex: 9999,
-    top: 0,
+    top: 30,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    elevation: 3,
+    borderRadius: 5,
+    backgroundColor: 'white',
   },
 })

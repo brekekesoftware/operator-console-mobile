@@ -15,7 +15,7 @@ export const Space = ({
   style,
   direction = 'horizontal',
   align,
-  size = 20,
+  size = 10,
 }: Props) => {
   const s: ViewStyle =
     direction === 'horizontal'
@@ -25,7 +25,7 @@ export const Space = ({
     <View style={[style, { gap: size }, s]}>
       {Children.map(children, (child, index) => (
         <>{child}</>
-      ))}{' '}
+      ))}
     </View>
   ) : (
     <View style={[style, { margin: size }]}></View>

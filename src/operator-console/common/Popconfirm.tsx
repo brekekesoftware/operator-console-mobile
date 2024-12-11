@@ -48,10 +48,23 @@ export const Popconfirm = ({
             </View>
           </View>
           <View style={styles.buttons}>
-            <Button style={styles.button} onPress={onCancel}>
+            <Button
+              style={styles.button}
+              onPress={() => {
+                onCancel?.()
+                setIsOpen(!isOpen)
+              }}
+            >
               <Text>{cancelText}</Text>
             </Button>
-            <Button type='primary' style={styles.button} onPress={onConfirm}>
+            <Button
+              type='primary'
+              style={styles.button}
+              onPress={() => {
+                onConfirm?.()
+                setIsOpen(!isOpen)
+              }}
+            >
               {okText}
             </Button>
           </View>
@@ -68,10 +81,14 @@ const styles = StyleSheet.create({
   pop: {
     position: 'absolute',
     zIndex: 1,
+    right: 0,
+    top: 30,
     width: 240,
     height: 150,
     flexDirection: 'column',
     padding: 8,
+    elevation: 3,
+    backgroundColor: 'white',
   },
   content: {
     flexDirection: 'row',
@@ -84,8 +101,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   button: {
-    width: 80,
-    height: 50,
+    width: 60,
+    height: 30,
   },
   text: {
     flexDirection: 'column',

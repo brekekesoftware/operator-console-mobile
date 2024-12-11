@@ -102,6 +102,8 @@ export class Draggable extends Component<Props, State> {
 
     this.setState(prev => ({
       ...prev,
+      x: 0,
+      y: 0,
       isSelected: false,
     }))
 
@@ -118,11 +120,12 @@ export class Draggable extends Component<Props, State> {
           <View
             style={[
               {
-                position: 'absolute',
-                left: 0,
-                top: 0,
+                // position: 'relative',
+                // left: x,
+                // top: y,
                 width: w,
                 height: h,
+                // backgroundColor: 'red'
               },
               this.props.style,
             ]}
@@ -133,11 +136,14 @@ export class Draggable extends Component<Props, State> {
         <View
           style={[
             {
-              position: 'absolute',
+              // position: 'absolute',
+
               left: x,
               top: y,
               width: w,
               height: h,
+              zIndex: isSelected ? 9999 : undefined,
+              // backgroundColor: 'yellow'
             },
             this.props.style,
           ]}

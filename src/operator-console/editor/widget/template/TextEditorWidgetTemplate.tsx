@@ -1,3 +1,5 @@
+import { Text, View } from 'react-native'
+
 import { WidgetData } from '../../../data/widgetData/WidgetData'
 import { i18n } from '../../../i18n'
 import { EditorWidgetTemplate } from './EditorWidgetTemplate'
@@ -20,20 +22,18 @@ export class TextEditorWidgetTemplate extends EditorWidgetTemplate {
   // !overload
   getRenderMainJsx() {
     return (
-      <div
+      <View
         style={{
-          textOverflow: 'ellipsis',
-          whiteSpace: 'pre-wrap',
           overflow: 'hidden',
-          wordBreak: 'break-all',
           width: '100%',
           height: '100%',
-          textAlign: 'center',
           backgroundColor: 'rgb(245,245,245)',
         }}
       >
-        {i18n.t('text')}
-      </div>
+        <Text style={{ textAlign: 'center' }} numberOfLines={1}>
+          {i18n.t('text')}
+        </Text>
+      </View>
     )
   }
 }

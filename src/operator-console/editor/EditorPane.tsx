@@ -1,10 +1,11 @@
-import { ScrollView } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
 import { GridLines } from '../common/GridLines'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { WidgetData } from '../data/widgetData/WidgetData'
 import { EditorTabFunctionComponent } from './EditorTabFunctionComponent'
+import type { EditScreenView } from './EditScreenView'
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
 
@@ -13,7 +14,7 @@ const _PANES = new Object()
 // !abstract class
 export class EditorPane extends BasePane {
   // !abstract
-  getEditScreenView() {
+  getEditScreenView(): EditScreenView {
     throw new Error('Not implemented.')
   }
 
@@ -26,6 +27,13 @@ export class EditorPane extends BasePane {
     return this.props['paneData']
   }
 
+  _VerticalDepth
+  _HorizontalDepth
+  _EditorVerticalAreaClassName
+  _WidthWithPercent: string
+  _EditorHorizontalAreaClassName
+  _HeightWithPercent: string
+  _ClassName: string
   constructor(props) {
     super(props)
 
@@ -381,25 +389,26 @@ export class EditorPane extends BasePane {
         const widgetDatas = paneData.getWidgetDatasForNoTabs()
         const widgetDataArray = widgetDatas.getWidgetDataArray()
         jsx = (
-          <div
+          <View
             data-br-container-id={paneData.getPaneNumber()}
             // parent-container={this.state.parentContainer}
-            className={className}
-            style={css}
-            onMouseDown={ev =>
-              this.getEditScreenView().onMouseDownEditorPaneInSettingsMode(ev)
-            }
-            onDragEnter={ev => this._onDragEnter(ev)}
-            onDragOver={ev => {
-              this._onDragOver(ev)
-            }}
-            onDrop={ev => this._onDrop(ev)}
+            // className={className}
+            // style={css}
+            // onMouseDown={ev =>
+            //   this.getEditScreenView().onMouseDownEditorPaneInSettingsMode(ev)
+            // }
+            // onDragEnter={ev => this._onDragEnter(ev)}
+            // onDragOver={ev => {
+            //   this._onDragOver(ev)
+            // }}
+            // onDrop={ev => this._onDrop(ev)}
+            style={{ width: '100%', height: '100%' }}
           >
             <GridLines
               style={{
                 width: '100%',
                 height: '100%',
-                position: 'relative',
+                // position: 'relative',
               }}
               strokeWidth={2}
               cellWidth={editingScreenGrid * 10}
@@ -407,7 +416,10 @@ export class EditorPane extends BasePane {
               cellHeight={editingScreenGrid * 10}
               cellHeight2={editingScreenGrid}
             >
-              <ScrollView>
+              <ScrollView
+                style={{ flex: 1 }}
+                contentContainerStyle={{ flex: 1 }}
+              >
                 {widgetDataArray.map((widgetData, index) => {
                   const widgetJsx =
                     EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
@@ -421,7 +433,7 @@ export class EditorPane extends BasePane {
                 })}
               </ScrollView>
             </GridLines>
-          </div>
+          </View>
         )
       }
     }

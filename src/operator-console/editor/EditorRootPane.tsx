@@ -1,12 +1,15 @@
+import { View } from 'react-native'
+
 import { BaseDividerData } from '../data/BaseDividerData'
 import { PaneData } from '../data/PaneData'
 import { EditorChildPane } from './EditorChildPane'
 import { EditorPane } from './EditorPane'
+import type { EditScreenView } from './EditScreenView'
 import { HorizontalEditorDivider } from './HorizontalEditorDivider'
 import { VerticalEditorDivider } from './VerticalEditorDivider'
 
 export class EditorRootPane extends EditorPane {
-  _EditScreenViewAsParent
+  _EditScreenViewAsParent: EditScreenView
   constructor(props) {
     super(props)
     this._EditScreenViewAsParent = this.getEditScreenViewFromProps(props)
@@ -25,6 +28,7 @@ export class EditorRootPane extends EditorPane {
 
   // !override
   _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
+    console.log('#Duy Phan console dividerDirection', dividerDirection)
     const editScreenView = this.getEditScreenView()
     let jsx
     const paneData = this.props['paneData']
@@ -70,10 +74,10 @@ export class EditorRootPane extends EditorPane {
           }
 
           jsx = (
-            <div
+            <View
               data-br-container-id={paneNumber}
               style={paneCss}
-              className={widthClassName + ' ' + heightClassName}
+              // className={widthClassName + ' ' + heightClassName}
             >
               <EditorChildPane
                 editorPaneAsParent={this}
@@ -92,7 +96,7 @@ export class EditorRootPane extends EditorPane {
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.bottomPane}
               />
-            </div>
+            </View>
           )
         }
         break
@@ -123,10 +127,10 @@ export class EditorRootPane extends EditorPane {
           paneCss['backgroundColor'] = this.props.backgroundColor
 
           jsx = (
-            <div
+            <View
               data-br-container-id={paneNumber}
               style={paneCss}
-              className={widthClassName + ' ' + heightClassName}
+              // className={widthClassName + ' ' + heightClassName}
             >
               <EditorChildPane
                 editorPaneAsParent={this}
@@ -145,7 +149,7 @@ export class EditorRootPane extends EditorPane {
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.rightPane}
               />
-            </div>
+            </View>
           )
         }
         break

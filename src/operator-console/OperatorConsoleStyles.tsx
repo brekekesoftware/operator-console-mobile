@@ -28,7 +28,7 @@ export const OperatorConsoleStyles = StyleSheet.create({
   },
   'led-grey': {
     ...commonStyles.commonLed,
-    backgroundColor: '#24E0FF',
+    backgroundColor: '#d9d9d9',
   },
   'led-box-text': {
     fontSize: 12,
