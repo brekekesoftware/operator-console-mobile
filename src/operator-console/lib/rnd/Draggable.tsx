@@ -1,13 +1,18 @@
 import type { ReactNode } from 'react'
 import { Component } from 'react'
-import type { PanResponderInstance, StyleProp, ViewStyle } from 'react-native'
+import type {
+  PanResponderGestureState,
+  PanResponderInstance,
+  StyleProp,
+  ViewStyle,
+} from 'react-native'
 import { PanResponder, View } from 'react-native'
 
 type Props = {
   children?: React.ReactNode
   onDragStart?: (d: [number, number]) => void
   onDrag?: (d: [number, number]) => void
-  onDragEnd?: (d: [number, number]) => void
+  onDragEnd?: (d: [number, number], g: PanResponderGestureState) => void
   style?: StyleProp<ViewStyle>
 }
 
@@ -64,7 +69,7 @@ export class Draggable extends Component<Props, State> {
       },
       onPanResponderTerminationRequest: (event, gestureState) => true,
       onPanResponderRelease: (event, gestureState) => {
-        this.onDragEnd?.([gestureState.moveX, gestureState.moveY])
+        this.onDragEnd?.([gestureState.moveX, gestureState.moveY], gestureState)
       },
       onPanResponderTerminate: (event, gestureState) => {},
       onShouldBlockNativeResponder: (event, gestureState) => true,
@@ -97,7 +102,7 @@ export class Draggable extends Component<Props, State> {
     })
   }
 
-  onDragEnd = coord => {
+  onDragEnd = (coord, gestureState) => {
     const { onDragEnd } = this.props
 
     this.setState(prev => ({
@@ -108,7 +113,7 @@ export class Draggable extends Component<Props, State> {
     }))
 
     if (onDragEnd !== null) {
-      onDragEnd?.([this.state.x, this.state.y])
+      onDragEnd?.([this.state.x, this.state.y], gestureState)
     }
   }
 
@@ -116,7 +121,7 @@ export class Draggable extends Component<Props, State> {
     const { x, y, w, h, isSelected } = this.state
     return (
       <>
-        {isSelected && (
+        {/* {isSelected && (
           <View
             style={[
               {
@@ -132,12 +137,11 @@ export class Draggable extends Component<Props, State> {
           >
             {this.props.children}
           </View>
-        )}
+        )} */}
         <View
           style={[
             {
               // position: 'absolute',
-
               left: x,
               top: y,
               width: w,

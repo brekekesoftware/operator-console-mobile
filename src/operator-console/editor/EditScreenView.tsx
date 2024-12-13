@@ -437,7 +437,12 @@ export class EditScreenView extends React.Component<Props, State> {
             flexDirection: 'row',
           }}
         >
-          <View style={{ width: 240 }}>
+          <View
+            style={{ width: 240 }}
+            onLayout={e =>
+              console.log('#Duy Phan console e111', e.nativeEvent.layout)
+            }
+          >
             <Image
               style={{ marginTop: 4, marginLeft: 4 }}
               source={logo as ImageSourcePropType}
@@ -468,6 +473,7 @@ export class EditScreenView extends React.Component<Props, State> {
                   <ColorPicker
                     color={this._ScreenData.getScreenForegroundColor()}
                     onColorChangeComplete={this.setScreenForegroundColor}
+                    isDefault
                   />
                 }
               >
@@ -497,6 +503,7 @@ export class EditScreenView extends React.Component<Props, State> {
                   <ColorPicker
                     color={this._ScreenData.getScreenBackgroundColor()}
                     onColorChangeComplete={this.setScreenBackgroundColor}
+                    isDefault
                   />
                 }
               >
@@ -548,7 +555,7 @@ export class EditScreenView extends React.Component<Props, State> {
             {/* left -  widget templates area*/}
             {this._getWidgetTemplatesAreaJsx()}
           </View>
-          <View style={{ width: Dimensions.get('screen').height }}>
+          <View style={{ width: Dimensions.get('screen').height, flex: 1 }}>
             <EditorRootPane
               paneData={this._RootPaneData}
               editScreenViewAsParent={this}
@@ -564,6 +571,7 @@ export class EditScreenView extends React.Component<Props, State> {
               flexDirection: 'column',
               gap: 12,
               margin: 4,
+              height: '100%',
             }}
           >
             {settingsAreaJsx}

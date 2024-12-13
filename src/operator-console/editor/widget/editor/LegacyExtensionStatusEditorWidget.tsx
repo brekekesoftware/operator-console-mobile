@@ -1,5 +1,9 @@
+import { Text, View } from 'react-native'
+
 import { i18n } from '../../../i18n'
+import { OCUtil } from '../../../OCUtil'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
+import { OperatorConsoleStyles } from '../../../OperatorConsoleStyles'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 
@@ -33,43 +37,41 @@ export class LegacyExtensionStatusEditorWidget extends EditorWidget {
         ? widgetData.getExtensionStatusExtensionTextTopMargin()
         : 12 // !defaultValue
 
+    const className = OCUtil.getExtensionStatusClassName(
+      ext?.id,
+      extensionsStatus,
+    )
+
     return (
-      <div
-        className='led-box'
-        style={{
-          color: extensionStatusFgColor,
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div
-            style={{
-              width: extensionStatusLampSize,
-              height: extensionStatusLampSize,
-            }}
-            className={
-              (status.find(s => s === 'talking') && 'led-red') ||
-              (status.find(s =>
-                ['holding', 'calling', 'ringing'].includes(s),
-              ) &&
-                'led-yellow') ||
-              (extensionsStatus?.[ext?.id]?.registered
-                ? 'led-green'
-                : 'led-grey')
-            }
-          ></div>
-        </div>
-        <div
+      <View>
+        <View style={{ display: 'flex', alignItems: 'center' }}>
+          <View
+            style={[
+              {
+                width: extensionStatusLampSize,
+                height: extensionStatusLampSize,
+              },
+              OperatorConsoleStyles[className],
+            ]}
+          ></View>
+        </View>
+        <View
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            alignItems: 'center',
             marginTop: extensionStatusExtensionTextTopMargin,
           }}
         >
-          <span style={{ fontSize: extensionStatusExtensionFontSize }}>
+          <Text
+            style={{
+              fontSize: extensionStatusExtensionFontSize,
+              color: extensionStatusFgColor,
+            }}
+          >
             {ext?.name || extension || i18n.t('extension_status')}
-          </span>
-        </div>
-      </div>
+          </Text>
+        </View>
+      </View>
     )
   }
 }

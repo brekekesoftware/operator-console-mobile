@@ -421,7 +421,7 @@ export class LineTableEditorWidget extends EditorWidget {
     // const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor( props.linetableBodyActiveRowBgColor, "#B9DFA9" );   //!default
     const backgroundColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getLinetableBgColor(),
-      '',
+      '#f8f8f8',
     )
     const headerRowUnderlineThickness =
       widgetData.getLinetableHeaderRowUnderlineThickness() ||
@@ -486,7 +486,6 @@ export class LineTableEditorWidget extends EditorWidget {
             borderStyle: 'solid',
             borderColor: headerRowUnderlineColor,
             height: 60,
-            backgroundColor: 'white',
           }}
         >
           <Cell
@@ -544,7 +543,7 @@ export class LineTableEditorWidget extends EditorWidget {
           ></Cell>
         </TableWrapper>
 
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={{ flex: 1 }}>
           {lineInfos.map((lineInfo, index) => (
             <EditorLineTableRow_ver2
               key={index}

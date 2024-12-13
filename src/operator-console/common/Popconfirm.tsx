@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import { Button } from './Button'
@@ -13,6 +14,7 @@ type Props = {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   onCancel?: () => void
+  popStyle?: StyleProp<ViewStyle>
 }
 export const Popconfirm = ({
   children,
@@ -24,6 +26,7 @@ export const Popconfirm = ({
   onOpenChange,
   onCancel,
   onConfirm,
+  popStyle,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
@@ -40,7 +43,7 @@ export const Popconfirm = ({
       </TouchableOpacity>
 
       {(isOpen || open) && (
-        <View style={styles.pop}>
+        <View style={[styles.pop, popStyle]}>
           <View style={styles.content}>
             <View style={styles.text}>
               <Text style={styles.title}>{title}</Text>

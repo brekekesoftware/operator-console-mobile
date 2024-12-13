@@ -1,5 +1,6 @@
 import { View } from 'react-native'
 
+import { dndEventEmiter } from '../../../lib/rnd/DndEventEmiter'
 import { Draggable } from '../../../lib/rnd/Draggable'
 
 // !abstract class
@@ -48,6 +49,14 @@ export class EditorWidgetTemplate {
         // onDragStart={ev =>
         //   editScreenViewAsCaller.onDragEditorWidgetTemplateStart(ev)
         // }
+        onDragEnd={([nX, nY], gestureState) =>
+          dndEventEmiter.emit('drop', {
+            editorWidgetTypeId: this._WidgetTypeId,
+            nX,
+            nY,
+            gestureState,
+          })
+        }
       >
         {renderMainJsx}
       </Draggable>

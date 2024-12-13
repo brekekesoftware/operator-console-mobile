@@ -11,8 +11,8 @@ export const WidgetButton = ({ style, children, textStyle }: Props) => (
   <TouchableOpacity
     style={[
       {
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
         marginBottom: 7,
         marginRight: 4,
         marginLeft: 4,
@@ -22,6 +22,7 @@ export const WidgetButton = ({ style, children, textStyle }: Props) => (
         borderColor: 'rgb(229.5, 229.5, 229.5)',
         borderWidth: 1,
         elevation: 3,
+        borderRadius: 8,
       },
       style,
     ]}

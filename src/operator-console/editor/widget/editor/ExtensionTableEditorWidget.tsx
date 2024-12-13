@@ -63,7 +63,7 @@ export class ExtensionTableEditorWidget extends EditorWidget {
     // const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor( props.extensiontableBodyActiveRowBgColor, "'#B9DFA9'" );   //!default
     const backgroundColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableBgColor(),
-      '',
+      '#f8f8f8',
     )
     const headerRowUnderlineThickness =
       widgetData.getExtensiontableHeaderRowUnderlineThickness() ||
@@ -72,7 +72,7 @@ export class ExtensionTableEditorWidget extends EditorWidget {
         : 1 // !default
     const headerRowUnderlineColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableHeaderRowUnderlineColor(),
-      "'#e0e0e0'",
+      '#e0e0e0',
     ) // !default
     const bodyRowUnderlineThickness =
       widgetData.getExtensiontableBodyRowUnderlineThickness() ||
@@ -81,7 +81,7 @@ export class ExtensionTableEditorWidget extends EditorWidget {
         : 1 // !default
     const bodyRowUnderlineColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableBodyRowUnderlineColor(),
-      "'#e0e0e0'",
+      '#e0e0e0',
     ) // !default
     const headerFontSize = widgetData.getExtensiontableHeaderFontSize()
       ? widgetData.getExtensiontableHeaderFontSize()
@@ -99,51 +99,59 @@ export class ExtensionTableEditorWidget extends EditorWidget {
           borderWidth: outerBorderThickness,
           borderStyle: 'solid',
           borderColor: outerBorderColor,
+          flex: 1,
+          // height: 200
         }}
       >
-        <View>
-          <TableWrapper
+        <TableWrapper
+          style={{
+            borderBottomWidth: headerRowUnderlineThickness,
+            borderStyle: 'solid',
+            borderColor: headerRowUnderlineColor,
+            minHeight: 35,
+            height: 35,
+          }}
+        >
+          <Cell
             style={{
-              borderBottomWidth: headerRowUnderlineThickness,
-              borderStyle: 'solid',
-              borderColor: headerRowUnderlineColor,
+              borderTopLeftRadius: outerBorderRadius,
+              borderTopRightRadius: outerBorderRadius,
             }}
-          >
-            <Cell
-              style={{
-                borderTopLeftRadius: outerBorderRadius,
-                borderTopRightRadius: outerBorderRadius,
-              }}
-              textStyle={{
-                fontSize: headerFontSize,
-                textTransform: 'uppercase',
-                color: headerFgColor,
-              }}
-              data={i18n.t('id')}
-            ></Cell>
-            <Cell
-              textStyle={{
-                fontSize: headerFontSize,
-                textTransform: 'uppercase',
-                color: headerFgColor,
-              }}
-              data={i18n.t('name')}
-            ></Cell>
-            <Cell
-              style={{
-                borderTopRightRadius: outerBorderRadius,
-                borderBottomRightRadius: outerBorderRadius,
-              }}
-              textStyle={{
-                fontSize: headerFontSize,
-                textTransform: 'uppercase',
-                color: headerFgColor,
-              }}
-              data={i18n.t('status')}
-            ></Cell>
-          </TableWrapper>
-        </View>
-        <View>
+            textStyle={{
+              fontSize: headerFontSize,
+              textTransform: 'uppercase',
+              color: headerFgColor,
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('id')}
+          ></Cell>
+          <Cell
+            textStyle={{
+              fontSize: headerFontSize,
+              textTransform: 'uppercase',
+              color: headerFgColor,
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('name')}
+          ></Cell>
+          <Cell
+            style={{
+              borderTopRightRadius: outerBorderRadius,
+              borderBottomRightRadius: outerBorderRadius,
+            }}
+            textStyle={{
+              fontSize: headerFontSize,
+              textTransform: 'uppercase',
+              color: headerFgColor,
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('status')}
+          ></Cell>
+        </TableWrapper>
+        <View style={{ flex: 1 }}>
           {extensions.map(ext => (
             <TableWrapper
               key={key++}
@@ -151,6 +159,7 @@ export class ExtensionTableEditorWidget extends EditorWidget {
                 borderBottomWidth: bodyRowUnderlineThickness,
                 borderStyle: 'solid',
                 borderColor: bodyRowUnderlineColor,
+                minHeight: 35,
               }}
             >
               <Cell

@@ -437,6 +437,16 @@ export class Rnd extends Component<Props, State> {
     })
   }
 
+  snapToGrid = (
+    grid: [number, number],
+    pendingX: number,
+    pendingY: number,
+  ): [number, number] => {
+    const x = Math.round(pendingX / grid[0]) * grid[0]
+    const y = Math.round(pendingY / grid[1]) * grid[1]
+    return [x, y]
+  }
+
   onResizeML = coord => {
     const {
       minW = 50,
@@ -505,7 +515,7 @@ export class Rnd extends Component<Props, State> {
       isDraggable,
       limitation,
       onDrag,
-      grid,
+      grid = [10, 10],
     } = this.props
 
     if (!isDraggable) {
@@ -528,6 +538,18 @@ export class Rnd extends Component<Props, State> {
         if (limitation.y <= newY && limitation.h >= newY + this.state.h) {
           nS.y = newY
         }
+      }
+
+      const deltaX = coord[0] || 0
+      const deltaY = coord[1] || 0
+
+      const [newDX, newDY] = this.snapToGrid(grid, deltaX, deltaY)
+
+      if (!deltaX && !deltaY) {
+        return
+      } else {
+        nS.x = this.state.x + newDX
+        nS.y = this.state.y + newDY
       }
 
       console.log('#Duy Phan console drag2', nS.x, nS.y)
@@ -573,6 +595,7 @@ export class Rnd extends Component<Props, State> {
     const { children, isDisabled, zIndex = DEFAULT_Z_INDEX, style } = this.props
 
     const { x, y, w, h, isSelected, isShowConnector } = this.state
+    console.log('#Duy Phan console connect', isShowConnector)
 
     return (
       <View
@@ -594,6 +617,7 @@ export class Rnd extends Component<Props, State> {
             style={{
               width: '100%',
               height: '100%',
+              opacity: isSelected ? 0.7 : 1,
             }}
           >
             {children}

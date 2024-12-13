@@ -1,5 +1,7 @@
 import React from 'react'
+import { Dimensions } from 'react-native'
 
+import { CONNECTOR_CENTER } from '../../../lib/rnd/Connector'
 import { Rnd } from '../../../lib/rnd/Rnd'
 
 export class EditorWidget extends React.Component<any, any> {
@@ -73,8 +75,6 @@ export class EditorWidget extends React.Component<any, any> {
   }
 
   _onDragStop(ev, data, widgetData) {
-    ev.stopPropagation()
-    ev.preventDefault()
     this._onWidgetMoved(data.lastX, data.lastY, widgetData)
     //        this.makeWidgetOnTop(i);
     this._EditorPaneAsParent
@@ -119,7 +119,7 @@ export class EditorWidget extends React.Component<any, any> {
   }
 
   _onMouseDown(ev, widgetData) {
-    ev.stopPropagation()
+    // ev.stopPropagation()
     // ev.preventDefault();
 
     // const paneData = this._EditorPaneAsParent.getEditingPaneData();
@@ -177,13 +177,20 @@ export class EditorWidget extends React.Component<any, any> {
         x={relativePositionX}
         y={relativePositionY}
         grid={[editingScreenGrid, editingScreenGrid]}
+        limitation={{
+          x: 0,
+          y: 0,
+          w: Dimensions.get('screen').width,
+          h: Dimensions.get('screen').height,
+        }}
+        connectors={[CONNECTOR_CENTER]}
         isResizable={true}
         isDraggable
         onDragEnd={([x, y]) =>
           this._onDragStop({}, { lastX: x, lastY: y }, widgetData)
         }
         onResizeEnd={data => this._onResizeStop(data, widgetData)}
-        // onMouseDown={ev => this._onMouseDown(ev, widgetData)}
+        onPress={ev => this._onMouseDown(ev, widgetData)}
       >
         {this._getRenderMainJsx()}
       </Rnd>

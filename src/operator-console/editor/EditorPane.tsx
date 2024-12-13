@@ -1,9 +1,11 @@
-import { ScrollView, Text, View } from 'react-native'
+import type { LayoutRectangle } from 'react-native'
+import { LayoutChangeEvent, ScrollView, Text, View } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
 import { GridLines } from '../common/GridLines'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { WidgetData } from '../data/widgetData/WidgetData'
+import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
 import { EditorTabFunctionComponent } from './EditorTabFunctionComponent'
 import type { EditScreenView } from './EditScreenView'
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
@@ -34,6 +36,7 @@ export class EditorPane extends BasePane {
   _EditorHorizontalAreaClassName
   _HeightWithPercent: string
   _ClassName: string
+  _Layout: LayoutRectangle | null = null
   constructor(props) {
     super(props)
 
@@ -176,6 +179,13 @@ export class EditorPane extends BasePane {
     })
   }
 
+  componentDidMount(): void {
+    dndEventEmiter.on('drop', d => {
+      console.log('#Duy Phan console drop', d)
+      this._onDrop(d)
+    })
+  }
+
   // _getChildContainerElement( className ){
   //     const eThis  = document.querySelector('[data-br-container-id="' + this._containerId + '"]');
   //     const e = eThis.querySelector("." + className );
@@ -207,12 +217,27 @@ export class EditorPane extends BasePane {
     throw new Error('Not Implemented.')
   }
 
-  _onDrop(ev) {
-    ev.preventDefault()
-    ev.stopPropagation()
+  isDropZone(gesture) {
+    const dz = this._Layout
+    console.log('#Duy Phan console dz', dz)
+    console.log('#Duy Phan console gesture', gesture)
+    if (dz) {
+      return gesture.moveX > dz.x + 240 && gesture.moveX < dz.x + dz.width + 240
+    }
+    return false
+  }
+
+  _onDrop({ editorWidgetTypeId, nX: offsetX, nY: offsetY, gestureState }) {
+    // ev.preventDefault()
+    // ev.stopPropagation()
     // const e = ev.target;
-    const sWidgetTypeId = ev.dataTransfer.getData('editorWidgetTypeId')
-    if (!sWidgetTypeId) {
+    const sWidgetTypeId = editorWidgetTypeId
+    console.log(
+      '#Duy Phan console this.isDropZone(gestureState)',
+      this.isDropZone(gestureState),
+    )
+    console.log('#Duy Phan console nX, nY', offsetX, offsetY)
+    if (!sWidgetTypeId || !this.isDropZone(gestureState)) {
       return
     }
     const paneData = this.props['paneData']
@@ -255,18 +280,15 @@ export class EditorPane extends BasePane {
         break
     }
 
-    const offsetX = parseInt(ev.dataTransfer.getData('offsetX'))
-    const offsetY = parseInt(ev.dataTransfer.getData('offsetY'))
-    const eEditorPanel = document.querySelector(
-      '[data-br-container-id="' + editorPanelId + '"]',
-    )
-    const panelRect = eEditorPanel.getBoundingClientRect()
     const editingScreenGrid = this.getEditScreenView().getEditingScreenGrid()
 
-    let widgetRelativePositionX = ev.clientX - panelRect.left - offsetX
-    let widgetRelativePositionY = ev.clientY - panelRect.top - offsetY
-
+    let widgetRelativePositionX = offsetX - 240
+    let widgetRelativePositionY = offsetY
     widgetRelativePositionX -= widgetRelativePositionX % editingScreenGrid
+    console.log(
+      '#Duy Phan console widgetRelativePositionX',
+      widgetRelativePositionX,
+    )
     widgetRelativePositionY -= widgetRelativePositionY % editingScreenGrid
     widgetDatas.addWidgetData(
       widgetTypeId,
@@ -403,6 +425,9 @@ export class EditorPane extends BasePane {
             // }}
             // onDrop={ev => this._onDrop(ev)}
             style={{ width: '100%', height: '100%' }}
+            onLayout={e => {
+              this._Layout = e.nativeEvent.layout
+            }}
           >
             <GridLines
               style={{

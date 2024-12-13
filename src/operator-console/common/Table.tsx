@@ -225,14 +225,14 @@ export class Cell extends Component<CeProps> {
       this.props
     const textDom = children ? (
       typeof children === 'string' ? (
-        <Text style={[textStyle]}>{children}</Text>
+        <Text style={[textStyle, { textAlign: 'center' }]}>{children}</Text>
       ) : (
         children
       )
     ) : React.isValidElement(data) ? (
       data
     ) : (
-      <Text style={[textStyle]} {...p}>
+      <Text style={[textStyle, , { textAlign: 'center' }]} {...p}>
         {data}
       </Text>
     )

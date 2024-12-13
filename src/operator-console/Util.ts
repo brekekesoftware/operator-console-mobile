@@ -187,7 +187,7 @@ export class Util {
       : undefined
     const backgroundColor = Util.isAntdRgbaProperty(buttonBgColor)
       ? Util.getRgbaCSSStringFromAntdColor(buttonBgColor)
-      : undefined
+      : 'white'
     const border =
       Util.isNumeric(buttonOuterBorderThickness) &&
       Util.isAntdRgbaProperty(buttonOuterBorderColor)

@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 import { Button } from '../../../common/Button'
 import { Popconfirm } from '../../../common/Popconfirm'
@@ -51,16 +51,26 @@ export class EditorWidgetSettings extends Component<Props, State> {
         </View>
         <View
           style={{
-            overflow: 'scroll',
-            flexGrow: 1,
-            height: 0,
+            // overflow: 'scroll',
+            // flexGrow: 1,
+            flex: 1,
+            // height: '100%',
             paddingLeft: 12,
             paddingRight: 12,
           }}
         >
-          {this._getRenderMainJsx()}
+          <ScrollView persistentScrollbar>
+            {this._getRenderMainJsx()}
+          </ScrollView>
         </View>
-        <View style={{ paddingBottom: 12, paddingRight: 12, paddingLeft: 12 }}>
+        <View
+          style={{
+            paddingBottom: 12,
+            paddingRight: 12,
+            paddingLeft: 12,
+            height: 150,
+          }}
+        >
           <Popconfirm
             title={i18n.t('are_you_sure')}
             onConfirm={() =>
@@ -70,8 +80,11 @@ export class EditorWidgetSettings extends Component<Props, State> {
             }
             okText={i18n.t('yes')}
             cancelText={i18n.t('no')}
+            popStyle={{ bottom: 30, top: undefined }}
           >
-            <Button type='warning'>{i18n.t('remove')}</Button>
+            <Button type='warning' disabled style={{ minWidth: 80 }}>
+              {i18n.t('remove')}
+            </Button>
           </Popconfirm>
         </View>
       </>
