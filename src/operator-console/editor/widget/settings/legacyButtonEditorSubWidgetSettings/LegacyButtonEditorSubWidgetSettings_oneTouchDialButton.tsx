@@ -81,8 +81,15 @@ export class LegacyButtonEditorSubWidgetSettings_oneTouchDialButton extends Lega
           value={onetouchdialMode}
           defaultValue={onetouchdialMode}
           onSelect={e => this._onChangeOnetouchdialMode(e)}
+          data={[
+            { title: i18n.t('callOnly') },
+            { title: i18n.t('attendedTransferOrCall') },
+            { title: i18n.t('blindTransferOrCall') },
+            { title: i18n.t('attendedTransferOnly') },
+            { title: i18n.t('blindTransferOnly') },
+          ]}
         >
-          <SelectOption value='callOnly'>{i18n.t('callOnly')}</SelectOption>
+          {/* <SelectOption value='callOnly'>{i18n.t('callOnly')}</SelectOption>
           <SelectOption value='attendedTransferOrCall'>
             {i18n.t('attendedTransferOrCall')}
           </SelectOption>
@@ -94,7 +101,7 @@ export class LegacyButtonEditorSubWidgetSettings_oneTouchDialButton extends Lega
           </SelectOption>
           <SelectOption value='blindTransferOnly'>
             {i18n.t('blindTransferOnly')}
-          </SelectOption>
+          </SelectOption> */}
         </Select>
       </>
     )

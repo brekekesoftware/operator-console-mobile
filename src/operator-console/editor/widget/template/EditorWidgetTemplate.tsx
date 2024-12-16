@@ -12,6 +12,10 @@ export class EditorWidgetTemplate {
       editorWidgetTemplateFactoryAsParent
     this._WidgetTypeId = widgetTypeId
   }
+  _initPosition = {
+    px: 0,
+    py: 0,
+  }
 
   getWidgetTypeId() {
     return this._WidgetTypeId
@@ -45,16 +49,18 @@ export class EditorWidgetTemplate {
           height,
           marginBottom: 4,
         }}
-        // draggable={true}
-        // onDragStart={ev =>
-        //   editScreenViewAsCaller.onDragEditorWidgetTemplateStart(ev)
-        // }
+        onDragStart={ev => {
+          this._initPosition.px = ev.px
+          this._initPosition.py = ev.py
+        }}
         onDragEnd={([nX, nY], gestureState) =>
           dndEventEmiter.emit('drop', {
-            editorWidgetTypeId: this._WidgetTypeId,
+            editorWidgetTypeId: String(this._WidgetTypeId),
             nX,
             nY,
             gestureState,
+            px: this._initPosition.px,
+            py: this._initPosition.py,
           })
         }
       >

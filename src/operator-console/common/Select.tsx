@@ -1,11 +1,12 @@
 import { View } from '@ant-design/react-native'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Children } from 'react'
 import type { ViewStyle } from 'react-native'
 import { StyleSheet, Text } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown'
 
 export type SelectProps = {
-  children: string | JSX.Element | JSX.Element[] | (() => JSX.Element)
+  children?: string | JSX.Element | JSX.Element[] | (() => JSX.Element)
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
@@ -15,6 +16,7 @@ export type SelectProps = {
   allowClear?: boolean
   filterOption?: (input: string, option: any) => boolean
   style?: ViewStyle
+  data: any[]
 }
 
 type OptionProps = {
@@ -31,19 +33,41 @@ const Select = ({
   showSearch,
   allowClear,
   filterOption,
+  data,
 }: SelectProps) => {
   const result: any[] = []
   Children.forEach(children, (child, index) => {
-    result.push({ c: child })
+    result.push({ c: child, index })
   })
+  // console.log('#Duy Phan console result',result)
   return (
     <SelectDropdown
       onSelect={(selectedItem, index) => {
         console.log(selectedItem, index)
       }}
-      data={result}
-      renderItem={(item, index, isSelected) => <item.c />}
-      renderButton={(selectedItem, isOpened) => <View></View>}
+      data={data}
+      renderItem={(item, index, isSelected) => (
+        <View
+          style={{
+            ...styles.selectItemStyle,
+            ...(isSelected && { backgroundColor: '#D2D9DF' }),
+          }}
+        >
+          {!!item.icon && <FontAwesomeIcon icon={item.icon} />}
+          <Text style={styles.selectItemTxtStyle}>{item.title}</Text>
+        </View>
+      )}
+      renderButton={(selectedItem, isOpened) => (
+        <View
+          style={{
+            width: '100%',
+            height: 45,
+            backgroundColor: 'white',
+            elevation: 3,
+            borderRadius: 4,
+          }}
+        ></View>
+      )}
       search={showSearch}
     />
   )

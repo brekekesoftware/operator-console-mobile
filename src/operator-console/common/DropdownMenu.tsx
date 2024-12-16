@@ -65,17 +65,22 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
         <View style={styles.overlay}>
           {menu?.items.map(m => {
             if (m.type === 'divider') {
-              return <Divider />
+              return <Divider key={m.key} />
             }
             if (typeof m.label === 'string') {
               return (
-                <Item title={m.label} onPress={() => menu.onPress?.(m.key)} />
+                <Item
+                  title={m.label}
+                  onPress={() => menu.onPress?.(m.key)}
+                  key={m.key}
+                />
               )
             }
             return (
               <RnTouchableOpacity
                 style={styles.container}
                 onPress={() => menu.onPress?.(m.key)}
+                key={m.key}
               >
                 {m.label}
               </RnTouchableOpacity>

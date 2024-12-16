@@ -1,6 +1,8 @@
 import { ActivityIndicator, Input } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import debounce from 'debounce'
+import { Text, View } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { Empty } from '../../../common/Empty'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -148,7 +150,7 @@ export class NoteEditorWidget extends EditorWidget {
     )
     const noteNameBackground = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getNoteNameBgColor(),
-      '',
+      '#f2dc50',
     )
 
     const borderRadius =
@@ -175,45 +177,55 @@ export class NoteEditorWidget extends EditorWidget {
         : ''
 
     return (
-      <div
-        className='brOCStickyNote'
-        style={{
-          borderRadius,
-          background,
-        }}
-      >
-        <div
-          className='brOCStickyNoteName'
+      <LinearGradient colors={['#F9EFAF', '#F7E98D']}>
+        <View
           style={{
-            fontSize: noteTitleFontSize,
-            color: noteNameFgColor,
-            backgroundColor: noteNameBackground,
+            borderRadius,
+            backgroundColor: background,
+            width: '100%',
+            height: '100%',
+            overflow: 'hidden',
           }}
         >
-          {noteName}
-        </div>
-        {this.state.loading ? (
-          <Empty image={null} description={<ActivityIndicator />} />
-        ) : (
-          <Input.TextArea
-            value={this.state.content}
-            onChange={this._onContentChanged}
-            readOnly={this._readonly}
-            maxLength={10000000}
-            // style={{
-            //   fontSize: noteBodyFontSize,
-            //   color: noteTextForegroundColor,
-            // }}
-          />
-        )}
-        {(this.state.error || this.state.saving) && (
-          <FontAwesomeIcon
-            icon='fa-solid fa-cloud-arrow-up'
-            color={this.state.error ? '#FF4526' : 'black'}
-            style={{ position: 'absolute', top: 10, right: 12 }}
-          />
-        )}
-      </div>
+          <View
+            style={{
+              padding: 4,
+              backgroundColor: noteNameBackground,
+            }}
+          >
+            <Text
+              style={{
+                color: noteNameFgColor,
+                fontSize: noteTitleFontSize,
+                fontWeight: 'bold',
+              }}
+            >
+              {noteName}
+            </Text>
+          </View>
+          {this.state.loading ? (
+            <Empty image={null} description={<ActivityIndicator />} />
+          ) : (
+            <Input.TextArea
+              value={this.state.content}
+              onChange={this._onContentChanged}
+              readOnly={this._readonly}
+              maxLength={10000000}
+              // style={{
+              //   fontSize: noteBodyFontSize,
+              //   color: noteTextForegroundColor,
+              // }}
+            />
+          )}
+          {(this.state.error || this.state.saving) && (
+            <FontAwesomeIcon
+              icon='fa-solid fa-cloud-arrow-up'
+              color={this.state.error ? '#FF4526' : 'black'}
+              style={{ position: 'absolute', top: 10, right: 12 }}
+            />
+          )}
+        </View>
+      </LinearGradient>
     )
   }
 }

@@ -264,7 +264,6 @@ export const NoScreensView = props => {
   const [openLayoutOpen, setOpenLayoutOpen] = useState(false)
 
   const selectOCNoteByShortname = shortname => {
-    console.log('#Duy Phan console select short')
     const noteName = BrekekeOperatorConsole.getOCNoteName(shortname)
 
     const getNoteByPalRestApiOptions = {
@@ -274,7 +273,6 @@ export const NoScreensView = props => {
         name: noteName,
       }),
       onSuccessFunction: res => {
-        console.log('#Duy Phan console res', res)
         if (res) {
           const noteInfo = res
           const sNote = noteInfo.note

@@ -526,7 +526,6 @@ export class Rnd extends Component<Props, State> {
       const newX = this.state.x + coord[0]
       const newY = this.state.y + coord[1]
       const nS = { ...this.state }
-      console.log('#Duy Phan console drag', coord)
 
       if (axis != AXIS_Y) {
         if (limitation.x <= newX && limitation.w >= newX + this.state.w) {
@@ -551,9 +550,6 @@ export class Rnd extends Component<Props, State> {
         nS.x = this.state.x + newDX
         nS.y = this.state.y + newDY
       }
-
-      console.log('#Duy Phan console drag2', nS.x, nS.y)
-
       onDrag?.([nS.x, nS.y])
 
       return nS
@@ -595,7 +591,6 @@ export class Rnd extends Component<Props, State> {
     const { children, isDisabled, zIndex = DEFAULT_Z_INDEX, style } = this.props
 
     const { x, y, w, h, isSelected, isShowConnector } = this.state
-    console.log('#Duy Phan console connect', isShowConnector)
 
     return (
       <View

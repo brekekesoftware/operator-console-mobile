@@ -87,7 +87,6 @@ class LoginC extends React.Component<Props, State> {
       pal.close()
       this_._setMessage(i18n.t('failedToLogin'))
     }
-    console.log('#Duy Phan console success')
     // !fixit pal bug
     pal.login(
       (res, obj) => {
@@ -199,7 +198,6 @@ class LoginC extends React.Component<Props, State> {
   } // ~login
 
   render() {
-    console.log('#Duy Phan console initialValues', this.props.initialValues)
     return (
       <View>
         <View
@@ -296,7 +294,6 @@ class LoginC extends React.Component<Props, State> {
           <Form
             name='login'
             initialValues={this.state.initialValues}
-            onFinish={() => console.log('#Duy Phan console finish')}
             ref={r => (this.refForm = r)}
             form={this.props.form}
             styles={{

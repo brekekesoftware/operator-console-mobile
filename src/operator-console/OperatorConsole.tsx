@@ -1210,7 +1210,6 @@ export class BrekekeOperatorConsole extends React.Component<
 
   onSelectOCNoteByShortnameFromNoScreensView(noScreensViewAsCaller) {
     // this.reloadSystemSettingsExtensionScript();
-    console.log('#Duy Phan console ahihi')
     this.setState({
       _downedLayoutAndSystemSettings: true,
       displayState: brOcDisplayStates.showScreen_ver2,

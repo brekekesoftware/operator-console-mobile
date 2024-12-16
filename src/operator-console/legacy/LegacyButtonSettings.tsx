@@ -46,7 +46,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
     if (!fileInfos) {
       fileInfos = new Array()
     }
-    let key = -1
+    const key = -1
     this.iconSelect = (
       <Select
         showSearch
@@ -54,9 +54,17 @@ export class LegacyButtonSettings extends Component<Props, State> {
         filterOption={(input, option) =>
           (option?.value ?? '').toLowerCase().includes(input.toLowerCase())
         }
+        data={[
+          { title: '' },
+          ...[
+            ...Object.values(fas),
+            ...Object.values(far),
+            ...Object.values(fab),
+          ].map(icon => ({ title: icon.iconName, icon })),
+        ]}
       >
-        <SelectOption value={''}></SelectOption>
-        {[
+        {/* <SelectOption value={''}></SelectOption> */}
+        {/* {[
           ...Object.values(fas),
           ...Object.values(far),
           ...Object.values(fab),
@@ -65,7 +73,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
           key++
           return (
             <SelectOption key={key} value={value}>
-              <FontAwesomeIcon fixedWidth icon={icon} />
+              <FontAwesomeIcon icon={icon} />
               <Text style={{ marginLeft: 4 }}>{icon.iconName}</Text>
             </SelectOption>
           )
@@ -96,7 +104,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
               </div>
             </SelectOption>
           )
-        })}
+        })} */}
       </Select>
     )
     this.onChangeDebounced = debounce(props.onChange, 250)
@@ -134,8 +142,14 @@ export class LegacyButtonSettings extends Component<Props, State> {
       >
         <Form.Item label={i18n.t('function')}>
           <Form.Item name='subtype' noStyle>
-            <Select style={{ width: '100%' }} onSelect={this.onSubtypeSelected}>
-              {Object.keys(LegacyButtonMap).map((subtype, i) => (
+            <Select
+              style={{ width: '100%' }}
+              onSelect={this.onSubtypeSelected}
+              data={Object.keys(LegacyButtonMap).map(subtype => ({
+                title: i18n.t(`legacy_button_label.${subtype}`),
+              }))}
+            >
+              {/* {Object.keys(LegacyButtonMap).map((subtype, i) => (
                 <SelectOption
                   key={i}
                   value={subtype}
@@ -143,7 +157,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
                 >
                   {i18n.t(`legacy_button_label.${subtype}`)}
                 </SelectOption>
-              ))}
+              ))} */}
             </Select>
           </Form.Item>
           <Text style={{ marginTop: 12, marginBottom: 0 }}>
@@ -231,8 +245,15 @@ export class LegacyButtonSettings extends Component<Props, State> {
                 style={{ width: '100%' }}
                 // placeholder="Please select a option"
                 defaultValue={'callOnly'}
+                data={[
+                  { title: i18n.t('callOnly') },
+                  { title: i18n.t('attendedTransferOrCall') },
+                  { title: i18n.t('blindTransferOrCall') },
+                  { title: i18n.t('attendedTransferOnly') },
+                  { title: i18n.t('blindTransferOnly') },
+                ]}
               >
-                <SelectOption value='callOnly'>
+                {/* <SelectOption value='callOnly'>
                   {i18n.t('callOnly')}
                 </SelectOption>
                 <SelectOption value='attendedTransferOrCall'>
@@ -246,7 +267,7 @@ export class LegacyButtonSettings extends Component<Props, State> {
                 </SelectOption>
                 <SelectOption value='blindTransferOnly'>
                   {i18n.t('blindTransferOnly')}
-                </SelectOption>
+                </SelectOption> */}
               </Select>
             </Form.Item>
           </>

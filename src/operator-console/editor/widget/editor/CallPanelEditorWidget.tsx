@@ -199,6 +199,7 @@ export class CallPanelEditorWidget extends EditorWidget {
     }
     const partyName = currentCallInfo?.getPartyName()
     const hasPartyName = partyName && partyName.length !== 0
+    console.log('#Duy Phan console callpanelFgColor', callpanelFgColor)
 
     return (
       <View

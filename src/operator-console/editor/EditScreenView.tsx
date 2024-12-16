@@ -314,14 +314,11 @@ export class EditScreenView extends React.Component<Props, State> {
                   name='enableTabs'
                   onChange={value => this._onChangeTabsEnable(value)}
                   value={enableTabs.toString()}
-                >
-                  <SelectOption value={_TABS_SELECT_OPTIONS.disable.toString()}>
-                    {i18n.t('Disable')}
-                  </SelectOption>
-                  <SelectOption value={_TABS_SELECT_OPTIONS.enable.toString()}>
-                    {i18n.t('Enable')}
-                  </SelectOption>
-                </Select>
+                  data={[
+                    { title: i18n.t('Disable') },
+                    { title: i18n.t('Enable') },
+                  ]}
+                ></Select>
               </View>
             </View>
             <View>
@@ -437,12 +434,7 @@ export class EditScreenView extends React.Component<Props, State> {
             flexDirection: 'row',
           }}
         >
-          <View
-            style={{ width: 240 }}
-            onLayout={e =>
-              console.log('#Duy Phan console e111', e.nativeEvent.layout)
-            }
-          >
+          <View style={{ width: 240 }}>
             <Image
               style={{ marginTop: 4, marginLeft: 4 }}
               source={logo as ImageSourcePropType}

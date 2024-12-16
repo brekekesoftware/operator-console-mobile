@@ -21,6 +21,7 @@ type Props = {
 
 type State = {
   parentContainer?: any
+  rerender?: boolean
 }
 export class BasePane extends React.Component<Props, State> {
   constructor(props) {

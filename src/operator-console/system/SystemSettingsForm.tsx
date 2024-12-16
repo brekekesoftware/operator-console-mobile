@@ -48,8 +48,13 @@ export const SystemSettingsForm = props => {
           label={i18n.t('RecentDisplayOrder')}
           name={'autoDialRecentDisplayOrder'}
         >
-          <Select>
-            <SelectOption
+          <Select
+            data={[
+              { title: i18n.t('CallOrIncomingCountDesc') },
+              { title: i18n.t('StartDatetimeDesc') },
+            ]}
+          >
+            {/* <SelectOption
               value={
                 CallHistory2.RECENT_DISPLAY_ORDERS.CALL_OR_INCOMING_COUNT_DESC
               }
@@ -60,7 +65,7 @@ export const SystemSettingsForm = props => {
               value={CallHistory2.RECENT_DISPLAY_ORDERS.ADD_DATETIME_DESC}
             >
               {i18n.t('StartDatetimeDesc')}
-            </SelectOption>
+            </SelectOption> */}
           </Select>
         </Form.Item>
         <Form.Item

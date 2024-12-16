@@ -90,11 +90,11 @@ export class Util {
 
   static getRgbaCSSStringFromAntdColor(antdColor, defaultRgbaCSSString = '') {
     if (!antdColor) {
-      return defaultRgbaCSSString
+      return defaultRgbaCSSString || undefined
     }
     const rgba = antdColor.rgb
     if (Util.isAntdRgbaColor(rgba) !== true) {
-      return defaultRgbaCSSString
+      return defaultRgbaCSSString || undefined
     }
     return 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')'
   }

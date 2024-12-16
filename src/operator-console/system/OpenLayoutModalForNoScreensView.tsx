@@ -20,8 +20,6 @@ export const OpenLayoutModalForNoScreensView = props => {
   console.log(
     'noteNamesContent.type?.displayName=' + noteNamesContent.type?.displayName,
   )
-  console.log('#Duy Phan console open', open)
-
   let footer
   if (noteNamesContent.type?.displayName === 'Spin') {
     footer = []

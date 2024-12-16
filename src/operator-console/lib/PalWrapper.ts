@@ -47,7 +47,6 @@ export class PalWrapper {
     if (this._pbxPort !== undefined) {
       pbxUrl += ':' + this._pbxPort
     }
-    console.log('#Duy Phan console options', options)
     let pbxDirectoryName = options['pbxDirectoryName']
     if (!pbxDirectoryName || pbxDirectoryName.length === 0) {
       pbxDirectoryName = 'pbx' // !default

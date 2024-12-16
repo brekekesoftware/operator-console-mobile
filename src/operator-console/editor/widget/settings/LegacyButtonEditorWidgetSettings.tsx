@@ -37,7 +37,7 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
     if (!fileInfos) {
       fileInfos = new Array()
     }
-    let key = -1
+    const key = -1
 
     let sIcon
     if (widgetData.getIcon()) {
@@ -58,9 +58,17 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
         defaultValue={sIcon}
         onSelect={e => this._onFormIconSelected(e)}
         style={{ width: '100%' }}
+        data={[
+          { title: '' },
+          ...[
+            ...Object.values(fas),
+            ...Object.values(far),
+            ...Object.values(fab),
+          ].map(icon => ({ title: icon.iconName, icon })),
+        ]}
       >
         <SelectOption value={''}></SelectOption>
-        {[
+        {/* {[
           ...Object.values(fas),
           ...Object.values(far),
           ...Object.values(fab),
@@ -69,12 +77,12 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
           key++
           return (
             <SelectOption key={key} value={value}>
-              <FontAwesomeIcon fixedWidth icon={icon} />
+              <FontAwesomeIcon icon={icon} />
               <Text style={{ marginLeft: 4 }}>{icon.iconName}</Text>
             </SelectOption>
           )
-        })}
-        {fileInfos.map(fileInfo => {
+        })} */}
+        {/* {fileInfos.map(fileInfo => {
           key++
           const fileName = fileInfo['name']
           const fileUrl = fileInfo['url']
@@ -100,7 +108,7 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
               </div>
             </SelectOption>
           )
-        })}
+        })} */}
       </Select>
     )
   }
@@ -205,8 +213,11 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
           onSelect={ev => this._onFormSubtypeSelected(ev)}
           defaultValue={sEditingWidgetSubtypeId}
           value={sEditingWidgetSubtypeId}
+          data={enSubtype.map(([subtypeId, subtypeName]) => ({
+            title: i18n.t(`legacy_button_label.${subtypeName}`),
+          }))}
         >
-          {enSubtype.map(([subtypeId, subtypeName], i) => (
+          {/* {enSubtype.map(([subtypeId, subtypeName], i) => (
             <SelectOption
               key={i}
               value={subtypeId}
@@ -214,7 +225,7 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
             >
               {i18n.t(`legacy_button_label.${subtypeName}`)}
             </SelectOption>
-          ))}
+          ))} */}
         </Select>
         <Text
           style={{

@@ -51,12 +51,21 @@ export class ExtensionsStatus {
     // const extensionId = ExtensionsStatus._getExtensionIdByPropertyPath( propertyPath );
     const extensionId = extensionStatusEvent.user
     const talkerId = extensionStatusEvent.talker_id
+    console.log(
+      '#Duy Phan console extensionsStatus',
+      extensionsStatus,
+      extensionId,
+    )
     // const bRemoved = Object.hasOwn(  extensionsStatus, extensionId ) === false || Object.keys( extensionsStatus[extensionId] ).length === 0 || Object.keys( extensionsStatus[extensionId]["callStatus"] ).length === 0;
     const bRemoved =
-      Object.hasOwn(extensionsStatus, extensionId) === false ||
+      Object.prototype.hasOwnProperty.call(extensionsStatus, extensionId) ===
+        false ||
       Object.keys(extensionsStatus[extensionId]).length === 0 ||
-      Object.hasOwn(extensionsStatus[extensionId]['callStatus'], talkerId) ===
-        false
+      Object.prototype.hasOwnProperty.call(
+        extensionsStatus[extensionId]['callStatus'],
+        talkerId,
+      ) === false
+    // const bRemoved = !extensionsStatus?.[extensionId] || extensionsStatus?.[extensionId].length
     if (bRemoved) {
       this._operatorConsoleAsParent
         .getCampon()

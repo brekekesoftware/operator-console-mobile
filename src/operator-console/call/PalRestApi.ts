@@ -58,9 +58,7 @@ export class PalRestApi {
     )
     fetchPromise
       .then(response => {
-        // console.log('#Duy Phan console 123123222', response)
         const json = response.json()
-        // console.log('#Duy Phan console 123123', json)
         return json
       })
       .then(json => {

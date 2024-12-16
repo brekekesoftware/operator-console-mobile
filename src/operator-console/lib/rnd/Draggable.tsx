@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Component } from 'react'
+import { Component, createRef } from 'react'
 import type {
   PanResponderGestureState,
   PanResponderInstance,
@@ -10,7 +10,7 @@ import { PanResponder, View } from 'react-native'
 
 type Props = {
   children?: React.ReactNode
-  onDragStart?: (d: [number, number]) => void
+  onDragStart?: (d: { x: number; y: number; px: number; py: number }) => void
   onDrag?: (d: [number, number]) => void
   onDragEnd?: (d: [number, number], g: PanResponderGestureState) => void
   style?: StyleProp<ViewStyle>
@@ -27,6 +27,7 @@ type State = {
 export class Draggable extends Component<Props, State> {
   _panResponder: PanResponderInstance
   position
+  refDrag
 
   constructor(props) {
     super(props)
@@ -38,6 +39,8 @@ export class Draggable extends Component<Props, State> {
       y: 0,
       isSelected: false,
     }
+
+    this.refDrag = createRef()
 
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
@@ -78,12 +81,12 @@ export class Draggable extends Component<Props, State> {
 
   onDragStart = coord => {
     const { onDragStart } = this.props
-
+    this.refDrag.measure((fx, fy, width, height, px, py) => {
+      onDragStart?.({ x: this.state.x, y: this.state.y, px, py })
+    })
     this.setState(() => ({
       isSelected: true,
     }))
-
-    onDragStart?.([this.state.x, this.state.y])
   }
 
   onDrag = coord => {
@@ -93,7 +96,7 @@ export class Draggable extends Component<Props, State> {
       const newX = this.state.x + coord[0]
       const newY = this.state.y + coord[1]
       const nS = { ...this.state }
-      console.log('#Duy Phan console drag', coord)
+
       nS.x = newX
       nS.y = newY
 
@@ -104,17 +107,18 @@ export class Draggable extends Component<Props, State> {
 
   onDragEnd = (coord, gestureState) => {
     const { onDragEnd } = this.props
+    this.refDrag.measure((fx, fy, width, height, px, py) => {
+      if (onDragEnd !== null) {
+        onDragEnd?.([px, py], gestureState)
+      }
 
-    this.setState(prev => ({
-      ...prev,
-      x: 0,
-      y: 0,
-      isSelected: false,
-    }))
-
-    if (onDragEnd !== null) {
-      onDragEnd?.([this.state.x, this.state.y], gestureState)
-    }
+      this.setState(prev => ({
+        ...prev,
+        x: 0,
+        y: 0,
+        isSelected: false,
+      }))
+    })
   }
 
   render(): ReactNode {
@@ -126,11 +130,12 @@ export class Draggable extends Component<Props, State> {
             style={[
               {
                 // position: 'relative',
-                // left: x,
-                // top: y,
+                left: 0,
+                top: 0,
                 width: w,
                 height: h,
-                // backgroundColor: 'red'
+                backgroundColor: 'red',
+                zIndex: -1
               },
               this.props.style,
             ]}
@@ -152,6 +157,7 @@ export class Draggable extends Component<Props, State> {
             this.props.style,
           ]}
           {...this._panResponder.panHandlers}
+          ref={r => (this.refDrag = r)}
         >
           {this.props.children}
         </View>

@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import type { LayoutRectangle } from 'react-native'
 import { LayoutChangeEvent, ScrollView, Text, View } from 'react-native'
 
@@ -37,10 +38,13 @@ export class EditorPane extends BasePane {
   _HeightWithPercent: string
   _ClassName: string
   _Layout: LayoutRectangle | null = null
+  _refEditor
+  _Position = { px: 0, py: 0 }
   constructor(props) {
     super(props)
 
     // const screenData = this.getEditScreenViewFromProps(props).getScreenData();
+    this._refEditor = createRef()
     const parentContainer = props['parent-container']
     const paneType = props['paneType']
     const paneData = props['paneData']
@@ -181,8 +185,12 @@ export class EditorPane extends BasePane {
 
   componentDidMount(): void {
     dndEventEmiter.on('drop', d => {
-      console.log('#Duy Phan console drop', d)
       this._onDrop(d)
+    })
+
+    this._refEditor.measure((fx, fy, width, height, px, py) => {
+      this._Position.px = px
+      this._Position.py = py
     })
   }
 
@@ -222,22 +230,29 @@ export class EditorPane extends BasePane {
     console.log('#Duy Phan console dz', dz)
     console.log('#Duy Phan console gesture', gesture)
     if (dz) {
-      return gesture.moveX > dz.x + 240 && gesture.moveX < dz.x + dz.width + 240
+      return (
+        gesture.moveX > dz.x + 240 &&
+        gesture.moveX < dz.x + dz.width + 240 &&
+        gesture.moveY < dz.y + dz.height + 55
+      )
     }
     return false
   }
 
-  _onDrop({ editorWidgetTypeId, nX: offsetX, nY: offsetY, gestureState }) {
-    // ev.preventDefault()
-    // ev.stopPropagation()
-    // const e = ev.target;
+  _onDrop({
+    editorWidgetTypeId,
+    nX: offsetX,
+    nY: offsetY,
+    gestureState,
+    px,
+    py,
+  }) {
     const sWidgetTypeId = editorWidgetTypeId
-    console.log(
-      '#Duy Phan console this.isDropZone(gestureState)',
-      this.isDropZone(gestureState),
-    )
-    console.log('#Duy Phan console nX, nY', offsetX, offsetY)
-    if (!sWidgetTypeId || !this.isDropZone(gestureState)) {
+    console.log('#Duy Phan console dropppppp')
+    if (
+      !sWidgetTypeId ||
+      !this.isDropZone({ moveX: offsetX, moveY: offsetY })
+    ) {
       return
     }
     const paneData = this.props['paneData']
@@ -283,13 +298,13 @@ export class EditorPane extends BasePane {
     const editingScreenGrid = this.getEditScreenView().getEditingScreenGrid()
 
     let widgetRelativePositionX = offsetX - 240
-    let widgetRelativePositionY = offsetY
+    let widgetRelativePositionY = offsetY - 46
     widgetRelativePositionX -= widgetRelativePositionX % editingScreenGrid
-    console.log(
-      '#Duy Phan console widgetRelativePositionX',
-      widgetRelativePositionX,
-    )
+
     widgetRelativePositionY -= widgetRelativePositionY % editingScreenGrid
+
+    console.log('#Duy Phan console widgetTypeId', widgetTypeId)
+
     widgetDatas.addWidgetData(
       widgetTypeId,
       widgetRelativePositionX,
@@ -299,7 +314,10 @@ export class EditorPane extends BasePane {
     )
     const widgetIndex = widgetDatas.getWidgetDataCount() - 1
     const widgetData = widgetDatas.getWidgetDataAt(widgetIndex)
-    this.getEditScreenView().setSelectingEditorWidgetDataToState(widgetData)
+    this.getEditScreenView().setSelectingEditorWidgetDataToState(
+      widgetData,
+      () => {},
+    )
   }
 
   _onDragOver(ev) {
@@ -413,6 +431,7 @@ export class EditorPane extends BasePane {
         jsx = (
           <View
             data-br-container-id={paneData.getPaneNumber()}
+            ref={r => (this._refEditor = r)}
             // parent-container={this.state.parentContainer}
             // className={className}
             // style={css}
@@ -444,6 +463,7 @@ export class EditorPane extends BasePane {
               <ScrollView
                 style={{ flex: 1 }}
                 contentContainerStyle={{ flex: 1 }}
+                // horizontal
               >
                 {widgetDataArray.map((widgetData, index) => {
                   const widgetJsx =
