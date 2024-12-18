@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Form,
-  Input,
-  Provider,
-  Tabs,
-} from '@ant-design/react-native'
+import { ActivityIndicator, Provider, Tabs } from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -14,7 +8,7 @@ import { cloneDeep } from 'lodash'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import type { ImageSourcePropType } from 'react-native'
-import { Dimensions, Image, ScrollView, Text, View } from 'react-native'
+import { Dimensions, Image, Text, View } from 'react-native'
 
 import logo from './logo.png'
 
@@ -47,7 +41,7 @@ import { BrekekeOperatorConsoleEx } from './extension/BrekekeOperatorConsoleEx'
 import { ExtensionsStatus } from './extension/ExtensionsStatus'
 import { ExtensionTableSettings } from './extension/ExtensionTableSettings'
 import { FileInfosLoader } from './file/FileInfosLoader'
-import { DEFAULT_LOCALE, i18n, isValidLocale, loadTranslations } from './i18n'
+import { DEFAULT_LOCALE, i18n, isValidLocale } from './i18n'
 import { LegacyAlarmButton } from './legacy/LegacyAlarmButton'
 import { LegacyAutoDialButton } from './legacy/LegacyAutoDialButton'
 import { LegacyAvailableButton } from './legacy/LegacyAvailableButton'
@@ -85,7 +79,6 @@ import { LegacyToggleRecordingButton } from './legacy/LegacyToggleRecordingButto
 import { LegacyTransferButton } from './legacy/LegacyTransferButton'
 import { LegacyUnholdCallButton } from './legacy/LegacyUnholdCallButton'
 import { PalWrapper } from './lib/PalWrapper'
-import { Draggable } from './lib/rnd/Draggable'
 import { Rnd } from './lib/rnd/Rnd'
 import { Login } from './login/Login'
 import { Note } from './note/Note'
@@ -1613,6 +1606,10 @@ export class BrekekeOperatorConsole extends React.Component<
     const handleShowConfirmDeleteTabCancel = () => {
       this.setState({ showConfirmDeleteTab: false })
     }
+    console.log(
+      '#Duy Phan console this.state.displayState',
+      this.state.displayState,
+    )
 
     const isEditingScreen =
       !!this.state.isInitialized &&

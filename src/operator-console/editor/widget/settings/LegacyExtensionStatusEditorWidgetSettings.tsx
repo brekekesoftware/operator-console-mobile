@@ -1,7 +1,7 @@
-import { Input } from '@ant-design/react-native'
 import { Text } from 'react-native'
 
 import { ColorPicker } from '../../../common/ColorPicker'
+import { Input } from '../../../common/Input'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -58,7 +58,9 @@ export class LegacyExtensionStatusEditorWidgetSettings extends EditorWidgetSetti
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getExtensionStatusFgColor()}
-          onColorChange={color => this._onChangeExtensionStatusFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeExtensionStatusFgColor(color)
+          }
         />
         <Text>{i18n.t('Lamp_size')}</Text>
         <InputNumber

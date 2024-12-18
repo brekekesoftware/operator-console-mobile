@@ -1,4 +1,8 @@
-import type { IconProp } from '@fortawesome/fontawesome-svg-core'
+import type {
+  IconName,
+  IconPrefix,
+  IconProp,
+} from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Image } from 'react-native'
 
@@ -38,7 +42,7 @@ export class LegacyButtonEditorSubWidget {
     throw new Error('Not implemented.')
   }
 
-  _getIconJsx(icon: IconProp | string = '', label = '') {
+  _getIconJsx(icon: string = '', label = '') {
     const widgetData =
       this._LegacyButtonEditorSubWidgetData.getLegacyButtonWidgetDataAsParent()
     if (!icon) {
@@ -57,22 +61,25 @@ export class LegacyButtonEditorSubWidget {
     let iconJsx
     if (!icon) {
       iconJsx = label
-    } else if (typeof icon === 'string') {
-      if (icon.startsWith('PATH:')) {
-        const src = icon.substring(5, icon.length) // 5 is path:
-        const iconWidth = widgetData.getIconWidth()
-          ? widgetData.getIconWidth()
-          : 32
-        const iconHeight = widgetData.getIconHeight()
-          ? widgetData.getIconHeight()
-          : 32
-        iconJsx = (
-          <Image source={{ uri: src }} width={iconWidth} height={iconHeight} />
-        )
-      }
+    } else if (icon.startsWith('PATH:')) {
+      const src = icon.substring(5, icon.length) // 5 is path:
+      const iconWidth = widgetData.getIconWidth()
+        ? widgetData.getIconWidth()
+        : 32
+      const iconHeight = widgetData.getIconHeight()
+        ? widgetData.getIconHeight()
+        : 32
+      iconJsx = (
+        <Image source={{ uri: src }} width={iconWidth} height={iconHeight} />
+      )
     } else {
       const iconWidth = widgetData.getIconWidth()
       const iconHeight = widgetData.getIconHeight()
+      console.log(
+        '#Duy Phan console iconWidth',
+        widgetData.getIconWidth(),
+        widgetData.getIconHeight(),
+      )
       const oStyle = {}
       let size: number | undefined = 30
       if (iconWidth !== undefined && iconWidth !== null) {
@@ -83,10 +90,14 @@ export class LegacyButtonEditorSubWidget {
         oStyle['height'] = iconHeight
         size = undefined
       }
+      const [prefix, name] = icon.split(' ')
+      const [_, iconName] = name.split('-')
+      const fIcon = [prefix, iconName] as [IconPrefix, IconName]
+
       if (size === null) {
-        iconJsx = <FontAwesomeIcon style={oStyle} icon={icon} />
+        iconJsx = <FontAwesomeIcon style={oStyle} icon={fIcon} />
       } else {
-        iconJsx = <FontAwesomeIcon size={size} icon={icon} />
+        iconJsx = <FontAwesomeIcon size={size} icon={fIcon} />
       }
     }
     return iconJsx

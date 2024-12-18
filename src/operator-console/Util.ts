@@ -34,6 +34,39 @@ export class Util {
     }
   }
 
+  static RGBAToHexA(rgba, forceRemoveAlpha = false) {
+    return (
+      '#' +
+      rgba
+        .replace(/^rgba?\(|\s+|\)$/g, '') // Get's rgba / rgb string values
+        .split(',') // splits them at ","
+        .filter((string, index) => !forceRemoveAlpha || index !== 3)
+        .map(string => parseFloat(string)) // Converts them to numbers
+        .map((number, index) =>
+          index === 3 ? Math.round(number * 255) : number,
+        ) // Converts alpha to 255 number
+        .map(number => number.toString(16)) // Converts numbers to hex
+        .map(string => (string.length === 1 ? '0' + string : string)) // Adds 0 when length of one number is 1
+        .join('')
+    ) // Puts the array to togehter to a string
+  }
+
+  static RGBAToString(
+    c: {
+      rgb: {
+        r: number
+        g: number
+        b: number
+        a: number
+      }
+    } | null,
+  ) {
+    if (c) {
+      return `rgba(${c.rgb.r}, ${c.rgb.g}, ${c.rgb.b}, ${c.rgb.a})`
+    }
+    return 'rgba(255, 255, 255, 1)'
+  }
+
   static getAntdRgbColorFromHex6(hex) {
     let c
     if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {

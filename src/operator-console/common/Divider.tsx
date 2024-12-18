@@ -17,7 +17,7 @@ export const Divider = ({
         />
         <View>
           {typeof children === 'string' ? (
-            <Text style={{ width: 50, textAlign: 'center' }}>{children}</Text>
+            <Text style={{ textAlign: 'center' }}>{children}</Text>
           ) : (
             children
           )}

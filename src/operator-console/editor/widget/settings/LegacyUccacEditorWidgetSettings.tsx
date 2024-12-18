@@ -93,12 +93,16 @@ export class LegacyUccacEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getUccacwidgetFgColor()}
-          onColorChange={color => this._onChangeUccacwidgetFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeUccacwidgetFgColor(color)
+          }
         />
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getUccacwidgetBgColor()}
-          onColorChange={color => this._onChangeUccacwidgetBgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeUccacwidgetBgColor(color)
+          }
         />
         <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber
@@ -134,7 +138,9 @@ export class LegacyUccacEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('color')}</Text>
         <ColorPicker
           color={widgetData.getInsideShadow_color()}
-          onColorChange={color => this._onChangeInsideShadow_color(color)}
+          onColorChangeComplete={color =>
+            this._onChangeInsideShadow_color(color)
+          }
         />
         <Divider>{i18n.t('outsideShadow_settings')}</Divider>
         <Text>{i18n.t('horizontalOffset')}</Text>
@@ -164,7 +170,9 @@ export class LegacyUccacEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('color')}</Text>
         <ColorPicker
           color={widgetData.getOutsideShadow_color()}
-          onColorChange={color => this._onChangeOutsideShadow_color(color)}
+          onColorChangeComplete={color =>
+            this._onChangeOutsideShadow_color(color)
+          }
         />
       </>
     )

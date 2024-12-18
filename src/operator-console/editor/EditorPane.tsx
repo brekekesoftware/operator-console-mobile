@@ -227,8 +227,6 @@ export class EditorPane extends BasePane {
 
   isDropZone(gesture) {
     const dz = this._Layout
-    console.log('#Duy Phan console dz', dz)
-    console.log('#Duy Phan console gesture', gesture)
     if (dz) {
       return (
         gesture.moveX > dz.x + 240 &&
@@ -248,7 +246,6 @@ export class EditorPane extends BasePane {
     py,
   }) {
     const sWidgetTypeId = editorWidgetTypeId
-    console.log('#Duy Phan console dropppppp')
     if (
       !sWidgetTypeId ||
       !this.isDropZone({ moveX: offsetX, moveY: offsetY })
@@ -292,6 +289,10 @@ export class EditorPane extends BasePane {
       case WidgetData.WIDGET_TYPE_IDS.legacyUccac:
         widgetWidth = 470
         widgetHeight = 300
+        break
+      case WidgetData.WIDGET_TYPE_IDS.legacyButton:
+        widgetWidth = 80
+        widgetHeight = 80
         break
     }
 

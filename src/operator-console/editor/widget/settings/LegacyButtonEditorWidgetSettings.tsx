@@ -56,15 +56,19 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
         }
         value={sIcon}
         defaultValue={sIcon}
-        onSelect={e => this._onFormIconSelected(e)}
+        onSelect={e => this._onFormIconSelected(e.value)}
         style={{ width: '100%' }}
         data={[
-          { title: '' },
+          { title: '', value: '' },
           ...[
             ...Object.values(fas),
             ...Object.values(far),
             ...Object.values(fab),
-          ].map(icon => ({ title: icon.iconName, icon })),
+          ].map(icon => ({
+            title: icon.iconName,
+            icon,
+            value: icon.prefix + ' fa-' + icon.iconName,
+          })),
         ]}
       >
         <SelectOption value={''}></SelectOption>
@@ -125,6 +129,7 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
   }
 
   _onFormIconSelected(icon) {
+    console.log('#Duy Phan console icon', icon)
     const widgetData = this._getWidgetData()
     widgetData.setIcon(icon)
     this._EditScreenViewAsParent.setState({ rerender: true })
@@ -167,6 +172,7 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
   }
 
   _onChangeIconWidth(n) {
+    console.log('#Duy Phan console wwwww', n)
     const widgetData = this._getWidgetData()
     widgetData.setIconWidth(n)
     this._EditScreenViewAsParent.setState({ rerender: true })
@@ -210,11 +216,12 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('function')}</Text>
         <Select
           style={{ width: '100%' }}
-          onSelect={ev => this._onFormSubtypeSelected(ev)}
+          onSelect={ev => this._onFormSubtypeSelected(ev.value)}
           defaultValue={sEditingWidgetSubtypeId}
-          value={sEditingWidgetSubtypeId}
+          // value={sEditingWidgetSubtypeId}
           data={enSubtype.map(([subtypeId, subtypeName]) => ({
             title: i18n.t(`legacy_button_label.${subtypeName}`),
+            value: subtypeId,
           }))}
         >
           {/* {enSubtype.map(([subtypeId, subtypeName], i) => (
@@ -259,17 +266,17 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getFgColor()}
-          onColorChange={color => this._onChangeFgColor(color)}
+          onColorChangeComplete={color => this._onChangeFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getBgColor()}
-          onColorChange={color => this._onChangeBgColor(color)}
+          onColorChangeComplete={color => this._onChangeBgColor(color)}
         />
         <Text>{i18n.t('outerBorderColor')}</Text>
         <ColorPicker
           color={widgetData.getOuterBorderColor()}
-          onColorChange={color => this._onChangeOuterBorderColor(color)}
+          onColorChangeComplete={color => this._onChangeOuterBorderColor(color)}
         />
         <Text>{i18n.t('outerBorderRadius')}</Text>
         <InputNumber

@@ -457,7 +457,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontSize: 13,
     fontWeight: 'bold',
-    // height: 40,
     textAlign: 'center',
     width: '100%',
     color: 'white',

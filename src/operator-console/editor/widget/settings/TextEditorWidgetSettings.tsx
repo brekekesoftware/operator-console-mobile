@@ -65,12 +65,12 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getTextFgColor()}
-          onColorChange={color => this._onChangeTextFgColor(color)}
+          onColorChangeComplete={color => this._onChangeTextFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
         {/* <ColorPicker
           color={widgetData.getTextBgColor()}
-          onColorChange={color => this._onChangeTextBgColor(color)}
+          onColorChangeComplete={color => this._onChangeTextBgColor(color)}
         /> */}
         <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber

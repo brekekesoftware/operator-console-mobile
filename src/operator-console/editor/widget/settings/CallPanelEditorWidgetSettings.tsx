@@ -93,12 +93,12 @@ export class CallPanelEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getCallpanelFgColor()}
-          onColorChange={color => this._onChangeCallpanelFgColor(color)}
+          onColorChangeComplete={color => this._onChangeCallpanelFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getCallpanelBgColor()}
-          onColorChange={color => this._onChangeCallpanelBgColor(color)}
+          onColorChangeComplete={color => this._onChangeCallpanelBgColor(color)}
         />
         <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber
@@ -134,7 +134,9 @@ export class CallPanelEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('color')}</Text>
         <ColorPicker
           color={widgetData.getInsideShadow_color()}
-          onColorChange={color => this._onChangeInsideShadow_color(color)}
+          onColorChangeComplete={color =>
+            this._onChangeInsideShadow_color(color)
+          }
         />
         <Divider>{i18n.t('outsideShadow_settings')}</Divider>
         <Text>{i18n.t('horizontalOffset')}</Text>

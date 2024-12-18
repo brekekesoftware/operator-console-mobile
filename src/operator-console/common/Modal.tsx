@@ -1,6 +1,7 @@
-import type { ModalProps } from '@ant-design/react-native/lib/modal/Modal'
 import AntmModal from '@ant-design/react-native/lib/modal/Modal'
 import { Text, View } from 'react-native'
+import type { ModalProps } from 'react-native-modal'
+import RNModal from 'react-native-modal'
 
 type Props = {
   children?: string | JSX.Element | JSX.Element[]
@@ -9,7 +10,7 @@ type Props = {
   onCancel?: () => void
   footer?: React.ReactNode
   title?: string
-} & Omit<ModalProps, 'footer' | 'visible'>
+} & Omit<ModalProps, 'children'>
 
 export const Modal = ({
   children,
@@ -18,6 +19,7 @@ export const Modal = ({
   onOk,
   onCancel,
   title,
+  style,
   ...props
 }: Props) => {
   const footerButtons = [
@@ -36,21 +38,25 @@ export const Modal = ({
   ]
 
   return (
-    <AntmModal
+    <RNModal
       {...props}
-      visible={open}
-      footer={!footer ? footerButtons : undefined}
-      title={title}
-      modalType='modal'
-      transparent
-      bodyStyle={{ flex: 1 }}
+      isVisible={open}
+      style={[{ backgroundColor: 'white', padding: 20 }, style]}
+      backdropColor='#b7b7b7'
+      backdropOpacity={0.56}
+      coverScreen
     >
+      <View style={{ height: 50 }}>
+        <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>
+          {title}
+        </Text>
+      </View>
       <View style={{ flex: 1 }}>
         {typeof children === 'string' ? <Text>{children}</Text> : children}
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-        {footer}
+        {footer ?? footerButtons.map(item => <Text>{item.text}</Text>)}
       </View>
-    </AntmModal>
+    </RNModal>
   )
 }

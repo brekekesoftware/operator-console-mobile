@@ -47,6 +47,7 @@ export const Button = (props: Props) => {
           flexDirection: 'row',
         },
         props.style,
+        { opacity: props.disabled ? 0.7 : 1 },
       ]}
     >
       {/* {props.icon} */}

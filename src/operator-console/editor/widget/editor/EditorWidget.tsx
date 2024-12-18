@@ -1,7 +1,13 @@
 import React from 'react'
 import { Dimensions } from 'react-native'
 
-import { CONNECTOR_CENTER } from '../../../lib/rnd/Connector'
+import {
+  CONNECTOR_BOTTOM_MIDDLE,
+  CONNECTOR_CENTER,
+  CONNECTOR_MIDDLE_LEFT,
+  CONNECTOR_MIDDLE_RIGHT,
+  CONNECTOR_TOP_MIDDLE,
+} from '../../../lib/rnd/Connector'
 import { Rnd } from '../../../lib/rnd/Rnd'
 
 export class EditorWidget extends React.Component<any, any> {
@@ -183,7 +189,13 @@ export class EditorWidget extends React.Component<any, any> {
           w: Dimensions.get('screen').width,
           h: Dimensions.get('screen').height,
         }}
-        connectors={[CONNECTOR_CENTER]}
+        connectors={[
+          CONNECTOR_CENTER,
+          CONNECTOR_BOTTOM_MIDDLE,
+          CONNECTOR_TOP_MIDDLE,
+          CONNECTOR_MIDDLE_LEFT,
+          CONNECTOR_MIDDLE_RIGHT,
+        ]}
         isResizable={true}
         isDraggable
         onDragEnd={([x, y]) =>

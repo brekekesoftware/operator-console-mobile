@@ -87,7 +87,9 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getExtensiontableBgColor()}
-          onColorChange={color => this._onChangeExtensiontableBgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeExtensiontableBgColor(color)
+          }
         />
         <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
@@ -98,7 +100,7 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('outerBorderColor')}</Text>
         <ColorPicker
           color={widgetData.getExtensiontableOuterBorderColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeExtensiontableOuterBorderColor(color)
           }
         />
@@ -118,7 +120,7 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getExtensiontableHeaderFgColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeExtensiontableHeaderFgColor(color)
           }
         />
@@ -133,7 +135,7 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('rowUnderlineColor')}</Text>
         <ColorPicker
           color={widgetData.getExtensiontableHeaderRowUnderlineColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeExtensiontableHeaderRowUnderlineColor(color)
           }
         />
@@ -147,7 +149,7 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getExtensiontableBodyFgColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeExtensiontableBodyFgColor(color)
           }
         />
@@ -162,7 +164,7 @@ export class ExtensionTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('rowUnderlineColor')}</Text>
         <ColorPicker
           color={widgetData.getExtensiontableBodyRowUnderlineColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeExtensiontableBodyRowUnderlineColor(color)
           }
         />

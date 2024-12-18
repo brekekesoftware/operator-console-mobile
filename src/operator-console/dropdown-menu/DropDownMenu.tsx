@@ -21,7 +21,6 @@ import {
 const REGEX = /^[0-9a-zA-Z\-\_\ ]*$/
 
 export const DropDownMenu = ({ operatorConsole }) => {
-  console.log('#Duy Phan console aaasdasdas')
   let loginLabel = operatorConsole.state.loginUser.pbxTenant
     ? operatorConsole.state.loginUser.pbxTenant + ' / '
     : ''
@@ -501,10 +500,7 @@ const NewLayoutDialog = ({ operatorConsole }) => {
       >
         <View>
           <Text> Brekeke Operator Console, {i18n.t('Version')}</Text>{' '}
-          <Text>
-            {' '}
-            {BrekekeOperatorConsole.BREKEKE_OPERATOR_CONSOLE_VERSION}
-          </Text>
+          <Text>{BrekekeOperatorConsole.BREKEKE_OPERATOR_CONSOLE_VERSION}</Text>
         </View>
       </Modal>
       <Modal

@@ -1,5 +1,5 @@
 import { ActivityIndicator, Form, Input } from '@ant-design/react-native'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Text, View } from 'react-native'
 
 import { Button } from '../common/Button'
@@ -159,12 +159,6 @@ export const NoScreensView = props => {
         .getPalRestApi()
         .callPalRestApiMethod(getNoteNamesOptions)
     })
-
-    // setLoading(true);
-    // setTimeout(() => {
-    //     setLoading(false);
-    //     setNewLayoutModalOpen(false);
-    // }, 3000);
   }
   const handleNewLayoutCancel = () => {
     cancelConfirmNewLayout()
@@ -317,7 +311,7 @@ export const NoScreensView = props => {
         } else {
           setIsLoading(false)
           Notification.warning({ message: i18n.t('The_note_does_not_exist') })
-          refreshNoteNames()
+          // refreshNoteNames()
         }
       },
       onFailFunction: errorOrResponse => {
@@ -344,135 +338,96 @@ export const NoScreensView = props => {
     setIsLoading(true)
   }
 
-  const [noteNamesContent, setNoteNamesContent] = useState<
-    React.ReactNode | string
-  >(<ActivityIndicator />)
   const [isLoading, setIsLoading] = useState(false)
-
-  const refreshNoteNames = () => {
-    setNoteNamesContent(<ActivityIndicator />)
-
-    const getNoteNamesByPalRestApiOptions = {
-      methodName: 'getNoteNames',
-      methodParams: JSON.stringify({
-        tenant: operatorConsoleAsParent.getLoggedinTenant(),
-      }),
-      onSuccessFunction: res => {
-        const allNoteNames = res
-        if (!allNoteNames) {
-          setNoteNamesContent(i18n.t('Layout_does_not_exist'))
-          return
-        }
-        const noteNames = allNoteNames.filter(value =>
-          value.startsWith(BrekekeOperatorConsole.LAYOUT_NOTE_NAME_PREFIX),
-        )
-        if (!noteNames || noteNames.length == 0) {
-          setNoteNamesContent(i18n.t('Layout_does_not_exist'))
-        } else {
-          const jsxContents: JSX.Element[] = []
-          for (let i = 0; i < noteNames.length; i++) {
-            const noteName = noteNames[i]
-            const noteShortname =
-              BrekekeOperatorConsole.getOCNoteShortname(noteName)
-            const sNoteShortname = (
-              <View key={i}>
-                <Text
-                  style={{ color: '#1677ff' }}
-                  onPress={() => selectOCNoteByShortname(noteShortname)}
-                >
-                  {noteShortname}
-                </Text>
-                {/* <br /> */}
-              </View>
-            )
-            jsxContents.push(sNoteShortname)
-          }
-          setNoteNamesContent(jsxContents)
-        }
-      },
-      onFailFunction: errOrResponse => {
-        // !testit
-        OCUtil.logErrorWithNotification(
-          null,
-          i18n.t('failed_to_load_data_from_pbx'),
-          errOrResponse,
-        )
-      },
-    }
-    operatorConsoleAsParent
-      .getPalRestApi()
-      .callPalRestApiMethod(getNoteNamesByPalRestApiOptions)
-  }
 
   const handleOpenLayoutOpen = () => {
     setOpen(false)
-    refreshNoteNames()
     setTimeout(() => {
       setOpenLayoutOpen(true)
     }, 2000)
+    // setTimeout(() => {
+    //   refreshNoteNames()
+    // }, 2000);
   }
 
-  let newOrOpenLayoutFooter
-  let newOrOpenLayoutTitle
-  let newOrOpenLayoutText
   const isAdmin = operatorConsoleAsParent.getLoggedinUserIsAdmin()
-  if (isAdmin === true) {
-    newOrOpenLayoutTitle = i18n.t('NewOrOpenLayoutTitle')
-    newOrOpenLayoutText = i18n.t('NewOrOpenLayoutText')
-    newOrOpenLayoutFooter = [
-      <Button key='back' onPress={() => handleCancel(operatorConsoleAsParent)}>
-        {i18n.t('cancel')}
-      </Button>,
-      <Button
-        key='submit'
-        type='primary'
-        style={{ marginLeft: 6 }}
-        onPress={() => {
-          setOpen(false)
-          operatorConsoleAsParent.setState({ newLayoutModalOpen: true })
-        }}
-      >
-        {i18n.t('newLayout')}
-      </Button>,
-      <Button
-        key='submit2'
-        type='primary'
-        style={{ marginLeft: 6 }}
-        onPress={handleOpenLayoutOpen}
-      >
-        {i18n.t('openLayout')}
-      </Button>,
-    ]
-  } else {
-    newOrOpenLayoutTitle = i18n.t('OpenLayoutTitle')
-    newOrOpenLayoutText = i18n.t('OpenLayoutText')
-    newOrOpenLayoutFooter = [
-      <Button key='back' onPress={() => handleCancel(operatorConsoleAsParent)}>
-        {i18n.t('cancel')}
-      </Button>,
-      <Button
-        key='submit2'
-        type='primary'
-        onPress={handleOpenLayoutOpen}
-        style={{ marginLeft: 6 }}
-      >
-        {i18n.t('openLayout')}
-      </Button>,
-    ]
-  }
+
+  const layoutContents = useMemo(() => {
+    let newOrOpenLayoutFooter
+    let newOrOpenLayoutTitle
+    let newOrOpenLayoutText
+
+    if (isAdmin === true) {
+      newOrOpenLayoutTitle = i18n.t('NewOrOpenLayoutTitle')
+      newOrOpenLayoutText = i18n.t('NewOrOpenLayoutText')
+      newOrOpenLayoutFooter = [
+        <Button
+          key='back'
+          onPress={() => handleCancel(operatorConsoleAsParent)}
+        >
+          {i18n.t('cancel')}
+        </Button>,
+        <Button
+          key='submit'
+          type='primary'
+          style={{ marginLeft: 6 }}
+          onPress={() => {
+            setOpen(false)
+            operatorConsoleAsParent.setState({ newLayoutModalOpen: true })
+          }}
+        >
+          {i18n.t('newLayout')}
+        </Button>,
+        <Button
+          key='submit2'
+          type='primary'
+          style={{ marginLeft: 6 }}
+          onPress={handleOpenLayoutOpen}
+        >
+          {i18n.t('openLayout')}
+        </Button>,
+      ]
+    } else {
+      newOrOpenLayoutTitle = i18n.t('OpenLayoutTitle')
+      newOrOpenLayoutText = i18n.t('OpenLayoutText')
+      newOrOpenLayoutFooter = [
+        <Button
+          key='back'
+          onPress={() => handleCancel(operatorConsoleAsParent)}
+        >
+          {i18n.t('cancel')}
+        </Button>,
+        <Button
+          key='submit2'
+          type='primary'
+          onPress={handleOpenLayoutOpen}
+          style={{ marginLeft: 6 }}
+        >
+          {i18n.t('openLayout')}
+        </Button>,
+      ]
+    }
+    return { newOrOpenLayoutFooter, newOrOpenLayoutTitle, newOrOpenLayoutText }
+  }, [isAdmin])
 
   const displayLoadingStyle = isLoading ? 'flex' : 'none'
 
   const bNewLayoutModalOpen =
     operatorConsoleAsParent.getState().newLayoutModalOpen
+  console.log(
+    '#Duy Phan console open bNewLayoutModalOpen',
+    bNewLayoutModalOpen,
+    open,
+  )
   return (
     <>
       <OpenLayoutModalForNoScreensView
         operatorConsoleAsParent={operatorConsoleAsParent}
-        useStateOpen={openLayoutOpen}
+        useStateOpen={true}
         useStateSetOpen={setOpenLayoutOpen}
         useStateSetNewOrOpenLayoutOpen={setOpen}
-        useStateNoteNamesContent={noteNamesContent}
+        selectOCNoteByShortname={selectOCNoteByShortname}
+        // useStateNoteNamesContent={noteNamesContent}
       />
       <Modal
         open={bNewLayoutModalOpen}
@@ -511,29 +466,30 @@ export const NoScreensView = props => {
       </Modal>
       <Modal
         open={open}
-        title={newOrOpenLayoutTitle}
+        title={layoutContents.newOrOpenLayoutTitle}
         onOk={handleOk}
         onCancel={() => handleCancel(operatorConsoleAsParent)}
         onClose={() => setOpen(false)}
-        footer={newOrOpenLayoutFooter}
+        footer={layoutContents.newOrOpenLayoutFooter}
         style={{ width: 500, height: 170 }}
         closable
       >
-        {newOrOpenLayoutText}
+        {layoutContents.newOrOpenLayoutText}
       </Modal>
-      {/* <View
+      <View
         style={{
           width: '100%',
           height: '100%',
           position: 'absolute',
           zIndex: 100000000,
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: displayLoadingStyle,
         }}
       >
         <View>
           <ActivityIndicator />
         </View>
-      </View> */}
+      </View>
     </>
   )
 }

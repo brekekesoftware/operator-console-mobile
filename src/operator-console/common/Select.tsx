@@ -10,7 +10,7 @@ export type SelectProps = {
   value?: string
   defaultValue?: string
   onChange?: (value: string) => void
-  onSelect?: (value: string) => void
+  onSelect?: (value: any) => void
   name?: string
   showSearch?: boolean
   allowClear?: boolean
@@ -34,6 +34,8 @@ const Select = ({
   allowClear,
   filterOption,
   data,
+  onSelect,
+  defaultValue,
 }: SelectProps) => {
   const result: any[] = []
   Children.forEach(children, (child, index) => {
@@ -43,9 +45,12 @@ const Select = ({
   return (
     <SelectDropdown
       onSelect={(selectedItem, index) => {
-        console.log(selectedItem, index)
+        onSelect?.(selectedItem)
       }}
       data={data}
+      defaultValueByIndex={
+        data.findIndex(item => item.value === defaultValue) ?? undefined
+      }
       renderItem={(item, index, isSelected) => (
         <View
           style={{
@@ -61,12 +66,18 @@ const Select = ({
         <View
           style={{
             width: '100%',
-            height: 45,
+            height: 35,
             backgroundColor: 'white',
             elevation: 3,
             borderRadius: 4,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-        ></View>
+        >
+          {!!selectedItem && (
+            <Text style={{ textAlign: 'center' }}>{selectedItem.title}</Text>
+          )}
+        </View>
       )}
       search={showSearch}
     />

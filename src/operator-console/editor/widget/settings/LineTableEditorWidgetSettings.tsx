@@ -1,8 +1,8 @@
-import { Input } from '@ant-design/react-native'
 import { Text } from 'react-native'
 
 import { ColorPicker } from '../../../common/ColorPicker'
 import { Divider } from '../../../common/Divider'
+import { Input } from '../../../common/Input'
 import { InputNumber } from '../../../common/InputNumber'
 import { i18n } from '../../../i18n'
 import { EditorWidgetSettings } from './EditorWidgetSettings'
@@ -300,7 +300,7 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getLinetableBgColor()}
-          onColorChange={color => this._onChangeLinetableBgColor(color)}
+          onColorChangeComplete={color => this._onChangeLinetableBgColor(color)}
         />
         <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
@@ -311,7 +311,7 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('outerBorderColor')}</Text>
         <ColorPicker
           color={widgetData.getLinetableOuterBorderColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeLinetableOuterBorderColor(color)
           }
         />
@@ -331,7 +331,9 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getLinetableHeaderFgColor()}
-          onColorChange={color => this._onChangeLinetableHeaderFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeLinetableHeaderFgColor(color)
+          }
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -342,7 +344,7 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('rowUnderlineColor')}</Text>
         <ColorPicker
           color={widgetData.getLinetableHeaderRowUnderlineColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeLinetableHeaderRowUnderlineColor(color)
           }
         />
@@ -356,7 +358,9 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getLinetableBodyFgColor()}
-          onColorChange={color => this._onChangeLinetableBodyFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeLinetableBodyFgColor(color)
+          }
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -367,7 +371,7 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('rowUnderlineColor')}</Text>
         <ColorPicker
           color={widgetData.getLinetableBodyRowUnderlineColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeLinetableBodyRowUnderlineColor(color)
           }
         />
@@ -393,17 +397,21 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getLineButtonFgColor()}
-          onColorChange={color => this._onChangeLineButtonFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeLineButtonFgColor(color)
+          }
         />
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getLineButtonBgColor()}
-          onColorChange={color => this._onChangeLineButtonBgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeLineButtonBgColor(color)
+          }
         />
         <Text>{i18n.t('outerBorderColor')}</Text>
         <ColorPicker
           color={widgetData.getLineButtonOuterBorderColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeLineButtonOuterBorderColor(color)
           }
         />
@@ -441,17 +449,21 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getTransferButtonFgColor()}
-          onColorChange={color => this._onChangeTransferButtonFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeTransferButtonFgColor(color)
+          }
         />
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getTransferButtonBgColor()}
-          onColorChange={color => this._onChangeTransferButtonBgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeTransferButtonBgColor(color)
+          }
         />
         <Text>{i18n.t('outerBorderColor')}</Text>
         <ColorPicker
           color={widgetData.getTransferButtonOuterBorderColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeTransferButtonOuterBorderColor(color)
           }
         />
@@ -489,21 +501,21 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getTransferCancelButtonFgColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeTransferCancelButtonFgColor(color)
           }
         />
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getTransferCancelButtonBgColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeTransferCancelButtonBgColor(color)
           }
         />
         <Text>{i18n.t('outerBorderColor')}</Text>
         <ColorPicker
           color={widgetData.getTransferCancelButtonOuterBorderColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeTransferCancelButtonOuterBorderColor(color)
           }
         />

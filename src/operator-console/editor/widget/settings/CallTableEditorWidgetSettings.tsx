@@ -111,7 +111,7 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getCalltableBgColor()}
-          onColorChange={color => this._onChangeCalltableBgColor(color)}
+          onColorChangeComplete={color => this._onChangeCalltableBgColor(color)}
         />
         <Text>{i18n.t('outerBorderThickness')}</Text>
         <InputNumber
@@ -122,7 +122,7 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('outerBorderColor')}</Text>
         <ColorPicker
           color={widgetData.getCalltableOuterBorderColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeCalltableOuterBorderColor(color)
           }
         />
@@ -142,7 +142,9 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getCalltableHeaderFgColor()}
-          onColorChange={color => this._onChangeCalltableHeaderFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeCalltableHeaderFgColor(color)
+          }
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -153,7 +155,7 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('rowUnderlineColor')}</Text>
         <ColorPicker
           color={widgetData.getCalltableHeaderRowUnderlineColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeCalltableHeaderRowUnderlineColor(color)
           }
         />
@@ -167,7 +169,9 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getCalltableBodyFgColor()}
-          onColorChange={color => this._onChangeCalltableBodyFgColor(color)}
+          onColorChangeComplete={color =>
+            this._onChangeCalltableBodyFgColor(color)
+          }
         />
         <Text>{i18n.t('rowUnderlineThickness')}</Text>
         <InputNumber
@@ -178,14 +182,14 @@ export class CallTableEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('rowUnderlineColor')}</Text>
         <ColorPicker
           color={widgetData.getCalltableBodyRowUnderlineColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeCalltableBodyRowUnderlineColor(color)
           }
         />
         <Text>{i18n.t('activeRowBgColor')}</Text>
         <ColorPicker
           color={widgetData.getCalltableBodyActiveRowBgColor()}
-          onColorChange={color =>
+          onColorChangeComplete={color =>
             this._onChangeCalltableBodyActiveRowBgColor(color)
           }
         />

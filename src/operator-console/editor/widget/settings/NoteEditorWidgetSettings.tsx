@@ -148,6 +148,7 @@ export class NoteEditorWidgetSettings extends EditorWidgetSettings {
           value={noteName}
           options={this.state.nameOptions}
           onChange={v => this._onChangeNoteName(v)}
+          onChangeText={v => console.log('#Duy Phan console vvv', v)}
           style={{ width: '100%' }}
         />
         <Text>{i18n.t('Text_size')}</Text>
@@ -159,12 +160,12 @@ export class NoteEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getNoteNameFgColor()}
-          onColorChange={color => this._onChangeNoteNameFgColor(color)}
+          onColorChangeComplete={color => this._onChangeNoteNameFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker
           color={widgetData.getNoteNameBgColor()}
-          onColorChange={color => this._onChangeNoteNameBgColor(color)}
+          onColorChangeComplete={color => this._onChangeNoteNameBgColor(color)}
         />
         <Divider>{i18n.t('noteText_settings')}</Divider>
         <Text>{i18n.t('Text_size')}</Text>
@@ -176,17 +177,17 @@ export class NoteEditorWidgetSettings extends EditorWidgetSettings {
         <Text>{i18n.t('fgColor')}</Text>
         <ColorPicker
           color={widgetData.getNoteTextFgColor()}
-          onColorChange={color => this._onChangeNoteTextFgColor(color)}
+          onColorChangeComplete={color => this._onChangeNoteTextFgColor(color)}
         />
         <Text>{i18n.t('startBgColor')}</Text>
         <ColorPicker
           color={widgetData.getNoteBgStartColor()}
-          onColorChange={color => this._onChangeNoteBgStartColor(color)}
+          onColorChangeComplete={color => this._onChangeNoteBgStartColor(color)}
         />
         <Text>{i18n.t('endBgColor')}</Text>
         <ColorPicker
           color={widgetData.getNoteBgEndColor()}
-          onColorChange={color => this._onChangeNoteBgEndColor(color)}
+          onColorChangeComplete={color => this._onChangeNoteBgEndColor(color)}
         />
       </>
     )

@@ -1,6 +1,6 @@
-import { Input } from '@ant-design/react-native'
 import { Text } from 'react-native'
 
+import { Input } from '../../../../common/Input'
 import { i18n } from '../../../../i18n'
 import { LegacyButtonEditorSubWidgetSettings } from './LegacyButtonEditorSubWidgetSettings'
 

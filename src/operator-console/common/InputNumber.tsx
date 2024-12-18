@@ -1,9 +1,9 @@
 import type { InputProps } from '@ant-design/react-native'
-import { Input } from '@ant-design/react-native'
 import { useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { IconArrowDown, IconArrowUp } from '../icons'
+import { Input } from './Input'
 
 type Props = {
   value?: number
@@ -16,6 +16,7 @@ type Props = {
 export const InputNumber = ({
   value,
   onStep,
+  onChange,
   step = 1,
   min,
   max,
@@ -29,6 +30,7 @@ export const InputNumber = ({
         return n
       }
       onStep?.(n + stepFinal)
+      onChange?.(n + stepFinal)
       return n + stepFinal
     })
   }
@@ -38,6 +40,7 @@ export const InputNumber = ({
         return n
       }
       onStep?.(n - stepFinal)
+      onChange?.(n + stepFinal)
       return n - stepFinal
     })
   }
@@ -48,10 +51,6 @@ export const InputNumber = ({
       onChange={e => e.target}
       style={[
         {
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderRadius: 5,
-          borderColor: '#d9d9d9',
           height: 40,
         },
         props.style,

@@ -1,4 +1,3 @@
-import { Input } from '@ant-design/react-native'
 import React from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, Text, View } from 'react-native'
@@ -8,6 +7,7 @@ import logo from '../logo.png'
 import { Button } from '../common/Button'
 import { ColorPicker } from '../common/ColorPicker'
 import { DropdownOverlay } from '../common/DropdownOverlay'
+import { Input } from '../common/Input'
 import { InputNumber } from '../common/InputNumber'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
@@ -416,7 +416,6 @@ export class EditScreenView extends React.Component<Props, State> {
 
   render() {
     const settingsAreaJsx = this._getSettingsAreaJsx()
-    console.log('#Duy Phan console render edit')
     return (
       <View
         style={{
@@ -561,7 +560,7 @@ export class EditScreenView extends React.Component<Props, State> {
               width: 260,
               display: 'flex',
               flexDirection: 'column',
-              gap: 12,
+              gap: 20,
               margin: 4,
               height: '100%',
             }}
