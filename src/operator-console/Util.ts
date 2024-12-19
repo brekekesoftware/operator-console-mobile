@@ -134,14 +134,6 @@ export class Util {
 
   static removeItemFromArray(array, item) {
     const index = array.indexOf(item)
-    // let index = -1;
-    // for( let i = 0; i < array.length; i++ ){
-    //     const currentItem = array[i];
-    //     if( currentItem === item ){
-    //         index = i;
-    //         break;
-    //     }
-    // }
 
     if (index !== -1) {
       array.splice(index, 1)

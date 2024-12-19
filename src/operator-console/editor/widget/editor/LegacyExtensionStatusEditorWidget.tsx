@@ -28,6 +28,10 @@ export class LegacyExtensionStatusEditorWidget extends EditorWidget {
     const extensionStatusLampSize = widgetData.getExtensionStatusLampSize()
       ? widgetData.getExtensionStatusLampSize()
       : 16 // !defaultValue
+    console.log(
+      '#Duy Phan console extensionStatusLampSize',
+      extensionStatusLampSize,
+    )
     const extensionStatusExtensionFontSize =
       widgetData.getExtensionStatusExtensionFontSize()
         ? widgetData.getExtensionStatusExtensionFontSize()
@@ -44,14 +48,22 @@ export class LegacyExtensionStatusEditorWidget extends EditorWidget {
 
     return (
       <View>
-        <View style={{ display: 'flex', alignItems: 'center' }}>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flex: 1,
+            flexDirection: 'column',
+          }}
+        >
           <View
             style={[
+              OperatorConsoleStyles[className],
               {
                 width: extensionStatusLampSize,
                 height: extensionStatusLampSize,
+                borderRadius: extensionStatusLampSize / 2,
               },
-              OperatorConsoleStyles[className],
             ]}
           ></View>
         </View>

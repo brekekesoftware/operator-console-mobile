@@ -52,7 +52,13 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
       <>
         <Text>{i18n.t('text')}</Text>
         <Input.TextArea
-          style={{ width: '100%', height: 160, borderWidth: 1 }}
+          style={{
+            width: '100%',
+            height: 160,
+            borderWidth: 1,
+            borderColor: '#efefef',
+            borderRadius: 4,
+          }}
           value={widgetData.getText()}
           onChange={e => this._onChangeTextArea(e)}
         />
@@ -68,10 +74,10 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
           onColorChangeComplete={color => this._onChangeTextFgColor(color)}
         />
         <Text>{i18n.t('bgColor')}</Text>
-        {/* <ColorPicker
+        <ColorPicker
           color={widgetData.getTextBgColor()}
           onColorChangeComplete={color => this._onChangeTextBgColor(color)}
-        /> */}
+        />
         <Text>{i18n.t('borderRadius')}</Text>
         <InputNumber
           min='0'

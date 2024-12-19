@@ -75,11 +75,6 @@ export class LegacyButtonEditorSubWidget {
     } else {
       const iconWidth = widgetData.getIconWidth()
       const iconHeight = widgetData.getIconHeight()
-      console.log(
-        '#Duy Phan console iconWidth',
-        widgetData.getIconWidth(),
-        widgetData.getIconHeight(),
-      )
       const oStyle = {}
       let size: number | undefined = 30
       if (iconWidth !== undefined && iconWidth !== null) {

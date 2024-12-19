@@ -17,10 +17,7 @@ export const AutoComplete = ({ options, ...rest }: Props) => {
       hideResults={!open}
       flatListProps={{
         keyExtractor: (_, idx) => idx.toString(),
-        renderItem: ({ item }: { item: any }) => {
-          console.log('#Duy Phan console itemm', item)
-          return <Text>{item.value}</Text>
-        },
+        renderItem: ({ item }: { item: any }) => <Text>{item.value}</Text>,
       }}
     />
   )

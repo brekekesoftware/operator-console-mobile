@@ -168,63 +168,44 @@ export class CallTableEditorWidget extends EditorWidget {
     const cellCount = CallTableColumns.length + 1 // 1 is active botton
 
     return (
-      <View style={{ width: '100%', height: '100%' }}>
-        <ScrollView>
-          <Table
-            style={{
-              borderRadius: outerBorderRadius,
-              borderWidth: outerBorderThickness,
-              borderStyle: 'solid',
-              borderColor: outerBorderColor,
-              backgroundColor,
-            }}
-          >
-            <TableWrapper
-              style={{
-                borderBottomWidth: headerRowUnderlineThickness,
-                borderStyle: 'solid',
-                borderColor: headerRowUnderlineColor,
-                height: callTableTheadRowHeight,
-              }}
-            >
-              {CallTableColumns.map((item, i) => {
-                const key = item.key
-                const title = item.title
+      <Table
+        style={{
+          borderRadius: outerBorderRadius,
+          borderWidth: outerBorderThickness,
+          borderStyle: 'solid',
+          borderColor: outerBorderColor,
+          backgroundColor,
+          flex: 1,
+        }}
+      >
+        <TableWrapper
+          style={{
+            borderBottomWidth: headerRowUnderlineThickness,
+            borderStyle: 'solid',
+            borderColor: headerRowUnderlineColor,
+            height: callTableTheadRowHeight,
+          }}
+        >
+          {CallTableColumns.map((item, i) => {
+            const key = item.key
+            const title = item.title
 
-                let borderRadiusTH = 0
-                const isFirstTH = i === 0
-                if (isFirstTH === true) {
-                  borderRadiusTH = outerBorderRadius
-                } else {
-                  borderRadiusTH = 0 // "0"
-                }
+            let borderRadiusTH = 0
+            const isFirstTH = i === 0
+            if (isFirstTH === true) {
+              borderRadiusTH = outerBorderRadius
+            } else {
+              borderRadiusTH = 0 // "0"
+            }
 
-                return (
-                  <Cell
-                    key={key}
-                    style={{
-                      paddingTop: 0,
-                      paddingBottom: 0,
-                      borderTopLeftRadius: borderRadiusTH,
-                      borderBottomLeftRadius: borderRadiusTH,
-                    }}
-                    textStyle={{
-                      fontSize: callTableThFontSize,
-                      color: headerFgColor,
-                      textTransform: 'uppercase',
-                      fontWeight: 'bold',
-                    }}
-                    data={title}
-                  ></Cell>
-                )
-              })}
+            return (
               <Cell
+                key={key}
                 style={{
-                  // width:activeButtonCellWidth,
                   paddingTop: 0,
                   paddingBottom: 0,
-                  borderTopRightRadius: outerBorderRadius,
-                  borderBottomRightRadius: outerBorderRadius,
+                  borderTopLeftRadius: borderRadiusTH,
+                  borderBottomLeftRadius: borderRadiusTH,
                 }}
                 textStyle={{
                   fontSize: callTableThFontSize,
@@ -232,106 +213,123 @@ export class CallTableEditorWidget extends EditorWidget {
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                 }}
-                data={i18n.t('activeButton')}
+                data={title}
               ></Cell>
-            </TableWrapper>
+            )
+          })}
+          <Cell
+            style={{
+              // width:activeButtonCellWidth,
+              paddingTop: 0,
+              paddingBottom: 0,
+              borderTopRightRadius: outerBorderRadius,
+              borderBottomRightRadius: outerBorderRadius,
+            }}
+            textStyle={{
+              fontSize: callTableThFontSize,
+              color: headerFgColor,
+              textTransform: 'uppercase',
+              fontWeight: 'bold',
+            }}
+            data={i18n.t('activeButton')}
+          ></Cell>
+        </TableWrapper>
 
-            <View style={{ flex: 1 }}>
-              {callInfoArray.map((callInfo, i) => {
-                let tdActive
-                if (i === currentCallIndex) {
-                  tdActive = '\u00A0'
-                } else {
-                  tdActive = (
-                    <WidgetButton
-                      textStyle={{
-                        fontSize: activeButtonFontSize,
-                        color: bodyFgColor,
-                      }}
-                      style={{
-                        width: activeButtonWidth,
-                        height: activeButtonHeight,
-                      }}
-                      disabled={true}
-                    >
-                      {i18n.t('active')}
-                    </WidgetButton>
-                  )
-                }
-                return (
-                  <TableWrapper
-                    key={idKey++}
+        <View style={{ flex: 1 }}>
+          <ScrollView>
+            {callInfoArray.map((callInfo, i) => {
+              let tdActive
+              if (i === currentCallIndex) {
+                tdActive = '\u00A0'
+              } else {
+                tdActive = (
+                  <WidgetButton
+                    textStyle={{
+                      fontSize: activeButtonFontSize,
+                      color: bodyFgColor,
+                    }}
                     style={{
-                      backgroundColor:
-                        i === currentCallIndex ? bodyActiveRowBgColor : '',
+                      width: activeButtonWidth,
+                      height: activeButtonHeight,
+                    }}
+                    disabled={true}
+                  >
+                    {i18n.t('active')}
+                  </WidgetButton>
+                )
+              }
+              return (
+                <TableWrapper
+                  key={idKey++}
+                  style={{
+                    backgroundColor:
+                      i === currentCallIndex ? bodyActiveRowBgColor : '',
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    borderBottomWidth: bodyRowUnderlineThickness,
+                    borderStyle: 'solid',
+                    borderColor: bodyRowUnderlineColor,
+                    height: callTableTbodyRowHeight,
+                  }}
+                >
+                  {CallTableColumns.map((column, i) => {
+                    let borderRadiusTD
+                    const isFirstTD = i === 0
+
+                    // !forBug //!check //!deadCode
+                    if (isFirstTD === true) {
+                      borderRadiusTD = outerBorderRadius
+                    } else {
+                      borderRadiusTD = 0 // "0"
+                    }
+                    borderRadiusTD = 0 // "0"
+
+                    const key = column.key
+                    const formatter = column.formatter
+                    let v
+                    if (!callInfo) {
+                      v = '\u00A0' // for edit mode
+                    } else {
+                      v = formatter(callInfo[key]())
+                    }
+                    return (
+                      <Cell
+                        key={key}
+                        style={{
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                          borderTopRightRadius: borderRadiusTD,
+                          borderBottomRightRadius: borderRadiusTD,
+                        }}
+                        textStyle={{
+                          fontSize: callTableTdFontSize,
+                          color: bodyFgColor,
+                        }}
+                        data={v}
+                      ></Cell>
+                    )
+                  })}
+                  <Cell
+                    style={{
+                      // width:activeButtonCellWidth,
+                      // height: activeButtonCellHeight,
                       paddingTop: 0,
                       paddingBottom: 0,
-                      borderBottomWidth: bodyRowUnderlineThickness,
-                      borderStyle: 'solid',
-                      borderColor: bodyRowUnderlineColor,
-                      height: callTableTbodyRowHeight,
+                      borderTopRightRadius: outerBorderRadius,
+                      borderBottomRightRadius: outerBorderRadius,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      // backgroundColor: 'yellow',
+                      // flex: 1
                     }}
-                  >
-                    {CallTableColumns.map((column, i) => {
-                      let borderRadiusTD
-                      const isFirstTD = i === 0
-
-                      // !forBug //!check //!deadCode
-                      if (isFirstTD === true) {
-                        borderRadiusTD = outerBorderRadius
-                      } else {
-                        borderRadiusTD = 0 // "0"
-                      }
-                      borderRadiusTD = 0 // "0"
-
-                      const key = column.key
-                      const formatter = column.formatter
-                      let v
-                      if (!callInfo) {
-                        v = '\u00A0' // for edit mode
-                      } else {
-                        v = formatter(callInfo[key]())
-                      }
-                      return (
-                        <Cell
-                          key={key}
-                          style={{
-                            paddingTop: 0,
-                            paddingBottom: 0,
-                            borderTopRightRadius: borderRadiusTD,
-                            borderBottomRightRadius: borderRadiusTD,
-                          }}
-                          textStyle={{
-                            fontSize: callTableTdFontSize,
-                            color: bodyFgColor,
-                          }}
-                          data={v}
-                        ></Cell>
-                      )
-                    })}
-                    <Cell
-                      style={{
-                        // width:activeButtonCellWidth,
-                        // height: activeButtonCellHeight,
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderTopRightRadius: outerBorderRadius,
-                        borderBottomRightRadius: outerBorderRadius,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        // backgroundColor: 'yellow',
-                        // flex: 1
-                      }}
-                      data={tdActive}
-                    ></Cell>
-                  </TableWrapper>
-                )
-              })}
-              {/* <TableWrapper colSpan={cellCount}></TableWrapper> */}
-            </View>
-          </Table>
-        </ScrollView>
-      </View>
+                    data={tdActive}
+                  ></Cell>
+                </TableWrapper>
+              )
+            })}
+          </ScrollView>
+        </View>
+      </Table>
     )
   }
 }

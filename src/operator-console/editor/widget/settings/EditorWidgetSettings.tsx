@@ -51,15 +51,12 @@ export class EditorWidgetSettings extends Component<Props, State> {
         </View>
         <View
           style={{
-            // overflow: 'scroll',
-            // flexGrow: 1,
             flex: 1,
-            // height: '100%',
             paddingLeft: 12,
             paddingRight: 12,
           }}
         >
-          <ScrollView persistentScrollbar>
+          <ScrollView persistentScrollbar contentContainerStyle={{ gap: 16 }}>
             {this._getRenderMainJsx()}
           </ScrollView>
         </View>
@@ -82,7 +79,7 @@ export class EditorWidgetSettings extends Component<Props, State> {
             cancelText={i18n.t('no')}
             popStyle={{ bottom: 30, top: undefined }}
           >
-            <Button type='warning' disabled style={{ minWidth: 80 }}>
+            <Button disabled style={{ minWidth: 80 }}>
               {i18n.t('remove')}
             </Button>
           </Popconfirm>

@@ -10,7 +10,6 @@ type Props = {
   paneData: any
   editScreenViewAsAncestor?: any
   paneType?: number
-  className: string
   runtimeScreenViewAsParent?: RuntimeScreenView_ver2
   runtimePaneAsParent?: RuntimeChildPane
   runtimeScreenViewAsAncestor?: any

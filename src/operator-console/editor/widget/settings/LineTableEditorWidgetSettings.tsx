@@ -1,4 +1,4 @@
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 
 import { ColorPicker } from '../../../common/ColorPicker'
 import { Divider } from '../../../common/Divider'
@@ -279,8 +279,10 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
           onChange={count => this._onChangeLineCount(count)}
         />
         {lineDataArray.map((lineData, i) => (
-          <div key={i}>
-            <h3>{i18n.t('line') + ' ' + (i + 1)}</h3>
+          <View key={i} style={{ gap: 16 }}>
+            <Text style={{ fontSize: 16, fontWeight: '500' }}>
+              {i18n.t('line') + ' ' + (i + 1)}
+            </Text>
             <Text>{i18n.t('resourceName')}</Text>
             <Input
               maxLength={300}
@@ -295,7 +297,7 @@ export class LineTableEditorWidgetSettings extends EditorWidgetSettings {
               value={lineData.getLineLabel()}
               onChange={e => this._onChangeLineLabel(e, i)}
             />
-          </div>
+          </View>
         ))}
         <Text>{i18n.t('bgColor')}</Text>
         <ColorPicker

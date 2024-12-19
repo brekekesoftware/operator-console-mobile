@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { i18n } from '../../../i18n'
@@ -100,7 +100,6 @@ export class ExtensionTableEditorWidget extends EditorWidget {
           borderStyle: 'solid',
           borderColor: outerBorderColor,
           flex: 1,
-          // height: 200
         }}
       >
         <TableWrapper
@@ -152,43 +151,45 @@ export class ExtensionTableEditorWidget extends EditorWidget {
           ></Cell>
         </TableWrapper>
         <View style={{ flex: 1 }}>
-          {extensions.map(ext => (
-            <TableWrapper
-              key={key++}
-              style={{
-                borderBottomWidth: bodyRowUnderlineThickness,
-                borderStyle: 'solid',
-                borderColor: bodyRowUnderlineColor,
-                minHeight: 35,
-              }}
-            >
-              <Cell
+          <ScrollView>
+            {extensions.map(ext => (
+              <TableWrapper
+                key={key++}
                 style={{
-                  borderTopRightRadius: outerBorderRadius,
-                  borderBottomRightRadius: outerBorderRadius,
+                  borderBottomWidth: bodyRowUnderlineThickness,
+                  borderStyle: 'solid',
+                  borderColor: bodyRowUnderlineColor,
+                  minHeight: 35,
                 }}
-                textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
-                data={ext?.id}
-              ></Cell>
-              <Cell
-                textStyle={{
-                  fontSize: bodyFontSize,
-                  color: bodyFgColor,
-                  // height:EXTENSION_TABLE_TD_HEIGHT
-                }}
-                data={ext?.name}
-              ></Cell>
-              <Cell
-                style={{
-                  // height:EXTENSION_TABLE_TD_HEIGHT,
-                  borderTopRightRadius: outerBorderRadius,
-                  borderBottomRightRadius: outerBorderRadius,
-                }}
-                textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
-                data={extensionsStatus[ext.id]}
-              ></Cell>
-            </TableWrapper>
-          ))}
+              >
+                <Cell
+                  style={{
+                    borderTopRightRadius: outerBorderRadius,
+                    borderBottomRightRadius: outerBorderRadius,
+                  }}
+                  textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
+                  data={ext?.id}
+                ></Cell>
+                <Cell
+                  textStyle={{
+                    fontSize: bodyFontSize,
+                    color: bodyFgColor,
+                    // height:EXTENSION_TABLE_TD_HEIGHT
+                  }}
+                  data={ext?.name}
+                ></Cell>
+                <Cell
+                  style={{
+                    // height:EXTENSION_TABLE_TD_HEIGHT,
+                    borderTopRightRadius: outerBorderRadius,
+                    borderBottomRightRadius: outerBorderRadius,
+                  }}
+                  textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
+                  data={extensionsStatus[ext.id]}
+                ></Cell>
+              </TableWrapper>
+            ))}
+          </ScrollView>
         </View>
       </Table>
     )

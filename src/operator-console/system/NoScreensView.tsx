@@ -25,7 +25,7 @@ export const NoScreensView = props => {
   }
   const handleCancel = operatorConsoleAsParent => {
     setOpen(false)
-    // operatorConsoleAsParent.logout()
+    operatorConsoleAsParent.logout()
   }
 
   const [newLayoutUseForm] = Form.useForm()
@@ -342,12 +342,7 @@ export const NoScreensView = props => {
 
   const handleOpenLayoutOpen = () => {
     setOpen(false)
-    setTimeout(() => {
-      setOpenLayoutOpen(true)
-    }, 2000)
-    // setTimeout(() => {
-    //   refreshNoteNames()
-    // }, 2000);
+    setOpenLayoutOpen(true)
   }
 
   const isAdmin = operatorConsoleAsParent.getLoggedinUserIsAdmin()
@@ -414,16 +409,11 @@ export const NoScreensView = props => {
 
   const bNewLayoutModalOpen =
     operatorConsoleAsParent.getState().newLayoutModalOpen
-  console.log(
-    '#Duy Phan console open bNewLayoutModalOpen',
-    bNewLayoutModalOpen,
-    open,
-  )
   return (
     <>
       <OpenLayoutModalForNoScreensView
         operatorConsoleAsParent={operatorConsoleAsParent}
-        useStateOpen={true}
+        useStateOpen={openLayoutOpen}
         useStateSetOpen={setOpenLayoutOpen}
         useStateSetNewOrOpenLayoutOpen={setOpen}
         selectOCNoteByShortname={selectOCNoteByShortname}
@@ -434,6 +424,7 @@ export const NoScreensView = props => {
         title={i18n.t('newLayout')}
         onOk={handleNewLayoutOk}
         onCancel={handleNewLayoutCancel}
+        width={400}
         style={{ width: 400, height: 300 }}
         footer={[
           <Button key='back' onPress={handleNewLayoutCancel}>
@@ -471,6 +462,7 @@ export const NoScreensView = props => {
         onCancel={() => handleCancel(operatorConsoleAsParent)}
         onClose={() => setOpen(false)}
         footer={layoutContents.newOrOpenLayoutFooter}
+        width={500}
         style={{ width: 500, height: 170 }}
         closable
       >
@@ -496,7 +488,6 @@ export const NoScreensView = props => {
 
 const NewLayoutForm = ({ newLayoutUseForm }) => (
   <Form form={newLayoutUseForm} layout='vertical'>
-    {/* <section> */}
     <Form.Item
       name='layoutName'
       rules={[
@@ -508,6 +499,5 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
     >
       <Input placeholder={i18n.t('layoutName')} />
     </Form.Item>
-    {/* </section> */}
   </Form>
 )

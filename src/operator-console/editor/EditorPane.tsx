@@ -1,6 +1,13 @@
 import { createRef } from 'react'
 import type { LayoutRectangle } from 'react-native'
-import { LayoutChangeEvent, ScrollView, Text, View } from 'react-native'
+import {
+  LayoutChangeEvent,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 
 import { BasePane } from '../base/BasePane'
 import { GridLines } from '../common/GridLines'
@@ -304,8 +311,6 @@ export class EditorPane extends BasePane {
 
     widgetRelativePositionY -= widgetRelativePositionY % editingScreenGrid
 
-    console.log('#Duy Phan console widgetTypeId', widgetTypeId)
-
     widgetDatas.addWidgetData(
       widgetTypeId,
       widgetRelativePositionX,
@@ -375,19 +380,6 @@ export class EditorPane extends BasePane {
         backgroundColor: this.props.backgroundColor,
       }
 
-      // if( dividerData ){
-      //     const dividerDirection =  dividerData.getDividerDirection();
-      //     switch( dividerDirection ){
-      //         case BaseDividerData.DIVIDER_DIRECTIONS.vertical:
-      //             css["height"] = "100%";
-      //             break;
-      //         case BaseDividerData.DIVIDER_DIRECTIONS.horizontal:
-      //             css["width"] = "100%";
-      //             break;
-      //
-      //     }
-      // }
-      // else{
       if (this.state.parentContainer) {
       } else {
         // root container
@@ -436,49 +428,48 @@ export class EditorPane extends BasePane {
             // parent-container={this.state.parentContainer}
             // className={className}
             // style={css}
-            // onMouseDown={ev =>
-            //   this.getEditScreenView().onMouseDownEditorPaneInSettingsMode(ev)
-            // }
-            // onDragEnter={ev => this._onDragEnter(ev)}
-            // onDragOver={ev => {
-            //   this._onDragOver(ev)
-            // }}
-            // onDrop={ev => this._onDrop(ev)}
+
             style={{ width: '100%', height: '100%' }}
             onLayout={e => {
               this._Layout = e.nativeEvent.layout
             }}
           >
-            <GridLines
-              style={{
-                width: '100%',
-                height: '100%',
-                // position: 'relative',
-              }}
-              strokeWidth={2}
-              cellWidth={editingScreenGrid * 10}
-              cellWidth2={editingScreenGrid}
-              cellHeight={editingScreenGrid * 10}
-              cellHeight2={editingScreenGrid}
+            <TouchableWithoutFeedback
+              onPress={ev =>
+                this.getEditScreenView().onMouseDownEditorPaneInSettingsMode(
+                  paneData.getPaneNumber(),
+                )
+              }
             >
-              <ScrollView
-                style={{ flex: 1 }}
-                contentContainerStyle={{ flex: 1 }}
-                // horizontal
+              <GridLines
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+                strokeWidth={2}
+                cellWidth={editingScreenGrid * 10}
+                cellWidth2={editingScreenGrid}
+                cellHeight={editingScreenGrid * 10}
+                cellHeight2={editingScreenGrid}
               >
-                {widgetDataArray.map((widgetData, index) => {
-                  const widgetJsx =
-                    EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                      {
-                        editorPane: this,
-                        widgetData: widgetDataArray[index],
-                        jsxKey: index,
-                      },
-                    )
-                  return widgetJsx
-                })}
-              </ScrollView>
-            </GridLines>
+                <ScrollView
+                  style={{ flex: 1 }}
+                  contentContainerStyle={{ flex: 1 }}
+                >
+                  {widgetDataArray.map((widgetData, index) => {
+                    const widgetJsx =
+                      EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                        {
+                          editorPane: this,
+                          widgetData: widgetDataArray[index],
+                          jsxKey: index,
+                        },
+                      )
+                    return widgetJsx
+                  })}
+                </ScrollView>
+              </GridLines>
+            </TouchableWithoutFeedback>
           </View>
         )
       }

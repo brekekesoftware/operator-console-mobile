@@ -116,9 +116,8 @@ export class EditScreenView extends React.Component<Props, State> {
     this._OperatorConsoleAsParent.saveEditingScreen_ver2()
   }
 
-  onMouseDownEditorPaneInSettingsMode(ev) {
-    const eContainerDiv = ev.currentTarget
-    const containerId = eContainerDiv.getAttribute('data-br-container-id')
+  onMouseDownEditorPaneInSettingsMode(id) {
+    const containerId = String(id)
     if (!containerId) {
       // drag editor widget
       return
@@ -312,11 +311,17 @@ export class EditScreenView extends React.Component<Props, State> {
               <View>
                 <Select
                   name='enableTabs'
-                  onChange={value => this._onChangeTabsEnable(value)}
+                  onSelect={item => this._onChangeTabsEnable(item.value)}
                   value={enableTabs.toString()}
                   data={[
-                    { title: i18n.t('Disable') },
-                    { title: i18n.t('Enable') },
+                    {
+                      title: i18n.t('Disable'),
+                      value: _TABS_SELECT_OPTIONS.disable.toString(),
+                    },
+                    {
+                      title: i18n.t('Enable'),
+                      value: _TABS_SELECT_OPTIONS.enable.toString(),
+                    },
                   ]}
                 ></Select>
               </View>
@@ -552,7 +557,6 @@ export class EditScreenView extends React.Component<Props, State> {
               editScreenViewAsParent={this}
               foregroundColor={this._ScreenData.getScreenForegroundColor()}
               backgroundColor={this._ScreenData.getScreenBackgroundColor()}
-              className='width100percentAndHeight100percent'
             />
           </View>
           <View

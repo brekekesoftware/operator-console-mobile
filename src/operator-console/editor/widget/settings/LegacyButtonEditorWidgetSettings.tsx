@@ -129,7 +129,6 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
   }
 
   _onFormIconSelected(icon) {
-    console.log('#Duy Phan console icon', icon)
     const widgetData = this._getWidgetData()
     widgetData.setIcon(icon)
     this._EditScreenViewAsParent.setState({ rerender: true })
@@ -172,7 +171,6 @@ export class LegacyButtonEditorWidgetSettings extends EditorWidgetSettings {
   }
 
   _onChangeIconWidth(n) {
-    console.log('#Duy Phan console wwwww', n)
     const widgetData = this._getWidgetData()
     widgetData.setIconWidth(n)
     this._EditScreenViewAsParent.setState({ rerender: true })

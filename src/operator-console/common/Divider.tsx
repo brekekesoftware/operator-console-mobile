@@ -2,8 +2,10 @@ import { StyleSheet, Text, View } from 'react-native'
 
 export const Divider = ({
   children,
+  isBold = true,
 }: {
   children?: string | JSX.Element | JSX.Element[]
+  isBold?: boolean
 }) => {
   if (children) {
     return (
@@ -17,7 +19,15 @@ export const Divider = ({
         />
         <View>
           {typeof children === 'string' ? (
-            <Text style={{ textAlign: 'center' }}>{children}</Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontWeight: isBold ? 'bold' : 'normal',
+                marginHorizontal: 10,
+              }}
+            >
+              {children}
+            </Text>
           ) : (
             children
           )}

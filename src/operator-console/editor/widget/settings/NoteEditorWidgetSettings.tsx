@@ -148,7 +148,6 @@ export class NoteEditorWidgetSettings extends EditorWidgetSettings {
           value={noteName}
           options={this.state.nameOptions}
           onChange={v => this._onChangeNoteName(v)}
-          onChangeText={v => console.log('#Duy Phan console vvv', v)}
           style={{ width: '100%' }}
         />
         <Text>{i18n.t('Text_size')}</Text>

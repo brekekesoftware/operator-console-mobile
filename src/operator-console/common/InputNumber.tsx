@@ -40,7 +40,7 @@ export const InputNumber = ({
         return n
       }
       onStep?.(n - stepFinal)
-      onChange?.(n + stepFinal)
+      onChange?.(n - stepFinal)
       return n - stepFinal
     })
   }
@@ -55,7 +55,7 @@ export const InputNumber = ({
         },
         props.style,
       ]}
-      type='number-pad'
+      type='decimal-pad'
       suffix={
         <View style={styles.suffix}>
           <TouchableOpacity

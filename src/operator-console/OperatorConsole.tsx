@@ -1329,7 +1329,6 @@ export class BrekekeOperatorConsole extends React.Component<
       }
       const pt = newData.phoneTerminal
       let phoneClient
-      console.log('#Duy Phan console pt', pt)
       // if (pt === 'phoneTerminal_pal') {
       //   phoneClient = new PalPhoneClient(options)
       // } else {
@@ -1606,10 +1605,6 @@ export class BrekekeOperatorConsole extends React.Component<
     const handleShowConfirmDeleteTabCancel = () => {
       this.setState({ showConfirmDeleteTab: false })
     }
-    console.log(
-      '#Duy Phan console this.state.displayState',
-      this.state.displayState,
-    )
 
     const isEditingScreen =
       !!this.state.isInitialized &&
@@ -2105,7 +2100,6 @@ export class BrekekeOperatorConsole extends React.Component<
     if (sLastLoginAccount) {
       try {
         const lastLoginAccount: LoginParams = JSON.parse(sLastLoginAccount)
-        console.log('#Duy Phan console lastLoginAccount', lastLoginAccount)
 
         if (
           !lastLoginAccount['pbxDirectoryName'] ||
@@ -4138,7 +4132,7 @@ export class BrekekeOperatorConsole extends React.Component<
     // this._Campon.onBeginLogout(this); //!old location
     // this._BusylightStatusChanger.deinit();  //!dev
     this._onUnloadExtensionScript()
-    this._UccacWrapper.deinitUccacWrapper()
+    this._UccacWrapper?.deinitUccacWrapper()
     this._deinitPalWrapper()
     this._PalRestApi.deinitPalRestApi()
 

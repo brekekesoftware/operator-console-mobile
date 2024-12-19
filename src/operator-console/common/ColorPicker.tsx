@@ -1,52 +1,48 @@
-import { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import type { ColorPickerProps } from 'react-native-wheel-color-picker'
-import ColorPickerWheel from 'react-native-wheel-color-picker'
-
-import { Util } from '../Util'
+import ColorPickerRN, {
+  colorKit,
+  HueSlider,
+  OpacitySlider,
+  Panel1,
+  Preview,
+} from 'reanimated-color-picker'
+import type { rgbT } from 'reanimated-color-picker/lib/typescript/colorKit/types'
 
 type Props = Omit<ColorPickerProps, 'onColorChangeComplete' | 'color'> & {
   isDefault?: boolean
-  color?:
-    | string
-    | {
-        rgb: {
-          r: number
-          g: number
-          b: number
-          a: number
-        }
-      }
-    | null
-  onColorChangeComplete?: (
-    c: {
-      rgb: {
-        r: number
-        g: number
-        b: number
-        a: number
-      }
-    } | null,
-  ) => void
+  color?: string | { rgb: rgbT }
+  onColorChangeComplete?: (c: { rgb: rgbT } | null) => void
 }
 
 export const ColorPicker = ({ isDefault = false, ...props }: Props) => {
-  const [c, setC] = useState(
-    Util.isHex6(props.color)
-      ? props.color
-      : Util.RGBAToString(props.color as any),
-  )
+  console.log('#Duy Phan console color', props.color)
+  let fColor
+  if (props.color) {
+    fColor =
+      typeof props.color === 'string'
+        ? props.color
+        : colorKit.RGB(props.color.rgb).string()
+  } else {
+    fColor = undefined
+  }
 
   const changeColor = v => {
-    props.onColorChangeComplete?.(Util.getAntdRgbColorFromHex6(v))
+    console.log('#Duy Phan console v', v)
+    props.onColorChangeComplete?.({ rgb: colorKit.RGB(v).object(true) })
   }
   return isDefault ? (
-    <ColorPickerWheel
-      {...props}
-      onColorChange={cl => setC(cl)}
-      onColorChangeComplete={changeColor}
-      color={c}
-    />
+    <ColorPickerRN
+      style={{ flex: 1, gap: 20 }}
+      value={fColor}
+      onComplete={e => changeColor(e.hex)}
+    >
+      <Preview />
+      <Panel1 />
+      <HueSlider />
+      <OpacitySlider />
+      {/* <Swatches /> */}
+    </ColorPickerRN>
   ) : (
     <View
       style={{
@@ -57,12 +53,19 @@ export const ColorPicker = ({ isDefault = false, ...props }: Props) => {
         margin: 4,
       }}
     >
-      <ColorPickerWheel
-        {...props}
-        onColorChange={cl => setC(cl)}
-        onColorChangeComplete={changeColor}
-        color={c}
-      />
+      <ColorPickerRN
+        style={{ flex: 1, gap: 20 }}
+        value={fColor}
+        onComplete={e => changeColor(e.hex)}
+        thumbSize={25}
+        boundedThumb
+      >
+        <Preview />
+        <Panel1 />
+        <HueSlider />
+        <OpacitySlider />
+        {/* <Swatches /> */}
+      </ColorPickerRN>
     </View>
   )
 }

@@ -29,10 +29,6 @@ export class PalRestApi {
       login_user: options.username,
       login_password: options.password,
     }
-    console.log(
-      '#Duy Phan console initPalRestApiOptions',
-      initPalRestApiOptions,
-    )
     const failFunc = options.onInitFailFunction
     const successFunc = options.onInitSuccessFunction
 
@@ -63,7 +59,6 @@ export class PalRestApi {
       })
       .then(json => {
         const token: string = json.token
-        console.log('#Duy Phan console token', token)
         if (!token || token.length === 0) {
           const err = new Error(
             'Failed to get PAL REST API token. token=' + token,

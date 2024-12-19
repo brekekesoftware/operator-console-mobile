@@ -31,5 +31,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderRadius: 5,
     backgroundColor: 'white',
+    width: 300,
+    // height: 400
   },
 })

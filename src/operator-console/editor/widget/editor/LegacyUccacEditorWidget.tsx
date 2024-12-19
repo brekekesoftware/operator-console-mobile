@@ -127,7 +127,7 @@ export class LegacyUccacEditorWidget extends EditorWidget {
           borderRadius,
           backgroundColor: uccacwidgetBgColor,
           // boxShadow: sBoxShadow,
-
+          flex: 1,
           padding: 6,
         }}
       >

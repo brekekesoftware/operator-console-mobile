@@ -7,19 +7,12 @@ type Props = {
   description?: React.ReactElement | string
   style?: ViewStyle
 }
-export const Empty = ({ style, description, image }: Props) => {
-  console.log('#Duy Phan console')
-  return (
-    <View style={[styles.empty, style]}>
-      {typeof description === 'string' ? (
-        <Text>{description}</Text>
-      ) : (
-        description
-      )}
-      <Image source={{ uri: image ?? '' }} />
-    </View>
-  )
-}
+export const Empty = ({ style, description, image }: Props) => (
+  <View style={[styles.empty, style]}>
+    {typeof description === 'string' ? <Text>{description}</Text> : description}
+    <Image source={{ uri: image ?? '' }} />
+  </View>
+)
 
 const styles = StyleSheet.create({
   empty: {

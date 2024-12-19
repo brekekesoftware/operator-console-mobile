@@ -26,6 +26,7 @@ export class LegacyExtensionStatusEditorWidgetSettings extends EditorWidgetSetti
   _onChangeExtensionStatusLampSize(size) {
     const widgetData = this._getWidgetData()
     widgetData.setExtensionStatusLampSize(size)
+    console.log('#Duy Phan console size', size)
     this._EditScreenViewAsParent.setState({ rerender: true })
   }
 
