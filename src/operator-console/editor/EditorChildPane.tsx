@@ -1,3 +1,5 @@
+import { View } from 'react-native'
+
 import { BaseDividerData } from '../data/BaseDividerData'
 import { PaneData } from '../data/PaneData'
 import { EditorPane } from './EditorPane'
@@ -58,7 +60,7 @@ export class EditorChildPane extends EditorPane {
           }
 
           jsx = (
-            <div
+            <View
               data-br-container-id={paneNumber}
               style={paneCss}
               className={widthClassName + ' ' + heightClassName}
@@ -80,7 +82,7 @@ export class EditorChildPane extends EditorPane {
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.bottomPane}
               />
-            </div>
+            </View>
           )
         }
         break
@@ -117,7 +119,7 @@ export class EditorChildPane extends EditorPane {
           }
 
           jsx = (
-            <div
+            <View
               data-br-container-id={paneNumber}
               style={paneCss}
               className={widthClassName + ' ' + heightClassName}
@@ -139,7 +141,7 @@ export class EditorChildPane extends EditorPane {
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.rightPane}
               />
-            </div>
+            </View>
           )
         }
         break

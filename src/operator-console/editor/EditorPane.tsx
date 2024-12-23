@@ -175,8 +175,8 @@ export class EditorPane extends BasePane {
     return this.props['paneData'].getDividerData()
   }
 
-  onTabClickByEditorTabFunctionComponent(tabKey, mouseEvent) {
-    this.getEditScreenView().onTabClickByEditorPanel(this, tabKey, mouseEvent)
+  onTabClickByEditorTabFunctionComponent(tabKey) {
+    this.getEditScreenView().onTabClickByEditorPanel(this, tabKey)
   }
 
   removeEditorDivider(onRemoveEditorDividerFunction) {
@@ -191,13 +191,11 @@ export class EditorPane extends BasePane {
   }
 
   componentDidMount(): void {
+    const paneData = this.props['paneData']
     dndEventEmiter.on('drop', d => {
-      this._onDrop(d)
-    })
-
-    this._refEditor.measure((fx, fy, width, height, px, py) => {
-      this._Position.px = px
-      this._Position.py = py
+      if (!paneData.getEnableTabs()) {
+        this._onDrop(d)
+      }
     })
   }
 
@@ -340,6 +338,7 @@ export class EditorPane extends BasePane {
     const paneData = this.props['paneData']
     const dividerData = paneData.getDividerData()
     let jsx
+    console.log('#Duy Phan console dividerData', dividerData)
     if (dividerData) {
       const dividerDirection = dividerData.getDividerDirection()
       let widthClassName

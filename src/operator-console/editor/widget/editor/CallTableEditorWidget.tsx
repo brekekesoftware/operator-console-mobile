@@ -251,6 +251,7 @@ export class CallTableEditorWidget extends EditorWidget {
                     style={{
                       width: activeButtonWidth,
                       height: activeButtonHeight,
+                      margin: 5,
                     }}
                     disabled={true}
                   >
@@ -321,6 +322,7 @@ export class CallTableEditorWidget extends EditorWidget {
                       alignItems: 'center',
                       // backgroundColor: 'yellow',
                       // flex: 1
+                      padding: 5,
                     }}
                     data={tdActive}
                   ></Cell>

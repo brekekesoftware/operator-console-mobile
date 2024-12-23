@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, Text, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import logo from '../logo.png'
 
@@ -18,6 +19,7 @@ import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { brOcDisplayStates } from '../OperatorConsole'
 import { EditorDivider } from './EditorDivider'
+import { EditorHandlerTap } from './EditorHandlerTab'
 import { EditorPane } from './EditorPane'
 import { EditorRootPane } from './EditorRootPane'
 import { EditorWidgetSettingsFactory } from './widget/settings/EditorWidgetSettingsFactory'
@@ -52,9 +54,11 @@ export class EditScreenView extends React.Component<Props, State> {
   _OperatorConsoleAsParent: BrekekeOperatorConsole
   _ScreenData
   _RootPaneData
+  refTabLabel
   constructor(props) {
     super(props)
     this._OperatorConsoleAsParent = props['operatorConsoleAsParent']
+    this.refTabLabel = createRef()
     this.state = {
       settingsContainerOrDivider: null,
       propertiesMode: _PROPERTIES_MODE.none,
@@ -173,7 +177,7 @@ export class EditScreenView extends React.Component<Props, State> {
     })
   }
 
-  onTabClickByEditorPanel(editorPanelAsCaller, tabKey, mouseEvent) {
+  onTabClickByEditorPanel(editorPanelAsCaller, tabKey) {
     editorPanelAsCaller.setEditorPanezSelectedTabKeyAsString(tabKey)
     // this.setState({menuMode:_MENU_MODES.tab});
     this.setState({
@@ -183,37 +187,20 @@ export class EditScreenView extends React.Component<Props, State> {
   }
 
   _onChangeTabsEnable(value) {
-    // const b = confirm("Are you sure want to change enable/disable tabs?");
-    // if( !b ){
-    //     ev.target.value = this._lastTabsEnableValue;
-    //     return;
-    // }
     const currentEditingPane = this.state.settingsContainerOrDivider
-    // const b = ev.target.value === "true";
     const b = value === 'true'
     currentEditingPane.setEditorPanezEnableTabs(b)
     this.setState({ rerender: true })
   }
 
-  // componentDidMount() {
-  //     if( this.state.settingsContainerOrDivider instanceof EditorPane ){
-  //         const currentEditingPane = this.state.settingsContainerOrDivider;
-  //
-  //         const enableTabs = currentEditingPane.getEditorPanezEnableTabs();
-  //
-  //         const e = document.querySelector('select[name="enableTabs"]');
-  //         e.value = enableTabs.toString();
-  //     }
-  // }
-
-  _onClickAddTab(ev) {
-    const eTabLabel = document.querySelector('input[name="tabLabel"]')
-    const tabLabel = eTabLabel.value.trim()
+  _onClickAddTab = tabLabel => {
+    console.log('#Duy Phan console tabLabel', tabLabel)
     if (tabLabel.length === 0) {
       Notification.warning({ message: i18n.t('tabLabelIsEmpty') })
       return
     }
     const currentEditingPane = this.state.settingsContainerOrDivider
+
     const tabsData = currentEditingPane.getEditingPaneData().getTabsData()
     const insertedTabData = tabsData.insertTab(tabLabel)
     const tabKeyAsInt = insertedTabData.getTabKeyAsInt()
@@ -223,14 +210,8 @@ export class EditScreenView extends React.Component<Props, State> {
   }
 
   onDragEditorWidgetTemplateStart(ev) {
-    // ev.target.style.cursor = 'grabbing';
-    // ev.dataTransfer.effectAllowed = "copyMove";
-    // ev.preventDefault();
     ev.dataTransfer.clearData()
-
     const widgetTypeId = ev.target.getAttribute('data-br-widget-type-id')
-    // const e = ev.target.querySelector("[data-br-widget-type-id]");
-    // const widgetTypeId = e.getAttribute("data-br-widget-type-id");
     ev.dataTransfer.setData('editorWidgetTypeId', widgetTypeId)
     const itemRect = ev.target.getBoundingClientRect()
     const offsetX = ev.clientX - itemRect.left
@@ -239,9 +220,7 @@ export class EditScreenView extends React.Component<Props, State> {
     ev.dataTransfer.setData('offsetY', offsetY.toString())
   }
 
-  _onClickRenameTab(ev) {
-    const eTabLabel = document.querySelector('input[name="tabLabel"]')
-    const tabLabel = eTabLabel.value.trim()
+  _onClickRenameTab = tabLabel => {
     if (tabLabel.length === 0) {
       Notification.warning({ message: i18n.t('tabLabelIsEmpty') })
       return
@@ -265,7 +244,7 @@ export class EditScreenView extends React.Component<Props, State> {
     })
   }
 
-  _onClickRemoveTab() {
+  _onClickRemoveTab = () => {
     const currentEditingPane = this.state.settingsContainerOrDivider
     const tabsData = currentEditingPane.getEditingPaneData().getTabsData()
     if (tabsData.getTabDataCount() === 1) {
@@ -274,6 +253,7 @@ export class EditScreenView extends React.Component<Props, State> {
     }
 
     tabsData.removeSelectedTabData()
+    console.log('#Duy Phan console removed')
     this.setState({ rerender: true })
   }
 
@@ -368,31 +348,11 @@ export class EditScreenView extends React.Component<Props, State> {
       }
       case _PROPERTIES_MODE.tab: {
         jsx = (
-          <>
-            <View>
-              <Input
-                type='text'
-                name='tabLabel'
-                defaultValue={i18n.t('UntitledTab')}
-              />
-              <Button onPress={ev => this._onClickAddTab(ev)}>
-                {i18n.t('Add_tab')}
-              </Button>
-              <Button onPress={ev => this._onClickRenameTab(ev)}>
-                {i18n.t('Rename_tab')}
-              </Button>
-            </View>
-            <View>
-              <Popconfirm
-                title={i18n.t('Are_you_sure_you_want_to_remove_the_tab')}
-                onConfirm={() => this._onClickRemoveTab()}
-                okText={i18n.t('yes')}
-                cancelText={i18n.t('no')}
-              >
-                <Button>{i18n.t('Remove_tab')}</Button>
-              </Popconfirm>
-            </View>
-          </>
+          <EditorHandlerTap
+            _onClickAddTab={this._onClickAddTab}
+            _onClickRemoveTab={this._onClickRemoveTab}
+            _onClickRenameTab={this._onClickRenameTab}
+          />
         )
         break
       }
@@ -422,157 +382,160 @@ export class EditScreenView extends React.Component<Props, State> {
   render() {
     const settingsAreaJsx = this._getSettingsAreaJsx()
     return (
-      <View
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          height: '100%',
-        }}
-      >
+      <GestureHandlerRootView>
         <View
           style={{
             display: 'flex',
-            alignItems: 'center',
-            height: 47,
-            flexDirection: 'row',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            height: '100%',
           }}
         >
-          <View style={{ width: 240 }}>
-            <Image
-              style={{ marginTop: 4, marginLeft: 4 }}
-              source={logo as ImageSourcePropType}
-            />
+          <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              height: 47,
+              flexDirection: 'row',
+            }}
+          >
+            <View style={{ width: 240 }}>
+              <Image
+                style={{ marginTop: 4, marginLeft: 4 }}
+                source={logo as ImageSourcePropType}
+              />
+            </View>
+            <Space style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ fontSize: 14 }}>{i18n.t('grid')} : </Text>
+                <InputNumber
+                  value={this.getEditingScreenGrid()}
+                  style={{ width: 120 }}
+                  // onPressEnter={e =>
+                  //   this.setEditingScreenGrid(parseInt(e.target.value))
+                  // }
+                  onStep={v => this.setEditingScreenGrid(v)}
+                />
+              </View>
+              <View
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
+              >
+                <Text style={{ fontSize: 14 }}>{i18n.t('foreground')}: </Text>
+                <DropdownOverlay
+                  overlay={
+                    <ColorPicker
+                      color={this._ScreenData.getScreenForegroundColor()}
+                      onColorChangeComplete={this.setScreenForegroundColor}
+                      isDefault
+                    />
+                  }
+                >
+                  <View
+                    style={{
+                      width: 48,
+                      height: 30,
+                      borderColor: ' #e0e0e0',
+                      borderStyle: 'solid',
+                      borderWidth: 1,
+                      backgroundColor:
+                        this._ScreenData.getScreenForegroundColor(),
+                    }}
+                  ></View>
+                </DropdownOverlay>
+              </View>
+              <View
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}
+              >
+                <Text style={{ fontSize: 14 }}>{i18n.t('background')}: </Text>
+                <DropdownOverlay
+                  overlay={
+                    <ColorPicker
+                      color={this._ScreenData.getScreenBackgroundColor()}
+                      onColorChangeComplete={this.setScreenBackgroundColor}
+                      isDefault
+                    />
+                  }
+                >
+                  <View
+                    style={{
+                      width: 48,
+                      height: 30,
+                      borderColor: ' #e0e0e0',
+                      borderStyle: 'solid',
+                      borderWidth: 1,
+                      backgroundColor:
+                        this._ScreenData.getScreenBackgroundColor(),
+                    }}
+                  ></View>
+                </DropdownOverlay>
+              </View>
+            </Space>
+            <View style={{ marginLeft: 'auto', marginRight: 4 }}>
+              <Space>
+                <Popconfirm
+                  title={i18n.t('are_you_sure')}
+                  onConfirm={() => this._abortEditingScreen()}
+                  okText={i18n.t('yes')}
+                  cancelText={i18n.t('no')}
+                >
+                  <Button type='secondary' style={{ minWidth: 80 }} disabled>
+                    {i18n.t('discard')}
+                  </Button>
+                </Popconfirm>
+                <Space size={0} />
+                <Button
+                  type='success'
+                  style={{ minWidth: 80 }}
+                  onPress={() => this._saveEditingScreen()}
+                >
+                  {i18n.t('save')}
+                </Button>
+              </Space>
+            </View>
           </View>
-          <Space style={{ flex: 1 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={{ fontSize: 14 }}>{i18n.t('grid')} : </Text>
-              <InputNumber
-                value={this.getEditingScreenGrid()}
-                style={{ width: 120 }}
-                // onPressEnter={e =>
-                //   this.setEditingScreenGrid(parseInt(e.target.value))
-                // }
-                onStep={v => this.setEditingScreenGrid(v)}
+          <View
+            style={{
+              display: 'flex',
+              height: Dimensions.get('screen').height - 47,
+              flexDirection: 'row',
+            }}
+          >
+            <View style={{ width: 240 }}>
+              {/* left -  widget templates area*/}
+              {this._getWidgetTemplatesAreaJsx()}
+            </View>
+            <View style={{ flex: 1 }}>
+              <EditorRootPane
+                paneData={this._RootPaneData}
+                editScreenViewAsParent={this}
+                foregroundColor={this._ScreenData.getScreenForegroundColor()}
+                backgroundColor={this._ScreenData.getScreenBackgroundColor()}
               />
             </View>
             <View
               style={{
+                width: 260,
                 display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row',
+                flexDirection: 'column',
+                gap: 20,
+                margin: 4,
+                height: '100%',
+                // backgroundColor: 'white'
               }}
             >
-              <Text style={{ fontSize: 14 }}>{i18n.t('foreground')}: </Text>
-              <DropdownOverlay
-                overlay={
-                  <ColorPicker
-                    color={this._ScreenData.getScreenForegroundColor()}
-                    onColorChangeComplete={this.setScreenForegroundColor}
-                    isDefault
-                  />
-                }
-              >
-                <View
-                  style={{
-                    width: 48,
-                    height: 30,
-                    borderColor: ' #e0e0e0',
-                    borderStyle: 'solid',
-                    borderWidth: 1,
-                    backgroundColor:
-                      this._ScreenData.getScreenForegroundColor(),
-                  }}
-                ></View>
-              </DropdownOverlay>
+              {settingsAreaJsx}
             </View>
-            <View
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}
-            >
-              <Text style={{ fontSize: 14 }}>{i18n.t('background')}: </Text>
-              <DropdownOverlay
-                overlay={
-                  <ColorPicker
-                    color={this._ScreenData.getScreenBackgroundColor()}
-                    onColorChangeComplete={this.setScreenBackgroundColor}
-                    isDefault
-                  />
-                }
-              >
-                <View
-                  style={{
-                    width: 48,
-                    height: 30,
-                    borderColor: ' #e0e0e0',
-                    borderStyle: 'solid',
-                    borderWidth: 1,
-                    backgroundColor:
-                      this._ScreenData.getScreenBackgroundColor(),
-                  }}
-                ></View>
-              </DropdownOverlay>
-            </View>
-          </Space>
-          <View style={{ marginLeft: 'auto', marginRight: 4 }}>
-            <Space>
-              <Popconfirm
-                title={i18n.t('are_you_sure')}
-                onConfirm={() => this._abortEditingScreen()}
-                okText={i18n.t('yes')}
-                cancelText={i18n.t('no')}
-              >
-                <Button type='secondary' style={{ minWidth: 80 }} disabled>
-                  {i18n.t('discard')}
-                </Button>
-              </Popconfirm>
-              <Space size={0} />
-              <Button
-                type='success'
-                style={{ minWidth: 80 }}
-                onPress={() => this._saveEditingScreen()}
-              >
-                {i18n.t('save')}
-              </Button>
-            </Space>
           </View>
         </View>
-        <View
-          style={{
-            display: 'flex',
-            height: Dimensions.get('screen').height - 47,
-            flexDirection: 'row',
-          }}
-        >
-          <View style={{ width: 240 }}>
-            {/* left -  widget templates area*/}
-            {this._getWidgetTemplatesAreaJsx()}
-          </View>
-          <View style={{ width: Dimensions.get('screen').height, flex: 1 }}>
-            <EditorRootPane
-              paneData={this._RootPaneData}
-              editScreenViewAsParent={this}
-              foregroundColor={this._ScreenData.getScreenForegroundColor()}
-              backgroundColor={this._ScreenData.getScreenBackgroundColor()}
-            />
-          </View>
-          <View
-            style={{
-              width: 260,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 20,
-              margin: 4,
-              height: '100%',
-            }}
-          >
-            {settingsAreaJsx}
-          </View>
-        </View>
-      </View>
+      </GestureHandlerRootView>
     )
   }
 }

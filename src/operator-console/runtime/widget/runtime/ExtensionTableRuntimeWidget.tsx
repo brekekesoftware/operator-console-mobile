@@ -1,4 +1,4 @@
-import { View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { i18n } from '../../../i18n'
@@ -52,7 +52,7 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
     // const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor( props.extensiontableBodyActiveRowBgColor, "'#B9DFA9'" );   //!default
     const backgroundColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableBgColor(),
-      '',
+      '#f8f8f8',
     )
     const headerRowUnderlineThickness =
       widgetData.getExtensiontableHeaderRowUnderlineThickness() ||
@@ -61,7 +61,7 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
         : 1 // !default
     const headerRowUnderlineColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableHeaderRowUnderlineColor(),
-      "'#e0e0e0'",
+      '#e0e0e0',
     ) // !default
     const bodyRowUnderlineThickness =
       widgetData.getExtensiontableBodyRowUnderlineThickness() ||
@@ -70,7 +70,7 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
         : 1 // !default
     const bodyRowUnderlineColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableBodyRowUnderlineColor(),
-      "'#e0e0e0'",
+      '#e0e0e0',
     ) // !default
     const headerFontSize = widgetData.getExtensiontableHeaderFontSize()
       ? widgetData.getExtensiontableHeaderFontSize()
@@ -88,84 +88,85 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
           borderWidth: outerBorderThickness,
           borderStyle: 'solid',
           borderColor: outerBorderColor,
+          flex: 1,
         }}
       >
-        <View>
-          <TableWrapper
+        <TableWrapper
+          style={{
+            borderBottomWidth: headerRowUnderlineThickness,
+            borderStyle: 'solid',
+            borderColor: headerRowUnderlineColor,
+          }}
+        >
+          <Cell
             style={{
-              borderBottomWidth: headerRowUnderlineThickness,
-              borderStyle: 'solid',
-              borderColor: headerRowUnderlineColor,
+              borderTopRightRadius: outerBorderRadius,
+              borderTopLeftRadius: outerBorderRadius,
             }}
-          >
-            <Cell
-              style={{
-                borderTopRightRadius: outerBorderRadius,
-                borderTopLeftRadius: outerBorderRadius,
-              }}
-              textStyle={{
-                color: headerFgColor,
-                fontSize: headerFontSize,
-                textTransform: 'uppercase',
-              }}
-              data={i18n.t('id')}
-            ></Cell>
-            <Cell
-              textStyle={{
-                fontSize: headerFontSize,
-                textTransform: 'uppercase',
-                color: headerFgColor,
-              }}
-              data={i18n.t('name')}
-            ></Cell>
-            <Cell
-              textStyle={{
-                color: headerFgColor,
-                fontSize: headerFontSize,
-                textTransform: 'uppercase',
-              }}
-              style={{
-                borderTopRightRadius: outerBorderRadius,
-                borderBottomRightRadius: outerBorderRadius,
-              }}
-              data={i18n.t('status')}
-            ></Cell>
-          </TableWrapper>
-        </View>
-        <View>
-          {extensions.map(ext => (
-            <TableWrapper
-              key={key++}
-              style={{
-                borderBottomWidth: bodyRowUnderlineThickness,
-                borderStyle: 'solid',
-                borderColor: bodyRowUnderlineColor,
-              }}
-            >
-              <Cell
-                textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
+            textStyle={{
+              color: headerFgColor,
+              fontSize: headerFontSize,
+              textTransform: 'uppercase',
+            }}
+            data={i18n.t('id')}
+          ></Cell>
+          <Cell
+            textStyle={{
+              fontSize: headerFontSize,
+              textTransform: 'uppercase',
+              color: headerFgColor,
+            }}
+            data={i18n.t('name')}
+          ></Cell>
+          <Cell
+            textStyle={{
+              color: headerFgColor,
+              fontSize: headerFontSize,
+              textTransform: 'uppercase',
+            }}
+            style={{
+              borderTopRightRadius: outerBorderRadius,
+              borderBottomRightRadius: outerBorderRadius,
+            }}
+            data={i18n.t('status')}
+          ></Cell>
+        </TableWrapper>
+        <View style={{ flex: 1 }}>
+          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            {extensions.map(ext => (
+              <TableWrapper
+                key={key++}
                 style={{
-                  borderTopRightRadius: outerBorderRadius,
-                  borderBottomRightRadius: outerBorderRadius,
+                  borderBottomWidth: bodyRowUnderlineThickness,
+                  borderStyle: 'solid',
+                  borderColor: bodyRowUnderlineColor,
                 }}
-                data={ext?.id}
-              ></Cell>
-              <Cell
-                textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
-                data={ext?.name}
-              ></Cell>
-              <Cell
-                textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
-                style={{
-                  borderTopRightRadius: outerBorderRadius,
-                  borderBottomRightRadius: outerBorderRadius,
-                }}
-                data={Object.values(
-                  extensionsStatus?.[ext?.id]?.callStatus || {},
-                ).join(',')}
-              ></Cell>
-            </TableWrapper>
-          ))}
+              >
+                <Cell
+                  textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
+                  style={{
+                    borderTopRightRadius: outerBorderRadius,
+                    borderBottomRightRadius: outerBorderRadius,
+                  }}
+                  data={ext?.id}
+                ></Cell>
+                <Cell
+                  textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
+                  data={ext?.name}
+                ></Cell>
+                <Cell
+                  textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
+                  style={{
+                    borderTopRightRadius: outerBorderRadius,
+                    borderBottomRightRadius: outerBorderRadius,
+                  }}
+                  data={Object.values(
+                    extensionsStatus?.[ext?.id]?.callStatus || {},
+                  ).join(',')}
+                ></Cell>
+              </TableWrapper>
+            ))}
+          </ScrollView>
         </View>
       </Table>
     )

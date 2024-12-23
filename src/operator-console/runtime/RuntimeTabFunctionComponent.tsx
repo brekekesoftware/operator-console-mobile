@@ -1,6 +1,6 @@
 import { Tabs } from '@ant-design/react-native'
 import type { TabData } from '@ant-design/react-native/lib/tabs/PropsType'
-import { Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import DragList from 'react-native-draglist'
 
 import { RuntimeWidgetFactory } from './widget/runtime/RuntimeWidgetFactory'
@@ -36,7 +36,7 @@ export const RuntimeTabFunctionComponent = props => {
       runtimePaneAsParent.getPaneId() + '_' + tabData.getTabKeyAsString()
 
     const tabChildren = (
-      <div data-broc-tab-id={tabId}>
+      <View data-broc-tab-id={tabId}>
         {widgetDataArray.map((widgetData, index) => {
           const options = {
             runtimePane: runtimePaneAsParent,
@@ -49,7 +49,7 @@ export const RuntimeTabFunctionComponent = props => {
             )
           return widgetJsx
         })}
-      </div>
+      </View>
     )
 
     const tabItem = {

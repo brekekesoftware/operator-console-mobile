@@ -1,5 +1,8 @@
+import { TouchableWithoutFeedback, View } from 'react-native'
+
 import { BaseDivider } from '../base/BaseDivider'
 import { BaseDividerData } from '../data/BaseDividerData'
+import { Draggable } from '../lib/rnd/Draggable'
 import { EditorPane } from './EditorPane'
 
 let _EDITOR_DIVIDER_ID = -1
@@ -41,7 +44,7 @@ export class EditorDivider extends BaseDivider {
   }
 
   // abstract
-  getProps() {
+  getProps(): any {
     throw new Error('Not implemented.')
   }
 
@@ -243,16 +246,20 @@ export class EditorDivider extends BaseDivider {
     const props = this.getProps()
 
     return (
-      <div
-        data-br-editor-divider-id={this._EditorDividerId}
-        className={props.cssClass}
-        onClick={ev =>
-          this._EditorPaneAsParent
-            .getEditScreenView()
-            .onClickByEditorDivider(ev)
-        }
-        onMouseDown={ev => this._onMouseDown(ev)}
-      ></div>
+      <Draggable>
+        <TouchableWithoutFeedback
+          data-br-editor-divider-id={this._EditorDividerId}
+          style={[props.cssClass, { zIndex: 999, position: 'absolute' }]}
+          onPress={ev =>
+            this._EditorPaneAsParent
+              .getEditScreenView()
+              .onClickByEditorDivider(ev)
+          }
+          // onMouseDown={ev => this._onMouseDown(ev)}
+        >
+          <View style={{ flex: 1 }}></View>
+        </TouchableWithoutFeedback>
+      </Draggable>
     )
   }
 }

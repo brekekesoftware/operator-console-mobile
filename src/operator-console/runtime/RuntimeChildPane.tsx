@@ -1,3 +1,5 @@
+import { View } from 'react-native'
+
 import { BaseDividerData } from '../data/BaseDividerData'
 import { PaneData } from '../data/PaneData'
 import { HorizontalRuntimeDivider } from './HorizontalRuntimeDivider'
@@ -60,10 +62,10 @@ export class RuntimeChildPane extends RuntimePane {
           }
 
           jsx = (
-            <div
+            <View
               data-br-container-id={paneNumber}
               style={paneCss}
-              className={widthClassName + ' ' + heightClassName}
+              // className={widthClassName + ' ' + heightClassName}
             >
               <RuntimeChildPane
                 runtimePaneAsParent={this}
@@ -82,7 +84,7 @@ export class RuntimeChildPane extends RuntimePane {
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.bottomPane}
               />
-            </div>
+            </View>
           )
         }
         break
@@ -119,7 +121,7 @@ export class RuntimeChildPane extends RuntimePane {
           }
 
           jsx = (
-            <div
+            <View
               data-br-container-id={paneNumber}
               style={paneCss}
               className={widthClassName + ' ' + heightClassName}
@@ -128,7 +130,7 @@ export class RuntimeChildPane extends RuntimePane {
                 runtimePaneAsParent={this}
                 paneData={leftPaneData}
                 runtimeScreenViewAsAncestor={runtimeScreenView}
-                className={'leftContainer '}
+                // className={'leftContainer '}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.leftPane}
               />
@@ -137,11 +139,11 @@ export class RuntimeChildPane extends RuntimePane {
                 runtimePaneAsParent={this}
                 paneData={rightPaneData}
                 runtimeScreenViewAsAncestor={runtimeScreenView}
-                className={'rightContainer'}
+                // className={'rightContainer'}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.rightPane}
               />
-            </div>
+            </View>
           )
         }
         break

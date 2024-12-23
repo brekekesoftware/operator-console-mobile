@@ -1,3 +1,5 @@
+import { View } from 'react-native'
+
 import { BaseDivider } from '../base/BaseDivider'
 import { BaseDividerData } from '../data/BaseDividerData'
 import type { RuntimeChildPane } from './RuntimeChildPane'
@@ -237,11 +239,11 @@ export class RuntimeDivider extends BaseDivider {
     const props = this.getProps()
 
     return (
-      <div
+      <View
         data-br-runtime-divider-id={this._RuntimeDividerId}
         className={props.cssClass}
         onMouseDown={ev => this._onMouseDown(ev)}
-      ></div>
+      ></View>
     )
   }
 }

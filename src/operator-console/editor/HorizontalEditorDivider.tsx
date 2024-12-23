@@ -1,3 +1,5 @@
+import type { ViewStyle } from 'react-native'
+
 import { BaseDividerData } from '../data/BaseDividerData'
 import { EditorDivider } from './EditorDivider'
 
@@ -9,7 +11,11 @@ export class HorizontalEditorDivider extends EditorDivider {
   // !override
   getProps() {
     return {
-      cssClass: 'horizontalDivider',
+      cssClass: {
+        width: '100%',
+        height: 6,
+        backgroundColor: 'lightgray',
+      } as ViewStyle,
       dividerDirection: BaseDividerData.DIVIDER_DIRECTIONS.horizontal,
     }
   }

@@ -65,22 +65,24 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
         <View
           style={{
             display: 'flex',
-            height: Dimensions.get('screen').height - 47,
+            // height: Dimensions.get('screen').height - 47,
+            flex: 1,
           }}
         >
           <View
             style={{
               width: '100%',
-              overflow: 'scroll',
+              // overflow: 'scroll',
               marginLeft: 10,
               marginBottom: 10,
+              flex: 1,
             }}
           >
-            {/* <RuntimeRootPane
+            <RuntimeRootPane
               paneData={rootPaneData}
               runtimeScreenViewAsParent={this}
-              className='width100percentAndHeight100percent'
-            /> */}
+              // className='width100percentAndHeight100percent'
+            />
           </View>
         </View>
       </View>

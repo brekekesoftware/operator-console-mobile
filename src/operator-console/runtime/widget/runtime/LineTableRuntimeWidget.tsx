@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { ViewStyle } from 'react-native'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 import { Button } from '../../../common/Button'
 import { DropdownMenu } from '../../../common/DropdownMenu'
@@ -730,7 +730,7 @@ export class LineTableRuntimeWidget extends RuntimeWidget {
     // const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor( props.linetableBodyActiveRowBgColor, "#B9DFA9" );   //!default
     const backgroundColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getLinetableBgColor(),
-      '',
+      '#f8f8f8',
     )
     const headerRowUnderlineThickness =
       widgetData.getLinetableHeaderRowUnderlineThickness() ||
@@ -785,83 +785,84 @@ export class LineTableRuntimeWidget extends RuntimeWidget {
           borderStyle: 'solid',
           borderColor: outerBorderColor,
           backgroundColor,
+          flex: 1,
         }}
       >
-        <View>
-          <TableWrapper
+        <TableWrapper
+          style={{
+            borderBottomWidth: headerRowUnderlineThickness,
+            borderStyle: 'solid',
+            borderColor: headerRowUnderlineColor,
+          }}
+        >
+          <Cell
+            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
             style={{
-              borderBottomWidth: headerRowUnderlineThickness,
-              borderStyle: 'solid',
-              borderColor: headerRowUnderlineColor,
+              borderTopRightRadius: outerBorderRadius,
+              borderTopLeftRadius: outerBorderRadius,
             }}
-          >
-            <Cell
-              textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-              style={{
-                borderTopRightRadius: outerBorderRadius,
-                borderTopLeftRadius: outerBorderRadius,
-              }}
-              data={i18n.t('name')}
-            ></Cell>
-            <Cell
-              textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-              data={i18n.t('responder')}
-            ></Cell>
-            <Cell
-              textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-              data={i18n.t('line')}
-            ></Cell>
-            <Cell
-              textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-              data={i18n.t('transfer')}
-            ></Cell>
-            <Cell
-              textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-              style={{
-                borderTopRightRadius: outerBorderRadius,
-                borderBottomRightRadius: outerBorderRadius,
-              }}
-              data={i18n.t('camponDest')}
-            ></Cell>
-          </TableWrapper>
-        </View>
-        <View>
-          {lineInfos.map((lineInfo, index) => (
-            <LineTableRow
-              key={index}
-              index={index}
-              lineInfo={lineInfo}
-              bodyFgColor={bodyFgColor}
-              bodyRowUnderlineThickness={bodyRowUnderlineThickness}
-              bodyRowUnderlineColor={bodyRowUnderlineColor}
-              outerBorderRadius={outerBorderRadius}
-              lineButtonWidth={lineButtonWidth}
-              lineButtonHeight={lineButtonHeight}
-              lineButtonFgColor={widgetData.getLineButtonFgColor()}
-              lineButtonBgColor={widgetData.getLineButtonBgColor()}
-              lineButtonOuterBorderColor={widgetData.getLineButtonOuterBorderColor()}
-              lineButtonOuterBorderRadius={widgetData.getLineButtonOuterBorderRadius()}
-              lineButtonOuterBorderThickness={widgetData.getLineButtonOuterBorderThickness()}
-              transferButtonWidth={widgetData.getTransferButtonWidth()}
-              transferButtonHeight={widgetData.getTransferButtonHeight()}
-              transferButtonFgColor={widgetData.getTransferButtonFgColor()}
-              transferButtonBgColor={widgetData.getTransferButtonBgColor()}
-              transferButtonOuterBorderColor={widgetData.getTransferButtonOuterBorderColor()}
-              transferButtonOuterBorderRadius={widgetData.getTransferButtonOuterBorderRadius()}
-              transferButtonOuterBorderThickness={widgetData.getTransferButtonOuterBorderThickness()}
-              transferCancelButtonWidth={widgetData.getTransferCancelButtonWidth()}
-              transferCancelButtonHeight={widgetData.getTransferCancelButtonHeight()}
-              transferCancelButtonFgColor={widgetData.getTransferCancelButtonFgColor()}
-              transferCancelButtonBgColor={widgetData.getTransferCancelButtonBgColor()}
-              transferCancelButtonOuterBorderColor={widgetData.getTransferCancelButtonOuterBorderColor()}
-              transferCancelButtonOuterBorderRadius={widgetData.getTransferCancelButtonOuterBorderRadius()}
-              transferCancelButtonOuterBorderThickness={widgetData.getTransferCancelButtonOuterBorderThickness()}
-              bodyFontSize={bodyFontSize}
-              lineButtonFontSize={lineButtonFontSize}
-              transferButtonFontSize={transferButtonFontSize}
-              transferCancelButtonFontSize={transferCancelButtonFontSize}
-            />
-          ))}
+            data={i18n.t('name')}
+          ></Cell>
+          <Cell
+            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
+            data={i18n.t('responder')}
+          ></Cell>
+          <Cell
+            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
+            data={i18n.t('line')}
+          ></Cell>
+          <Cell
+            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
+            data={i18n.t('transfer')}
+          ></Cell>
+          <Cell
+            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
+            style={{
+              borderTopRightRadius: outerBorderRadius,
+              borderBottomRightRadius: outerBorderRadius,
+            }}
+            data={i18n.t('camponDest')}
+          ></Cell>
+        </TableWrapper>
+        <View style={{ flex: 1 }}>
+          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+            {lineInfos.map((lineInfo, index) => (
+              <LineTableRow
+                key={index}
+                index={index}
+                lineInfo={lineInfo}
+                bodyFgColor={bodyFgColor}
+                bodyRowUnderlineThickness={bodyRowUnderlineThickness}
+                bodyRowUnderlineColor={bodyRowUnderlineColor}
+                outerBorderRadius={outerBorderRadius}
+                lineButtonWidth={lineButtonWidth}
+                lineButtonHeight={lineButtonHeight}
+                lineButtonFgColor={widgetData.getLineButtonFgColor()}
+                lineButtonBgColor={widgetData.getLineButtonBgColor()}
+                lineButtonOuterBorderColor={widgetData.getLineButtonOuterBorderColor()}
+                lineButtonOuterBorderRadius={widgetData.getLineButtonOuterBorderRadius()}
+                lineButtonOuterBorderThickness={widgetData.getLineButtonOuterBorderThickness()}
+                transferButtonWidth={widgetData.getTransferButtonWidth()}
+                transferButtonHeight={widgetData.getTransferButtonHeight()}
+                transferButtonFgColor={widgetData.getTransferButtonFgColor()}
+                transferButtonBgColor={widgetData.getTransferButtonBgColor()}
+                transferButtonOuterBorderColor={widgetData.getTransferButtonOuterBorderColor()}
+                transferButtonOuterBorderRadius={widgetData.getTransferButtonOuterBorderRadius()}
+                transferButtonOuterBorderThickness={widgetData.getTransferButtonOuterBorderThickness()}
+                transferCancelButtonWidth={widgetData.getTransferCancelButtonWidth()}
+                transferCancelButtonHeight={widgetData.getTransferCancelButtonHeight()}
+                transferCancelButtonFgColor={widgetData.getTransferCancelButtonFgColor()}
+                transferCancelButtonBgColor={widgetData.getTransferCancelButtonBgColor()}
+                transferCancelButtonOuterBorderColor={widgetData.getTransferCancelButtonOuterBorderColor()}
+                transferCancelButtonOuterBorderRadius={widgetData.getTransferCancelButtonOuterBorderRadius()}
+                transferCancelButtonOuterBorderThickness={widgetData.getTransferCancelButtonOuterBorderThickness()}
+                bodyFontSize={bodyFontSize}
+                lineButtonFontSize={lineButtonFontSize}
+                transferButtonFontSize={transferButtonFontSize}
+                transferCancelButtonFontSize={transferCancelButtonFontSize}
+              />
+            ))}
+          </ScrollView>
         </View>
       </Table>
     )

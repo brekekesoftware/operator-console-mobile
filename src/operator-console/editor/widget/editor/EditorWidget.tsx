@@ -155,27 +155,7 @@ export class EditorWidget extends React.Component<any, any> {
     const relativePositionY = widgetData.getWidgetRelativePositionY()
     const widgetWidth = widgetData.getWidgetWidth()
     const widgetHeight = widgetData.getWidgetHeight()
-    // const backgroundColor = this.getBackgroundColor();
-    // const widgetTypeId = this._WidgetData.getWidgetTypeId();
-    // const widgetIndex = this.props["widgetIndex"];
 
-    // const  boundingRect = this._EditorPanelAsParent.getEditorPanelBoundingClientRect();
-
-    // const absolutePositionX = boundingRect["x"] + relativePositionX;    //!temp
-    // const absolutePositionY = boundingRect["y"] + relativePositionX;    //!temp
-
-    // const jsx = <div
-    //     style={{
-    //         position:"absolute",
-    //         left:relativePositionX,
-    //         top:relativePositionY,
-    //         width:widgetWidth,
-    //         height:widgetHeight,
-    //         border:"1px solid #000000",
-    //         backgroundColor:this.getBackgroundColor(),
-    //         //translate : relativePositionX + "px " + relativePositionY + "px"
-    //     }}
-    // ></div>;
     const jsx = (
       <Rnd
         w={widgetWidth}

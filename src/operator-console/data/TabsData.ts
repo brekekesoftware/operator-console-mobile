@@ -15,10 +15,11 @@ export class TabsData {
   constructor(
     paneDataAsParent,
     cloneSrcTabsData: TabsDataType = null,
-    oTabsData = {},
+    oTabsData,
   ) {
     this._PaneDataAsParent = paneDataAsParent
     this._TabDataArray = new Array()
+    console.log('#Duy Phan console oTabsData', oTabsData)
 
     if (cloneSrcTabsData) {
       const tabCount = cloneSrcTabsData._TabDataArray.length
@@ -29,7 +30,7 @@ export class TabsData {
       this._selectedTabKeyAsInt = cloneSrcTabsData._selectedTabKeyAsInt
       this._selectedTabKeyAsString = cloneSrcTabsData._selectedTabKeyAsString
     } else if (oTabsData) {
-      const tabDataArray = oTabsData['tabDataArray']
+      const tabDataArray = oTabsData['tabDataArray'] ?? []
       for (let i = 0; i < tabDataArray.length; i++) {
         const tabData = tabDataArray[i]
         this._addTabForObject(tabData)

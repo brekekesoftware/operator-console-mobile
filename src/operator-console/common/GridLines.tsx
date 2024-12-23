@@ -89,6 +89,7 @@ export const GridLines = React.forwardRef((props: GridLinesProps, ref) => {
         style,
         {
           // zIndex: -1,
+          // position: 'relative'
         },
       ]}
       {...rest}

@@ -1,3 +1,5 @@
+import { Text, View } from 'react-native'
+
 import { BasePane } from '../base/BasePane'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { RuntimeTabFunctionComponent } from './RuntimeTabFunctionComponent'
@@ -256,12 +258,14 @@ export class RuntimePane extends BasePane {
         const runtimeScreenView = this.getRuntimeScreenView()
         const widgetDatas = paneData.getWidgetDatasForNoTabs()
         const widgetDataArray = widgetDatas.getWidgetDataArray()
+        console.log('#Duy Phan console render runtime')
         jsx = (
-          <div
+          <View
             data-br-container-id={paneData.getPaneNumber()}
             // parent-container={this.state.parentContainer}
-            className={className}
-            style={css}
+            // className={className}
+            // style={css}
+            style={{ flex: 1, position: 'relative' }}
           >
             {widgetDataArray.map((widgetData, index) => {
               const widgetJsx =
@@ -274,7 +278,7 @@ export class RuntimePane extends BasePane {
                 )
               return widgetJsx
             })}
-          </div>
+          </View>
         )
       }
     }

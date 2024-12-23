@@ -298,6 +298,7 @@ export class PaneData {
 
   getDividerData() {
     const dividerData = this._dividerData
+    console.log('#Duy Phan console getDividerData', dividerData)
     return dividerData
   }
 

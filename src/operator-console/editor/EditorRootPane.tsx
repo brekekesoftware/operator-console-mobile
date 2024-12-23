@@ -83,7 +83,7 @@ export class EditorRootPane extends EditorPane {
                 editorPaneAsParent={this}
                 paneData={upperPaneData}
                 editScreenViewAsAncestor={editScreenView}
-                className={'upperContainer'}
+                // className={'upperContainer'}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.upperPane}
               />
@@ -92,7 +92,7 @@ export class EditorRootPane extends EditorPane {
                 editorPaneAsParent={this}
                 paneData={bottomPaneData}
                 editScreenViewAsAncestor={editScreenView}
-                className={'bottomContainer'}
+                // className={'bottomContainer'}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.bottomPane}
               />
