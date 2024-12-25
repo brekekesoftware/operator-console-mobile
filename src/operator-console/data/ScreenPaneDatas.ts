@@ -1,9 +1,13 @@
 import { PaneDatas } from './PaneDatas'
+import type { ScreenData } from './ScreenData'
 import { ScreenPaneData } from './ScreenPaneData'
 
 export class ScreenPaneDatas extends PaneDatas {
-  _ScreenDataAsParent
-  constructor(screenDataAsParent, cloneSrcScreenPaneDatas: any = undefined) {
+  _ScreenDataAsParent: ScreenData
+  constructor(
+    screenDataAsParent: ScreenData,
+    cloneSrcScreenPaneDatas: any = undefined,
+  ) {
     super(cloneSrcScreenPaneDatas)
     this._ScreenDataAsParent = screenDataAsParent
   }

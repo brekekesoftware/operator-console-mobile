@@ -41,7 +41,6 @@ const Select = ({
   Children.forEach(children, (child, index) => {
     result.push({ c: child, index })
   })
-  // console.log('#Duy Phan console result',result)
   return (
     <SelectDropdown
       onSelect={(selectedItem, index) => {

@@ -1,5 +1,5 @@
 import { createRef } from 'react'
-import type { LayoutRectangle } from 'react-native'
+import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native'
 import {
   LayoutChangeEvent,
   ScrollView,
@@ -14,6 +14,7 @@ import { GridLines } from '../common/GridLines'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { WidgetData } from '../data/widgetData/WidgetData'
 import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
+import { DividerContext } from './DividerContext'
 import { EditorTabFunctionComponent } from './EditorTabFunctionComponent'
 import type { EditScreenView } from './EditScreenView'
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
@@ -23,6 +24,7 @@ const _PANES = new Object()
 
 // !abstract class
 export class EditorPane extends BasePane {
+  static contextType = DividerContext
   // !abstract
   getEditScreenView(): EditScreenView {
     throw new Error('Not implemented.')
@@ -43,11 +45,12 @@ export class EditorPane extends BasePane {
   _WidthWithPercent: string
   _EditorHorizontalAreaClassName
   _HeightWithPercent: string
-  _ClassName: string
+  _Style: StyleProp<ViewStyle>
   _Layout: LayoutRectangle | null = null
   _refEditor
   _Position = { px: 0, py: 0 }
-  constructor(props) {
+  paneNum
+  constructor(props, context) {
     super(props)
 
     // const screenData = this.getEditScreenViewFromProps(props).getScreenData();
@@ -55,6 +58,7 @@ export class EditorPane extends BasePane {
     const parentContainer = props['parent-container']
     const paneType = props['paneType']
     const paneData = props['paneData']
+    this.paneNum = paneData.getPaneNumber()
     // let paneData;
     // if( parentContainer ){
     //     const parentPaneData = parentContainer.getEditingPaneData();
@@ -132,7 +136,7 @@ export class EditorPane extends BasePane {
     //
     // }
 
-    this._ClassName = props['className']
+    this._Style = props['style']
 
     this.state = {
       parentContainer,
@@ -182,6 +186,7 @@ export class EditorPane extends BasePane {
   removeEditorDivider(onRemoveEditorDividerFunction) {
     const paneData = this.props['paneData']
     paneData.removeDividerData()
+    console.log('#Duy Phan console delete')
 
     this.setState({ rerender: true }, () => {
       if (onRemoveEditorDividerFunction) {
@@ -198,32 +203,6 @@ export class EditorPane extends BasePane {
       }
     })
   }
-
-  // _getChildContainerElement( className ){
-  //     const eThis  = document.querySelector('[data-br-container-id="' + this._containerId + '"]');
-  //     const e = eThis.querySelector("." + className );
-  //     return e;
-  // }
-  //
-  // getChildLeftContainerElement(){
-  //     const e = this._getChildContainerElement("leftContainer");
-  //     return e;
-  // }
-  //
-  // getChildRightContainerElement(){
-  //     const e = this._getChildContainerElement("rightContainer");
-  //     return e;
-  // }
-  //
-  // getChildUpperContainerElement(){
-  //     const e = this._getChildContainerElement("upperContainer");
-  //     return e;
-  // }
-  //
-  // getChildBottomContainerElement(){
-  //     const e = this._getChildContainerElement("bottomContainer");
-  //     return e;
-  // }
 
   // !abstract
   _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
@@ -338,7 +317,6 @@ export class EditorPane extends BasePane {
     const paneData = this.props['paneData']
     const dividerData = paneData.getDividerData()
     let jsx
-    console.log('#Duy Phan console dividerData', dividerData)
     if (dividerData) {
       const dividerDirection = dividerData.getDividerDirection()
       let widthClassName
@@ -386,23 +364,19 @@ export class EditorPane extends BasePane {
         css['height'] = '100%'
       }
       // }
-      const className = 'containerContent ' + this._ClassName
+      // const className = 'containerContent ' + this._ClassName
       const paneData = this.props['paneData']
 
       const paneWidth = paneData.getPaneWidth()
+      console.log('#Duy Phan console paneWidth', paneWidth)
       if (paneWidth && paneWidth !== -1) {
-        const dividerHalfWidthPx = getComputedStyle(
-          document.documentElement,
-        ).getPropertyValue('--broc_dividerHalfWidth')
-        css['width'] = 'calc(' + paneWidth + '% - ' + dividerHalfWidthPx + ')'
+        const dividerHalfWidthPx = 3
+        css['width'] = paneWidth + '%'
       }
       const paneHeight = paneData.getPaneHeight()
       if (paneHeight && paneHeight !== -1) {
-        const dividerHalfHeightPx = getComputedStyle(
-          document.documentElement,
-        ).getPropertyValue('--broc_dividerHalfHeight')
-        css['height'] =
-          'calc(' + paneHeight + '% - ' + dividerHalfHeightPx + ')'
+        const dividerHalfHeightPx = 3
+        css['height'] = paneHeight + '%'
       }
 
       if (paneData.getEnableTabs()) {
@@ -411,7 +385,7 @@ export class EditorPane extends BasePane {
             data-br-container-id={paneData.getPaneNumber()}
             tabsData={paneData.getTabsData()}
             editorPaneAsParent={this}
-            className={className}
+            // className={className}
             css={css}
           />
         )
@@ -426,9 +400,9 @@ export class EditorPane extends BasePane {
             ref={r => (this._refEditor = r)}
             // parent-container={this.state.parentContainer}
             // className={className}
-            // style={css}
+            // style={}
 
-            style={{ width: '100%', height: '100%' }}
+            style={[{ width: '100%', height: '100%' }, this.props.style, css]}
             onLayout={e => {
               this._Layout = e.nativeEvent.layout
             }}

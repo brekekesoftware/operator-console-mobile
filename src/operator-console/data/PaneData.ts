@@ -29,7 +29,6 @@ export class PaneData {
 
   constructor(options) {
     this._PaneDatasAsParent = options.paneDatasAsParent
-
     const paneDataObject = options.paneDataObject
     if (paneDataObject) {
       this._PaneType = paneDataObject['paneType']
@@ -265,6 +264,7 @@ export class PaneData {
   }
 
   setPaneWidth(w) {
+    console.log('#Duy Phan console ppe', w)
     this._paneWidth = w
   }
 
@@ -298,7 +298,6 @@ export class PaneData {
 
   getDividerData() {
     const dividerData = this._dividerData
-    console.log('#Duy Phan console getDividerData', dividerData)
     return dividerData
   }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import type { StyleProp, ViewStyle } from 'react-native'
 
 import type { EditorPane } from '../editor/EditorPane'
 import type { EditScreenView } from '../editor/EditScreenView'
@@ -16,11 +17,14 @@ type Props = {
   foregroundColor?: string
   backgroundColor?: string
   editScreenViewAsParent?: EditScreenView
+  style?: StyleProp<ViewStyle>
 }
 
 type State = {
   parentContainer?: any
   rerender?: boolean
+  width?: ViewStyle['width']
+  height?: ViewStyle['height']
 }
 export class BasePane extends React.Component<Props, State> {
   constructor(props) {

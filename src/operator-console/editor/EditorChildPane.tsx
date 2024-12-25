@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { View } from 'react-native'
 
 import { BaseDividerData } from '../data/BaseDividerData'
@@ -8,10 +9,17 @@ import { VerticalEditorDivider } from './VerticalEditorDivider'
 
 export class EditorChildPane extends EditorPane {
   _EditScreenViewAsAncestor
+  refLeft
+  refRight
+  refTop
+  refBottom
+  refMain
   constructor(props) {
     super(props)
     // this._EditorPaneAsParent = props["editorPaneAsParent"];
     this._EditScreenViewAsAncestor = this.getEditScreenViewFromProps(props)
+    this.refLeft = createRef()
+    this.refRight = createRef()
   }
 
   // !override
@@ -26,6 +34,7 @@ export class EditorChildPane extends EditorPane {
 
   // !override
   _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
+    console.log('#Duy Phan console style child', this.props.style)
     const editScreenView = this.getEditScreenView()
     let jsx
     const paneData = this.props['paneData']
@@ -62,25 +71,28 @@ export class EditorChildPane extends EditorPane {
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={paneCss}
-              className={widthClassName + ' ' + heightClassName}
+              style={[paneCss, { flex: 1 }]}
+              // className={widthClassName + ' ' + heightClassName}
+              ref={r => (this.refMain = r)}
             >
               <EditorChildPane
                 editorPaneAsParent={this}
                 paneData={upperPaneData}
                 editScreenViewAsAncestor={editScreenView}
-                className={'upperContainer'}
+                style={{ height: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.upperPane}
+                ref={r => (this.refTop = r)}
               />
               <HorizontalEditorDivider editorPaneAsParent={this} />
               <EditorChildPane
                 editorPaneAsParent={this}
                 paneData={bottomPaneData}
                 editScreenViewAsAncestor={editScreenView}
-                className={'bottomContainer'}
+                style={{ height: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.bottomPane}
+                ref={r => (this.refBottom = r)}
               />
             </View>
           )
@@ -103,43 +115,40 @@ export class EditorChildPane extends EditorPane {
           paneCss['display'] = 'flex'
           const paneWidth = paneData.getPaneWidth()
           if (paneWidth && paneWidth !== -1) {
-            const dividerHalfWidthPx = getComputedStyle(
-              document.documentElement,
-            ).getPropertyValue('--broc_dividerHalfWidth')
-            paneCss['width'] =
-              'calc(' + paneWidth + '% - ' + dividerHalfWidthPx + ')'
+            const dividerHalfWidthPx = 3
+            paneCss['width'] = paneWidth + '%'
           }
           const paneHeight = paneData.getPaneHeight()
           if (paneHeight && paneHeight !== -1) {
-            const dividerHalfHeightPx = getComputedStyle(
-              document.documentElement,
-            ).getPropertyValue('--broc_dividerHalfHeight')
-            paneCss['height'] =
-              'calc(' + paneHeight + '% - ' + dividerHalfHeightPx + ')'
+            const dividerHalfHeightPx = 3
+            paneCss['height'] = paneHeight + '%'
           }
 
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={paneCss}
-              className={widthClassName + ' ' + heightClassName}
+              style={[paneCss, { flex: 1, flexDirection: 'row' }]}
+              ref={r => (this.refMain = r)}
+              // className={widthClassName + ' ' + heightClassName}
             >
               <EditorChildPane
                 editorPaneAsParent={this}
                 paneData={leftPaneData}
                 editScreenViewAsAncestor={editScreenView}
-                className={'leftContainer '}
+                style={{ width: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.leftPane}
+                ref={r => (this.refLeft = r)}
               />
               <VerticalEditorDivider editorPaneAsParent={this} />
               <EditorChildPane
                 editorPaneAsParent={this}
                 paneData={rightPaneData}
                 editScreenViewAsAncestor={editScreenView}
-                className={'rightContainer'}
+                style={{ width: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.rightPane}
+                ref={r => (this.refRight = r)}
               />
             </View>
           )

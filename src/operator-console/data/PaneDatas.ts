@@ -4,15 +4,7 @@ import { PaneData } from './PaneData'
 export class PaneDatas {
   _PaneDatas: any
   _latestPaneNumber
-  constructor(cloneSrcPaneDatas: {
-    _PaneDatas: {
-      [k: string]: {
-        getParentPaneNumber: () => number
-        getPaneType: () => string
-        getPaneNumber: () => number
-      }
-    }
-  }) {
+  constructor(cloneSrcPaneDatas) {
     this._PaneDatas = new Object() // without tabs ( paneNumber,paneData )
     this._latestPaneNumber = -1
     if (!cloneSrcPaneDatas) {

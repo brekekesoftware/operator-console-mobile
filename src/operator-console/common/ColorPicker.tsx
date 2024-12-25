@@ -16,7 +16,6 @@ type Props = Omit<ColorPickerProps, 'onColorChangeComplete' | 'color'> & {
 }
 
 export const ColorPicker = ({ isDefault = false, ...props }: Props) => {
-  console.log('#Duy Phan console color', props.color)
   let fColor
   if (props.color) {
     fColor =
@@ -28,7 +27,6 @@ export const ColorPicker = ({ isDefault = false, ...props }: Props) => {
   }
 
   const changeColor = v => {
-    console.log('#Duy Phan console v', v)
     props.onColorChangeComplete?.({ rgb: colorKit.RGB(v).object(true) })
   }
   return isDefault ? (

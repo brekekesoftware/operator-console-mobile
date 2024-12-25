@@ -1,4 +1,5 @@
 import { i18n } from '../i18n'
+import type { PaneData } from './PaneData'
 import { TabData } from './TabData'
 
 type TabsDataType = {
@@ -13,13 +14,12 @@ export class TabsData {
   _selectedTabKeyAsInt
   _selectedTabKeyAsString
   constructor(
-    paneDataAsParent,
+    paneDataAsParent: PaneData,
     cloneSrcTabsData: TabsDataType = null,
     oTabsData,
   ) {
     this._PaneDataAsParent = paneDataAsParent
     this._TabDataArray = new Array()
-    console.log('#Duy Phan console oTabsData', oTabsData)
 
     if (cloneSrcTabsData) {
       const tabCount = cloneSrcTabsData._TabDataArray.length

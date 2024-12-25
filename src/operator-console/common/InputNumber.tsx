@@ -23,6 +23,7 @@ export const InputNumber = ({
   ...props
 }: Props) => {
   const [v, setV] = useState(value ?? 0)
+  console.log('#Duy Phan console vvv', v)
   const stepFinal = Number(step)
   const increase = () => {
     setV(n => {

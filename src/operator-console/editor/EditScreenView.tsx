@@ -18,6 +18,7 @@ import { BaseDividerData } from '../data/BaseDividerData'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { brOcDisplayStates } from '../OperatorConsole'
+import { DividerContext, DividerContextProvider } from './DividerContext'
 import { EditorDivider } from './EditorDivider'
 import { EditorHandlerTap } from './EditorHandlerTab'
 import { EditorPane } from './EditorPane'
@@ -44,7 +45,7 @@ type Props = {
 }
 
 type State = {
-  settingsContainerOrDivider: any
+  settingsContainerOrDivider: EditorPane | null
   propertiesMode: number
   selectingEditorWidgetData: any
   rerender?: boolean
@@ -137,11 +138,8 @@ export class EditScreenView extends React.Component<Props, State> {
     })
   }
 
-  onClickByEditorDivider(ev) {
-    const eEditorDividerDiv = ev.target
-    const dividerId = eEditorDividerDiv.getAttribute(
-      'data-br-editor-divider-id',
-    )
+  onClickByEditorDivider(dividerId) {
+    console.log('#Duy Phan console eEditorDividerDiv', dividerId)
     const editorDivider = EditorDivider.getEditorDividerByContainerId(dividerId)
     this.setState({
       settingsContainerOrDivider: editorDivider,
@@ -151,7 +149,7 @@ export class EditScreenView extends React.Component<Props, State> {
 
   _splitVertically() {
     const parentContainer = this.state.settingsContainerOrDivider
-    parentContainer.setDivider(BaseDividerData.DIVIDER_DIRECTIONS.vertical)
+    parentContainer?.setDivider(BaseDividerData.DIVIDER_DIRECTIONS.vertical)
     this.setState({
       settingsContainerOrDivider: null,
       propertiesMode: _PROPERTIES_MODE.none,
@@ -160,7 +158,7 @@ export class EditScreenView extends React.Component<Props, State> {
 
   _splitHorizontally() {
     const parentContainer = this.state.settingsContainerOrDivider
-    parentContainer.setDivider(BaseDividerData.DIVIDER_DIRECTIONS.horizontal)
+    parentContainer?.setDivider(BaseDividerData.DIVIDER_DIRECTIONS.horizontal)
     this.setState({
       settingsContainerOrDivider: null,
       propertiesMode: _PROPERTIES_MODE.none,
@@ -169,7 +167,8 @@ export class EditScreenView extends React.Component<Props, State> {
 
   _removeSplitter() {
     const editorDivider = this.state.settingsContainerOrDivider
-    editorDivider.removeEditorDivider(() => {
+    console.log('#Duy Phan console editorDivider', editorDivider)
+    editorDivider?.removeEditorDivider(() => {
       this.setState({
         settingsContainerOrDivider: null,
         propertiesMode: _PROPERTIES_MODE.none,
@@ -189,7 +188,7 @@ export class EditScreenView extends React.Component<Props, State> {
   _onChangeTabsEnable(value) {
     const currentEditingPane = this.state.settingsContainerOrDivider
     const b = value === 'true'
-    currentEditingPane.setEditorPanezEnableTabs(b)
+    currentEditingPane?.setEditorPanezEnableTabs(b)
     this.setState({ rerender: true })
   }
 
@@ -201,7 +200,7 @@ export class EditScreenView extends React.Component<Props, State> {
     }
     const currentEditingPane = this.state.settingsContainerOrDivider
 
-    const tabsData = currentEditingPane.getEditingPaneData().getTabsData()
+    const tabsData = currentEditingPane?.getEditingPaneData().getTabsData()
     const insertedTabData = tabsData.insertTab(tabLabel)
     const tabKeyAsInt = insertedTabData.getTabKeyAsInt()
     tabsData.setSelectedTabKeyAsInt(tabKeyAsInt)
@@ -226,7 +225,7 @@ export class EditScreenView extends React.Component<Props, State> {
       return
     }
     const currentEditingPane = this.state.settingsContainerOrDivider
-    const tabsData = currentEditingPane.getEditingPaneData().getTabsData()
+    const tabsData = currentEditingPane?.getEditingPaneData().getTabsData()
     const tabData = tabsData.getSelectedTabData()
     tabData.setTabLabel(tabLabel)
     this.setState({ rerender: true })
@@ -246,7 +245,7 @@ export class EditScreenView extends React.Component<Props, State> {
 
   _onClickRemoveTab = () => {
     const currentEditingPane = this.state.settingsContainerOrDivider
-    const tabsData = currentEditingPane.getEditingPaneData().getTabsData()
+    const tabsData = currentEditingPane?.getEditingPaneData().getTabsData()
     if (tabsData.getTabDataCount() === 1) {
       Notification.warning({ message: i18n.t('youCanNotRemoveLastTab') })
       return
@@ -283,7 +282,7 @@ export class EditScreenView extends React.Component<Props, State> {
     switch (this.state.propertiesMode) {
       case _PROPERTIES_MODE.pane: {
         const currentEditingPane = this.state.settingsContainerOrDivider
-        const enableTabs = currentEditingPane.getEditorPanezEnableTabs()
+        const enableTabs = currentEditingPane?.getEditorPanezEnableTabs()
         jsx = (
           <>
             <View>
@@ -341,7 +340,7 @@ export class EditScreenView extends React.Component<Props, State> {
             okText={i18n.t('yes')}
             cancelText={i18n.t('no')}
           >
-            <Button>{i18n.t('removeSplitter')}</Button>
+            <Button disabled>{i18n.t('removeSplitter')}</Button>
           </Popconfirm>
         )
         break
@@ -513,12 +512,14 @@ export class EditScreenView extends React.Component<Props, State> {
               {this._getWidgetTemplatesAreaJsx()}
             </View>
             <View style={{ flex: 1 }}>
+              {/* <DividerContextProvider> */}
               <EditorRootPane
                 paneData={this._RootPaneData}
                 editScreenViewAsParent={this}
                 foregroundColor={this._ScreenData.getScreenForegroundColor()}
                 backgroundColor={this._ScreenData.getScreenBackgroundColor()}
               />
+              {/* </DividerContextProvider> */}
             </View>
             <View
               style={{

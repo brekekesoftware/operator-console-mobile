@@ -1,4 +1,6 @@
-import { TouchableWithoutFeedback, View } from 'react-native'
+import { createRef } from 'react'
+import type { PanResponderInstance } from 'react-native'
+import { PanResponder, TouchableWithoutFeedback, View } from 'react-native'
 
 import { BaseDivider } from '../base/BaseDivider'
 import { BaseDividerData } from '../data/BaseDividerData'
@@ -19,6 +21,13 @@ export class EditorDivider extends BaseDivider {
   _startUpperHeight
   _mouseMoveEventListenerForHorizontalFunction
   _mouseUpEventListenerForHorizontalFunction
+  panResponder: PanResponderInstance
+  upperContainerRef
+  bottomContainerRef
+  leftContainerRef
+  rightContainerRef
+  _leftContainerElement
+  _rightContainerElement
 
   constructor(props) {
     super(props)
@@ -27,6 +36,85 @@ export class EditorDivider extends BaseDivider {
     this._EditorDividerId = _EDITOR_DIVIDER_ID
     _EDITOR_DIVIDER_OBJECT[this._EditorDividerId] = this
     // this._EditorPaneAsParent.getEditingPaneData().setDivider( this.getDividerDirection() );
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: (e, gestureState) => {
+        // this._onTouchStart(e, gestureState);
+      },
+      onPanResponderMove: (e, gestureState) => {
+        // this._onTouchMove(e, gestureState)
+        this._onMouseDown(gestureState)
+      },
+      onPanResponderRelease: (e, gestureState) => {
+        // this._onTouchEnd(e, gestureState);
+      },
+    })
+
+    this.state = {
+      startX: 0,
+      startY: 0,
+      upperHeight: 0,
+      bottomHeight: 0,
+      leftWidth: 0,
+      rightWidth: 0,
+    }
+
+    this.upperContainerRef = createRef()
+    this.bottomContainerRef = createRef()
+    this.leftContainerRef = createRef()
+    this.rightContainerRef = createRef()
+  }
+
+  _onTouchStart(e, gestureState) {
+    const { pageX, pageY } = gestureState
+
+    this.setState({
+      startX: pageX,
+      startY: pageY,
+    })
+
+    const direction = this.getDividerDirection()
+    if (BaseDividerData.DIVIDER_DIRECTIONS.horizontal === direction) {
+      this.upperContainerRef.current.measure((x, y, width, height) => {
+        this.setState({ upperHeight: height })
+      })
+      this.bottomContainerRef.current.measure((x, y, width, height) => {
+        this.setState({ bottomHeight: height })
+      })
+    } else if (BaseDividerData.DIVIDER_DIRECTIONS.vertical === direction) {
+      this.leftContainerRef.current.measure((x, y, width, height) => {
+        this.setState({ leftWidth: width })
+      })
+      this.rightContainerRef.current.measure((x, y, width, height) => {
+        this.setState({ rightWidth: width })
+      })
+    }
+  }
+
+  _onTouchMove(e, gestureState) {
+    const { dx, dy } = gestureState
+    const direction = this.getDividerDirection()
+
+    if (BaseDividerData.DIVIDER_DIRECTIONS.horizontal === direction) {
+      const newUpperHeight = this.state.upperHeight + dy
+      const newBottomHeight = this.state.bottomHeight - dy
+
+      this._EditorPaneAsParent.updatePaneHeights(
+        newUpperHeight,
+        newBottomHeight,
+      )
+    } else if (BaseDividerData.DIVIDER_DIRECTIONS.vertical === direction) {
+      const newLeftWidth = this.state.leftWidth + dx
+      const newRightWidth = this.state.rightWidth - dx
+
+      this._EditorPaneAsParent.updatePaneWidths(newLeftWidth, newRightWidth)
+    }
+  }
+
+  _onTouchEnd(e, gestureState) {
+    this._EditorPaneAsParent.getEditScreenView().setState({ rerender: true })
   }
 
   static getEditorDividerByContainerId(id) {
@@ -48,197 +136,113 @@ export class EditorDivider extends BaseDivider {
     throw new Error('Not implemented.')
   }
 
-  _onMouseDown(ev) {
-    ev.preventDefault()
+  _onMouseDown(gestureState) {
+    // const eDivider = ev.target
+    // this._element = eDivider
 
-    const eDivider = ev.target
-    this._element = eDivider
-
-    this._startClientX = ev.clientX
-    this._startClientY = ev.clientY
+    // this._startClientX = ev.clientX
+    // this._startClientY = ev.clientY
 
     const direction = this.getDividerDirection()
     switch (direction) {
       case BaseDividerData.DIVIDER_DIRECTIONS.horizontal:
-        const eUpperContainer = this._element.previousElementSibling
-        this._upperContainerElement = eUpperContainer
-        const eBottomContainer = this._element.nextElementSibling
-        this._bottomContainerElement = eBottomContainer
-        this._startUpperHeight = eUpperContainer.getBoundingClientRect().height
-
-        this._mouseMoveEventListenerForHorizontalFunction = ev => {
-          this._mouseMoveHandlerForHorizontal(ev)
-        }
-        document.addEventListener(
-          'mousemove',
-          this._mouseMoveEventListenerForHorizontalFunction,
-        )
-        this._mouseUpEventListenerForHorizontalFunction = ev => {
-          this._mouseUpHandlerForHorizontal(ev)
-        }
-        document.addEventListener(
-          'mouseup',
-          this._mouseUpEventListenerForHorizontalFunction,
-        )
+        this._mouseMoveHandlerForHorizontal(gestureState)
         break
       case BaseDividerData.DIVIDER_DIRECTIONS.vertical:
         // const eLeftContainer = container.getChildLeftContainerElement();
-        const eLeftContainer = this._element.previousElementSibling
+        const eLeftContainer = this.props.editorPaneAsParent?.refLeft
+          ?._refEditor as any
         this._leftContainerElement = eLeftContainer
-        this._startLeftWidth = eLeftContainer.getBoundingClientRect().width
-        // const eRightContainer = container.getChildRightContainerElement();
-        const eRightContainer = this._element.nextElementSibling
-        this._rightContainerElement = eRightContainer
+        // this._startLeftWidth = eLeftContainer.getBoundingClientRect().width
+        // // const eRightContainer = container.getChildRightContainerElement();
+        // const eRightContainer = this._element.nextElementSibling
+        this._rightContainerElement = this.props.editorPaneAsParent?.refRight
+          ?._refEditor as any
+        this._mouseMoveHandlerForVertical(gestureState)
 
-        this._mouseMoveEventListenerForVerticalFunction = ev => {
-          this._mouseMoveHandlerForVertical(ev)
-        }
-        document.addEventListener(
-          'mousemove',
-          this._mouseMoveEventListenerForVerticalFunction,
-        )
-        this._mouseUpEventListenerForVerticalFunction = ev => {
-          this._mouseUpHandlerForVertical(ev)
-        }
-        document.addEventListener(
-          'mouseup',
-          this._mouseUpEventListenerForVerticalFunction,
-        )
         break
     }
   }
 
-  _mouseMoveHandlerForHorizontal(e) {
-    e.preventDefault()
+  _mouseMoveHandlerForHorizontal(gestureState) {
+    let topWidth = 0
+    // const x = this._startClientX
+    // const y = this._startClientY
 
-    const upperHeight = this._startUpperHeight
-    const horizontalDivider = this._element
-    const upperSide = this._upperContainerElement
-    const bottomSide = this._bottomContainerElement
+    // const leftSide = this._leftContainerElement
+    // const rightSide = this._rightContainerElement
+    // const verticalDivider = this._element
+    // const dx = e.clientX - x
 
-    // How far the mouse has been moved
-    // const dx = e.clientX - this._startClientX;
-    const dy = e.clientY - this._startClientY
+    this.props.editorPaneAsParent?.refTop?._refEditor?.measure(
+      (fx, fy, w, h, x, y) => {
+        topWidth = h
 
-    const newUpperHeight =
-      ((upperHeight + dy) * 100) /
-      horizontalDivider.parentNode.getBoundingClientRect().height
-    // upperSide.style.height = newUpperHeight + '%';
-    const upperPaneId = upperSide.getAttribute('data-br-container-id')
-    const upperEditorPane = EditorPane.getEditorPaneByContainerId(upperPaneId)
-    const upperEditorPaneData = upperEditorPane.getEditingPaneData()
-    upperEditorPaneData.setPaneHeight(newUpperHeight)
+        this.props.editorPaneAsParent?.refMain?.measure(
+          (fx, fy, mW, mH, x, y) => {
+            const newTopWidth = ((topWidth + gestureState.dy) * 100) / mH
+            const leftPaneId = this.props.editorPaneAsParent?.refTop?.paneNum
+            const leftEditorPane =
+              EditorPane.getEditorPaneByContainerId(leftPaneId)
+            const leftEditorPaneData = leftEditorPane.getEditingPaneData()
 
-    const newBottomHeight = 100 - newUpperHeight
-    // bottomSide.style.height = newBottomHeight + "%";
-    const bottomPaneId = bottomSide.getAttribute('data-br-container-id')
-    const bottomEditorPane = EditorPane.getEditorPaneByContainerId(bottomPaneId)
-    const bottomEditorPaneData = bottomEditorPane.getEditingPaneData()
-    bottomEditorPaneData.setPaneHeight(newBottomHeight)
-
-    horizontalDivider.style.cursor = 'row-resize'
-    document.body.style.cursor = 'row-resize'
-
-    upperSide.style.userSelect = 'none'
-    upperSide.style.pointerEvents = 'none'
-
-    bottomSide.style.userSelect = 'none'
-    bottomSide.style.pointerEvents = 'none'
-
-    this._EditorPaneAsParent.getEditScreenView().setState({ rerender: true })
-  }
-
-  _mouseUpHandlerForHorizontal(ev) {
-    ev.preventDefault()
-
-    const horizontalDivider = this._element
-    const upperSide = this._upperContainerElement
-    const bottomSide = this._bottomContainerElement
-
-    horizontalDivider.style.removeProperty('cursor')
-    document.body.style.removeProperty('cursor')
-
-    upperSide.style.removeProperty('user-select')
-    upperSide.style.removeProperty('pointer-events')
-
-    bottomSide.style.removeProperty('user-select')
-    bottomSide.style.removeProperty('pointer-events')
-
-    document.removeEventListener(
-      'mousemove',
-      this._mouseMoveEventListenerForHorizontalFunction,
-    )
-    document.removeEventListener(
-      'mouseup',
-      this._mouseUpEventListenerForHorizontalFunction,
+            leftEditorPaneData.setPaneHeight(newTopWidth)
+            const newBottomWidth = 100 - newTopWidth
+            if (newBottomWidth > 0) {
+              const rightPaneId =
+                this.props.editorPaneAsParent?.refBottom?.paneNum
+              const rightEditorPane =
+                EditorPane.getEditorPaneByContainerId(rightPaneId)
+              const rightEditorPaneData = rightEditorPane.getEditingPaneData()
+              rightEditorPaneData.setPaneHeight(newBottomWidth)
+              this._EditorPaneAsParent
+                .getEditScreenView()
+                .setState({ rerender: true })
+            }
+          },
+        )
+      },
     )
   }
 
-  _mouseMoveHandlerForVertical(e) {
-    e.preventDefault()
+  _mouseMoveHandlerForVertical(gestureState) {
+    let leftWidth = this._startLeftWidth
+    // const x = this._startClientX
+    // const y = this._startClientY
 
-    const x = this._startClientX
-    const y = this._startClientY
-    const leftWidth = this._startLeftWidth
-    const leftSide = this._leftContainerElement
-    const rightSide = this._rightContainerElement
-    const verticalDivider = this._element
+    // const leftSide = this._leftContainerElement
+    // const rightSide = this._rightContainerElement
+    // const verticalDivider = this._element
+    // const dx = e.clientX - x
 
-    // How far the mouse has been moved
-    const dx = e.clientX - x
-    // const dy = e.clientY - y;
+    this.props.editorPaneAsParent?.refLeft?._refEditor?.measure(
+      (fx, fy, w, h, x, y) => {
+        leftWidth = w
 
-    const newLeftWidth =
-      ((leftWidth + dx) * 100) /
-      verticalDivider.parentNode.getBoundingClientRect().width
-    // leftSide.style.width = newLeftWidth + '%';
-    const leftPaneId = leftSide.getAttribute('data-br-container-id')
-    const leftEditorPane = EditorPane.getEditorPaneByContainerId(leftPaneId)
-    const leftEditorPaneData = leftEditorPane.getEditingPaneData()
-    leftEditorPaneData.setPaneWidth(newLeftWidth)
+        this.props.editorPaneAsParent?.refMain?.measure(
+          (fx, fy, mW, h, x, y) => {
+            const newLeftWidth = ((leftWidth + gestureState.dx) * 100) / mW
+            const leftPaneId = this.props.editorPaneAsParent?.refLeft?.paneNum
+            const leftEditorPane =
+              EditorPane.getEditorPaneByContainerId(leftPaneId)
+            const leftEditorPaneData = leftEditorPane.getEditingPaneData()
 
-    const newRightWidth = 100 - newLeftWidth
-    // rightSide.style.width = newRightWidth + "%";
-    const rightPaneId = rightSide.getAttribute('data-br-container-id')
-    const rightEditorPane = EditorPane.getEditorPaneByContainerId(rightPaneId)
-    const rightEditorPaneData = rightEditorPane.getEditingPaneData()
-    rightEditorPaneData.setPaneWidth(newRightWidth)
-
-    verticalDivider.style.cursor = 'col-resize'
-    document.body.style.cursor = 'col-resize'
-
-    leftSide.style.userSelect = 'none'
-    leftSide.style.pointerEvents = 'none'
-
-    rightSide.style.userSelect = 'none'
-    rightSide.style.pointerEvents = 'none'
-
-    this._EditorPaneAsParent.getEditScreenView().setState({ rerender: true })
-  }
-
-  _mouseUpHandlerForVertical(ev) {
-    ev.preventDefault()
-
-    const verticalDivider = this._element
-    const leftSide = this._leftContainerElement
-    const rightSide = this._rightContainerElement
-
-    verticalDivider.style.removeProperty('cursor')
-    document.body.style.removeProperty('cursor')
-
-    leftSide.style.removeProperty('user-select')
-    leftSide.style.removeProperty('pointer-events')
-
-    rightSide.style.removeProperty('user-select')
-    rightSide.style.removeProperty('pointer-events')
-
-    document.removeEventListener(
-      'mousemove',
-      this._mouseMoveEventListenerForVerticalFunction,
-    )
-    document.removeEventListener(
-      'mouseup',
-      this._mouseUpEventListenerForVerticalFunction,
+            leftEditorPaneData.setPaneWidth(newLeftWidth)
+            const newRightWidth = 100 - newLeftWidth
+            if (newRightWidth > 0) {
+              const rightPaneId =
+                this.props.editorPaneAsParent?.refRight?.paneNum
+              const rightEditorPane =
+                EditorPane.getEditorPaneByContainerId(rightPaneId)
+              const rightEditorPaneData = rightEditorPane.getEditingPaneData()
+              rightEditorPaneData.setPaneWidth(newRightWidth)
+              this._EditorPaneAsParent
+                .getEditScreenView()
+                .setState({ rerender: true })
+            }
+          },
+        )
+      },
     )
   }
 
@@ -246,20 +250,22 @@ export class EditorDivider extends BaseDivider {
     const props = this.getProps()
 
     return (
-      <Draggable>
+      // <Draggable >
+      <View style={[props.cssClass]} {...this.panResponder.panHandlers}>
         <TouchableWithoutFeedback
           data-br-editor-divider-id={this._EditorDividerId}
-          style={[props.cssClass, { zIndex: 999, position: 'absolute' }]}
+          style={{ flex: 1 }}
           onPress={ev =>
             this._EditorPaneAsParent
               .getEditScreenView()
-              .onClickByEditorDivider(ev)
+              .onClickByEditorDivider(this._EditorDividerId)
           }
           // onMouseDown={ev => this._onMouseDown(ev)}
         >
           <View style={{ flex: 1 }}></View>
         </TouchableWithoutFeedback>
-      </Draggable>
+      </View>
+      // </Draggable>
     )
   }
 }
