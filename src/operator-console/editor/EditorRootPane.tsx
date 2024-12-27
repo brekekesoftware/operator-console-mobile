@@ -106,6 +106,7 @@ export class EditorRootPane extends EditorPane {
               data-br-container-id={paneNumber}
               style={[{ flex: 1 }, paneCss]}
               ref={r => (this.refMain = r)}
+              collapsable={false}
               // className={widthClassName + ' ' + heightClassName}
               // onLayout={(e) =>this.handleSplitSize(e.nativeEvent.layout, BaseDividerData.DIVIDER_DIRECTIONS.horizontal)}
             >
@@ -164,6 +165,7 @@ export class EditorRootPane extends EditorPane {
               data-br-container-id={paneNumber}
               style={[{ flexDirection: 'row', flex: 1 }, paneCss]}
               ref={r => (this.refMain = r)}
+              collapsable={false}
               // className={widthClassName + ' ' + heightClassName}
               // onLayout={(e) =>this.handleSplitSize(e.nativeEvent.layout, BaseDividerData.DIVIDER_DIRECTIONS.vertical)}
             >

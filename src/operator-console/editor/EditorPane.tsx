@@ -1,13 +1,6 @@
 import { createRef } from 'react'
 import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native'
-import {
-  LayoutChangeEvent,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { ScrollView, TouchableWithoutFeedback, View } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
 import { GridLines } from '../common/GridLines'
@@ -59,15 +52,6 @@ export class EditorPane extends BasePane {
     const paneType = props['paneType']
     const paneData = props['paneData']
     this.paneNum = paneData.getPaneNumber()
-    // let paneData;
-    // if( parentContainer ){
-    //     const parentPaneData = parentContainer.getEditingPaneData();
-    //     paneData = screenData.addPaneData( paneType, parentPaneData  );
-    //
-    // }
-    // else {
-    //     paneData = screenData.addPaneData( PaneData.PANE_TYPES.rootPane );
-    // }
 
     const paneNumber = paneData.getPaneNumber()
     _PANES[paneNumber] = this
@@ -199,7 +183,20 @@ export class EditorPane extends BasePane {
     const paneData = this.props['paneData']
     dndEventEmiter.on('drop', d => {
       if (!paneData.getEnableTabs()) {
-        this._onDrop(d)
+        // console.log('#Duy Phan console this._refEditor', this._refEditor)
+        this._refEditor?.current?.measure((fx, fy, width, height, px, py) => {
+          console.log('#Duy Phan console data', fx, fy, px, py, width, height)
+          console.log('#Duy Phan console d', d)
+          if (
+            this.isDropZone(
+              { moveX: d.nX, moveY: d.nY },
+              { fx, fy, width, height, px, py },
+            )
+          ) {
+            console.log('#Duy Phan console drop times', Date.now())
+            this._onDrop({ ...d, px, py })
+          }
+        })
       }
     })
   }
@@ -209,31 +206,20 @@ export class EditorPane extends BasePane {
     throw new Error('Not Implemented.')
   }
 
-  isDropZone(gesture) {
-    const dz = this._Layout
-    if (dz) {
+  isDropZone(gesture, measure) {
+    if (measure) {
       return (
-        gesture.moveX > dz.x + 240 &&
-        gesture.moveX < dz.x + dz.width + 240 &&
-        gesture.moveY < dz.y + dz.height + 55
+        gesture.moveX > measure.px &&
+        gesture.moveX < measure.px + measure.width &&
+        gesture.moveY < measure.py + measure.height
       )
     }
     return false
   }
 
-  _onDrop({
-    editorWidgetTypeId,
-    nX: offsetX,
-    nY: offsetY,
-    gestureState,
-    px,
-    py,
-  }) {
+  _onDrop({ editorWidgetTypeId, nX: offsetX, nY: offsetY, px, py }) {
     const sWidgetTypeId = editorWidgetTypeId
-    if (
-      !sWidgetTypeId ||
-      !this.isDropZone({ moveX: offsetX, moveY: offsetY })
-    ) {
+    if (!sWidgetTypeId) {
       return
     }
     const paneData = this.props['paneData']
@@ -282,8 +268,8 @@ export class EditorPane extends BasePane {
 
     const editingScreenGrid = this.getEditScreenView().getEditingScreenGrid()
 
-    let widgetRelativePositionX = offsetX - 240
-    let widgetRelativePositionY = offsetY - 46
+    let widgetRelativePositionX = offsetX - px
+    let widgetRelativePositionY = offsetY - py
     widgetRelativePositionX -= widgetRelativePositionX % editingScreenGrid
 
     widgetRelativePositionY -= widgetRelativePositionY % editingScreenGrid
@@ -397,15 +383,16 @@ export class EditorPane extends BasePane {
         jsx = (
           <View
             data-br-container-id={paneData.getPaneNumber()}
-            ref={r => (this._refEditor = r)}
+            ref={this._refEditor}
+            collapsable={false}
             // parent-container={this.state.parentContainer}
             // className={className}
             // style={}
 
             style={[{ width: '100%', height: '100%' }, this.props.style, css]}
-            onLayout={e => {
-              this._Layout = e.nativeEvent.layout
-            }}
+            // onLayout={e => {
+            //   this._Layout = e.nativeEvent.layout
+            // }}
           >
             <TouchableWithoutFeedback
               onPress={ev =>

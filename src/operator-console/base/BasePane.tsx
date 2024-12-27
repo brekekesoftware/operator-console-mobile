@@ -4,6 +4,7 @@ import type { StyleProp, ViewStyle } from 'react-native'
 import type { EditorPane } from '../editor/EditorPane'
 import type { EditScreenView } from '../editor/EditScreenView'
 import type { RuntimeChildPane } from '../runtime/RuntimeChildPane'
+import type { RuntimeRootPane } from '../runtime/RuntimeRootPane'
 import type { RuntimeScreenView_ver2 } from '../runtime/RuntimeScreenView_ver2'
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
   editScreenViewAsAncestor?: any
   paneType?: number
   runtimeScreenViewAsParent?: RuntimeScreenView_ver2
-  runtimePaneAsParent?: RuntimeChildPane
+  runtimePaneAsParent?: RuntimeChildPane | RuntimeRootPane
   runtimeScreenViewAsAncestor?: any
   foregroundColor?: string
   backgroundColor?: string

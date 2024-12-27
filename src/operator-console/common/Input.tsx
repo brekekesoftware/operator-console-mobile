@@ -25,6 +25,7 @@ export const Input = forwardRef(
       <AntdInput
         {...props}
         value={value}
+        defaultValue={props.defaultValue}
         onChangeText={onChange}
         style={[
           { borderRadius: 4, borderColor: '#efefef', borderWidth: 1 },

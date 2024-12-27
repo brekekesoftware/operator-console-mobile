@@ -225,6 +225,7 @@ export class PaneData {
           }
           break
         case BaseDividerData.DIVIDER_DIRECTIONS.horizontal:
+          console.log('#Duy Phan console paneType', paneType)
           if (
             paneType !== PaneData.PANE_TYPES.upperPane &&
             paneType !== PaneData.PANE_TYPES.bottomPane

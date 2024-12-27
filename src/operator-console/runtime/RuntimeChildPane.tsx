@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { View } from 'react-native'
 
 import { BaseDividerData } from '../data/BaseDividerData'
@@ -8,11 +9,20 @@ import { VerticalRuntimeDivider } from './VerticalRuntimeDivider'
 
 export class RuntimeChildPane extends RuntimePane {
   _RuntimeScreenViewAsAncestor
+  refLeft
+  refRight
+  refTop
+  refBottom
+  refMain
   constructor(props) {
     super(props)
     // this._RuntimePaneAsParent = props["runtimePaneAsParent"];
     this._RuntimeScreenViewAsAncestor =
       this.getRuntimeScreenViewFromProps(props)
+    this.refLeft = createRef()
+    this.refRight = createRef()
+    this.refTop = createRef()
+    this.refBottom = createRef()
   }
 
   // !override
@@ -64,25 +74,29 @@ export class RuntimeChildPane extends RuntimePane {
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={paneCss}
+              style={[{ flex: 1 }, paneCss]}
               // className={widthClassName + ' ' + heightClassName}
+              ref={r => (this.refMain = r)}
+              collapsable={false}
             >
               <RuntimeChildPane
                 runtimePaneAsParent={this}
                 paneData={upperPaneData}
                 runtimeScreenViewAsAncestor={runtimeScreenView}
-                className={'upperContainer'}
+                style={{ height: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.upperPane}
+                ref={r => (this.refTop = r)}
               />
               <HorizontalRuntimeDivider runtimePaneAsParent={this} />
               <RuntimeChildPane
                 runtimePaneAsParent={this}
                 paneData={bottomPaneData}
                 runtimeScreenViewAsAncestor={runtimeScreenView}
-                className={'bottomContainer'}
+                style={{ height: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.bottomPane}
+                ref={r => (this.refBottom = r)}
               />
             </View>
           )
@@ -105,43 +119,41 @@ export class RuntimeChildPane extends RuntimePane {
           paneCss['display'] = 'flex'
           const paneWidth = paneData.getPaneWidth()
           if (paneWidth && paneWidth !== -1) {
-            const dividerHalfWidthPx = getComputedStyle(
-              document.documentElement,
-            ).getPropertyValue('--broc_dividerHalfWidth')
-            paneCss['width'] =
-              'calc(' + paneWidth + '% - ' + dividerHalfWidthPx + ')'
+            const dividerHalfWidthPx = 3
+            paneCss['width'] = paneWidth + '%'
           }
           const paneHeight = paneData.getPaneHeight()
           if (paneHeight && paneHeight !== -1) {
-            const dividerHalfHeightPx = getComputedStyle(
-              document.documentElement,
-            ).getPropertyValue('--broc_dividerHalfHeight')
-            paneCss['height'] =
-              'calc(' + paneHeight + '% - ' + dividerHalfHeightPx + ')'
+            const dividerHalfHeightPx = 3
+            paneCss['height'] = paneHeight + '%'
           }
 
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={paneCss}
-              className={widthClassName + ' ' + heightClassName}
+              style={[{ flex: 1, flexDirection: 'row' }, paneCss]}
+              // className={widthClassName + ' ' + heightClassName}
+              ref={r => (this.refMain = r)}
+              collapsable={false}
             >
               <RuntimeChildPane
                 runtimePaneAsParent={this}
                 paneData={leftPaneData}
                 runtimeScreenViewAsAncestor={runtimeScreenView}
-                // className={'leftContainer '}
+                style={{ width: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.leftPane}
+                ref={r => (this.refLeft = r)}
               />
               <VerticalRuntimeDivider runtimePaneAsParent={this} />
               <RuntimeChildPane
                 runtimePaneAsParent={this}
                 paneData={rightPaneData}
                 runtimeScreenViewAsAncestor={runtimeScreenView}
-                // className={'rightContainer'}
+                style={{ width: '50%' }}
                 parent-container={this}
                 paneType={PaneData.PANE_TYPES.rightPane}
+                ref={r => (this.refRight = r)}
               />
             </View>
           )

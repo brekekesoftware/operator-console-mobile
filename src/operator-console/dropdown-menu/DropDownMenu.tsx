@@ -207,7 +207,7 @@ export const DropDownMenu = ({ operatorConsole }) => {
         menu={{
           items,
         }}
-        style={{ position: 'absolute', top: 4, right: 4 }}
+        style={{ position: 'absolute', top: 4, right: 4, zIndex: 15 }}
       >
         <View
           style={{

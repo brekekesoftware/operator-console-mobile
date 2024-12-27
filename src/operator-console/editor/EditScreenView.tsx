@@ -167,8 +167,9 @@ export class EditScreenView extends React.Component<Props, State> {
 
   _removeSplitter() {
     const editorDivider = this.state.settingsContainerOrDivider
-    console.log('#Duy Phan console editorDivider', editorDivider)
+
     editorDivider?.removeEditorDivider(() => {
+      console.log('#Duy Phan console delete')
       this.setState({
         settingsContainerOrDivider: null,
         propertiesMode: _PROPERTIES_MODE.none,

@@ -1,5 +1,6 @@
 import { Tabs } from '@ant-design/react-native'
 import type { TabData } from '@ant-design/react-native/lib/tabs/PropsType'
+import { forwardRef, useRef } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import DragList from 'react-native-draglist'
 
@@ -21,11 +22,12 @@ const _onDragEnter = function (ev) {
   // ev.dataTransfer.dropEffect = "grabbing";
 }
 
-export const RuntimeTabFunctionComponent = props => {
+export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
   const runtimePaneAsParent = props['runtimePaneAsParent']
   const tabsData = props['tabsData']
 
   // css["position"] = "relative";
+  const refTab = useRef()
 
   const tabItems = new Array(tabsData.getTabDataCount())
   for (let i = 0; i < tabItems.length; i++) {
@@ -82,41 +84,47 @@ export const RuntimeTabFunctionComponent = props => {
   const className = props['className'] + ' overflowAuto'
   const paneId = props['data-br-container-id']
   const css = props['css']
+  console.log('#Duy Phan console css', css)
   const jsx = (
-    <Tabs
-      style={css}
-      data-br-container-id={paneId}
-      onChange={selectedKey => _onChangeByTabs(selectedKey)}
-      onTabClick={(tabKey, mouseEvent) =>
-        _onTabClick(tabKey, mouseEvent, runtimePaneAsParent)
-      }
-      tabs={tabItems}
-      renderTabBar={tabBarProps => (
-        <DragList<TabData>
-          data={tabBarProps.tabs}
-          keyExtractor={(item, i) => i.toString()}
-          renderItem={info => (
-            <TouchableOpacity
-              activeOpacity={0.9}
-              style={{
-                padding: 6,
-              }}
-            >
-              <Text
+    <View style={css} ref={ref}>
+      <Tabs
+        data-br-container-id={paneId}
+        onChange={selectedKey => _onChangeByTabs(selectedKey)}
+        onTabClick={(tabKey, mouseEvent) =>
+          _onTabClick(tabKey, mouseEvent, runtimePaneAsParent)
+        }
+        tabs={tabItems}
+        renderTabBar={tabBarProps => (
+          <DragList<TabData>
+            data={tabBarProps.tabs}
+            keyExtractor={(item, i) => i.toString()}
+            renderItem={info => (
+              <TouchableOpacity
+                activeOpacity={0.9}
                 style={{
-                  color: activeKey === info.index ? 'green' : '#333333',
+                  padding: 6,
                 }}
               >
-                {info.item.title}
-              </Text>
-            </TouchableOpacity>
-          )}
-          onReordered={(f, t) => onDragEnd({ over: f, active: t })}
-        />
-      )}
-    >
-      {tabItems.map(tab => tab.tabChildren)}
-    </Tabs>
+                <Text
+                  style={{
+                    color: activeKey === info.index ? 'green' : '#333333',
+                  }}
+                >
+                  {info.item.title}
+                </Text>
+              </TouchableOpacity>
+            )}
+            onReordered={(f, t) => onDragEnd({ over: f, active: t })}
+          />
+        )}
+      >
+        {tabItems.map(tab => (
+          <View style={{ flex: 1 }} key={tab.key}>
+            {tab.children}
+          </View>
+        ))}
+      </Tabs>
+    </View>
   )
   return jsx
-}
+})

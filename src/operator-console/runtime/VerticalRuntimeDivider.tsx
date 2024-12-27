@@ -1,3 +1,5 @@
+import type { ViewStyle } from 'react-native'
+
 import { BaseDividerData } from '../data/BaseDividerData'
 import { RuntimeDivider } from './RuntimeDivider'
 
@@ -9,7 +11,11 @@ export class VerticalRuntimeDivider extends RuntimeDivider {
   // override
   getProps() {
     return {
-      cssClass: 'verticalDivider',
+      cssClass: {
+        width: 6,
+        height: '100%',
+        backgroundColor: 'lightgray',
+      } as ViewStyle,
       dividerDirection: BaseDividerData.DIVIDER_DIRECTIONS.vertical,
     }
   }

@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { Text, View } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
@@ -9,6 +10,8 @@ const _PANES = new Object()
 
 // !abstract class
 export class RuntimePane extends BasePane {
+  paneNum
+  _refEditor
   // !abstract
   getRuntimeScreenView() {
     throw new Error('Not implemented.')
@@ -30,15 +33,8 @@ export class RuntimePane extends BasePane {
     const parentContainer = props['parent-container']
     const paneType = props['paneType']
     const paneData = props['paneData']
-    // let paneData;
-    // if( parentContainer ){
-    //     const parentPaneData = parentContainer.getEditingPaneData();
-    //     paneData = screenData.addPaneData( paneType, parentPaneData  );
-    //
-    // }
-    // else {
-    //     paneData = screenData.addPaneData( PaneData.PANE_TYPES.rootPane );
-    // }
+    this.paneNum = paneData.getPaneNumber()
+    this._refEditor = createRef()
 
     const paneNumber = paneData.getPaneNumber()
     _PANES[paneNumber] = this
@@ -230,18 +226,13 @@ export class RuntimePane extends BasePane {
 
       const paneWidth = paneData.getPaneWidth()
       if (paneWidth && paneWidth !== -1) {
-        const dividerHalfWidthPx = getComputedStyle(
-          document.documentElement,
-        ).getPropertyValue('--broc_dividerHalfWidth')
-        css['width'] = 'calc(' + paneWidth + '% - ' + dividerHalfWidthPx + ')'
+        const dividerHalfWidthPx = 3
+        css['width'] = paneWidth + '%'
       }
       const paneHeight = paneData.getPaneHeight()
       if (paneHeight && paneHeight !== -1) {
-        const dividerHalfHeightPx = getComputedStyle(
-          document.documentElement,
-        ).getPropertyValue('--broc_dividerHalfHeight')
-        css['height'] =
-          'calc(' + paneHeight + '% - ' + dividerHalfHeightPx + ')'
+        const dividerHalfHeightPx = 3
+        css['height'] = paneHeight + '%'
       }
 
       if (paneData.getEnableTabs()) {
@@ -252,20 +243,20 @@ export class RuntimePane extends BasePane {
             runtimePaneAsParent={this}
             className={className}
             css={css}
+            ref={this._refEditor}
           />
         )
       } else {
         const runtimeScreenView = this.getRuntimeScreenView()
         const widgetDatas = paneData.getWidgetDatasForNoTabs()
         const widgetDataArray = widgetDatas.getWidgetDataArray()
-        console.log('#Duy Phan console render runtime')
+        console.log('#Duy Phan console render css', css)
         jsx = (
           <View
             data-br-container-id={paneData.getPaneNumber()}
             // parent-container={this.state.parentContainer}
-            // className={className}
-            // style={css}
-            style={{ flex: 1, position: 'relative' }}
+            style={[{ width: '100%', height: '100%' }, this.props.style, css]}
+            ref={this._refEditor}
           >
             {widgetDataArray.map((widgetData, index) => {
               const widgetJsx =

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Dimensions, Image, ImageSourcePropType, View } from 'react-native'
+import type { ImageSourcePropType } from 'react-native'
+import { Dimensions, Image, View } from 'react-native'
 
 import logo from '../logo.png'
 
@@ -38,24 +39,26 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
-          height: '100%',
+          // height: '100%',
+          flex: 1,
         }}
       >
         <View
           style={{
             display: 'flex',
-            alignItems: 'center',
+            alignItems: 'flex-start',
             height: 47,
             // color: screenData_ver2.getScreenForegroundColor(),
             backgroundColor: screenData_ver2.getScreenBackgroundColor(),
+            zIndex: 15,
           }}
         >
-          {/* <View>
+          <View>
             <Image
               style={{ marginTop: 4, marginLeft: 4 }}
               source={logo as ImageSourcePropType}
             />
-          </View> */}
+          </View>
           <DropDownMenu
             operatorConsole={this._OperatorConsoleAsParent}
           ></DropDownMenu>
@@ -67,11 +70,12 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
             display: 'flex',
             // height: Dimensions.get('screen').height - 47,
             flex: 1,
+            // backgroundColor: 'red'
           }}
         >
           <View
             style={{
-              width: '100%',
+              // width: '100%',
               // overflow: 'scroll',
               marginLeft: 10,
               marginBottom: 10,

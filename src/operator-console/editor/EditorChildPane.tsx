@@ -74,6 +74,7 @@ export class EditorChildPane extends EditorPane {
               style={[paneCss, { flex: 1 }]}
               // className={widthClassName + ' ' + heightClassName}
               ref={r => (this.refMain = r)}
+              collapsable={false}
             >
               <EditorChildPane
                 editorPaneAsParent={this}
@@ -129,6 +130,7 @@ export class EditorChildPane extends EditorPane {
               data-br-container-id={paneNumber}
               style={[paneCss, { flex: 1, flexDirection: 'row' }]}
               ref={r => (this.refMain = r)}
+              collapsable={false}
               // className={widthClassName + ' ' + heightClassName}
             >
               <EditorChildPane

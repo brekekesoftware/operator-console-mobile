@@ -174,7 +174,7 @@ export class EditorDivider extends BaseDivider {
     // const verticalDivider = this._element
     // const dx = e.clientX - x
 
-    this.props.editorPaneAsParent?.refTop?._refEditor?.measure(
+    this.props.editorPaneAsParent?.refTop?._refEditor?.current?.measure(
       (fx, fy, w, h, x, y) => {
         topWidth = h
 
@@ -215,13 +215,15 @@ export class EditorDivider extends BaseDivider {
     // const verticalDivider = this._element
     // const dx = e.clientX - x
 
-    this.props.editorPaneAsParent?.refLeft?._refEditor?.measure(
+    this.props.editorPaneAsParent?.refLeft?._refEditor?.current?.measure(
       (fx, fy, w, h, x, y) => {
         leftWidth = w
+        console.log('#Duy Phan console leftWidth', leftWidth)
 
         this.props.editorPaneAsParent?.refMain?.measure(
           (fx, fy, mW, h, x, y) => {
             const newLeftWidth = ((leftWidth + gestureState.dx) * 100) / mW
+            console.log('#Duy Phan console newLeftWidth', newLeftWidth)
             const leftPaneId = this.props.editorPaneAsParent?.refLeft?.paneNum
             const leftEditorPane =
               EditorPane.getEditorPaneByContainerId(leftPaneId)
@@ -250,7 +252,6 @@ export class EditorDivider extends BaseDivider {
     const props = this.getProps()
 
     return (
-      // <Draggable >
       <View style={[props.cssClass]} {...this.panResponder.panHandlers}>
         <TouchableWithoutFeedback
           data-br-editor-divider-id={this._EditorDividerId}
@@ -260,12 +261,10 @@ export class EditorDivider extends BaseDivider {
               .getEditScreenView()
               .onClickByEditorDivider(this._EditorDividerId)
           }
-          // onMouseDown={ev => this._onMouseDown(ev)}
         >
           <View style={{ flex: 1 }}></View>
         </TouchableWithoutFeedback>
       </View>
-      // </Draggable>
     )
   }
 }
