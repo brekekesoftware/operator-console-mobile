@@ -165,7 +165,12 @@ export class RuntimePane extends BasePane {
   }
 
   // !abstract
-  _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
+  _getChildrenJsx(
+    dividerDirection,
+    widthClassName,
+    heightClassName,
+    refEditor,
+  ) {
     throw new Error('Not Implemented.')
   }
 
@@ -182,30 +187,31 @@ export class RuntimePane extends BasePane {
           this.state.parentContainer.getDividerData().getDividerDirection() ===
           BaseDividerData.DIVIDER_DIRECTIONS.vertical
         ) {
-          widthClassName = 'width50PercentMinusDividerWidth'
+          widthClassName = { width: '50%' }
         } else {
-          widthClassName = 'width100Percent'
+          widthClassName = { width: '100%' }
         }
       } else {
-        widthClassName = 'width100Percent'
+        widthClassName = { width: '100%' }
       }
       if (this.state.parentContainer) {
         if (
           this.state.parentContainer.getDividerData().getDividerDirection() ===
           BaseDividerData.DIVIDER_DIRECTIONS.horizontal
         ) {
-          heightClassName = 'height50PercentMinusDividerHeight'
+          heightClassName = { height: '50%' }
         } else {
-          heightClassName = 'height100Percent'
+          heightClassName = { height: '100%' }
         }
       } else {
-        heightClassName = 'height100Percent'
+        heightClassName = { height: '100%' }
       }
 
       jsx = this._getChildrenJsx(
         dividerDirection,
         widthClassName,
         heightClassName,
+        this._refEditor,
       )
     } else {
       const css = {
@@ -250,7 +256,6 @@ export class RuntimePane extends BasePane {
         const runtimeScreenView = this.getRuntimeScreenView()
         const widgetDatas = paneData.getWidgetDatasForNoTabs()
         const widgetDataArray = widgetDatas.getWidgetDataArray()
-        console.log('#Duy Phan console render css', css)
         jsx = (
           <View
             data-br-container-id={paneData.getPaneNumber()}

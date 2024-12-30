@@ -44,7 +44,6 @@ export class EditorRootPane extends EditorPane {
   }
 
   handleSplitSize = (l: LayoutRectangle, t: number) => {
-    console.log('#Duy Phan console lll', l, t)
     if (BaseDividerData.DIVIDER_DIRECTIONS.horizontal === t) {
       this.setState({
         width: l.width,
@@ -61,8 +60,12 @@ export class EditorRootPane extends EditorPane {
   }
 
   // !override
-  _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
-    console.log('#Duy Phan console rrr', dividerDirection)
+  _getChildrenJsx(
+    dividerDirection,
+    widthClassName,
+    heightClassName,
+    _refEditor,
+  ) {
     const editScreenView = this.getEditScreenView()
     let jsx
     const paneData = this.props['paneData']
@@ -104,11 +107,12 @@ export class EditorRootPane extends EditorPane {
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={[{ flex: 1 }, paneCss]}
-              ref={r => (this.refMain = r)}
+              style={[widthClassName, heightClassName, paneCss]}
+              ref={r => {
+                this.refMain = r
+                _refEditor.current = r
+              }}
               collapsable={false}
-              // className={widthClassName + ' ' + heightClassName}
-              // onLayout={(e) =>this.handleSplitSize(e.nativeEvent.layout, BaseDividerData.DIVIDER_DIRECTIONS.horizontal)}
             >
               <EditorChildPane
                 editorPaneAsParent={this}
@@ -163,11 +167,17 @@ export class EditorRootPane extends EditorPane {
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={[{ flexDirection: 'row', flex: 1 }, paneCss]}
-              ref={r => (this.refMain = r)}
+              ref={r => {
+                this.refMain = r
+                _refEditor.current = r
+              }}
               collapsable={false}
-              // className={widthClassName + ' ' + heightClassName}
-              // onLayout={(e) =>this.handleSplitSize(e.nativeEvent.layout, BaseDividerData.DIVIDER_DIRECTIONS.vertical)}
+              style={[
+                { flexDirection: 'row' },
+                widthClassName,
+                heightClassName,
+                paneCss,
+              ]}
             >
               <EditorChildPane
                 editorPaneAsParent={this}

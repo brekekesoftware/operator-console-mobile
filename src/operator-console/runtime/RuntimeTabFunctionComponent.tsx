@@ -84,7 +84,6 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
   const className = props['className'] + ' overflowAuto'
   const paneId = props['data-br-container-id']
   const css = props['css']
-  console.log('#Duy Phan console css', css)
   const jsx = (
     <View style={css} ref={ref}>
       <Tabs

@@ -82,14 +82,11 @@ export class RuntimeDivider extends BaseDivider {
 
         this.props.runtimePaneAsParent?.refMain?.measure(
           (fx, fy, mW, mH, x, y) => {
-            console.log('#Duy Phan console mH', mH, gestureState.dy)
-            console.log('#Duy Phan console', fx, fy, mW, mH, x, y)
             const newTopWidth = ((topWidth + gestureState.dy) * 100) / mH
             const leftPaneId = this.props.runtimePaneAsParent?.refTop?.paneNum
             const leftEditorPane =
               RuntimePane.getRuntimePaneByContainerId(leftPaneId)
             const leftEditorPaneData = leftEditorPane.getRuntimePaneData()
-            console.log('#Duy Phan console newTopWidth', newTopWidth)
             leftEditorPaneData.setPaneHeight(newTopWidth)
             const newBottomWidth = 100 - newTopWidth
             if (newBottomWidth > 0) {

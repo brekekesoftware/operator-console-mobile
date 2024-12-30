@@ -9,7 +9,7 @@ import {
   Draggable,
   DraggableStack,
 } from '@mgcrea/react-native-dnd'
-import { useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import type { LayoutRectangle } from 'react-native'
 import {
   Dimensions,
@@ -33,12 +33,13 @@ const _onTabClick = (tabKey, editorPaneAsParent) => {
   pane.onTabClickByEditorTabFunctionComponent(tabKey)
 }
 
-const isDropZone = (gesture, dz) => {
-  if (dz) {
+const isDropZone = (gesture, measure) => {
+  if (measure) {
     return (
-      gesture.moveX > dz.x + 240 &&
-      gesture.moveX < dz.x + dz.width + 240 &&
-      gesture.moveY < dz.y + dz.height + 55
+      gesture.moveX > measure.px &&
+      gesture.moveX < measure.px + measure.width &&
+      gesture.moveY > measure.py &&
+      gesture.moveY < measure.py + measure.height
     )
   }
   return false
@@ -50,11 +51,11 @@ const _onDrop = function ({
   nY: offsetY,
   editorPane,
   tabData,
-  tabId,
-  dz,
+  px,
+  py,
 }) {
   const sWidgetTypeId = editorWidgetTypeId
-  if (!sWidgetTypeId || !isDropZone({ moveX: offsetX, moveY: offsetY }, dz)) {
+  if (!sWidgetTypeId) {
     return
   }
   const widgetTypeId = parseInt(sWidgetTypeId)
@@ -69,11 +70,22 @@ const _onDrop = function ({
     .getEditScreenView()
     .getEditingScreenGrid()
 
-  let widgetRelativePositionX = offsetX - 240
-  let widgetRelativePositionY = offsetY - 46
+  let widgetRelativePositionX = offsetX - px
+  let widgetRelativePositionY = offsetY - py
+  console.log(
+    '#Duy Phan console widgetRelativePositionX first',
+    widgetRelativePositionX,
+    widgetRelativePositionY,
+  )
+  console.log('#Duy Phan console editingScreenGrid', editingScreenGrid)
 
   widgetRelativePositionX -= widgetRelativePositionX % editingScreenGrid
   widgetRelativePositionY -= widgetRelativePositionY % editingScreenGrid
+  console.log(
+    '#Duy Phan console widgetRelativePositionX tab',
+    widgetRelativePositionX,
+    widgetRelativePositionY,
+  )
   const widgetDatas = tabData.getWidgetDatas()
   widgetDatas.addWidgetData(
     widgetTypeId,
@@ -92,35 +104,15 @@ const EditorTabChildren = ({
   editingScreenGrid,
   tabId,
   editorPaneAsParent,
-  tabData,
-  activeKey,
-  tabKey,
 }) => {
   const refLayout = useRef<LayoutRectangle | null>(null)
-  console.log('#Duy Phan console activeKey', activeKey, tabKey)
-
-  // useEffect(() => {
-  //   console.log('#Duy Phan console dddd', Date.now())
-  //   dndEventEmiter.on('drop', d => {
-
-  //     if (activeKey === tabKey) {
-  //       _onDrop({
-  //         editorPane: editorPaneAsParent,
-  //         tabData,
-  //         tabId,
-  //         dz: refLayout.current,
-  //         ...d,
-  //       })
-  //     }
-  //   })
-  // }, [])
 
   return (
     <View
-      style={{ flex: 1 }}
+      style={[{ width: '100%', height: '100%' }]}
       onLayout={e => (refLayout.current = e.nativeEvent.layout)}
     >
-      <TouchableWithoutFeedback style={{ flex: 1 }}>
+      <TouchableWithoutFeedback>
         <GridLines
           data-broc-tab-id={tabId}
           style={{ flex: 1 }}
@@ -150,11 +142,11 @@ const EditorTabChildren = ({
   )
 }
 
-export const EditorTabFunctionComponent = props => {
+export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
   const editorPaneAsParent = props['editorPaneAsParent']
   const tabsData = props['tabsData']
 
-  const refLayout = useRef<LayoutRectangle | null>(null)
+  const refLayout = useRef<View | null>(null)
 
   // css["position"] = "relative";
 
@@ -165,11 +157,23 @@ export const EditorTabFunctionComponent = props => {
 
   useEffect(() => {
     dndEventEmiter.on('drop', d => {
-      _onDrop({
-        editorPane: editorPaneAsParent,
-        tabData: tabsData.getSelectedTabData(),
-        dz: refLayout.current,
-        ...d,
+      refLayout.current?.measure((fx, fy, width, height, px, py) => {
+        console.log('#Duy Phan console', d)
+        console.log('#Duy Phan console', fx, fy, width, height, px, py)
+        if (
+          isDropZone(
+            { moveX: d.nX, moveY: d.nY },
+            { fx, fy, width, height, px, py },
+          )
+        ) {
+          _onDrop({
+            editorPane: editorPaneAsParent,
+            tabData: tabsData.getSelectedTabData(),
+            ...d,
+            px,
+            py,
+          })
+        }
       })
     })
   }, [])
@@ -188,11 +192,8 @@ export const EditorTabFunctionComponent = props => {
         <EditorTabChildren
           widgetDataArray={widgetDataArray}
           editingScreenGrid={editingScreenGrid}
-          tabData={tabData}
-          tabKey={tabData.getTabKeyAsString()}
           tabId={tabId}
           editorPaneAsParent={editorPaneAsParent}
-          activeKey={activeKey}
         />
       ),
     }
@@ -217,14 +218,16 @@ export const EditorTabFunctionComponent = props => {
     editorPaneAsParent.setState({ rerender: true })
   }
 
-  const className = props['className'] + ' overflowAuto'
   const paneId = props['data-br-container-id']
   const css = props['css']
-  console.log('#Duy Phan console css', css)
   const jsx = (
     <View
-      style={{ flex: 1, overflow: 'hidden' }}
-      onLayout={e => (refLayout.current = e.nativeEvent.layout)}
+      style={[{ overflow: 'hidden' }, props.style, css]}
+      ref={r => {
+        refLayout.current = r
+        ref.current = r
+      }}
+      collapsable={false}
     >
       <Tabs
         data-br-container-id={paneId}
@@ -319,4 +322,4 @@ export const EditorTabFunctionComponent = props => {
     </View>
   )
   return jsx
-}
+})

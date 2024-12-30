@@ -149,7 +149,7 @@ export class EditorDivider extends BaseDivider {
         this._mouseMoveHandlerForHorizontal(gestureState)
         break
       case BaseDividerData.DIVIDER_DIRECTIONS.vertical:
-        // const eLeftContainer = container.getChildLeftContainerElement();
+        // console.log('#Duy Phan console this.props.editorPaneAsParent?.refLeft?._refEditor',this.props.editorPaneAsParent?.refLeft?._refEditor)
         const eLeftContainer = this.props.editorPaneAsParent?.refLeft
           ?._refEditor as any
         this._leftContainerElement = eLeftContainer
@@ -158,6 +158,8 @@ export class EditorDivider extends BaseDivider {
         // const eRightContainer = this._element.nextElementSibling
         this._rightContainerElement = this.props.editorPaneAsParent?.refRight
           ?._refEditor as any
+        // console.log('#Duy Phan console eLeftContainer',this._rightContainerElement)
+        // console.log('#Duy Phan console  this._rightContainerElement', this._rightContainerElement)
         this._mouseMoveHandlerForVertical(gestureState)
 
         break
@@ -218,12 +220,12 @@ export class EditorDivider extends BaseDivider {
     this.props.editorPaneAsParent?.refLeft?._refEditor?.current?.measure(
       (fx, fy, w, h, x, y) => {
         leftWidth = w
-        console.log('#Duy Phan console leftWidth', leftWidth)
+        // console.log('#Duy Phan console leftWidth', leftWidth)
 
         this.props.editorPaneAsParent?.refMain?.measure(
           (fx, fy, mW, h, x, y) => {
             const newLeftWidth = ((leftWidth + gestureState.dx) * 100) / mW
-            console.log('#Duy Phan console newLeftWidth', newLeftWidth)
+
             const leftPaneId = this.props.editorPaneAsParent?.refLeft?.paneNum
             const leftEditorPane =
               EditorPane.getEditorPaneByContainerId(leftPaneId)
@@ -231,6 +233,12 @@ export class EditorDivider extends BaseDivider {
 
             leftEditorPaneData.setPaneWidth(newLeftWidth)
             const newRightWidth = 100 - newLeftWidth
+            console.log(
+              '#Duy Phan console newLeftWidth',
+              newLeftWidth,
+              leftPaneId,
+              newRightWidth,
+            )
             if (newRightWidth > 0) {
               const rightPaneId =
                 this.props.editorPaneAsParent?.refRight?.paneNum

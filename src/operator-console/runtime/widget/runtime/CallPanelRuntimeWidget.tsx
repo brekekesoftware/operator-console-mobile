@@ -184,6 +184,8 @@ export class CallPanelRuntimeWidget extends RuntimeWidget {
           borderRadius: callpanelBorderRadius,
           backgroundColor: callpanelBgColor,
           // boxShadow: sBoxShadow,
+
+          flex: 1,
         }}
       >
         <View style={styles.row}>

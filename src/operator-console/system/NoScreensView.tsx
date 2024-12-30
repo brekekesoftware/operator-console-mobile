@@ -38,6 +38,7 @@ export const NoScreensView = props => {
       let layoutName = values.layoutName
       setNewLayoutName(layoutName)
       layoutName = layoutName.trim()
+      console.log('#Duy Phan console layoutName', layoutName)
       if (layoutName.length === 0) {
         Notification.error({
           message: i18n.t('OnlySpacesAreNotAllowed'),
@@ -104,10 +105,12 @@ export const NoScreensView = props => {
                 note: noteContent,
               }),
               onSuccessFunction: res => {
+                console.log('#Duy Phan console create success')
                 operatorConsoleAsParent.setOCNote(
                   layoutName,
                   layoutsAndSettingsData,
                   () => {
+                    console.log('#Duy Phan console callback')
                     operatorConsoleAsParent.onSavedNewLayoutFromNoScreensView(
                       layoutName,
                       layoutsAndSettingsData,

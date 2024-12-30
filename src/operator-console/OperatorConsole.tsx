@@ -1120,7 +1120,7 @@ export class BrekekeOperatorConsole extends React.Component<
     this._OnBeginSaveEditingScreenFunctions = []
     this._Campon = new Campon(this)
     this._ExtensionsStatus = new ExtensionsStatus(this)
-    // this._UccacWrapper = new UccacWrapper(this)
+    this._UccacWrapper = new UccacWrapper(this)
     this._BrekekeOperatorConsoleEx = new BrekekeOperatorConsoleEx(this)
 
     this._OnAddCallInfoEventListeners = new Array()
@@ -1211,10 +1211,12 @@ export class BrekekeOperatorConsole extends React.Component<
 
   onSavedNewLayoutFromNoScreensView(layoutName, layoutsAndSettingsData) {
     const systemSettingsData = this.getSystemSettingsData()
+    console.log('#Duy Phan console save')
     const this_ = this
     systemSettingsData.setSystemSettingsDataData(
       layoutsAndSettingsData.systemSettings,
       () => {
+        console.log('#Duy Phan console save222')
         this_.setLastLayoutShortname(layoutName)
         const screenData_ver2 = new ScreenData()
         this_.setState({
@@ -1365,6 +1367,7 @@ export class BrekekeOperatorConsole extends React.Component<
 
       return false
     } else {
+      console.log('#Duy Phan console option2')
       const initAsync =
         this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
           newData,

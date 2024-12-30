@@ -1,5 +1,8 @@
 // !require script ucchatwidget.js
 export class Uccac {
+  _state: number
+  _isUcagentwidgetJsLoading: boolean
+  _isUccacUtilJsLoading: boolean
   constructor() {
     this._state = UCCAC_UCCAC_STATES.deinit
     this._isUcagentwidgetJsLoading = false

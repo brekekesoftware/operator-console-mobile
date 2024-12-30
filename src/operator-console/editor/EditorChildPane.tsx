@@ -33,8 +33,13 @@ export class EditorChildPane extends EditorPane {
   }
 
   // !override
-  _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
-    console.log('#Duy Phan console style child', this.props.style)
+  _getChildrenJsx(
+    dividerDirection,
+    widthClassName,
+    heightClassName,
+    _refEditor,
+  ) {
+    // console.log('#Duy Phan console style child', this.props.style)
     const editScreenView = this.getEditScreenView()
     let jsx
     const paneData = this.props['paneData']
@@ -58,7 +63,7 @@ export class EditorChildPane extends EditorPane {
           const paneCss = {}
           paneCss['display'] = 'flex'
           paneCss['flexFlow'] = 'column'
-          paneCss['alignItems'] = 'stretch'
+          // paneCss['alignItems'] = 'stretch'
           const paneWidth = paneData.getPaneWidth()
           if (paneWidth && paneWidth !== -1) {
             paneCss['width'] = paneWidth + '%'
@@ -67,13 +72,16 @@ export class EditorChildPane extends EditorPane {
           if (paneHeight && paneHeight !== -1) {
             paneCss['height'] = paneHeight + '%'
           }
+          console.log('#Duy Phan console pane child paneCss', paneCss)
 
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={[paneCss, { flex: 1 }]}
-              // className={widthClassName + ' ' + heightClassName}
-              ref={r => (this.refMain = r)}
+              style={[widthClassName, heightClassName, paneCss]}
+              ref={r => {
+                this.refMain = r
+                _refEditor.current = r
+              }}
               collapsable={false}
             >
               <EditorChildPane
@@ -128,10 +136,17 @@ export class EditorChildPane extends EditorPane {
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={[paneCss, { flex: 1, flexDirection: 'row' }]}
-              ref={r => (this.refMain = r)}
+              style={[
+                { flexDirection: 'row' },
+                widthClassName,
+                heightClassName,
+                paneCss,
+              ]}
+              ref={r => {
+                this.refMain = r
+                _refEditor.current = r
+              }}
               collapsable={false}
-              // className={widthClassName + ' ' + heightClassName}
             >
               <EditorChildPane
                 editorPaneAsParent={this}

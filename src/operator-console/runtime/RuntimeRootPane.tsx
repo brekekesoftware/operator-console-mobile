@@ -38,7 +38,12 @@ export class RuntimeRootPane extends RuntimePane {
   }
 
   // !override
-  _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
+  _getChildrenJsx(
+    dividerDirection,
+    widthClassName,
+    heightClassName,
+    _refEditor,
+  ) {
     const runtimeScreenView = this.getRuntimeScreenView()
     let jsx
     const paneData = this.props['paneData']
@@ -81,9 +86,11 @@ export class RuntimeRootPane extends RuntimePane {
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={[{ flex: 1 }, paneCss]}
-              ref={r => (this.refMain = r)}
-              // className={widthClassName + ' ' + heightClassName}
+              style={[widthClassName, heightClassName, paneCss]}
+              ref={r => {
+                this.refMain = r
+                _refEditor = r
+              }}
             >
               <RuntimeChildPane
                 runtimePaneAsParent={this}
@@ -138,9 +145,16 @@ export class RuntimeRootPane extends RuntimePane {
           jsx = (
             <View
               data-br-container-id={paneNumber}
-              style={[{ flex: 1, flexDirection: 'row' }, paneCss]}
-              ref={r => (this.refMain = r)}
-              // className={widthClassName + ' ' + heightClassName}
+              style={[
+                { flexDirection: 'row' },
+                widthClassName,
+                heightClassName,
+                paneCss,
+              ]}
+              ref={r => {
+                this.refMain = r
+                _refEditor = r
+              }}
             >
               <RuntimeChildPane
                 runtimePaneAsParent={this}

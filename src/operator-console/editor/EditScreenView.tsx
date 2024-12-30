@@ -139,7 +139,6 @@ export class EditScreenView extends React.Component<Props, State> {
   }
 
   onClickByEditorDivider(dividerId) {
-    console.log('#Duy Phan console eEditorDividerDiv', dividerId)
     const editorDivider = EditorDivider.getEditorDividerByContainerId(dividerId)
     this.setState({
       settingsContainerOrDivider: editorDivider,
@@ -169,7 +168,6 @@ export class EditScreenView extends React.Component<Props, State> {
     const editorDivider = this.state.settingsContainerOrDivider
 
     editorDivider?.removeEditorDivider(() => {
-      console.log('#Duy Phan console delete')
       this.setState({
         settingsContainerOrDivider: null,
         propertiesMode: _PROPERTIES_MODE.none,
@@ -194,7 +192,6 @@ export class EditScreenView extends React.Component<Props, State> {
   }
 
   _onClickAddTab = tabLabel => {
-    console.log('#Duy Phan console tabLabel', tabLabel)
     if (tabLabel.length === 0) {
       Notification.warning({ message: i18n.t('tabLabelIsEmpty') })
       return
@@ -207,17 +204,6 @@ export class EditScreenView extends React.Component<Props, State> {
     tabsData.setSelectedTabKeyAsInt(tabKeyAsInt)
 
     this.setState({ rerender: true })
-  }
-
-  onDragEditorWidgetTemplateStart(ev) {
-    ev.dataTransfer.clearData()
-    const widgetTypeId = ev.target.getAttribute('data-br-widget-type-id')
-    ev.dataTransfer.setData('editorWidgetTypeId', widgetTypeId)
-    const itemRect = ev.target.getBoundingClientRect()
-    const offsetX = ev.clientX - itemRect.left
-    const offsetY = ev.clientY - itemRect.top
-    ev.dataTransfer.setData('offsetX', offsetX.toString())
-    ev.dataTransfer.setData('offsetY', offsetY.toString())
   }
 
   _onClickRenameTab = tabLabel => {

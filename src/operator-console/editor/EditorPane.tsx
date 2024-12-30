@@ -1,16 +1,13 @@
 import { createRef } from 'react'
 import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native'
-import { ScrollView, TouchableWithoutFeedback, View } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
-import { GridLines } from '../common/GridLines'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { WidgetData } from '../data/widgetData/WidgetData'
-import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
 import { DividerContext } from './DividerContext'
+import { EditorPaneSmall } from './EditorPaneSmall'
 import { EditorTabFunctionComponent } from './EditorTabFunctionComponent'
 import type { EditScreenView } from './EditScreenView'
-import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
 
 const _PANES = new Object()
@@ -179,45 +176,17 @@ export class EditorPane extends BasePane {
     })
   }
 
-  componentDidMount(): void {
-    const paneData = this.props['paneData']
-    dndEventEmiter.on('drop', d => {
-      if (!paneData.getEnableTabs()) {
-        // console.log('#Duy Phan console this._refEditor', this._refEditor)
-        this._refEditor?.current?.measure((fx, fy, width, height, px, py) => {
-          console.log('#Duy Phan console data', fx, fy, px, py, width, height)
-          console.log('#Duy Phan console d', d)
-          if (
-            this.isDropZone(
-              { moveX: d.nX, moveY: d.nY },
-              { fx, fy, width, height, px, py },
-            )
-          ) {
-            console.log('#Duy Phan console drop times', Date.now())
-            this._onDrop({ ...d, px, py })
-          }
-        })
-      }
-    })
-  }
-
   // !abstract
-  _getChildrenJsx(dividerDirection, widthClassName, heightClassName) {
+  _getChildrenJsx(
+    dividerDirection,
+    widthClassName,
+    heightClassName,
+    _refEditor,
+  ) {
     throw new Error('Not Implemented.')
   }
 
-  isDropZone(gesture, measure) {
-    if (measure) {
-      return (
-        gesture.moveX > measure.px &&
-        gesture.moveX < measure.px + measure.width &&
-        gesture.moveY < measure.py + measure.height
-      )
-    }
-    return false
-  }
-
-  _onDrop({ editorWidgetTypeId, nX: offsetX, nY: offsetY, px, py }) {
+  _onDrop = ({ editorWidgetTypeId, nX: offsetX, nY: offsetY, px, py }) => {
     const sWidgetTypeId = editorWidgetTypeId
     if (!sWidgetTypeId) {
       return
@@ -273,6 +242,11 @@ export class EditorPane extends BasePane {
     widgetRelativePositionX -= widgetRelativePositionX % editingScreenGrid
 
     widgetRelativePositionY -= widgetRelativePositionY % editingScreenGrid
+    console.log(
+      '#Duy Phan console widgetRelativePositionX [pane]',
+      widgetRelativePositionX,
+      widgetRelativePositionY,
+    )
 
     widgetDatas.addWidgetData(
       widgetTypeId,
@@ -289,16 +263,6 @@ export class EditorPane extends BasePane {
     )
   }
 
-  _onDragOver(ev) {
-    ev.preventDefault()
-    // ev.target.style.cursor = 'grabbing';
-  }
-
-  _onDragEnter(ev) {
-    ev.preventDefault()
-    // ev.dataTransfer.dropEffect = "grabbing";
-  }
-
   render() {
     const paneData = this.props['paneData']
     const dividerData = paneData.getDividerData()
@@ -312,30 +276,31 @@ export class EditorPane extends BasePane {
           this.state.parentContainer.getDividerData().getDividerDirection() ===
           BaseDividerData.DIVIDER_DIRECTIONS.vertical
         ) {
-          widthClassName = 'width50PercentMinusDividerWidth'
+          widthClassName = { width: '50%' }
         } else {
-          widthClassName = 'width100Percent'
+          widthClassName = { width: '100%' }
         }
       } else {
-        widthClassName = 'width100Percent'
+        widthClassName = { width: '100%' }
       }
       if (this.state.parentContainer) {
         if (
           this.state.parentContainer.getDividerData().getDividerDirection() ===
           BaseDividerData.DIVIDER_DIRECTIONS.horizontal
         ) {
-          heightClassName = 'height50PercentMinusDividerHeight'
+          heightClassName = { height: '50%' }
         } else {
-          heightClassName = 'height100Percent'
+          heightClassName = { height: '100%' }
         }
       } else {
-        heightClassName = 'height100Percent'
+        heightClassName = { height: '100%' }
       }
 
       jsx = this._getChildrenJsx(
         dividerDirection,
         widthClassName,
         heightClassName,
+        this._refEditor,
       )
     } else {
       const css = {
@@ -371,8 +336,9 @@ export class EditorPane extends BasePane {
             data-br-container-id={paneData.getPaneNumber()}
             tabsData={paneData.getTabsData()}
             editorPaneAsParent={this}
-            // className={className}
             css={css}
+            style={this.props.style}
+            ref={this._refEditor}
           />
         )
       } else {
@@ -381,56 +347,17 @@ export class EditorPane extends BasePane {
         const widgetDatas = paneData.getWidgetDatasForNoTabs()
         const widgetDataArray = widgetDatas.getWidgetDataArray()
         jsx = (
-          <View
-            data-br-container-id={paneData.getPaneNumber()}
+          <EditorPaneSmall
+            editingScreenGrid={editingScreenGrid}
+            editScreenView={editScreenView}
+            widgetDataArray={widgetDataArray}
+            paneData={paneData}
             ref={this._refEditor}
-            collapsable={false}
-            // parent-container={this.state.parentContainer}
-            // className={className}
-            // style={}
-
-            style={[{ width: '100%', height: '100%' }, this.props.style, css]}
-            // onLayout={e => {
-            //   this._Layout = e.nativeEvent.layout
-            // }}
-          >
-            <TouchableWithoutFeedback
-              onPress={ev =>
-                this.getEditScreenView().onMouseDownEditorPaneInSettingsMode(
-                  paneData.getPaneNumber(),
-                )
-              }
-            >
-              <GridLines
-                style={{
-                  width: '100%',
-                  height: '100%',
-                }}
-                strokeWidth={2}
-                cellWidth={editingScreenGrid * 10}
-                cellWidth2={editingScreenGrid}
-                cellHeight={editingScreenGrid * 10}
-                cellHeight2={editingScreenGrid}
-              >
-                <ScrollView
-                  style={{ flex: 1 }}
-                  contentContainerStyle={{ flex: 1 }}
-                >
-                  {widgetDataArray.map((widgetData, index) => {
-                    const widgetJsx =
-                      EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                        {
-                          editorPane: this,
-                          widgetData: widgetDataArray[index],
-                          jsxKey: index,
-                        },
-                      )
-                    return widgetJsx
-                  })}
-                </ScrollView>
-              </GridLines>
-            </TouchableWithoutFeedback>
-          </View>
+            _onDrop={this._onDrop}
+            editorPane={this}
+            css={css}
+            style={this.props.style}
+          />
         )
       }
     }
