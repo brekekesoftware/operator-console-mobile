@@ -189,11 +189,6 @@ class LoginC extends React.Component<Props, State> {
       this._OperatorConsoleAsParent
         .getPalRestApi()
         .initPalRestApi(initPalRestApiOptions)
-
-      // params["operatorConsoleAsParent"] = this;
-      // const webphonePhoneClient = new WebphonePhoneClient(params);
-      // const phoneClientInitOptions = {} ;
-      // this._initAphone( webphonePhoneClient, phoneClientInitOptions );
     })
   } // ~login
 

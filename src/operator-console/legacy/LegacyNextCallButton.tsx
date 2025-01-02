@@ -11,15 +11,12 @@ export const LegacyNextCallButton = props => {
   return (
     <CommonButton
       {...props}
-      className={clsx(
-        'kbc-button kbc-button-fill-parent',
-        currentCallIndex < callInfoCount - 1 && 'kbc-button-danger-flash',
-      )}
       onPress={
         !callInfoCount || currentCallIndex === callInfoCount - 1
           ? undefined
           : props.context.switchCallDown
       }
+      isFlash={currentCallIndex < callInfoCount - 1}
     />
   )
 }

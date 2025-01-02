@@ -1,5 +1,5 @@
 import { createRef } from 'react'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
 import { BaseDividerData } from '../data/BaseDividerData'
@@ -263,17 +263,19 @@ export class RuntimePane extends BasePane {
             style={[{ width: '100%', height: '100%' }, this.props.style, css]}
             ref={this._refEditor}
           >
-            {widgetDataArray.map((widgetData, index) => {
-              const widgetJsx =
-                RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(
-                  {
-                    runtimePane: this,
-                    widgetData,
-                    jsxKey: index,
-                  },
-                )
-              return widgetJsx
-            })}
+            <ScrollView contentContainerStyle={{ flex: 1 }}>
+              {widgetDataArray.map((widgetData, index) => {
+                const widgetJsx =
+                  RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(
+                    {
+                      runtimePane: this,
+                      widgetData,
+                      jsxKey: index,
+                    },
+                  )
+                return widgetJsx
+              })}
+            </ScrollView>
           </View>
         )
       }

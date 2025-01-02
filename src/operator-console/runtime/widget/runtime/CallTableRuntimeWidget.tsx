@@ -1,3 +1,4 @@
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { ScrollView, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../../../common/Table'
@@ -9,8 +10,8 @@ import { RuntimeWidget } from './RuntimeWidget'
 
 const CELL_MARGIN = 20
 export class CallTableRuntimeWidget extends RuntimeWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -107,11 +108,11 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
     )
     const headerFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCalltableHeaderFgColor(),
-      '',
+      this.context.fgColor,
     )
     const bodyFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCalltableBodyFgColor(),
-      '',
+      this.context.fgColor,
     )
     const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCalltableBodyActiveRowBgColor(),
@@ -141,6 +142,16 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
     ) // !default
 
     const cellCount = CallTableColumns.length + 1 // 1 is active botton
+
+    const hStyle: StyleProp<TextStyle> = {
+      fontSize: callTableThFontSize,
+      color: headerFgColor,
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+    }
+    const cStyle: StyleProp<ViewStyle> = {
+      padding: 10,
+    }
 
     return (
       <Table
@@ -177,34 +188,34 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
               return (
                 <Cell
                   key={key}
-                  style={{
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                    borderTopRightRadius: borderRadiusTH,
-                    borderTopLeftRadius: borderRadiusTH,
-                  }}
+                  style={[
+                    {
+                      paddingTop: 0,
+                      paddingBottom: 0,
+                      borderTopRightRadius: borderRadiusTH,
+                      borderTopLeftRadius: borderRadiusTH,
+                    },
+                    cStyle,
+                  ]}
                   data={title}
-                  textStyle={{
-                    fontSize: callTableThFontSize,
-                    color: headerFgColor,
-                  }}
+                  textStyle={hStyle}
                 ></Cell>
               )
             })}
             <Cell
-              style={{
-                // width:activeButtonCellWidth,
-                // height: activeButtonCellHeight,
-                // paddingTop: 0,
-                // paddingBottom: 0,
-                borderTopRightRadius: outerBorderRadius,
-                borderBottomRightRadius: outerBorderRadius,
-              }}
+              style={[
+                {
+                  // width:activeButtonCellWidth,
+                  // height: activeButtonCellHeight,
+                  // paddingTop: 0,
+                  // paddingBottom: 0,
+                  borderTopRightRadius: outerBorderRadius,
+                  borderBottomRightRadius: outerBorderRadius,
+                },
+                cStyle,
+              ]}
               data={i18n.t('activeButton')}
-              textStyle={{
-                fontSize: callTableThFontSize,
-                color: headerFgColor,
-              }}
+              textStyle={hStyle}
             ></Cell>
           </TableWrapper>
         </View>
@@ -268,12 +279,15 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
                   return (
                     <Cell
                       key={key}
-                      style={{
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderTopRightRadius: outerBorderRadius,
-                        borderBottomRightRadius: outerBorderRadius,
-                      }}
+                      style={[
+                        {
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                          borderTopRightRadius: outerBorderRadius,
+                          borderBottomRightRadius: outerBorderRadius,
+                        },
+                        cStyle,
+                      ]}
                       textStyle={{
                         fontSize: callTableTdFontSize,
                         color: bodyFgColor,
@@ -283,13 +297,16 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
                   )
                 })}
                 <Cell
-                  style={{
-                    // width:activeButtonCellWidth,
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                    borderTopRightRadius: outerBorderRadius,
-                    borderBottomRightRadius: outerBorderRadius,
-                  }}
+                  style={[
+                    {
+                      // width:activeButtonCellWidth,
+                      paddingTop: 0,
+                      paddingBottom: 0,
+                      borderTopRightRadius: outerBorderRadius,
+                      borderBottomRightRadius: outerBorderRadius,
+                    },
+                    cStyle,
+                  ]}
                   textStyle={{
                     fontSize: callTableTdFontSize,
                     color: bodyFgColor,

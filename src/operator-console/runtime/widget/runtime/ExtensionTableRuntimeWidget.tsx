@@ -1,3 +1,4 @@
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { ScrollView, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../../../common/Table'
@@ -10,8 +11,8 @@ const EXTENSION_TABLE_TH_HEIGHT = 25 // 25px
 const EXTENSION_TABLE_TD_HEIGHT = 30 // 30px
 
 export class ExtensionTableRuntimeWidget extends RuntimeWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -43,11 +44,11 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
     )
     const headerFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableHeaderFgColor(),
-      '',
+      this.context.fgColor,
     )
     const bodyFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensiontableBodyFgColor(),
-      '',
+      this.context.fgColor,
     )
     // const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor( props.extensiontableBodyActiveRowBgColor, "'#B9DFA9'" );   //!default
     const backgroundColor = Util.getRgbaCSSStringFromAntdColor(
@@ -80,6 +81,15 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
       : 14
 
     let key = 0
+    const hStyle: StyleProp<TextStyle> = {
+      color: headerFgColor,
+      fontSize: headerFontSize,
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+    }
+    const cStyle: StyleProp<ViewStyle> = {
+      padding: 10,
+    }
     return (
       <Table
         style={{
@@ -99,15 +109,14 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
           }}
         >
           <Cell
-            style={{
-              borderTopRightRadius: outerBorderRadius,
-              borderTopLeftRadius: outerBorderRadius,
-            }}
-            textStyle={{
-              color: headerFgColor,
-              fontSize: headerFontSize,
-              textTransform: 'uppercase',
-            }}
+            style={[
+              {
+                borderTopRightRadius: outerBorderRadius,
+                borderTopLeftRadius: outerBorderRadius,
+              },
+              cStyle,
+            ]}
+            textStyle={hStyle}
             data={i18n.t('id')}
           ></Cell>
           <Cell
@@ -115,24 +124,24 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
               fontSize: headerFontSize,
               textTransform: 'uppercase',
               color: headerFgColor,
+              fontWeight: 'bold',
             }}
             data={i18n.t('name')}
           ></Cell>
           <Cell
-            textStyle={{
-              color: headerFgColor,
-              fontSize: headerFontSize,
-              textTransform: 'uppercase',
-            }}
-            style={{
-              borderTopRightRadius: outerBorderRadius,
-              borderBottomRightRadius: outerBorderRadius,
-            }}
+            textStyle={hStyle}
+            style={[
+              {
+                borderTopRightRadius: outerBorderRadius,
+                borderBottomRightRadius: outerBorderRadius,
+              },
+              cStyle,
+            ]}
             data={i18n.t('status')}
           ></Cell>
         </TableWrapper>
         <View style={{ flex: 1 }}>
-          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <ScrollView>
             {extensions.map(ext => (
               <TableWrapper
                 key={key++}
@@ -144,22 +153,29 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
               >
                 <Cell
                   textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
-                  style={{
-                    borderTopRightRadius: outerBorderRadius,
-                    borderBottomRightRadius: outerBorderRadius,
-                  }}
+                  style={[
+                    {
+                      borderTopRightRadius: outerBorderRadius,
+                      borderBottomRightRadius: outerBorderRadius,
+                    },
+                    cStyle,
+                  ]}
                   data={ext?.id}
                 ></Cell>
                 <Cell
                   textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
                   data={ext?.name}
+                  style={cStyle}
                 ></Cell>
                 <Cell
                   textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
-                  style={{
-                    borderTopRightRadius: outerBorderRadius,
-                    borderBottomRightRadius: outerBorderRadius,
-                  }}
+                  style={[
+                    {
+                      borderTopRightRadius: outerBorderRadius,
+                      borderBottomRightRadius: outerBorderRadius,
+                    },
+                    cStyle,
+                  ]}
                   data={Object.values(
                     extensionsStatus?.[ext?.id]?.callStatus || {},
                   ).join(',')}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { ViewStyle } from 'react-native'
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { ScrollView, Text, View } from 'react-native'
 
 import { Button } from '../../../common/Button'
@@ -674,8 +674,8 @@ const _getLightClassname = line => {
 }
 
 export class LineTableRuntimeWidget extends RuntimeWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -721,11 +721,11 @@ export class LineTableRuntimeWidget extends RuntimeWidget {
     )
     const headerFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getLinetableHeaderFgColor(),
-      '',
+      this.context.fgColor,
     )
     const bodyFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getLinetableBodyFgColor(),
-      '',
+      this.context.fgColor,
     )
     // const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor( props.linetableBodyActiveRowBgColor, "#B9DFA9" );   //!default
     const backgroundColor = Util.getRgbaCSSStringFromAntdColor(
@@ -777,6 +777,16 @@ export class LineTableRuntimeWidget extends RuntimeWidget {
         ? widgetData.getTransferCancelButtonFontSize()
         : 14 // !default
 
+    const hStyle: StyleProp<TextStyle> = {
+      fontSize: headerFontSize,
+      color: headerFgColor,
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+    }
+    const cStyle: StyleProp<ViewStyle> = {
+      padding: 10,
+    }
+
     return (
       <Table
         style={{
@@ -796,31 +806,36 @@ export class LineTableRuntimeWidget extends RuntimeWidget {
           }}
         >
           <Cell
-            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-            style={{
-              borderTopRightRadius: outerBorderRadius,
-              borderTopLeftRadius: outerBorderRadius,
-            }}
+            textStyle={hStyle}
+            style={[
+              {
+                borderTopRightRadius: outerBorderRadius,
+                borderTopLeftRadius: outerBorderRadius,
+              },
+              cStyle,
+            ]}
             data={i18n.t('name')}
           ></Cell>
           <Cell
-            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
+            textStyle={hStyle}
+            style={cStyle}
             data={i18n.t('responder')}
           ></Cell>
+          <Cell textStyle={hStyle} style={cStyle} data={i18n.t('line')}></Cell>
           <Cell
-            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-            data={i18n.t('line')}
-          ></Cell>
-          <Cell
-            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
+            textStyle={hStyle}
+            style={cStyle}
             data={i18n.t('transfer')}
           ></Cell>
           <Cell
-            textStyle={{ fontSize: headerFontSize, color: headerFgColor }}
-            style={{
-              borderTopRightRadius: outerBorderRadius,
-              borderBottomRightRadius: outerBorderRadius,
-            }}
+            textStyle={hStyle}
+            style={[
+              {
+                borderTopRightRadius: outerBorderRadius,
+                borderBottomRightRadius: outerBorderRadius,
+              },
+              cStyle,
+            ]}
             data={i18n.t('camponDest')}
           ></Cell>
         </TableWrapper>

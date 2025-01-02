@@ -25,8 +25,6 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
     dndEventEmiter.on('drop', d => {
       if (!paneData.getEnableTabs()) {
         refEditor?.current?.measure((fx, fy, width, height, px, py) => {
-          console.log('#Duy Phan console s', d)
-          console.log('#Duy Phan console s', fx, fy, width, height, px, py)
           if (
             isDropZone(
               { moveX: d.nX, moveY: d.nY },

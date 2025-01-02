@@ -71,8 +71,11 @@ const Select = ({
             borderRadius: 4,
             alignItems: 'center',
             justifyContent: 'center',
+            flexDirection: 'row',
+            gap: 10,
           }}
         >
+          {!!selectedItem?.icon && <FontAwesomeIcon icon={selectedItem.icon} />}
           {!!selectedItem && (
             <Text style={{ textAlign: 'center' }}>{selectedItem.title}</Text>
           )}
@@ -103,10 +106,11 @@ const styles = StyleSheet.create({
   selectItemStyle: {
     width: '100%',
     flexDirection: 'row',
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 8,
+    gap: 10,
   },
   selectItemTxtStyle: {
     flex: 1,

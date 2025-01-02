@@ -23,6 +23,7 @@ import DragList from 'react-native-draglist'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { GridLines } from '../common/GridLines'
+import { WidgetData } from '../data/widgetData/WidgetData'
 import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
@@ -63,8 +64,39 @@ const _onDrop = function ({
     EditorWidgetTemplateFactory.getStaticEditorWidgetSettingsFactoryInstance().getEditorWidgetTemplateByWidgetTypeId(
       widgetTypeId,
     )
-  const widgetWidth = editorWidgetTemplate.getWidth()
-  const widgetHeight = editorWidgetTemplate.getHeight()
+  let widgetWidth = editorWidgetTemplate.getWidth()
+  let widgetHeight = editorWidgetTemplate.getHeight()
+
+  switch (widgetTypeId) {
+    case WidgetData.WIDGET_TYPE_IDS.callTable:
+      widgetWidth = 640
+      widgetHeight = 128
+      break
+    case WidgetData.WIDGET_TYPE_IDS.extensionTable:
+      widgetWidth = 640
+      widgetHeight = 128
+      break
+    case WidgetData.WIDGET_TYPE_IDS.text:
+      widgetWidth = 160
+      widgetHeight = 160
+      break
+    case WidgetData.WIDGET_TYPE_IDS.note:
+      widgetWidth = 160
+      widgetHeight = 160
+      break
+    case WidgetData.WIDGET_TYPE_IDS.lineTable:
+      widgetWidth = 640
+      widgetHeight = 128
+      break
+    case WidgetData.WIDGET_TYPE_IDS.legacyUccac:
+      widgetWidth = 470
+      widgetHeight = 300
+      break
+    case WidgetData.WIDGET_TYPE_IDS.legacyButton:
+      widgetWidth = 80
+      widgetHeight = 80
+      break
+  }
 
   const editingScreenGrid = editorPane
     .getEditScreenView()

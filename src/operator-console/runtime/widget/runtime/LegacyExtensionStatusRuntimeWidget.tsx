@@ -7,8 +7,8 @@ import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 
 export class LegacyExtensionStatusRuntimeWidget extends RuntimeWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -22,7 +22,7 @@ export class LegacyExtensionStatusRuntimeWidget extends RuntimeWidget {
     const status = Object.values(extensionsStatus?.[ext?.id]?.callStatus || {})
     const extensionStatusFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensionStatusFgColor(),
-      '',
+      this.context.fgColor,
     )
     const extensionStatusLampSize = widgetData.getExtensionStatusLampSize()
       ? widgetData.getExtensionStatusLampSize()

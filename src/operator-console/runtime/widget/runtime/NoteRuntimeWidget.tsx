@@ -173,11 +173,26 @@ export class NoteRuntimeWidget extends RuntimeWidget {
         : ''
 
     return (
-      <LinearGradient colors={['#F9EFAF', '#F7E98D']}>
+      <LinearGradient
+        colors={
+          widgetData.getNoteBgStartColor() && widgetData.getNoteBgEndColor()
+            ? [
+                Util.getRgbaCSSStringFromAntdColor(
+                  widgetData.getNoteBgStartColor(),
+                  '#F9EFAF',
+                ),
+                Util.getRgbaCSSStringFromAntdColor(
+                  widgetData.getNoteBgEndColor(),
+                  '#F7E98D',
+                ),
+              ]
+            : ['#F9EFAF', '#F7E98D']
+        }
+      >
         <View
           style={{
             borderRadius,
-            backgroundColor: background,
+            // backgroundColor: background,
             overflow: 'hidden',
             flexDirection: 'column',
             width: '100%',

@@ -107,9 +107,9 @@ export class CallHistory2CallInfo {
     }
 
     if (typeof o === 'string' || o instanceof String) {
-      let s = o.replaceAll('\t', '\\t')
-      s = s.replaceAll('\n', '\\n')
-      s = s.replaceAll('\r', '\\r')
+      let s = o.replace('/\t/g', '\\t')
+      s = s.replace('/\n/g', '\\n')
+      s = s.replace('/\r/g', '\\r')
       return s
     } else {
       const s = o.toString()
@@ -119,9 +119,9 @@ export class CallHistory2CallInfo {
 
   static fromTsvValue(s) {
     if (s) {
-      s = s.replaceAll('\\t', '\t')
-      s = s.replaceAll('\\n', '\n')
-      s = s.replaceAll('\\r', '\r')
+      s = s.replace('/\\t/g', '\t')
+      s = s.replace('/\\n/g', '\n')
+      s = s.replace('/\\r/g', '\r')
     }
     return s
   }

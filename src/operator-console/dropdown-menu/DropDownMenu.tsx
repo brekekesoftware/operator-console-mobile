@@ -1,6 +1,6 @@
 import { IconOutline } from '@ant-design/icons-react-native'
 import { ActivityIndicator, Form, Input } from '@ant-design/react-native'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import type { TextStyle } from 'react-native'
 import { Text, TouchableOpacity, View } from 'react-native'
 
@@ -217,6 +217,9 @@ export const DropDownMenu = ({ operatorConsole }) => {
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: 'white',
+            // elevation: 3,
+            borderColor: '#d9d9d9',
+            borderWidth: 1,
           }}
         >
           <IconOutline name='more' size={20} />

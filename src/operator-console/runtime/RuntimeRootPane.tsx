@@ -1,4 +1,3 @@
-import { createRef } from 'react'
 import { View } from 'react-native'
 
 import { BaseDividerData } from '../data/BaseDividerData'

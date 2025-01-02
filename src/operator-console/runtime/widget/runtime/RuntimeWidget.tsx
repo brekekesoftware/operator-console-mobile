@@ -2,8 +2,13 @@ import { Component } from 'react'
 import type { ViewStyle } from 'react-native'
 import { View } from 'react-native'
 
+import { ColorPaneContext } from '../../../editor/ColorPaneContext'
+import type { RuntimePane } from '../../RuntimePane'
+
 type Props = {
-  widgetData: any
+  widgetData?: any
+  runtimePane: RuntimePane
+  widgetIndex: number
 }
 type State = {
   duration?: string
@@ -16,8 +21,10 @@ type State = {
 
 export class RuntimeWidget extends Component<Props, State> {
   _RuntimePaneAsParent
-  constructor(props) {
-    super(props)
+
+  static contextType = ColorPaneContext
+  constructor(props, context) {
+    super(props, context)
     this._RuntimePaneAsParent = props['runtimePane'] // tabs or noTabs
   }
 

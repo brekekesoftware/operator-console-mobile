@@ -44,11 +44,17 @@ export const InputNumber = ({
       return n - stepFinal
     })
   }
+
+  const onChange1 = (t: string) => {
+    setV(Number(t))
+    onChange?.(Number(t))
+  }
+  console.log('#Duy Phan console v', v)
   return (
     <Input
       {...props}
       value={String(v || '')}
-      onChange={e => e.target}
+      onChangeText={onChange1}
       style={[
         {
           height: 40,

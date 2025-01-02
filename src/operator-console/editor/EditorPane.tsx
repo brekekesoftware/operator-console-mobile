@@ -4,7 +4,6 @@ import type { LayoutRectangle, StyleProp, ViewStyle } from 'react-native'
 import { BasePane } from '../base/BasePane'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { WidgetData } from '../data/widgetData/WidgetData'
-import { DividerContext } from './DividerContext'
 import { EditorPaneSmall } from './EditorPaneSmall'
 import { EditorTabFunctionComponent } from './EditorTabFunctionComponent'
 import type { EditScreenView } from './EditScreenView'
@@ -14,7 +13,6 @@ const _PANES = new Object()
 
 // !abstract class
 export class EditorPane extends BasePane {
-  static contextType = DividerContext
   // !abstract
   getEditScreenView(): EditScreenView {
     throw new Error('Not implemented.')
@@ -319,7 +317,7 @@ export class EditorPane extends BasePane {
       const paneData = this.props['paneData']
 
       const paneWidth = paneData.getPaneWidth()
-      console.log('#Duy Phan console paneWidth', paneWidth)
+      console.log('#Duy Phan console css', css)
       if (paneWidth && paneWidth !== -1) {
         const dividerHalfWidthPx = 3
         css['width'] = paneWidth + '%'

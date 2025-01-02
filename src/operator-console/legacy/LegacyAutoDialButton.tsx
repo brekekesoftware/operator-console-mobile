@@ -12,10 +12,7 @@ export const LegacyAutoDialButton = props => {
   return (
     <CommonButton
       {...props}
-      className={clsx(
-        'kbc-button kbc-button-fill-parent',
-        isRedColor && 'kbc-button-danger',
-      )}
+      isFlash={isRedColor}
       onPress={() => props.context?.onClickAutoDial(props.context.widget)}
     />
   )

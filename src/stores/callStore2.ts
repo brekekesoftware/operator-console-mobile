@@ -355,6 +355,10 @@ export class CallStore {
     // update java and embed api
     BrekekeUtils.setJsCallsSize(this.calls.length)
     // emit to embed api
+    console.log(
+      '#Duy Phan console window._BrekekePhoneWebRoot',
+      window._BrekekePhoneWebRoot,
+    )
     if (!window._BrekekePhoneWebRoot) {
       embedApi.emit('call', c)
     }

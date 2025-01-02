@@ -28,8 +28,8 @@ const formatSecondsToHHMMSS = seconds => {
 export class CallPanelRuntimeWidget extends RuntimeWidget {
   durationTimeout: NodeJS.Timeout | null = null
 
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
     this.state = { duration: '' }
     this.durationTimeout = setTimeout(this._updateCallDuration, 1000)
   }
@@ -63,17 +63,17 @@ export class CallPanelRuntimeWidget extends RuntimeWidget {
 
     const callpanelFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCallpanelFgColor(),
-      '',
+      this.context.fgColor || '#304701',
     )
     const callpanelBgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCallpanelBgColor(),
-      '',
+      '#A8C64E',
     )
     const callpanelBorderRadius =
       widgetData.getCallpanelBorderRadius() ||
       widgetData.getCallpanelBorderRadius() === 0
         ? widgetData.getCallpanelBorderRadius()
-        : ''
+        : 8
     const outsideShadow_horizontalOffset =
       widgetData.getOutsideShadow_horizontalOffset() ||
       widgetData.getOutsideShadow_horizontalOffset() === 0
@@ -184,16 +184,18 @@ export class CallPanelRuntimeWidget extends RuntimeWidget {
           borderRadius: callpanelBorderRadius,
           backgroundColor: callpanelBgColor,
           // boxShadow: sBoxShadow,
-
           flex: 1,
+          padding: 12,
         }}
       >
         <View style={styles.row}>
           <View style={styles.left}>
-            {!!currentCallInfo &&
-              (currentCallInfo.getIsIncoming()
-                ? IconPhoneIncoming
-                : IconPhoneOutgoing)}
+            <View style={{ flex: 1 }}>
+              {!!currentCallInfo &&
+                (currentCallInfo.getIsIncoming()
+                  ? IconPhoneIncoming
+                  : IconPhoneOutgoing)}
+            </View>
           </View>
           <View style={styles.main}>
             {hasPartyName && (
@@ -247,14 +249,15 @@ export class CallPanelRuntimeWidget extends RuntimeWidget {
 const styles = StyleSheet.create({
   row: {
     minHeight: 48,
+    flexDirection: 'row',
   },
   left: {
     width: 24,
-    justifyContent: 'center',
-    flexShrink: 0,
+    height: 24,
   },
   main: {
     flexGrow: 1,
+    flex: 1,
     marginLeft: 4,
   },
   party: {

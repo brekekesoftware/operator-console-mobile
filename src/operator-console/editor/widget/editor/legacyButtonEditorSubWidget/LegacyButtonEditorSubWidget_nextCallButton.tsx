@@ -28,10 +28,7 @@ export class LegacyButtonEditorSubWidget_nextCallButton extends LegacyButtonEdit
         style={cStyle.s}
         textStyle={cStyle.tStyle}
         disabled={true}
-        // className={clsx(
-        //   'kbc-button kbc-button-fill-parent',
-        //   currentCallIndex < callInfoCount - 1 && 'kbc-button-danger-flash',
-        // )}
+        isFlash={currentCallIndex < callInfoCount - 1}
       >
         {iconJsx}
       </WidgetButton>

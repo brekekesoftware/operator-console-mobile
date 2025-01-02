@@ -12,8 +12,8 @@ const CELL_MARGIN = 20
 const CURRENT_CALL_INDEX = 1
 export class CallTableEditorWidget extends EditorWidget {
   _CallInfoArray
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
     this._CallInfoArray = Object.freeze([
       new DummyCallInfo({
         partyNumber: '12345678',
@@ -132,11 +132,11 @@ export class CallTableEditorWidget extends EditorWidget {
     )
     const headerFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCalltableHeaderFgColor(),
-      '',
+      this.context.fgColor,
     )
     const bodyFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCalltableBodyFgColor(),
-      '',
+      this.context.fgColor,
     )
     const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getCalltableBodyActiveRowBgColor(),

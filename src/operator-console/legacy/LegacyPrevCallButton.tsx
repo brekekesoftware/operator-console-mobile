@@ -15,12 +15,7 @@ export const LegacyPrevCallButton = props => {
           ? undefined
           : props.context.switchCallUp
       }
-      className={
-        clsx(
-          'kbc-button kbc-button-fill-parent',
-          currentCallIndex > 0 && 'kbc-button-danger-flash',
-        ) as string
-      }
+      isFlash={currentCallIndex > 0}
     />
   )
 }

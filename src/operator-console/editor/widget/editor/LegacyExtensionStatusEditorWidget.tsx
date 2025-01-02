@@ -8,8 +8,8 @@ import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 
 export class LegacyExtensionStatusEditorWidget extends EditorWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -23,15 +23,11 @@ export class LegacyExtensionStatusEditorWidget extends EditorWidget {
     const status = Object.values(extensionsStatus?.[ext?.id]?.callStatus || {})
     const extensionStatusFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getExtensionStatusFgColor(),
-      '',
+      this.context.fgColor,
     )
     const extensionStatusLampSize = widgetData.getExtensionStatusLampSize()
       ? widgetData.getExtensionStatusLampSize()
       : 16 // !defaultValue
-    console.log(
-      '#Duy Phan console extensionStatusLampSize',
-      extensionStatusLampSize,
-    )
     const extensionStatusExtensionFontSize =
       widgetData.getExtensionStatusExtensionFontSize()
         ? widgetData.getExtensionStatusExtensionFontSize()

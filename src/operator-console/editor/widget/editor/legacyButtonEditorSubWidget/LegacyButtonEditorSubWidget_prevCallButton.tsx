@@ -28,10 +28,7 @@ export class LegacyButtonEditorSubWidget_prevCallButton extends LegacyButtonEdit
         style={cStyle.s}
         textStyle={cStyle.tStyle}
         disabled={true}
-        // className={clsx(
-        //   'kbc-button kbc-button-fill-parent',
-        //   currentCallIndex > 0 && 'kbc-button-danger-flash',
-        // )}
+        isFlash={currentCallIndex > 0}
       >
         {iconJsx}
       </WidgetButton>

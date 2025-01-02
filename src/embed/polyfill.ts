@@ -2,7 +2,7 @@ import { Platform } from 'react-native'
 
 declare global {
   interface Window {
-    _BrekekePhoneWebRoot?: HTMLElement | null
+    _BrekekePhoneWebRoot?: HTMLElement | string | null
     _BrekekePhoneCaptureConsole?: boolean
   }
 }

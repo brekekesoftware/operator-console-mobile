@@ -1,4 +1,5 @@
-import { Text, TouchableOpacity } from 'react-native'
+import { useEffect, useRef } from 'react'
+import { Animated, Text, TouchableOpacity } from 'react-native'
 
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { getIconJsx } from '../OperatorConsole'
@@ -19,6 +20,7 @@ type Props = {
   className?: string
   disabled?: boolean
   childNode?: React.ReactNode
+  isFlash?: boolean
 }
 
 export const CommonButton = ({
@@ -34,6 +36,7 @@ export const CommonButton = ({
   className,
   disabled,
   childNode,
+  isFlash = false,
 }: Props) => {
   const color = Util.isAntdRgbaProperty(buttonFgColor)
     ? Util.getRgbaCSSStringFromAntdColor(buttonFgColor)
@@ -50,6 +53,48 @@ export const CommonButton = ({
     : undefined
   const iconJsx = getIconJsx(icon, label)
 
+  const bgFlash = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    if (isFlash) {
+      startFlashing()
+    } else {
+      stopFlashing()
+    }
+  }, [isFlash])
+
+  const startFlashing = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(bgFlash, {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+        Animated.timing(bgFlash, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: false,
+        }),
+      ]),
+    ).start()
+  }
+
+  const stopFlashing = () => {
+    bgFlash.stopAnimation()
+    bgFlash.setValue(0)
+  }
+
+  const interpolatedBackgroundColor = bgFlash.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#dc3545', '#e4606d'], // Flashing background colors
+  })
+
+  const interpolatedTextColor = bgFlash.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['#f8f9fa', '#ffffff'], // Flashing text colors
+  })
+
   return (
     <TouchableOpacity
       style={{
@@ -64,16 +109,27 @@ export const CommonButton = ({
       onPress={onPress}
       disabled={disabled}
     >
-      {childNode ? (
-        childNode
-      ) : (
-        <>
-          <Text style={{ color }}>
-            {`legacy_button_description.${subtype}`}
-          </Text>
-          {iconJsx}
-        </>
-      )}
+      <Animated.View
+        style={[
+          { flex: 1 },
+          {
+            backgroundColor: isFlash
+              ? interpolatedBackgroundColor
+              : backgroundColor,
+          },
+        ]}
+      >
+        {childNode ? (
+          childNode
+        ) : (
+          <>
+            <Text style={{ color }}>
+              {`legacy_button_description.${subtype}`}
+            </Text>
+            {iconJsx}
+          </>
+        )}
+      </Animated.View>
     </TouchableOpacity>
   )
 }

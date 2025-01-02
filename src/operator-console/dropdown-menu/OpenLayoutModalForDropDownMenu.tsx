@@ -1,5 +1,5 @@
 import { ActivityIndicator, Button } from '@ant-design/react-native'
-import { Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 
 import { Modal } from '../common/Modal'
 import { Notification } from '../common/Notification'
@@ -32,9 +32,12 @@ export const OpenLayoutModalForDropDownMenu = props => {
       title={i18n.t('selectLayout')}
       onOk={handleOk}
       onCancel={handleCancel}
+      style={{ width: 500, height: 200, minHeight: 200 }}
       footer={footer}
     >
-      <View>{noteNamesContent}</View>
+      <ScrollView>
+        <View>{noteNamesContent}</View>
+      </ScrollView>
     </Modal>
   )
 }

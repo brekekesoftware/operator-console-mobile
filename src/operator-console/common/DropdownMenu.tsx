@@ -58,6 +58,7 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
         onPress={() => {
           setIsOpen(!isOpen)
         }}
+        activeOpacity={1}
       >
         {children}
       </TouchableOpacity>

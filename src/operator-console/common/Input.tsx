@@ -7,9 +7,9 @@ export const Input = forwardRef(
   (props: InputProps, ref: Ref<{ getValue: () => string }>) => {
     const [value, setValue] = useState(props.defaultValue || props.value)
 
-    // useEffect(() => {
-    //   setValue(props.value)
-    // },[props.value])
+    useEffect(() => {
+      setValue(props.value)
+    }, [props.value])
 
     const onChange = (e: string) => {
       setValue(e)

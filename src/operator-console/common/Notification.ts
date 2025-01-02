@@ -2,10 +2,21 @@ import { Toast } from '@ant-design/react-native'
 
 import { IconWarning } from '../icons'
 
+Toast.config({
+  position: 'top',
+  styles: {
+    container: {
+      zIndex: 9999999,
+    },
+  },
+})
+
 export const Notification = {
   ...Toast,
   info: ({ message, duration }: { message: string; duration?: number }) => {
-    Toast.info(message, duration)
+    setTimeout(() => {
+      Toast.info(message, duration)
+    })
   },
   error: ({
     message,
@@ -16,22 +27,31 @@ export const Notification = {
     duration?: number
     content?: React.ReactNode
   }) => {
-    if (content) {
-      Toast.fail({ content }, duration)
-    } else {
-      Toast.fail(message, duration)
-    }
+    setTimeout(() => {
+      if (content) {
+        Toast.fail({ content }, duration)
+      } else {
+        Toast.fail(message, duration)
+      }
+    }, 0)
   },
   warning: ({ message, duration }: { message: string; duration?: number }) => {
-    Toast.show(
-      {
-        icon: IconWarning,
-        content: message,
-      },
-      duration,
-    )
+    setTimeout(() => {
+      Toast.show(
+        {
+          icon: IconWarning,
+          content: message,
+          stackable: false,
+          position: 'top',
+          mask: false,
+        },
+        duration,
+      )
+    }, 0)
   },
   success: ({ message, duration }: { message: string; duration?: number }) => {
-    Toast.success(message, duration)
+    setTimeout(() => {
+      Toast.success(message, duration)
+    }, 0)
   },
 }

@@ -12,10 +12,15 @@ import type { rgbT } from 'reanimated-color-picker/lib/typescript/colorKit/types
 type Props = Omit<ColorPickerProps, 'onColorChangeComplete' | 'color'> & {
   isDefault?: boolean
   color?: string | { rgb: rgbT }
-  onColorChangeComplete?: (c: { rgb: rgbT } | null) => void
+  onColorChangeComplete?: (c: { rgb: rgbT } | { hex: string } | null) => void
+  type?: 'rgb' | 'hex'
 }
 
-export const ColorPicker = ({ isDefault = false, ...props }: Props) => {
+export const ColorPicker = ({
+  isDefault = false,
+  type = 'rgb',
+  ...props
+}: Props) => {
   let fColor
   if (props.color) {
     fColor =
@@ -27,7 +32,11 @@ export const ColorPicker = ({ isDefault = false, ...props }: Props) => {
   }
 
   const changeColor = v => {
-    props.onColorChangeComplete?.({ rgb: colorKit.RGB(v).object(true) })
+    props.onColorChangeComplete?.(
+      type === 'rgb'
+        ? { rgb: colorKit.RGB(v).object(true) }
+        : { hex: colorKit.HEX(v).toString() },
+    )
   }
   return isDefault ? (
     <ColorPickerRN

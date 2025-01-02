@@ -1,5 +1,4 @@
-import AntmModal from '@ant-design/react-native/lib/modal/Modal'
-import { Dimensions, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import type { ModalProps } from 'react-native-modal'
 import RNModal from 'react-native-modal'
 

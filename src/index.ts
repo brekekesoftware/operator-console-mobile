@@ -12,6 +12,7 @@ import './brekekejs/webrtcclient'
 import './brekekejs/phonebook'
 import './brekekejs/webnotification'
 
+// import './brekekejs/ucagentwidget'
 import { AppRegistry } from 'react-native'
 
 import App from './components/App'

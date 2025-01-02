@@ -38,7 +38,7 @@ type CProps = {
 }
 
 type CeProps = {
-  style?: ViewStyle
+  style?: StyleProp<ViewStyle>
   textStyle?: TextStyle
   flex?: ViewStyle['flex']
   height?: ViewStyle['height']
@@ -225,7 +225,9 @@ export class Cell extends Component<CeProps> {
       this.props
     const textDom = children ? (
       typeof children === 'string' ? (
-        <Text style={[textStyle, { textAlign: 'center' }]}>{children}</Text>
+        <Text style={[textStyle, { textAlign: 'center' }]} numberOfLines={2}>
+          {children}
+        </Text>
       ) : (
         children
       )
@@ -247,6 +249,7 @@ export class Cell extends Component<CeProps> {
             borderTopWidth,
             borderRightWidth,
             borderColor,
+            padding: 10,
           },
           styles.cell,
           {

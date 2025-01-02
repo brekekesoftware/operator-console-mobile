@@ -4,7 +4,9 @@ import { Dimensions, Image, View } from 'react-native'
 
 import logo from '../logo.png'
 
+import { Notification } from '../common/Notification'
 import { DropDownMenu } from '../dropdown-menu/DropDownMenu'
+import { ColorPaneContextProvider } from '../editor/ColorPaneContext'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { AutoDialView_ver2 } from './AutoDialView_ver2'
 import { QuickBusy_ver2 } from './QuickBusy_ver2'
@@ -22,6 +24,10 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
 
   onTabClickByRuntimePane(runtimePanelAsCaller, tabKey, mouseEvent) {
     runtimePanelAsCaller.setRuntimePanezSelectedTabKeyAsString(tabKey)
+  }
+
+  componentDidMount(): void {
+    Notification.success({ message: 'asdasdasd' })
   }
 
   render() {
@@ -82,11 +88,15 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
               flex: 1,
             }}
           >
-            <RuntimeRootPane
-              paneData={rootPaneData}
-              runtimeScreenViewAsParent={this}
-              // className='width100percentAndHeight100percent'
-            />
+            <ColorPaneContextProvider
+              bg={screenData_ver2.getScreenBackgroundColor()}
+              fg={screenData_ver2.getScreenForegroundColor()}
+            >
+              <RuntimeRootPane
+                paneData={rootPaneData}
+                runtimeScreenViewAsParent={this}
+              />
+            </ColorPaneContextProvider>
           </View>
         </View>
       </View>

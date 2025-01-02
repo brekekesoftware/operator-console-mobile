@@ -476,7 +476,7 @@ export const NoScreensView = props => {
           width: '100%',
           height: '100%',
           position: 'absolute',
-          zIndex: 100000000,
+          zIndex: 9999999999,
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           display: displayLoadingStyle,
         }}

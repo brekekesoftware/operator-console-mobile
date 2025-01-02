@@ -1,6 +1,8 @@
 import debounce from 'debounce'
 import { deleteProperty, setProperty } from 'dot-prop'
 
+import type { EmbedApi } from '../../embed/embedApi'
+import { embedApi } from '../../embed/embedApi'
 import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
 import { BROC_BROCCALLOBJECT_CALL_STATUSES, OCUtil } from '../OCUtil'
@@ -10,6 +12,18 @@ import { WebphoneCallInfos } from './WebphoneCallInfos'
 export class WebphonePhoneClient extends APhoneClient {
   _isPalReady: boolean
   _webphoneCallInfos: WebphoneCallInfos
+  _webphone: EmbedApi | null = null
+  _webrtcclient
+  _onWebphoneError
+  _onWebphoneOnError
+  _onWebphoneOnerror
+  notify_serverstatus
+  pal
+  _onWebphoneClose
+  _onWebphoneOnClose
+  _onWebphoneOnclose
+  notify_status
+  notify_park
   constructor(options) {
     super(options)
     this._isPalReady = false
@@ -65,7 +79,6 @@ export class WebphonePhoneClient extends APhoneClient {
   initPhoneClient(options) {
     super.initPhoneClient(options)
 
-    const eBrOcPhone = document.getElementById('brOCPhone')
     const args = {
       autoLogin: true,
       clearExistingAccounts: true,
@@ -82,9 +95,10 @@ export class WebphonePhoneClient extends APhoneClient {
       'webphone.pal.param.user': '*',
       'webphone.pal.param.line': '*',
       'webphone.pal.param.park': '*',
-    }
+    } as any
 
-    this._webphone = window.Brekeke.Phone.render(eBrOcPhone, args)
+    this._webphone = embedApi
+    this._webphone._signIn(args)
 
     const onInitSuccessFunction = options['onInitSuccessFunction']
 

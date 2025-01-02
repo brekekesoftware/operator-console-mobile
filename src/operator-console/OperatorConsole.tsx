@@ -1331,12 +1331,12 @@ export class BrekekeOperatorConsole extends React.Component<
       }
       const pt = newData.phoneTerminal
       let phoneClient
-      // if (pt === 'phoneTerminal_pal') {
-      //   phoneClient = new PalPhoneClient(options)
-      // } else {
-      //   phoneClient = new WebphonePhoneClient(options)
-      // }
-      phoneClient = new PalPhoneClient(options)
+      if (pt === 'phoneTerminal_pal') {
+        phoneClient = new PalPhoneClient(options)
+      } else {
+        phoneClient = new WebphonePhoneClient(options)
+      }
+      // phoneClient = new PalPhoneClient(options)
 
       this._getLastLoginAccount().then(initOptions => {
         const newOptions: OptionsInitSystem = { ...initOptions }
@@ -2360,6 +2360,7 @@ export class BrekekeOperatorConsole extends React.Component<
         note: noteContent,
       }),
       onSuccessFunction: res => {
+        console.log('#Duy Phan console saved_data_to_pbx_successfully')
         Notification.success({
           message: i18n.t('saved_data_to_pbx_successfully'),
         })

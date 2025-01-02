@@ -1,4 +1,4 @@
-import type { ViewStyle } from 'react-native'
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { ScrollView, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../../../common/Table'
@@ -258,6 +258,9 @@ const EditorLineTableRow_ver2 = ({
     'kbc-button-success': {},
     'kbc-button-danger': {},
   }
+  const cStyle: StyleProp<ViewStyle> = {
+    padding: 10,
+  }
 
   return (
     <TableWrapper
@@ -273,10 +276,13 @@ const EditorLineTableRow_ver2 = ({
       ]}
     >
       <Cell
-        style={{
-          borderTopRightRadius: outerBorderRadius,
-          borderBottomRightRadius: outerBorderRadius,
-        }}
+        style={[
+          {
+            borderTopRightRadius: outerBorderRadius,
+            borderBottomRightRadius: outerBorderRadius,
+          },
+          cStyle,
+        ]}
         textStyle={{ color: bodyFgColor, fontSize: bodyFontSize }}
         data={title}
       ></Cell>
@@ -285,6 +291,7 @@ const EditorLineTableRow_ver2 = ({
           fontSize: bodyFontSize,
           color: bodyFgColor,
         }}
+        style={cStyle}
         data={lineInfo.talker}
       ></Cell>
       <Cell
@@ -309,9 +316,10 @@ const EditorLineTableRow_ver2 = ({
             fontSize={lineButtonFontSize}
           ></EditorLineButton_ver2>
         }
-        style={{ justifyContent: 'center', alignItems: 'center' }}
+        style={[{ justifyContent: 'center', alignItems: 'center' }, cStyle]}
       ></Cell>
       <Cell
+        style={cStyle}
         data={
           index % 2 === 0 ? (
             <EditorTransferButton_ver2
@@ -352,10 +360,13 @@ const EditorLineTableRow_ver2 = ({
         }
       ></Cell>
       <Cell
-        style={{
-          borderTopRightRadius: outerBorderRadius,
-          borderBottomRightRadius: outerBorderRadius,
-        }}
+        style={[
+          {
+            borderTopRightRadius: outerBorderRadius,
+            borderBottomRightRadius: outerBorderRadius,
+          },
+          cStyle,
+        ]}
         textStyle={{ fontSize: bodyFontSize, color: bodyFgColor }}
         data={
           callInfo && callInfo.camponDstExtensionId
@@ -368,8 +379,8 @@ const EditorLineTableRow_ver2 = ({
 }
 
 export class LineTableEditorWidget extends EditorWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -413,11 +424,11 @@ export class LineTableEditorWidget extends EditorWidget {
     )
     const headerFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getLinetableHeaderFgColor(),
-      '',
+      this.context.fgColor,
     )
     const bodyFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getLinetableBodyFgColor(),
-      '',
+      this.context.fgColor,
     )
     // const bodyActiveRowBgColor = Util.getRgbaCSSStringFromAntdColor( props.linetableBodyActiveRowBgColor, "#B9DFA9" );   //!default
     const backgroundColor = Util.getRgbaCSSStringFromAntdColor(
@@ -469,6 +480,16 @@ export class LineTableEditorWidget extends EditorWidget {
         ? widgetData.getTransferCancelButtonFontSize()
         : 14 // !default
 
+    const hStyle: StyleProp<TextStyle> = {
+      fontSize: headerFontSize,
+      color: headerFgColor,
+      textTransform: 'uppercase',
+      fontWeight: 'bold',
+    }
+    const cStyle: StyleProp<ViewStyle> = {
+      padding: 10,
+    }
+
     return (
       <Table
         style={{
@@ -487,60 +508,39 @@ export class LineTableEditorWidget extends EditorWidget {
             borderBottomWidth: headerRowUnderlineThickness,
             borderStyle: 'solid',
             borderColor: headerRowUnderlineColor,
-            height: 60,
           }}
         >
           <Cell
-            style={{
-              borderTopLeftRadius: outerBorderRadius,
-              borderTopRightRadius: outerBorderRadius,
-            }}
-            textStyle={{
-              fontSize: headerFontSize,
-              color: headerFgColor,
-              textTransform: 'uppercase',
-              fontWeight: 'bold',
-            }}
+            style={[
+              {
+                borderTopLeftRadius: outerBorderRadius,
+                borderTopRightRadius: outerBorderRadius,
+              },
+              cStyle,
+            ]}
+            textStyle={hStyle}
             data={i18n.t('name')}
           ></Cell>
           <Cell
-            textStyle={{
-              fontSize: headerFontSize,
-              color: headerFgColor,
-              textTransform: 'uppercase',
-              fontWeight: 'bold',
-            }}
+            textStyle={hStyle}
+            style={cStyle}
             data={i18n.t('responder')}
           ></Cell>
+          <Cell textStyle={hStyle} style={cStyle} data={i18n.t('line')}></Cell>
           <Cell
-            textStyle={{
-              fontSize: headerFontSize,
-              color: headerFgColor,
-              textTransform: 'uppercase',
-              fontWeight: 'bold',
-            }}
-            data={i18n.t('line')}
-          ></Cell>
-          <Cell
-            textStyle={{
-              fontSize: headerFontSize,
-              color: headerFgColor,
-              textTransform: 'uppercase',
-              fontWeight: 'bold',
-            }}
+            textStyle={hStyle}
+            style={cStyle}
             data={i18n.t('transfer')}
           ></Cell>
           <Cell
-            style={{
-              borderTopRightRadius: outerBorderRadius,
-              borderBottomRightRadius: outerBorderRadius,
-            }}
-            textStyle={{
-              fontSize: headerFontSize,
-              color: headerFgColor,
-              textTransform: 'uppercase',
-              fontWeight: 'bold',
-            }}
+            style={[
+              {
+                borderTopRightRadius: outerBorderRadius,
+                borderBottomRightRadius: outerBorderRadius,
+              },
+              cStyle,
+            ]}
+            textStyle={hStyle}
             data={i18n.t('camponDest')}
           ></Cell>
         </TableWrapper>

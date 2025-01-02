@@ -1,6 +1,6 @@
 import { ActivityIndicator, View } from '@ant-design/react-native'
 import { useEffect, useState } from 'react'
-import { Text } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 
 import { Button } from '../common/Button'
 import { Modal } from '../common/Modal'
@@ -107,10 +107,10 @@ export const OpenLayoutModalForNoScreensView = props => {
       title={i18n.t('selectLayout')}
       onOk={handleOk}
       onCancel={handleCancel}
-      style={{ width: 500, height: 200 }}
+      style={{ width: 500, height: 200, minHeight: 200 }}
       footer={footer}
     >
-      {noteNamesContent}
+      <ScrollView>{noteNamesContent}</ScrollView>
     </Modal>
   )
 }

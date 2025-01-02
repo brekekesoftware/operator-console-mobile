@@ -4,8 +4,8 @@ import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 
 export class TextRuntimeWidget extends RuntimeWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -17,7 +17,7 @@ export class TextRuntimeWidget extends RuntimeWidget {
       : 14
     const textFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getTextFgColor(),
-      '',
+      this.context.fgColor,
     )
     const textBgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getTextBgColor(),
@@ -26,7 +26,7 @@ export class TextRuntimeWidget extends RuntimeWidget {
     const textBorderRadius =
       widgetData.getTextBorderRadius() || widgetData.getTextBorderRadius() === 0
         ? widgetData.getTextBorderRadius()
-        : ''
+        : undefined
 
     return (
       <View

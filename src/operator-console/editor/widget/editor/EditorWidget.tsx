@@ -9,12 +9,21 @@ import {
   CONNECTOR_TOP_MIDDLE,
 } from '../../../lib/rnd/Connector'
 import { Rnd } from '../../../lib/rnd/Rnd'
+import type { ColorPaneContextType } from '../../ColorPaneContext'
+import { ColorPaneContext } from '../../ColorPaneContext'
 
-export class EditorWidget extends React.Component<any, any> {
+export class EditorWidget extends React.Component<
+  any,
+  any,
+  ColorPaneContextType
+> {
   _EditorPaneAsParent
-  constructor(props) {
-    super(props)
+
+  static contextType = ColorPaneContext
+  constructor(props, context) {
+    super(props, context)
     this._EditorPaneAsParent = props['editorPane'] // tabs or noTabs
+    console.log('#Duy Phan console this.context', this.context)
   }
 
   getWidgetData() {

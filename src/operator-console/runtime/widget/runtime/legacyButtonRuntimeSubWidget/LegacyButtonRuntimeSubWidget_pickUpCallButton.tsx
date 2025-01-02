@@ -44,12 +44,9 @@ export class LegacyButtonRuntimeSubWidget_pickUpCallButton extends LegacyButtonR
 
     return (
       <WidgetButton
-        // className={clsx(
-        //   'kbc-button kbc-button-fill-parent',
-        //   isFlash === true && 'kbc-button-danger-flash',
-        // )}
         style={cStyle.s}
         textStyle={cStyle.tStyle}
+        isFlash={isFlash}
         onPress={() => {
           if (!currentCallInfo) {
             return

@@ -18,7 +18,7 @@ import { BaseDividerData } from '../data/BaseDividerData'
 import { i18n } from '../i18n'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
 import { brOcDisplayStates } from '../OperatorConsole'
-import { DividerContext, DividerContextProvider } from './DividerContext'
+import { ColorPaneContextProvider } from './ColorPaneContext'
 import { EditorDivider } from './EditorDivider'
 import { EditorHandlerTap } from './EditorHandlerTab'
 import { EditorPane } from './EditorPane'
@@ -88,6 +88,7 @@ export class EditScreenView extends React.Component<Props, State> {
   }
 
   setScreenBackgroundColor = color => {
+    console.log('#Duy Phan console color', color)
     this._ScreenData.setScreenBackgroundColor(color.hex)
     this.setState({ rerender: true })
   }
@@ -234,6 +235,7 @@ export class EditScreenView extends React.Component<Props, State> {
     const currentEditingPane = this.state.settingsContainerOrDivider
     const tabsData = currentEditingPane?.getEditingPaneData().getTabsData()
     if (tabsData.getTabDataCount() === 1) {
+      console.log('#Duy Phan console warn')
       Notification.warning({ message: i18n.t('youCanNotRemoveLastTab') })
       return
     }
@@ -278,7 +280,7 @@ export class EditScreenView extends React.Component<Props, State> {
                 <Select
                   name='enableTabs'
                   onSelect={item => this._onChangeTabsEnable(item.value)}
-                  value={enableTabs.toString()}
+                  defaultValue={enableTabs.toString()}
                   data={[
                     {
                       title: i18n.t('Disable'),
@@ -417,6 +419,7 @@ export class EditScreenView extends React.Component<Props, State> {
                       color={this._ScreenData.getScreenForegroundColor()}
                       onColorChangeComplete={this.setScreenForegroundColor}
                       isDefault
+                      type='hex'
                     />
                   }
                 >
@@ -447,6 +450,7 @@ export class EditScreenView extends React.Component<Props, State> {
                       color={this._ScreenData.getScreenBackgroundColor()}
                       onColorChangeComplete={this.setScreenBackgroundColor}
                       isDefault
+                      type='hex'
                     />
                   }
                 >
@@ -499,14 +503,17 @@ export class EditScreenView extends React.Component<Props, State> {
               {this._getWidgetTemplatesAreaJsx()}
             </View>
             <View style={{ flex: 1 }}>
-              {/* <DividerContextProvider> */}
-              <EditorRootPane
-                paneData={this._RootPaneData}
-                editScreenViewAsParent={this}
-                foregroundColor={this._ScreenData.getScreenForegroundColor()}
-                backgroundColor={this._ScreenData.getScreenBackgroundColor()}
-              />
-              {/* </DividerContextProvider> */}
+              <ColorPaneContextProvider
+                fg={this._ScreenData.getScreenForegroundColor()}
+                bg={this._ScreenData.getScreenBackgroundColor()}
+              >
+                <EditorRootPane
+                  paneData={this._RootPaneData}
+                  editScreenViewAsParent={this}
+                  foregroundColor={this._ScreenData.getScreenForegroundColor()}
+                  backgroundColor={this._ScreenData.getScreenBackgroundColor()}
+                />
+              </ColorPaneContextProvider>
             </View>
             <View
               style={{

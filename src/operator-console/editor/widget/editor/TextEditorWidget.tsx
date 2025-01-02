@@ -4,8 +4,8 @@ import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 
 export class TextEditorWidget extends EditorWidget {
-  constructor(props) {
-    super(props)
+  constructor(props, context) {
+    super(props, context)
   }
 
   // !overload
@@ -17,7 +17,7 @@ export class TextEditorWidget extends EditorWidget {
       : 14
     const textFgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getTextFgColor(),
-      '',
+      this.context.fgColor,
     )
     const textBgColor = Util.getRgbaCSSStringFromAntdColor(
       widgetData.getTextBgColor(),
@@ -45,7 +45,6 @@ export class TextEditorWidget extends EditorWidget {
             color: textFgColor,
           }}
         >
-          {' '}
           {text}
         </Text>
       </View>

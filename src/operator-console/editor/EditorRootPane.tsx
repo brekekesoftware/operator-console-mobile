@@ -4,7 +4,6 @@ import { Dimensions, View } from 'react-native'
 
 import { BaseDividerData } from '../data/BaseDividerData'
 import { PaneData } from '../data/PaneData'
-import { DividerContext } from './DividerContext'
 import { EditorChildPane } from './EditorChildPane'
 import { EditorPane } from './EditorPane'
 import type { EditScreenView } from './EditScreenView'
@@ -29,8 +28,6 @@ export class EditorRootPane extends EditorPane {
     this.refRight = createRef()
     this.refMain = createRef()
   }
-
-  // static contextType = DividerContext
 
   // !override
   getEditScreenView() {

@@ -157,7 +157,7 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
     const borderRadius =
       widgetData.getBorderRadius() || widgetData.getBorderRadius() === 0
         ? widgetData.getBorderRadius()
-        : ''
+        : undefined
 
     const outsideShadow_horizontalOffset =
       widgetData.getOutsideShadow_horizontalOffset() ||

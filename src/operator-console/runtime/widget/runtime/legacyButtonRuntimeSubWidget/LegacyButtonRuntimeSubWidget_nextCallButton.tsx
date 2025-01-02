@@ -24,10 +24,6 @@ export class LegacyButtonRuntimeSubWidget_nextCallButton extends LegacyButtonRun
     const iconJsx = this._getIconJsx()
     return (
       <WidgetButton
-        // className={clsx(
-        //   'kbc-button kbc-button-fill-parent',
-        //   currentCallIndex < callInfoCount - 1 && 'kbc-button-danger-flash',
-        // )}
         style={cStyle.s}
         textStyle={cStyle.tStyle}
         onPress={
@@ -35,6 +31,7 @@ export class LegacyButtonRuntimeSubWidget_nextCallButton extends LegacyButtonRun
             ? undefined
             : oc.switchCallDown
         }
+        isFlash={currentCallIndex < callInfoCount - 1}
       >
         {iconJsx}
       </WidgetButton>
