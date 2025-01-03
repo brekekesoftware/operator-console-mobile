@@ -51,7 +51,7 @@ export const OpenLayoutModalForNoScreensView = props => {
             const sNoteShortname = (
               <View key={i}>
                 <Text
-                  style={{ color: '#1677ff' }}
+                  style={{ color: '#1677ff', fontSize: 14 }}
                   onPress={() => props.selectOCNoteByShortname(noteShortname)}
                 >
                   {noteShortname}
@@ -107,10 +107,12 @@ export const OpenLayoutModalForNoScreensView = props => {
       title={i18n.t('selectLayout')}
       onOk={handleOk}
       onCancel={handleCancel}
-      style={{ width: 500, height: 200, minHeight: 200 }}
+      style={{ width: 500, height: 300, minHeight: 300 }}
       footer={footer}
     >
-      <ScrollView>{noteNamesContent}</ScrollView>
+      <ScrollView contentContainerStyle={{ gap: 10 }}>
+        {noteNamesContent}
+      </ScrollView>
     </Modal>
   )
 }

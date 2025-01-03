@@ -38,7 +38,7 @@ export class TextEditorWidget extends EditorWidget {
         }}
       >
         <Text
-          numberOfLines={1}
+          // numberOfLines={1}
           style={{
             textAlign: 'center',
             fontSize: textFontSize,

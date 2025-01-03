@@ -32,10 +32,10 @@ export const OpenLayoutModalForDropDownMenu = props => {
       title={i18n.t('selectLayout')}
       onOk={handleOk}
       onCancel={handleCancel}
-      style={{ width: 500, height: 200, minHeight: 200 }}
+      style={{ width: 500, height: 300, minHeight: 300 }}
       footer={footer}
     >
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ gap: 10 }}>
         <View>{noteNamesContent}</View>
       </ScrollView>
     </Modal>
@@ -154,6 +154,7 @@ export const refreshNoteNamesContent = (
                 onPress={() =>
                   selectOCNoteByShortname(operatorConsole, noteShortname)
                 }
+                style={{ fontSize: 14 }}
               >
                 {noteShortname}
               </Text>

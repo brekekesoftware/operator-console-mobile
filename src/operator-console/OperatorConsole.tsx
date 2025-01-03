@@ -9,6 +9,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, Text, View } from 'react-native'
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
 
 import logo from './logo.png'
 
@@ -1747,6 +1748,7 @@ export class BrekekeOperatorConsole extends React.Component<
     // )
 
     return (
+      // <AutocompleteDropdownContextProvider headerOffset={200}>
       <Provider>
         {!!this.state.isInitialized ? (
           <View
@@ -2091,6 +2093,7 @@ export class BrekekeOperatorConsole extends React.Component<
 
         <View id='brOCPhone'></View>
       </Provider>
+      // </AutocompleteDropdownContextProvider>
     )
   }
 

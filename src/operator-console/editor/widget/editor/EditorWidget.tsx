@@ -179,7 +179,7 @@ export class EditorWidget extends React.Component<
           h: Dimensions.get('screen').height,
         }}
         connectors={[
-          CONNECTOR_CENTER,
+          // CONNECTOR_CENTER,
           CONNECTOR_BOTTOM_MIDDLE,
           CONNECTOR_TOP_MIDDLE,
           CONNECTOR_MIDDLE_LEFT,

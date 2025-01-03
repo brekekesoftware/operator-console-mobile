@@ -8,7 +8,7 @@ import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 
-const CELL_MARGIN = 20
+const CELL_MARGIN = 36
 const CURRENT_CALL_INDEX = 1
 export class CallTableEditorWidget extends EditorWidget {
   _CallInfoArray
@@ -55,7 +55,7 @@ export class CallTableEditorWidget extends EditorWidget {
     // const callTableTheadRowHeight = 44;
     // const callTableTbodyRowHeight = 44;
     const callTableTheadRowHeight = callTableThFontSize + CELL_MARGIN
-    const callTableTbodyRowHeight = callTableTdFontSize + CELL_MARGIN * 1.5
+    const callTableTbodyRowHeight = callTableTdFontSize + CELL_MARGIN
 
     let idKey = 0
 

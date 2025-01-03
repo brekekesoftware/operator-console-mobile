@@ -195,8 +195,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
           width: '100%',
           height: '100%',
           position: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'center',
           zIndex: 100000000,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          // backgroundColor: 'rgba(0, 0, 0, 0.5)',
         }}
       >
         <View>
@@ -502,7 +504,7 @@ const NewLayoutDialog = ({ operatorConsole }) => {
         ]}
       >
         <View>
-          <Text> Brekeke Operator Console, {i18n.t('Version')}</Text>{' '}
+          <Text>Brekeke Operator Console, {i18n.t('Version')}</Text>
           <Text>{BrekekeOperatorConsole.BREKEKE_OPERATOR_CONSOLE_VERSION}</Text>
         </View>
       </Modal>

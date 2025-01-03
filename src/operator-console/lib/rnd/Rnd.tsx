@@ -164,8 +164,8 @@ export class Rnd extends Component<Props, State> {
   }
 
   onPress = event => {
-    const { onPress } = this.props
-    onPress?.(event)
+    console.log('#Duy Phan console onPress')
+    this.props.onPress?.(event)
     this.setState({
       isShowConnector: !this.state.isShowConnector,
     })
@@ -591,6 +591,7 @@ export class Rnd extends Component<Props, State> {
     const { children, isDisabled, zIndex = DEFAULT_Z_INDEX, style } = this.props
 
     const { x, y, w, h, isSelected, isShowConnector } = this.state
+    console.log('#Duy Phan console isShowConnector', isShowConnector)
 
     return (
       <View
@@ -607,18 +608,26 @@ export class Rnd extends Component<Props, State> {
           },
         ]}
       >
-        <TouchableWithoutFeedback onPress={this.onPress}>
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              opacity: isSelected ? 0.7 : 1,
-            }}
-          >
-            {children}
-          </View>
-        </TouchableWithoutFeedback>
-
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            opacity: isSelected ? 0.7 : 1,
+          }}
+        >
+          {children}
+        </View>
+        <Connector
+          key={CONNECTOR_CENTER}
+          type={CONNECTOR_CENTER}
+          size={CONNECTOR_SIZE}
+          x={this.connectorsMap[CONNECTOR_CENTER].calculateX(w)}
+          y={this.connectorsMap[CONNECTOR_CENTER].calculateY(h)}
+          onStart={this.connectorsMap[CONNECTOR_CENTER].onStart}
+          onMove={this.connectorsMap[CONNECTOR_CENTER].onMove}
+          onEnd={this.connectorsMap[CONNECTOR_CENTER].onEnd}
+          onPress={this.onPress}
+        />
         {isDisabled || !isShowConnector ? null : this.renderConnectors()}
       </View>
     )

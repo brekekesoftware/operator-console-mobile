@@ -8,7 +8,7 @@ import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
 
-const CELL_MARGIN = 20
+const CELL_MARGIN = 36
 export class CallTableRuntimeWidget extends RuntimeWidget {
   constructor(props, context) {
     super(props, context)
@@ -164,62 +164,60 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
           flex: 1,
         }}
       >
-        <View>
-          <TableWrapper
-            style={{
-              borderBottomWidth: headerRowUnderlineThickness,
-              borderStyle: 'solid',
-              borderColor: headerRowUnderlineColor,
-              height: callTableTheadRowHeight,
-            }}
-          >
-            {CallTableColumns.map((item, i) => {
-              const key = item.key
-              const title = item.title
+        <TableWrapper
+          style={{
+            borderBottomWidth: headerRowUnderlineThickness,
+            borderStyle: 'solid',
+            borderColor: headerRowUnderlineColor,
+            height: callTableTheadRowHeight,
+          }}
+        >
+          {CallTableColumns.map((item, i) => {
+            const key = item.key
+            const title = item.title
 
-              let borderRadiusTH
-              const isFirstTH = i === 0
-              if (isFirstTH === true) {
-                borderRadiusTH = outerBorderRadius
-              } else {
-                borderRadiusTH = 0 // "0"
-              }
+            let borderRadiusTH
+            const isFirstTH = i === 0
+            if (isFirstTH === true) {
+              borderRadiusTH = outerBorderRadius
+            } else {
+              borderRadiusTH = 0 // "0"
+            }
 
-              return (
-                <Cell
-                  key={key}
-                  style={[
-                    {
-                      paddingTop: 0,
-                      paddingBottom: 0,
-                      borderTopRightRadius: borderRadiusTH,
-                      borderTopLeftRadius: borderRadiusTH,
-                    },
-                    cStyle,
-                  ]}
-                  data={title}
-                  textStyle={hStyle}
-                ></Cell>
-              )
-            })}
-            <Cell
-              style={[
-                {
-                  // width:activeButtonCellWidth,
-                  // height: activeButtonCellHeight,
-                  // paddingTop: 0,
-                  // paddingBottom: 0,
-                  borderTopRightRadius: outerBorderRadius,
-                  borderBottomRightRadius: outerBorderRadius,
-                },
-                cStyle,
-              ]}
-              data={i18n.t('activeButton')}
-              textStyle={hStyle}
-            ></Cell>
-          </TableWrapper>
-        </View>
-        <View>
+            return (
+              <Cell
+                key={key}
+                style={[
+                  {
+                    // paddingTop: 0,
+                    // paddingBottom: 0,
+                    borderTopRightRadius: borderRadiusTH,
+                    borderTopLeftRadius: borderRadiusTH,
+                  },
+                  cStyle,
+                ]}
+                data={title}
+                textStyle={hStyle}
+              ></Cell>
+            )
+          })}
+          <Cell
+            style={[
+              {
+                // width:activeButtonCellWidth,
+                // height: activeButtonCellHeight,
+                // paddingTop: 0,
+                // paddingBottom: 0,
+                borderTopRightRadius: outerBorderRadius,
+                borderBottomRightRadius: outerBorderRadius,
+              },
+              cStyle,
+            ]}
+            data={i18n.t('activeButton')}
+            textStyle={hStyle}
+          ></Cell>
+        </TableWrapper>
+        <View style={{ flex: 1 }}>
           {callInfoArray.map((callInfo, i) => {
             let tdActive
             if (i === currentCallIndex) {
@@ -316,7 +314,6 @@ export class CallTableRuntimeWidget extends RuntimeWidget {
               </TableWrapper>
             )
           })}
-          {/* <TableWrapper colSpan={cellCount}></TableWrapper> */}
         </View>
       </Table>
     )

@@ -147,8 +147,8 @@ export class NoteEditorWidgetSettings extends EditorWidgetSettings {
         <AutoComplete
           value={noteName}
           options={this.state.nameOptions}
-          onChange={v => this._onChangeNoteName(v)}
-          style={{ width: '100%' }}
+          onChangeText={v => this._onChangeNoteName(v)}
+          // style={{ width: '100%' }}
         />
         <Text>{i18n.t('Text_size')}</Text>
         <InputNumber

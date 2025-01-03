@@ -177,7 +177,15 @@ export class NoteEditorWidget extends EditorWidget {
         : ''
 
     return (
-      <LinearGradient colors={['#F9EFAF', '#F7E98D']}>
+      <LinearGradient
+        colors={['#F9EFAF', '#F7E98D']}
+        style={{
+          borderRadius,
+          backgroundColor: background,
+          width: '100%',
+          height: '100%',
+        }}
+      >
         <View
           style={{
             borderRadius,
@@ -211,6 +219,8 @@ export class NoteEditorWidget extends EditorWidget {
               onChange={this._onContentChanged}
               readOnly={this._readonly}
               maxLength={10000000}
+              multiline
+              autoSize={{ maxRows: 30, minRows: 2 }}
               // style={{
               //   fontSize: noteBodyFontSize,
               //   color: noteTextForegroundColor,

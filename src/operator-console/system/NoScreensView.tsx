@@ -262,6 +262,7 @@ export const NoScreensView = props => {
 
   const selectOCNoteByShortname = shortname => {
     const noteName = BrekekeOperatorConsole.getOCNoteName(shortname)
+    setOpenLayoutOpen(false)
 
     const getNoteByPalRestApiOptions = {
       methodName: 'getNote',
@@ -458,6 +459,23 @@ export const NoScreensView = props => {
       >
         <NewLayoutForm newLayoutUseForm={newLayoutUseForm} />
       </Modal>
+
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'absolute',
+          justifyContent: 'center',
+          alignItems: 'center',
+          top: 0,
+          zIndex: 999999,
+          display: displayLoadingStyle,
+        }}
+      >
+        <View>
+          <ActivityIndicator />
+        </View>
+      </View>
       <Modal
         open={open}
         title={layoutContents.newOrOpenLayoutTitle}
@@ -471,20 +489,6 @@ export const NoScreensView = props => {
       >
         {layoutContents.newOrOpenLayoutText}
       </Modal>
-      <View
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          zIndex: 9999999999,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: displayLoadingStyle,
-        }}
-      >
-        <View>
-          <ActivityIndicator />
-        </View>
-      </View>
     </>
   )
 }

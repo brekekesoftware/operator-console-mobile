@@ -13,6 +13,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import SplashScreen from 'react-native-splash-screen'
 
@@ -290,39 +291,40 @@ export const App = observer(() => {
   const cp = getAuthStore().listCustomPage[0]
 
   return (
-    <View style={[StyleSheet.absoluteFill, css.App]} {...getWebRootIdProps()}>
-      {chatStore.chatNotificationSoundRunning && <AudioPlayer />}
-      <RnStatusBar />
-      {!!signedInId && !!connMessage && (
-        <AnimatedSize
-          style={[
-            css.App_ConnectionStatus,
-            isFailure && css.App_ConnectionStatus__failure,
-          ]}
-        >
-          <RnTouchableOpacity
-            style={css.App_ConnectionStatusInner}
-            onPress={
-              isFailure
-                ? resetFailureStateIncludeUcLoginFromAnotherPlace
-                : undefined
-            }
+    <AutocompleteDropdownContextProvider>
+      <View style={[StyleSheet.absoluteFill, css.App]} {...getWebRootIdProps()}>
+        {chatStore.chatNotificationSoundRunning && <AudioPlayer />}
+        <RnStatusBar />
+        {!!signedInId && !!connMessage && (
+          <AnimatedSize
+            style={[
+              css.App_ConnectionStatus,
+              isFailure && css.App_ConnectionStatus__failure,
+            ]}
           >
-            <RnText small white>
-              {connMessage}
-            </RnText>
-          </RnTouchableOpacity>
-        </AnimatedSize>
-      )}
+            <RnTouchableOpacity
+              style={css.App_ConnectionStatusInner}
+              onPress={
+                isFailure
+                  ? resetFailureStateIncludeUcLoginFromAnotherPlace
+                  : undefined
+              }
+            >
+              <RnText small white>
+                {connMessage}
+              </RnText>
+            </RnTouchableOpacity>
+          </AnimatedSize>
+        )}
 
-      {/* <CallNotify />
+        {/* <CallNotify />
       <CallBar />
       <CallVideos />
       <CallVoices />
       <ChatGroupInvite />
       <UnreadChatNoti /> */}
 
-      {/* <View style={css.App_Inner}>
+        {/* <View style={css.App_Inner}>
         <RnStackerRoot />
         <RenderAllCalls />
         {cp && <PageCustomPageView id={cp.id} />}
@@ -336,17 +338,18 @@ export const App = observer(() => {
           />
         )}
       </View> */}
-      {Platform.OS === 'ios' && <KeyboardSpacer />}
+        {Platform.OS === 'ios' && <KeyboardSpacer />}
 
-      {!accountStore.appInitDone && (
-        <View style={css.LoadingFullscreen}>
-          <ActivityIndicator size='large' color='white' />
+        {!accountStore.appInitDone && (
+          <View style={css.LoadingFullscreen}>
+            <ActivityIndicator size='large' color='white' />
+          </View>
+        )}
+        <View style={css.App_Inner}>
+          <BrekekeOperatorConsole />
         </View>
-      )}
-      <View style={css.App_Inner}>
-        <BrekekeOperatorConsole />
       </View>
-    </View>
+    </AutocompleteDropdownContextProvider>
   )
 })
 

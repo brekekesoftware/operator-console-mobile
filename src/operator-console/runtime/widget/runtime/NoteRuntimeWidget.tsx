@@ -188,11 +188,16 @@ export class NoteRuntimeWidget extends RuntimeWidget {
               ]
             : ['#F9EFAF', '#F7E98D']
         }
+        style={{
+          borderRadius,
+          flexDirection: 'column',
+          width: '100%',
+          height: '100%',
+        }}
       >
         <View
           style={{
             borderRadius,
-            // backgroundColor: background,
             overflow: 'hidden',
             flexDirection: 'column',
             width: '100%',
@@ -209,7 +214,7 @@ export class NoteRuntimeWidget extends RuntimeWidget {
               style={{
                 fontSize: noteTitleFontSize,
                 color: noteNameFgColor,
-                lineHeight: 1.5,
+                // lineHeight: 1.5,
               }}
             >
               {noteName}
@@ -232,6 +237,8 @@ export class NoteRuntimeWidget extends RuntimeWidget {
                 oc.subtractDisablePasteToDialingCounter()
               }}
               readOnly={this._readonly}
+              multiline
+              autoSize={{ maxRows: 30, minRows: 2 }}
               maxLength={10000000}
               // style={{
               //   fontSize: noteBodyFontSize,

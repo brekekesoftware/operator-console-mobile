@@ -1,6 +1,11 @@
 import { Component } from 'react'
-import type { PanResponderInstance } from 'react-native'
-import { PanResponder, View } from 'react-native'
+import type { GestureResponderEvent, PanResponderInstance } from 'react-native'
+import {
+  PanResponder,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 
 import { IconDrag, IconResizeHorizontal, IconResizeVertical } from '../../icons'
 
@@ -22,6 +27,7 @@ type Props = {
   y: number
   size: number
   type: string
+  onPress?: (event: GestureResponderEvent) => void
 }
 
 export class Connector extends Component<Props> {
@@ -42,7 +48,7 @@ export class Connector extends Component<Props> {
     this._panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (event, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (event, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (event, gestureState) => false,
       onMoveShouldSetPanResponder: (event, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
@@ -81,7 +87,7 @@ export class Connector extends Component<Props> {
   }
 
   render() {
-    const { x, y, size, type } = this.props
+    const { x, y, size, type, onPress } = this.props
 
     let icon: any = null
 
@@ -101,21 +107,40 @@ export class Connector extends Component<Props> {
         icon = null
     }
 
+    const isCenter = type === CONNECTOR_CENTER
+    console.log('#Duy Phan console isCenter', isCenter)
     return (
       <View
-        style={{
-          position: 'absolute',
-          left: x,
-          top: y,
-          width: size,
-          height: size,
-          // borderWidth: 2,
-          // borderColor: 'black',
-          // backgroundColor: 'white'
-        }}
+        style={
+          isCenter
+            ? {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                // margin: 10,
+                top: 0,
+                bottom: 0,
+              }
+            : {
+                position: 'absolute',
+                left: x,
+                top: y,
+                width: size,
+                height: size,
+              }
+        }
         {...this._panResponder.panHandlers}
       >
-        {icon}
+        {isCenter ? (
+          <TouchableOpacity
+            style={{ width: '100%', height: '100%' }}
+            onPress={onPress}
+          >
+            <View style={{ flex: 1 }}></View>
+          </TouchableOpacity>
+        ) : (
+          icon
+        )}
       </View>
     )
   }

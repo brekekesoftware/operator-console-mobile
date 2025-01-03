@@ -26,10 +26,6 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
     runtimePanelAsCaller.setRuntimePanezSelectedTabKeyAsString(tabKey)
   }
 
-  componentDidMount(): void {
-    Notification.success({ message: 'asdasdasd' })
-  }
-
   render() {
     const screenData_ver2 = this._OperatorConsoleAsParent.getScreenData_ver2()
     const rootPaneData = screenData_ver2

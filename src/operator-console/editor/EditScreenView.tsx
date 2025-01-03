@@ -1,6 +1,7 @@
 import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, Text, View } from 'react-native'
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import logo from '../logo.png'
@@ -526,7 +527,9 @@ export class EditScreenView extends React.Component<Props, State> {
                 // backgroundColor: 'white'
               }}
             >
+              {/* <AutocompleteDropdownContextProvider> */}
               {settingsAreaJsx}
+              {/* </AutocompleteDropdownContextProvider> */}
             </View>
           </View>
         </View>

@@ -225,9 +225,7 @@ export class Cell extends Component<CeProps> {
       this.props
     const textDom = children ? (
       typeof children === 'string' ? (
-        <Text style={[textStyle, { textAlign: 'center' }]} numberOfLines={2}>
-          {children}
-        </Text>
+        <Text style={[textStyle, { textAlign: 'center' }]}>{children}</Text>
       ) : (
         children
       )

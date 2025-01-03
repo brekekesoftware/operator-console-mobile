@@ -262,7 +262,7 @@ class LoginC extends React.Component<Props, State> {
             <View
               style={{
                 borderLeftWidth: 2,
-                borderColor: 'rgb(112, 180, 197)',
+                borderLeftColor: 'rgb(112, 180, 197)',
                 borderStyle: 'solid',
                 marginTop: 2,
                 marginBottom: 18,
@@ -271,13 +271,17 @@ class LoginC extends React.Component<Props, State> {
                 paddingRight: 26,
                 paddingBottom: 15,
                 paddingLeft: 32,
-                // elevation: 0.5
+                borderTopWidth: 1,
+                borderRightWidth: 1,
+                borderBottomWidth: 1,
+                borderTopColor: '#d9d9d9',
+                borderRightColor: '#d9d9d9',
+                borderBottomColor: '#d9d9d9',
               }}
             >
               <Text
                 style={{
                   fontSize: 13,
-                  // lineHeight: 1.62,
                   letterSpacing: 0.3,
                   color: '#000',
                 }}

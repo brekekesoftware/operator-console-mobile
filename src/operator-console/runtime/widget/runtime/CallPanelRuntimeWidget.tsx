@@ -262,13 +262,13 @@ const styles = StyleSheet.create({
   },
   party: {
     fontSize: 19,
-    lineHeight: 19,
+    // lineHeight: 19,
   },
   item: {
     height: 19,
   },
   small: {
     fontSize: 14,
-    lineHeight: 14,
+    // lineHeight: 14,
   },
 })
