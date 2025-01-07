@@ -1332,6 +1332,7 @@ export class BrekekeOperatorConsole extends React.Component<
       }
       const pt = newData.phoneTerminal
       let phoneClient
+      console.log('#Duy Phan console pt', pt)
       if (pt === 'phoneTerminal_pal') {
         phoneClient = new PalPhoneClient(options)
       } else {
@@ -1340,6 +1341,7 @@ export class BrekekeOperatorConsole extends React.Component<
       // phoneClient = new PalPhoneClient(options)
 
       this._getLastLoginAccount().then(initOptions => {
+        console.log('#Duy Phan console initOptions', initOptions)
         const newOptions: OptionsInitSystem = { ...initOptions }
         newOptions.onInitSuccessFunction = function (oExtensions) {
           console.log('extensions', oExtensions)
@@ -1729,26 +1731,7 @@ export class BrekekeOperatorConsole extends React.Component<
       '#Duy Phan console this.state.isInitialized',
       this.state.displayState,
     )
-
-    // return (
-    //   <View
-    //     style={{
-    //       justifyContent: 'center',
-    //       alignItems: 'center',
-    //       width: '100%',
-    //       height: '100%',
-    //       backgroundColor: '#fafafa',
-    //     }}
-    //   >
-    //     <Login
-    //       operatorConsoleAsParent={this}
-    //       initialValues={this._getLastLoginAccount()}
-    //     />
-    //   </View>
-    // )
-
     return (
-      // <AutocompleteDropdownContextProvider headerOffset={200}>
       <Provider>
         {!!this.state.isInitialized ? (
           <View
@@ -3828,94 +3811,53 @@ export class BrekekeOperatorConsole extends React.Component<
       return false
     }
 
-    const layoutShortname = this._getLastLayoutShortname()
-    if (layoutShortname) {
-      const layoutFullname = this._getLayoutFullname(layoutShortname)
-      const getNoteOptions = {
-        tenant: this.state.loginUser.pbxTenant,
-        name: layoutFullname,
+    this._getLastLayoutShortname().then(layoutShortname => {
+      if (layoutShortname) {
+        const layoutFullname = this._getLayoutFullname(layoutShortname)
+        const getNoteOptions = {
+          tenant: this.state.loginUser.pbxTenant,
+          name: layoutFullname,
+        }
+        const this_ = this
+        this._loggedinPal.getNote(
+          getNoteOptions,
+          (res, obj) => {
+            const sNote = res.note
+            const oNote = JSON.parse(sNote)
+            this_.setOCNote(
+              layoutShortname,
+              oNote,
+              () => {
+                this_.setState(
+                  {
+                    _downedLayoutAndSystemSettings: true,
+                    displayState: brOcDisplayStates.showScreen_ver2,
+                  },
+                  () => {
+                    downLayoutAndSystemSettingsSuccessFunction()
+                  },
+                )
+              },
+              e => {
+                this_._setOCNoteFailAtDownLayoutAndSystemSettings(
+                  e,
+                  downLayoutAndSystemSettingsFailFunction,
+                )
+              },
+            )
+          },
+          err => {
+            console.warn('Failed to getNote. error=', err)
+            this_._removeLastLayoutShortname() // !reset
+            this_.setState({ displayState: brOcDisplayStates.noScreens })
+          },
+        )
+      } else {
+        this.setState({ displayState: brOcDisplayStates.noScreens })
       }
-      const this_ = this
-      this._loggedinPal.getNote(
-        getNoteOptions,
-        (res, obj) => {
-          const sNote = res.note
-          const oNote = JSON.parse(sNote)
-          // const oScreen_ver2 = oNote["screen_ver2"];
-          // let screenData_ver2;
-          // if( !oScreen_ver2 ){
-          //     screenData_ver2 = new ScreenData();
-          // }
-          // else{
-          //     screenData_ver2 = ScreenData.createScreenDataFromObject( oScreen_ver2 );
-          // }
-          this_.setOCNote(
-            layoutShortname,
-            oNote,
-            () => {
-              this_.setState(
-                {
-                  _downedLayoutAndSystemSettings: true,
-                  displayState: brOcDisplayStates.showScreen_ver2,
-                },
-                () => {
-                  downLayoutAndSystemSettingsSuccessFunction()
-                },
-              )
+    })
 
-              // this_.setState( { _downedLayoutAndSystemSettings:true, screenData_ver2: screenData_ver2, displayState:brOcDisplayStates.showScreen_ver2  }, ()=> {
-              // this_._CallHistory2.loadAsync().then( (v) => {
-              //         this_.setState({
-              //             _downedLayoutAndSystemSettings: true,
-              //             displayState: brOcDisplayStates.showScreen_ver2
-              //         }, () => {
-              //             downLayoutAndSystemSettingsSuccessFunction();
-              //         });
-              //     }
-              // );
-            },
-            e => {
-              this_._setOCNoteFailAtDownLayoutAndSystemSettings(
-                e,
-                downLayoutAndSystemSettingsFailFunction,
-              )
-            },
-          )
-        },
-        err => {
-          console.warn('Failed to getNote. error=', err)
-          // this.setState({ error: true })
-          // this.setState( { error:true, _downedLayoutAndSystemSettings:true, displayState:bcOcDisplayStates.noScreens } );   //!need?
-          this_._removeLastLayoutShortname() // !reset
-          this_.setState({ displayState: brOcDisplayStates.noScreens })
-          // throw err;
-        },
-      )
-
-      // const this_ = this;
-      // this.getNote( layoutFullname )
-      //     .then(( noteInfo ) => {
-      //         const sNote = noteInfo.note;
-      //         const oNote = JSON.parse( sNote );
-      //         this.setOCNote( layoutShortname, oNote, function(){
-      //                 this_.setState( { _downedLayoutAndSystemSettings:true }, ()=> downLayoutAndSystemSettingsSuccessFunction() );
-      //         },
-      //             function(eventArg){
-      //                 this_._setOCNoteFailAtDownLayoutAndSystemSettings( eventArg, downLayoutAndSystemSettingsFailFunction  );
-      //             });
-      //     })
-      //     // .catch((err) => {
-      //     //     console.warn("Failed to getNote." , err );
-      //     //     //this.setState({ error: true })
-      //     //     //this.setState( { error:true, _downedLayoutAndSystemSettings:true, displayState:bcOcDisplayStates.noScreens } );   //!need?
-      //     //     this._removeLastLayoutShortname();  //!reset
-      //     //     this.setState( {  displayState:brOcDisplayStates.noScreens } );
-      //     //     //throw err;
-      //     // });
-    } else {
-      this.setState({ displayState: brOcDisplayStates.noScreens })
-      //            this.setState( { _downedLayoutAndSystemSettings:true, displayState:brOcDisplayStates.noScreens } );
-    }
+    return false
   }
 
   getDefaultSystemSettingsData() {

@@ -70,7 +70,7 @@ const _onDrop = function ({
   switch (widgetTypeId) {
     case WidgetData.WIDGET_TYPE_IDS.callTable:
       widgetWidth = 640
-      widgetHeight = 128
+      widgetHeight = 160
       break
     case WidgetData.WIDGET_TYPE_IDS.extensionTable:
       widgetWidth = 640
@@ -141,7 +141,7 @@ const EditorTabChildren = ({
 
   return (
     <View
-      style={[{ width: '100%', height: '100%' }]}
+      style={[{ width: '100%', height: '100%', flex: 1 }]}
       onLayout={e => (refLayout.current = e.nativeEvent.layout)}
     >
       <TouchableWithoutFeedback>
@@ -179,6 +179,7 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
   const tabsData = props['tabsData']
 
   const refLayout = useRef<View | null>(null)
+  const refTabs = useRef<Tabs | null>(null)
 
   // css["position"] = "relative";
 
@@ -252,6 +253,14 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
 
   const paneId = props['data-br-container-id']
   const css = props['css']
+  console.log('#Duy Phan console sssss', css)
+
+  useEffect(() => {
+    refLayout.current?.measure((x, y, w, h, fx, fy) => {
+      refTabs.current?.setState({ containerWidth: w, containerHeight: h })
+    })
+  }, [css])
+
   const jsx = (
     <View
       style={[{ overflow: 'hidden' }, props.style, css]}
@@ -263,6 +272,7 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
     >
       <Tabs
         data-br-container-id={paneId}
+        ref={refTabs}
         // tabBarTextStyle={css}
         // onMouseDown={ev => {
         //   ev.stopPropagation()
@@ -270,7 +280,6 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         //   editScreenView.setCurrentEditorPaneToState(editorPaneAsParent)
         // }}
         // className={className}
-        style={{ flex: 1 }}
         tabs={tabItems}
         renderTabBar={tabBarProps => (
           // <DragList<TabData>
@@ -344,6 +353,7 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
             </DraggableStack>
           </DndProvider>
         )}
+        destroyInactiveTab
       >
         {tabItems.map(tab => (
           <View style={{ flex: 1 }} key={tab.key}>

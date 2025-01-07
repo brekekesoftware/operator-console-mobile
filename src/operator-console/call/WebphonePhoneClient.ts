@@ -81,7 +81,7 @@ export class WebphonePhoneClient extends APhoneClient {
 
     const args = {
       autoLogin: true,
-      clearExistingAccounts: true,
+      clearExistingAccount: true,
       palEvents: [
         'notify_serverstatus',
         'onClose',

@@ -248,6 +248,8 @@ export class Cell extends Component<CeProps> {
             borderRightWidth,
             borderColor,
             padding: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
           },
           styles.cell,
           {

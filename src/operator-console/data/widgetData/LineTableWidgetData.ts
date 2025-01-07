@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash'
+
 import { LineTableWidgetLineData } from './LineTableWidgetLineData'
 import { WidgetData } from './WidgetData'
 
@@ -49,7 +51,7 @@ export class LineTableWidgetData extends WidgetData {
     this._LineDataArray = new Array(lineCount)
     const lineDatasOption = options['lineDataArray']
     for (let i = 0; i < lineCount; i++) {
-      const lineDataOptions = structuredClone(lineDatasOption[i])
+      const lineDataOptions = cloneDeep(lineDatasOption[i])
       lineDataOptions['lineTableWidgetDataAsParent'] = this
       const lineData = new LineTableWidgetLineData(lineDataOptions)
       this._LineDataArray[i] = lineData

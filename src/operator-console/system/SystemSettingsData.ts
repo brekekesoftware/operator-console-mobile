@@ -70,6 +70,8 @@ export class SystemSettingsData {
     this._Data.quickBusyClickToCall = appData.quickBusyClickToCall
     this._Data.ucUrl = appData.ucUrl
     this._Data.ucChatAgentComponentEnabled = appData.ucChatAgentComponentEnabled
+      ? '1'
+      : '0'
     this._Data.phoneTerminal = appData.phoneTerminal
     this._Data.extensionScript = appData.extensionScript
     this._camponTimeoutMillis = appData.camponTimeoutSeconds * 1000

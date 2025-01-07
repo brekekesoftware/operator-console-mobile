@@ -295,7 +295,7 @@ export const App = observer(() => {
       <View style={[StyleSheet.absoluteFill, css.App]} {...getWebRootIdProps()}>
         {chatStore.chatNotificationSoundRunning && <AudioPlayer />}
         <RnStatusBar />
-        {!!signedInId && !!connMessage && (
+        {/* {!!signedInId && !!connMessage && (
           <AnimatedSize
             style={[
               css.App_ConnectionStatus,
@@ -315,10 +315,10 @@ export const App = observer(() => {
               </RnText>
             </RnTouchableOpacity>
           </AnimatedSize>
-        )}
+        )} */}
 
-        {/* <CallNotify />
-      <CallBar />
+        <CallNotify />
+        {/* <CallBar />
       <CallVideos />
       <CallVoices />
       <ChatGroupInvite />

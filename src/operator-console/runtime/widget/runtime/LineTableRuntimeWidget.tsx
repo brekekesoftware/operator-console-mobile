@@ -34,7 +34,7 @@ const LineButton = ({
     <WidgetButton
       style={{
         padding: 1,
-        marginBottom: 12,
+        // marginBottom: 12,
         backgroundColor,
         borderRadius,
         width,
@@ -85,7 +85,7 @@ const TransferCancelButton = ({
     transferCancelButtonBgColor,
   )
     ? Util.getRgbaCSSStringFromAntdColor(transferCancelButtonBgColor)
-    : ''
+    : 'white'
   const transferCancelButtonBorder =
     Util.isNumeric(transferCancelButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferCancelButtonOuterBorderColor)
@@ -94,7 +94,7 @@ const TransferCancelButton = ({
     transferCancelButtonOuterBorderRadius,
   )
     ? transferCancelButtonOuterBorderRadius
-    : 0
+    : 8
 
   return (
     <Popconfirm
@@ -108,7 +108,7 @@ const TransferCancelButton = ({
       <WidgetButton
         style={{
           padding: 1,
-          marginBottom: 12,
+          // marginBottom: 12,
           backgroundColor: transferCancelButtonBackgroundColor,
           borderRadius: transferCancelButtonBorderRadius,
           width: transferCancelButtonWidth,
@@ -343,7 +343,7 @@ const TransferButton = ({
     transferButtonBgColor,
   )
     ? Util.getRgbaCSSStringFromAntdColor(transferButtonBgColor)
-    : ''
+    : 'white'
   const transferButtonBorder =
     Util.isNumeric(transferButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferButtonOuterBorderColor)
@@ -352,7 +352,7 @@ const TransferButton = ({
     transferButtonOuterBorderRadius,
   )
     ? transferButtonOuterBorderRadius
-    : 0
+    : 8
 
   return (
     <>
@@ -362,9 +362,10 @@ const TransferButton = ({
         open={open}
       >
         <WidgetButton
+          disabled
           style={{
             padding: 1,
-            marginBottom: 12,
+            // marginBottom: 12,
             backgroundColor: transferButtonBackgroundColor,
             borderRadius: transferButtonBorderRadius,
             width: transferButtonWidth,
@@ -511,7 +512,7 @@ const LineTableRow = ({
     : ''
   const lineButtonBackgroundColor = Util.isAntdRgbaProperty(lineButtonBgColor)
     ? Util.getRgbaCSSStringFromAntdColor(lineButtonBgColor)
-    : ''
+    : 'white'
   const lineButtonBorder =
     Util.isNumeric(lineButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(lineButtonOuterBorderColor)
@@ -554,6 +555,7 @@ const LineTableRow = ({
         data={lineInfo.talker}
       ></Cell>
       <Cell
+        style={{ alignItems: 'center', justifyContent: 'center' }}
         data={
           <LineButton
             line={lineInfo.line}

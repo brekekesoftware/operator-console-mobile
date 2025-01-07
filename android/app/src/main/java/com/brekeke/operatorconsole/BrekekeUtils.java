@@ -28,6 +28,8 @@ import android.os.Vibrator;
 import android.provider.CallLog;
 import android.provider.Settings;
 import android.telecom.TelecomManager;
+import android.util.Log;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.app.NotificationManagerCompat;
 import com.facebook.react.bridge.Arguments;
@@ -43,6 +45,8 @@ import com.reactnativecommunity.asyncstorage.AsyncLocalStorageUtil;
 import com.reactnativecommunity.asyncstorage.ReactDatabaseSupplier;
 import io.wazo.callkeep.RNCallKeepModule;
 import io.wazo.callkeep.VoiceConnectionService;
+
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -580,6 +584,7 @@ public class BrekekeUtils extends ReactContextBaseJavaModule {
   public static MediaPlayer mp;
 
   public static void staticStartRingtone() {
+    Log.d("Duy Phan", "Ring ring");
     if (mp != null) {
       return;
     }
@@ -614,6 +619,51 @@ public class BrekekeUtils extends ReactContextBaseJavaModule {
     mp.setVolume(1.0f, 1.0f);
     mp.setLooping(true);
     mp.start();
+  }
+
+  public static void staticStartCustomRingtone(String url) {
+    if (mp != null) {
+      return;
+    }
+    am.setMode(AudioManager.MODE_RINGTONE);
+    mp = new MediaPlayer();
+    mp.setAudioAttributes(
+            new AudioAttributes
+                    .Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build());
+
+    try {
+      mp.setDataSource(url);
+      mp.setVolume(1.0f, 1.0f);
+      mp.setLooping(true);
+      mp.prepare();
+      mp.start();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+
+    }
+  }
+
+  public static void stopCustomRingtone(String url) {
+    MediaPlayer mediaPlayer = new MediaPlayer();
+
+    mediaPlayer.setAudioAttributes(
+            new AudioAttributes
+                    .Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build());
+
+    try {
+      mediaPlayer.setDataSource(url);
+      mediaPlayer.prepare();
+      mediaPlayer.start();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+
+    }
   }
 
   public static void staticStopRingtone() {
@@ -785,6 +835,11 @@ public class BrekekeUtils extends ReactContextBaseJavaModule {
   @ReactMethod
   public void startRingtone() {
     staticStartRingtone();
+  }
+
+  @ReactMethod
+  public void startCustomRingtone(String url) {
+    staticStartCustomRingtone(url);
   }
 
   @ReactMethod

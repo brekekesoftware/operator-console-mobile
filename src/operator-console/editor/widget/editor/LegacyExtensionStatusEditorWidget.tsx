@@ -43,12 +43,11 @@ export class LegacyExtensionStatusEditorWidget extends EditorWidget {
     )
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             display: 'flex',
             alignItems: 'center',
-            flex: 1,
             flexDirection: 'column',
           }}
         >

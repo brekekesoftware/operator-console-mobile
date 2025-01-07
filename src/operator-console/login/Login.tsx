@@ -4,11 +4,15 @@ import { useForm } from '@ant-design/react-native/lib/form/Form'
 import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import AwesomeButton from 'react-native-really-awesome-button'
+import SoundPlayer from 'react-native-sound-player'
+import Video from 'react-native-video'
 
 import Logo from '../logo.png'
 
 import { RnAsyncStorage } from '../../components/Rn'
 import { Button } from '../common/Button'
+import { ShadowButton } from '../common/ShadowButton'
 import { i18n } from '../i18n'
 import type { LoginParams } from '../octypes'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -51,6 +55,11 @@ class LoginC extends React.Component<Props, State> {
       this.setState({ initialValues: v })
       this.props.form.setFieldsValue(v)
     })
+    try {
+      // const currentSong = SoundPlayer.playUrl('http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3')
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   _hideMessage() {
@@ -195,6 +204,15 @@ class LoginC extends React.Component<Props, State> {
   render() {
     return (
       <View>
+        {/* <Video
+            source={'http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3'}
+            // style={css.video}
+            volume={100}
+            onError={(r) =>console.log('#Duy Phan console error',r)}
+            // ignoreSilentSwitch="ignore"
+            // playInBackground={true}
+            // playWhenInactive={true}
+          /> */}
         <View
           style={{
             justifyContent: 'center',
@@ -436,6 +454,7 @@ class LoginC extends React.Component<Props, State> {
               >
                 <Text style={styles.button}>{i18n.t('signin')}</Text>
               </Button>
+              {/* <ShadowButton>Ahihi</ShadowButton> */}
             </Form.Item>
           </Form>
         </View>

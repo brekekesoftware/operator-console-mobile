@@ -57,26 +57,29 @@ const EditorLineButton_ver2 = ({
   borderColor,
   borderRadius,
   fontSize,
-}) => (
-  <WidgetButton
-    style={{
-      padding: 1,
-      marginBottom: 12,
-      backgroundColor,
-      borderStyle,
-      borderWidth,
-      borderColor,
-      borderRadius,
-      width,
-      height,
-    }}
-    textStyle={{ color, fontSize }}
-    // onPress={() => oc.handleLine(line)}
-    disabled={true}
-  >
-    {label}
-  </WidgetButton>
-)
+}) => {
+  console.log('#Duy Phan console wh', width, height)
+  return (
+    <WidgetButton
+      style={{
+        padding: 1,
+        // marginBottom: 12,
+        backgroundColor,
+        borderStyle,
+        borderWidth,
+        borderColor,
+        borderRadius,
+        width,
+        height,
+      }}
+      textStyle={{ color, fontSize }}
+      // onPress={() => oc.handleLine(line)}
+      disabled={true}
+    >
+      {label}
+    </WidgetButton>
+  )
+}
 
 const EditorTransferCancelButton_ver2 = ({
   lineInfo,
@@ -99,7 +102,7 @@ const EditorTransferCancelButton_ver2 = ({
     transferCancelButtonBgColor,
   )
     ? Util.getRgbaCSSStringFromAntdColor(transferCancelButtonBgColor)
-    : ''
+    : 'white'
   const transferCancelButtonBorder =
     Util.isNumeric(transferCancelButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferCancelButtonOuterBorderColor)
@@ -108,7 +111,7 @@ const EditorTransferCancelButton_ver2 = ({
     transferCancelButtonOuterBorderRadius,
   )
     ? transferCancelButtonOuterBorderRadius
-    : 0
+    : 8
 
   return (
     <WidgetButton
@@ -118,7 +121,7 @@ const EditorTransferCancelButton_ver2 = ({
         backgroundColor: transferCancelButtonBackgroundColor,
         borderRadius: transferCancelButtonBorderRadius,
         width: transferCancelButtonWidth,
-        height: transferCancelButtonHeight,
+        height: transferCancelButtonHeight ?? 30,
         ...Util.getBorderStyle({
           isShowBorder: transferCancelButtonBorder,
           borderWidth: transferCancelButtonOuterBorderThickness,
@@ -156,7 +159,7 @@ const EditorTransferButton_ver2 = ({
     transferButtonBgColor,
   )
     ? Util.getRgbaCSSStringFromAntdColor(transferButtonBgColor)
-    : ''
+    : 'white'
   const transferButtonBorder =
     Util.isNumeric(transferButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(transferButtonOuterBorderColor)
@@ -165,17 +168,17 @@ const EditorTransferButton_ver2 = ({
     transferButtonOuterBorderRadius,
   )
     ? transferButtonOuterBorderRadius
-    : 0
+    : 8
 
   return (
     <WidgetButton
       style={{
         padding: 1,
-        marginBottom: 12,
+        // marginBottom: 12,
         backgroundColor: transferButtonBackgroundColor,
         borderRadius: transferButtonBorderRadius,
         width: transferButtonWidth,
-        height: transferButtonHeight,
+        height: transferButtonHeight ?? 30,
         ...Util.getBorderStyle({
           isShowBorder: transferButtonBorder,
           borderWidth: transferButtonOuterBorderThickness,
@@ -186,7 +189,6 @@ const EditorTransferButton_ver2 = ({
         color: transferButtonColor,
         fontSize: transferButtonFontSize,
       }}
-      // onClick={() => alert("onClick campon button!") }
       disabled={true}
     >
       {i18n.t('transfer')}
@@ -242,13 +244,13 @@ const EditorLineTableRow_ver2 = ({
     : ''
   const lineButtonBackgroundColor = Util.isAntdRgbaProperty(lineButtonBgColor)
     ? Util.getRgbaCSSStringFromAntdColor(lineButtonBgColor)
-    : ''
+    : undefined
   const lineButtonBorder =
     Util.isNumeric(lineButtonOuterBorderThickness) &&
     Util.isAntdRgbaProperty(lineButtonOuterBorderColor)
   const lineButtonBorderRadius = Util.isNumber(lineButtonOuterBorderRadius)
     ? lineButtonOuterBorderRadius
-    : 0
+    : 8
 
   const lightStyle: { [key: string]: ViewStyle } = {
     'kbc-button-success-flash': {},
@@ -271,7 +273,7 @@ const EditorLineTableRow_ver2 = ({
           borderBottomWidth: bodyRowUnderlineThickness,
           borderStyle: 'solid',
           borderColor: bodyRowUnderlineColor,
-          height: 50,
+          // height: 50,
         },
       ]}
     >
@@ -302,7 +304,7 @@ const EditorLineTableRow_ver2 = ({
             width={lineButtonWidth}
             height={lineButtonHeight}
             color={lineButtonColor}
-            backgroundColor={lineButtonBackgroundColor}
+            backgroundColor={lineButtonBackgroundColor ?? 'white'}
             borderStyle={lineButtonBorder ? 'solid' : undefined}
             borderWidth={
               lineButtonBorder ? lineButtonOuterBorderThickness : undefined
@@ -499,8 +501,6 @@ export class LineTableEditorWidget extends EditorWidget {
           borderColor: outerBorderColor,
           backgroundColor,
           flex: 1,
-          // minHeight: 128,
-          // backgroundColor: 'white'
         }}
       >
         <TableWrapper

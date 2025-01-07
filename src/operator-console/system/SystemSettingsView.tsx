@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions, Text, View } from 'react-native'
+import { Dimensions, ScrollView, Text, View } from 'react-native'
 
 import { Button } from '../common/Button'
 import { Notification } from '../common/Notification'
@@ -52,6 +52,7 @@ export class SystemSettingsView extends React.Component<Props, State> {
     this._systemSettingsUseForm
       .validateFields()
       .then(values => {
+        console.log('#Duy Phan console values', values)
         // const systemSettingsAppData = Object.assign( {}, values); //!optimize isRequire?
 
         // screens[this.state.currentScreenIndex] = {
@@ -92,6 +93,7 @@ export class SystemSettingsView extends React.Component<Props, State> {
         if (hasCall) {
           const data = systemSettings.getData()
           const ptData = data['phoneTerminal']
+
           const ptValue = values['phoneTerminal']
           if (ptData !== ptValue) {
             Notification.error({
@@ -114,6 +116,8 @@ export class SystemSettingsView extends React.Component<Props, State> {
 
         console.log('saving systemSettings...', values)
         const this_ = this
+        values.ucChatAgentComponentEnabled =
+          Number(values.ucChatAgentComponentEnabled) === 1 ? true : false
 
         this.setState({ isSystemSettingsSaving: true }, () => {
           systemSettings.setSystemSettingsDataData(
@@ -304,9 +308,9 @@ export class SystemSettingsView extends React.Component<Props, State> {
   render() {
     const hasCall =
       this.operatorConsoleAsParent
-        .getPhoneClient()
-        .getCallInfos()
-        .getCallInfoCount() !== 0
+        ?.getPhoneClient?.()
+        ?.getCallInfos?.()
+        ?.getCallInfoCount?.() !== 0
     const this_ = this
     const isButtonsEnabled = this.state.isSystemSettingsSaving === true
     return (
@@ -319,17 +323,20 @@ export class SystemSettingsView extends React.Component<Props, State> {
             borderColor: '#e0e0e0',
             borderStyle: 'solid',
             borderBottomWidth: 1,
+            flexDirection: 'row',
+            zIndex: 20,
           }}
         >
-          <View>
+          <View style={{ zIndex: 20 }}>
             <Space>
               <Popconfirm
                 title={i18n.t('are_you_sure')}
                 onConfirm={this.operatorConsoleAsParent.abortSystemSettings}
                 okText={i18n.t('yes')}
                 cancelText={i18n.t('no')}
+                popStyle={{ zIndex: 20 }}
               >
-                <Button type='secondary' disabled={isButtonsEnabled}>
+                <Button type='secondary' disabled>
                   {i18n.t('discard')}
                 </Button>
               </Popconfirm>
@@ -349,14 +356,15 @@ export class SystemSettingsView extends React.Component<Props, State> {
           style={{
             position: 'absolute',
             left: 20,
-            top: 40,
+            top: 50,
             paddingRight: 20,
             paddingBottom: 20,
             width: Dimensions.get('screen').width - 40,
             height: Dimensions.get('screen').height - 60,
+            zIndex: 1,
           }}
         >
-          <View>
+          <ScrollView>
             <SystemSettingsForm
               hasCall={hasCall}
               setSystemSettingsUseFormBindedFunction={
@@ -366,7 +374,7 @@ export class SystemSettingsView extends React.Component<Props, State> {
               // onChangeUcChatAgentComponentEnabledFunction ={this._onChangeUcChatAgentComponentEnabled}
               // setAceEditorFunction={ function( aceEditor ){ this_.setAceEditor( aceEditor ) }}
             />
-          </View>
+          </ScrollView>
         </View>
       </>
     )

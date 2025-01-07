@@ -205,7 +205,7 @@ export class EditorPane extends BasePane {
     switch (widgetTypeId) {
       case WidgetData.WIDGET_TYPE_IDS.callTable:
         widgetWidth = 640
-        widgetHeight = 128
+        widgetHeight = 160
         break
       case WidgetData.WIDGET_TYPE_IDS.extensionTable:
         widgetWidth = 640

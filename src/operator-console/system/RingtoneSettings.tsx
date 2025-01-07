@@ -1,7 +1,9 @@
 import { IconOutline } from '@ant-design/icons-react-native'
-import { Button, Form, Input } from '@ant-design/react-native'
+import { Button, Flex, Form } from '@ant-design/react-native'
 import React from 'react'
+import { Text, View } from 'react-native'
 
+import { Input } from '../common/Input'
 import { Space } from '../common/Space'
 import { i18n } from '../i18n'
 
@@ -18,11 +20,28 @@ export class RingtoneSettings extends React.Component {
             {fields.map(({ key, name, ...restField }) => (
               <Space
                 key={key}
-                style={{ display: 'flex', marginBottom: 8 }}
-                align='baseline'
+                style={{
+                  display: 'flex',
+                  marginBottom: 8,
+                  justifyContent: 'center',
+                }}
+                align='center'
+                hasFlex
               >
                 <Form.Item
                   {...restField}
+                  styles={{
+                    Item: {
+                      backgroundColor: 'transparent',
+                      elevation: 0,
+                      borderColor: 'transparent',
+                    },
+                    Line: {
+                      backgroundColor: 'transparent',
+                      elevation: 0,
+                      borderColor: 'transparent',
+                    },
+                  }}
                   name={[name, 'ringtoneCaller']}
                   rules={[
                     {
@@ -33,12 +52,24 @@ export class RingtoneSettings extends React.Component {
                 >
                   <Input
                     placeholder={i18n.t('ringtoneCaller')}
-                    style={{ width: 400 }}
+                    style={{ flex: 1 }}
                   />
                 </Form.Item>
                 <Form.Item
                   {...restField}
                   name={[name, 'ringtoneFilepathOrFileurl']}
+                  styles={{
+                    Line: {
+                      backgroundColor: 'transparent',
+                      elevation: 0,
+                      borderColor: 'transparent',
+                    },
+                    Item: {
+                      backgroundColor: 'transparent',
+                      elevation: 0,
+                      borderColor: 'transparent',
+                    },
+                  }}
                   rules={[
                     {
                       required: true,
@@ -48,20 +79,40 @@ export class RingtoneSettings extends React.Component {
                 >
                   <Input
                     placeholder={i18n.t('ringtoneFilepathOrFileurl')}
-                    style={{ width: 600 }}
+                    style={{ flex: 1 }}
                   />
                 </Form.Item>
-                <IconOutline name='minus-circle' onPress={() => remove(name)} />
+                <View>
+                  <IconOutline
+                    name='minus-circle'
+                    size={25}
+                    onPress={() => remove(name)}
+                  />
+                </View>
               </Space>
             ))}
-            <Form.Item>
+            <Form.Item
+              styles={{
+                Line: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+                Item: {
+                  backgroundColor: 'transparent',
+                  elevation: 0,
+                  borderColor: 'transparent',
+                },
+              }}
+            >
               <Button
-                type='dashed'
-                onClick={() => add()}
-                block
-                icon={<IconOutline name='plus' />}
+                onPress={() => add()}
+                // icon={}
               >
-                {i18n.t('addField')}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <IconOutline name='plus' size={20} />
+                  <Text style={{ fontSize: 16 }}> {i18n.t('addField')}</Text>
+                </View>
               </Button>
             </Form.Item>
           </>

@@ -16,6 +16,7 @@ type TBrekekeUtils = {
   getInitialNotifications(): Promise<string | null>
   isLocked(): Promise<boolean>
   startRingtone(): void
+  startCustomRingtone(url: string): void
   stopRingtone(): void
   backToBackground(): void
   hasIncomingCallActivity(uuid: string): Promise<boolean>
@@ -76,6 +77,7 @@ const Polyfill: TBrekekeUtils = {
   getInitialNotifications: () => Promise.resolve(null),
   isLocked: () => Promise.resolve(false),
   startRingtone: () => undefined,
+  startCustomRingtone: () => undefined,
   stopRingtone: () => undefined,
   backToBackground: () => undefined,
   hasIncomingCallActivity: () => Promise.resolve(false),

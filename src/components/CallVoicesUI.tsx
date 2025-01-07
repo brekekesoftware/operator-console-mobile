@@ -16,7 +16,11 @@ const css = StyleSheet.create({
 export class IncomingItem extends Component {
   componentDidMount = () => {
     if (Platform.OS === 'android') {
-      BrekekeUtils.startRingtone()
+      // BrekekeUtils.startRingtone()
+      console.log('#Duy Phan console ring ring')
+      BrekekeUtils.startCustomRingtone(
+        'http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3',
+      )
     } else {
       IncallManager.startRingtone('_BUNDLE_')
     }

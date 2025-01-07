@@ -56,12 +56,14 @@ export const AutoComplete = ({ options, onChangeText, ...rest }: Props) => {
       onOpenSuggestionsList={open1 =>
         console.log('#Duy Phan console open', open1)
       }
+      rightButtonsContainerStyle={{ height: 35, marginRight: 0 }}
       inputContainerStyle={{
         backgroundColor: 'white',
         borderColor: '#d9d9d9',
         borderWidth: 1,
-        padding: 5,
-        height: 35,
+        margin: 0,
+        // padding: 5,
+        height: 40,
       }}
       onRightIconComponentPress={() => {
         dropdownController.current?.toggle()

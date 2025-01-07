@@ -491,6 +491,7 @@ const NewLayoutDialog = ({ operatorConsole }) => {
         title={i18n.t('About_Brekeke_OperatorConsole')}
         onOk={() => operatorConsole.closeAboutOCModalByState()}
         onCancel={() => operatorConsole.closeAboutOCModalByState()}
+        style={{ width: 500, height: 200 }}
         footer={[
           <Button
             key='submit'
@@ -513,6 +514,7 @@ const NewLayoutDialog = ({ operatorConsole }) => {
         title={i18n.t('newLayout')}
         onOk={() => handleOk()}
         onCancel={handleCancel}
+        style={{ width: 400, height: 300 }}
         footer={[
           <Button key='back' onPress={handleCancel}>
             {i18n.t('cancel')}
@@ -543,18 +545,16 @@ const NewLayoutDialog = ({ operatorConsole }) => {
 
 const NewLayoutForm = ({ newLayoutUseForm }) => (
   <Form form={newLayoutUseForm} layout='vertical'>
-    <section>
-      <Form.Item
-        name='layoutName'
-        rules={[
-          {
-            required: true,
-            message: i18n.t('layoutName_is_required'),
-          },
-        ]}
-      >
-        <Input placeholder={i18n.t('layoutName')} />
-      </Form.Item>
-    </section>
+    <Form.Item
+      name='layoutName'
+      rules={[
+        {
+          required: true,
+          message: i18n.t('layoutName_is_required'),
+        },
+      ]}
+    >
+      <Input placeholder={i18n.t('layoutName')} />
+    </Form.Item>
   </Form>
 )

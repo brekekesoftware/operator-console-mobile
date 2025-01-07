@@ -9,7 +9,7 @@ type Props = {
   onCancel?: () => void
   footer?: React.ReactNode
   title?: string
-  width: number
+  width?: number
 } & Omit<ModalProps, 'children'>
 
 export const Modal = ({
@@ -62,7 +62,9 @@ export const Modal = ({
         <View style={{ flex: 1 }}>
           {typeof children === 'string' ? <Text>{children}</Text> : children}
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <View
+          style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: 15 }}
+        >
           {footer ?? footerButtons.map(item => <Text>{item.text}</Text>)}
         </View>
       </View>

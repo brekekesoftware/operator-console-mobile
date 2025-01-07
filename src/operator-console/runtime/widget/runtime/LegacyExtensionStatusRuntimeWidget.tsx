@@ -45,8 +45,8 @@ export class LegacyExtensionStatusRuntimeWidget extends RuntimeWidget {
         : OperatorConsoleStyles['led-grey'])
 
     return (
-      <View style={OperatorConsoleStyles['led-box']}>
-        <View style={{ display: 'flex', justifyContent: 'center' }}>
+      <View style={[OperatorConsoleStyles['led-box'], { flex: 1 }]}>
+        <View style={{ display: 'flex', alignItems: 'center' }}>
           <View
             style={[
               {
@@ -60,7 +60,7 @@ export class LegacyExtensionStatusRuntimeWidget extends RuntimeWidget {
         <View
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            alignItems: 'center',
             marginTop: extensionStatusExtensionTextTopMargin,
           }}
         >

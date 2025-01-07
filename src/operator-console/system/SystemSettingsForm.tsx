@@ -1,6 +1,14 @@
-import { Checkbox, Form, Input, Radio } from '@ant-design/react-native'
+import {
+  Checkbox,
+  Form,
+  Input as AntdInput,
+  Radio,
+} from '@ant-design/react-native'
+import type { StyleProp, TextStyle } from 'react-native'
+import { Text } from 'react-native'
 
 import { CallHistory2 } from '../call/CallHistory2'
+import { Input } from '../common/Input'
 import { InputNumber } from '../common/InputNumber'
 import { Select, SelectOption } from '../common/Select'
 import { i18n } from '../i18n'
@@ -17,44 +25,95 @@ export const SystemSettingsForm = props => {
     props.setSystemSettingsUseFormBindedFunction
   setSystemSettingsUseFormBindedFunction(systemSettingsUseForm)
   // const ucChatAgentComponentEnabled = props.systemSettingsData.getUcChatAgentComponentEnabled();
+
+  const tStyle: StyleProp<TextStyle> = {
+    fontSize: 20,
+    fontWeight: 'bold',
+    paddingVertical: 10,
+  }
+  console.log(
+    '#Duy Phan console {props.systemSettingsData.getData()',
+    props.systemSettingsData.getData(),
+  )
+  const d = props.systemSettingsData.getData()
+  const formItemStyle = {
+    Item: {
+      backgroundColor: 'transparent',
+      elevation: 0,
+      borderColor: 'transparent',
+    },
+    Line: {
+      backgroundColor: 'transparent',
+      elevation: 0,
+      borderColor: 'transparent',
+    },
+  }
   return (
     <Form
       form={systemSettingsUseForm}
-      initialValues={props.systemSettingsData.getData()}
+      initialValues={d}
       layout='vertical'
+      style={{ backgroundColor: 'white' }}
     >
-      <section>
-        <h1>{i18n.t('camponSettings')}</h1>
-        <Form.Item label={i18n.t('timeoutSeconds')} name='camponTimeoutSeconds'>
-          <InputNumber style={{ width: 100 }} />
-        </Form.Item>
-        <h1>{i18n.t('quickBusySettings')}</h1>
-        <Form.Item name='quickBusyClickToCall' valuePropName='checked'>
-          <Checkbox>{i18n.t('clickToCall')}</Checkbox>
-        </Form.Item>
-        <h1>{i18n.t('shortDialSettings')}</h1>
-        <ShortDialSettings />
-        <h1>{i18n.t('autoDialSettings')}</h1>
-        <Form.Item label={i18n.t('maxSaveCount')} name='autoDialMaxSaveCount'>
-          <InputNumber style={{ width: 100 }} />
-        </Form.Item>
-        <Form.Item
-          label={i18n.t('maxDisplayCount')}
-          name='autoDialMaxDisplayCount'
+      <Text style={tStyle}>{i18n.t('camponSettings')}</Text>
+      <Form.Item
+        label={i18n.t('timeoutSeconds')}
+        name='camponTimeoutSeconds'
+        styles={formItemStyle}
+      >
+        <InputNumber style={{ width: 100 }} />
+      </Form.Item>
+      <Text style={tStyle}>{i18n.t('quickBusySettings')}</Text>
+      <Form.Item
+        name='quickBusyClickToCall'
+        valuePropName='checked'
+        styles={formItemStyle}
+      >
+        <Checkbox>{i18n.t('clickToCall')}</Checkbox>
+      </Form.Item>
+      <Text style={tStyle}>{i18n.t('shortDialSettings')}</Text>
+      <ShortDialSettings />
+      <Text style={tStyle}>{i18n.t('autoDialSettings')}</Text>
+      <Form.Item
+        label={i18n.t('maxSaveCount')}
+        name='autoDialMaxSaveCount'
+        styles={formItemStyle}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item
+        label={i18n.t('maxDisplayCount')}
+        name='autoDialMaxDisplayCount'
+        styles={formItemStyle}
+      >
+        <InputNumber style={{ width: 150 }} />
+      </Form.Item>
+      <Form.Item
+        label={i18n.t('RecentDisplayOrder')}
+        name={'autoDialRecentDisplayOrder'}
+        styles={formItemStyle}
+      >
+        <Select
+          defaultValue={d.autoDialRecentDisplayOrder}
+          onSelect={v =>
+            systemSettingsUseForm.setFieldValue(
+              'autoDialRecentDisplayOrder',
+              v.value,
+            )
+          }
+          data={[
+            {
+              title: i18n.t('CallOrIncomingCountDesc'),
+              value:
+                CallHistory2.RECENT_DISPLAY_ORDERS.CALL_OR_INCOMING_COUNT_DESC,
+            },
+            {
+              title: i18n.t('StartDatetimeDesc'),
+              value: CallHistory2.RECENT_DISPLAY_ORDERS.ADD_DATETIME_DESC,
+            },
+          ]}
         >
-          <InputNumber style={{ width: 100 }} />
-        </Form.Item>
-        <Form.Item
-          label={i18n.t('RecentDisplayOrder')}
-          name={'autoDialRecentDisplayOrder'}
-        >
-          <Select
-            data={[
-              { title: i18n.t('CallOrIncomingCountDesc') },
-              { title: i18n.t('StartDatetimeDesc') },
-            ]}
-          >
-            {/* <SelectOption
+          {/* <SelectOption
               value={
                 CallHistory2.RECENT_DISPLAY_ORDERS.CALL_OR_INCOMING_COUNT_DESC
               }
@@ -66,47 +125,59 @@ export const SystemSettingsForm = props => {
             >
               {i18n.t('StartDatetimeDesc')}
             </SelectOption> */}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          label={i18n.t('PhonebookName')}
-          name={'autoDialPhonebookName'}
+        </Select>
+      </Form.Item>
+      <Form.Item
+        label={i18n.t('PhonebookName')}
+        name={'autoDialPhonebookName'}
+        styles={formItemStyle}
+      >
+        <Input maxLength={300} style={{ width: 240 }} />
+      </Form.Item>
+      <Text style={tStyle}>{i18n.t('ringtoneSettings')}</Text>
+      <RingtoneSettings />
+      <Text style={tStyle}>{i18n.t('ucSettings')}</Text>
+      <Form.Item label={i18n.t('ucUrl')} name='ucUrl' styles={formItemStyle}>
+        <Input style={{ width: 500 }} maxLength={300} />
+      </Form.Item>
+      <Form.Item
+        label={i18n.t('ucChatAgentComponent')}
+        name='ucChatAgentComponentEnabled'
+        styles={formItemStyle}
+      >
+        {/* <Radio.Group onChange={props.onChangeUcChatAgentComponentEnabledFunction}>*/}
+        <Radio.Group style={{ flexDirection: 'row' }}>
+          <Radio value={'0'}>{i18n.t('off')}</Radio>
+          <Radio value={'1'}>{i18n.t('on')}</Radio>
+        </Radio.Group>
+      </Form.Item>
+      <Text style={tStyle}>{i18n.t('otherSettings')}</Text>
+      <Form.Item
+        label={i18n.t('phoneTerminal')}
+        name='phoneTerminal'
+        styles={formItemStyle}
+      >
+        <Radio.Group
+          disabled={props['hasCall']}
+          style={{ flexDirection: 'row' }}
         >
-          <Input maxLength={300} style={{ width: 240 }} />
-        </Form.Item>
-        <h1>{i18n.t('ringtoneSettings')}</h1>
-        <RingtoneSettings />
-        <h1>{i18n.t('ucSettings')}</h1>
-        <Form.Item label={i18n.t('ucUrl')} name='ucUrl'>
-          <Input style={{ width: 500 }} maxLength={300} />
-        </Form.Item>
-        <Form.Item
-          label={i18n.t('ucChatAgentComponent')}
-          name='ucChatAgentComponentEnabled'
-        >
-          {/* <Radio.Group onChange={props.onChangeUcChatAgentComponentEnabledFunction}>*/}
-          <Radio.Group>
-            <Radio value={0}>{i18n.t('off')}</Radio>
-            <Radio value={1}>{i18n.t('on')}</Radio>
-          </Radio.Group>
-        </Form.Item>
-        <h1>{i18n.t('otherSettings')}</h1>
-        <Form.Item label={i18n.t('phoneTerminal')} name='phoneTerminal'>
-          <Radio.Group disabled={props['hasCall']}>
-            <Radio value={'phoneTerminal_webphone'}>{i18n.t('webphone')}</Radio>
-            <Radio value={'phoneTerminal_pal'}>
-              {i18n.t('otherPhoneTerminal_pal')}
-            </Radio>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label={i18n.t('extensionScript')} name='extensionScript'>
-          <Input.TextArea
-            rows={30}
-            maxLength={1000000}
-            style={{ minHeight: 600, minWidth: 800, marginRight: 30 }}
-          />
-        </Form.Item>
-      </section>
+          <Radio value={'phoneTerminal_webphone'}>{i18n.t('webphone')}</Radio>
+          <Radio value={'phoneTerminal_pal'}>
+            {i18n.t('otherPhoneTerminal_pal')}
+          </Radio>
+        </Radio.Group>
+      </Form.Item>
+      <Form.Item
+        label={i18n.t('extensionScript')}
+        name='extensionScript'
+        styles={formItemStyle}
+      >
+        <AntdInput.TextArea
+          rows={30}
+          maxLength={1000000}
+          style={{ minHeight: 600, minWidth: 800, marginRight: 30 }}
+        />
+      </Form.Item>
     </Form>
   )
 }

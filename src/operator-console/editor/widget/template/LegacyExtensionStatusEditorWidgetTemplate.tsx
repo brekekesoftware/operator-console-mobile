@@ -15,12 +15,12 @@ export class LegacyExtensionStatusEditorWidgetTemplate extends EditorWidgetTempl
 
   // !overload
   getWidth() {
-    return 64
+    return 80
   }
 
   // !overload
   getHeight() {
-    return 64
+    return 80
   }
 
   // !overload
@@ -28,7 +28,7 @@ export class LegacyExtensionStatusEditorWidgetTemplate extends EditorWidgetTempl
     return (
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View style={OperatorConsoleStyles['led-grey']}></View>
-        <Text numberOfLines={2} style={{ textAlign: 'center' }}>
+        <Text style={{ textAlign: 'center' }}>
           {i18n.t('extension_status')}
         </Text>
       </View>

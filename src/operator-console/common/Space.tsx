@@ -8,6 +8,7 @@ type Props = {
   direction?: 'vertical' | 'horizontal'
   align?: FlexAlignType
   size?: number
+  hasFlex?: boolean
 }
 
 export const Space = ({
@@ -16,6 +17,7 @@ export const Space = ({
   direction = 'horizontal',
   align,
   size = 10,
+  hasFlex,
 }: Props) => {
   const s: ViewStyle =
     direction === 'horizontal'
@@ -23,9 +25,15 @@ export const Space = ({
       : { flexDirection: 'column', alignItems: align }
   return children ? (
     <View style={[style, { gap: size }, s]}>
-      {Children.map(children, (child, index) => (
-        <>{child}</>
-      ))}
+      {Children.map(children, (child, index) =>
+        hasFlex ? (
+          <View key={index.toString()} style={{ flex: 1 }}>
+            {child}
+          </View>
+        ) : (
+          <>{child}</>
+        ),
+      )}
     </View>
   ) : (
     <View style={[style, { margin: size }]}></View>

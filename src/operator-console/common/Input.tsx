@@ -28,7 +28,12 @@ export const Input = forwardRef(
         defaultValue={props.defaultValue}
         onChangeText={onChange}
         style={[
-          { borderRadius: 4, borderColor: '#efefef', borderWidth: 1 },
+          {
+            borderRadius: 4,
+            borderColor: '#efefef',
+            borderWidth: 1,
+            backgroundColor: 'white',
+          },
           props.style,
         ]}
       />
