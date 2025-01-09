@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { Component } from 'react'
-import { View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 
 import { Cell, Table, TableWrapper } from '../common/Table'
 import { WidgetButton } from '../common/WidgetButton'
@@ -78,11 +78,15 @@ export class PhonebookContactInfozTelsView extends Component<Props, State> {
           <View>
             <TableWrapper>
               <Cell textStyle={{ textAlign: 'right', verticalAlign: 'top' }}>
-                <FontAwesomeIcon
-                  icon='far fa-window-close'
-                  onClick={e => this.closePhonebookContactInfozTelsView()}
-                  className='closeFontAwesomeIcon'
-                />
+                <TouchableOpacity
+                  onPress={e => this.closePhonebookContactInfozTelsView()}
+                >
+                  <FontAwesomeIcon
+                    icon={['far', 'window-close']}
+                    color='#584937'
+                    size={16}
+                  />
+                </TouchableOpacity>
               </Cell>
             </TableWrapper>
             <TableWrapper>
@@ -138,8 +142,8 @@ export class PhonebookContactInfozTelsView extends Component<Props, State> {
                                 }
                               >
                                 <FontAwesomeIcon
-                                  size='lg'
-                                  icon='fas fa-phone'
+                                  size={16}
+                                  icon={['fas', 'phone']}
                                 />
                               </WidgetButton>
                             }

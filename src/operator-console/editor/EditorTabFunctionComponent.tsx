@@ -1,26 +1,16 @@
 import { Tabs } from '@ant-design/react-native'
-import type { TabData } from '@ant-design/react-native/lib/tabs/PropsType'
-import type {
-  DraggableStackProps,
-  ObjectWithId,
-} from '@mgcrea/react-native-dnd'
-import {
-  DndProvider,
-  Draggable,
-  DraggableStack,
-} from '@mgcrea/react-native-dnd'
-import { forwardRef, useEffect, useRef } from 'react'
+import { forwardRef, useCallback, useEffect, useRef } from 'react'
 import type { LayoutRectangle } from 'react-native'
 import {
-  Dimensions,
   ScrollView,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import DragList from 'react-native-draglist'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import DraggableFlatList, {
+  ScaleDecorator,
+} from 'react-native-draggable-flatlist'
 
 import { GridLines } from '../common/GridLines'
 import { WidgetData } from '../data/widgetData/WidgetData'
@@ -103,21 +93,10 @@ const _onDrop = function ({
     .getEditingScreenGrid()
 
   let widgetRelativePositionX = offsetX - px
-  let widgetRelativePositionY = offsetY - py
-  console.log(
-    '#Duy Phan console widgetRelativePositionX first',
-    widgetRelativePositionX,
-    widgetRelativePositionY,
-  )
-  console.log('#Duy Phan console editingScreenGrid', editingScreenGrid)
+  let widgetRelativePositionY = offsetY - py - 40 // height measure top
 
   widgetRelativePositionX -= widgetRelativePositionX % editingScreenGrid
   widgetRelativePositionY -= widgetRelativePositionY % editingScreenGrid
-  console.log(
-    '#Duy Phan console widgetRelativePositionX tab',
-    widgetRelativePositionX,
-    widgetRelativePositionY,
-  )
   const widgetDatas = tabData.getWidgetDatas()
   widgetDatas.addWidgetData(
     widgetTypeId,
@@ -192,7 +171,6 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
     dndEventEmiter.on('drop', d => {
       refLayout.current?.measure((fx, fy, width, height, px, py) => {
         console.log('#Duy Phan console', d)
-        console.log('#Duy Phan console', fx, fy, width, height, px, py)
         if (
           isDropZone(
             { moveX: d.nX, moveY: d.nY },
@@ -233,17 +211,12 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
     tabItems[i] = tabItem
   }
 
-  const onDragEnd = ({ active, over }) => {
-    if (!over) {
-      return
-    }
+  const tabsCheck = tabItems.map(item => ({ key: item.key, title: item.title }))
 
-    if (active.id !== over.id) {
-      const activeIndex = tabItems.findIndex(i => i.key === active.id)
-      const overIndex = tabItems.findIndex(i => i.key === over?.id)
-      tabsData.replaceTabData(activeIndex, overIndex)
-      editorPaneAsParent.setState({ rerender: true })
-    }
+  const onDragEnd = ({ from, to }) => {
+    console.log('#Duy Phan console from', from, to)
+    tabsData.replaceTabData(from, to)
+    editorPaneAsParent.setState({ rerender: true })
   }
 
   const _onChangeByTabs = selectedKey => {
@@ -253,13 +226,63 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
 
   const paneId = props['data-br-container-id']
   const css = props['css']
-  console.log('#Duy Phan console sssss', css)
 
   useEffect(() => {
     refLayout.current?.measure((x, y, w, h, fx, fy) => {
       refTabs.current?.setState({ containerWidth: w, containerHeight: h })
     })
   }, [css])
+
+  useEffect(() => {
+    const activeIndex = tabItems.findIndex(item => item.key === activeKey)
+    setTimeout(() => {
+      refTabs.current?.tabClickGoToTab(activeIndex)
+      refTabs.current?.goToTab(activeIndex)
+    }, 400)
+  }, [])
+
+  useEffect(() => {
+    const activeIndex = tabItems.findIndex(item => item.key === activeKey)
+    console.log('#Duy Phan console change', activeIndex)
+    // refTabs.current?.getTabBarBaseProps()
+    setTimeout(() => {
+      refTabs.current?.tabClickGoToTab(activeIndex)
+      refTabs.current?.goToTab(activeIndex)
+    }, 0)
+  }, [JSON.stringify(tabsCheck)])
+
+  const renderItem = (info, tabBarProps) => {
+    console.log('#Duy Phan console info', tabBarProps.activeTab)
+    const index = info.getIndex()
+    return (
+      <ScaleDecorator>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={{
+            padding: 6,
+            borderColor: activeKey === info.item.key ? '#1677ff' : undefined,
+            borderBottomWidth: activeKey === info.item.key ? 1 : undefined,
+          }}
+          onLongPress={info.drag}
+          onPress={() => {
+            _onTabClick(info.item.key, editorPaneAsParent)
+            _onChangeByTabs(info.item.key)
+            const { goToTab, onTabClick } = tabBarProps
+            onTabClick && onTabClick(tabBarProps.tabs[index], index)
+            goToTab && goToTab(index)
+          }}
+        >
+          <Text
+            style={{
+              color: activeKey === info.item.key ? '#1677ff' : '#333333',
+            }}
+          >
+            {info.item.label}
+          </Text>
+        </TouchableOpacity>
+      </ScaleDecorator>
+    )
+  }
 
   const jsx = (
     <View
@@ -281,79 +304,24 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         // }}
         // className={className}
         tabs={tabItems}
+        initialPage={activeKey}
+        page={activeKey}
+        swipeable={false}
+        prerenderingSiblingsNumber={0}
         renderTabBar={tabBarProps => (
-          // <DragList<TabData>
-          //   data={tabBarProps.tabs}
-          //   keyExtractor={(_, i) => i.toString()}
-          //   renderItem={(info: any) => {
-
-          //     return <TouchableOpacity
-          //     activeOpacity={0.9}
-          //     style={{
-          //       padding: 6,
-          //     }}
-          //     onLongPress={info.drag}
-          //     onPress={() => {
-          //       _onTabClick(info.item.key, editorPaneAsParent)
-          //       _onChangeByTabs(info.item.key)
-          //     }}
-          //     disabled={ activeKey !== info.item.key}
-          //   >
-          //     <Text
-          //       style={{
-          //         color: activeKey === info.item.key ? 'green' : '#333333',
-          //       }}
-          //     >
-          //       {info.item.title}
-          //     </Text>
-          //   </TouchableOpacity>}
-
-          //   }
-          //   // horizontal
-          //   // onReordered={(f, t) => onDragEnd({ over: f, active: t })}
-
-          // />
-          <DndProvider>
-            <DraggableStack
-              direction='row'
-              gap={10}
-              // style={styles.stack}
-              // onOrderChange={onStackOrderChange}
-              // onOrderUpdate={onStackOrderUpdate}
-            >
-              {tabBarProps.tabs.map((info, i) => (
-                <Draggable key={info.key} id={info.key ?? i.toString()}>
-                  <TouchableOpacity
-                    activeOpacity={0.9}
-                    key={info.key}
-                    style={{
-                      padding: 6,
-                    }}
-                    onLongPress={info.drag}
-                    onPress={() => {
-                      _onTabClick(info.key, editorPaneAsParent)
-                      _onChangeByTabs(info.key)
-                      const { goToTab, onTabClick } = tabBarProps
-                      // tslint:disable-next-line:no-unused-expression
-                      onTabClick && onTabClick(tabBarProps.tabs[i], i)
-                      // tslint:disable-next-line:no-unused-expression
-                      goToTab && goToTab(i)
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: activeKey === info.key ? 'green' : '#333333',
-                      }}
-                    >
-                      {info.title}
-                    </Text>
-                  </TouchableOpacity>
-                </Draggable>
-              ))}
-            </DraggableStack>
-          </DndProvider>
+          <DraggableFlatList
+            data={tabItems.map(item => ({
+              key: item.key,
+              label: item.title,
+              width: 100,
+              height: 40,
+            }))}
+            keyExtractor={item => item.key}
+            renderItem={info => renderItem(info, tabBarProps)}
+            horizontal
+            onDragEnd={onDragEnd}
+          />
         )}
-        destroyInactiveTab
       >
         {tabItems.map(tab => (
           <View style={{ flex: 1 }} key={tab.key}>

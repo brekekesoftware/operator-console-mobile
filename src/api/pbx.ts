@@ -83,11 +83,6 @@ export class PBX extends EventEmitter {
       embedApi.emit('pal', client)
     }
     const embedListeners: { [k in keyof Pbx]?: Function } = {}
-    console.log(
-      '#Duy Phan console window._BrekekePhoneWebRoot',
-      window._BrekekePhoneWebRoot,
-      embedApi._palEvents,
-    )
     if (!window._BrekekePhoneWebRoot && embedApi._palEvents?.length) {
       embedApi._palEvents.forEach(k => {
         const listener = (...args: unknown[]) => {

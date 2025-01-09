@@ -430,7 +430,7 @@ export class CallHistory2 {
       }
     }
 
-    const intlCollator = new Intl.Collator()
+    // const intlCollator = Intl.Collator('en', { sensitivity: 'base' });
     const compareFunc = (ch2FoTlnfoA, ch2FoTInfoB) => {
       const nHitCount = ch2FoTInfoB.getHitCount() - ch2FoTlnfoA.getHitCount()
       if (nHitCount !== 0) {
@@ -456,11 +456,12 @@ export class CallHistory2 {
         }
       }
 
-      const partyNumberResult = intlCollator.compare(
-        ch2CallInfoA.getPartyNumber(),
-        ch2CallInfoB.getPartyNumber(),
-      ) // ASC order
-      return partyNumberResult
+      // const partyNumberResult = intlCollator.compare(
+      //   ch2CallInfoA.getPartyNumber(),
+      //   ch2CallInfoB.getPartyNumber(),
+      // ) // ASC order
+      // return partyNumberResult
+      return 1
     }
 
     const ch2FoTInfoArray = Object.values(partyNumberMap)
@@ -487,7 +488,7 @@ export class CallHistory2 {
       this._CallHistoryCallInfoArray.push(ch2CallInfo)
     }
 
-    const intlCollator = new Intl.Collator()
+    // const intlCollator = Intl.Collator('en', { sensitivity: 'base' });
     const compareFunc = (ch2CallInfoA, ch2CallInfoB) => {
       const nAddCallMillisTime =
         ch2CallInfoB.getAddCallMillisTime() -
@@ -507,11 +508,12 @@ export class CallHistory2 {
         }
       }
 
-      const partyNumberResult = intlCollator.compare(
-        ch2CallInfoA.getPartyNumber(),
-        ch2CallInfoB.getPartyNumber(),
-      ) // ASC order
-      return partyNumberResult
+      // const partyNumberResult = intlCollator.compare(
+      //   ch2CallInfoA.getPartyNumber(),
+      //   ch2CallInfoB.getPartyNumber(),
+      // ) // ASC order
+      // return partyNumberResult
+      return 1
     }
     this._CallHistoryCallInfoArray.sort(compareFunc)
   }

@@ -49,7 +49,6 @@ export const InputNumber = ({
     setV(Number(t))
     onChange?.(Number(t))
   }
-  console.log('#Duy Phan console v', v)
   return (
     <Input
       {...props}

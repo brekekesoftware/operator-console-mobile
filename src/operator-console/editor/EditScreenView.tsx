@@ -371,169 +371,167 @@ export class EditScreenView extends React.Component<Props, State> {
   render() {
     const settingsAreaJsx = this._getSettingsAreaJsx()
     return (
-      <GestureHandlerRootView>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          height: '100%',
+        }}
+      >
         <View
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'stretch',
-            height: '100%',
+            alignItems: 'center',
+            height: 47,
+            flexDirection: 'row',
           }}
         >
-          <View
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              height: 47,
-              flexDirection: 'row',
-            }}
-          >
-            <View style={{ width: 240 }}>
-              <Image
-                style={{ marginTop: 4, marginLeft: 4 }}
-                source={logo as ImageSourcePropType}
-              />
-            </View>
-            <Space style={{ flex: 1 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ fontSize: 14 }}>{i18n.t('grid')} : </Text>
-                <InputNumber
-                  value={this.getEditingScreenGrid()}
-                  style={{ width: 120 }}
-                  // onPressEnter={e =>
-                  //   this.setEditingScreenGrid(parseInt(e.target.value))
-                  // }
-                  onStep={v => this.setEditingScreenGrid(v)}
-                />
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}
-              >
-                <Text style={{ fontSize: 14 }}>{i18n.t('foreground')}: </Text>
-                <DropdownOverlay
-                  overlay={
-                    <ColorPicker
-                      color={this._ScreenData.getScreenForegroundColor()}
-                      onColorChangeComplete={this.setScreenForegroundColor}
-                      isDefault
-                      type='hex'
-                    />
-                  }
-                >
-                  <View
-                    style={{
-                      width: 48,
-                      height: 30,
-                      borderColor: ' #e0e0e0',
-                      borderStyle: 'solid',
-                      borderWidth: 1,
-                      backgroundColor:
-                        this._ScreenData.getScreenForegroundColor(),
-                    }}
-                  ></View>
-                </DropdownOverlay>
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}
-              >
-                <Text style={{ fontSize: 14 }}>{i18n.t('background')}: </Text>
-                <DropdownOverlay
-                  overlay={
-                    <ColorPicker
-                      color={this._ScreenData.getScreenBackgroundColor()}
-                      onColorChangeComplete={this.setScreenBackgroundColor}
-                      isDefault
-                      type='hex'
-                    />
-                  }
-                >
-                  <View
-                    style={{
-                      width: 48,
-                      height: 30,
-                      borderColor: ' #e0e0e0',
-                      borderStyle: 'solid',
-                      borderWidth: 1,
-                      backgroundColor:
-                        this._ScreenData.getScreenBackgroundColor(),
-                    }}
-                  ></View>
-                </DropdownOverlay>
-              </View>
-            </Space>
-            <View style={{ marginLeft: 'auto', marginRight: 4 }}>
-              <Space>
-                <Popconfirm
-                  title={i18n.t('are_you_sure')}
-                  onConfirm={() => this._abortEditingScreen()}
-                  okText={i18n.t('yes')}
-                  cancelText={i18n.t('no')}
-                >
-                  <Button type='secondary' style={{ minWidth: 80 }} disabled>
-                    {i18n.t('discard')}
-                  </Button>
-                </Popconfirm>
-                <Space size={0} />
-                <Button
-                  type='success'
-                  style={{ minWidth: 80 }}
-                  onPress={() => this._saveEditingScreen()}
-                >
-                  {i18n.t('save')}
-                </Button>
-              </Space>
-            </View>
+          <View style={{ width: 240 }}>
+            <Image
+              style={{ marginTop: 4, marginLeft: 4 }}
+              source={logo as ImageSourcePropType}
+            />
           </View>
-          <View
-            style={{
-              display: 'flex',
-              height: Dimensions.get('screen').height - 47,
-              flexDirection: 'row',
-            }}
-          >
-            <View style={{ width: 240 }}>
-              {/* left -  widget templates area*/}
-              {this._getWidgetTemplatesAreaJsx()}
-            </View>
-            <View style={{ flex: 1 }}>
-              <ColorPaneContextProvider
-                fg={this._ScreenData.getScreenForegroundColor()}
-                bg={this._ScreenData.getScreenBackgroundColor()}
-              >
-                <EditorRootPane
-                  paneData={this._RootPaneData}
-                  editScreenViewAsParent={this}
-                  foregroundColor={this._ScreenData.getScreenForegroundColor()}
-                  backgroundColor={this._ScreenData.getScreenBackgroundColor()}
-                />
-              </ColorPaneContextProvider>
+          <Space style={{ flex: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{ fontSize: 14 }}>{i18n.t('grid')} : </Text>
+              <InputNumber
+                value={this.getEditingScreenGrid()}
+                style={{ width: 120 }}
+                // onPressEnter={e =>
+                //   this.setEditingScreenGrid(parseInt(e.target.value))
+                // }
+                onStep={v => this.setEditingScreenGrid(v)}
+              />
             </View>
             <View
               style={{
-                width: 260,
                 display: 'flex',
-                flexDirection: 'column',
-                gap: 20,
-                margin: 4,
-                height: '100%',
-                // backgroundColor: 'white'
+                alignItems: 'center',
+                flexDirection: 'row',
               }}
             >
-              {/* <AutocompleteDropdownContextProvider> */}
-              {settingsAreaJsx}
-              {/* </AutocompleteDropdownContextProvider> */}
+              <Text style={{ fontSize: 14 }}>{i18n.t('foreground')}: </Text>
+              <DropdownOverlay
+                overlay={
+                  <ColorPicker
+                    color={this._ScreenData.getScreenForegroundColor()}
+                    onColorChangeComplete={this.setScreenForegroundColor}
+                    isDefault
+                    type='hex'
+                  />
+                }
+              >
+                <View
+                  style={{
+                    width: 48,
+                    height: 30,
+                    borderColor: ' #e0e0e0',
+                    borderStyle: 'solid',
+                    borderWidth: 1,
+                    backgroundColor:
+                      this._ScreenData.getScreenForegroundColor(),
+                  }}
+                ></View>
+              </DropdownOverlay>
             </View>
+            <View
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}
+            >
+              <Text style={{ fontSize: 14 }}>{i18n.t('background')}: </Text>
+              <DropdownOverlay
+                overlay={
+                  <ColorPicker
+                    color={this._ScreenData.getScreenBackgroundColor()}
+                    onColorChangeComplete={this.setScreenBackgroundColor}
+                    isDefault
+                    type='hex'
+                  />
+                }
+              >
+                <View
+                  style={{
+                    width: 48,
+                    height: 30,
+                    borderColor: ' #e0e0e0',
+                    borderStyle: 'solid',
+                    borderWidth: 1,
+                    backgroundColor:
+                      this._ScreenData.getScreenBackgroundColor(),
+                  }}
+                ></View>
+              </DropdownOverlay>
+            </View>
+          </Space>
+          <View style={{ marginLeft: 'auto', marginRight: 4 }}>
+            <Space>
+              <Popconfirm
+                title={i18n.t('are_you_sure')}
+                onConfirm={() => this._abortEditingScreen()}
+                okText={i18n.t('yes')}
+                cancelText={i18n.t('no')}
+              >
+                <Button type='secondary' style={{ minWidth: 80 }} disabled>
+                  {i18n.t('discard')}
+                </Button>
+              </Popconfirm>
+              <Space size={0} />
+              <Button
+                type='success'
+                style={{ minWidth: 80 }}
+                onPress={() => this._saveEditingScreen()}
+              >
+                {i18n.t('save')}
+              </Button>
+            </Space>
           </View>
         </View>
-      </GestureHandlerRootView>
+        <View
+          style={{
+            display: 'flex',
+            height: Dimensions.get('screen').height - 47,
+            flexDirection: 'row',
+          }}
+        >
+          <View style={{ width: 240 }}>
+            {/* left -  widget templates area*/}
+            {this._getWidgetTemplatesAreaJsx()}
+          </View>
+          <View style={{ flex: 1 }}>
+            <ColorPaneContextProvider
+              fg={this._ScreenData.getScreenForegroundColor()}
+              bg={this._ScreenData.getScreenBackgroundColor()}
+            >
+              <EditorRootPane
+                paneData={this._RootPaneData}
+                editScreenViewAsParent={this}
+                foregroundColor={this._ScreenData.getScreenForegroundColor()}
+                backgroundColor={this._ScreenData.getScreenBackgroundColor()}
+              />
+            </ColorPaneContextProvider>
+          </View>
+          <View
+            style={{
+              width: 260,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 20,
+              margin: 4,
+              height: '100%',
+              // backgroundColor: 'white'
+            }}
+          >
+            {/* <AutocompleteDropdownContextProvider> */}
+            {settingsAreaJsx}
+            {/* </AutocompleteDropdownContextProvider> */}
+          </View>
+        </View>
+      </View>
     )
   }
 }

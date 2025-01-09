@@ -1212,12 +1212,10 @@ export class BrekekeOperatorConsole extends React.Component<
 
   onSavedNewLayoutFromNoScreensView(layoutName, layoutsAndSettingsData) {
     const systemSettingsData = this.getSystemSettingsData()
-    console.log('#Duy Phan console save')
     const this_ = this
     systemSettingsData.setSystemSettingsDataData(
       layoutsAndSettingsData.systemSettings,
       () => {
-        console.log('#Duy Phan console save222')
         this_.setLastLayoutShortname(layoutName)
         const screenData_ver2 = new ScreenData()
         this_.setState({
@@ -1332,16 +1330,13 @@ export class BrekekeOperatorConsole extends React.Component<
       }
       const pt = newData.phoneTerminal
       let phoneClient
-      console.log('#Duy Phan console pt', pt)
       if (pt === 'phoneTerminal_pal') {
         phoneClient = new PalPhoneClient(options)
       } else {
         phoneClient = new WebphonePhoneClient(options)
       }
-      // phoneClient = new PalPhoneClient(options)
 
       this._getLastLoginAccount().then(initOptions => {
-        console.log('#Duy Phan console initOptions', initOptions)
         const newOptions: OptionsInitSystem = { ...initOptions }
         newOptions.onInitSuccessFunction = function (oExtensions) {
           console.log('extensions', oExtensions)
@@ -1370,7 +1365,6 @@ export class BrekekeOperatorConsole extends React.Component<
 
       return false
     } else {
-      console.log('#Duy Phan console option2')
       const initAsync =
         this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
           newData,
@@ -2346,7 +2340,6 @@ export class BrekekeOperatorConsole extends React.Component<
         note: noteContent,
       }),
       onSuccessFunction: res => {
-        console.log('#Duy Phan console saved_data_to_pbx_successfully')
         Notification.success({
           message: i18n.t('saved_data_to_pbx_successfully'),
         })

@@ -1541,7 +1541,7 @@
     "@babel/plugin-transform-react-jsx-development" "^7.22.5"
     "@babel/plugin-transform-react-pure-annotations" "^7.24.1"
 
-"@babel/preset-typescript@^7.1.0", "@babel/preset-typescript@^7.16.7", "@babel/preset-typescript@^7.26.0":
+"@babel/preset-typescript@^7.1.0", "@babel/preset-typescript@^7.16.7", "@babel/preset-typescript@^7.17.12", "@babel/preset-typescript@^7.26.0":
   version "7.26.0"
   resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.26.0.tgz#4a570f1b8d104a242d923957ffa1eaff142a106d"
   integrity sha512-NMk1IGZ5I/oHhoXEElcm+xUnL/szL6xflkFZmoEU9xj1qSJXpiS7rsspYo92B4DRCDvZn2erT5LdsCeXAKNCkg==
@@ -2298,11 +2298,6 @@
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
-
-"@mgcrea/react-native-dnd@^2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@mgcrea/react-native-dnd/-/react-native-dnd-2.4.2.tgz#48df3dd2b1fbb72ceefa0ee2ed811e0b6bdb5a67"
-  integrity sha512-5W40Bpmz5rwwWKD/hAF7XGrtDSMzxhNE4vvQWGDABbfsvxR2VaazGesTLkTlrknxp3hPzE+FvgIyvldQwjtEvA==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
@@ -7969,6 +7964,11 @@ internal-slot@^1.0.7:
     hasown "^2.0.0"
     side-channel "^1.0.4"
 
+intl@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/intl/-/intl-1.2.5.tgz#82244a2190c4e419f8371f5aa34daa3420e2abde"
+  integrity sha512-rK0KcPHeBFBcqsErKSpvZnrOmWOj+EmDkyJ57e90YWaQNqbcivcqmKDlHEeNprDWOsKzPsh1BfSpPQdDvclHVw==
+
 invariant@*, invariant@2.2.4, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
@@ -11985,10 +11985,12 @@ react-native-document-picker@9.0.1:
   dependencies:
     invariant "^2.2.4"
 
-react-native-draglist@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/react-native-draglist/-/react-native-draglist-3.8.0.tgz#b2ea51cece675ce9356ab6f1e472df8b43dda9a4"
-  integrity sha512-nmhxDk2pJhwg3zkuw6r3Gyk2hSoYDLAVa3zqy+SVpwiV/rDfMbOWi97lBgCQP1JbHWuYSVSKdYdmAfPa03jgmA==
+react-native-draggable-flatlist@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-draggable-flatlist/-/react-native-draggable-flatlist-4.0.1.tgz#2f027d387ba4b8f3eb0907340e32cb85e6460df2"
+  integrity sha512-ZO1QUTNx64KZfXGXeXcBfql67l38X7kBcJ3rxUVZzPHt5r035GnGzIC0F8rqSXp6zgnwgUYMfB6zQc5PKmPL9Q==
+  dependencies:
+    "@babel/preset-typescript" "^7.17.12"
 
 react-native-emoji-selector@0.2.0:
   version "0.2.0"
@@ -12152,10 +12154,22 @@ react-native-size-matters@^0.4.2:
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.4.2.tgz#4348bdd6fc47383f60326d58ad69870c998a5f9a"
   integrity sha512-DKE3f/sdcozd24oASgkP1iGg+YU3HoajRa5k3a4wkRzpiqREq8SGX12Y5zBgAt/8IivLQoTMYkyQu1/Giuy+zQ==
 
+react-native-sortable-list@^0.0.25:
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/react-native-sortable-list/-/react-native-sortable-list-0.0.25.tgz#9176d9e853cc3277df70af939838a13767dd99d5"
+  integrity sha512-51hqk+4wx2N1Ii1nsXfNUI84XrCwM4y7M64O4hQMtDn5v6RO5gmRO80ueK0DcZH77Yz0iU5Y9Drrbf8r0DxvqQ==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-sound-player@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/react-native-sound-player/-/react-native-sound-player-0.14.3.tgz#cc45bc515531e06b3c4f931d5cb3a6afcc591c26"
   integrity sha512-I5VeG8YuwTTMX6CPkZfNL6lWay6GmR3HzuxXjhhpUKHV5K2XWXKJ+YKJAz6dBnJoNshl4EQOo4ox8bQD6/+zPA==
+
+react-native-sound@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.11.2.tgz#e542dc5b9e16ab4b3ac7e6eaddb1fc8d98da9038"
+  integrity sha512-LmGc8lgOK3qecYMVQpyHvww/C+wgT6sWeMpVbOe4NCRGC2yKd4fo4U0KBUo9PO7AqKESO3I/2GZg1/C0+bwiiA==
 
 react-native-splash-screen@3.3.0:
   version "3.3.0"

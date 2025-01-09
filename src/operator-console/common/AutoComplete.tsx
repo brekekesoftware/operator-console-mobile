@@ -21,11 +21,6 @@ export const AutoComplete = ({ options, onChangeText, ...rest }: Props) => {
     options.filter(item =>
       item.value.toLowerCase().includes(query.toLowerCase().trim()),
     )
-  console.log(
-    '#Duy Phan console options',
-    options.map((item, index) => ({ id: index.toString(), title: item.value })),
-  )
-
   return (
     <AutocompleteDropdown
       {...rest}

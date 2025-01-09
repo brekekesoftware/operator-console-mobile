@@ -5,14 +5,12 @@ import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import AwesomeButton from 'react-native-really-awesome-button'
-import SoundPlayer from 'react-native-sound-player'
-import Video from 'react-native-video'
 
 import Logo from '../logo.png'
 
 import { RnAsyncStorage } from '../../components/Rn'
+import { getAuthStore } from '../../stores/authStore'
 import { Button } from '../common/Button'
-import { ShadowButton } from '../common/ShadowButton'
 import { i18n } from '../i18n'
 import type { LoginParams } from '../octypes'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -55,11 +53,19 @@ class LoginC extends React.Component<Props, State> {
       this.setState({ initialValues: v })
       this.props.form.setFieldsValue(v)
     })
-    try {
-      // const currentSong = SoundPlayer.playUrl('http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3')
-    } catch (e) {
-      console.error(e)
-    }
+    getAuthStore().signOut()
+
+    // TrackPlayer.add({
+    //   id: 'trackId',
+    //   url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    //   title: 'Sample Sound',
+    //   artist: 'Unknown Artist',
+    // }).then(() => TrackPlayer.play()).catch(e => console.log('#Duy Phan console',e))
+    // const p = new Sound('http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3', undefined, (e) => {
+    //   console.log('#Duy Phan consoleeeee',e)
+    // })
+
+    // p.play()
   }
 
   _hideMessage() {
@@ -205,7 +211,10 @@ class LoginC extends React.Component<Props, State> {
     return (
       <View>
         {/* <Video
-            source={'http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3'}
+            source={{uri: 'http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3', headers: {
+              'User-Agent':
+                'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+            } }}
             // style={css.video}
             volume={100}
             onError={(r) =>console.log('#Duy Phan console error',r)}

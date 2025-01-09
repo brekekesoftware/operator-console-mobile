@@ -1,25 +1,17 @@
 import { Tabs } from '@ant-design/react-native'
 import type { TabData } from '@ant-design/react-native/lib/tabs/PropsType'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useCallback, useEffect, useRef } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import DragList from 'react-native-draglist'
+import DraggableFlatList, {
+  ScaleDecorator,
+} from 'react-native-draggable-flatlist'
 
 import { RuntimeWidgetFactory } from './widget/runtime/RuntimeWidgetFactory'
 
-const _onTabClick = (tabKey, mouseEvent, runtimePaneAsParent) => {
+const _onTabClick = (tabKey, runtimePaneAsParent) => {
   const pane = runtimePaneAsParent
   const paneId = pane.getPaneId()
-  pane.onTabClickByRuntimeTabFunctionComponent(tabKey, mouseEvent)
-}
-
-const _onDragOver = function (ev) {
-  ev.preventDefault()
-  // ev.target.style.cursor = 'grabbing';
-}
-
-const _onDragEnter = function (ev) {
-  ev.preventDefault()
-  // ev.dataTransfer.dropEffect = "grabbing";
+  pane.onTabClickByRuntimeTabFunctionComponent(tabKey)
 }
 
 export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
@@ -27,7 +19,7 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
   const tabsData = props['tabsData']
 
   // css["position"] = "relative";
-  const refTab = useRef()
+  const refTabs = useRef<Tabs | null>(null)
 
   const tabItems = new Array(tabsData.getTabDataCount())
   for (let i = 0; i < tabItems.length; i++) {
@@ -62,17 +54,11 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
     tabItems[i] = tabItem
   }
 
-  const onDragEnd = ({ active, over }) => {
-    if (!over) {
-      return
-    }
-
-    if (active.id !== over.id) {
-      const activeIndex = tabItems.findIndex(i => i.key === active.id)
-      const overIndex = tabItems.findIndex(i => i.key === over?.id)
-      tabsData.replaceTabData(activeIndex, overIndex)
-      runtimePaneAsParent.setState({ rerender: true })
-    }
+  const onDragEnd = ({ from, to }) => {
+    console.log('#Duy Phan console from', from, to)
+    tabsData.replaceTabData(from, to)
+    tabsData.replaceTabData(to, to)
+    runtimePaneAsParent.setState({ rerender: true })
   }
 
   const _onChangeByTabs = selectedKey => {
@@ -84,44 +70,100 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
   const className = props['className'] + ' overflowAuto'
   const paneId = props['data-br-container-id']
   const css = props['css']
+  const tabsCheck = tabItems.map(item => ({ key: item.key, title: item.title }))
+
+  useEffect(() => {
+    const activeIndex = tabItems.findIndex(item => item.key === activeKey)
+    setTimeout(() => {
+      refTabs.current?.tabClickGoToTab(activeIndex)
+      refTabs.current?.goToTab(activeIndex)
+    }, 400)
+  }, [])
+
+  useEffect(() => {
+    const activeIndex = tabItems.findIndex(item => item.key === activeKey)
+    console.log('#Duy Phan console change', activeIndex)
+    setTimeout(() => {
+      refTabs.current?.tabClickGoToTab(activeIndex)
+      refTabs.current?.goToTab(activeIndex)
+    }, 0)
+  }, [JSON.stringify(tabsCheck)])
+
+  const renderItem = useCallback(
+    (info, tabBarProps) => {
+      console.log('#Duy Phan console info', info)
+      const index = info.getIndex()
+      return (
+        <ScaleDecorator key={info.item.key}>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            style={{
+              padding: 6,
+              borderColor: activeKey === info.item.key ? '#1677ff' : undefined,
+              borderBottomWidth: activeKey === info.item.key ? 1 : undefined,
+            }}
+            onLongPress={info.drag}
+            onPress={() => {
+              _onTabClick(info.item.key, runtimePaneAsParent)
+              _onChangeByTabs(info.item.key)
+
+              const { goToTab, onTabClick } = tabBarProps
+              // tslint:disable-next-line:no-unused-expression
+              onTabClick && onTabClick(tabBarProps.tabs[index], index)
+              // tslint:disable-next-line:no-unused-expression
+              goToTab && goToTab(index)
+            }}
+          >
+            <Text
+              style={{
+                color: activeKey === info.item.key ? '#1677ff' : '#333333',
+              }}
+            >
+              {info.item.label}
+            </Text>
+          </TouchableOpacity>
+        </ScaleDecorator>
+      )
+    },
+    [activeKey],
+  )
+
+  const renderTabs = useCallback(
+    () =>
+      tabItems.map(tab => (
+        <View style={{ flex: 1 }} key={tab.key}>
+          {tab.children}
+        </View>
+      )),
+    [],
+  )
+
   const jsx = (
     <View style={css} ref={ref}>
       <Tabs
         data-br-container-id={paneId}
-        onChange={selectedKey => _onChangeByTabs(selectedKey)}
-        onTabClick={(tabKey, mouseEvent) =>
-          _onTabClick(tabKey, mouseEvent, runtimePaneAsParent)
-        }
+        ref={refTabs}
+        // onChange={selectedKey => _onChangeByTabs(selectedKey)}
         tabs={tabItems}
+        initialPage={activeKey}
         renderTabBar={tabBarProps => (
-          <DragList<TabData>
-            data={tabBarProps.tabs}
-            keyExtractor={(item, i) => i.toString()}
-            renderItem={info => (
-              <TouchableOpacity
-                activeOpacity={0.9}
-                style={{
-                  padding: 6,
-                }}
-              >
-                <Text
-                  style={{
-                    color: activeKey === info.index ? 'green' : '#333333',
-                  }}
-                >
-                  {info.item.title}
-                </Text>
-              </TouchableOpacity>
-            )}
-            onReordered={(f, t) => onDragEnd({ over: f, active: t })}
+          <DraggableFlatList
+            data={tabItems.map(item => ({
+              key: item.key,
+              label: item.label,
+              height: 40,
+              width: 100,
+            }))}
+            keyExtractor={(_, i) => i.toString()}
+            renderItem={(info: any) => renderItem(info, tabBarProps)}
+            horizontal
+            onDragEnd={onDragEnd}
           />
         )}
+        prerenderingSiblingsNumber={0}
+        destroyInactiveTab
       >
-        {tabItems.map(tab => (
-          <View style={{ flex: 1 }} key={tab.key}>
-            {tab.children}
-          </View>
-        ))}
+        {renderTabs()}
       </Tabs>
     </View>
   )

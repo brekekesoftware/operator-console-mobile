@@ -76,7 +76,6 @@ export class PalRestApi {
         }
       })
       .catch(err => {
-        console.log('#Duy Phan console', err)
         console.error(
           'Failed to login(Failed to init PAL REST API). error=',
           err,

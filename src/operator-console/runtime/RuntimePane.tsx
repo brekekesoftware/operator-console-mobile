@@ -156,12 +156,8 @@ export class RuntimePane extends BasePane {
     return this.props['paneData'].getDividerData()
   }
 
-  onTabClickByRuntimeTabFunctionComponent(tabKey, mouseEvent) {
-    this.getRuntimeScreenView().onTabClickByRuntimePane(
-      this,
-      tabKey,
-      mouseEvent,
-    )
+  onTabClickByRuntimeTabFunctionComponent(tabKey) {
+    this.getRuntimeScreenView().onTabClickByRuntimePane(this, tabKey)
   }
 
   // !abstract

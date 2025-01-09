@@ -72,7 +72,6 @@ export class EditorChildPane extends EditorPane {
           if (paneHeight && paneHeight !== -1) {
             paneCss['height'] = paneHeight + '%'
           }
-          console.log('#Duy Phan console pane child paneCss', paneCss)
 
           jsx = (
             <View

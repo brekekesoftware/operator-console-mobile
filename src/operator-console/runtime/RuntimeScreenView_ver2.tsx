@@ -1,6 +1,7 @@
 import React from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, View } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import logo from '../logo.png'
 
@@ -22,7 +23,7 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
     this._OperatorConsoleAsParent = props['operatorConsoleAsParent']
   }
 
-  onTabClickByRuntimePane(runtimePanelAsCaller, tabKey, mouseEvent) {
+  onTabClickByRuntimePane(runtimePanelAsCaller, tabKey) {
     runtimePanelAsCaller.setRuntimePanezSelectedTabKeyAsString(tabKey)
   }
 
@@ -64,21 +65,17 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
           <DropDownMenu
             operatorConsole={this._OperatorConsoleAsParent}
           ></DropDownMenu>
-          {/* <AutoDialView_ver2 isVisible={isVisibleAutoDialView_Ver2} />
-          <QuickBusy_ver2 /> */}
+          <AutoDialView_ver2 isVisible={isVisibleAutoDialView_Ver2} />
+          <QuickBusy_ver2 />
         </View>
         <View
           style={{
             display: 'flex',
-            // height: Dimensions.get('screen').height - 47,
             flex: 1,
-            // backgroundColor: 'red'
           }}
         >
           <View
             style={{
-              // width: '100%',
-              // overflow: 'scroll',
               marginLeft: 10,
               marginBottom: 10,
               flex: 1,

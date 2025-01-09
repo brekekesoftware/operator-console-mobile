@@ -14,6 +14,7 @@ import {
   View,
 } from 'react-native'
 import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import SplashScreen from 'react-native-splash-screen'
 
@@ -346,7 +347,9 @@ export const App = observer(() => {
           </View>
         )}
         <View style={css.App_Inner}>
-          <BrekekeOperatorConsole />
+          <GestureHandlerRootView>
+            <BrekekeOperatorConsole />
+          </GestureHandlerRootView>
         </View>
       </View>
     </AutocompleteDropdownContextProvider>

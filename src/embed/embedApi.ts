@@ -62,15 +62,10 @@ export class EmbedApi extends EventEmitter {
     // reassign options on each sign in
     embedApi._palEvents = o.palEvents
     embedApi._palParams = parsePalParams(o)
-    console.log(
-      '#Duy Phan console clearExistingAccount',
-      o.clearExistingAccount,
-    )
     // check if cleanup existing account
     if (o.clearExistingAccount) {
       accountStore.accounts = []
       accountStore.accountData = []
-      getAuthStore().signOut()
     }
     // create map based on unique (host, port, tenant, user)
     const accountsMap = arrToMap(
