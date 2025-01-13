@@ -7,18 +7,17 @@ export const Input = forwardRef(
   (props: InputProps, ref: Ref<{ getValue: () => string }>) => {
     const [value, setValue] = useState(props.defaultValue || props.value)
 
-    useEffect(() => {
-      setValue(props.value)
-    }, [props.value])
-
     const onChange = (e: string) => {
       setValue(e)
-
       props.onChangeText?.(e)
     }
 
     useImperativeHandle(ref, () => ({
-      getValue: () => value ?? '',
+      getValue: () => value || props.defaultValue || '',
+      setValue: v => {
+        console.log('#Duy Phan console v1', v)
+        setValue(v)
+      },
     }))
 
     return (

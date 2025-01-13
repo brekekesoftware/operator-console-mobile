@@ -1,6 +1,6 @@
 import { Checkbox } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import React from 'react'
+import React, { createRef } from 'react'
 import type { StyleProp, TextStyle } from 'react-native'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -82,11 +82,20 @@ export class PhonebookContactInfozInfoView extends React.Component<
 > {
   _PbContactInfozCustomItemArray
   _PbSummaryArray
+  refItems
+  refTel
+  refContact
   constructor(props) {
     super(props)
     this.state = {
       pbContactInfo: null,
     }
+    this.refItems = createRef<Array<any>>()
+    this.refItems.current = []
+    this.refTel = createRef<Array<any>>()
+    this.refTel.current = {}
+    this.refContact = createRef()
+    console.log('#Duy Phan console this.refItems', this.refItems)
     this._PbContactInfozCustomItemArray = new Array()
     this._PbSummaryArray = new Array()
     _INSTANCE = this
@@ -99,22 +108,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
   getPhonebookContactInfoFromState() {
     return this.state.pbContactInfo
   }
-
-  // componentDidUpdate() {
-  //     const  pbContactInfo = this.state.pbContactInfo;
-  //     if( !pbContactInfo ){
-  //         return;
-  //     }
-  //
-  //     if( this.state.renderOnce !== true ) {
-  //         setTimeout(() => {
-  //             const eShared = document.getElementById("shared_PhonebookContactInfozInfoView_brOC");
-  //             const bShared = pbContactInfo.getIsShared();
-  //             eShared.checked = bShared;
-  //             this.setState({renderOnce: true});
-  //         }, 1000);
-  //     }
-  // }
 
   _onInputFocus() {
     const oc = BrekekeOperatorConsole.getStaticInstance()
@@ -184,6 +177,10 @@ export class PhonebookContactInfozInfoView extends React.Component<
           const pbGotContactInfo = new PhonebookContactInfo_AutoDialView_ver2(
             contact,
           )
+          console.log(
+            '#Duy Phan console pbGotContactInfo',
+            pbGotContactInfo.getPhonebookName(),
+          )
 
           // Collect info's custom items.
           const pbContactInfozInfoArray =
@@ -194,16 +191,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
               const infozCustomItem = new PbContactInfozCustomItem({
                 pbContactInfozItem: infozItem,
               })
-
-              // Did not work
-              // //Refresh custom item element's value
-              // // const eCustomItemName = document.querySelector('[data-br-name="PhonebookContactInfozInfoView_customItemName_' + i + '"]');
-              // const eCustomItemName = document.getElementById("brOC_PhonebookContactInfozInfoView_customItemName_" + i );
-              // if( eCustomItemName ){
-              //     eCustomItemName.value = infozCustomItem.getName();
-              //     const eCustomItemValue = document.querySelector('[data-br-name="PhonebookContactInfozInfoView_customItemValue_' + i + '"]');
-              //     eCustomItemValue.value = infozCustomItem.getValue();
-              // }
 
               this._PbContactInfozCustomItemArray.push(infozCustomItem)
             }
@@ -222,23 +209,11 @@ export class PhonebookContactInfozInfoView extends React.Component<
                 i++
               ) {
                 const customItem = this._PbContactInfozCustomItemArray[i]
-                // const eCustomItemName = document.querySelector('[data-br-name="PhonebookContactInfozInfoView_customItemName_' + i + '"]');
-                const eCustomItemName = document.getElementById(
-                  'brOC_PhonebookContactInfozInfoView_customItemName_' + i,
-                )
                 const name = customItem.getName()
-                // eCustomItemName.defaultValue = name;
-                eCustomItemName.value = name
-                // eCustomItemName.setAttribute("value", name );
-                const eCustomItemValue = document.querySelector(
-                  '[data-br-name="PhonebookContactInfozInfoView_customItemValue_' +
-                    i +
-                    '"]',
-                )
                 const value = customItem.getValue()
-                // eCustomItemValue.defaultValue = value;
-                eCustomItemValue.value = value
-                // eCustomItemName.setAttribute("value", value  );
+                this.refItems.current[i].itemName.setValue(name)
+                this.refItems.current[i].itemValue.setValue(value)
+                console.log('#Duy Phan console name value', name, value)
               }
             },
           )
@@ -313,18 +288,19 @@ export class PhonebookContactInfozInfoView extends React.Component<
   _save() {
     const oc = BrekekeOperatorConsole.getStaticInstance()
     // validation
-    const phonebookName = document.getElementById(
-      'phonebookName_PhonebookContactInfozInfoView',
-    ).value
+    console.log(
+      '#Duy Phan console this.state.pbContactInfo',
+      this.state.pbContactInfo,
+    )
+    const phonebookName = this.state.pbContactInfo
+      ? this.state.pbContactInfo.getPhonebookName()
+      : this.refContact.current.getValue()
     if (!phonebookName || phonebookName.length === 0) {
       Notification.warning({ message: i18n.t('No_phonebook_assigned') })
       return
     }
 
-    const eShared = document.getElementById(
-      'shared_PhonebookContactInfozInfoView_brOC',
-    )
-    const isShared = eShared.checked === true
+    const isShared = this.state.sharedChecked
     const isAdmin = oc.getIsAdmin()
     const isSaveable =
       isShared === false || (isShared === true && isAdmin === true)
@@ -338,22 +314,12 @@ export class PhonebookContactInfozInfoView extends React.Component<
       return
     }
 
-    const iInfoKeyWithinnameStartIndex =
-      'PhonebookContactInfozInfoView_infoItem_'.length
-
-    const eInfoParams = document.querySelectorAll(
-      '[data-br-isinfoparam="true"]',
-    )
     const oInfo = {}
-    for (let i = 0; i < eInfoParams.length; i++) {
-      const eInfoParam = eInfoParams[i]
-      const sInfoKeyWithinname = eInfoParam.getAttribute('data-br-name')
-      const sInfoKeyName = sInfoKeyWithinname.substring(
-        iInfoKeyWithinnameStartIndex,
-      )
-      const sInfoValue = eInfoParam.value
-      oInfo[sInfoKeyName] = sInfoValue
-    }
+
+    Object.entries(this.refTel.current as any).forEach(([k, v]) => {
+      oInfo[k] = v.getValue()
+    })
+    console.log('#Duy Phan console oInfo', oInfo)
 
     // Collect custom items
     for (let i = 0; i < this._PbContactInfozCustomItemArray.length; i++) {
@@ -413,24 +379,17 @@ export class PhonebookContactInfozInfoView extends React.Component<
   }
 
   _addItem() {
-    const customItem = new PbContactInfozCustomItem('', '')
+    const customItem = new PbContactInfozCustomItem('')
     this._PbContactInfozCustomItemArray.push(customItem)
     this.setState({ refresh: true }, () => {
       // Refresh custom item element's name&value
       for (let i = 0; i < this._PbContactInfozCustomItemArray.length; i++) {
-        const customItem = this._PbContactInfozCustomItemArray[i]
-        const eCustomItemName = document.getElementById(
-          'brOC_PhonebookContactInfozInfoView_customItemName_' + i,
-        )
-        const name = customItem.getName()
-        eCustomItemName.value = name
-        const eCustomItemValue = document.querySelector(
-          '[data-br-name="PhonebookContactInfozInfoView_customItemValue_' +
-            i +
-            '"]',
-        )
-        const value = customItem.getValue()
-        eCustomItemValue.value = value
+        const customItem1 = this._PbContactInfozCustomItemArray[i]
+        const name = customItem1.getName()
+        const value = customItem1.getValue()
+        this.refItems.current[i].itemName.setValue(name)
+        this.refItems.current[i].itemValue.setValue(value)
+        console.log('#Duy Phan console name value', name, value)
       }
     })
   }
@@ -510,7 +469,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
           this.closePhonebookContactInfozInfoView()
         } else {
           // const arFailed = ret["failed"];
-          failFunc()
+          failFunc(null)
         }
       },
       onFailFunction: resOrError => failFunc(resOrError),
@@ -518,26 +477,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
     oc.getPalRestApi().callPalRestApiMethod(deleteContactOptions)
   }
 
-  // !DIdNotWork
-  // _toggleShared(){
-  //     const eShared = document.getElementById("shared_PhonebookContactInfozInfoView_brOC");
-  //     const isChecked = eShared.checked;
-  //     eShared.checked = !isChecked;
-  //     this.setState({sharedDefaultChecked:!isChecked});
-  // }
-
-  // _toggleShared(){
-  //     const eShared = document.getElementById("shared_PhonebookContactInfozInfoView_brOC");
-  //     const isChecked = eShared.checked;
-  //     eShared.checked = !isChecked;
-  //     this._rerenderShared();
-  // }
-
-  _rerenderShared() {
-    const eShared = document.getElementById(
-      'shared_PhonebookContactInfozInfoView_brOC',
-    )
-    const isChecked = eShared.checked
+  _rerenderShared(isChecked) {
     this.setState({ sharedChecked: isChecked })
   }
 
@@ -552,14 +492,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
     const isAdmin = oc.getIsAdmin()
     const isSaveable =
       isShared === false || (isShared === true && isAdmin === true)
-
-    // let sharedDefaultChecked;
-    // if( this.state.sharedDefaultChecked === undefined || this.state.sharedDefaultChecked === null ){
-    //     sharedDefaultChecked = isShared;
-    // }
-    // else{
-    //     sharedDefaultChecked = this.state.sharedDefaultChecked;
-    // }
 
     let sharedChecked
     if (
@@ -612,7 +544,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
                     <FontAwesomeIcon
                       icon={['far', 'window-close']}
                       color='#584937'
-                      size={20}
+                      size={25}
                     />
                   </Popconfirm>
                 )}
@@ -623,7 +555,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
                     <FontAwesomeIcon
                       icon={['far', 'window-close']}
                       color='#584937'
-                      size={20}
+                      size={25}
                     />
                   </TouchableOpacity>
                 )}
@@ -659,11 +591,11 @@ export class PhonebookContactInfozInfoView extends React.Component<
                       flexDirection: 'row',
                       alignItems: 'center',
                       paddingLeft: 20,
+                      paddingTop: 20,
                     }}
                   >
                     <View style={{ width: 130 }}>
                       <Text
-                        htmlFor='phonebookName_PhonebookContactInfozInfoView'
                         style={{
                           textTransform: 'uppercase',
                           fontWeight: 'bold',
@@ -675,9 +607,13 @@ export class PhonebookContactInfozInfoView extends React.Component<
                     <View>
                       {!this._isAddContact() && (
                         <Input
-                          id='phonebookName_PhonebookContactInfozInfoView'
+                          ref={this.refContact}
                           defaultValue={this.state.pbContactInfo.getPhonebookName()}
-                          style={{ width: 300 }}
+                          style={{
+                            width: 300,
+                            opacity: 0.7,
+                            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                          }}
                           disabled={true}
                         />
                       )}
@@ -685,7 +621,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
                         <>
                           <Input
                             type='text'
-                            id='phonebookName_PhonebookContactInfozInfoView'
+                            ref={this.refContact}
                             list='phonebookName_datalist_PhonebookContactInfozInfoView'
                             maxLength={100}
                             onFocus={e => this._onInputFocus()}
@@ -716,7 +652,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
                   >
                     <View style={{ width: 130 }}>
                       <Text
-                        htmlFor='shared_PhonebookContactInfozInfoView_brOC'
                         style={{
                           textTransform: 'uppercase',
                           fontWeight: 'bold',
@@ -727,10 +662,9 @@ export class PhonebookContactInfozInfoView extends React.Component<
                     </View>
                     <View>
                       <Checkbox
-                        id='shared_PhonebookContactInfozInfoView_brOC'
                         // defaultChecked={sharedDefaultChecked}
                         checked={sharedChecked}
-                        onClick={e => this._rerenderShared()}
+                        onChange={e => this._rerenderShared(e.target.checked)}
                         disabled={isAdmin !== true}
                       />
                     </View>
@@ -767,13 +701,12 @@ export class PhonebookContactInfozInfoView extends React.Component<
                               {info.getTitle()}
                             </Text>
                           </View>
-                          <Cell style={{ alignItems: 'flex-start' }}>
+                          <Cell
+                            style={{ alignItems: 'flex-start', padding: 0 }}
+                          >
                             <Input
                               data-br-isinfoparam='true'
-                              data-br-name={
-                                'PhonebookContactInfozInfoView_infoItem_' +
-                                infoKeyName
-                              }
+                              ref={el => (this.refTel.current[key] = el)}
                               defaultValue={info.getValue()}
                               style={{ width: 300 }}
                               disabled={!isSaveable}
@@ -865,10 +798,8 @@ export class PhonebookContactInfozInfoView extends React.Component<
                                 <Cell>{telTitle}</Cell>
                                 <Cell>
                                   <Input
-                                    data-br-isinfoparam='true'
-                                    data-br-name={
-                                      'PhonebookContactInfozInfoView_infoItem_' +
-                                      telKeyName
+                                    ref={el =>
+                                      (this.refTel.current[telKeyName] = el)
                                     }
                                     defaultValue={tel}
                                     style={{ width: 160 }}
@@ -903,7 +834,11 @@ export class PhonebookContactInfozInfoView extends React.Component<
                                       }}
                                     >
                                       <WidgetButton
-                                        style={{ padding: 2 }}
+                                        style={{
+                                          padding: 2,
+                                          width: 40,
+                                          height: 40,
+                                        }}
                                         onPress={e => this._makeCall(tel)}
                                       >
                                         <FontAwesomeIcon
@@ -925,27 +860,31 @@ export class PhonebookContactInfozInfoView extends React.Component<
                     <TableWrapper key={i}>
                       <Cell>
                         <Input
-                          id={
-                            'brOC_PhonebookContactInfozInfoView_customItemName_' +
-                            i
-                          }
+                          ref={el => {
+                            console.log(
+                              '#Duy Phan console el',
+                              el?.getValue() ?? 'asd',
+                            )
+                            this.refItems.current[i] = {}
+                            this.refItems.current[i].itemName = el
+                          }}
                           list={
                             'brOC_PhonebookContactInfozInfoView_datalist_customItemName_' +
                             i
                           }
                           // defaultValue={customItem.getName()}
                           style={{ width: 200 }}
-                          disabled={!isSaveable}
+                          // disabled={!isSaveable}
                           maxLength={1000}
                           onChange={e =>
                             this._onChangeCustomItemInputName(customItem, e)
                           }
-                          onFocus={e =>
-                            this._onCustomItemNameInputFocus(customItem, e)
-                          }
-                          onBlur={e =>
-                            this._onCustomItemNameInputBlur(customItem, e)
-                          }
+                          // onFocus={e =>
+                          //   this._onCustomItemNameInputFocus(customItem, e)
+                          // }
+                          // onBlur={e =>
+                          //   this._onCustomItemNameInputBlur(customItem, e)
+                          // }
                         />
                         {/* <datalist
                               id={
@@ -964,22 +903,26 @@ export class PhonebookContactInfozInfoView extends React.Component<
                       </Cell>
                       <Cell>
                         <Input
+                          ref={el => {
+                            // this.refItems.current[i] = {}
+                            this.refItems.current[i].itemValue = el
+                          }}
                           data-br-name={
                             'PhonebookContactInfozInfoView_customItemValue_' + i
                           }
                           // defaultValue={customItem.getValue()}
                           style={{ width: 300 }}
-                          disabled={!isSaveable}
+                          // disabled={!isSaveable}
                           maxLength={1000}
                           onChange={e =>
                             this._onChangeCustomItemInputValue(customItem, e)
                           }
-                          onFocus={e =>
-                            this._onCustomItemValueInputFocus(customItem, e)
-                          }
-                          onBlur={e =>
-                            this._onCustomItemValueInputBlur(customItem, e)
-                          }
+                          // onFocus={e =>
+                          //   this._onCustomItemValueInputFocus(customItem, e)
+                          // }
+                          // onBlur={e =>
+                          //   this._onCustomItemValueInputBlur(customItem, e)
+                          // }
                         />
                       </Cell>
                     </TableWrapper>
@@ -1023,12 +966,14 @@ export class PhonebookContactInfozInfoView extends React.Component<
               </View>
             </TableWrapper>
             <TableWrapper>
-              <Cell style={{ paddingTop: 4, paddingRight: 4 }}>
+              <Cell style={{ paddingTop: 4, paddingRight: 4, width: '100%' }}>
                 <View
                   style={{
                     display: 'flex',
-                    alignItems: 'center',
                     justifyContent: 'flex-end',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: '100%',
                   }}
                 >
                   {isSaveable && this._isAddContact() !== true && (
@@ -1037,8 +982,9 @@ export class PhonebookContactInfozInfoView extends React.Component<
                       onConfirm={() => this._deleteContact()}
                       okText={i18n.t('yes')}
                       cancelText={i18n.t('no')}
+                      popStyle={{ zIndex: 99999, top: -180 }}
                     >
-                      <Button style={{ marginRight: 4 }} disabled={!isSaveable}>
+                      <Button style={{ marginRight: 4 }} disabled>
                         {i18n.t('Delete')}
                       </Button>
                     </Popconfirm>

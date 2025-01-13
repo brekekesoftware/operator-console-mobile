@@ -85,7 +85,7 @@ export const CallNotify = observer(() => {
   return (
     <Wrapper>
       {cs.shouldRingInNotify(c.callkeepUuid) && <IncomingItem />}
-      <RnTouchableOpacity
+      {/* <RnTouchableOpacity
         style={css.Notify}
         onPress={() => Nav().goToPageCallManage()}
       >
@@ -119,7 +119,7 @@ export const CallNotify = observer(() => {
           size={20}
           style={css.Notify_Btn_accept}
         />
-      </RnTouchableOpacity>
+      </RnTouchableOpacity> */}
     </Wrapper>
   )
 })

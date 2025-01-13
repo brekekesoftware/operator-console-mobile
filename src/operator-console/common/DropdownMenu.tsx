@@ -5,6 +5,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { RnText } from '../../components/RnText'
 import { RnTouchableOpacity } from '../../components/RnTouchableOpacity'
+import { IconArrowRight } from '../icons'
 import { Divider } from './Divider'
 
 type ChildMenuItem = {
@@ -33,21 +34,64 @@ export type DropdownItemProps = {
   title?: string
   onPress?: () => void
   disabled?: boolean
+  child?: any
 }
 
 export const Item: FC<DropdownItemProps> = ({
   title,
   onPress,
   disabled = false,
-}: DropdownItemProps) => (
-  <RnTouchableOpacity
-    onPress={onPress}
-    style={styles.container}
-    disabled={disabled}
-  >
-    <RnText>{title}</RnText>
-  </RnTouchableOpacity>
-)
+  child,
+}: DropdownItemProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const renderChild = () => {
+    if (!child || !isOpen) {
+      return null
+    }
+    return (
+      <View style={styles.overlayChild}>
+        {child?.map(c => {
+          if (typeof c.label === 'string') {
+            return (
+              <RnTouchableOpacity
+                onPress={() => {
+                  onPress?.()
+                  setIsOpen(!isOpen)
+                }}
+                style={styles.container}
+                disabled={disabled}
+                key={c.key}
+              >
+                <RnText>{title}</RnText>
+              </RnTouchableOpacity>
+            )
+          }
+          return c.label
+        })}
+      </View>
+    )
+  }
+  return (
+    <RnTouchableOpacity
+      onPress={() => {
+        onPress?.()
+        setIsOpen(!isOpen)
+      }}
+      style={styles.container}
+      disabled={disabled}
+    >
+      <RnText>{title}</RnText>
+      <View style={{ flex: 1 }}></View>
+      {!!child && (
+        <View>
+          <IconArrowRight size={18} />
+        </View>
+      )}
+      {renderChild()}
+    </RnTouchableOpacity>
+  )
+}
 
 export const DropdownMenu = ({ children, menu, style }: Props) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -74,6 +118,7 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
                   title={m.label}
                   onPress={() => menu.onPress?.(m.key)}
                   key={m.key}
+                  child={m.children}
                 />
               )
             }
@@ -115,5 +160,22 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingVertical: 5,
+    position: 'relative',
+    flexDirection: 'row',
+  },
+  overlayChild: {
+    position: 'absolute',
+    left: -120,
+    minWidth: 100,
+    width: 100,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#fefefe',
+    borderStyle: 'solid',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    zIndex: 11,
   },
 })

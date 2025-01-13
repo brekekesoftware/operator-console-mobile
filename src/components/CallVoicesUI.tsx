@@ -1,5 +1,6 @@
 import { Component, useEffect } from 'react'
 import { Platform, StyleSheet } from 'react-native'
+import RNFS from 'react-native-fs'
 import IncallManager from 'react-native-incall-manager'
 import Video from 'react-native-video'
 
@@ -16,7 +17,15 @@ const css = StyleSheet.create({
 export class IncomingItem extends Component {
   componentDidMount = () => {
     if (Platform.OS === 'android') {
-      BrekekeUtils.startRingtone()
+      const incomingRingtone = getCallStore().ringtone
+      console.log('#Duy Phan console incomingRingtone call', incomingRingtone)
+      if (incomingRingtone) {
+        const filename = incomingRingtone.split('/').pop()
+        const filePath = `${RNFS.DocumentDirectoryPath}/${filename}`
+        BrekekeUtils.startCustomRingtone(filePath)
+      } else {
+        BrekekeUtils.startRingtone()
+      }
     } else {
       IncallManager.startRingtone('_BUNDLE_')
     }

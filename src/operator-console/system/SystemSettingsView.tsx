@@ -53,15 +53,6 @@ export class SystemSettingsView extends React.Component<Props, State> {
       .validateFields()
       .then(values => {
         console.log('#Duy Phan console values', values)
-        // const systemSettingsAppData = Object.assign( {}, values); //!optimize isRequire?
-
-        // screens[this.state.currentScreenIndex] = {
-        //     widgets: this.state.editingWidgets,
-        //     background: this.state.editingScreenBackground,
-        //     width: this.state.editingScreenWidth,
-        //     height: this.state.editingScreenHeight,
-        //     grid: this.state.editingScreenGrid,
-        // }
 
         // check ucUrl
         if (values.ucUrl !== undefined && values.ucUrl !== null) {
@@ -340,7 +331,7 @@ export class SystemSettingsView extends React.Component<Props, State> {
                   {i18n.t('discard')}
                 </Button>
               </Popconfirm>
-              <Space />
+              <Space size={4} />
               <Button
                 type='success'
                 onPress={this.saveSystemSettings}

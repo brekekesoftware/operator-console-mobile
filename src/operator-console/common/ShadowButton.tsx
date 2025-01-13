@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { Animated, View } from 'react-native'
-import AwesomeButton from 'react-native-really-awesome-button'
+// import AwesomeButton from 'react-native-really-awesome-button'
 import type { ButtonTypes } from 'react-native-really-awesome-button/lib/typescript/src/Button'
+
+import { AwesomeButton } from './shadow-button/AwesomeButton'
 
 export const ShadowButton = ({
   isFlash,
@@ -48,8 +50,16 @@ export const ShadowButton = ({
     outputRange: ['#f8f9fa', '#ffffff'], // Flashing text colors
   })
   return (
-    <Animated.View style={{ backgroundColor: interpolatedBackgroundColor }}>
-      <AwesomeButton {...rest} />
-    </Animated.View>
+    <AwesomeButton
+      {...rest}
+      backgroundColor='#eff3f7'
+      textColor='black'
+      backgroundActive='white'
+      backgroundShadow='white'
+      raiseLevel={5}
+      backgroundDarker='#d1d8df'
+      borderRadius={5}
+      // style={{backgroundColor: interpolatedTextColor}}
+    />
   )
 }

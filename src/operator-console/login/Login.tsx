@@ -4,13 +4,13 @@ import { useForm } from '@ant-design/react-native/lib/form/Form'
 import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import AwesomeButton from 'react-native-really-awesome-button'
 
 import Logo from '../logo.png'
 
 import { RnAsyncStorage } from '../../components/Rn'
 import { getAuthStore } from '../../stores/authStore'
 import { Button } from '../common/Button'
+import { ShadowButton } from '../common/ShadowButton'
 import { i18n } from '../i18n'
 import type { LoginParams } from '../octypes'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -54,18 +54,6 @@ class LoginC extends React.Component<Props, State> {
       this.props.form.setFieldsValue(v)
     })
     getAuthStore().signOut()
-
-    // TrackPlayer.add({
-    //   id: 'trackId',
-    //   url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    //   title: 'Sample Sound',
-    //   artist: 'Unknown Artist',
-    // }).then(() => TrackPlayer.play()).catch(e => console.log('#Duy Phan console',e))
-    // const p = new Sound('http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3', undefined, (e) => {
-    //   console.log('#Duy Phan consoleeeee',e)
-    // })
-
-    // p.play()
   }
 
   _hideMessage() {
@@ -463,7 +451,7 @@ class LoginC extends React.Component<Props, State> {
               >
                 <Text style={styles.button}>{i18n.t('signin')}</Text>
               </Button>
-              {/* <ShadowButton>Ahihi</ShadowButton> */}
+              <ShadowButton isFlash>Ahihi</ShadowButton>
             </Form.Item>
           </Form>
         </View>

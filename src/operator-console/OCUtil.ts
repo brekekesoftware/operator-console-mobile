@@ -134,20 +134,24 @@ export class OCUtil {
     return status
   }
 
+  static isUrlValid(userInput) {
+    const regexQuery =
+      '^(https?:\\/\\/)?((([-a-z0-9]{1,63}\\.)*?[a-z0-9]([-a-z0-9]{0,253}[a-z0-9])?\\.[a-z]{2,63})|((\\d{1,3}\\.){3}\\d{1,3}))(:\\d{1,5})?((\\/|\\?)((%[0-9a-f]{2})|[-\\w\\+\\.\\?\\/@~#&=])*)?$'
+    const url = new RegExp(regexQuery, 'i')
+    return url.test(userInput)
+  }
+
   static getUrlStringFromPathOrUrl(pathOrUrl, rootUrl) {
-    let sUrl = null
-    try {
-      new URL(pathOrUrl)
-      sUrl = pathOrUrl
-    } catch (err) {}
-    if (sUrl === null) {
-      // Generate url from path.
+    if (OCUtil.isUrlValid(pathOrUrl)) {
+      return pathOrUrl
+    } else {
+      let sUrl = ''
       if (rootUrl[rootUrl.length - 1] !== '/' && pathOrUrl[0] !== '/') {
         rootUrl += '/'
       }
       sUrl = rootUrl + pathOrUrl
+      return sUrl
     }
-    return sUrl
   }
 }
 export const NOTIFY_STATUS_CODES = Object.freeze({

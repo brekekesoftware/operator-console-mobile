@@ -712,8 +712,8 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                 marginLeft: 2,
                                                 marginRight: 2,
                                                 // marginBottom: 8,
-                                                height: 45,
-                                                width: 45,
+                                                height: 40,
+                                                width: 40,
                                               }}
                                               onPress={() => {
                                                 oc.abortAutoDialView_ver2()
@@ -733,9 +733,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                           </View>
                                         )}
                                       </Cell>
-                                      <Cell adjustsFontSizeToFit>
-                                        {sAddDateTime}
-                                      </Cell>
+                                      <Cell>{sAddDateTime}</Cell>
                                     </TableWrapper>
                                   )
                                 })}
@@ -971,6 +969,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                             marginRight: 2,
                                             marginBottom: 8,
                                             height: 40,
+                                            width: 40,
                                           }}
                                           onPress={() => {
                                             // oc.setDialingAndMakeCall2( ext.id, this.props.currentCallIndex, this.props.callIds, this.props.callById );
@@ -980,7 +979,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                         >
                                           {
                                             <FontAwesomeIcon
-                                              size={20}
+                                              size={16}
                                               icon={['fas', 'phone']}
                                             />
                                           }

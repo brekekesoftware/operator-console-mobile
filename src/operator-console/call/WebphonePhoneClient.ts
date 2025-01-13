@@ -1,10 +1,12 @@
 import debounce from 'debounce'
 import { deleteProperty, setProperty } from 'dot-prop'
 
+import { RnAsyncStorage } from '../../components/Rn'
 import type { EmbedApi } from '../../embed/embedApi'
 import { embedApi } from '../../embed/embedApi'
 import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
+import type { LoginParams } from '../octypes'
 import { BROC_BROCCALLOBJECT_CALL_STATUSES, OCUtil } from '../OCUtil'
 import { APhoneClient } from './APhoneClient'
 import { WebphoneCallInfos } from './WebphoneCallInfos'
@@ -24,6 +26,7 @@ export class WebphonePhoneClient extends APhoneClient {
   _onWebphoneOnclose
   notify_status
   notify_park
+  rootUrl: string = ''
   constructor(options) {
     super(options)
     this._isPalReady = false
@@ -31,6 +34,7 @@ export class WebphonePhoneClient extends APhoneClient {
     const options_ = { ...options }
     options_['phoneClient'] = this
     this._webphoneCallInfos = new WebphoneCallInfos(options_)
+    this.getLastLoginInfo()
   }
 
   /**
@@ -38,6 +42,21 @@ export class WebphonePhoneClient extends APhoneClient {
    */
   getCallInfos() {
     return this._webphoneCallInfos
+  }
+
+  async getLastLoginInfo() {
+    const sLastLoginAccount = await RnAsyncStorage.getItem('lastLoginAccount')
+    if (sLastLoginAccount) {
+      const lastLoginAccount: LoginParams = JSON.parse(sLastLoginAccount)
+
+      if (
+        !lastLoginAccount['pbxDirectoryName'] ||
+        lastLoginAccount['pbxDirectoryName'].length === 0
+      ) {
+        lastLoginAccount['pbxDirectoryName'] = 'pbx'
+      }
+      this.rootUrl = `https://${lastLoginAccount.hostname}:${lastLoginAccount.port}/${lastLoginAccount.pbxDirectoryName}/etc/operator-console`
+    }
   }
 
   /**
@@ -385,13 +404,13 @@ export class WebphonePhoneClient extends APhoneClient {
               ringtoneInfo.ringtoneFilepathOrFileurl
             incomingRingtone = OCUtil.getUrlStringFromPathOrUrl(
               ringtoneFilepathOrFileurl,
-              this._RootURLString,
+              this.rootUrl,
             )
             break
           }
         }
+        this._webphone?.setIncomingRingtone(incomingRingtone)
       }
-      this._setIncomingRingtone(incomingRingtone)
     }
   }
 

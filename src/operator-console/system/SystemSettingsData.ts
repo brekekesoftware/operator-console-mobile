@@ -1,7 +1,11 @@
+import RNFS from 'react-native-fs'
+
+import { RnAsyncStorage } from '../../components/Rn'
 import { CallHistory } from '../call/CallHistory'
 import { CallHistory2 } from '../call/CallHistory2'
 import { Notification } from '../common/Notification'
 import { i18n } from '../i18n'
+import type { LoginParams } from '../octypes'
 import { OCUtil } from '../OCUtil'
 import { QuickBusy_ver2 } from '../runtime/QuickBusy_ver2'
 import { Util } from '../Util'
@@ -103,7 +107,7 @@ export class SystemSettingsData {
     return startInit
   }
 
-  static cacheRingtones(ringtoneInfos) {
+  static async cacheRingtones(ringtoneInfos) {
     // cache ringtone files
     if (!ringtoneInfos || Array.isArray(ringtoneInfos) !== true) {
       return -1
@@ -112,54 +116,63 @@ export class SystemSettingsData {
       return 0
     }
 
-    const rootUrl = Util.getRootUrlString()
-    const xhr = new XMLHttpRequest()
-    let successCount = 0
-    for (let i = 0; i < ringtoneInfos.length; i++) {
-      const ringtoneInfo = ringtoneInfos[i]
-      // const caller = ringtoneInfo.ringtoneCaller;
-      const fileOrUrl = ringtoneInfo.ringtoneFilepathOrFileurl
-      const fileUrl = OCUtil.getUrlStringFromPathOrUrl(fileOrUrl, rootUrl)
+    const sLastLoginAccount = await RnAsyncStorage.getItem('lastLoginAccount')
+
+    if (sLastLoginAccount) {
+      const lastLoginAccount: LoginParams = JSON.parse(sLastLoginAccount)
+
+      if (
+        !lastLoginAccount['pbxDirectoryName'] ||
+        lastLoginAccount['pbxDirectoryName'].length === 0
+      ) {
+        lastLoginAccount['pbxDirectoryName'] = 'pbx'
+      }
+
+      const rootUrl = `https://${lastLoginAccount.hostname}:${lastLoginAccount.port}/${lastLoginAccount.pbxDirectoryName}/etc/operator-console`
       try {
-        const httpStatus = Util.getHeadResposneCodeByUrl(fileUrl, xhr)
-        if (httpStatus !== 200) {
-          console.error(
-            'Failed to load ringtone audio file. fileUrl=' +
-              fileUrl +
-              ',httpStatusCode=' +
-              httpStatus,
-          )
-          Notification.error({
-            message:
-              i18n.t('FailedToLoadRingtoneAudioFile') +
-              ',fileUrl=' +
-              fileUrl +
-              ',httpStatusCode=' +
-              httpStatus,
-            duration: 0,
-          })
-        } else {
-          new Audio(fileUrl) // cache audio file
-          successCount++
-        }
-      } catch (err) {
-        console.error(
-          'Failed to load ringtone audio file. fileUrl=' + fileUrl + ',error=',
-          err,
+        await Promise.all(
+          ringtoneInfos.map(async ringtoneInfo => {
+            const fileOrUrl = ringtoneInfo.ringtoneFilepathOrFileurl
+            const fileUrl = OCUtil.getUrlStringFromPathOrUrl(fileOrUrl, rootUrl)
+            console.log('#Duy Phan console fileUrl save', fileUrl, fileOrUrl)
+            const httpStatus = await Util.getHeadResposneCodeByUrl(fileUrl)
+
+            if (httpStatus !== 200) {
+              console.error(
+                'Failed to load ringtone audio file. fileUrl=' +
+                  fileUrl +
+                  ',httpStatusCode=' +
+                  httpStatus,
+              )
+              Notification.error({
+                message:
+                  i18n.t('FailedToLoadRingtoneAudioFile') +
+                  ',fileUrl=' +
+                  fileUrl +
+                  ',httpStatusCode=' +
+                  httpStatus,
+                duration: 0,
+              })
+            } else {
+              const filename = fileUrl.split('/').pop()
+              const filePath = `${RNFS.DocumentDirectoryPath}/${filename}`
+              console.log('#Duy Phan console filePath', filePath)
+              const isExist = RNFS.exists(filePath)
+              console.log('#Duy Phan console isExist', isExist)
+              // if (!isExist) {
+              await RNFS.downloadFile({
+                fromUrl: fileUrl,
+                toFile: filePath,
+              }).promise // cache audio file
+              // }
+            }
+          }),
         )
-        Notification.error({
-          message:
-            i18n.t('FailedToLoadRingtoneAudioFile') +
-            ',fileUrl=' +
-            fileUrl +
-            ',error=' +
-            err,
-          duration: 0,
-        })
-        continue
+        // Notification.success({ message: 'Ringtone already!' })
+      } catch (e) {
+        console.log('#Duy Phan console error', e)
       }
     }
-    return successCount
   }
 
   setSystemSettingsDataData(appData, initSuccessFunction, initFailFunction) {

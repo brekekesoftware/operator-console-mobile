@@ -1,9 +1,9 @@
 import type { InputProps } from '@ant-design/react-native'
+import { Input } from '@ant-design/react-native'
 import { useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { IconArrowDown, IconArrowUp } from '../icons'
-import { Input } from './Input'
 
 type Props = {
   value?: number
@@ -57,6 +57,10 @@ export const InputNumber = ({
       style={[
         {
           height: 40,
+          borderRadius: 4,
+          borderColor: '#efefef',
+          borderWidth: 1,
+          backgroundColor: 'white',
         },
         props.style,
       ]}

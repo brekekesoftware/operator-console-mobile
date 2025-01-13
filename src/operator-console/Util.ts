@@ -167,13 +167,14 @@ export class Util {
     return sRootUrl
   }
 
-  static getHeadResposneCodeByUrl(url, xhr) {
-    if (!xhr) {
-      xhr = new XMLHttpRequest()
+  static async getHeadResposneCodeByUrl(url) {
+    try {
+      const response = await fetch(url, { method: 'HEAD' })
+      return response.status
+    } catch (error) {
+      console.error('Error fetching HEAD response:', error)
+      throw error
     }
-    xhr.open('HEAD', url, false)
-    xhr.send()
-    return xhr.status
   }
 
   static getBorderStyle({

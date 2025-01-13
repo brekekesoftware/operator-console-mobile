@@ -34,3 +34,9 @@ export const IconResizeHorizontal = () => (
 export const IconResizeVertical = () => (
   <RnIcon path='M8,18H11V15H2V13H22V15H13V18H16L12,22L8,18M12,2L8,6H11V9H2V11H22V9H13V6H16L12,2Z' />
 )
+export const IconArrowRight = props => (
+  <RnIcon
+    path='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z'
+    {...props}
+  />
+)

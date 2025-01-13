@@ -59,6 +59,7 @@ export const SystemSettingsForm = props => {
       <Form.Item
         label={i18n.t('timeoutSeconds')}
         name='camponTimeoutSeconds'
+        labelStyle={{ marginBottom: 10 }}
         styles={formItemStyle}
       >
         <InputNumber style={{ width: 100 }} />
@@ -78,6 +79,7 @@ export const SystemSettingsForm = props => {
         label={i18n.t('maxSaveCount')}
         name='autoDialMaxSaveCount'
         styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
       >
         <InputNumber style={{ width: 150 }} />
       </Form.Item>
@@ -85,6 +87,7 @@ export const SystemSettingsForm = props => {
         label={i18n.t('maxDisplayCount')}
         name='autoDialMaxDisplayCount'
         styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
       >
         <InputNumber style={{ width: 150 }} />
       </Form.Item>
@@ -92,6 +95,7 @@ export const SystemSettingsForm = props => {
         label={i18n.t('RecentDisplayOrder')}
         name={'autoDialRecentDisplayOrder'}
         styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
       >
         <Select
           defaultValue={d.autoDialRecentDisplayOrder}
@@ -131,13 +135,14 @@ export const SystemSettingsForm = props => {
         label={i18n.t('PhonebookName')}
         name={'autoDialPhonebookName'}
         styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
       >
         <Input maxLength={300} style={{ width: 240 }} />
       </Form.Item>
       <Text style={tStyle}>{i18n.t('ringtoneSettings')}</Text>
       <RingtoneSettings />
-      <Text style={tStyle}>{i18n.t('ucSettings')}</Text>
-      <Form.Item label={i18n.t('ucUrl')} name='ucUrl' styles={formItemStyle}>
+      {/* <Text style={tStyle}>{i18n.t('ucSettings')}</Text> */}
+      {/* <Form.Item label={i18n.t('ucUrl')} name='ucUrl' styles={formItemStyle}>
         <Input style={{ width: 500 }} maxLength={300} />
       </Form.Item>
       <Form.Item
@@ -145,17 +150,17 @@ export const SystemSettingsForm = props => {
         name='ucChatAgentComponentEnabled'
         styles={formItemStyle}
       >
-        {/* <Radio.Group onChange={props.onChangeUcChatAgentComponentEnabledFunction}>*/}
         <Radio.Group style={{ flexDirection: 'row' }}>
           <Radio value={'0'}>{i18n.t('off')}</Radio>
           <Radio value={'1'}>{i18n.t('on')}</Radio>
         </Radio.Group>
-      </Form.Item>
+      </Form.Item> */}
       <Text style={tStyle}>{i18n.t('otherSettings')}</Text>
       <Form.Item
         label={i18n.t('phoneTerminal')}
         name='phoneTerminal'
         styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
       >
         <Radio.Group
           disabled={props['hasCall']}
@@ -171,11 +176,19 @@ export const SystemSettingsForm = props => {
         label={i18n.t('extensionScript')}
         name='extensionScript'
         styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
       >
         <AntdInput.TextArea
           rows={30}
           maxLength={1000000}
-          style={{ minHeight: 600, minWidth: 800, marginRight: 30 }}
+          style={{
+            minHeight: 600,
+            minWidth: 800,
+            height: 600,
+            marginRight: 30,
+            borderWidth: 1,
+            borderColor: '#e0e0e0',
+          }}
         />
       </Form.Item>
     </Form>
