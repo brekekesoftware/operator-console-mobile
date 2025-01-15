@@ -544,9 +544,44 @@ const NewLayoutDialog = ({ operatorConsole }) => {
 }
 
 const NewLayoutForm = ({ newLayoutUseForm }) => (
-  <Form form={newLayoutUseForm} layout='vertical'>
+  <Form
+    form={newLayoutUseForm}
+    layout='vertical'
+    styles={{
+      Body: {
+        backgroundColor: 'transparent',
+        elevation: 0,
+        borderColor: 'transparent',
+      },
+      BodyBottomLine: {
+        backgroundColor: 'transparent',
+        elevation: 0,
+        borderColor: 'transparent',
+      },
+    }}
+    style={{
+      backgroundColor: 'transparent',
+      elevation: 0,
+      borderColor: 'transparent',
+    }}
+  >
     <Form.Item
       name='layoutName'
+      styles={{
+        Line: {
+          backgroundColor: 'transparent',
+          elevation: 0,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
+        Item: {
+          backgroundColor: 'transparent',
+          elevation: 0,
+          borderColor: 'transparent',
+          height: 70,
+        },
+      }}
+      style={{ elevation: 0, borderColor: 'transparent' }}
       rules={[
         {
           required: true,
@@ -554,7 +589,16 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
         },
       ]}
     >
-      <Input placeholder={i18n.t('layoutName')} />
+      <Input
+        placeholder={i18n.t('layoutName')}
+        style={{
+          borderRadius: 4,
+          borderColor: '#e0e0e0',
+          borderWidth: 1,
+          padding: 10,
+          height: 55,
+        }}
+      />
     </Form.Item>
   </Form>
 )

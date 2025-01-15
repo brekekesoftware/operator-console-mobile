@@ -10,7 +10,6 @@ import Logo from '../logo.png'
 import { RnAsyncStorage } from '../../components/Rn'
 import { getAuthStore } from '../../stores/authStore'
 import { Button } from '../common/Button'
-import { ShadowButton } from '../common/ShadowButton'
 import { i18n } from '../i18n'
 import type { LoginParams } from '../octypes'
 import type { BrekekeOperatorConsole } from '../OperatorConsole'
@@ -33,7 +32,7 @@ const withMyHook = Component =>
   }
 
 class LoginC extends React.Component<Props, State> {
-  _OperatorConsoleAsParent
+  _OperatorConsoleAsParent: BrekekeOperatorConsole
   _LoginMessageElementRef
   refForm
 
@@ -53,6 +52,7 @@ class LoginC extends React.Component<Props, State> {
       this.setState({ initialValues: v })
       this.props.form.setFieldsValue(v)
     })
+
     getAuthStore().signOut()
   }
 
@@ -198,18 +198,6 @@ class LoginC extends React.Component<Props, State> {
   render() {
     return (
       <View>
-        {/* <Video
-            source={{uri: 'http://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3', headers: {
-              'User-Agent':
-                'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
-            } }}
-            // style={css.video}
-            volume={100}
-            onError={(r) =>console.log('#Duy Phan console error',r)}
-            // ignoreSilentSwitch="ignore"
-            // playInBackground={true}
-            // playWhenInactive={true}
-          /> */}
         <View
           style={{
             justifyContent: 'center',
@@ -252,7 +240,7 @@ class LoginC extends React.Component<Props, State> {
             borderColor: '#e0e0e0',
             paddingTop: 30,
             paddingRight: 20,
-            paddingBottom: 7,
+            paddingBottom: 20,
             paddingLeft: 20,
             backgroundColor: '#ffffff',
             borderRadius: 5,
@@ -266,8 +254,8 @@ class LoginC extends React.Component<Props, State> {
               fontSize: 24,
               fontWeight: 'bold',
               fontStyle: 'normal',
-              // lineHeight: 1.23,
               letterSpacing: 0.3,
+              marginLeft: 14,
               color: '#212121',
             }}
           >
@@ -451,7 +439,6 @@ class LoginC extends React.Component<Props, State> {
               >
                 <Text style={styles.button}>{i18n.t('signin')}</Text>
               </Button>
-              <ShadowButton isFlash>Ahihi</ShadowButton>
             </Form.Item>
           </Form>
         </View>
@@ -467,6 +454,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     height: 40,
     borderRadius: 5,
+    paddingLeft: 10,
+    borderColor: '#e0e0e0',
+    borderWidth: 1,
   },
   button: {
     textTransform: 'uppercase',

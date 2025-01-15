@@ -218,7 +218,6 @@ export class CallHistory2 {
         data_id: CALLHISTORY2_CALL_HISTORIES_DATA_ID,
       }),
       onSuccessFunction: sJsonData => {
-        onSuccessFunction()
         if (!sJsonData || sJsonData.length === 0) {
           this._isLoadedEvenOnce = true
           console.log('The CallHistory2Data(Json response) is empty.')

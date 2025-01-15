@@ -177,11 +177,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
           const pbGotContactInfo = new PhonebookContactInfo_AutoDialView_ver2(
             contact,
           )
-          console.log(
-            '#Duy Phan console pbGotContactInfo',
-            pbGotContactInfo.getPhonebookName(),
-          )
-
           // Collect info's custom items.
           const pbContactInfozInfoArray =
             pbGotContactInfo.getFreezedPhonebookContactInfozInfoArray()
@@ -213,7 +208,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
                 const value = customItem.getValue()
                 this.refItems.current[i].itemName.setValue(name)
                 this.refItems.current[i].itemValue.setValue(value)
-                console.log('#Duy Phan console name value', name, value)
               }
             },
           )
@@ -288,13 +282,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
   _save() {
     const oc = BrekekeOperatorConsole.getStaticInstance()
     // validation
-    console.log(
-      '#Duy Phan console this.state.pbContactInfo',
-      this.state.pbContactInfo,
-    )
-    const phonebookName = this.state.pbContactInfo
-      ? this.state.pbContactInfo.getPhonebookName()
-      : this.refContact.current.getValue()
+    const phonebookName = this.refContact.current.getValue()
     if (!phonebookName || phonebookName.length === 0) {
       Notification.warning({ message: i18n.t('No_phonebook_assigned') })
       return
@@ -319,7 +307,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
     Object.entries(this.refTel.current as any).forEach(([k, v]) => {
       oInfo[k] = v.getValue()
     })
-    console.log('#Duy Phan console oInfo', oInfo)
 
     // Collect custom items
     for (let i = 0; i < this._PbContactInfozCustomItemArray.length; i++) {
@@ -389,7 +376,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
         const value = customItem1.getValue()
         this.refItems.current[i].itemName.setValue(name)
         this.refItems.current[i].itemValue.setValue(value)
-        console.log('#Duy Phan console name value', name, value)
       }
     })
   }
@@ -485,6 +471,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
     if (!this.state.pbContactInfo) {
       return null
     }
+
     const oc = BrekekeOperatorConsole.getStaticInstance()
     const extensionsStatus = oc.state.extensionsStatus
     const extensions = oc.state.extensions
@@ -675,7 +662,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
                         this.state.pbContactInfo.getPhonebookContactInfoByKeyname(
                           key,
                         )
-                      if (info.isTelKey()) {
+                      if (info?.isTelKey()) {
                         return null
                       }
 
@@ -861,10 +848,6 @@ export class PhonebookContactInfozInfoView extends React.Component<
                       <Cell>
                         <Input
                           ref={el => {
-                            console.log(
-                              '#Duy Phan console el',
-                              el?.getValue() ?? 'asd',
-                            )
                             this.refItems.current[i] = {}
                             this.refItems.current[i].itemName = el
                           }}
@@ -982,7 +965,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
                       onConfirm={() => this._deleteContact()}
                       okText={i18n.t('yes')}
                       cancelText={i18n.t('no')}
-                      popStyle={{ zIndex: 99999, top: -180 }}
+                      popStyle={{ zIndex: 99999, top: -85 }}
                     >
                       <Button style={{ marginRight: 4 }} disabled>
                         {i18n.t('Delete')}

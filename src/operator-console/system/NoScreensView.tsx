@@ -1,6 +1,6 @@
 import { ActivityIndicator, Form, Input } from '@ant-design/react-native'
-import { useMemo, useRef, useState } from 'react'
-import { Text, View } from 'react-native'
+import { useMemo, useState } from 'react'
+import { View } from 'react-native'
 
 import { Button } from '../common/Button'
 import { Modal } from '../common/Modal'
@@ -38,7 +38,6 @@ export const NoScreensView = props => {
       let layoutName = values.layoutName
       setNewLayoutName(layoutName)
       layoutName = layoutName.trim()
-      console.log('#Duy Phan console layoutName', layoutName)
       if (layoutName.length === 0) {
         Notification.error({
           message: i18n.t('OnlySpacesAreNotAllowed'),
@@ -105,12 +104,10 @@ export const NoScreensView = props => {
                 note: noteContent,
               }),
               onSuccessFunction: res => {
-                console.log('#Duy Phan console create success')
                 operatorConsoleAsParent.setOCNote(
                   layoutName,
                   layoutsAndSettingsData,
                   () => {
-                    console.log('#Duy Phan console callback')
                     operatorConsoleAsParent.onSavedNewLayoutFromNoScreensView(
                       layoutName,
                       layoutsAndSettingsData,
@@ -197,6 +194,7 @@ export const NoScreensView = props => {
         note: noteContent,
       }),
       onSuccessFunction: res => {
+        console.log('#Duy Phan console success')
         operatorConsoleAsParent.setOCNote(
           layoutName,
           layoutsAndSettingsData,
@@ -494,7 +492,27 @@ export const NoScreensView = props => {
 }
 
 const NewLayoutForm = ({ newLayoutUseForm }) => (
-  <Form form={newLayoutUseForm} layout='vertical'>
+  <Form
+    form={newLayoutUseForm}
+    layout='vertical'
+    styles={{
+      Body: {
+        backgroundColor: 'transparent',
+        elevation: 0,
+        borderColor: 'transparent',
+      },
+      BodyBottomLine: {
+        backgroundColor: 'transparent',
+        elevation: 0,
+        borderColor: 'transparent',
+      },
+    }}
+    style={{
+      backgroundColor: 'transparent',
+      elevation: 0,
+      borderColor: 'transparent',
+    }}
+  >
     <Form.Item
       name='layoutName'
       rules={[
@@ -503,8 +521,32 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
           message: i18n.t('layoutName_is_required'),
         },
       ]}
+      styles={{
+        Line: {
+          backgroundColor: 'transparent',
+          elevation: 0,
+          borderColor: 'transparent',
+          borderWidth: 0,
+        },
+        Item: {
+          backgroundColor: 'transparent',
+          elevation: 0,
+          borderColor: 'transparent',
+          height: 70,
+        },
+      }}
+      style={{ elevation: 0, borderColor: 'transparent' }}
     >
-      <Input placeholder={i18n.t('layoutName')} />
+      <Input
+        placeholder={i18n.t('layoutName')}
+        style={{
+          borderRadius: 4,
+          borderColor: '#e0e0e0',
+          borderWidth: 1,
+          padding: 10,
+          height: 55,
+        }}
+      />
     </Form.Item>
   </Form>
 )

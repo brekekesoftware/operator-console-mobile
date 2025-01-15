@@ -51,6 +51,7 @@ export class LegacyButtonEditorSubWidgetFactory {
     // dataObject["editorTabFunctionComponentAsParent"] = editorTabFunctionComponentAsParent;
     const widgetSubTypeId = widgetSubData.getLegacyButtonWidgetSubTypeId()
     let legacyButtonEditorSubWidget
+    console.log('#Duy Phan console widgetSubTypeId', widgetSubTypeId)
     switch (widgetSubTypeId) {
       case LegacyButtonWidgetSubData.LEGACY_BUTTON_WIDGET_SUBTYPE_IDS.dummy:
         legacyButtonEditorSubWidget =

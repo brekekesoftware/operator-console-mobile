@@ -27,7 +27,6 @@ export class TextRuntimeWidget extends RuntimeWidget {
       widgetData.getTextBorderRadius() || widgetData.getTextBorderRadius() === 0
         ? widgetData.getTextBorderRadius()
         : undefined
-    console.log('#Duy Phan console text', text)
 
     return (
       <View

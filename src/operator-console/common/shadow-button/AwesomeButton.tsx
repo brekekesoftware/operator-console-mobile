@@ -88,6 +88,8 @@ export type ButtonTypes = {
   onProgressStart?: () => void
   onProgressEnd?: () => void
   isFlash?: boolean
+  flashType?: 'danger' | 'success'
+  flashDuration?: number
 }
 
 export const AwesomeButton = ({
@@ -348,7 +350,6 @@ export const AwesomeButton = ({
         duration: ANIMATED_TIMING_OFF,
       }),
     ])
-    console.log('#Duy Phan console pressIn')
 
     pressAnimation.current.start(() => {
       pressed.current = true
@@ -610,7 +611,7 @@ export const AwesomeButton = ({
         {after}
       </Animated.View>
     )
-  }, [children, before, after, textColor])
+  }, [children, before, after, textColor, textSize])
 
   return (
     <Pressable

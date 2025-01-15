@@ -77,7 +77,7 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
                   {
                     editorPane: props.editorPane,
                     widgetData: props.widgetDataArray[index],
-                    jsxKey: index,
+                    jsxKey: index.toString(),
                   },
                 )
               return widgetJsx

@@ -116,7 +116,13 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
               return (
                 <Item
                   title={m.label}
-                  onPress={() => menu.onPress?.(m.key)}
+                  onPress={() => {
+                    if (!m.children) {
+                      setIsOpen(false)
+                    }
+
+                    menu.onPress?.(m.key)
+                  }}
                   key={m.key}
                   child={m.children}
                 />
@@ -125,7 +131,10 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
             return (
               <RnTouchableOpacity
                 style={styles.container}
-                onPress={() => menu.onPress?.(m.key)}
+                onPress={() => {
+                  setIsOpen(false)
+                  menu.onPress?.(m.key)
+                }}
                 key={m.key}
               >
                 {m.label}

@@ -22,6 +22,6 @@ export class LegacyButtonEditorWidgetTemplate extends EditorWidgetTemplate {
 
   // !overload
   getRenderMainJsx() {
-    return <WidgetButton disabled={true}></WidgetButton>
+    return <WidgetButton disabled={true} stretch></WidgetButton>
   }
 }

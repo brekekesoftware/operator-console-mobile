@@ -198,8 +198,8 @@ export class Util {
     widgetData: any,
     isDanger: boolean = false,
   ): {
-    s: ViewStyle
-    tStyle: TextStyle
+    s: any
+    tStyle: any
   } {
     const fontSize = widgetData.getFontSize() ? widgetData.getFontSize() : 16
     const buttonFgColor = widgetData.getFgColor()
@@ -207,6 +207,8 @@ export class Util {
     const buttonOuterBorderColor = widgetData.getOuterBorderColor()
     const buttonOuterBorderThickness = widgetData.getOuterBorderThickness()
     const buttonOuterBorderRadius = widgetData.getOuterBorderRadius()
+    const width = widgetData.getWidgetWidth()
+    const height = widgetData.getWidgetHeight()
 
     const color = Util.isAntdRgbaProperty(buttonFgColor)
       ? Util.getRgbaCSSStringFromAntdColor(buttonFgColor)
@@ -222,23 +224,24 @@ export class Util {
       ? buttonOuterBorderRadius
       : undefined
     const borderStyle = border ? 'solid' : undefined
-    const borderWidth = border ? buttonOuterBorderThickness : undefined
+    const borderWidth = border ? buttonOuterBorderThickness : 1
     const borderColor = border
       ? Util.getRgbaCSSStringFromAntdColor(buttonOuterBorderColor)
-      : undefined
+      : '#e0e0e0'
     return {
       s: {
         borderRadius,
         borderStyle,
         borderWidth,
         borderColor,
-        backgroundColor,
+        backgroundColor: isDanger ? '#dc3545' : backgroundColor,
+        // width,
+        // height
       },
       tStyle: isDanger
         ? {
             color: '#f8f9fa',
-            backgroundColor:
-              'rgb(227.5316455696, 96.4683544304, 109.0253164557)',
+            fontSize,
           }
         : {
             color,

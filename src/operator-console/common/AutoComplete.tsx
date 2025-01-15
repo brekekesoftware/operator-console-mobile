@@ -1,26 +1,17 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import type {
   IAutocompleteDropdownProps,
   IAutocompleteDropdownRef,
 } from 'react-native-autocomplete-dropdown'
-import {
-  AutocompleteDropdown,
-  AutocompleteDropdownItem,
-} from 'react-native-autocomplete-dropdown'
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
 
 type Props = {
   options: Array<{ value: string }>
   value?: string
 } & Omit<IAutocompleteDropdownProps, 'dataSet'>
 export const AutoComplete = ({ options, onChangeText, ...rest }: Props) => {
-  const [open, setIsOpen] = useState(false)
-  const [query, setQuery] = useState('')
   const dropdownController = useRef<IAutocompleteDropdownRef | null>(null)
 
-  const filterSearch = () =>
-    options.filter(item =>
-      item.value.toLowerCase().includes(query.toLowerCase().trim()),
-    )
   return (
     <AutocompleteDropdown
       {...rest}
@@ -36,28 +27,19 @@ export const AutoComplete = ({ options, onChangeText, ...rest }: Props) => {
       onChangeText={onChangeText}
       onSelectItem={item => onChangeText?.(item?.title ?? '')}
       direction='down'
-      // renderItem={item => (
-      //   <TouchableOpacity style={{ height: 35, justifyContent: 'center' }}>
-      //     <Text>{item.title}</Text>
-      //   </TouchableOpacity>
-      // )}
       suggestionsListContainerStyle={{
         height: 300,
         width: '100%',
-        // zIndex: 10,
+
         position: 'absolute',
       }}
       suggestionsListMaxHeight={300}
-      onOpenSuggestionsList={open1 =>
-        console.log('#Duy Phan console open', open1)
-      }
       rightButtonsContainerStyle={{ height: 35, marginRight: 0 }}
       inputContainerStyle={{
         backgroundColor: 'white',
         borderColor: '#d9d9d9',
         borderWidth: 1,
         margin: 0,
-        // padding: 5,
         height: 40,
       }}
       onRightIconComponentPress={() => {

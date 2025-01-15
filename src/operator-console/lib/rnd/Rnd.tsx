@@ -164,7 +164,6 @@ export class Rnd extends Component<Props, State> {
   }
 
   onPress = event => {
-    console.log('#Duy Phan console onPress')
     this.props.onPress?.(event)
     this.setState({
       isShowConnector: !this.state.isShowConnector,
@@ -591,7 +590,6 @@ export class Rnd extends Component<Props, State> {
     const { children, isDisabled, zIndex = DEFAULT_Z_INDEX, style } = this.props
 
     const { x, y, w, h, isSelected, isShowConnector } = this.state
-    console.log('#Duy Phan console isShowConnector', isShowConnector)
 
     return (
       <View

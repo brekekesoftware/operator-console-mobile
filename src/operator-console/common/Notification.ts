@@ -1,57 +1,44 @@
-import { Toast } from '@ant-design/react-native'
+// import { Toast } from '@ant-design/react-native'
 
-import { IconWarning } from '../icons'
-
-Toast.config({
-  position: 'top',
-  styles: {
-    container: {
-      zIndex: 9999999,
-    },
-  },
-})
+import { Toast } from 'react-native-toast-notifications'
 
 export const Notification = {
   ...Toast,
   info: ({ message, duration }: { message: string; duration?: number }) => {
     setTimeout(() => {
-      Toast.info(message, duration)
+      Toast.show(message, {
+        type: 'info',
+      })
     })
   },
   error: ({
     message,
-    duration,
+    duration = 2000,
     content,
   }: {
     message: string
     duration?: number
     content?: React.ReactNode
   }) => {
-    setTimeout(() => {
-      if (content) {
-        Toast.fail({ content }, duration)
-      } else {
-        Toast.fail(message, duration)
-      }
-    }, 0)
+    Toast.show(message, {
+      duration,
+      type: 'error',
+    })
   },
   warning: ({ message, duration }: { message: string; duration?: number }) => {
     setTimeout(() => {
-      Toast.show(
-        {
-          icon: IconWarning,
-          content: message,
-          stackable: false,
-          position: 'top',
-          mask: false,
-        },
+      Toast.show(message, {
         duration,
-      )
+        type: 'warning',
+      })
     }, 0)
   },
   success: ({ message, duration }: { message: string; duration?: number }) => {
     setTimeout(() => {
-      Toast.success(message, duration)
+      Toast.show(message, {
+        type: 'success',
+        duration,
+      })
     }, 0)
   },
 }

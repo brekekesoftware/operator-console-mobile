@@ -3,7 +3,6 @@ import { Dimensions } from 'react-native'
 
 import {
   CONNECTOR_BOTTOM_MIDDLE,
-  CONNECTOR_CENTER,
   CONNECTOR_MIDDLE_LEFT,
   CONNECTOR_MIDDLE_RIGHT,
   CONNECTOR_TOP_MIDDLE,
@@ -23,7 +22,6 @@ export class EditorWidget extends React.Component<
   constructor(props, context) {
     super(props, context)
     this._EditorPaneAsParent = props['editorPane'] // tabs or noTabs
-    console.log('#Duy Phan console this.context', this.context)
   }
 
   getWidgetData() {
@@ -89,7 +87,7 @@ export class EditorWidget extends React.Component<
     widgetDatas.setIndexToLastByWidgetData(widgetData) // render last
   }
 
-  _onDragStop(ev, data, widgetData) {
+  _onDragStop(data, widgetData) {
     this._onWidgetMoved(data.lastX, data.lastY, widgetData)
     //        this.makeWidgetOnTop(i);
     this._EditorPaneAsParent
@@ -134,22 +132,6 @@ export class EditorWidget extends React.Component<
   }
 
   _onMouseDown(ev, widgetData) {
-    // ev.stopPropagation()
-    // ev.preventDefault();
-
-    // const paneData = this._EditorPaneAsParent.getEditingPaneData();
-    // let widgetDatas;
-    // if( paneData.getEnableTabs() === true ) {
-    //     const tabsData = paneData.getTabsData();
-    //     const tabData = tabsData.getSelectedTabData();
-    //     widgetDatas = tabData.getWidgetDatas();
-    // }
-    // else{
-    //     widgetDatas = paneData.getWidgetDatasForNoTabs();
-    // }
-
-    // const widgetData = widgetDatas.getWidgetDataAt( widgetIndex );
-    // const widgetData = this.getWidgetData();
     this._EditorPaneAsParent
       .getEditScreenView()
       .setSelectingEditorWidgetDataToState(widgetData)
@@ -179,7 +161,6 @@ export class EditorWidget extends React.Component<
           h: Dimensions.get('screen').height,
         }}
         connectors={[
-          // CONNECTOR_CENTER,
           CONNECTOR_BOTTOM_MIDDLE,
           CONNECTOR_TOP_MIDDLE,
           CONNECTOR_MIDDLE_LEFT,
@@ -188,7 +169,7 @@ export class EditorWidget extends React.Component<
         isResizable={true}
         isDraggable
         onDragEnd={([x, y]) =>
-          this._onDragStop({}, { lastX: x, lastY: y }, widgetData)
+          this._onDragStop({ lastX: x, lastY: y }, widgetData)
         }
         onResizeEnd={data => this._onResizeStop(data, widgetData)}
         onPress={ev => this._onMouseDown(ev, widgetData)}
@@ -200,7 +181,7 @@ export class EditorWidget extends React.Component<
   }
 
   // abstract
-  _getRenderMainJsx() {
+  _getRenderMainJsx(): any {
     throw new Error('Not implemented.')
   }
 }

@@ -177,6 +177,7 @@ export class PhonebookContactInfozTelsView extends Component<Props, State> {
                         {
                           <WidgetButton
                             style={{ padding: 2, width: 40, height: 40 }}
+                            stretch={false}
                             onPress={e => this._makeCall(telInfo.getValue())}
                           >
                             <FontAwesomeIcon

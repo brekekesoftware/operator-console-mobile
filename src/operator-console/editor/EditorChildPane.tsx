@@ -39,7 +39,6 @@ export class EditorChildPane extends EditorPane {
     heightClassName,
     _refEditor,
   ) {
-    // console.log('#Duy Phan console style child', this.props.style)
     const editScreenView = this.getEditScreenView()
     let jsx
     const paneData = this.props['paneData']

@@ -501,7 +501,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
               position: 'relative',
             }}
           >
-            <Table style={{ width: '100%' }}>
+            <Table style={{ width: '100%', zIndex: 200 }}>
               <TableWrapper style={{ flex: 1, flexDirection: 'row' }}>
                 <Cell style={{ flex: 1, alignItems: 'flex-start' }}>
                   <Popconfirm
@@ -518,12 +518,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                     </Button>
                   </Popconfirm>
                 </Cell>
-                <View
-                // textStyle={{
-                //   textAlign: 'right',
-                //   verticalAlign: 'top',
-                // }}
-                >
+                <View>
                   <TouchableOpacity onPress={this._onClickClose.bind(this)}>
                     <FontAwesomeIcon
                       icon={['far', 'window-close']}
@@ -535,7 +530,14 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
               </TableWrapper>
             </Table>
 
-            <Table style={{ marginTop: 6, flex: 1, backgroundColor: 'white' }}>
+            <Table
+              style={{
+                marginTop: 6,
+                flex: 1,
+                backgroundColor: 'white',
+                zIndex: 111,
+              }}
+            >
               <View style={{ flex: 1 }}>
                 <View
                   style={{
@@ -708,13 +710,15 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                           >
                                             <WidgetButton
                                               style={{
-                                                padding: 2,
-                                                marginLeft: 2,
-                                                marginRight: 2,
+                                                // padding: 2,
+                                                // marginLeft: 2,
+                                                // marginRight: 2,
                                                 // marginBottom: 8,
                                                 height: 40,
                                                 width: 40,
                                               }}
+                                              paddingHorizontal={0}
+                                              stretch={false}
                                               onPress={() => {
                                                 oc.abortAutoDialView_ver2()
                                                 // this.props.operatorConsoleAsParent.setDialingAndMakeCall2( callNo, this.props.currentCallIndex, this.props.callIds, this.props.callById );
@@ -765,7 +769,6 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                             style={{
                               maxHeight: 400,
                               height: 400,
-                              backgroundColor: 'red',
                             }}
                           >
                             <ScrollView contentContainerStyle={{ flex: 0 }}>
@@ -861,6 +864,8 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                     marginRight: 2,
                                                     marginBottom: 8,
                                                   }}
+                                                  paddingHorizontal={0}
+                                                  stretch={false}
                                                   onPress={() => {
                                                     oc.abortAutoDialView_ver2()
                                                     // this.props.operatorConsoleAsParent.setDialingAndMakeCall2( callNo, this.props.currentCallIndex, this.props.callIds, this.props.callById );
@@ -955,7 +960,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                         }
                                       ></View>
                                     </Cell>
-                                    <Cell style={{ width: 50 }}>
+                                    <Cell>
                                       <View
                                         style={{
                                           display: 'flex',
@@ -964,13 +969,15 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                       >
                                         <WidgetButton
                                           style={{
-                                            padding: 2,
-                                            marginLeft: 2,
-                                            marginRight: 2,
-                                            marginBottom: 8,
+                                            // padding: 2,
+                                            // marginLeft: 2,
+                                            // marginRight: 2,
+                                            // marginBottom: 8,
                                             height: 40,
                                             width: 40,
                                           }}
+                                          paddingHorizontal={0}
+                                          stretch={false}
                                           onPress={() => {
                                             // oc.setDialingAndMakeCall2( ext.id, this.props.currentCallIndex, this.props.callIds, this.props.callById );
                                             oc.setDialingAndMakeCall2(ext.id)
@@ -1020,6 +1027,8 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                               width: 40,
                               height: 40,
                             }}
+                            paddingHorizontal={0}
+                            stretch={false}
                             onPress={e => this._onClickGetContactList(e)}
                           >
                             <RnIcon path='M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' />
@@ -1046,7 +1055,7 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                           style={{ padding: 0, width: '100%' }}
                         >
                           <View
-                            style={{ maxHeight: 400 }}
+                            style={{ maxHeight: 300 }}
                             id='phonebookScrollableDiv_brOC_AutoDialView_ver2'
                             // onScroll={e =>
                             //   this._onScrollPhonebookScrollableDiv(
@@ -1054,25 +1063,27 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                             //   )
                             // }
                           >
-                            {this._phonebookContactInfoArray === null && (
-                              <View
-                                style={{
-                                  display: 'flex',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  height: 'auto',
-                                }}
-                              >
-                                <ActivityIndicator />
-                              </View>
-                            )}
-                            {this._phonebookContactInfoArray !== null && (
-                              <Table
-                                style={{
-                                  width: '100%',
-                                }}
-                              >
-                                <View>
+                            <ScrollView
+                              contentContainerStyle={{ overflow: 'visible' }}
+                            >
+                              {this._phonebookContactInfoArray === null && (
+                                <View
+                                  style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    height: 'auto',
+                                  }}
+                                >
+                                  <ActivityIndicator />
+                                </View>
+                              )}
+                              {this._phonebookContactInfoArray !== null && (
+                                <Table
+                                  style={{
+                                    width: '100%',
+                                  }}
+                                >
                                   <TableWrapper
                                     style={{
                                       borderColor: '#e0e0e0',
@@ -1107,103 +1118,29 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                       {i18n.t('Delete')}
                                     </Cell>
                                   </TableWrapper>
-                                </View>
-                                <View>
-                                  {this._phonebookContactInfoArray.map(
-                                    (pbContactInfo, i) => {
-                                      const isShared =
-                                        pbContactInfo.getIsShared()
-                                      const isAdmin = oc.getIsAdmin()
-                                      const isDeletable =
-                                        isShared === false ||
-                                        (isShared === true && isAdmin === true)
-                                      return (
-                                        <TableWrapper
-                                          key={i}
-                                          style={{
-                                            height: 42,
-                                            borderColor: '#e0e0e0',
-                                            borderBottomWidth: 1,
-                                          }}
-                                        >
-                                          <Cell>
-                                            {pbContactInfo.getDisplayName()}
-                                          </Cell>
-                                          <Cell>
-                                            <View
-                                              style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                              }}
-                                            >
-                                              {pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
-                                                .length === 1 && (
-                                                <WidgetButton
-                                                  style={{
-                                                    padding: 2,
-                                                    marginLeft: 2,
-                                                    marginRight: 2,
-                                                    marginBottom: 8,
-                                                  }}
-                                                  onPress={e =>
-                                                    this._callPhonebookCallInfozTel(
-                                                      pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()[0],
-                                                    )
-                                                  }
-                                                >
-                                                  <FontAwesomeIcon
-                                                    size={16}
-                                                    icon={['fas', 'phone']}
-                                                  />
-                                                </WidgetButton>
-                                              )}
-                                              {pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
-                                                .length > 1 && (
-                                                <TouchableOpacity
-                                                  onPress={e =>
-                                                    this._openPhonebookCallInfozTelsView(
-                                                      pbContactInfo,
-                                                    )
-                                                  }
-                                                >
-                                                  <FontAwesomeIcon
-                                                    size={16}
-                                                    icon={['fas', 'phone']}
-                                                  />
-                                                </TouchableOpacity>
-                                              )}
-                                            </View>
-                                          </Cell>
-                                          <Cell>
-                                            <View
-                                              style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                              }}
-                                            >
-                                              <TouchableOpacity
-                                                onPress={e =>
-                                                  this._openPhonebookCallInfozInfoView(
-                                                    pbContactInfo,
-                                                  )
-                                                }
-                                              >
-                                                {
-                                                  <FontAwesomeIcon
-                                                    size={16}
-                                                    icon={[
-                                                      'fas',
-                                                      'info-circle',
-                                                    ]}
-                                                  />
-                                                }
-                                              </TouchableOpacity>
-                                            </View>
-                                          </Cell>
-                                          <Cell>
-                                            {isDeletable && (
+                                  <View>
+                                    {this._phonebookContactInfoArray.map(
+                                      (pbContactInfo, i) => {
+                                        const isShared =
+                                          pbContactInfo.getIsShared()
+                                        const isAdmin = oc.getIsAdmin()
+                                        const isDeletable =
+                                          isShared === false ||
+                                          (isShared === true &&
+                                            isAdmin === true)
+                                        return (
+                                          <TableWrapper
+                                            key={i}
+                                            style={{
+                                              height: 42,
+                                              borderColor: '#e0e0e0',
+                                              borderBottomWidth: 1,
+                                            }}
+                                          >
+                                            <Cell>
+                                              {pbContactInfo.getDisplayName()}
+                                            </Cell>
+                                            <Cell>
                                               <View
                                                 style={{
                                                   display: 'flex',
@@ -1211,36 +1148,117 @@ export class AutoDialView_ver2 extends React.Component<Props, State> {
                                                   justifyContent: 'center',
                                                 }}
                                               >
-                                                <Popconfirm
-                                                  title={i18n.t('are_you_sure')}
-                                                  onConfirm={() =>
-                                                    this._deleteContact(
+                                                {pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
+                                                  .length === 1 && (
+                                                  <WidgetButton
+                                                    style={{
+                                                      padding: 2,
+                                                      marginLeft: 2,
+                                                      marginRight: 2,
+                                                      marginBottom: 8,
+                                                    }}
+                                                    paddingHorizontal={0}
+                                                    stretch={false}
+                                                    onPress={e =>
+                                                      this._callPhonebookCallInfozTel(
+                                                        pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()[0],
+                                                      )
+                                                    }
+                                                  >
+                                                    <FontAwesomeIcon
+                                                      size={16}
+                                                      icon={['fas', 'phone']}
+                                                    />
+                                                  </WidgetButton>
+                                                )}
+                                                {pbContactInfo.getFreezedPhonebookContactInfozTelInfoArray()
+                                                  .length > 1 && (
+                                                  <TouchableOpacity
+                                                    onPress={e =>
+                                                      this._openPhonebookCallInfozTelsView(
+                                                        pbContactInfo,
+                                                      )
+                                                    }
+                                                  >
+                                                    <FontAwesomeIcon
+                                                      size={16}
+                                                      icon={['fas', 'phone']}
+                                                    />
+                                                  </TouchableOpacity>
+                                                )}
+                                              </View>
+                                            </Cell>
+                                            <Cell>
+                                              <View
+                                                style={{
+                                                  display: 'flex',
+                                                  alignItems: 'center',
+                                                  justifyContent: 'center',
+                                                }}
+                                              >
+                                                <TouchableOpacity
+                                                  onPress={e =>
+                                                    this._openPhonebookCallInfozInfoView(
                                                       pbContactInfo,
                                                     )
                                                   }
-                                                  okText={i18n.t('yes')}
-                                                  cancelText={i18n.t('no')}
-                                                  popStyle={{ zIndex: 999 }}
                                                 >
-                                                  <View>
+                                                  {
+                                                    <FontAwesomeIcon
+                                                      size={16}
+                                                      icon={[
+                                                        'fas',
+                                                        'info-circle',
+                                                      ]}
+                                                    />
+                                                  }
+                                                </TouchableOpacity>
+                                              </View>
+                                            </Cell>
+                                            <Cell>
+                                              {isDeletable && (
+                                                <View
+                                                  style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                  }}
+                                                >
+                                                  <Popconfirm
+                                                    title={i18n.t(
+                                                      'are_you_sure',
+                                                    )}
+                                                    onConfirm={() =>
+                                                      this._deleteContact(
+                                                        pbContactInfo,
+                                                      )
+                                                    }
+                                                    okText={i18n.t('yes')}
+                                                    cancelText={i18n.t('no')}
+                                                    popStyle={{
+                                                      zIndex: 130,
+                                                      top: -50,
+                                                      left: -170,
+                                                    }}
+                                                  >
                                                     {
                                                       <FontAwesomeIcon
                                                         size={16}
                                                         icon={['fas', 'trash']}
                                                       />
                                                     }
-                                                  </View>
-                                                </Popconfirm>
-                                              </View>
-                                            )}
-                                          </Cell>
-                                        </TableWrapper>
-                                      )
-                                    },
-                                  )}
-                                </View>
-                              </Table>
-                            )}
+                                                  </Popconfirm>
+                                                </View>
+                                              )}
+                                            </Cell>
+                                          </TableWrapper>
+                                        )
+                                      },
+                                    )}
+                                  </View>
+                                </Table>
+                              )}
+                            </ScrollView>
                           </View>
                         </View>
                       </TableWrapper>

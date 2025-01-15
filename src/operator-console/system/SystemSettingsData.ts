@@ -95,6 +95,7 @@ export class SystemSettingsData {
         appData,
         this,
         () => {
+          console.log('#Duy Phan console n23', Date.now())
           this_._onBeginSetSystemSettingsDataSuccess(
             appData,
             initSuccessFunction,
@@ -134,7 +135,6 @@ export class SystemSettingsData {
           ringtoneInfos.map(async ringtoneInfo => {
             const fileOrUrl = ringtoneInfo.ringtoneFilepathOrFileurl
             const fileUrl = OCUtil.getUrlStringFromPathOrUrl(fileOrUrl, rootUrl)
-            console.log('#Duy Phan console fileUrl save', fileUrl, fileOrUrl)
             const httpStatus = await Util.getHeadResposneCodeByUrl(fileUrl)
 
             if (httpStatus !== 200) {
@@ -156,19 +156,14 @@ export class SystemSettingsData {
             } else {
               const filename = fileUrl.split('/').pop()
               const filePath = `${RNFS.DocumentDirectoryPath}/${filename}`
-              console.log('#Duy Phan console filePath', filePath)
-              const isExist = RNFS.exists(filePath)
-              console.log('#Duy Phan console isExist', isExist)
-              // if (!isExist) {
+              // const isExist = RNFS.exists(filePath)
               await RNFS.downloadFile({
                 fromUrl: fileUrl,
                 toFile: filePath,
               }).promise // cache audio file
-              // }
             }
           }),
         )
-        // Notification.success({ message: 'Ringtone already!' })
       } catch (e) {
         console.log('#Duy Phan console error', e)
       }
@@ -177,7 +172,6 @@ export class SystemSettingsData {
 
   setSystemSettingsDataData(appData, initSuccessFunction, initFailFunction) {
     appData = this._formatSystemSettingsAppData(appData)
-
     const startInit = this._onBeginSetSystemSettingsData(
       appData,
       initSuccessFunction,

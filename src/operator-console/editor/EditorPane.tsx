@@ -317,7 +317,6 @@ export class EditorPane extends BasePane {
       const paneData = this.props['paneData']
 
       const paneWidth = paneData.getPaneWidth()
-      console.log('#Duy Phan console css', css)
       if (paneWidth && paneWidth !== -1) {
         const dividerHalfWidthPx = 3
         css['width'] = paneWidth + '%'

@@ -1,7 +1,7 @@
 import type { InputProps } from '@ant-design/react-native'
 import { Input as AntdInput } from '@ant-design/react-native'
 import type { Ref } from 'react'
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react'
+import { forwardRef, useImperativeHandle, useState } from 'react'
 
 export const Input = forwardRef(
   (props: InputProps, ref: Ref<{ getValue: () => string }>) => {
@@ -13,9 +13,8 @@ export const Input = forwardRef(
     }
 
     useImperativeHandle(ref, () => ({
-      getValue: () => value || props.defaultValue || '',
+      getValue: () => value || '',
       setValue: v => {
-        console.log('#Duy Phan console v1', v)
         setValue(v)
       },
     }))
@@ -29,9 +28,10 @@ export const Input = forwardRef(
         style={[
           {
             borderRadius: 4,
-            borderColor: '#efefef',
+            borderColor: '#e0e0e0',
             borderWidth: 1,
             backgroundColor: 'white',
+            paddingLeft: 10,
           },
           props.style,
         ]}

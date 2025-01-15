@@ -73,12 +73,9 @@ export class RuntimeDivider extends BaseDivider {
 
   _mouseMoveHandlerForHorizontal(gestureState) {
     let topWidth = 0
-    console.log('#Duy Phan console gestureState1', gestureState.dy)
-    // console.log('#Duy Phan console topWidth',this.props.runtimePaneAsParent?.refTop?._refEditor)
     this.props.runtimePaneAsParent?.refTop?._refEditor?.current?.measure(
       (fx, fy, w, h, x, y) => {
         topWidth = h
-        console.log('#Duy Phan console topWidth', topWidth)
 
         this.props.runtimePaneAsParent?.refMain?.measure(
           (fx, fy, mW, mH, x, y) => {
@@ -111,13 +108,6 @@ export class RuntimeDivider extends BaseDivider {
 
   _mouseMoveHandlerForVertical(gestureState) {
     let leftWidth = this._startLeftWidth
-    // const x = this._startClientX
-    // const y = this._startClientY
-
-    // const leftSide = this._leftContainerElement
-    // const rightSide = this._rightContainerElement
-    // const verticalDivider = this._element
-    // const dx = e.clientX - x
 
     this.props.runtimePaneAsParent?.refLeft?._refEditor?.current?.measure(
       (fx, fy, w, h, x, y) => {

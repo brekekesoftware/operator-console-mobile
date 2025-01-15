@@ -8,7 +8,7 @@ import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { EditorWidget } from './EditorWidget'
 
-const CELL_MARGIN = 36
+const CELL_MARGIN = 40
 const CURRENT_CALL_INDEX = 1
 export class CallTableEditorWidget extends EditorWidget {
   _CallInfoArray
@@ -105,10 +105,10 @@ export class CallTableEditorWidget extends EditorWidget {
 
     const activeButtonWidth = widgetData.getCalltableActiveButtonWidth()
       ? widgetData.getCalltableActiveButtonWidth()
-      : 30 // !default
+      : 38 // !default
     const activeButtonHeight = widgetData.getCalltableActiveButtonHeight()
       ? widgetData.getCalltableActiveButtonHeight()
-      : 30 // !default
+      : 38 // !default
     // const activeButtonCellWidth = activeButtonWidth + CELL_MARGIN;
     // const activeButtonCellWidth = 50;
     const activeButtonCellHeight = activeButtonHeight + CELL_MARGIN
@@ -251,9 +251,12 @@ export class CallTableEditorWidget extends EditorWidget {
                     style={{
                       width: activeButtonWidth,
                       height: activeButtonHeight,
-                      margin: 5,
+                      // margin: 5,
                     }}
+                    stretch={false}
                     disabled={true}
+                    textSize={9}
+                    // textColor='black'
                   >
                     {i18n.t('active')}
                   </WidgetButton>
@@ -314,15 +317,15 @@ export class CallTableEditorWidget extends EditorWidget {
                     style={{
                       // width:activeButtonCellWidth,
                       // height: activeButtonCellHeight,
-                      paddingTop: 0,
-                      paddingBottom: 0,
+                      // paddingTop: 0,
+                      // paddingBottom: 0,
                       borderTopRightRadius: outerBorderRadius,
                       borderBottomRightRadius: outerBorderRadius,
                       justifyContent: 'center',
                       alignItems: 'center',
                       // backgroundColor: 'yellow',
-                      // flex: 1
-                      padding: 5,
+                      // flex: 1,
+                      // padding: 5,
                     }}
                     data={tdActive}
                   ></Cell>

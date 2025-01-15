@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
+import { IconWarning, IconWarningSmall } from '../icons'
 import { Button } from './Button'
 
 type Props = {
@@ -20,7 +21,7 @@ export const Popconfirm = ({
   children,
   okText,
   cancelText,
-  description = 'Are you sure?',
+  description,
   title,
   open = false,
   onOpenChange,
@@ -46,8 +47,13 @@ export const Popconfirm = ({
         <View style={[styles.pop, popStyle]}>
           <View style={styles.content}>
             <View style={styles.text}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.desc}>{description}</Text>
+              <View
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}
+              >
+                <View>{IconWarningSmall}</View>
+                <Text style={styles.title}>{title}</Text>
+              </View>
+              {!!description && <Text style={styles.desc}>{description}</Text>}
             </View>
           </View>
           <View style={styles.buttons}>
@@ -80,18 +86,20 @@ export const Popconfirm = ({
 const styles = StyleSheet.create({
   main: {
     position: 'relative',
+    overflow: 'visible',
   },
   pop: {
     position: 'absolute',
     zIndex: 1,
     right: 0,
     top: 30,
-    width: 240,
-    height: 150,
+    width: 160,
+    flex: 1,
     flexDirection: 'column',
     padding: 8,
     elevation: 3,
     backgroundColor: 'white',
+    borderRadius: 8,
   },
   content: {
     flexDirection: 'row',
@@ -102,9 +110,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     gap: 8,
+    marginTop: 10,
   },
   button: {
-    width: 60,
+    minWidth: 40,
     height: 30,
   },
   text: {
@@ -116,6 +125,6 @@ const styles = StyleSheet.create({
   },
   desc: {
     fontSize: 13,
-    marginTop: 15,
+    marginTop: 10,
   },
 })

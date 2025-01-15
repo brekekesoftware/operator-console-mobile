@@ -108,7 +108,7 @@ export class Connector extends Component<Props> {
     }
 
     const isCenter = type === CONNECTOR_CENTER
-    console.log('#Duy Phan console isCenter', isCenter)
+
     return (
       <View
         style={
@@ -117,7 +117,6 @@ export class Connector extends Component<Props> {
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
-                // margin: 10,
                 top: 0,
                 bottom: 0,
               }

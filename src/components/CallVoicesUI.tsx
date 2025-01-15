@@ -18,7 +18,6 @@ export class IncomingItem extends Component {
   componentDidMount = () => {
     if (Platform.OS === 'android') {
       const incomingRingtone = getCallStore().ringtone
-      console.log('#Duy Phan console incomingRingtone call', incomingRingtone)
       if (incomingRingtone) {
         const filename = incomingRingtone.split('/').pop()
         const filePath = `${RNFS.DocumentDirectoryPath}/${filename}`

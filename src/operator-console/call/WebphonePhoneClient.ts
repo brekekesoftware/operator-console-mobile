@@ -27,6 +27,7 @@ export class WebphonePhoneClient extends APhoneClient {
   notify_status
   notify_park
   rootUrl: string = ''
+  isInit = false
   constructor(options) {
     super(options)
     this._isPalReady = false
@@ -154,7 +155,7 @@ export class WebphonePhoneClient extends APhoneClient {
     this._webphone.on('onClose', this._onWebphoneOnClose)
     this._webphone.on('onclose', this._onWebphoneOnclose)
 
-    const this_ = this
+    const this_ = this as WebphonePhoneClient
     this._webphone.on('webrtcclient', webrcclient => {
       this_._webphone.removeAllListeners('webrtcclient')
       this_._webrtcclient = webrcclient
@@ -175,8 +176,9 @@ export class WebphonePhoneClient extends APhoneClient {
     this.notify_serverstatus = e => {
       console.log('pal.notify_serverstatus', e)
 
-      if (e?.status === 'active') {
+      if (e?.status === 'active' && !this.isInit) {
         // const staccount = this._webphone.getCurrentAccount();
+
         this._initialize(onInitSuccessFunction) // initialize
       }
       this._OperatorConsoleAsParent.onPalNotifyServerstatusByWebphonePhoneClient(
@@ -548,6 +550,7 @@ export class WebphonePhoneClient extends APhoneClient {
   deinitPhoneClient() {
     this._isPalReady = false
     this._webrtcclient = null
+    this.isInit = false
 
     if (this._webphone) {
       this._webphone.removeAllListeners('call')
@@ -683,10 +686,12 @@ export class WebphonePhoneClient extends APhoneClient {
         property_names: ['name'],
       })
       .then(extensions => {
+        this.isInit = true
         const oExtensions = extensions.map(([id, name]) => ({ id, name }))
         const intervalId = setInterval(() => {
           if (this._webrtcclient) {
             clearInterval(intervalId)
+
             onInitSuccessFunction(oExtensions)
           }
         }, 1000)

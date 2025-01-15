@@ -89,7 +89,6 @@ export class EditScreenView extends React.Component<Props, State> {
   }
 
   setScreenBackgroundColor = color => {
-    console.log('#Duy Phan console color', color)
     this._ScreenData.setScreenBackgroundColor(color.hex)
     this.setState({ rerender: true })
   }
@@ -236,13 +235,11 @@ export class EditScreenView extends React.Component<Props, State> {
     const currentEditingPane = this.state.settingsContainerOrDivider
     const tabsData = currentEditingPane?.getEditingPaneData().getTabsData()
     if (tabsData.getTabDataCount() === 1) {
-      console.log('#Duy Phan console warn')
       Notification.warning({ message: i18n.t('youCanNotRemoveLastTab') })
       return
     }
 
     tabsData.removeSelectedTabData()
-    console.log('#Duy Phan console removed')
     this.setState({ rerender: true })
   }
 
@@ -523,12 +520,9 @@ export class EditScreenView extends React.Component<Props, State> {
               gap: 20,
               margin: 4,
               height: '100%',
-              // backgroundColor: 'white'
             }}
           >
-            {/* <AutocompleteDropdownContextProvider> */}
             {settingsAreaJsx}
-            {/* </AutocompleteDropdownContextProvider> */}
           </View>
         </View>
       </View>

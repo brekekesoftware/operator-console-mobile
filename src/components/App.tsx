@@ -1,6 +1,7 @@
 // api was a component but had been rewritten to a listener
 import '../api'
 
+import { Provider } from '@ant-design/react-native'
 import NetInfo from '@react-native-community/netinfo'
 import { debounce } from 'lodash'
 import { reaction, runInAction } from 'mobx'
@@ -11,16 +12,19 @@ import {
   AppState,
   Platform,
   StyleSheet,
+  Text,
   View,
 } from 'react-native'
 import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import SplashScreen from 'react-native-splash-screen'
+import { ToastProvider } from 'react-native-toast-notifications'
 
 import { sip } from '../api/sip'
 import { SyncPnToken } from '../api/syncPnToken'
 import { getWebRootIdProps } from '../embed/polyfill'
+import { IconError, IconSuccess, IconWarning } from '../operator-console/icons'
 import { BrekekeOperatorConsole } from '../operator-console/OperatorConsole'
 import { RenderAllCalls } from '../pages/PageCallManage'
 import { PageCustomPageView } from '../pages/PageCustomPageView'
@@ -347,9 +351,68 @@ export const App = observer(() => {
           </View>
         )}
         <View style={css.App_Inner}>
-          <GestureHandlerRootView>
-            <BrekekeOperatorConsole />
-          </GestureHandlerRootView>
+          <ToastProvider
+            placement='top'
+            successIcon={IconSuccess}
+            warningIcon={IconWarning}
+            renderType={{
+              custom_type: toast => (
+                <View
+                  style={{
+                    padding: 15,
+                    backgroundColor: 'white',
+                    elevation: 3,
+                  }}
+                >
+                  <Text>{toast.message}</Text>
+                  {toast.data?.content}
+                </View>
+              ),
+            }}
+            renderToast={toast => {
+              let icon
+              switch (toast.type) {
+                case 'success':
+                  icon = IconSuccess
+                  break
+                case 'warning':
+                  icon = IconWarning
+                  break
+                case 'error':
+                  icon = IconError
+                  break
+                default:
+                  break
+              }
+              return (
+                <View
+                  style={{
+                    padding: 15,
+                    backgroundColor: 'white',
+                    elevation: 3,
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 5,
+                    }}
+                  >
+                    <View>{icon}</View>
+                    <Text>{toast.message}</Text>
+                  </View>
+                  {toast.data?.content}
+                </View>
+              )
+            }}
+          >
+            <Provider>
+              <GestureHandlerRootView>
+                <BrekekeOperatorConsole />
+              </GestureHandlerRootView>
+            </Provider>
+          </ToastProvider>
         </View>
       </View>
     </AutocompleteDropdownContextProvider>

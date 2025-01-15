@@ -236,7 +236,6 @@ export class SystemSettingsView extends React.Component<Props, State> {
         note: noteContent,
       }),
       onSuccessFunction: res => {
-        // this.operatorConsoleAsParent.setLastSystemSettingsDataData( systemSettingsDataData );
         this.operatorConsoleAsParent.setOCNote(
           shortname,
           layoutsAndSettingsData,
@@ -249,11 +248,6 @@ export class SystemSettingsView extends React.Component<Props, State> {
           false,
           true,
         )
-        // if( sErr ){
-        //     console.error("Failed to set OCNote.", sErr );
-        //     throw new Error(sErr);
-        // }
-        //        }  );
       },
       onFailFunction: errorOrResponse => {
         // !testit

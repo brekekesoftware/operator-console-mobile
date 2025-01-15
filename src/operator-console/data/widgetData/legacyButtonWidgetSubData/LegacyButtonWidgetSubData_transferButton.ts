@@ -1,4 +1,4 @@
-import LegacyButtonWidgetSubData from './LegacyButtonWidgetSubData'
+import { LegacyButtonWidgetSubData } from './LegacyButtonWidgetSubData'
 
 export class LegacyButtonWidgetSubData_transferButton extends LegacyButtonWidgetSubData {
   _label

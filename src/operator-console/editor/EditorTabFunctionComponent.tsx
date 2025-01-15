@@ -1,5 +1,5 @@
 import { Tabs } from '@ant-design/react-native'
-import { forwardRef, useCallback, useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import type { LayoutRectangle } from 'react-native'
 import {
   ScrollView,
@@ -214,7 +214,6 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
   const tabsCheck = tabItems.map(item => ({ key: item.key, title: item.title }))
 
   const onDragEnd = ({ from, to }) => {
-    console.log('#Duy Phan console from', from, to)
     tabsData.replaceTabData(from, to)
     editorPaneAsParent.setState({ rerender: true })
   }
@@ -238,12 +237,11 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
     setTimeout(() => {
       refTabs.current?.tabClickGoToTab(activeIndex)
       refTabs.current?.goToTab(activeIndex)
-    }, 400)
+    }, 300)
   }, [])
 
   useEffect(() => {
     const activeIndex = tabItems.findIndex(item => item.key === activeKey)
-    console.log('#Duy Phan console change', activeIndex)
     // refTabs.current?.getTabBarBaseProps()
     setTimeout(() => {
       refTabs.current?.tabClickGoToTab(activeIndex)
@@ -252,7 +250,6 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
   }, [JSON.stringify(tabsCheck)])
 
   const renderItem = (info, tabBarProps) => {
-    console.log('#Duy Phan console info', tabBarProps.activeTab)
     const index = info.getIndex()
     return (
       <ScaleDecorator>
@@ -307,7 +304,8 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         initialPage={activeKey}
         page={activeKey}
         swipeable={false}
-        prerenderingSiblingsNumber={0}
+        // prerenderingSiblingsNumber={0}
+        animated={false}
         renderTabBar={tabBarProps => (
           <DraggableFlatList
             data={tabItems.map(item => ({

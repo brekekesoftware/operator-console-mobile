@@ -72,6 +72,7 @@ const EditorLineButton_ver2 = ({
         width,
         height,
       }}
+      stretch={false}
       textStyle={{ color, fontSize }}
       // onPress={() => oc.handleLine(line)}
       disabled={true}
@@ -132,6 +133,7 @@ const EditorTransferCancelButton_ver2 = ({
         color: transferCancelButtonColor,
         fontSize: transferCancelButtonFontSize,
       }}
+      stretch={false}
       disabled={true}
     >
       {i18n.t('cancel')}
@@ -185,6 +187,7 @@ const EditorTransferButton_ver2 = ({
           borderColor: transferButtonOuterBorderColor,
         }),
       }}
+      stretch={false}
       textStyle={{
         color: transferButtonColor,
         fontSize: transferButtonFontSize,

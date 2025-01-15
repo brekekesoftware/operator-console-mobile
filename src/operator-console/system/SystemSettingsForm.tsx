@@ -31,10 +31,7 @@ export const SystemSettingsForm = props => {
     fontWeight: 'bold',
     paddingVertical: 10,
   }
-  console.log(
-    '#Duy Phan console {props.systemSettingsData.getData()',
-    props.systemSettingsData.getData(),
-  )
+
   const d = props.systemSettingsData.getData()
   const formItemStyle = {
     Item: {

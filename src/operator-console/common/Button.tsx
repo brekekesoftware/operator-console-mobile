@@ -14,7 +14,7 @@ export const Button = (props: Props) => {
   switch (props.type) {
     case 'success': {
       color = '#ffffff'
-      bgColor = '#40742a'
+      bgColor = '#5fac3f'
       break
     }
     case 'primary': {

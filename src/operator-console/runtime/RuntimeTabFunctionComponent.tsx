@@ -77,12 +77,11 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
     setTimeout(() => {
       refTabs.current?.tabClickGoToTab(activeIndex)
       refTabs.current?.goToTab(activeIndex)
-    }, 400)
+    }, 300)
   }, [])
 
   useEffect(() => {
     const activeIndex = tabItems.findIndex(item => item.key === activeKey)
-    console.log('#Duy Phan console change', activeIndex)
     setTimeout(() => {
       refTabs.current?.tabClickGoToTab(activeIndex)
       refTabs.current?.goToTab(activeIndex)
@@ -91,7 +90,6 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
 
   const renderItem = useCallback(
     (info, tabBarProps) => {
-      console.log('#Duy Phan console info', info)
       const index = info.getIndex()
       return (
         <ScaleDecorator key={info.item.key}>
@@ -143,6 +141,7 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
       <Tabs
         data-br-container-id={paneId}
         ref={refTabs}
+        animated={false}
         // onChange={selectedKey => _onChangeByTabs(selectedKey)}
         tabs={tabItems}
         initialPage={activeKey}
@@ -160,8 +159,6 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
             onDragEnd={onDragEnd}
           />
         )}
-        prerenderingSiblingsNumber={0}
-        destroyInactiveTab
       >
         {renderTabs()}
       </Tabs>

@@ -43,6 +43,7 @@ const LineButton = ({
         borderColor,
         borderWidth,
       }}
+      stretch={false}
       textStyle={{ fontSize, color }}
       onPress={() => oc.handleLine(line)}
     >
@@ -119,6 +120,7 @@ const TransferCancelButton = ({
             borderColor: transferCancelButtonOuterBorderColor,
           }),
         }}
+        stretch={false}
         textStyle={{
           fontSize: transferCancelButtonFontSize,
           color: transferCancelButtonColor,
@@ -376,6 +378,7 @@ const TransferButton = ({
               borderColor: transferButtonOuterBorderColor,
             }),
           }}
+          stretch={false}
           textStyle={{
             fontSize: transferButtonFontSize,
             color: transferButtonColor,
@@ -519,7 +522,7 @@ const LineTableRow = ({
 
   const lineButtonBorderRadius = Util.isNumber(lineButtonOuterBorderRadius)
     ? lineButtonOuterBorderRadius
-    : 0
+    : 8
 
   const lightStyle: { [key: string]: ViewStyle } = {
     'kbc-button-success-flash': {},
@@ -842,7 +845,7 @@ export class LineTableRuntimeWidget extends RuntimeWidget {
           ></Cell>
         </TableWrapper>
         <View style={{ flex: 1 }}>
-          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <ScrollView>
             {lineInfos.map((lineInfo, index) => (
               <LineTableRow
                 key={index}

@@ -240,12 +240,7 @@ export class EditorDivider extends BaseDivider {
 
             leftEditorPaneData.setPaneWidth(newLeftWidth)
             const newRightWidth = 100 - newLeftWidth
-            console.log(
-              '#Duy Phan console newLeftWidth',
-              newLeftWidth,
-              leftPaneId,
-              newRightWidth,
-            )
+
             if (newRightWidth > 0) {
               const rightPaneId =
                 this.props.editorPaneAsParent?.refRight?.paneNum

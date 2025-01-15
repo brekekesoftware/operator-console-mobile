@@ -159,7 +159,6 @@ export class EditorRootPane extends EditorPane {
           }
           paneCss['color'] = this.props.foregroundColor
           paneCss['backgroundColor'] = this.props.backgroundColor
-          console.log('#Duy Phan console paneCss2', paneCss)
 
           jsx = (
             <View
