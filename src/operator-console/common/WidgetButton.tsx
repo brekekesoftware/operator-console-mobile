@@ -7,8 +7,6 @@ import { AwesomeButton } from './shadow-button/AwesomeButton'
 type Props = {
   style?: any
   textStyle?: any
-  isFlash?: boolean
-  isFlashSlow?: boolean
 } & ButtonTypes
 
 export const WidgetButton = ({

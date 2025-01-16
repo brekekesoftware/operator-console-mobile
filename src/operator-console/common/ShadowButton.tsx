@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { View } from 'react-native'
-import type { ButtonTypes } from 'react-native-really-awesome-button/lib/typescript/src/Button'
 
+import type { ButtonTypes } from './shadow-button/AwesomeButton'
 import { AwesomeButton } from './shadow-button/AwesomeButton'
 
-export const ShadowButton = (props: ButtonTypes & { isFlash?: boolean }) => {
+export const ShadowButton = (props: ButtonTypes) => {
   const [height, setHeight] = useState<number>(100)
 
   return (

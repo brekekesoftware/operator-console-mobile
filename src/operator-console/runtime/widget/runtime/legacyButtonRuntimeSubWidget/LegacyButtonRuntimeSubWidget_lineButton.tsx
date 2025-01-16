@@ -51,16 +51,9 @@ export class LegacyButtonRuntimeSubWidget_lineButton extends LegacyButtonRuntime
       }
     }
 
-    // if( light && light.length !== 0 ){
-    //     //Use default.
-    //     color = null;
-    //     backgroundColor = null;
-    // }
-
     const iconJsx = this._getIconJsx()
     return (
       <WidgetButton
-        // className={clsx('kbc-button kbc-button-fill-parent', light)}
         style={cStyle.s}
         textStyle={cStyle.tStyle}
         onPress={() => oc.handleLine(line)}

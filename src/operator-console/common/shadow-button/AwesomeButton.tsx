@@ -87,9 +87,7 @@ export type ButtonTypes = {
   onPressedOut?: () => void
   onProgressStart?: () => void
   onProgressEnd?: () => void
-  isFlash?: boolean
-  flashType?: 'danger' | 'success'
-  flashDuration?: number
+  lightClassname?: string
 }
 
 export const AwesomeButton = ({
@@ -140,7 +138,7 @@ export const AwesomeButton = ({
   textFontFamily,
   width = DEFAULT_WIDTH,
   extra = null,
-  isFlash = false,
+  lightClassname,
 }: ButtonTypes) => {
   const loadingOpacity = useRef(new Animated.Value(1)).current
   const textOpacity = useRef(new Animated.Value(1)).current
@@ -159,6 +157,7 @@ export const AwesomeButton = ({
   const timeout = useRef<number | null>(null)
   const containerWidth = useRef<number | null>(null)
   const pressAnimation = useRef<Animated.CompositeAnimation | null>(null)
+  const lightAnimation = useRef<Animated.CompositeAnimation | null>(null)
   const [activity, setActivity] = useState(false)
   const [stateWidth, setStateWidth] = useState<number | null>(null)
   const debouncedPress = debouncedPressTime
@@ -232,6 +231,45 @@ export const AwesomeButton = ({
     ],
   )
 
+  const getAnimated = () => {
+    const s = { backgroundColor } as any
+    switch (lightClassname) {
+      case 'kbc-button-danger-flash':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#dc3545', '#e4606d'],
+        })
+        break
+      case 'kbc-button-danger-flash-slow':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#dc3545', '#e4606d'],
+        })
+        break
+      case 'kbc-button-success-flash':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#28a745', '#34ce57'],
+        })
+        break
+      case 'kbc-button-success-flash-slow':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#28a745', '#34ce57'],
+        })
+        break
+      case 'kbc-button-danger':
+        s.backgroundColor = '#dc3545'
+        break
+      case 'kbc-button-success':
+        s.backgroundColor = '#28a745'
+        break
+      default:
+        break
+    }
+    return s
+  }
+
   const getAnimatedValues = () => {
     const width = containerWidth.current ? containerWidth.current * -1 : 0
 
@@ -281,14 +319,7 @@ export const AwesomeButton = ({
           },
         ],
       },
-      animatedText: {
-        backgroundColor: isFlash
-          ? animatedFlash.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['#dc3545', '#e4606d'],
-            })
-          : backgroundColor,
-      },
+      animatedText: getAnimated(),
     }
   }
 
@@ -309,26 +340,51 @@ export const AwesomeButton = ({
   }
 
   useEffect(() => {
-    if (isFlash) {
-      Animated.loop(
-        Animated.sequence([
-          animateTiming({
-            variable: animatedFlash,
-            toValue: 1,
-            duration: 250,
-          }),
-          animateTiming({
-            variable: animatedFlash,
-            toValue: 0,
-            duration: 250,
-          }),
-        ]),
-      ).start()
-    } else {
-      animatedFlash.stopAnimation()
+    if (lightAnimation.current) {
+      lightAnimation.current.stop()
       animatedFlash.setValue(0)
+      lightAnimation.current = null
     }
-  }, [isFlash])
+    switch (lightClassname) {
+      case 'kbc-button-success-flash':
+      case 'kbc-button-danger-flash':
+        lightAnimation.current = Animated.loop(
+          Animated.sequence([
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 1,
+              duration: 250,
+            }),
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 0,
+              duration: 250,
+            }),
+          ]),
+        )
+        break
+      case 'kbc-button-success-flash-slow':
+      case 'kbc-button-danger-flash-slow':
+        lightAnimation.current = Animated.loop(
+          Animated.sequence([
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 1,
+              duration: 1500,
+            }),
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 0,
+              duration: 1500,
+            }),
+          ]),
+        )
+        break
+      default:
+        break
+    }
+    lightAnimation.current?.start()
+  }, [lightClassname])
 
   const animatePressIn = useCallback(() => {
     pressing.current = true

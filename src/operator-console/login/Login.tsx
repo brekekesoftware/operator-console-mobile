@@ -131,18 +131,7 @@ class LoginC extends React.Component<Props, State> {
       },
     )
   }
-
-  _login = () => {
-    const f = this.props.form
-    f.submit()
-    const fErrs = f.getFieldsError()
-    const hasErr = fErrs.some(fe => fe.errors.length > 0)
-    if (hasErr) {
-      return
-    }
-    const params = f.getFieldsValue()
-
-    // this._deinitAphone();
+  _finish = params => {
     this.setState({ isSigningin: true }, () => {
       const lastLoginAccount = {
         hostname: params.hostname,
@@ -193,7 +182,12 @@ class LoginC extends React.Component<Props, State> {
         .getPalRestApi()
         .initPalRestApi(initPalRestApiOptions)
     })
-  } // ~login
+  }
+
+  _login = () => {
+    const f = this.props.form
+    f.submit()
+  }
 
   render() {
     return (
@@ -296,8 +290,10 @@ class LoginC extends React.Component<Props, State> {
           <Form
             name='login'
             initialValues={this.state.initialValues}
-            ref={r => (this.refForm = r)}
+            ref={this.refForm}
             form={this.props.form}
+            onFinish={this._finish}
+            onFinishFailed={e => console.log('#Duy Phan console fail ', e)}
             styles={{
               Body: {
                 backgroundColor: 'transparent',

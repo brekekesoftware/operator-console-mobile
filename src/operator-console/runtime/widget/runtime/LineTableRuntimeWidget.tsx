@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
-import { ScrollView, Text, View } from 'react-native'
+import { Animated, ScrollView, Text, View } from 'react-native'
 
 import { Button } from '../../../common/Button'
 import { DropdownMenu } from '../../../common/DropdownMenu'
 import { Modal } from '../../../common/Modal'
 import { Notification } from '../../../common/Notification'
 import { Popconfirm } from '../../../common/Popconfirm'
+import { animateTiming } from '../../../common/shadow-button/helpers'
 import { Cell, Table, TableWrapper } from '../../../common/Table'
 import { WidgetButton } from '../../../common/WidgetButton'
 import { i18n } from '../../../i18n'
@@ -500,6 +501,8 @@ const LineTableRow = ({
   transferButtonFontSize,
   transferCancelButtonFontSize,
 }) => {
+  const animatedFlash = useRef(new Animated.Value(0)).current
+  const pressAnimation = useRef<Animated.CompositeAnimation | null>(null)
   const lightClassname = _getLightClassname(lineInfo.line)
   const title = lineInfo.lineLabel ? lineInfo.lineLabel : lineInfo.line
   const oc = BrekekeOperatorConsole.getStaticInstance()
@@ -524,25 +527,103 @@ const LineTableRow = ({
     ? lineButtonOuterBorderRadius
     : 8
 
-  const lightStyle: { [key: string]: ViewStyle } = {
-    'kbc-button-success-flash': {},
-    'kbc-button-success-flash-slow': {},
-    'kbc-button-danger-flash-slow': {},
-    'kbc-button-danger-flash': {},
-    'kbc-button-success': {},
-    'kbc-button-danger': {},
+  const getAnimated = () => {
+    const s = {} as any
+    switch (lightClassname) {
+      case 'kbc-button-danger-flash':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#dc3545', '#e4606d'],
+        })
+        break
+      case 'kbc-button-danger-flash-slow':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#dc3545', '#e4606d'],
+        })
+        break
+      case 'kbc-button-success-flash':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#28a745', '#34ce57'],
+        })
+        break
+      case 'kbc-button-success-flash-slow':
+        s.backgroundColor = animatedFlash.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#28a745', '#34ce57'],
+        })
+        break
+      case 'kbc-button-danger':
+        s.backgroundColor = '#dc3545'
+        break
+      case 'kbc-button-success':
+        s.backgroundColor = '#28a745'
+        break
+      default:
+        break
+    }
+    return s
   }
 
+  useEffect(() => {
+    if (pressAnimation.current) {
+      pressAnimation.current.stop()
+      animatedFlash.setValue(0)
+      pressAnimation.current = null
+    }
+    switch (lightClassname) {
+      case 'kbc-button-success-flash':
+      case 'kbc-button-danger-flash':
+        pressAnimation.current = Animated.loop(
+          Animated.sequence([
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 1,
+              duration: 250,
+            }),
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 0,
+              duration: 250,
+            }),
+          ]),
+        )
+        break
+      case 'kbc-button-success-flash-slow':
+      case 'kbc-button-danger-flash-slow':
+        pressAnimation.current = Animated.loop(
+          Animated.sequence([
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 1,
+              duration: 1500,
+            }),
+            animateTiming({
+              variable: animatedFlash,
+              toValue: 0,
+              duration: 1500,
+            }),
+          ]),
+        )
+        break
+      default:
+        break
+    }
+    pressAnimation.current?.start()
+  }, [lightClassname])
+
   return (
-    <TableWrapper
+    <Animated.View
       key={index}
       style={[
         {
           borderWidth: bodyRowUnderlineThickness,
           borderStyle: 'solid',
           borderColor: bodyRowUnderlineColor,
+          flexDirection: 'row',
         },
-        lightStyle[lightClassname],
+        { ...getAnimated() },
       ]}
     >
       <Cell
@@ -636,7 +717,7 @@ const LineTableRow = ({
             : ''
         }
       ></Cell>
-    </TableWrapper>
+    </Animated.View>
   )
 }
 

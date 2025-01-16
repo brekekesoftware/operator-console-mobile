@@ -31,7 +31,9 @@ export class LegacyButtonRuntimeSubWidget_nextCallButton extends LegacyButtonRun
             ? undefined
             : oc.switchCallDown
         }
-        isFlash={currentCallIndex < callInfoCount - 1}
+        lightClassname={
+          currentCallIndex < callInfoCount - 1 ? 'kbc-button-danger-flash' : ''
+        }
       >
         {iconJsx}
       </WidgetButton>
