@@ -2038,6 +2038,7 @@ export class BrekekeOperatorConsole extends React.Component<
         style={{
           justifyContent: 'center',
           alignItems: 'center',
+          flex: 1,
           width: '100%',
           height: '100%',
           backgroundColor: '#fafafa',

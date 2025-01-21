@@ -344,7 +344,9 @@ export const NoScreensView = props => {
 
   const handleOpenLayoutOpen = () => {
     setOpen(false)
-    setOpenLayoutOpen(true)
+    setTimeout(() => {
+      setOpenLayoutOpen(true)
+    }, 1000)
   }
 
   const isAdmin = operatorConsoleAsParent.getLoggedinUserIsAdmin()

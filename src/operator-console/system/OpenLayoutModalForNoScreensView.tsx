@@ -100,6 +100,7 @@ export const OpenLayoutModalForNoScreensView = props => {
       </Button>,
     ]
   }
+  console.log('#Duy Phan console open', open)
 
   return (
     <Modal

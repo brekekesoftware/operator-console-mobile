@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'white',
     width: 300,
+    shadowColor: '#e0e0e0',
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
     // height: 400
   },
 })

@@ -382,6 +382,7 @@ export class EditScreenView extends React.Component<Props, State> {
             alignItems: 'center',
             height: 47,
             flexDirection: 'row',
+            zIndex: 1,
           }}
         >
           <View style={{ width: 240 }}>
@@ -495,7 +496,7 @@ export class EditScreenView extends React.Component<Props, State> {
             flexDirection: 'row',
           }}
         >
-          <View style={{ width: 240 }}>
+          <View style={{ width: 240, zIndex: 1 }}>
             {/* left -  widget templates area*/}
             {this._getWidgetTemplatesAreaJsx()}
           </View>

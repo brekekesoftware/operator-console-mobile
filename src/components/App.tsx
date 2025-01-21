@@ -296,11 +296,10 @@ export const App = observer(() => {
   const cp = getAuthStore().listCustomPage[0]
 
   return (
-    <AutocompleteDropdownContextProvider>
-      <View style={[StyleSheet.absoluteFill, css.App]} {...getWebRootIdProps()}>
-        {chatStore.chatNotificationSoundRunning && <AudioPlayer />}
-        <RnStatusBar />
-        {/* {!!signedInId && !!connMessage && (
+    <View style={[StyleSheet.absoluteFill, css.App]} {...getWebRootIdProps()}>
+      {chatStore.chatNotificationSoundRunning && <AudioPlayer />}
+      <RnStatusBar />
+      {/* {!!signedInId && !!connMessage && (
           <AnimatedSize
             style={[
               css.App_ConnectionStatus,
@@ -322,14 +321,14 @@ export const App = observer(() => {
           </AnimatedSize>
         )} */}
 
-        <CallNotify />
-        {/* <CallBar />
+      <CallNotify />
+      {/* <CallBar />
       <CallVideos />
       <CallVoices />
       <ChatGroupInvite />
       <UnreadChatNoti /> */}
 
-        {/* <View style={css.App_Inner}>
+      {/* <View style={css.App_Inner}>
         <RnStackerRoot />
         <RenderAllCalls />
         {cp && <PageCustomPageView id={cp.id} />}
@@ -343,32 +342,19 @@ export const App = observer(() => {
           />
         )}
       </View> */}
-        {Platform.OS === 'ios' && <KeyboardSpacer />}
+      {/* {Platform.OS === 'ios' && <KeyboardSpacer />} */}
 
-        {!accountStore.appInitDone && (
-          <View style={css.LoadingFullscreen}>
-            <ActivityIndicator size='large' color='white' />
-          </View>
-        )}
-        <View style={css.App_Inner}>
+      {!accountStore.appInitDone && (
+        <View style={css.LoadingFullscreen}>
+          <ActivityIndicator size='large' color='white' />
+        </View>
+      )}
+      <View style={css.App_Inner}>
+        <AutocompleteDropdownContextProvider>
           <ToastProvider
             placement='top'
             successIcon={IconSuccess}
             warningIcon={IconWarning}
-            renderType={{
-              custom_type: toast => (
-                <View
-                  style={{
-                    padding: 15,
-                    backgroundColor: 'white',
-                    elevation: 3,
-                  }}
-                >
-                  <Text>{toast.message}</Text>
-                  {toast.data?.content}
-                </View>
-              ),
-            }}
             renderToast={toast => {
               let icon
               switch (toast.type) {
@@ -390,6 +376,11 @@ export const App = observer(() => {
                     padding: 15,
                     backgroundColor: 'white',
                     elevation: 3,
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    borderColor: '#e0e0e0',
+                    borderWidth: 1,
                   }}
                 >
                   <View
@@ -413,9 +404,9 @@ export const App = observer(() => {
               </GestureHandlerRootView>
             </Provider>
           </ToastProvider>
-        </View>
+        </AutocompleteDropdownContextProvider>
       </View>
-    </AutocompleteDropdownContextProvider>
+    </View>
   )
 })
 

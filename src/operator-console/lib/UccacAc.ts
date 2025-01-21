@@ -1,4 +1,16 @@
+import type { Uccac } from './Uccac'
+
+const UCCAC_AC_STATES = {
+  deinit: 0,
+  init: 1,
+}
 export class UccacAc {
+  _state: number
+  _UccacAsParent: Uccac
+  _AgentComponent
+  _UccacAcNo: number
+  _onAcErrorOccurredFunctionForUser
+  _confirmMessageWhenClosingWebchat
   constructor(uccacAsParent, uccacAcNo) {
     this._state = UCCAC_AC_STATES.deinit
     this._UccacAsParent = uccacAsParent
@@ -209,8 +221,4 @@ export class UccacAc {
   destroy() {
     this._UccacAsParent.deinitAndRemoveUccacAc(this._UccacAcNo)
   }
-}
-const UCCAC_AC_STATES = {
-  deinit: 0,
-  init: 1,
 }

@@ -1,6 +1,10 @@
 import { Form, Input } from '@ant-design/react-native'
 import type { FormInstance } from '@ant-design/react-native/lib/form/Form'
 import { useForm } from '@ant-design/react-native/lib/form/Form'
+import type {
+  FormItemStyle,
+  ValidateStatusStyle,
+} from '@ant-design/react-native/lib/form/style'
 import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -190,6 +194,16 @@ class LoginC extends React.Component<Props, State> {
   }
 
   render() {
+    const borderStyles: Partial<FormItemStyle & ValidateStatusStyle> = {
+      Line: {
+        backgroundColor: 'transparent',
+        elevation: 0,
+        borderColor: 'transparent',
+        borderWidth: 1,
+        borderStyle: 'dashed',
+      },
+    }
+
     return (
       <View>
         <View
@@ -299,6 +313,7 @@ class LoginC extends React.Component<Props, State> {
                 backgroundColor: 'transparent',
                 elevation: 0,
                 borderColor: 'transparent',
+                borderStyle: 'dashed',
               },
             }}
             style={{
@@ -316,13 +331,7 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('hostname_is_required'),
                 },
               ]}
-              styles={{
-                Line: {
-                  backgroundColor: 'transparent',
-                  elevation: 0,
-                  borderColor: 'transparent',
-                },
-              }}
+              styles={borderStyles}
             >
               <Input style={styles.input} placeholder={i18n.t('hostname')} />
             </Form.Item>
@@ -334,13 +343,7 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('port_is_required'),
                 },
               ]}
-              styles={{
-                Line: {
-                  backgroundColor: 'transparent',
-                  elevation: 0,
-                  borderColor: 'transparent',
-                },
-              }}
+              styles={borderStyles}
             >
               <Input style={styles.input} placeholder={i18n.t('port')} />
             </Form.Item>
@@ -352,13 +355,7 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('tenant_is_required'),
                 },
               ]}
-              styles={{
-                Line: {
-                  backgroundColor: 'transparent',
-                  elevation: 0,
-                  borderColor: 'transparent',
-                },
-              }}
+              styles={borderStyles}
             >
               <Input style={styles.input} placeholder={i18n.t('tenant')} />
             </Form.Item>
@@ -370,13 +367,7 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('username_is_required'),
                 },
               ]}
-              styles={{
-                Line: {
-                  backgroundColor: 'transparent',
-                  elevation: 0,
-                  borderColor: 'transparent',
-                },
-              }}
+              styles={borderStyles}
             >
               <Input style={styles.input} placeholder={i18n.t('username')} />
             </Form.Item>
@@ -388,13 +379,7 @@ class LoginC extends React.Component<Props, State> {
                   message: i18n.t('password_is_required'),
                 },
               ]}
-              styles={{
-                Line: {
-                  backgroundColor: 'transparent',
-                  elevation: 0,
-                  borderColor: 'transparent',
-                },
-              }}
+              styles={borderStyles}
             >
               <Input
                 style={styles.input}
@@ -418,15 +403,7 @@ class LoginC extends React.Component<Props, State> {
                 // type='hidden'
               />
             </Form.Item>
-            <Form.Item
-              styles={{
-                Line: {
-                  backgroundColor: 'transparent',
-                  elevation: 0,
-                  borderColor: 'transparent',
-                },
-              }}
-            >
+            <Form.Item styles={borderStyles}>
               <Button
                 type='success'
                 disabled={this.state.isSigningin}

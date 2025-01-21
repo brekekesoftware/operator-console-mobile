@@ -36,8 +36,8 @@ export class EditorWidgetTemplateFactory {
       new NoteEditorWidgetTemplate(this)
     this._EditorWidgetTemplates[WidgetData.WIDGET_TYPE_IDS.lineTable] =
       new LineTableEditorWidgetTemplate(this)
-    // this._EditorWidgetTemplates[WidgetData.WIDGET_TYPE_IDS.legacyUccac] =
-    //   new LegacyUccacEditorWidgetTemplate(this)
+    this._EditorWidgetTemplates[WidgetData.WIDGET_TYPE_IDS.legacyUccac] =
+      new LegacyUccacEditorWidgetTemplate(this)
     Object.freeze(this._EditorWidgetTemplates)
   }
 
