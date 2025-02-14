@@ -183,4 +183,6 @@ export class UccacWrapper {
     const uccacAc = this._Uccac.addUccacAc()
     return uccacAc
   }
+
+  addWin(w) {}
 }

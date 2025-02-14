@@ -1334,20 +1334,18 @@ export class BrekekeOperatorConsole extends React.Component<
         newOptions.onInitSuccessFunction = function (oExtensions) {
           console.log('extensions', oExtensions)
           this_.setState({ extensions: oExtensions }, () => {
-            // Todo:
-            // const initAsync =
-            //   this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
-            //     newData,
-            //     systemSettingsDataAsCaller,
-            //     () => {
-            //       onInitSuccessUccacFunction()
-            //       this_._deinitPalWrapper()
-            //     },
-            //     onInitFailUccacFunction,
-            //     isUCMinScript,
-            //   )
-            // return initAsync;
-            onInitSuccessUccacFunction()
+            const initAsync =
+              this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
+                newData,
+                systemSettingsDataAsCaller,
+                () => {
+                  onInitSuccessUccacFunction()
+                  this_._deinitPalWrapper()
+                },
+                onInitFailUccacFunction,
+                isUCMinScript,
+              )
+            return initAsync
           })
         }
         newOptions.onInitFailFunction = function (error) {
@@ -1358,20 +1356,18 @@ export class BrekekeOperatorConsole extends React.Component<
 
       return false
     } else {
-      // const initAsync =
-      //   this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
-      //     newData,
-      //     systemSettingsDataAsCaller,
-      //     () => {
-      //       onInitSuccessUccacFunction()
-      //       this_._deinitPalWrapper()
-      //     },
-      //     onInitFailUccacFunction,
-      //     isUCMinScript,
-      //   )
-      // return initAsync
-      onInitSuccessUccacFunction()
-      return false
+      const initAsync =
+        this_._UccacWrapper.onBeginSetSystemSettingsDataByOperatorConsoleAsParent(
+          newData,
+          systemSettingsDataAsCaller,
+          () => {
+            onInitSuccessUccacFunction()
+            this_._deinitPalWrapper()
+          },
+          onInitFailUccacFunction,
+          isUCMinScript,
+        )
+      return initAsync
     }
   }
 

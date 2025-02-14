@@ -1,7 +1,14 @@
 import { createRef } from 'react'
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native'
+import type { ImageSourcePropType } from 'react-native'
+import { Dimensions, Image, Text, TouchableOpacity, View } from 'react-native'
+import WebView from 'react-native-webview'
+
+import SearchDialogIcon from '../../../../assets/searchdialog.png'
+import WebChatPickupIcon from '../../../../assets/webchatpickup.png'
+import WebChatQueueIcon from '../../../../assets/webchatqueue.png'
 
 import { i18n } from '../../../i18n'
+import { DynamicView } from '../../../lib/DynamicView'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
@@ -12,6 +19,9 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
   _uccacRootElementRef
   _onUccacInitSuccessFunction
   _onUccacDeinitFunction
+  refDynamicWebChatQueue
+  refDynamicSearch
+  refDynamicWebChatPickup
   constructor(props) {
     super(props)
     const oc = BrekekeOperatorConsole.getStaticInstance()
@@ -33,6 +43,9 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
       this_._onDeinitUccacWrapperByUccacWrapper(uccacWrapperAsCaller)
     }
     this._UccacWrapper.addOnUccacDeinitFunction(this._onUccacDeinitFunction)
+    this.refDynamicSearch = createRef()
+    this.refDynamicWebChatPickup = createRef()
+    this.refDynamicWebChatQueue = createRef()
   }
 
   _refreshUccacAc() {
@@ -80,27 +93,47 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
       this._uccacAc = null
     }
 
-    const eUccacRoot = this._uccacRootElementRef.current
-    const eWebchatqueue = eUccacRoot.querySelector('span[name="webchatqueue"]')
-    const eWebchatpickup = eUccacRoot.querySelector(
-      'span[name="webchatpickup"]',
-    )
-    const eSearch = eUccacRoot.querySelector('span[name="search"]')
-    const eUcclientPanelRoot = eUccacRoot.querySelector(
-      'div[name="ucclientPanelRoot"]',
-    )
-
     this._uccacAc = this._UccacWrapper.addUccacAc()
     const initUccacAcOptions = {
-      acIconParentsWebchatqueue: eWebchatqueue,
-      acIconParentsWebchatpickup: eWebchatpickup,
-      acIconParentsSearch: eSearch,
+      acIconParentsWebchatqueue: this.refDynamicWebChatQueue,
+      acIconParentsWebchatpickup: this.refDynamicWebChatPickup,
+      acIconParentsSearch: this.refDynamicSearch,
     }
     this._uccacAc.init(initUccacAcOptions)
 
     const oc = BrekekeOperatorConsole.getStaticInstance()
     const startUCClientOptions = {
-      ucclientWidgetParent: eUcclientPanelRoot,
+      ucclientWidgetParent: this._uccacRootElementRef,
+      ucclientUcurl: this._UccacWrapper.getUcurl(),
+      ucclientTenant: oc.getLoginTenantname(),
+      ucclientUser: oc.getLoginUsername(),
+      ucclientPass: oc.getLoginPassword(),
+    }
+    this.setState({ isRestartButtonDisabled: true }, () => {
+      this._uccacAc.startUCClient(startUCClientOptions)
+      setTimeout(() => {
+        this.setState({ isRestartButtonDisabled: false })
+      }, 8000)
+    })
+  }
+
+  _initUccacAcTest(d) {
+    if (this._uccacAc) {
+      this._uccacAc.destroy()
+      this._uccacAc = null
+    }
+
+    this._uccacAc = this._UccacWrapper.addUccacAc()
+    const initUccacAcOptions = {
+      acIconParentsWebchatqueue: this.refDynamicWebChatQueue,
+      acIconParentsWebchatpickup: this.refDynamicWebChatPickup,
+      acIconParentsSearch: this.refDynamicSearch,
+    }
+    this._uccacAc.init(initUccacAcOptions)
+
+    const oc = BrekekeOperatorConsole.getStaticInstance()
+    const startUCClientOptions = {
+      ucclientWidgetParent: this._uccacRootElementRef,
       ucclientUcurl: this._UccacWrapper.getUcurl(),
       ucclientTenant: oc.getLoginTenantname(),
       ucclientUser: oc.getLoginUsername(),
@@ -122,13 +155,10 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
 
     this.setState({ isRestartButtonDisabled: true }, () => {
       this._uccacAc.stopUCClient()
-      const eUccacRoot = this._uccacRootElementRef.current
-      const eUcclientPanelRoot = eUccacRoot.querySelector(
-        'div[name="ucclientPanelRoot"]',
-      )
+
       const oc = BrekekeOperatorConsole.getStaticInstance()
       const startUCClientOptions = {
-        ucclientWidgetParent: eUcclientPanelRoot,
+        ucclientWidgetParent: this._uccacRootElementRef,
         ucclientUcurl: this._UccacWrapper.getUcurl(),
         ucclientTenant: oc.getLoginTenantname(),
         ucclientUser: oc.getLoginUsername(),
@@ -271,48 +301,88 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
       return (
         <View
           style={{
-            height: '100%',
+            flex: 1,
             borderRadius,
             backgroundColor: uccacwidgetBgColor,
             // boxShadow: sBoxShadow,
           }}
         >
           <View
-            ref={this._uccacRootElementRef}
             style={{
               display: 'flex',
+              flex: 1,
               flexWrap: 'wrap',
-              height: Dimensions.get('screen').height - 30,
+              height: Dimensions.get('screen').height - 200,
             }}
           >
             <View
-              style={{ position: 'relative', width: '50%', height: '100%' }}
+              style={{
+                position: 'relative',
+                width: '50%',
+                height: '100%',
+                flexDirection: 'row',
+                gap: 10,
+              }}
             >
-              <Text
+              <DynamicView
                 name={'webchatqueue'}
-                style={{ color: uccacwidgetFgColor }}
-              ></Text>
-              <Text
+                ref={this.refDynamicWebChatQueue}
+              ></DynamicView>
+              <DynamicView
                 name={'webchatpickup'}
-                style={{ color: uccacwidgetFgColor }}
-              ></Text>
-              <Text
+                ref={this.refDynamicWebChatPickup}
+              ></DynamicView>
+
+              <DynamicView
                 name={'search'}
-                style={{ color: uccacwidgetFgColor }}
-              ></Text>
+                ref={this.refDynamicSearch}
+              ></DynamicView>
+              {/* <TouchableOpacity>
+                <Image source={SearchDialogIcon as ImageSourcePropType} />
+              </TouchableOpacity> */}
+              <DynamicView
+                name={'ucclientPanelRoot'}
+                style={{ position: 'relative', width: '50%', height: '100%' }}
+                ref={this._uccacRootElementRef}
+              ></DynamicView>
+              {/* <WebView
+                source={{
+                  html: `
+    <html>
+      <head> <script>
+            function sendMessage() {
+                  window.ReactNativeWebView.postMessage(window.Brekeke.UCAgentWidget);
+                  console.log("Duy Phan console", !!window.Brekeke.UCAgentWidget)
+                }
+                  function sendErr() {
+                  window.ReactNativeWebView.postMessage("Errp!");
+                }
+        </script>
+        <script src="https://qavn01.brekeke.com:8443/uc/js/brekeke/ucagentwidget/ucagentwidget.js" onload="sendMessage()" onerror="sendErr()"></script>
+       
+      </head>
+      <body>
+        <span name={"webchatqueue"}></span>
+        <span name={"webchatpickup"}></span>
+        <span name={"search"}></span>
+        <div name={"ucclientPanelRoot"}
+              style={{position: "relative", width: "50%", height: "100%"}}>
+        </div>
+      </body>
+    </html>
+  `,
+                }}
+                onMessage={(e) =>console.log('#Duy Phan console mmm',e.nativeEvent.data)}
+              /> */}
             </View>
-            <View
-              name={'ucclientPanelRoot'}
-              style={{ position: 'relative', width: '50%', height: '100%' }}
-            ></View>
-          </View>
-          <View style={{ height: 30, padding: 4 }}>
-            <TouchableOpacity
-              disabled={this.state.isRestartButtonDisabled}
-              onPress={this._onClickRestart.bind(this)}
-            >
-              <Text>{i18n.t('restart')}</Text>
-            </TouchableOpacity>
+            <View style={{ height: 30, padding: 4 }}>
+              <TouchableOpacity
+                disabled={this.state.isRestartButtonDisabled}
+                onPress={this._onClickRestart.bind(this)}
+              >
+                <Text>{i18n.t('restart')}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       )

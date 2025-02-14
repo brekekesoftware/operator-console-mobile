@@ -439,8 +439,17 @@ PODS:
     - SDWebImageWebPCoder (~> 0.8.4)
   - RNFS (2.20.0):
     - React-Core
+  - RNGestureHandler (2.21.2):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+  - RNLocalize (3.3.0):
+    - React-Core
   - RNPermissions (3.8.4):
     - React-Core
+  - RNReanimated (3.7.1):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
+    - ReactCommon/turbomodule/core
   - RNShare (9.2.3):
     - React-Core
   - RNSVG (13.10.0):
@@ -515,7 +524,10 @@ DEPENDENCIES:
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNFS (from `../node_modules/react-native-fs`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
+  - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVoipPushNotification (from `../node_modules/react-native-voip-push-notification`)
@@ -642,8 +654,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fast-image"
   RNFS:
     :path: "../node_modules/react-native-fs"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
+  RNReanimated:
+    :path: "../node_modules/react-native-reanimated"
   RNShare:
     :path: "../node_modules/react-native-share"
   RNSVG:
@@ -714,7 +732,10 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: 64218f3c776c03d7408284a819b2abfda1834bc8
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
+  RNGestureHandler: 0972b77a2cab0f1a61ca1a3ce348a424614f65c2
+  RNLocalize: 298e85ce16540a11de40c1a588ead39fc5e9a072
   RNPermissions: b7dabe0bd774de1cfb5d25c5e8b0f8281b7008a4
+  RNReanimated: 43675f1f0e704abe8ebf953fd79b00e66302cda2
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: 80584470ff1ffc7994923ea135a3e5ad825546b9
   RNVoipPushNotification: 1617f5a07be24066830213ae9252cb790b53886f

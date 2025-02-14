@@ -138,20 +138,26 @@ export const SystemSettingsForm = props => {
       </Form.Item>
       <Text style={tStyle}>{i18n.t('ringtoneSettings')}</Text>
       <RingtoneSettings />
-      {/* <Text style={tStyle}>{i18n.t('ucSettings')}</Text> */}
-      {/* <Form.Item label={i18n.t('ucUrl')} name='ucUrl' styles={formItemStyle}>
+      <Text style={tStyle}>{i18n.t('ucSettings')}</Text>
+      <Form.Item
+        label={i18n.t('ucUrl')}
+        name='ucUrl'
+        styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
+      >
         <Input style={{ width: 500 }} maxLength={300} />
       </Form.Item>
       <Form.Item
         label={i18n.t('ucChatAgentComponent')}
         name='ucChatAgentComponentEnabled'
         styles={formItemStyle}
+        labelStyle={{ marginBottom: 10 }}
       >
         <Radio.Group style={{ flexDirection: 'row' }}>
           <Radio value={'0'}>{i18n.t('off')}</Radio>
           <Radio value={'1'}>{i18n.t('on')}</Radio>
         </Radio.Group>
-      </Form.Item> */}
+      </Form.Item>
       <Text style={tStyle}>{i18n.t('otherSettings')}</Text>
       <Form.Item
         label={i18n.t('phoneTerminal')}

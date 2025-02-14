@@ -99,7 +99,7 @@ export class Uccac {
   }
 }
 
-const UCCAC_UCCAC_STATES = {
+export const UCCAC_UCCAC_STATES = {
   deinit: 0,
   deiniting: 1,
   initing: 2,
