@@ -1,0 +1,50 @@
+{
+  "url": "/js/brekeke/ucclientui/templates/brucphone17.jsp?from=<from>&debug=<debug>&cachebust=<Math.floor(new Date()/60000)>",
+  "winbdow_options": {
+    "center": true,
+    "frame": false,
+    "height": 280,
+    "resizable": false,
+    "width": 435
+  },
+  "special": [
+    {
+      "condition": "ver>='1.2'",
+      "optional_script": "data.window_options.title=decodeURIComponent(data.window_options.title);",
+      "pattern_from": "^\\d{0,12}$",
+      "url": "/js/brekeke/ucclientui/templates/brucphone17.jsp?from=<from>&debug=<debug>&ver=<ver>&cachebust=<Math.floor(new Date()/60000)>",
+      "window_class": "Chrome_WidgetWin_1",
+      "window_options": {
+        "center": true,
+        "frame": true,
+        "height": 280,
+        "maximizable": false,
+        "minimizable": true,
+        "resizable": false,
+        "title": "%EF%BC%B4%EF%BC%AB%EF%BC%A3%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%81%BE%E3%81%84%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88",
+        "useContentSize": true,
+        "width": 435
+      },
+      "continue": true
+    },
+    {
+      "condition": "ver>='1.4'",
+      "url": "/js/brekeke/ucclientui/templates/brucphone17.jsp?from=<from>&debug=<debug>&ver=<ver>&udponly=<Boolean(argobj.udponly)>&sipurl=<argobj.sipurl||''>&cachebust=<Math.floor(new Date()/60000)>",
+      "loadurlopt": {
+        "userAgent": "Mozilla/5.0 (<os.type()> <os.release()>) <app.getName()>/<ver> Chrome/58.0.3029.110"
+      },
+      "continue": true
+    },
+    {
+      "condition": "ver>='1.5'",
+      "url": "/js/brekeke/ucclientui/templates/brucphone19.jsp?from=<from>&debug=<debug>&ver=<ver>&udponly=<Boolean(argobj.udponly)>&sipurl=<argobj.sipurl||''>&branchNumber=<branchNumber||''>&register=<Boolean(argobj.register)>&startupRegister=<argobj.startupRegister||''>&registeredTime=<registeredTime||''>&chkRegInt=<argobj.chkRegInt||''>&socketKeepAlive=<argobj.socketKeepAlive||''>&outgoingRoute=<outgoingRoute||''>&ringingMode=<argobj.ringingMode||''>&ringingBeep=<argobj.ringingBeep||''>&cachebust=<Math.floor(new Date()/60000)>",
+      "server_version": "20191105",
+      "continue": true
+    },
+    {
+      "condition": "ver>='1.5.130'",
+      "url": "/js/brekeke/ucclientui/templates/brucphone19.jsp?from=<from>&debug=<debug>&ver=<ver>&udponly=<Boolean(argobj.udponly)>&sipurl=<argobj.sipurl||''>&branchNumber=<branchNumber||''>&register=<Boolean(argobj.register)>&startupRegister=<argobj.startupRegister||''>&registeredTime=<registeredTime||''>&chkRegInt=<argobj.chkRegInt||''>&socketKeepAlive=<argobj.socketKeepAlive||''>&outgoingRoute=<outgoingRoute||''>&ringingMode=<ringingMode||''>&ringingBeep=<ringingBeep||''>&cachebust=<Math.floor(new Date()/60000)>",
+      "continue": true
+    }
+  ]
+}

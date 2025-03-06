@@ -1,0 +1,184 @@
+<div class="brUCSidePane">
+  <div class="brUCPanelName">
+    <div data-dojo-attach-point="labelName"></div>
+  </div>
+  <div data-dojo-attach-point="panelStatus" class="brUCPanelStatus">
+    <div
+      data-dojo-type="dijit/form/DropDownButton"
+      data-dojo-attach-point="dropDownButtonStatus"
+      class="brUCDropDownButtonStatus"
+      data-dojo-props="iconClass:'brUCIconOffline', title:'${ucMsgs.BTN_CHANGE_STATUS_TOOLTIP}'"
+    >
+      <span></span>
+      <div data-dojo-type="dijit/DropDownMenu">
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemStatusOffline"
+          data-dojo-props="iconClass:'brUCMenuItemIcon brUCIconOffline'"
+        >
+          ${ucMsgs.CMN_OWN_STATUS_STRING_INVISIBLE}
+        </div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemStatusAvailable"
+          data-dojo-props="iconClass:'brUCMenuItemIcon brUCIconAvailable'"
+        >
+          ${ucMsgs.CMN_OWN_STATUS_STRING_AVAILABLE}
+        </div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemStatusBusy"
+          data-dojo-props="iconClass:'brUCMenuItemIcon brUCIconBusy'"
+        >
+          ${ucMsgs.CMN_OWN_STATUS_STRING_BUSY}
+        </div>
+      </div>
+    </div>
+    <div
+      data-dojo-type="dijit/form/TextBox"
+      data-dojo-attach-point="textBoxDisplay"
+      class="brUCTextBoxDisplay"
+      data-dojo-props="selectOnClick:true,placeHolder:'${ucMsgs.LBL_TYPE_STATUS}'"
+    ></div>
+    <!--
+        -->
+    <div
+      data-dojo-type="dijit/form/DropDownButton"
+      data-dojo-attach-point="dropDownButtonDisplay"
+      class="brUCDropDownButtonDisplay"
+      data-dojo-props="title:'${ucMsgs.BTN_STATUS_DISPLAY_HISTORY_TOOLTIP}'"
+    >
+      <span></span>
+      <div
+        data-dojo-type="dijit/DropDownMenu"
+        data-dojo-attach-point="dropDownMenuDisplay"
+      >
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplayEmpty"
+          class="brUCMenuItemDisplayEmpty"
+          data-dojo-props=""
+        >
+          ${ucMsgs.LBL_CLEAR_STATUS_DISPLAY}
+        </div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay0"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay1"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay2"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay3"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay4"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay5"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay6"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay7"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay8"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+        <div
+          data-dojo-type="dijit/MenuItem"
+          data-dojo-attach-point="menuItemDisplay9"
+          class="brUCMenuItemDisplay"
+          data-dojo-props=""
+        ></div>
+      </div>
+    </div>
+  </div>
+  <div data-dojo-attach-point="panelTool" class="brUCPanelTool">
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonDummy"
+      class="brUCButtonDummy"
+    ></div>
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonAddBuddy"
+      data-dojo-props="iconClass:'brUCButtonIconTool brUCIconAddBuddy', showLabel:false, title:'${ucMsgs.BTN_ADD_BUDDY_TOOLTIP}'"
+    ></div>
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonAddGroup"
+      data-dojo-props="iconClass:'brUCButtonIconTool brUCIconAddGroup', showLabel:false, title:'${ucMsgs.BTN_ADD_GROUP_TOOLTIP}'"
+    ></div>
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonConference"
+      data-dojo-props="iconClass:'brUCButtonIconTool brUCIconConference', showLabel:false, title:'${ucMsgs.BTN_CONFERENCE_TOOLTIP}'"
+    ></div>
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonBroadcast"
+      data-dojo-props="iconClass:'brUCButtonIconTool brUCIconBroadcast', showLabel:false, title:'${ucMsgs.BTN_BROADCAST_TOOLTIP}'"
+    ></div>
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonMakeCall"
+      data-dojo-props="iconClass:'brUCButtonIconTool brUCIconMakeCall', showLabel:false, title:'${ucMsgs.BTN_MAKE_CALL_TOOLTIP}'"
+    ></div>
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonSplitUpDown"
+      data-dojo-props="iconClass:'brUCButtonIconTool brUCIconSplitUpDown', showLabel:false, title:'${ucMsgs.BTN_SPLIT_UD_TOOLTIP}'"
+    ></div>
+    <div
+      data-dojo-type="dijit/form/Button"
+      data-dojo-attach-point="buttonSplitLeftRight"
+      data-dojo-props="iconClass:'brUCButtonIconTool brUCIconSplitLeftRight', showLabel:false, title:'${ucMsgs.BTN_SPLIT_LR_TOOLTIP}'"
+    ></div>
+  </div>
+  <div data-dojo-attach-point="panelFilter" class="brUCPanelFilter">
+    <div
+      data-dojo-type="dijit/form/TextBox"
+      data-dojo-attach-point="textBoxFilter"
+      data-dojo-props="selectOnClick:true,placeHolder:'${ucMsgs.LBL_FILTER}'"
+    ></div>
+    <label>
+      <div
+        data-dojo-type="dijit/form/CheckBox"
+        data-dojo-attach-point="checkBoxOnlineOnly"
+      ></div>
+      ${ucMsgs.LBL_ONLINE_ONLY}
+    </label>
+  </div>
+  <div data-dojo-attach-point="panelBuddylist" class="brUCPanelBuddylist"></div>
+</div>

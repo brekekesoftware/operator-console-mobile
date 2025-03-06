@@ -85,3 +85,5 @@ turnConfig.*
 
 # Patches
 *.patch
+
+uc_agent_rn/

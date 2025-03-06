@@ -1,0 +1,176 @@
+<div class="brUCPanelBlockListSettings">
+  <div
+    data-dojo-type="dijit/layout/BorderContainer"
+    data-dojo-attach-point="panelBlockListSettingsContainer"
+    class="brUCPanelBlockListSettingsContainer"
+    data-dojo-props="gutters:false, liveSplitters:false"
+  >
+    <div
+      data-dojo-type="dijit/layout/ContentPane"
+      data-dojo-attach-point="panelBlockListSettingsTable"
+      class="brUCPanelBlockListSettingsTable"
+      data-dojo-props="region:'center'"
+    >
+      <span data-dojo-attach-point="spanMessage" class="brUCSpanMessage"></span>
+      <table class="brUCTableBlockListSettings">
+        <tr><th colspan="2" class="brUCThBlockListSettings">Block list</th></tr>
+        <tr>
+          <td colspan="2">
+            <table class="brUCTableBlockList">
+              <thead>
+                <tr>
+                  <th class="brUCBlockListAddress">IP Address</th>
+                  <th class="brUCBlockListTime">Time</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody data-dojo-attach-point="tbodyBlockList"></tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <a
+              data-dojo-attach-point="refresh_block_list"
+              href="javascript:void(0)"
+            >
+              Refresh
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="2" class="brUCThBlockListSettings">Reverse proxy</th>
+        </tr>
+        <tr>
+          <td>Reverse proxy IP address (regex)</td>
+          <td>
+            <input
+              data-dojo-attach-point="ip_reverse_proxy"
+              class="brUCInputIpReverseProxy"
+              type="text"
+              style="width: 240px"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>HTTP header for remote IP address</td>
+          <td>
+            <input
+              data-dojo-attach-point="reverse_proxy_header_name_for_real_ip"
+              class="brUCInputReverseProxyHeaderNameForRealIp"
+              type="text"
+              style="width: 240px"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>HTTP header pattern (for remote IP address)</td>
+          <td>
+            <input
+              data-dojo-attach-point="reverse_proxy_header_value_format"
+              class="brUCInputReverseProxyHeaderValueFormat"
+              type="text"
+              style="width: 240px"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>HTTP header for remote protocol</td>
+          <td>
+            <input
+              data-dojo-attach-point="reverse_proxy_header_name_for_remote_protocol"
+              class="brUCInputReverseProxyHeaderNameForRemoteProtocol"
+              type="text"
+              style="width: 240px"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>HTTP header pattern (for remote protocol)</td>
+          <td>
+            <input
+              data-dojo-attach-point="reverse_proxy_header_value_format_for_remote_protocol"
+              class="brUCInputReverseProxyHeaderValueFormatForRemoteProtocol"
+              type="text"
+              style="width: 240px"
+            />
+          </td>
+        </tr>
+        <tr><th colspan="2" class="brUCThBlockListSettings">Settings</th></tr>
+        <tr>
+          <td>Failed to log in</td>
+          <td>
+            Block if
+            <input
+              data-dojo-attach-point="count_fail"
+              class="brUCInputCountFail"
+              type="text"
+            />
+            times within
+            <input
+              data-dojo-attach-point="time_forget"
+              class="brUCInputTimeForget"
+              type="text"
+            />
+            seconds
+          </td>
+        </tr>
+        <tr>
+          <td>Recovery (Seconds)</td>
+          <td>
+            <input
+              data-dojo-attach-point="time_recover"
+              class="brUCInputTimeRecover"
+              type="text"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td style="min-width: 240px">Notification URL (Block) (*1)</td>
+          <td>
+            <input
+              data-dojo-attach-point="block_notification_url"
+              class="brUCInputBlockNotificationUrl"
+              type="text"
+              style="width: 480px"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <p
+              class="note"
+              style="
+                font-style: italic;
+                color: orange;
+                padding: 8px 0;
+                margin: 0;
+              "
+            >
+              *1 - The &lt;ip&gt; in the URL will be replaced with the blocked
+              IP address. You can set multiple entries separated by commas.
+            </p>
+          </td>
+        </tr>
+      </table>
+      <div
+        data-dojo-type="dijit/form/Button"
+        data-dojo-attach-point="buttonSaveBlockListSettings"
+        class="brUCFormButton brUCChatButton brUCButtonLeft brUCButtonSaveBlockListSettings"
+        data-dojo-props="iconClass:'brUCIconSaveBlockListSettings', title:'${ucMsgs.CMN_SAVE}'"
+      >
+        ${ucMsgs.CMN_SAVE}
+      </div>
+      <!--
+            -->
+      <div
+        data-dojo-type="dijit/form/Button"
+        data-dojo-attach-point="buttonCancelBlockListSettings"
+        class="brUCFormButton brUCChatButton brUCButtonRight brUCButtonCancelBlockListSettings"
+        data-dojo-props="iconClass:'brUCIconCancelBlockListSettings', title:'${ucMsgs.CMN_CLOSE}'"
+      >
+        ${ucMsgs.CMN_CLOSE}
+      </div>
+    </div>
+  </div>
+</div>

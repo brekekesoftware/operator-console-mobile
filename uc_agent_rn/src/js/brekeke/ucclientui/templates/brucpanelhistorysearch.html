@@ -1,0 +1,166 @@
+<div class="brUCPanelHistorySearch">
+  <div
+    data-dojo-type="dijit/layout/BorderContainer"
+    data-dojo-attach-point="panelHistorySearchContainer"
+    class="brUCPanelHistorySearchContainer"
+    data-dojo-props="gutters:false, liveSplitters:false"
+  >
+    <div
+      data-dojo-type="dijit/layout/ContentPane"
+      data-dojo-attach-point="panelHistorySearchHeader"
+      class="brUCPanelHistorySearchHeader"
+      data-dojo-props="region:'top'"
+    >
+      <table class="brUCTableConditionSimple">
+        <tr>
+          <td class="brUCTdConditionSimpleUser">
+            <div
+              data-dojo-type="dijit/form/DropDownButton"
+              data-dojo-attach-point="dropDownButtonConditionSimpleUser"
+              class="brUCFormDropDownButton brUCDropDownButtonConditionSimpleUser"
+              title="${ucMsgs.LBL_SEARCH_ALL_USERS}"
+            >
+              <span>${ucMsgs.LBL_SEARCH_ALL_USERS}</span>
+              <div
+                data-dojo-type="dijit/DropDownMenu"
+                data-dojo-attach-point="dropDownMenuConditionSimpleUser"
+              >
+                <div
+                  data-dojo-type="dijit/MenuItem"
+                  data-dojo-attach-point="menuItemConditionSimpleAll"
+                >
+                  ${ucMsgs.LBL_SEARCH_ALL_USERS}
+                </div>
+                <div data-dojo-type="dijit/MenuSeparator"></div>
+                <div
+                  data-dojo-type="dijit/MenuItem"
+                  data-dojo-attach-point="menuItemShowAdvanced"
+                >
+                  ${ucMsgs.LBL_SHOW_ADVANCED_SEARCH}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="brUCTdConditionSimpleTextBox">
+            <div
+              data-dojo-type="dijit/form/TextBox"
+              data-dojo-attach-point="textBoxConditionSimple"
+              class="brUCTextBoxConditionSimple"
+              data-dojo-props="placeHolder:'${ucMsgs.LBL_CONDITION_SIMPLE}'"
+            ></div>
+          </td>
+          <td class="brUCTdConditionSimpleSearch">
+            <div
+              data-dojo-type="dijit/form/Button"
+              data-dojo-attach-point="buttonSearchSimple"
+              class="brUCFormButton brUCButtonSearchSimple"
+              data-dojo-props="title:'${ucMsgs.BTN_SEARCH_SIMPLE_TOOLTIP}'"
+            >
+              ${ucMsgs.BTN_SEARCH_SIMPLE}
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div
+        data-dojo-attach-point="areaConditionAdvanced"
+        class="brUCAreaConditionAdvanced"
+      >
+        <table class="brUCTableConditionAdvanced">
+          <tr>
+            <td>${ucMsgs.LBL_SEARCH_NAME}</td>
+            <td>
+              <div
+                data-dojo-type="dijit/form/TextBox"
+                data-dojo-attach-point="textBoxAdvancedName"
+                class="brUCTextBoxAdvancedName"
+              ></div>
+            </td>
+            <td>${ucMsgs.LBL_SEARCH_SUBJECT}</td>
+            <td>
+              <div
+                data-dojo-type="dijit/form/TextBox"
+                data-dojo-attach-point="textBoxAdvancedSubject"
+                class="brUCTextBoxAdvancedSubject"
+              ></div>
+            </td>
+          </tr>
+          <tr>
+            <td>${ucMsgs.LBL_SEARCH_BEGIN_END}</td>
+            <td colspan="2">
+              <div
+                data-dojo-type="dijit/form/DateTextBox"
+                data-dojo-attach-point="dateTextBoxAdvancedBegin"
+                class="brUCDateTextBoxAdvancedBegin"
+              ></div>
+              -
+              <div
+                data-dojo-type="dijit/form/DateTextBox"
+                data-dojo-attach-point="dateTextBoxAdvancedEnd"
+                class="brUCDateTextBoxAdvancedEnd"
+              ></div>
+            </td>
+            <td rowspan="2" class="brUCTdConditionAdvancedSearch">
+              <div
+                data-dojo-type="dijit/form/Button"
+                data-dojo-attach-point="buttonCloseAdvanced"
+                class="brUCFormButton brUCButtonLeft brUCButtonCloseAdvanced"
+                data-dojo-props="title:'${ucMsgs.BTN_CLOSE_ADVANCED_TOOLTIP}'"
+              >
+                ${ucMsgs.BTN_CLOSE_ADVANCED}
+              </div>
+              <!--
+                            -->
+              <div
+                data-dojo-type="dijit/form/Button"
+                data-dojo-attach-point="buttonSearchAdvanced"
+                class="brUCFormButton brUCButtonRight brUCButtonSearchAdvanced"
+                data-dojo-props="title:'${ucMsgs.BTN_SEARCH_ADVANCED_TOOLTIP}'"
+              >
+                ${ucMsgs.BTN_SEARCH_ADVANCED}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>${ucMsgs.LBL_SEARCH_CONTENT}</td>
+            <td>
+              <div
+                data-dojo-type="dijit/form/TextBox"
+                data-dojo-attach-point="textBoxAdvancedContent"
+                class="brUCTextBoxAdvancedContent"
+              ></div>
+            </td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div
+      data-dojo-type="dijit/layout/ContentPane"
+      data-dojo-attach-point="panelChatList"
+      class="brUCPanelChatList"
+      data-dojo-props="region:'center'"
+    >
+      <div
+        data-dojo-attach-point="panelNowSearchingTopics"
+        class="brUCPanelNowSearchingTopics"
+      ></div>
+      <div data-dojo-attach-point="panelTopics" class="brUCPanelTopics"></div>
+      <div
+        data-dojo-attach-point="panelNowSearchingTopicsMore"
+        class="brUCPanelNowSearchingTopics"
+      ></div>
+      <div
+        data-dojo-attach-point="panelSearchTopicsError"
+        class="brUCPanelSearchTopicsError brUCPanelSearchError"
+      ></div>
+      <div
+        data-dojo-type="dijit/form/Button"
+        data-dojo-attach-point="buttonShowMore"
+        class="brUCFormButton brUCButtonShowMore"
+        data-dojo-props="title:'${ucMsgs.BTN_SHOW_MORE_TOOLTIP}'"
+      >
+        ${ucMsgs.BTN_SHOW_MORE}
+      </div>
+    </div>
+  </div>
+</div>
