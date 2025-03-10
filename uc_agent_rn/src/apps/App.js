@@ -11,8 +11,9 @@ import WebchatPickupButton from '../components/WebchatPickupButton.js'
 import WebchatDropButton from '../components/WebchatDropButton.js'
 import BuddylistButton from '../components/BuddylistButton.js'
 import Toolbar from '../components/Toolbar.js'
-import CURRENT_SCRIPT_URL from '../1/currentscript.js'
+import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
 import { View } from 'react-native'
+import { RnAudioPlayer } from '../components/RnAudioPlayer.js'
 
 /**
  * App
@@ -24,10 +25,11 @@ class App extends React.Component {
     return (
       <View className='brUCAgentApp'>
         <WidgetBody uiData={props.uiData} modalOverlayClassName='brUCAgentApp'>
-          <audio
-            className='brBellAudio'
-            src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/bell.mp3'}
-          ></audio>
+          <RnAudioPlayer
+            source={require(
+              CURRENT_SCRIPT_URL.DIR + '../../../sounds/bell.mp3',
+            )}
+          />
           <MainArea className='brWithToolbar' uiData={props.uiData} />
           <Toolbar>
             <WebchatQueueButton uiData={props.uiData} disabled={false} />
