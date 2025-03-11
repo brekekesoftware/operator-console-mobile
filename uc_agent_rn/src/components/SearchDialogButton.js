@@ -4,6 +4,7 @@ import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ToolbarButton from './ToolbarButton.js'
 import WidgetConstants from '../utilities/widgetconstants.js'
+import { View } from 'react-native'
 
 /**
  * SearchDialogButton
@@ -13,9 +14,9 @@ import WidgetConstants from '../utilities/widgetconstants.js'
  */
 export default props => {
   return (
-    <span className='brSearchDialogButton'>
+    <View>
       <ToolbarButton
-        iconClassName='brIconSearchDialog'
+        iconSource={require('../assets/searchdialog.png')}
         title={uawMsgs.LBL_SEARCH_DIALOG_BUTTON_TOOLTIP}
         clickableInterval={WidgetConstants.CLICKABLE_INTERVAL}
         disabled={props.disabled}
@@ -25,6 +26,6 @@ export default props => {
           {},
         )}
       />
-    </span>
+    </View>
   )
 }

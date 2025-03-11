@@ -3,6 +3,7 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ButtonLabeled from './ButtonLabeled.js'
+import { View } from 'react-native'
 
 /**
  * ChatOptionButtons
@@ -75,36 +76,31 @@ export default class extends React.Component {
       props.uiData.chatOptionButtonsInfoCreator(ev)
     }
 
+    if (!ev.buttonsInfo || !ev.buttonsInfo.length) {
+      return null
+    }
+
     return (
-      <div
-        className={
-          'brChatOptionButtons' +
-          (ev.buttonsInfo && ev.buttonsInfo.length ? ' brVisible' : '')
-        }
-      >
+      <View style={{ paddingTop: 8, paddingBottom: 8, paddingLeft: 16 }}>
         {ev.buttonsInfo &&
           ev.buttonsInfo.map((buttonInfo, i) => {
             return (
               <ButtonLabeled
                 key={i}
-                className={
-                  'brChatOptionButton' +
-                  (buttonInfo.className ? ' ' + buttonInfo.className : '')
-                }
                 disabled={Boolean(buttonInfo.disabled)}
                 hidden={Boolean(buttonInfo.hidden)}
                 progress={Boolean(buttonInfo.progress)}
                 vivid={Boolean(buttonInfo.vivid)}
                 ghost={Boolean(buttonInfo.ghost)}
                 title={buttonInfo.title}
-                style={buttonInfo.style}
-                onClick={buttonInfo.onClick}
+                style={[{ width: 80, marginRight: 8 }, buttonInfo.style]}
+                onPress={buttonInfo.onClick}
               >
                 {buttonInfo.children}
               </ButtonLabeled>
             )
           })}
-      </div>
+      </View>
     )
   }
 }

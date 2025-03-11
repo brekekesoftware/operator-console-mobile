@@ -1,9 +1,30 @@
 import React from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import TextBox from './TextBox.js'
+
+const colors = {
+  darkGray: '#666666',
+}
+
+const styles = StyleSheet.create({
+  confirmForm: {
+    paddingTop: 8,
+    paddingHorizontal: 32,
+  },
+  confirmMessage: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 31.2, // 2.4 * 13
+    letterSpacing: 0.3,
+    color: colors.darkGray,
+  },
+  textInput: {
+    marginTop: 8,
+  },
+})
 
 /**
  * ConfirmForm
@@ -16,35 +37,38 @@ export default class extends React.Component {
     this.state = {
       text: string(props.params && props.params.text),
     }
+    this.textInputRef = React.createRef()
   }
+
   componentDidMount() {
-    const props = this.props
-    const confirmTextInput = ReactDOM.findDOMNode(this.refs['confirmTextInput'])
     setTimeout(() => {
-      confirmTextInput.focus()
-    }, 0)
+      if (this.textInputRef.current) {
+        this.textInputRef.current.focus()
+      }
+    }, 100)
   }
-  handleConfirmTextInputChange(ev) {
-    const props = this.props
-    this.setState({ text: string(ev.target.value) })
+
+  handleTextChange = text => {
+    this.setState({ text: string(text) })
   }
+
   render() {
-    const props = this.props
+    const { props } = this
+
     return (
-      <div className='brConfirmForm'>
-        <div className='brConfirmMessage'>
+      <View style={styles.confirmForm}>
+        <Text style={styles.confirmMessage}>
           {string(props.params && props.params.message)}
-        </div>
+        </Text>
         <TextBox
-          ref='confirmTextInput'
-          className='brConfirmTextInput'
+          ref={this.textInputRef}
+          style={styles.textInput}
           value={this.state.text}
-          type='text'
           placeholder={string(props.params && props.params.placeholder)}
           autoCapitalize={props.params && props.params.autoCapitalize}
-          onChange={this.handleConfirmTextInputChange.bind(this)}
+          onChangeText={this.handleTextChange}
         />
-      </div>
+      </View>
     )
   }
 }

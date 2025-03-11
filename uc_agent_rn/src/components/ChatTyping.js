@@ -1,8 +1,27 @@
 import React from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import NameEmbeddedSpan from './NameEmbeddedSpan.js'
+
+const colors = {
+  darkGray: '#666666',
+}
+
+const styles = StyleSheet.create({
+  chatTyping: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8, // 1.6 * 13
+    letterSpacing: 0.3,
+    paddingLeft: 16,
+    color: colors.darkGray,
+  },
+  emptySpace: {
+    height: 20.8,
+  },
+})
 
 /**
  * ChatTyping
@@ -16,21 +35,22 @@ export default props => {
     chatType: props.panelType,
     chatCode: props.panelCode,
   })
+
   if (typingBuddy && typingBuddy.user_id) {
     return (
-      <div className='brChatTyping brVisible'>
+      <View style={styles.chatTyping}>
         <NameEmbeddedSpan
           ucUiStore={props.uiData.ucUiStore}
           format={uawMsgs.MSG_TYPING}
           buddy={typingBuddy}
         />
-      </div>
+      </View>
     )
   } else {
     return (
-      <div className='brChatTyping'>
-        {String.fromCharCode(160) /* &nbsp; */}
-      </div>
+      <View style={[styles.chatTyping, styles.emptySpace]}>
+        <Text>{'\u00A0'}</Text>
+      </View>
     )
   }
 }

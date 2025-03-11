@@ -11,14 +11,14 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
  * props.ghost
  * props.title
  * props.style
- * props.onClick
+ * props.onPress
  */
 export default class extends React.Component {
   handleClick(ev) {
     const props = this.props
     if (!props.disabled) {
-      if (typeof props.onClick === 'function') {
-        props.onClick(ev)
+      if (typeof props.onPress === 'function') {
+        props.onPress(ev)
       }
     }
   }
@@ -44,7 +44,7 @@ export default class extends React.Component {
           props.ghost && styles.brGhost,
           props.style,
         ]}
-        onClick={this.handleClick.bind(this)}
+        onPress={this.handleClick.bind(this)}
       >
         {props.children}
       </TouchableOpacity>

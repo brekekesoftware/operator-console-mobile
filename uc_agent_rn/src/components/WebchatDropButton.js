@@ -5,6 +5,7 @@ import { int, string } from '../utilities/strings.js'
 import ToolbarButton from './ToolbarButton.js'
 import { parsePanelKey } from '../utilities/strings.js'
 import WidgetConstants from '../utilities/widgetconstants.js'
+import { View } from 'react-native'
 
 /**
  * WebchatDropButton
@@ -37,18 +38,18 @@ export default props => {
     }
   }
   return (
-    <span className='brWebchatDropButton'>
+    <View>
       <ToolbarButton
-        iconClassName='brIconWebchatDrop'
+        iconSource={require('../images/webchatdrop.png')}
         title={uawMsgs.LBL_WEBCHAT_DROP_BUTON_TOOLTIP}
         clickableInterval={WidgetConstants.CLICKABLE_INTERVAL}
         disabled={props.disabled || !enabled}
-        onClick={props.uiData.fire.bind(
+        onPress={props.uiData.fire.bind(
           props.uiData,
           'webchatDropButton_onClick',
           {},
         )}
       />
-    </span>
+    </View>
   )
 }

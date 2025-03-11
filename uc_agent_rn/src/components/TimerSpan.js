@@ -3,6 +3,7 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import { formatStr, formatMessageDateTime } from '../utilities/strings.js'
+import { Text } from 'react-native'
 
 /**
  * TimerSpan
@@ -65,6 +66,6 @@ export default class extends React.Component {
       const sec = int(time / 1000) % 60
       output = ('0' + min).slice(-2) + ':' + ('0' + sec).slice(-2)
     }
-    return <span title={formatMessageDateTime(props.baseTime)}>{output}</span>
+    return <Text title={formatMessageDateTime(props.baseTime)}>{output}</Text>
   }
 }

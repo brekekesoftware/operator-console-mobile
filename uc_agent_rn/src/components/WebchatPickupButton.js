@@ -4,6 +4,7 @@ import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ToolbarButton from './ToolbarButton.js'
 import WidgetConstants from '../utilities/widgetconstants.js'
+import { View } from 'react-native'
 
 /**
  * WebchatPickupButton
@@ -23,18 +24,18 @@ export default props => {
       return conference.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
     }).length
   return (
-    <span className='brWebchatPickupButton'>
+    <View>
       <ToolbarButton
-        iconClassName='brIconWebchatPickup'
+        iconSource={require('../images/webchatpickup.png')}
         title={uawMsgs.LBL_WEBCHAT_PICKUP_BUTON_TOOLTIP}
         clickableInterval={WidgetConstants.CLICKABLE_INTERVAL}
         disabled={props.disabled || waitingCount === 0}
-        onClick={props.uiData.fire.bind(
+        onPress={props.uiData.fire.bind(
           props.uiData,
           'webchatPickupButton_onClick',
           {},
         )}
       />
-    </span>
+    </View>
   )
 }
