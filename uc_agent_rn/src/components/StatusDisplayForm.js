@@ -1,11 +1,96 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import ButtonIconic from './ButtonIconic.js'
 import ButtonLabeled from './ButtonLabeled.js'
 import TextBox from './TextBox.js'
+
+const colors = {
+  white: '#FFFFFF',
+  platinum: '#E0E0E0',
+  darkJungleGreen: '#212121',
+  isabelline: '#EEEEEE',
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 32,
+    paddingVertical: 8,
+  },
+  tableCell: {
+    padding: 4,
+  },
+  cellText: {
+    fontSize: 13,
+    fontWeight: '500',
+    letterSpacing: 0.3,
+  },
+  inputArea: {
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    width: 300,
+  },
+  useLaterButton: {
+    position: 'absolute',
+    right: 37,
+    display: 'none', // Note: Will handle this in render logic
+  },
+  clearButton: {
+    position: 'absolute',
+    right: 1,
+  },
+  itemsContainer: {
+    width: 300,
+    height: 200,
+    borderWidth: 1,
+    borderColor: colors.platinum,
+    borderRadius: 4,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  item: {
+    position: 'relative',
+    paddingVertical: 8,
+    paddingLeft: 12,
+    paddingRight: 44,
+    backgroundColor: colors.white,
+  },
+  itemHovered: {
+    backgroundColor: colors.isabelline,
+  },
+  itemText: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8, // 1.6 * 13
+    letterSpacing: 0.3,
+    color: colors.darkJungleGreen,
+  },
+  editButton: {
+    position: 'absolute',
+    right: 36,
+    top: '50%',
+    transform: [{ translateY: -12 }],
+  },
+  deleteButton: {
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    transform: [{ translateY: -12 }],
+  },
+})
 
 /**
  * StatusDisplayForm
@@ -20,164 +105,141 @@ export default class extends React.Component {
     super(props)
     this.state = {
       inputValue: '',
+      hoveredItemIndex: null,
     }
+    this.inputRef = React.createRef()
   }
+
   componentDidMount() {
-    const props = this.props
-    const statusMe = props.uiData.ucUiStore.getChatClient().getStatus()
+    const statusMe = this.props.uiData.ucUiStore.getChatClient().getStatus()
     if (statusMe.display) {
       this.setState({ inputValue: string(statusMe.display) })
     }
-    const statusDisplayInput = ReactDOM.findDOMNode(
-      this.refs['statusDisplayInput'],
-    )
+
     setTimeout(() => {
-      statusDisplayInput.focus()
-      statusDisplayInput.select()
-    }, 0)
+      if (this.inputRef.current) {
+        this.inputRef.current.focus()
+        this.inputRef.current.select()
+      }
+    }, 100)
   }
-  handleStatusDisplayInputChange(ev) {
-    const props = this.props
-    this.setState({ inputValue: string(ev.target.value) })
+
+  handleInputChange = text => {
+    this.setState({ inputValue: string(text) })
   }
-  handleStatusDisplayUseLaterButtonClick(ev) {
-    const props = this.props
+
+  handleUseLaterPress = () => {
     const item = string(this.state.inputValue)
     this.setState({ inputValue: '' })
-    const statusDisplayInput = ReactDOM.findDOMNode(
-      this.refs['statusDisplayInput'],
-    )
+    this.props.uiData.fire('statusDisplayUseLaterButton_onClick', item)
+
     setTimeout(() => {
-      statusDisplayInput.focus()
-    }, 0)
-    props.uiData.fire('statusDisplayUseLaterButton_onClick', item)
-  }
-  handleStatusDisplayClearButtonClick(ev) {
-    const props = this.props
-    this.setState({ inputValue: '' })
-    const statusDisplayInput = ReactDOM.findDOMNode(
-      this.refs['statusDisplayInput'],
-    )
-    setTimeout(() => {
-      statusDisplayInput.focus()
-    }, 0)
-  }
-  handleStatusDisplayItemClick(item, ev) {
-    const props = this.props
-    this.setState({ inputValue: string(item) })
-    setTimeout(() => {
-      const node = ReactDOM.findDOMNode(this)
-      const button =
-        node &&
-        node.ownerDocument &&
-        node.ownerDocument.querySelector &&
-        node.ownerDocument.querySelector('button.brModalOKButton')
-      if (button && typeof button.click === 'function') {
-        button.click()
+      if (this.inputRef.current) {
+        this.inputRef.current.focus()
       }
-    }, 0)
+    }, 100)
   }
-  handleStatusDisplayItemEditButtonClick(item, ev) {
-    const props = this.props
-    ev.stopPropagation()
-    this.setState({ inputValue: string(item) })
-    const statusDisplayInput = ReactDOM.findDOMNode(
-      this.refs['statusDisplayInput'],
-    )
+
+  handleClearPress = () => {
+    this.setState({ inputValue: '' })
     setTimeout(() => {
-      statusDisplayInput.focus()
-      statusDisplayInput.setSelectionRange(
-        string(item).length,
-        string(item).length,
-      )
-    }, 0)
-    props.uiData.fire('statusDisplayItemDeleteButton_onClick', item)
+      if (this.inputRef.current) {
+        this.inputRef.current.focus()
+      }
+    }, 100)
   }
-  handleStatusDisplayItemDeleteButtonClick(item, ev) {
-    const props = this.props
-    ev.stopPropagation()
-    props.uiData.fire('statusDisplayItemDeleteButton_onClick', item)
+
+  handleItemPress = item => {
+    this.setState({ inputValue: string(item) }, () => {
+      if (this.props.onOkPress) {
+        this.props.onOkPress()
+      }
+    })
   }
+
+  handleItemEdit = (item, event) => {
+    this.setState({ inputValue: string(item) })
+    this.props.uiData.fire('statusDisplayItemDeleteButton_onClick', item)
+
+    setTimeout(() => {
+      if (this.inputRef.current) {
+        this.inputRef.current.focus()
+        // Note: setSelectionRange equivalent should be handled in TextBox component
+      }
+    }, 100)
+  }
+
+  handleItemDelete = (item, event) => {
+    this.props.uiData.fire('statusDisplayItemDeleteButton_onClick', item)
+  }
+
   render() {
-    const props = this.props
-    const settings = props.uiData.ucUiStore.getChatClient().getSettings()
+    const settings = this.props.uiData.ucUiStore.getChatClient().getSettings()
+    const statusDisplayHistory =
+      settings?.optional_settings?.status_display_history || []
+
     return (
-      <div className='brStatusDisplayForm'>
-        <table className='brStatusDisplayTable'>
-          <tbody>
-            <tr>
-              <td>
-                <div className='brStatusDisplayInputArea'>
-                  <TextBox
-                    ref='statusDisplayInput'
-                    type='text'
-                    className='brStatusDisplayInput'
-                    value={this.state.inputValue}
-                    onChange={this.handleStatusDisplayInputChange.bind(this)}
+      <View style={styles.container}>
+        <View style={styles.tableCell}>
+          <View style={styles.inputArea}>
+            <TextBox
+              ref={this.inputRef}
+              style={styles.input}
+              value={this.state.inputValue}
+              onChangeText={this.handleInputChange}
+            />
+            <ButtonIconic
+              style={styles.useLaterButton}
+              iconSource={require('../assets/images/download.png')}
+              title={uawMsgs.LBL_STATUS_DISPLAY_USE_LATER_BUTTON_TOOLTIP}
+              onPress={this.handleUseLaterPress}
+            />
+            <ButtonIconic
+              style={styles.clearButton}
+              iconSource={require('../assets/images/close.png')}
+              title={uawMsgs.LBL_STATUS_DISPLAY_CLEAR_BUTTON_TOOLTIP}
+              onPress={this.handleClearPress}
+            />
+          </View>
+        </View>
+
+        <View style={styles.tableCell}>
+          <View style={styles.itemsContainer}>
+            <ScrollView style={styles.scrollView}>
+              {statusDisplayHistory.map((item, i) => (
+                <TouchableOpacity
+                  key={i}
+                  style={[
+                    styles.item,
+                    this.state.hoveredItemIndex === i && styles.itemHovered,
+                  ]}
+                  onPress={() => this.handleItemPress(item)}
+                  onPressIn={() => this.setState({ hoveredItemIndex: i })}
+                  onPressOut={() => this.setState({ hoveredItemIndex: null })}
+                >
+                  <Text style={styles.itemText} numberOfLines={1}>
+                    {item}
+                  </Text>
+                  <ButtonIconic
+                    style={styles.editButton}
+                    iconSource={require('../assets/images/edit.png')}
+                    title={uawMsgs.LBL_STATUS_DISPLAY_ITEM_EDIT_BUTTON_TOOLTIP}
+                    onPress={() => this.handleItemEdit(item)}
                   />
                   <ButtonIconic
-                    className='brStatusDisplayUseLaterButton br_bi_icon_download_svg'
-                    title={uawMsgs.LBL_STATUS_DISPLAY_USE_LATER_BUTTON_TOOLTIP}
-                    onClick={this.handleStatusDisplayUseLaterButtonClick.bind(
-                      this,
-                    )}
+                    style={styles.deleteButton}
+                    iconSource={require('../assets/images/close.png')}
+                    title={
+                      uawMsgs.LBL_STATUS_DISPLAY_ITEM_DELETE_BUTTON_TOOLTIP
+                    }
+                    onPress={() => this.handleItemDelete(item)}
                   />
-                  <ButtonIconic
-                    className='brStatusDisplayClearButton br_bi_icon_close_svg'
-                    title={uawMsgs.LBL_STATUS_DISPLAY_CLEAR_BUTTON_TOOLTIP}
-                    onClick={this.handleStatusDisplayClearButtonClick.bind(
-                      this,
-                    )}
-                  />
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className='brStatusDisplayItems'>
-                  {(
-                    (settings &&
-                      settings.optional_settings &&
-                      settings.optional_settings.status_display_history) ||
-                    []
-                  ).map((item, i) => (
-                    <div
-                      key={i}
-                      className='brStatusDisplayItem'
-                      onClick={this.handleStatusDisplayItemClick.bind(
-                        this,
-                        item,
-                      )}
-                    >
-                      {item}
-                      <ButtonIconic
-                        className='brStatusDisplayItemEditButton br_bi_icon_edit_svg'
-                        title={
-                          uawMsgs.LBL_STATUS_DISPLAY_ITEM_EDIT_BUTTON_TOOLTIP
-                        }
-                        onClick={this.handleStatusDisplayItemEditButtonClick.bind(
-                          this,
-                          item,
-                        )}
-                      />
-                      <ButtonIconic
-                        className='brStatusDisplayItemDeleteButton br_bi_icon_close_svg'
-                        title={
-                          uawMsgs.LBL_STATUS_DISPLAY_ITEM_DELETE_BUTTON_TOOLTIP
-                        }
-                        onClick={this.handleStatusDisplayItemDeleteButtonClick.bind(
-                          this,
-                          item,
-                        )}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      </View>
     )
   }
 }

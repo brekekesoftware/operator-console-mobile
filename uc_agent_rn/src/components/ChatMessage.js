@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   errorIcon: {
     width: 24,
     height: 20,
-    tintColor: '#FF4D4F', // Approximation of the filter effect
+    tintColor: '#FF4D4F',
   },
   chatUrlLink: {
     color: '#74C365', // @mantis
@@ -342,7 +342,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  lastOfLast: {
-    // Add any necessary styles for the lastOfLast class
-  },
+  lastOfLast: {},
 })

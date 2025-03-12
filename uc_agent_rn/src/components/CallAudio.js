@@ -146,7 +146,6 @@ export default class extends React.Component {
   }
 
   render() {
-    // Audio playback is handled internally, no visible UI needed
     return null
   }
 }

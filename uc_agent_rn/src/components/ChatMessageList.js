@@ -3,6 +3,7 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ChatMessage from './ChatMessage.js'
+import { View } from 'react-native'
 
 /**
  * ChatMessageList
@@ -20,5 +21,5 @@ export default props => {
       isLastOfLast={props.isLast && index === array.length - 1}
     />
   ))
-  return <div className='brChatMessageList'>{messageNodes}</div>
+  return <View>{messageNodes}</View>
 }

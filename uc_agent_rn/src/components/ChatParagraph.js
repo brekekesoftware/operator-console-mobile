@@ -1,4 +1,14 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Animated,
+  Easing,
+  Platform,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -7,6 +17,110 @@ import {
   formatMessageDate,
   formatMessageDateTime,
 } from '../utilities/strings.js'
+
+const colors = {
+  white: '#FFFFFF',
+  isabelline: '#EEEEEE',
+  platinum: '#E0E0E0',
+  darkGray: '#9E9E9E',
+  darkJungleGreen: '#212121',
+  mediumTurquoise: '#4BC5DE',
+}
+
+const styles = StyleSheet.create({
+  paragraph: {
+    position: 'relative',
+    minHeight: 64,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingLeft: 72,
+    paddingRight: 0,
+  },
+  paragraphHovered: {
+    backgroundColor: colors.isabelline,
+  },
+  withTopicSplitter: {
+    marginTop: 16,
+  },
+  topicSplitter: {
+    position: 'absolute',
+    left: 32,
+    top: -16,
+    right: 32,
+    height: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  topicSplitterDate: {
+    position: 'relative',
+    fontSize: 9,
+    fontWeight: '400',
+    lineHeight: 14.4, // 1.6 * 9
+    letterSpacing: 1.3,
+    color: colors.darkGray,
+  },
+  topicSplitterDateWithDate: {
+    paddingHorizontal: 8,
+  },
+  topicSplitterLine: {
+    position: 'absolute',
+    height: 1,
+    backgroundColor: colors.platinum,
+    top: 7,
+  },
+  topicSplitterLineLeft: {
+    right: '50%',
+    left: -1000,
+    marginRight: 8,
+  },
+  topicSplitterLineRight: {
+    left: '50%',
+    right: -1000,
+    marginLeft: 8,
+  },
+  messageImage: {
+    position: 'absolute',
+    left: 16,
+    top: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  messageName: {
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 20.8, // 1.6 * 13
+    letterSpacing: 0.3,
+  },
+  messageTime: {
+    fontSize: 9,
+    fontWeight: '400',
+    lineHeight: 14.4, // 1.6 * 9
+    letterSpacing: 1.3,
+    paddingLeft: 26,
+    color: colors.darkGray,
+  },
+  unreachedDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginLeft: 26,
+  },
+  unreachedDotContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  messageMailSubject: {
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 38.4, // 2.4 * 16
+    letterSpacing: 0.3,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+})
 
 /**
  * ChatParagraph
@@ -23,9 +137,74 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
     this.mailSubject = null
+    this.state = {
+      isHovered: false,
+    }
+
+    this.dot1Anim = new Animated.Value(0)
+    this.dot2Anim = new Animated.Value(0)
+    this.dot3Anim = new Animated.Value(0)
   }
+
+  componentDidMount() {
+    this.startUnreachedAnimation()
+  }
+
+  componentDidUpdate(prevProps) {
+    const firstMessage = this.props.paragraph.messageList[0]
+    const unreached = Boolean(firstMessage && firstMessage.unreached)
+    const prevFirstMessage = prevProps.paragraph.messageList[0]
+    const prevUnreached = Boolean(
+      prevFirstMessage && prevFirstMessage.unreached,
+    )
+
+    if (unreached !== prevUnreached) {
+      this.startUnreachedAnimation()
+    }
+  }
+
+  startUnreachedAnimation() {
+    const firstMessage = this.props.paragraph.messageList[0]
+    const unreached = Boolean(firstMessage && firstMessage.unreached)
+    const errorType = string(firstMessage && firstMessage.errorType)
+
+    if (unreached && !errorType) {
+      this.animateDot(this.dot1Anim, 1000)
+      this.animateDot(this.dot2Anim, 1200)
+      this.animateDot(this.dot3Anim, 1400)
+    }
+  }
+
+  animateDot(animValue, delay) {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(animValue, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: false,
+        }),
+        Animated.delay(delay),
+        Animated.timing(animValue, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animValue, {
+          toValue: 1,
+          duration: 1200,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animValue, {
+          toValue: 0,
+          duration: 150,
+          useNativeDriver: false,
+        }),
+      ]),
+    ).start()
+  }
+
   render() {
-    const props = this.props
+    const { props } = this
     const firstMessage = props.paragraph.messageList[0]
     const senderInfo = firstMessage && firstMessage.senderInfo
     const user =
@@ -54,6 +233,7 @@ export default class extends React.Component {
     const previousMessageTimeValue = int(
       previousFirstMessage && previousFirstMessage.sentTimeValue,
     )
+
     if (!this.mailSubject && this.mailSubject !== '') {
       this.mailSubject =
         firstMessage &&
@@ -78,81 +258,132 @@ export default class extends React.Component {
         }
       }
     }
-    let className = 'brChatParagraph brParagraph' + paragraphClassIndex
-    if (isMe) {
-      className += ' brIsMe'
-    }
-    if (errorType) {
-      className += ' brHasError'
-    }
-    if (unreached) {
-      className += ' brUnreached'
-    }
-    let topicSplitter = ''
-    if (topic_id && previous_topic_id && topic_id !== previous_topic_id) {
-      className += ' brWithTopicSplitter'
-      if (
-        new Date(messageTimeValue).toDateString() !==
+
+    const showTopicSplitter =
+      topic_id && previous_topic_id && topic_id !== previous_topic_id
+    const showDateInSplitter =
+      showTopicSplitter &&
+      new Date(messageTimeValue).toDateString() !==
         new Date(previousMessageTimeValue).toDateString()
-      ) {
-        topicSplitter = (
-          <div className='brTopicSplitter'>
-            <span className='brTopicSplitterDate brWithDate'>
-              {string(messageTimeValue && formatMessageDate(messageTimeValue))}
-            </span>
-          </div>
-        )
-      } else {
-        topicSplitter = (
-          <div className='brTopicSplitter'>
-            <span className='brTopicSplitterDate'></span>
-          </div>
-        )
-      }
+
+    let imageSource = null
+    if (!profile_image_url) {
+      imageSource = require('../assets/images/noimage.png')
+    } else if (
+      profile_image_url.indexOf(Constants.PROFILE_IMAGE_URL_DOWNLOAD) === -1
+    ) {
+      imageSource = { uri: profile_image_url }
+    } else {
+      imageSource = { uri: profile_image_url }
     }
+
     let callResult = {}
     if (firstMessage && firstMessage.ctype === Constants.CTYPE_CALL_RESULT) {
       try {
         callResult = JSON.parse(firstMessage.messageText) || {}
       } catch (ex) {}
     }
+
+    const showUnreachedAnimation = unreached && !errorType
+
+    const paragraphStyles = [
+      styles.paragraph,
+      this.state.isHovered && styles.paragraphHovered,
+      showTopicSplitter && styles.withTopicSplitter,
+    ]
+
+    // Dot animation colors
+    const dot1Color = this.dot1Anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['transparent', colors.mediumTurquoise],
+    })
+    const dot2Color = this.dot2Anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['transparent', colors.mediumTurquoise],
+    })
+    const dot3Color = this.dot3Anim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['transparent', colors.mediumTurquoise],
+    })
+
     return (
-      <div className={className}>
-        {topicSplitter}
-        <div
-          className={
-            'brChatMessageImage' +
-            (!callResult.externalincoming && profile_image_url
-              ? ''
-              : ' brNoImage') +
-            (profile_image_url &&
-            string(profile_image_url).indexOf(
-              Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-            ) === -1
-              ? ' brMyProfileImageUrl'
-              : '')
-          }
-          title={!callResult.externalincoming ? user_name : ''}
-          style={
-            !callResult.externalincoming && profile_image_url
-              ? { backgroundImage: 'url(' + profile_image_url + ')' }
-              : {}
-          }
-        />
-        <div className='brChatMessageName'>
-          {!callResult.externalincoming ? user_name : ''}
-        </div>
-        <span> </span>
-        <div className='brChatMessageTime'>{messageTime}</div>
-        <div className='brChatMessageMailSubject'>
-          {string(this.mailSubject)}
-        </div>
+      <TouchableOpacity
+        style={paragraphStyles}
+        onPressIn={() => this.setState({ isHovered: true })}
+        onPressOut={() => this.setState({ isHovered: false })}
+        activeOpacity={1}
+      >
+        {showTopicSplitter && (
+          <View style={styles.topicSplitter}>
+            <View
+              style={[styles.topicSplitterLine, styles.topicSplitterLineLeft]}
+            />
+            {showDateInSplitter ? (
+              <Text
+                style={[
+                  styles.topicSplitterDate,
+                  styles.topicSplitterDateWithDate,
+                ]}
+              >
+                {string(
+                  messageTimeValue && formatMessageDate(messageTimeValue),
+                )}
+              </Text>
+            ) : (
+              <Text style={styles.topicSplitterDate}></Text>
+            )}
+            <View
+              style={[styles.topicSplitterLine, styles.topicSplitterLineRight]}
+            />
+          </View>
+        )}
+
+        {!callResult.externalincoming && (
+          <Image source={imageSource} style={styles.messageImage} />
+        )}
+
+        <View style={styles.headerRow}>
+          <Text style={styles.messageName}>
+            {!callResult.externalincoming ? user_name : ''}
+          </Text>
+
+          <Text> </Text>
+
+          {showUnreachedAnimation ? (
+            <View style={styles.unreachedDotContainer}>
+              <Animated.View
+                style={[styles.unreachedDot, { backgroundColor: dot1Color }]}
+              />
+              <Animated.View
+                style={[
+                  styles.unreachedDot,
+                  { backgroundColor: dot2Color, marginLeft: 6 },
+                ]}
+              />
+              <Animated.View
+                style={[
+                  styles.unreachedDot,
+                  { backgroundColor: dot3Color, marginLeft: 6 },
+                ]}
+              />
+            </View>
+          ) : (
+            <Text style={styles.messageTime}>{messageTime}</Text>
+          )}
+        </View>
+
+        {this.mailSubject && (
+          <Text style={styles.messageMailSubject}>
+            {string(this.mailSubject)}
+          </Text>
+        )}
+
         <ChatMessageList
           uiData={props.uiData}
           messageList={props.paragraph.messageList}
           isLast={props.isLast}
         />
-      </div>
+      </TouchableOpacity>
     )
   }
 }

@@ -151,10 +151,7 @@ const styles = StyleSheet.create({
     bottom: 70,
     backgroundColor: 'transparent',
   },
-  brSelected: {
-    // In React Native, we can't style the scrollbar directly
-    // but we can adjust the container style when selected
-  },
+  brSelected: {},
   brHidden: {
     display: 'none',
   },

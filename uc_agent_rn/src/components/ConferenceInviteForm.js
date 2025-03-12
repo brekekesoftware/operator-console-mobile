@@ -1,12 +1,125 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  Image,
+  Platform,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import DropDownMenu from './DropDownMenu.js'
 import MenuItem from './MenuItem.js'
 import NameEmbeddedSpan from './NameEmbeddedSpan.js'
 import TextBox from './TextBox.js'
+
+const colors = {
+  white: '#FFFFFF',
+  whiteSmoke: '#F5F5F5',
+  isabelline: '#EEEEEE',
+  platinum: '#E0E0E0',
+  darkGray: '#9E9E9E',
+  darkJungleGreen: '#212121',
+  portlandOrange: '#FF4526',
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 8,
+    paddingHorizontal: 32,
+  },
+  tableRow: {
+    flexDirection: 'row',
+    marginBottom: 8,
+  },
+  tableCell: {
+    padding: 4,
+  },
+  tableCellLabel: {
+    fontSize: 13,
+    fontWeight: '500',
+    letterSpacing: 0.3,
+  },
+  tableCellContent: {
+    flex: 1,
+  },
+  subjectInput: {
+    width: '100%',
+  },
+  subjectErrorContainer: {
+    width: 200,
+    height: 0, // Will be animated
+    overflow: 'hidden',
+  },
+  subjectErrorContainerVisible: {
+    height: 20,
+  },
+  subjectError: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  subjectErrorIcon: {
+    width: 28,
+    height: 0,
+    marginRight: 4,
+    tintColor: colors.portlandOrange,
+  },
+  subjectErrorIconVisible: {
+    height: 20,
+  },
+  subjectErrorText: {
+    fontSize: 11,
+    fontWeight: '400',
+    letterSpacing: 0.3,
+    color: colors.portlandOrange,
+    lineHeight: 20,
+  },
+  buddiesContainer: {
+    width: 300,
+    height: 200,
+    borderWidth: 1,
+    borderColor: colors.platinum,
+    borderRadius: 4,
+  },
+  buddyItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingLeft: 44,
+    paddingRight: 12,
+  },
+  buddyItemDisabled: {
+    color: colors.darkGray,
+    backgroundColor: colors.whiteSmoke,
+  },
+  buddyItemHovered: {
+    backgroundColor: colors.isabelline,
+  },
+  buddyItemHidden: {
+    display: 'none',
+  },
+  buddyItemIcon: {
+    position: 'absolute',
+    left: 12,
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+  buddyItemText: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8, // 1.6 * 13
+    letterSpacing: 0.3,
+    color: colors.darkJungleGreen,
+  },
+  buddyItemTextDisabled: {
+    color: colors.darkGray,
+  },
+})
 
 /**
  * ConferenceInviteForm
@@ -22,25 +135,47 @@ export default class extends React.Component {
       subjectError: '',
       selectedGroupName: '',
       selectedBuddyTable: {},
+      hoveredBuddyIndex: null,
+    }
+
+    this.errorHeight = new Animated.Value(0)
+    this.errorIconHeight = new Animated.Value(0)
+
+    this.textInputRef = React.createRef()
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      if (this.textInputRef.current) {
+        this.textInputRef.current.focus()
+        this.textInputRef.current.select()
+      }
+    }, 100)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.subjectError !== this.state.subjectError) {
+      Animated.parallel([
+        Animated.timing(this.errorHeight, {
+          toValue: this.state.subjectError ? 20 : 0,
+          duration: 300,
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.errorIconHeight, {
+          toValue: this.state.subjectError ? 20 : 0,
+          duration: 300,
+          useNativeDriver: false,
+        }),
+      ]).start()
     }
   }
-  componentDidMount() {
-    const props = this.props
-    const conferenceInviteSubjectInput = ReactDOM.findDOMNode(
-      this.refs['conferenceInviteSubjectInput'],
-    )
-    setTimeout(() => {
-      conferenceInviteSubjectInput.focus()
-      conferenceInviteSubjectInput.select()
-    }, 0)
+
+  handleSubjectChange = text => {
+    this.setState({ subject: string(text) })
   }
-  handleConferenceInviteSubjectInputChange(ev) {
-    const props = this.props
-    this.setState({ subject: string(ev.target.value) })
-  }
-  handleConferenceInviteSubjectInputBlur(ev) {
-    const props = this.props
-    const newState = { subject: string(ev.target.value) }
+
+  handleSubjectBlur = () => {
+    const newState = { subject: this.state.subject }
     if (!newState.subject) {
       newState.subjectError = uawMsgs.MSG_CONFERENCE_INVITE_SUBJECT_REQUIRED
     } else if (this.state.subjectError) {
@@ -48,10 +183,10 @@ export default class extends React.Component {
     }
     this.setState(newState)
   }
-  handleConferenceInviteSubjectInputKeyDown(ev) {
-    const props = this.props
-    if (ev && ev.keyCode === 13 && !ev.shiftKey) {
-      const newState = { subject: string(ev.target.value) }
+
+  handleSubjectKeyPress = event => {
+    if (event.nativeEvent.key === 'Enter') {
+      const newState = { subject: this.state.subject }
       if (!newState.subject) {
         newState.subjectError = uawMsgs.MSG_CONFERENCE_INVITE_SUBJECT_REQUIRED
       } else if (this.state.subjectError) {
@@ -60,12 +195,14 @@ export default class extends React.Component {
       this.setState(newState)
     }
   }
-  handleConferenceInviteGroupItemClick(groupName, ev) {
-    const props = this.props
+
+  handleGroupSelect = groupName => {
+    const { props } = this
     const profile = props.uiData.ucUiStore.getChatClient().getProfile()
     const buddyTable =
       props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
     const selectedBuddyTable = {}
+
     Object.keys(buddyTable).forEach(key => {
       const buddy = buddyTable[key]
       if (
@@ -81,44 +218,49 @@ export default class extends React.Component {
         selectedBuddyTable[buddy.tenant][buddy.user_id] = true
       }
     })
+
     this.setState({
       selectedGroupName: groupName,
       selectedBuddyTable: selectedBuddyTable,
     })
   }
-  handleConferenceInviteBuddyItemClick(buddy, ev) {
-    const props = this.props
-    const selectedBuddyTable = this.state.selectedBuddyTable
+
+  handleBuddySelect = buddy => {
+    const selectedBuddyTable = { ...this.state.selectedBuddyTable }
+
     if (!selectedBuddyTable[buddy.tenant]) {
       selectedBuddyTable[buddy.tenant] = {}
     }
+
     if (!selectedBuddyTable[buddy.tenant][buddy.user_id]) {
       selectedBuddyTable[buddy.tenant][buddy.user_id] = true
     } else {
       delete selectedBuddyTable[buddy.tenant][buddy.user_id]
     }
-    this.setState({ selectedBuddyTable: selectedBuddyTable })
+
+    this.setState({ selectedBuddyTable })
   }
+
   render() {
-    const props = this.props
+    const { props } = this
     const conference =
       props.params &&
       props.params.panelType === 'CONFERENCE' &&
-      props.uiData.ucUiStore
-        .getChatClient()
-        .getConference(
-          string(
-            props.uiData.ucUiStore.getChatHeaderInfo({
-              chatType: props.params.panelType,
-              chatCode: props.params.panelCode,
-            }).conf_id,
-          ),
-        )
+      props.uiData.ucUiStore.getChatClient().getConference(
+        string(
+          props.uiData.ucUiStore.getChatHeaderInfo({
+            chatType: props.params.panelType,
+            chatCode: props.params.panelCode,
+          }).conf_id,
+        ),
+      )
+
     const profile = props.uiData.ucUiStore.getChatClient().getProfile()
     const buddyTable =
       props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
     const groupTable = {}
     groupTable[''] = -1
+
     const buddies = Object.keys(buddyTable)
       .filter(
         key =>
@@ -159,118 +301,144 @@ export default class extends React.Component {
               .status === Constants.STATUS_OFFLINE,
         }
       })
+
     return (
-      <div className='brConferenceInviteForm'>
-        <table className='brConferenceInviteTable'>
-          <tbody>
-            <tr>
-              <td>{uawMsgs.LBL_CONFERENCE_INVITE_SUBJECT}</td>
-              <td>
-                <TextBox
-                  ref='conferenceInviteSubjectInput'
-                  type='text'
-                  className='brConferenceInviteSubjectInput'
-                  value={conference ? conference.subject : this.state.subject}
-                  disabled={conference}
-                  onChange={this.handleConferenceInviteSubjectInputChange.bind(
-                    this,
-                  )}
-                  onBlur={this.handleConferenceInviteSubjectInputBlur.bind(
-                    this,
-                  )}
-                  onKeyDown={this.handleConferenceInviteSubjectInputKeyDown.bind(
-                    this,
-                  )}
+      <View style={styles.container}>
+        <View style={styles.tableRow}>
+          <View style={styles.tableCell}>
+            <Text style={styles.tableCellLabel}>
+              {uawMsgs.LBL_CONFERENCE_INVITE_SUBJECT}
+            </Text>
+          </View>
+          <View style={styles.tableCellContent}>
+            <TextBox
+              ref={this.textInputRef}
+              style={styles.subjectInput}
+              value={conference ? conference.subject : this.state.subject}
+              disabled={conference}
+              onChangeText={this.handleSubjectChange}
+              onBlur={this.handleSubjectBlur}
+              onKeyPress={this.handleSubjectKeyPress}
+            />
+            <Animated.View
+              style={[
+                styles.subjectErrorContainer,
+                { height: this.errorHeight },
+              ]}
+            >
+              <View style={styles.subjectError}>
+                <Animated.Image
+                  source={require('../assets/images/error.png')}
+                  style={[
+                    styles.subjectErrorIcon,
+                    { height: this.errorIconHeight },
+                  ]}
                 />
-                <div
-                  className={
-                    'brConferenceInviteSubjectError' +
-                    (this.state.subjectError ? ' brError' : '')
-                  }
-                >
-                  <span className='brConferenceInviteSubjectErrorIcon br_bi_icon_error_svg'></span>
+                <Text style={styles.subjectErrorText}>
                   {this.state.subjectError}
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>{uawMsgs.LBL_CONFERENCE_INVITE_GROUP}</td>
-              <td>
-                <DropDownMenu
-                  uiData={props.uiData}
-                  className='brConferenceInviteGroupMenu'
-                  disabled={conference}
-                  text={
-                    conference
-                      ? ''
-                      : this.state.selectedGroupName ||
-                        uawMsgs.LBL_CONFERENCE_INVITE_GROUP_NONE
-                  }
-                >
-                  {Object.keys(groupTable)
-                    .sort(
-                      (groupName1, groupName2) =>
-                        groupTable[groupName1] - groupTable[groupName2],
-                    )
-                    .map(groupName => (
-                      <MenuItem
-                        key={groupName}
-                        className='brConferenceInviteFormMenuItem brConferenceInviteGroupItem'
-                        dropDown={true}
-                        onClick={this.handleConferenceInviteGroupItemClick.bind(
-                          this,
-                          groupName,
-                        )}
-                      >
-                        {groupName || uawMsgs.LBL_CONFERENCE_INVITE_GROUP_NONE}
-                      </MenuItem>
-                    ))}
-                </DropDownMenu>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan='2'>{uawMsgs.LBL_CONFERENCE_INVITE_BUDDIES}</td>
-            </tr>
-            <tr>
-              <td colSpan='2'>
-                <div className='brConferenceInviteBuddies'>
-                  {buddies.map(buddy => (
-                    <div
-                      className={
-                        'brConferenceInviteBuddyItem' +
-                        (buddy.hidden ? ' brHidden' : '') +
-                        (buddy.disabled ? ' brDisabled' : '') +
-                        (buddy.selected || buddy.disabled
-                          ? ' brSelected br_bi_icon_check_svg'
-                          : ' br_bi_icon_square_svg')
-                      }
-                      key={JSON.stringify({
+                </Text>
+              </View>
+            </Animated.View>
+          </View>
+        </View>
+
+        <View style={styles.tableRow}>
+          <View style={styles.tableCell}>
+            <Text style={styles.tableCellLabel}>
+              {uawMsgs.LBL_CONFERENCE_INVITE_GROUP}
+            </Text>
+          </View>
+          <View style={styles.tableCellContent}>
+            <DropDownMenu
+              uiData={props.uiData}
+              disabled={conference}
+              text={
+                conference
+                  ? ''
+                  : this.state.selectedGroupName ||
+                    uawMsgs.LBL_CONFERENCE_INVITE_GROUP_NONE
+              }
+            >
+              {Object.keys(groupTable)
+                .sort(
+                  (groupName1, groupName2) =>
+                    groupTable[groupName1] - groupTable[groupName2],
+                )
+                .map(groupName => (
+                  <MenuItem
+                    key={groupName}
+                    dropDown={true}
+                    onPress={() => this.handleGroupSelect(groupName)}
+                  >
+                    {groupName || uawMsgs.LBL_CONFERENCE_INVITE_GROUP_NONE}
+                  </MenuItem>
+                ))}
+            </DropDownMenu>
+          </View>
+        </View>
+
+        {/* Buddies Label Row */}
+        <View style={styles.tableRow}>
+          <View style={styles.tableCell}>
+            <Text style={styles.tableCellLabel}>
+              {uawMsgs.LBL_CONFERENCE_INVITE_BUDDIES}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.tableRow}>
+          <View style={styles.tableCellContent}>
+            <ScrollView style={styles.buddiesContainer}>
+              {buddies.map((buddy, index) => (
+                <TouchableOpacity
+                  key={JSON.stringify({
+                    tenant: buddy.tenant,
+                    user_id: buddy.user_id,
+                  })}
+                  style={[
+                    styles.buddyItem,
+                    buddy.hidden && styles.buddyItemHidden,
+                    buddy.disabled && styles.buddyItemDisabled,
+                    !buddy.disabled &&
+                      this.state.hoveredBuddyIndex === index &&
+                      styles.buddyItemHovered,
+                  ]}
+                  onPress={() => {
+                    if (!buddy.disabled) {
+                      this.handleBuddySelect({
                         tenant: buddy.tenant,
                         user_id: buddy.user_id,
-                      })}
-                      onClick={
-                        buddy.disabled
-                          ? () => {}
-                          : this.handleConferenceInviteBuddyItemClick.bind(
-                              this,
-                              { tenant: buddy.tenant, user_id: buddy.user_id },
-                            )
-                      }
-                    >
-                      <NameEmbeddedSpan
-                        ucUiStore={props.uiData.ucUiStore}
-                        format={'{0}'}
-                        title={'{0}'}
-                        buddy={buddy}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                      })
+                    }
+                  }}
+                  onPressIn={() => this.setState({ hoveredBuddyIndex: index })}
+                  onPressOut={() => this.setState({ hoveredBuddyIndex: null })}
+                  disabled={buddy.disabled}
+                >
+                  <Image
+                    source={
+                      buddy.selected || buddy.disabled
+                        ? require('../assets/images/check.png')
+                        : require('../assets/images/square.png')
+                    }
+                    style={styles.buddyItemIcon}
+                  />
+                  <NameEmbeddedSpan
+                    ucUiStore={props.uiData.ucUiStore}
+                    format={'{0}'}
+                    title={'{0}'}
+                    buddy={buddy}
+                    textStyle={[
+                      styles.buddyItemText,
+                      buddy.disabled && styles.buddyItemTextDisabled,
+                    ]}
+                  />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      </View>
     )
   }
 }
