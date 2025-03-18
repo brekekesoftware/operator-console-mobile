@@ -1,32 +1,37 @@
 import React from 'react'
+import { View, StyleSheet, Platform, PermissionsAndroid } from 'react-native'
+import Sound from 'react-native-sound'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 
 /**
- * MultipleAudio
- * props.uiData
- * props.uiData.ucUiStore
- * props.uiData.phone
- * props.src
- * props.loop
- * props.playing
- * props.deviceId
- * props.localStoragePreferenceKey
- * props.className
- * props.audioClassName
+ * MultipleAudio - React Native version
+ * A component that handles playing audio on multiple devices
+ *
+ * props.uiData - UI data object
+ * props.uiData.ucUiStore - UI store
+ * props.uiData.phone - Phone object
+ * props.src - Source URL of the audio
+ * props.loop - Whether to loop the audio
+ * props.playing - Whether the audio should be playing
+ * props.deviceId - Device ID to play audio on
+ * props.localStoragePreferenceKey - Key for local storage preference
+ * props.style - Additional styles
  */
-export default class extends React.Component {
+export default class MultipleAudio extends React.Component {
   constructor(props) {
     super(props)
     this.lastDeviceId = null
-    this.mustSetSinkId = false
+    this.audioSounds = []
     this.audioPlaying = false
     this.state = {
-      sinkIds: [''],
+      outputDevices: [null],
     }
+
+    Sound.setCategory('Playback', true)
   }
+
   componentDidMount() {
     const props = this.props
     const deviceId = string(
@@ -35,171 +40,219 @@ export default class extends React.Component {
           keyList: [props.localStoragePreferenceKey || 'bellAudioTarget'],
         })[0],
     )
-    this.setSinkIdsState(deviceId)
+
+    this.requestAudioPermission()
+
+    this.setOutputDevices(deviceId)
     this.lastDeviceId = deviceId
+
+    this.loadAudioSources()
   }
-  componentDidUpdate() {
+
+  componentDidUpdate(prevProps) {
     const props = this.props
+
     const deviceId = string(
       props.deviceId ||
         props.uiData.ucUiStore.getLocalStoragePreference({
           keyList: [props.localStoragePreferenceKey || 'bellAudioTarget'],
         })[0],
     )
+
     if (deviceId !== this.lastDeviceId) {
-      this.setSinkIdsState(deviceId)
+      this.setOutputDevices(deviceId)
       this.lastDeviceId = deviceId
-    } else {
-      this.setSinkIdAndPlay()
+      this.loadAudioSources()
+    } else if (prevProps.src !== props.src) {
+      this.loadAudioSources()
+    } else if (prevProps.playing !== props.playing) {
+      this.updatePlayback()
     }
   }
-  setSinkIdsState(deviceId) {
-    const props = this.props
-    if (deviceId === '_all_devices') {
-      if (
-        typeof navigator !== 'undefined' &&
-        navigator.mediaDevices &&
-        navigator.mediaDevices.enumerateDevices
-      ) {
-        navigator.mediaDevices
-          .enumerateDevices()
-          .then(devices => {
-            const audiooutputDeviceIds = devices
-              .filter(
-                device =>
-                  device.kind === 'audiooutput' &&
-                  device.deviceId !== 'default' &&
-                  device.deviceId !== 'communications',
-              )
-              .map(device => string(device.deviceId))
-            this.mustSetSinkId = true
-            this.audioPlaying = false
-            this.setState({
-              sinkIds:
-                audiooutputDeviceIds.length > 0 ? audiooutputDeviceIds : [''],
-            })
-          })
-          .catch(error => {
-            props.uiData.ucUiStore.getLogger().log('warn', error)
-            this.mustSetSinkId = true
-            this.audioPlaying = false
-            this.setState({
-              sinkIds: [''],
-            })
-          })
-      } else {
-        props.uiData.ucUiStore
-          .getLogger()
-          .log('warn', 'enumerateDevices() not supported.')
-        this.mustSetSinkId = true
-        this.audioPlaying = false
-        this.setState({
-          sinkIds: [''],
-        })
+
+  componentWillUnmount() {
+    this.unloadAudioSources()
+  }
+
+  async requestAudioPermission() {
+    try {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+          {
+            title: 'Audio Permission',
+            message:
+              'App needs access to your microphone to handle audio devices',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          },
+        )
+
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          this.props.uiData.ucUiStore
+            .getLogger()
+            .log('warn', 'Audio permission not granted')
+        }
       }
-    } else {
-      this.mustSetSinkId = true
-      this.audioPlaying = false
-      this.setState({
-        sinkIds: [string(deviceId)],
+    } catch (error) {
+      this.props.uiData.ucUiStore.getLogger().log('warn', error)
+    }
+  }
+
+  setOutputDevices(deviceId) {
+    const props = this.props
+
+    try {
+      this.unloadAudioSources()
+
+      if (deviceId === '_all_devices' && Platform.OS === 'web') {
+        if (
+          typeof navigator !== 'undefined' &&
+          navigator.mediaDevices &&
+          navigator.mediaDevices.enumerateDevices
+        ) {
+          navigator.mediaDevices
+            .enumerateDevices()
+            .then(devices => {
+              const audioOutputDevices = devices
+                .filter(
+                  device =>
+                    device.kind === 'audiooutput' &&
+                    device.deviceId !== 'default' &&
+                    device.deviceId !== 'communications',
+                )
+                .map(device => device.deviceId)
+
+              this.setState(
+                {
+                  outputDevices:
+                    audioOutputDevices.length > 0 ? audioOutputDevices : [null],
+                },
+                () => {
+                  this.loadAudioSources()
+                },
+              )
+            })
+            .catch(error => {
+              props.uiData.ucUiStore.getLogger().log('warn', error)
+              this.setState({ outputDevices: [null] }, () => {
+                this.loadAudioSources()
+              })
+            })
+        } else {
+          props.uiData.ucUiStore
+            .getLogger()
+            .log('warn', 'enumerateDevices() not supported.')
+          this.setState({ outputDevices: [null] }, () => {
+            this.loadAudioSources()
+          })
+        }
+      } else {
+        // On mobile, can't select output device at the app level
+        // so just use one audio channel
+        // TODO: Add support for selecting output device on mobile
+        this.setState(
+          {
+            outputDevices: [deviceId !== '' ? deviceId : null],
+          },
+          () => {
+            this.loadAudioSources()
+          },
+        )
+      }
+    } catch (error) {
+      props.uiData.ucUiStore.getLogger().log('warn', error)
+      this.setState({ outputDevices: [null] }, () => {
+        this.loadAudioSources()
       })
     }
   }
-  setSinkIdAndPlay() {
+
+  loadAudioSources() {
     const props = this.props
-    const node = ReactDOM.findDOMNode(this)
-    if (node) {
-      const children = node.children
-      if (children && children.length === this.state.sinkIds.length) {
-        this.state.sinkIds.forEach((sinkId, i) => {
-          let playOrPauseFunc = () => {}
-          if (props.playing && !this.audioPlaying) {
-            // play
-            playOrPauseFunc = () => {
-              try {
-                children[i]
-                  .play()
-                  .then(() => {})
-                  .catch(error => {
-                    props.uiData.ucUiStore.getLogger().log('warn', error)
-                  })
-              } catch (ex) {
-                props.uiData.ucUiStore.getLogger().log('warn', ex)
-              }
-            }
-          } else if (!props.playing && this.audioPlaying) {
-            // pause
-            playOrPauseFunc = () => {
-              try {
-                children[i].pause()
-                children[i].currentTime = 0
-              } catch (ex) {
-                props.uiData.ucUiStore.getLogger().log('warn', ex)
-              }
-            }
+
+    this.unloadAudioSources()
+    this.audioSounds = []
+
+    try {
+      for (let i = 0; i < this.state.outputDevices.length; i++) {
+        const sound = new Sound(props.src, null, error => {
+          if (error) {
+            props.uiData.ucUiStore
+              .getLogger()
+              .log('warn', `Failed to load sound: ${error}`)
+            return
           }
-          if (this.mustSetSinkId && sinkId) {
-            // setSinkId
-            try {
-              children[i]
-                .setSinkId(string(sinkId))
-                .then(playOrPauseFunc)
-                .catch(error => {
-                  props.uiData.ucUiStore.getLogger().log('warn', error)
-                  if (
-                    error &&
-                    string(error.message).indexOf('permission') !== -1 &&
-                    !this.mustSetSinkId &&
-                    props.uiData.phone
-                  ) {
-                    this.mustSetSinkId = true
-                    props.uiData.phone.checkUserMedia()
-                  }
-                  playOrPauseFunc()
-                })
-            } catch (ex) {
-              props.uiData.ucUiStore.getLogger().log('warn', ex)
-              playOrPauseFunc()
-            }
-          } else {
-            playOrPauseFunc()
-          }
+
+          sound.setNumberOfLoops(props.loop ? -1 : 0)
+
+          this.updatePlayback()
         })
-      } else {
-        props.uiData.ucUiStore
-          .getLogger()
-          .log(
-            'warn',
-            'setSinkId() error children.length=' +
-              (children && children.length) +
-              ' this.state.sinkIds.length=' +
-              this.state.sinkIds.length,
-          )
+
+        this.audioSounds.push(sound)
       }
+    } catch (error) {
+      props.uiData.ucUiStore.getLogger().log('warn', error)
     }
-    this.mustSetSinkId = false
-    this.audioPlaying = props.playing
   }
-  render() {
-    const props = this.props
-    return (
-      <span
-        className={
-          'brMultipleAudio' + (props.className ? ' ' + props.className : '')
+
+  unloadAudioSources() {
+    try {
+      for (const sound of this.audioSounds) {
+        if (sound) {
+          sound.stop()
+          sound.release()
         }
-      >
-        {this.state.sinkIds.map(sinkId => (
-          <audio
-            key={sinkId}
-            className={
-              'brMultipleAudioAudio' +
-              (props.audioClassName ? ' ' + props.audioClassName : '')
-            }
-            src={props.src}
-            loop={Boolean(props.loop)}
-          ></audio>
-        ))}
-      </span>
-    )
+      }
+      this.audioSounds = []
+      this.audioPlaying = false
+    } catch (error) {
+      this.props.uiData.ucUiStore.getLogger().log('warn', error)
+    }
+  }
+
+  updatePlayback() {
+    const props = this.props
+
+    try {
+      if (props.playing && !this.audioPlaying) {
+        for (const sound of this.audioSounds) {
+          if (sound) {
+            sound.setCurrentTime(0)
+            sound.play(success => {
+              if (!success) {
+                props.uiData.ucUiStore
+                  .getLogger()
+                  .log('warn', 'Audio playback failed')
+              }
+            })
+          }
+        }
+        this.audioPlaying = true
+      } else if (!props.playing && this.audioPlaying) {
+        for (const sound of this.audioSounds) {
+          if (sound) {
+            sound.stop()
+            sound.setCurrentTime(0)
+          }
+        }
+        this.audioPlaying = false
+      }
+    } catch (error) {
+      props.uiData.ucUiStore.getLogger().log('warn', error)
+    }
+  }
+
+  render() {
+    return <View style={[styles.multipleAudio, this.props.style]} />
   }
 }
+
+const styles = StyleSheet.create({
+  multipleAudio: {
+    width: 0,
+    height: 0,
+    opacity: 0,
+  },
+})

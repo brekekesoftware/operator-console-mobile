@@ -1,39 +1,40 @@
 import React from 'react'
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 
-/**
- * MenuItem
- * props.className
- * props.disabled
- * props.hidden
- * props.dropDown
- * props.style
- * props.onClick
+/*
+ * props.style - Additional styles for the component
+ * props.textStyle - Additional styles for the text
+ * props.disabled - Whether the menu item is disabled
+ * props.hidden - Whether the menu item is hidden
+ * props.dropDown - Whether the menu item is in a dropdown
+ * props.onPress - Function called when the item is pressed
  */
-export default class extends React.Component {
-  handleClick(ev) {
-    const props = this.props
-    if (!props.disabled) {
-      if (typeof props.onClick === 'function') {
-        props.onClick(ev)
-      }
+export default class MenuItem extends React.Component {
+  handlePress = () => {
+    const { disabled, onPress } = this.props
+
+    if (!disabled && typeof onPress === 'function') {
+      onPress()
     }
   }
-  render() {
-    const props = this.props
+
+  extractTitle() {
+    const { children } = this.props
     let title = ''
-    if (typeof props.children === 'string') {
-      title = props.children
+
+    if (typeof children === 'string') {
+      title = children
     } else if (
-      props.children &&
-      props.children.props &&
-      typeof props.children.props.children === 'string'
+      children &&
+      children.props &&
+      typeof children.props.children === 'string'
     ) {
-      title = props.children.props.children
-    } else if (props.children && typeof props.children.forEach === 'function') {
-      props.children.forEach(child => {
+      title = children.props.children
+    } else if (children && typeof children.forEach === 'function') {
+      children.forEach(child => {
         if (typeof child === 'string' && child) {
           title = child
         } else if (
@@ -46,21 +47,66 @@ export default class extends React.Component {
         }
       })
     }
+
+    return title
+  }
+
+  render() {
+    const { children, style, textStyle, disabled, hidden, dropDown } =
+      this.props
+
+    if (hidden) {
+      return null
+    }
+
+    const containerStyles = [
+      styles.menuItem,
+      disabled && styles.disabled,
+      dropDown && styles.dropDown,
+      style,
+    ]
+
     return (
-      <div
-        className={
-          'brMenuItem' +
-          (props.disabled ? ' brDisabled' : '') +
-          (props.hidden ? ' brHidden' : '') +
-          (props.dropDown ? ' brDropDown' : '') +
-          (props.className ? ' ' + props.className : '')
-        }
-        style={props.style || {}}
-        title={title}
-        onClick={this.handleClick.bind(this)}
+      <TouchableOpacity
+        style={containerStyles}
+        onPress={this.handlePress}
+        activeOpacity={disabled ? 1 : 0.7}
+        disabled={disabled}
+        accessibilityLabel={this.extractTitle()}
       >
-        {props.children}
-      </div>
+        {children}
+      </TouchableOpacity>
     )
   }
 }
+
+const colors = {
+  white: '#FFFFFF', // @white
+  isabelline: '#EEEEEE', // @isabelline
+  darkGray: '#9E9E9E', // @dark_gray
+  darkJungleGreen: '#212121', // @dark_jungle_green
+}
+
+const styles = StyleSheet.create({
+  menuItem: {
+    padding: 16,
+    fontSize: 13 * (16 / 16), // 13rem/16 -> 13
+    fontWeight: '400',
+    lineHeight: 1.6 * (13 * (16 / 16)),
+    letterSpacing: 0.3 * (16 / 16), // 0.3rem/16 -> 0.3
+    color: colors.darkJungleGreen,
+  },
+  disabled: {
+    color: colors.darkGray,
+  },
+  dropDown: {
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  pressed: {
+    backgroundColor: colors.isabelline,
+  },
+  disabledPressed: {
+    backgroundColor: colors.white,
+  },
+})

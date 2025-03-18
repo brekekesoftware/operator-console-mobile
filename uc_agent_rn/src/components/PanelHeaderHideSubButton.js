@@ -15,7 +15,6 @@ import SimpleButton from './SimpleButton.js'
 export default props => {
   return (
     <SimpleButton
-      className='brPanelHeaderHideSubButton'
       title={uawMsgs.LBL_PANEL_HEADER_HIDE_SUB_BUTTON_TOOLTIP}
       disabled={props.disabled}
       onClick={props.uiData.fire.bind(
@@ -24,6 +23,8 @@ export default props => {
         props.panelType,
         props.panelCode,
       )}
-    ></SimpleButton>
+    >
+      <Image source={require('../images/panelheaderhide.png')} />
+    </SimpleButton>
   )
 }

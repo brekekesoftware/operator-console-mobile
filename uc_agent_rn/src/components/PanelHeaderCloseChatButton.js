@@ -3,6 +3,7 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import SimpleButton from './SimpleButton.js'
+import { Image } from 'react-native'
 
 /**
  * PanelHeaderCloseChatButton
@@ -15,15 +16,16 @@ import SimpleButton from './SimpleButton.js'
 export default props => {
   return (
     <SimpleButton
-      className='brPanelHeaderCloseChatButton'
       title={uawMsgs.LBL_PANEL_HEADER_CLOSE_CHAT_BUTTON_TOOLTIP}
       disabled={props.disabled}
-      onClick={props.uiData.fire.bind(
+      onPress={props.uiData.fire.bind(
         props.uiData,
         'panelHeaderCloseChatButton_onClick',
         props.panelType,
         props.panelCode,
       )}
-    ></SimpleButton>
+    >
+      <Image source={require('../images/panelheaderleave.png')} />
+    </SimpleButton>
   )
 }

@@ -1,46 +1,116 @@
 import React from 'react'
+import {
+  View,
+  ScrollView,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  Dimensions,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 
 /**
- * MenuBalloonDialog
- * props.showing
- * props.className
- * props.style
- * props.onClick
+ * MenuBalloonDialog - React Native version
+ * A popup dialog component for menus
+ *
+ * props.showing - Whether the dialog is visible
+ * props.style - Additional styles for the component
+ * props.onClick - Function called when the dialog is pressed
  */
-export default class extends React.Component {
-  handleClick(ev) {
-    const props = this.props
-    if (typeof props.onClick === 'function') {
-      props.onClick(ev)
-    }
-    if (
-      ev &&
-      !(
-        ev.target &&
-        ev.target.matches &&
-        ev.target.matches('.brMenuItem,.brMenuItem *')
-      )
-    ) {
-      ev.stopPropagation()
+export default class MenuBalloonDialog extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isHovered: false,
     }
   }
+
+  handleClick = event => {
+    const { onClick } = this.props
+
+    if (typeof onClick === 'function') {
+      onClick(event)
+    }
+  }
+
+  handleScroll = () => {
+    if (!this.state.isHovered) {
+      this.setState({ isHovered: true })
+
+      if (this.hoverTimeout) {
+        clearTimeout(this.hoverTimeout)
+      }
+
+      this.hoverTimeout = setTimeout(() => {
+        this.setState({ isHovered: false })
+      }, 1500)
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.hoverTimeout) {
+      clearTimeout(this.hoverTimeout)
+    }
+  }
+
   render() {
-    const props = this.props
+    const { showing, style, children } = this.props
+
+    if (!showing) {
+      return null
+    }
+
+    const { width, height } = Dimensions.get('window')
+    const maxDimension = Math.min(width, height) * 0.5 // 50vh equivalent
+
     return (
-      <div
-        className={
-          'brMenuBalloonDialog' +
-          (props.showing ? '' : ' brHidden') +
-          (props.className ? ' ' + props.className : '')
-        }
-        style={props.style || {}}
-        onClick={this.handleClick.bind(this)}
+      <View
+        style={[
+          styles.menuBalloonDialog,
+          { maxWidth: maxDimension, maxHeight: maxDimension },
+          style,
+        ]}
       >
-        {props.children}
-      </div>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={true}
+          showsHorizontalScrollIndicator={false}
+          scrollIndicatorInsets={{ right: 2 }}
+          onScroll={this.handleScroll}
+          scrollEventThrottle={16}
+          indicatorStyle={this.state.isHovered ? 'default' : 'white'}
+          onTouchStart={() => this.setState({ isHovered: true })}
+          onTouchEnd={() => {
+            setTimeout(() => this.setState({ isHovered: false }), 1500)
+          }}
+        >
+          <TouchableWithoutFeedback onPress={this.handleClick}>
+            <View>{children}</View>
+          </TouchableWithoutFeedback>
+        </ScrollView>
+      </View>
     )
   }
 }
+
+const colors = {
+  white: '#FFFFFF', // @white
+  platinum: '#E0E0E0', // @platinum
+  darkGray: '#9E9E9E', // @dark_gray
+}
+
+const styles = StyleSheet.create({
+  menuBalloonDialog: {
+    backgroundColor: colors.white,
+    borderRadius: 4,
+    shadowColor: colors.platinum,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  scrollView: {},
+  contentContainer: {},
+})
