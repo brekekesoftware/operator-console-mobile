@@ -2,6 +2,7 @@ import React from 'react'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
+import { Picker } from '@react-native-picker/picker'
 
 /**
  * CustomerSignInProfinfoInputSelect
@@ -12,12 +13,10 @@ import { int, string } from '../utilities/strings.js'
  * props.profinfoInput
  */
 export default props => {
-  // Handle configuration styles with fallback
   const configStyles =
     props.uiData.configurations.signInFormStyles?.brSignInProfinfoInputSelect ||
     {}
 
-  // Convert web/LESS styles to RN compatible format
   const customStyles = StyleSheet.create({
     dynamic: {
       width: configStyles.width || 180,

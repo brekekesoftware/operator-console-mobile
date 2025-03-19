@@ -1,174 +1,278 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
+  Dimensions,
+  Platform,
+  Image,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import MenuBalloonDialog from './MenuBalloonDialog.js'
 
 /**
- * DropDownMenu
- * props.uiData
- * props.uiData.showingDialogVersion
- * props.uiData.showingDialog_update
- * props.className
- * props.dialogClassName
- * props.disabled
- * props.hidden
- * props.style
- * props.text
- * props.onClick
- * props.onShowingDialogUpdate
+ * DropDownMenu - React Native version
+ * A dropdown menu component
+ *
+ * props.uiData - UI data object
+ * props.uiData.showingDialogVersion - Dialog version for tracking open/closed state
+ * props.uiData.showingDialog_update - Dialog update handler
+ * props.style - Additional styles for the component
+ * props.dialogStyle - Additional styles for the dialog
+ * props.disabled - Whether the dropdown is disabled
+ * props.hidden - Whether the dropdown is hidden
+ * props.text - The text to display in the dropdown
+ * props.onClick - Function called when the dropdown is clicked
+ * props.onShowingDialogUpdate - Function called when the dialog visibility updates
  */
-export default class extends React.Component {
+export default class DropDownMenu extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       showingDialogVersion: null,
+      dialogPosition: {
+        x: 0,
+        y: 0,
+        width: 0,
+      },
+    }
+    this.dropdownRef = React.createRef()
+  }
+
+  componentDidMount() {
+    this.measureDropdownPosition()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.isDialogShowing() !== this.wasDialogShowing(prevProps)) {
+      this.measureDropdownPosition()
     }
   }
-  componentDidUpdate() {
-    const props = this.props
-    const node = ReactDOM.findDOMNode(this)
-    const nodeRect =
-      node && node.getBoundingClientRect && node.getBoundingClientRect()
-    const reactroot =
-      node &&
-      node.ownerDocument &&
-      node.ownerDocument.querySelectorAll &&
-      Array.prototype.filter.call(
-        node.ownerDocument.querySelectorAll('[data-reactroot]'),
-        r => r && r.contains && r.contains(node),
-      )[0]
-    const dropDownMenuBalloonDialog = ReactDOM.findDOMNode(
-      this.refs['dropDownMenuBalloonDialog'],
-    )
-    if (
-      node &&
-      nodeRect &&
-      reactroot &&
-      dropDownMenuBalloonDialog &&
-      dropDownMenuBalloonDialog.style
-    ) {
-      if (
-        props.uiData.showingDialogVersion === this.state.showingDialogVersion
-      ) {
-        if (dropDownMenuBalloonDialog.parentNode === node) {
-          reactroot.appendChild(node.removeChild(dropDownMenuBalloonDialog))
-          dropDownMenuBalloonDialog.style.position = 'absolute'
-          dropDownMenuBalloonDialog.style.left = nodeRect.left + 'px'
-          dropDownMenuBalloonDialog.style.top =
-            nodeRect.top + nodeRect.height + 'px'
-          dropDownMenuBalloonDialog.style.minWidth = nodeRect.width + 'px'
-          dropDownMenuBalloonDialog.style.zIndex = '9999'
-        }
-      } else {
-        if (dropDownMenuBalloonDialog.parentNode === reactroot) {
-          node.appendChild(reactroot.removeChild(dropDownMenuBalloonDialog))
-          dropDownMenuBalloonDialog.style.position = 'absolute'
-          dropDownMenuBalloonDialog.style.left = '0px'
-          dropDownMenuBalloonDialog.style.top = nodeRect.height + 'px'
-          dropDownMenuBalloonDialog.style.minWidth = '0px'
-          dropDownMenuBalloonDialog.style.zIndex = '0'
-        }
-      }
-    }
-  }
-  componentWillUnmount() {
-    const props = this.props
-    const node = ReactDOM.findDOMNode(this)
-    const reactroot =
-      node &&
-      node.ownerDocument &&
-      node.ownerDocument.querySelectorAll &&
-      Array.prototype.filter.call(
-        node.ownerDocument.querySelectorAll('[data-reactroot]'),
-        r => r && r.contains && r.contains(node),
-      )[0]
-    const dropDownMenuBalloonDialog = ReactDOM.findDOMNode(
-      this.refs['dropDownMenuBalloonDialog'],
-    )
-    if (node && reactroot && dropDownMenuBalloonDialog) {
-      if (dropDownMenuBalloonDialog.parentNode === reactroot) {
-        node.appendChild(reactroot.removeChild(dropDownMenuBalloonDialog))
-      }
-    }
-  }
-  handleClick(ev) {
-    const props = this.props
-    if (!props.disabled) {
-      if (
-        props.uiData.showingDialogVersion !== this.state.showingDialogVersion
-      ) {
+
+  measureDropdownPosition() {
+    if (this.dropdownRef.current && Platform.OS !== 'web') {
+      const { width: screenWidth, height: screenHeight } =
+        Dimensions.get('window')
+
+      this.dropdownRef.current.measure((x, y, width, height, pageX, pageY) => {
         this.setState({
-          showingDialogVersion: ++props.uiData.showingDialogVersion,
+          dialogPosition: {
+            x: pageX,
+            y: pageY + height,
+            width: width,
+          },
         })
-        if (typeof props.onShowingDialogUpdate === 'function') {
-          props.onShowingDialogUpdate()
-        }
-        ev.stopPropagation()
-        props.uiData.fire('showingDialog_update')
-      } else {
-        this.setState({ showingDialogVersion: null })
-        ev.stopPropagation()
-      }
-      if (typeof props.onClick === 'function') {
-        props.onClick(ev)
-      }
+      })
     }
   }
-  render() {
-    const props = this.props
+
+  isDialogShowing() {
+    return (
+      this.props.uiData.showingDialogVersion ===
+        this.state.showingDialogVersion && !this.props.hidden
+    )
+  }
+
+  wasDialogShowing(prevProps) {
+    return (
+      prevProps.uiData.showingDialogVersion ===
+        this.state.showingDialogVersion && !prevProps.hidden
+    )
+  }
+
+  handlePress = () => {
+    const { props } = this
+
+    if (props.disabled) {
+      return
+    }
+
+    if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
+      this.setState(
+        {
+          showingDialogVersion: ++props.uiData.showingDialogVersion,
+        },
+        () => {
+          this.measureDropdownPosition()
+
+          if (typeof props.onShowingDialogUpdate === 'function') {
+            props.onShowingDialogUpdate()
+          }
+
+          props.uiData.fire('showingDialog_update')
+        },
+      )
+    } else {
+      this.setState({
+        showingDialogVersion: null,
+      })
+    }
+
+    if (typeof props.onClick === 'function') {
+      props.onClick()
+    }
+  }
+
+  extractTitle() {
+    const { text } = this.props
     let title = ''
-    if (typeof props.text === 'string') {
-      title = props.text
+
+    if (typeof text === 'string') {
+      title = text
+    } else if (text && text.props && typeof text.props.children === 'string') {
+      title = text.props.children
     } else if (
-      props.text &&
-      props.text.props &&
-      typeof props.text.props.children === 'string'
+      text &&
+      text.props &&
+      text.props.children &&
+      typeof text.props.children.forEach === 'function'
     ) {
-      title = props.text.props.children
-    } else if (
-      props.text &&
-      props.text.props &&
-      props.text.props.children &&
-      typeof props.text.props.children.forEach === 'function'
-    ) {
-      props.text.props.children.forEach(child => {
+      text.props.children.forEach(child => {
         if (typeof child === 'string' && child) {
           title = child
         }
       })
     }
+
+    return title
+  }
+
+  render() {
+    const { props, state } = this
+    const isShowing = this.isDialogShowing()
+
+    if (props.hidden) {
+      return null
+    }
+
+    const iconName = isShowing ? 'triangle_up' : 'triangle_down'
+    // TODO: Add icon component with base64 svg
+
     return (
-      <div
-        className={
-          'brDropDownMenu' +
-          (props.uiData.showingDialogVersion === this.state.showingDialogVersion
-            ? ' brFocus br_bi_icon_triangle_up_svg'
-            : ' br_bi_icon_triangle_down_svg') +
-          (props.disabled ? ' brDisabled' : '') +
-          (props.hidden ? ' brHidden' : '') +
-          (props.className ? ' ' + props.className : '')
-        }
-        style={props.style || {}}
-        title={title}
-        onClick={this.handleClick.bind(this)}
-      >
-        {props.text}
+      <View style={styles.container}>
+        <TouchableOpacity
+          ref={this.dropdownRef}
+          style={[
+            styles.dropDownMenu,
+            isShowing && styles.focus,
+            props.disabled && styles.disabled,
+            props.style,
+          ]}
+          onPress={this.handlePress}
+          disabled={props.disabled}
+          accessibilityLabel={this.extractTitle()}
+          activeOpacity={props.disabled ? 1 : 0.7}
+        >
+          <Text
+            style={[styles.dropDownText, props.disabled && styles.disabledText]}
+            numberOfLines={1}
+            ellipsizeMode='tail'
+          >
+            {props.text}
+          </Text>
+
+          <View style={styles.iconContainer}>
+            <Image
+              source={
+                iconName === 'triangle_up'
+                  ? require('../assets/images/triangle_up.png')
+                  : require('../assets/images/triangle_down.png')
+              }
+              style={styles.icon}
+              resizeMode='contain'
+            />
+          </View>
+        </TouchableOpacity>
+
         <MenuBalloonDialog
-          ref='dropDownMenuBalloonDialog'
-          className={
-            'brDropDownMenuBalloonDialog' +
-            (props.dialogClassName ? ' ' + props.dialogClassName : '')
-          }
-          showing={
-            props.uiData.showingDialogVersion ===
-              this.state.showingDialogVersion && !props.hidden
-          }
+          showing={isShowing}
+          style={[
+            {
+              position: 'absolute',
+              left: state.dialogPosition.x,
+              top: state.dialogPosition.y,
+              minWidth: state.dialogPosition.width,
+              zIndex: isShowing ? 9999 : 0,
+            },
+            props.dialogStyle,
+          ]}
+          onClick={() => this.setState({ showingDialogVersion: null })}
         >
           {props.children}
         </MenuBalloonDialog>
-      </div>
+      </View>
     )
   }
 }
+
+// Define colors from CSS variables
+const colors = {
+  mediumTurquoise: '#4BC5DE', // @medium_turquoise
+  white: '#FFFFFF', // @white
+  whiteSmoke: '#F5F5F5', // @white_smoke
+  platinum: '#E0E0E0', // @platinum
+  darkGray: '#9E9E9E', // @dark_gray
+  darkJungleGreen: '#212121', // @dark_jungle_green
+}
+
+const styles = StyleSheet.create({
+  container: {},
+  dropDownMenu: {
+    position: 'relative',
+    width: 200,
+    height: 32,
+    paddingLeft: 16,
+    paddingRight: 16,
+    borderWidth: 1,
+    borderColor: colors.platinum,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+  },
+  dropDownText: {
+    flex: 1,
+    fontSize: 13,
+    fontWeight: '400',
+    letterSpacing: 0.3,
+    color: colors.darkJungleGreen,
+  },
+  iconContainer: {
+    width: 16,
+    height: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    width: 12,
+    height: 12,
+    tintColor: colors.darkJungleGreen,
+  },
+  focus: {
+    borderColor: colors.mediumTurquoise,
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.mediumTurquoise,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+      },
+      android: {
+        elevation: 2,
+      },
+      web: {
+        boxShadow: `0px 0px 0px 1px ${colors.mediumTurquoise} inset`,
+      },
+    }),
+  },
+  disabled: {
+    backgroundColor: colors.whiteSmoke,
+  },
+  disabledText: {
+    color: colors.darkGray,
+  },
+})

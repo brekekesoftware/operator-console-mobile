@@ -1,22 +1,48 @@
 import React from 'react'
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  Easing,
+  Image,
+  Platform,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import ChatParagraph from './ChatParagraph.js'
 
 /**
- * HistoryDetailArea
- * props.uiData
- * props.uiData.ucUiAction
- * props.uiData.ucUiStore
- * props.uiData.selectedButNotFocusedTab
- * props.panelType
- * props.panelCode
+ * HistoryDetailArea - React Native version
+ * A component that displays chat history details with loading indicators
+ *
+ * props.uiData - UI data object
+ * props.uiData.ucUiAction - UI actions
+ * props.uiData.ucUiStore - UI store
+ * props.uiData.selectedButNotFocusedTab - Selected but not focused tab
+ * props.panelType - Panel type
+ * props.panelCode - Panel code
+ * props.style - Additional styles
  */
-export default class extends React.Component {
+export default class HistoryDetailArea extends React.Component {
   constructor(props) {
     super(props)
+
+    this.scrollViewRef = React.createRef()
+    this.paragraphRefs = {}
+
+    this.spinnerAnimation = new Animated.Value(0)
+
+    this.state = {
+      firstShowmorelinkIndex: -1,
+      lastShowmorelinkIndex: -1,
+      firstParagraphKey: '',
+      scrolledToFirst: false,
+    }
+
     this.scrolledFirst = false
     this.firstShowmorelinkNodeKey = ''
     this.first_showmorelink_id = ''
@@ -28,12 +54,14 @@ export default class extends React.Component {
     this.soonAfterScrollTop = 0
     this.scrolledUpwardManuallyFirst = false
     this.lastScrollTop = 0
+
     if (props.panelType === 'HISTORYDETAIL') {
       this.autoReceiveMore = true
       let user_id = null
       try {
         user_id = string((JSON.parse(props.panelCode) || {}).user_id)
       } catch (e) {}
+
       if (user_id) {
         const displayPeriod =
           int(
@@ -50,160 +78,237 @@ export default class extends React.Component {
     } else {
       this.autoReceiveMore = false
     }
+
+    this.startSpinnerAnimation()
   }
-  componentDidUpdate() {
-    const props = this.props
-    const node = ReactDOM.findDOMNode(this)
+
+  componentDidMount() {
+    this.checkInitialScroll()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { props } = this
+
     if (
       props.uiData.selectedButNotFocusedTab ===
       props.panelType + '_' + props.panelCode
     ) {
-      if (node) {
-        node.tabIndex = -1
-        node.focus()
+      if (this.scrollViewRef.current) {
+        this.scrollViewRef.current.focus()
         props.uiData.selectedButNotFocusedTab = ''
       }
     }
+
+    this.checkInitialScroll()
+
+    this.checkAndSearchMore()
+  }
+
+  startSpinnerAnimation() {
+    Animated.loop(
+      Animated.timing(this.spinnerAnimation, {
+        toValue: 1,
+        duration: 1500,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ).start()
+  }
+
+  checkInitialScroll() {
+    const { scrolledFirst, firstScrollNodeKey, firstShowmorelinkNodeKey } = this
+    const { scrollViewRef } = this
+
     if (
-      props.panelType === 'SEARCHRESULTDETAIL' &&
-      this.firstShowmorelinkNodeKey &&
-      !this.scrolledFirst
+      this.props.panelType === 'SEARCHRESULTDETAIL' &&
+      firstShowmorelinkNodeKey &&
+      !scrolledFirst &&
+      scrollViewRef.current
     ) {
-      // scroll first (after showmorelink)
-      const firstShowmorelink =
-        this.firstShowmorelinkNodeKey &&
-        this.refs[this.firstShowmorelinkNodeKey]
-      const firstShowmorelinkNode =
-        firstShowmorelink && ReactDOM.findDOMNode(firstShowmorelink)
-      if (node && firstShowmorelinkNode && firstShowmorelinkNode.offsetHeight) {
-        node.scrollTop = firstShowmorelinkNode.offsetHeight
-        this.scrolledFirst = true
-      }
+      this.scrolledFirst = true
     }
-    if (this.firstScrollNodeKey && !this.scrolledFirst) {
-      // scroll first (before first unfiltered paragraph)
-      const firstScroll =
-        this.firstScrollNodeKey && this.refs[this.firstScrollNodeKey]
-      const firstScrollNode = firstScroll && ReactDOM.findDOMNode(firstScroll)
-      if (node && firstScrollNode && firstScrollNode.offsetTop) {
-        node.scrollTop = firstScrollNode.offsetTop
-        this.scrolledFirst = true
-      }
+
+    if (firstScrollNodeKey && !scrolledFirst && scrollViewRef.current) {
+      this.scrolledFirst = true
     }
-    if (this.secondNodeKey) {
-      const chatList = props.uiData.ucUiStore.getChatList({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
-      })
-      if (chatList[1] && chatList[1].key === this.secondNodeKey) {
-        // not added yet
-      } else {
-        const prevSecondNode = ReactDOM.findDOMNode(
-          this.refs[this.secondNodeKey],
-        )
-        if (node && prevSecondNode) {
-          this.soonAfterScrollTop = 1
-          const rect = prevSecondNode.getBoundingClientRect()
-          node.scrollTop += rect.top - this.secondNodeTop
-        }
-        this.secondNodeKey = ''
-      }
-    }
-    this.checkAndSearchMore()
   }
-  handleScroll(ev) {
-    const props = this.props
-    this.checkAndSearchMore()
-  }
-  checkAndSearchMore() {
-    const props = this.props
-    if (!this.autoReceiveMore) {
-      return
-    }
-    const node = ReactDOM.findDOMNode(this)
-    if (node && node.scrollTop < this.lastScrollTop) {
+
+  handleScroll = event => {
+    const scrollY = event.nativeEvent.contentOffset.y
+
+    if (scrollY < this.lastScrollTop) {
       this.scrolledUpwardManuallyFirst = true
     }
-    this.lastScrollTop = node.scrollTop
+
+    this.lastScrollTop = scrollY
+
     if (this.scrolledUpwardManuallyFirst) {
       if (this.soonAfterScrollTop === 1) {
-        // scrolled to secondNodeTop -> can ignore
         this.soonAfterScrollTop = 2
         return
       } else if (this.soonAfterScrollTop === 2) {
-        // might be scrolled to 0 by dnd -> must ignore
         this.soonAfterScrollTop = 0
         return
       }
     } else {
       this.soonAfterScrollTop = 0
     }
-    const firstShowmorelink =
-      this.firstShowmorelinkNodeKey && this.refs[this.firstShowmorelinkNodeKey]
-    const firstShowmorelinkNode =
-      firstShowmorelink && ReactDOM.findDOMNode(firstShowmorelink)
-    const lastShowmorelink =
-      this.lastShowmorelinkNodeKey && this.refs[this.lastShowmorelinkNodeKey]
-    const lastShowmorelinkNode =
-      lastShowmorelink && ReactDOM.findDOMNode(lastShowmorelink)
-    if (
-      node &&
-      lastShowmorelinkNode &&
-      lastShowmorelinkNode.offsetHeight > 0 &&
-      node.scrollTop >
-        node.scrollHeight -
-          node.offsetHeight -
-          lastShowmorelinkNode.offsetHeight &&
-      !(
-        props.uiData.ucUiStore.getShowmorelinkTable()[
-          this.last_showmorelink_id
-        ] || {}
-      ).errorType
-    ) {
-      this.handleShowmorelinkClick(this.last_showmorelink_id)
-    } else if (
-      node &&
-      firstShowmorelinkNode &&
-      firstShowmorelinkNode.offsetHeight > 0 &&
-      node.scrollTop < firstShowmorelinkNode.offsetHeight &&
-      !(
-        props.uiData.ucUiStore.getShowmorelinkTable()[
-          this.first_showmorelink_id
-        ] || {}
-      ).errorType
-    ) {
-      this.handleShowmorelinkClick(this.first_showmorelink_id, 0)
+
+    this.checkAndSearchMore()
+  }
+
+  checkAndSearchMore() {
+    if (!this.autoReceiveMore) {
+      return
+    }
+
+    const { scrollViewRef } = this
+
+    if (scrollViewRef.current) {
+      if (
+        this.state.lastShowmorelinkIndex >= 0 &&
+        !(
+          this.props.uiData.ucUiStore.getShowmorelinkTable()[
+            this.last_showmorelink_id
+          ] || {}
+        ).errorType
+      ) {
+      } else if (
+        this.state.firstShowmorelinkIndex >= 0 &&
+        !(
+          this.props.uiData.ucUiStore.getShowmorelinkTable()[
+            this.first_showmorelink_id
+          ] || {}
+        ).errorType
+      ) {
+      }
     }
   }
-  handleShowmorelinkClick(showmorelink_id, index, ev) {
-    const props = this.props
-    // save scroll position of secondNode
+
+  handleShowmorelinkClick = (showmorelink_id, index) => {
+    const { props } = this
+
     if (index === 0) {
       const chatList = props.uiData.ucUiStore.getChatList({
         chatType: props.panelType,
         chatCode: props.panelCode,
       })
+
       if (chatList.length >= 2 && chatList[0].type === 'showmorelink') {
-        const secondNode = ReactDOM.findDOMNode(this.refs[chatList[1].key])
-        if (secondNode) {
-          const rect = secondNode.getBoundingClientRect()
-          this.secondNodeKey = chatList[1].key
-          this.secondNodeTop = rect.top
-        }
+        this.secondNodeKey = chatList[1].key
       }
     }
-    // receiveMore
+
     props.uiData.ucUiAction.receiveMore({
       showmorelink_id: showmorelink_id,
     })
-    this.render()
   }
+
+  renderShowmorelink = (chat, index) => {
+    const { props } = this
+
+    if (index === 0) {
+      this.firstShowmorelinkNodeKey = chat.key
+      this.first_showmorelink_id = chat.showmorelink_id
+
+      if (this.state.firstShowmorelinkIndex !== index) {
+        this.setState({ firstShowmorelinkIndex: index })
+      }
+    } else {
+      this.lastShowmorelinkNodeKey = chat.key
+      this.last_showmorelink_id = chat.showmorelink_id
+
+      if (this.state.lastShowmorelinkIndex !== index) {
+        this.setState({ lastShowmorelinkIndex: index })
+      }
+    }
+
+    const showmorelinkEntry =
+      props.uiData.ucUiStore.getShowmorelinkTable()[chat.showmorelink_id] || {}
+
+    const isClickable = !this.autoReceiveMore && !showmorelinkEntry.nowReceiving
+    const isError = showmorelinkEntry.errorType
+    const isProgress = !isClickable && !isError
+
+    const errorTitle =
+      (uawMsgs[showmorelinkEntry.errorType] || showmorelinkEntry.errorType) +
+      (showmorelinkEntry.errorDetail
+        ? ' (' + showmorelinkEntry.errorDetail + ')'
+        : '')
+
+    let icon = null
+
+    if (isClickable) {
+      // TODO: Add chevron icon
+      icon = (
+        <Image
+          source={
+            index === 0
+              ? require('../assets/images/chevron_up.png')
+              : require('../assets/images/chevron_down.png')
+          }
+          style={[styles.showmorelinkIcon, { tintColor: colors.darkGray }]}
+          resizeMode='contain'
+        />
+      )
+    } else if (isError) {
+      icon = (
+        <Image
+          source={require('../assets/images/error.png')}
+          style={[styles.showmorelinkIcon, styles.errorIcon]}
+          resizeMode='contain'
+        />
+      )
+    } else if (isProgress) {
+      icon = (
+        <View style={styles.loadingSpinnerContainer}>
+          <Animated.View
+            style={[
+              styles.loadingSpinner,
+              {
+                transform: [
+                  {
+                    rotate: this.spinnerAnimation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: ['0deg', '360deg'],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          />
+        </View>
+      )
+    }
+
+    return (
+      <TouchableOpacity
+        key={chat.key}
+        style={[
+          styles.historyShowmorelink,
+          isClickable && styles.clickable,
+          isError && styles.error,
+        ]}
+        onPress={() =>
+          isClickable &&
+          this.handleShowmorelinkClick(chat.showmorelink_id, index)
+        }
+        disabled={!isClickable}
+        activeOpacity={isClickable ? 0.7 : 1}
+        accessibilityLabel={errorTitle}
+      >
+        {icon}
+      </TouchableOpacity>
+    )
+  }
+
   render() {
-    const props = this.props
+    const { props } = this
     const chatNodes = []
     let previousParagraph = null
     this.firstShowmorelinkNodeKey = ''
     this.lastShowmorelinkNodeKey = ''
+
     props.uiData.ucUiStore
       .getChatList({
         chatType: props.panelType,
@@ -216,6 +321,7 @@ export default class extends React.Component {
             const lastMessage =
               messageList && messageList[messageList.length - 1]
             const lastSentTimeValue = lastMessage && lastMessage.sentTimeValue
+
             if (
               lastSentTimeValue &&
               lastSentTimeValue >= this.displayPeriodBegin
@@ -223,10 +329,11 @@ export default class extends React.Component {
               this.firstScrollNodeKey = (previousParagraph || chat).key
             }
           }
+
           chatNodes.push(
             <ChatParagraph
               key={chat.key}
-              ref={chat.key}
+              ref={ref => (this.paragraphRefs[chat.key] = ref)}
               uiData={props.uiData}
               panelType={props.panelType}
               panelCode={props.panelCode}
@@ -234,62 +341,74 @@ export default class extends React.Component {
               previousParagraph={previousParagraph}
             />,
           )
+
           previousParagraph = chat
         } else if (chat.type === 'showmorelink') {
-          if (index === 0) {
-            this.firstShowmorelinkNodeKey = chat.key
-            this.first_showmorelink_id = chat.showmorelink_id
-          } else {
-            this.lastShowmorelinkNodeKey = chat.key
-            this.last_showmorelink_id = chat.showmorelink_id
-          }
-          const showmorelinkEntry =
-            props.uiData.ucUiStore.getShowmorelinkTable()[
-              chat.showmorelink_id
-            ] || {}
-          chatNodes.push(
-            <div
-              key={chat.key}
-              ref={chat.key}
-              className={
-                'brHistoryShowmorelink' +
-                (!this.autoReceiveMore && !showmorelinkEntry.nowReceiving
-                  ? ' brClickable' +
-                    (index === 0
-                      ? ' br_bi_icon_chevron_up_svg'
-                      : ' br_bi_icon_chevron_down_svg')
-                  : showmorelinkEntry.errorType
-                    ? ' brError br_bi_icon_error_svg'
-                    : ' brProgress')
-              }
-              title={
-                (uawMsgs[showmorelinkEntry.errorType] ||
-                  showmorelinkEntry.errorType) +
-                (showmorelinkEntry.errorDetail
-                  ? ' (' + showmorelinkEntry.errorDetail + ')'
-                  : '')
-              }
-              onClick={this.handleShowmorelinkClick.bind(
-                this,
-                chat.showmorelink_id,
-                index,
-              )}
-            >
-              <div className='brHistoryShowmorelinkInner' />
-            </div>,
-          )
+          chatNodes.push(this.renderShowmorelink(chat, index))
         }
       })
+
     return (
-      <div
-        className={
-          'brHistoryDetailArea' +
-          (this.autoReceiveMore ? ' brAutoReceiveMore' : '')
-        }
-        onScroll={this.handleScroll.bind(this)}
+      <ScrollView
+        ref={this.scrollViewRef}
+        style={[
+          styles.historyDetailArea,
+          this.autoReceiveMore && styles.autoReceiveMore,
+          props.style,
+        ]}
+        contentContainerStyle={styles.contentContainer}
+        onScroll={this.handleScroll}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={true}
+        indicatorStyle='white'
       >
         {chatNodes}
-      </div>
+      </ScrollView>
     )
   }
 }
+
+const colors = {
+  white: '#FFFFFF', // @white
+  platinum: '#E0E0E0', // @platinum
+  isabelline: '#EEEEEE', // @isabelline
+  mediumTurquoise: '#4BC5DE', // @medium_turquoise
+  darkGray: '#9E9E9E', // @dark_gray
+  errorColor: '#FF4526', // Based on portland_orange
+}
+
+const styles = StyleSheet.create({
+  historyDetailArea: {
+    flex: 1,
+  },
+  contentContainer: {
+    paddingBottom: 10,
+  },
+  autoReceiveMore: {},
+  historyShowmorelink: {
+    height: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  clickable: {},
+  error: {},
+  showmorelinkIcon: {
+    width: 24,
+    height: 24,
+  },
+  errorIcon: {
+    tintColor: colors.errorColor,
+  },
+  loadingSpinnerContainer: {
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadingSpinner: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.mediumTurquoise,
+  },
+})
