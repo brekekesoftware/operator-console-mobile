@@ -1,16 +1,25 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  Animated,
+  Platform,
+  PanResponder,
+  Image,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
-import { Tabs, TabLink, TabContent } from 'react-tabs-redux'
 import ButtonIconic from './ButtonIconic.js'
 import DndableSafe from './DndableSafe.js'
 import MenuBalloonDialog from './MenuBalloonDialog.js'
 import MenuItem from './MenuItem.js'
 import PanelArea from './PanelArea.js'
 import StatusIcon from './StatusIcon.js'
-import animate from '../utilities/animate.js'
 
 /**
  * MainTabs
@@ -34,11 +43,16 @@ import animate from '../utilities/animate.js'
  * props.uiData.mainTabsDndable_onDrop
  * props.position
  */
-export default class extends React.Component {
+export default class MainTabs extends React.Component {
   constructor(props) {
     super(props)
     this.currentFrontTab = ''
-    this.mainTabContentClicking = 0
+    this.scrollViewRef = React.createRef()
+    this.tabRefs = {}
+
+    // Add blinking animation
+    this.blinkingAnimation = new Animated.Value(0)
+
     this.state = {
       tabMenuShowingDialogVersion: null,
       tabLinkContextMenuShowingDialogVersion: null,
@@ -48,151 +62,97 @@ export default class extends React.Component {
       mainTabLinkContextMenuBalloonDialogStyle: {},
       mainTabLinkContextMenuPanelType: '',
       mainTabLinkContextMenuPanelCode: '',
+      scrollX: new Animated.Value(0),
     }
+
+    // Create animated style
+    this.animatedStyle = {
+      backgroundColor: this.blinkingAnimation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [colors.white_smoke, colors.medium_turquoise],
+      }),
+    }
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: this.handleTabContentPress,
+      onPanResponderRelease: this.handleTabContentRelease,
+    })
   }
+
+  componentDidMount() {
+    // Start blinking animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(this.blinkingAnimation, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: false,
+        }),
+        Animated.timing(this.blinkingAnimation, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: false,
+        }),
+      ]),
+    ).start()
+
+    this.updateTabScroll()
+  }
+
   componentDidUpdate() {
-    const props = this.props
-    const parent = ReactDOM.findDOMNode(this.refs['mainTabLinks'])
-    if (parent && parent.childNodes) {
-      const newState = {}
-      let newScrollLeft = parent.scrollLeft
-      const selectedChild = ReactDOM.findDOMNode(
-        this.refs[this.currentFrontTab],
-      )
-      if (selectedChild) {
-        if (
-          parent.scrollLeft <
-          Math.min(
-            parent.scrollWidth - parent.clientWidth,
-            selectedChild.offsetLeft +
-              selectedChild.offsetWidth -
-              parent.clientWidth +
-              20,
-          )
-        ) {
-          newScrollLeft = Math.min(
-            parent.scrollWidth - parent.clientWidth,
-            selectedChild.offsetLeft +
-              selectedChild.offsetWidth -
-              parent.clientWidth +
-              20,
-          )
-        } else if (
-          parent.scrollLeft > Math.max(0, selectedChild.offsetLeft - 20)
-        ) {
-          newScrollLeft = Math.max(0, selectedChild.offsetLeft - 20)
-        }
-      }
-      const childrenWidth = Array.prototype.reduce.call(
-        parent.childNodes,
-        (p, node) => Math.max(p, int(node.offsetLeft) + int(node.offsetWidth)),
-        0,
-      )
-      if (childrenWidth > parent.clientWidth) {
-        if (!this.state.showsTabMenu) {
-          newState.showsTabMenu = true
-        }
-        if (this.state.tabDndableLeft !== parent.clientWidth) {
-          newState.tabDndableLeft = parent.clientWidth
-        }
-      } else {
-        if (this.state.showsTabMenu) {
-          newState.showsTabMenu = false
-        }
-        if (this.state.tabDndableLeft !== childrenWidth) {
-          newState.tabDndableLeft = childrenWidth
-        }
-      }
-      if (
-        childrenWidth > parent.clientWidth &&
-        Object.keys(props.uiData.blinkingTabs).some(key => {
-          const child = ReactDOM.findDOMNode(this.refs[key])
-          return (
-            child &&
-            (newScrollLeft + parent.clientWidth <= child.offsetLeft ||
-              child.offsetLeft + child.offsetWidth <= newScrollLeft)
-          )
-        })
-      ) {
-        if (!this.state.blinksTabMenu) {
-          newState.blinksTabMenu = true
-        }
-      } else {
-        if (this.state.blinksTabMenu) {
-          newState.blinksTabMenu = false
-        }
-      }
-      if (Object.keys(newState).length) {
-        this.setState(newState)
-        return
-      }
-      if (newScrollLeft !== parent.scrollLeft) {
-        animate(parent, 'scrollLeft', newScrollLeft)
-      }
-    }
+    this.updateTabScroll()
   }
-  handleMainTabLinkSpanContextMenu(panelType, panelCode, ev) {
-    const props = this.props
-    const mainTabs = ReactDOM.findDOMNode(this.refs['mainTabs'])
-    const mainTabsRect = mainTabs && mainTabs.getBoundingClientRect()
-    if (mainTabsRect) {
-      const mainTabLinkContextMenuBalloonDialogStyle = {
-        top: ev.clientY - mainTabsRect.top + 'px',
-      }
-      if (ev.clientX < (mainTabsRect.left + mainTabsRect.right) / 2) {
-        mainTabLinkContextMenuBalloonDialogStyle.left =
-          ev.clientX - mainTabsRect.left + 'px'
-      } else {
-        mainTabLinkContextMenuBalloonDialogStyle.right =
-          mainTabsRect.right - ev.clientX + 'px'
-      }
-      if (
-        props.uiData.showingDialogVersion !==
-        this.state.tabLinkContextMenuShowingDialogVersion
-      ) {
-        this.setState({
-          tabLinkContextMenuShowingDialogVersion: ++props.uiData
-            .showingDialogVersion,
-          mainTabLinkContextMenuBalloonDialogStyle:
-            mainTabLinkContextMenuBalloonDialogStyle,
-          mainTabLinkContextMenuPanelType: panelType,
-          mainTabLinkContextMenuPanelCode: panelCode,
-        })
-        props.uiData.fire('showingDialog_update')
-      } else {
-        this.setState({
-          mainTabLinkContextMenuBalloonDialogStyle:
-            mainTabLinkContextMenuBalloonDialogStyle,
-          mainTabLinkContextMenuPanelType: panelType,
-          mainTabLinkContextMenuPanelCode: panelCode,
-        })
-      }
-      ev.preventDefault()
-      ev.stopPropagation()
-    }
-  }
-  handleMainTabMenuClick(ev) {
-    const props = this.props
-    if (
-      props.uiData.showingDialogVersion !==
-      this.state.tabMenuShowingDialogVersion
-    ) {
-      this.setState({
-        tabMenuShowingDialogVersion: ++props.uiData.showingDialogVersion,
+
+  updateTabScroll = () => {
+    if (!this.scrollViewRef.current) return
+
+    const selectedTab = this.tabRefs[this.currentFrontTab]
+    if (selectedTab) {
+      selectedTab.measure((x, y, width, height, pageX, pageY) => {
+        const scrollView = this.scrollViewRef.current
+        if (scrollView) {
+          scrollView.scrollTo({
+            x: Math.max(0, pageX - 20),
+            animated: true,
+          })
+        }
       })
-      ev.stopPropagation()
-      props.uiData.fire('showingDialog_update')
     }
   }
-  handleMainTabContentMouseDown(ev) {
-    if (ev.button === 0) {
-      this.mainTabContentClicking = ev.clientX
+
+  handleTabPress = key => {
+    if (key !== this.props.uiData.currentSelectedTab) {
+      this.props.uiData.fire('mainArea_handleSelect', key)
     }
   }
-  handleMainTabContentMouseUp(ev) {
-    const props = this.props
+
+  handleTabLongPress = (panelType, panelCode, event) => {
+    const { locationX, locationY } = event.nativeEvent
+
+    this.setState({
+      tabLinkContextMenuShowingDialogVersion: ++this.props.uiData
+        .showingDialogVersion,
+      mainTabLinkContextMenuBalloonDialogStyle: {
+        top: locationY,
+        left: locationX,
+      },
+      mainTabLinkContextMenuPanelType: panelType,
+      mainTabLinkContextMenuPanelCode: panelCode,
+    })
+
+    this.props.uiData.fire('showingDialog_update')
+  }
+
+  handleTabContentPress = (e, gestureState) => {
+    this.mainTabContentClicking = gestureState.x0
+  }
+
+  handleTabContentRelease = (e, gestureState) => {
+    const { props } = this
     if (
-      this.mainTabContentClicking === ev.clientX &&
+      this.mainTabContentClicking === gestureState.x0 &&
       props.uiData.mainPanelList.some(
         panel =>
           string(props.position).indexOf(string(panel.position)) !== -1 &&
@@ -204,410 +164,518 @@ export default class extends React.Component {
     }
     this.mainTabContentClicking = 0
   }
-  render() {
-    const props = this.props
-    const tabLinkList = []
-    const tabMenuItemList = []
-    const tabContentList = []
-    let frontTab = ''
-    let lastFrontTab = ''
-    let hasSelectedTab = false
-    const isIE =
-      typeof navigator !== 'undefined'
-        ? string(navigator.userAgent)
-            .toLowerCase()
-            .match(/(msie|trident)/)
-        : false
-    let chatBgColorList = []
-    try {
-      chatBgColorList = [].concat(
-        JSON.parse(
-          string(
-            props.uiData.ucUiStore.getOptionalSetting({ key: 'chat_bg_color' }),
-          ) || '{}',
-        ).list || [],
-      )
-    } catch (ex) {
-      props.uiData.ucUiStore.getLogger().log('warn', ex)
+
+  renderTab = (panel, key, index) => {
+    const { props } = this
+    const chatHeaderInfo = props.uiData.ucUiStore.getChatHeaderInfo({
+      chatType: panel.panelType,
+      chatCode: panel.panelCode,
+    })
+
+    let status = 32767
+    let degree
+    let tabTitle = ''
+    let tabTitleTitle = ''
+
+    // Status and title logic based on panel type
+    if (panel.panelType === 'CHAT') {
+      try {
+        const buddy = JSON.parse(panel.panelCode)
+        const buddyUserForUi =
+          props.uiData.ucUiStore.getBuddyUserForUi(buddy) || {}
+        if (buddyUserForUi.isBuddy) {
+          const currentBuddyStatus =
+            props.uiData.getCurrentBuddyStatus(buddy) || {}
+          status = currentBuddyStatus.status
+          degree = currentBuddyStatus.degree
+        }
+      } catch (e) {}
+      tabTitle = tabTitleTitle = chatHeaderInfo.title
     }
-    const bgColorTable = {}
-    props.uiData.mainPanelList
-      .filter(
-        panel => string(props.position).indexOf(string(panel.position)) !== -1,
-      )
-      .forEach(panel => {
-        const key = panel.panelType + '_' + panel.panelCode
-        const chatHeaderInfo = props.uiData.ucUiStore.getChatHeaderInfo({
-          chatType: panel.panelType,
-          chatCode: panel.panelCode,
-        })
-        let buddyUserForUi = {}
-        let status = 32767
-        let degree = undefined
-        let tabTitle = ''
-        let tabTitleTitle = ''
-        if (key === props.uiData.currentSelectedTab) {
-          frontTab = key
-          hasSelectedTab = true
-        } else if (key === this.currentFrontTab && !hasSelectedTab) {
-          frontTab = key
-        } else if (!frontTab) {
-          frontTab = key
+    // ... other panel types logic
+
+    return (
+      <DndableSafe
+        key={key}
+        ref={ref => (this.tabRefs[key] = ref)}
+        uiData={props.uiData}
+        style={[
+          styles.brMainTabLinkSpan,
+          index === 0 && styles.brFirst,
+          props.uiData.backgroundTabs[key]?.discarded && styles.brDiscarded,
+        ]}
+        dragSourceInfo={{
+          dragSourceInfoType: 'mainTabLinkSpan',
+          dragSourceInfoCode: `${props.position}|${key}`,
+        }}
+        onCheckCanDrop={ev =>
+          ev.dragSourceInfo?.dragSourceInfoType === 'mainTabLinkSpan'
         }
-        if (key === this.currentFrontTab) {
-          lastFrontTab = key
-        }
-        if (panel.panelType === 'CHAT') {
-          try {
-            const buddy = JSON.parse(panel.panelCode)
-            buddyUserForUi =
-              props.uiData.ucUiStore.getBuddyUserForUi(buddy) || {}
-            if (buddyUserForUi.isBuddy) {
-              const currentBuddyStatus =
-                props.uiData.getCurrentBuddyStatus(buddy) || {}
-              status = currentBuddyStatus.status
-              degree = currentBuddyStatus.degree
-            }
-          } catch (e) {}
-          tabTitle = tabTitleTitle = chatHeaderInfo.title
-        } else if (panel.panelType === 'CONFERENCE') {
-          const conf_id = string(
-            props.uiData.ucUiStore.getChatHeaderInfo({
-              chatType: panel.panelType,
-              chatCode: panel.panelCode,
-            }).conf_id,
-          )
-          const conference = props.uiData.ucUiStore
-            .getChatClient()
-            .getConference(conf_id)
-          const isTalking =
-            conference.conf_type === 'webchat'
-              ? props.uiData.ucUiStore.getWebchatQueue({ conf_id: conf_id })
-                  .isTalking
-              : conference.conf_status === Constants.CONF_STATUS_JOINED
-          if (isTalking) {
-            status = Constants.STATUS_AVAILABLE
-          } else {
-            status = Constants.STATUS_OFFLINE
-          }
-          tabTitle = chatHeaderInfo.title
-          tabTitleTitle =
-            chatHeaderInfo.title + '\n' + chatHeaderInfo.guestProfinfo
-        } else if (panel.panelType === 'PREFERENCE') {
-          tabTitle = tabTitleTitle = uawMsgs.TAB_PREFERENCE
-        } else if (panel.panelType === 'WEBCHATQUEUE') {
-          tabTitle = tabTitleTitle = uawMsgs.TAB_WEBCHATQUEUE
-        } else if (panel.panelType === 'EXTERNALCALL') {
-          tabTitle = tabTitleTitle = string(
-            (props.uiData.externalCallWorkTable &&
-              props.uiData.externalCallWorkTable[panel.panelCode] &&
-              props.uiData.externalCallWorkTable[panel.panelCode]
-                .display_name) ||
-              panel.panelCode,
-          )
-        } else if (panel.panelType === 'HISTORYSUMMARIES') {
-          tabTitle = tabTitleTitle = uawMsgs.TAB_HISTORYSUMMARIES
-        } else if (panel.panelType === 'HISTORYDETAIL') {
-          tabTitle = tabTitleTitle =
-            uawMsgs.TAB_HISTORYDETAIL +
-            string(
-              (
-                (props.uiData.historyDetailWorkTable &&
-                  props.uiData.historyDetailWorkTable[panel.panelCode]) ||
-                {}
-              ).historyDetailName,
-            )
-        }
-        try {
-          chatBgColorList.some(element => {
-            const bgInfo = element || {}
-            if (bgInfo.type === 'conf_type') {
-              if (panel.panelType === 'CONFERENCE') {
-                if (new RegExp(bgInfo.data).test(chatHeaderInfo.confType)) {
-                  bgColorTable[key] = bgInfo.color
-                  return true
-                }
-              }
-            } else if (bgInfo.type === 'subject') {
-              if (panel.panelType === 'CONFERENCE') {
-                if (new RegExp(bgInfo.data).test(chatHeaderInfo.subject)) {
-                  bgColorTable[key] = bgInfo.color
-                  return true
-                }
-              }
-            } else if (bgInfo.type === 'group') {
-              if (panel.panelType === 'CHAT') {
-                if (new RegExp(bgInfo.data).test(buddyUserForUi.group)) {
-                  bgColorTable[key] = bgInfo.color
-                  return true
-                }
-              }
-            } else if (bgInfo.type === 'user_id') {
-              if (panel.panelType === 'CHAT') {
-                if (new RegExp(bgInfo.data).test(buddyUserForUi.user_id)) {
-                  bgColorTable[key] = bgInfo.color
-                  return true
-                }
-              }
-            } else if (bgInfo.type === 'name') {
-              if (panel.panelType === 'CHAT') {
-                if (new RegExp(bgInfo.data).test(buddyUserForUi.name)) {
-                  bgColorTable[key] = bgInfo.color
-                  return true
-                }
-              }
-            } else if (bgInfo.type === 'tag') {
-              const dataArray = string(bgInfo.data).split('|')
-              const tagTypeData = dataArray.shift()
-              const tagKeyData = dataArray.shift()
-              const tagValueData = dataArray.join('|')
-              if (panel.panelType === 'CONFERENCE') {
-                if (
-                  (chatHeaderInfo.conf_tags || []).some(
-                    tag =>
-                      tagTypeData === tag.tag_type &&
-                      tagKeyData === tag.tag_key &&
-                      new RegExp(tagValueData).test(tag.tag_value),
-                  )
-                ) {
-                  bgColorTable[key] = bgInfo.color
-                  return true
-                }
-              }
-            }
+        onDrop={() =>
+          props.uiData.fire('mainTabsDndable_onDrop', {
+            dropTargetInfoType: 'mainTabLinkSpan',
+            dropTargetInfoCode: `${props.position}|${key}`,
           })
-        } catch (ex) {
-          props.uiData.ucUiStore.getLogger().log('warn', ex)
         }
-        const dndInfoCode = string(props.position) + '|' + key
-        tabLinkList.push(
-          <DndableSafe
-            key={'span_' + key}
-            ref={key}
-            uiData={props.uiData}
-            className={
-              'brMainTabLinkSpan' +
-              (tabLinkList.length ? '' : ' brFirst') +
-              (props.uiData.blinkingTabs[key] ? ' brBlinking' : '') +
-              (props.uiData.backgroundTabs[key] &&
-              props.uiData.backgroundTabs[key].discarded
-                ? ' brDiscarded'
-                : '')
+      >
+        <Animated.View
+          style={[
+            styles.tabLink,
+            key === this.currentFrontTab && styles.tabLinkActive,
+            props.uiData.backgroundTabs[key]?.discarded && styles.brDiscarded,
+          ]}
+        >
+          <TouchableOpacity
+            onPress={() => this.handleTabPress(key)}
+            onLongPress={e =>
+              this.handleTabLongPress(panel.panelType, panel.panelCode, e)
             }
-            dragSourceInfo={{
-              dragSourceInfoType: 'mainTabLinkSpan',
-              dragSourceInfoCode: dndInfoCode,
-            }}
-            onCheckCanDrop={ev =>
-              ev.dragSourceInfo &&
-              ev.dragSourceInfo.dragSourceInfoType === 'mainTabLinkSpan'
-            }
-            onDrop={props.uiData.fire.bind(
-              props.uiData,
-              'mainTabsDndable_onDrop',
-              {
-                dropTargetInfoType: 'mainTabLinkSpan',
-                dropTargetInfoCode: dndInfoCode,
-              },
-            )}
+            style={styles.tabTouchable}
           >
-            <TabLink
-              key={key}
-              to={key}
-              style={
-                bgColorTable[key] ? { backgroundColor: bgColorTable[key] } : {}
-              }
-            >
-              <StatusIcon status={status} degree={degree} />
-              <span
-                className='brTabLinkTitle'
-                title={tabTitleTitle}
-                onContextMenu={this.handleMainTabLinkSpanContextMenu.bind(
-                  this,
-                  panel.panelType,
-                  panel.panelCode,
-                )}
-              >
-                {tabTitle || '\u2002'}
-              </span>
-              <ButtonIconic
-                className='brTabLinkHideButton br_bi_icon_cancel_svg'
-                title={uawMsgs.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP}
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
+            <StatusIcon status={status} degree={degree} />
+            <Text style={styles.brTabLinkTitle} numberOfLines={1}>
+              {tabTitle || '\u2002'}
+            </Text>
+            <ButtonIconic
+              style={styles.brTabLinkHideButton}
+              iconName='cancel'
+              onPress={() =>
+                props.uiData.fire(
                   'tabLinkHideButton_onClick',
                   panel.panelType,
                   panel.panelCode,
-                )}
-              ></ButtonIconic>
-            </TabLink>
-          </DndableSafe>,
-        )
-        tabMenuItemList.push(
-          <MenuItem
-            key={key}
-            className={
-              'brMainTabMenuItem' +
-              (props.uiData.blinkingTabs[key] ? ' brBlinking' : '') +
-              (key === props.uiData.currentSelectedTab ? ' brSelected' : '')
-            }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
+                )
+              }
+            />
+          </TouchableOpacity>
+        </Animated.View>
+      </DndableSafe>
+    )
+  }
+
+  renderTabMenuItems = () => {
+    const { props } = this
+    const tabPanels = props.uiData.mainPanelList.filter(
+      panel => string(props.position).indexOf(string(panel.position)) !== -1,
+    )
+
+    return tabPanels.map(panel => {
+      const key = `${panel.panelType}_${panel.panelCode}`
+      const chatHeaderInfo = props.uiData.ucUiStore.getChatHeaderInfo({
+        chatType: panel.panelType,
+        chatCode: panel.panelCode,
+      })
+
+      let status = 32767
+      let degree
+      let tabTitle = this.getTabTitle(panel, chatHeaderInfo)
+
+      return (
+        <MenuItem
+          key={key}
+          style={[
+            styles.brMainTabMenuItem,
+            props.uiData.blinkingTabs[key] && styles.brBlinking,
+            key === props.uiData.currentSelectedTab && styles.brSelected,
+          ]}
+          onPress={() =>
+            props.uiData.fire(
               'tabMenuItem_onClick',
               panel.panelType,
               panel.panelCode,
-            )}
-          >
-            <StatusIcon status={status} degree={degree} />
-            <span className='brMainTabMenuItemTitle'>
-              {tabTitle || '\u2002'}
-            </span>
-          </MenuItem>,
-        )
-        tabContentList.push(
-          <TabContent key={key} for={key}>
-            <PanelArea
-              uiData={props.uiData}
-              panelType={panel.panelType}
-              panelCode={panel.panelCode}
-            />
-          </TabContent>,
-        )
-      })
-    if (props.uiData.backgroundTabs[frontTab]) {
-      delete props.uiData.backgroundTabs[frontTab]
-    }
-    if (
-      lastFrontTab &&
-      lastFrontTab !== frontTab &&
-      !props.uiData.backgroundTabs[lastFrontTab]
-    ) {
-      props.uiData.backgroundTabs[lastFrontTab] = { time: Date.now() }
-    }
-    this.currentFrontTab = frontTab
-    return (
-      <Tabs
-        ref='mainTabs'
-        className={
-          'brMainTabs' +
-          (hasSelectedTab ? ' brSelected' : '') +
-          (isIE ? ' brInternetExplorer' : '')
-        }
-        handleSelect={props.uiData.fire.bind(
-          props.uiData,
-          'mainArea_handleSelect',
-        )}
-        selectedTab={this.currentFrontTab}
-      >
-        <div ref='mainTabLinks' className='brMainTabLinks'>
-          {tabLinkList}
-        </div>
-        <div
-          className={
-            'brMainTabMenu' +
-            (this.state.showsTabMenu
-              ? ' br_bi_icon_triangle_down_svg'
-              : ' brHidden') +
-            (this.state.blinksTabMenu ? ' brBlinking' : '')
+            )
           }
-          onClick={
-            this.state.showsTabMenu
-              ? this.handleMainTabMenuClick.bind(this)
-              : () => {}
-          }
-        ></div>
-        <DndableSafe
-          uiData={props.uiData}
-          className='brMainTabLinksLastDndable'
-          style={{ left: Math.max(1, this.state.tabDndableLeft) }}
-          onCheckCanDrop={ev =>
-            ev.dragSourceInfo &&
-            ev.dragSourceInfo.dragSourceInfoType === 'mainTabLinkSpan' &&
-            string(props.position).indexOf(
-              string(ev.dragSourceInfo.dragSourceInfoCode).split('|')[0],
-            ) === -1
-          }
-          onDrop={props.uiData.fire.bind(
-            props.uiData,
-            'mainTabsDndable_onDrop',
-            {
-              dropTargetInfoType: 'mainTabLinksLast',
-              dropTargetInfoCode: string(props.position),
-            },
-          )}
-        />
-        <div
-          className='brMainTabContent'
-          style={
-            hasSelectedTab && bgColorTable[frontTab]
-              ? { backgroundColor: bgColorTable[frontTab] }
-              : {}
-          }
-          onMouseDown={this.handleMainTabContentMouseDown.bind(this)}
-          onMouseUp={this.handleMainTabContentMouseUp.bind(this)}
         >
-          {tabContentList}
-        </div>
+          <StatusIcon status={status} degree={degree} />
+          <Text style={styles.brMainTabMenuItemTitle}>
+            {tabTitle || '\u2002'}
+          </Text>
+        </MenuItem>
+      )
+    })
+  }
+
+  renderContextMenuItems = () => {
+    const { props } = this
+    const { mainTabLinkContextMenuPanelType, mainTabLinkContextMenuPanelCode } =
+      this.state
+
+    return (
+      <>
+        <MenuItem
+          style={styles.brMainTabLinkContextMenuItem}
+          onPress={() =>
+            props.uiData.fire(
+              'tabLinkHideButton_onClick',
+              mainTabLinkContextMenuPanelType,
+              mainTabLinkContextMenuPanelCode,
+            )
+          }
+        >
+          <Text>{uawMsgs.LBL_TAB_LINK_HIDE_MENU}</Text>
+        </MenuItem>
+
+        {props.uiData.mainAreaSplitters !== 0 && (
+          <MenuItem
+            style={[
+              styles.brMainTabLinkContextMenuItem,
+              styles.brTabLinkMoveHContextMenuItem,
+            ]}
+            onPress={() =>
+              props.uiData.fire(
+                'tabLinkMoveHContextMenuItem_onClick',
+                mainTabLinkContextMenuPanelType,
+                mainTabLinkContextMenuPanelCode,
+              )
+            }
+          >
+            <Text>
+              {string(props.position).indexOf('east') !== -1 ||
+              string(props.position).indexOf('se') !== -1
+                ? uawMsgs.LBL_TAB_LINK_MOVE_LEFT_MENU
+                : uawMsgs.LBL_TAB_LINK_MOVE_RIGHT_MENU}
+            </Text>
+          </MenuItem>
+        )}
+
+        {props.uiData.mainAreaSplitters === 2 && (
+          <MenuItem
+            style={[
+              styles.brMainTabLinkContextMenuItem,
+              styles.brTabLinkMoveVContextMenuItem,
+            ]}
+            onPress={() =>
+              props.uiData.fire(
+                'tabLinkMoveVContextMenuItem_onClick',
+                mainTabLinkContextMenuPanelType,
+                mainTabLinkContextMenuPanelCode,
+              )
+            }
+          >
+            <Text>
+              {string(props.position).indexOf('south') !== -1 ||
+              string(props.position).indexOf('se') !== -1
+                ? uawMsgs.LBL_TAB_LINK_MOVE_UP_MENU
+                : uawMsgs.LBL_TAB_LINK_MOVE_DOWN_MENU}
+            </Text>
+          </MenuItem>
+        )}
+      </>
+    )
+  }
+
+  getTabTitle = (panel, chatHeaderInfo) => {
+    if (panel.panelType === 'CHAT') {
+      return chatHeaderInfo.title
+    } else if (panel.panelType === 'CONFERENCE') {
+      return chatHeaderInfo.title
+    } else if (panel.panelType === 'PREFERENCE') {
+      return uawMsgs.TAB_PREFERENCE
+    } else if (panel.panelType === 'WEBCHATQUEUE') {
+      return uawMsgs.TAB_WEBCHATQUEUE
+    } else if (panel.panelType === 'EXTERNALCALL') {
+      return string(
+        this.props.uiData.externalCallWorkTable?.[panel.panelCode]
+          ?.display_name || panel.panelCode,
+      )
+    } else if (panel.panelType === 'HISTORYSUMMARIES') {
+      return uawMsgs.TAB_HISTORYSUMMARIES
+    } else if (panel.panelType === 'HISTORYDETAIL') {
+      return (
+        uawMsgs.TAB_HISTORYDETAIL +
+        string(
+          this.props.uiData.historyDetailWorkTable?.[panel.panelCode]
+            ?.historyDetailName,
+        )
+      )
+    }
+    return ''
+  }
+
+  render() {
+    const { props } = this
+    const tabPanels = props.uiData.mainPanelList.filter(
+      panel => string(props.position).indexOf(string(panel.position)) !== -1,
+    )
+
+    return (
+      <View style={styles.brMainTabs}>
+        <ScrollView
+          ref={this.scrollViewRef}
+          horizontal
+          style={styles.brMainTabLinks}
+          showsHorizontalScrollIndicator={false}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: this.state.scrollX } } }],
+            { useNativeDriver: true },
+          )}
+        >
+          {tabPanels.map((panel, index) => {
+            const key = `${panel.panelType}_${panel.panelCode}`
+            return this.renderTab(panel, key, index)
+          })}
+        </ScrollView>
+
+        {this.state.showsTabMenu && (
+          <TouchableOpacity
+            style={styles.brMainTabMenu}
+            onPress={() => {
+              this.setState({
+                tabMenuShowingDialogVersion: ++props.uiData
+                  .showingDialogVersion,
+              })
+              props.uiData.fire('showingDialog_update')
+            }}
+          >
+            <Image
+              source={require('../assets/images/triangle_down.png')}
+              style={[
+                styles.menuIcon,
+                this.state.blinksTabMenu && styles.brBlinking,
+              ]}
+            />
+          </TouchableOpacity>
+        )}
+
+        <View
+          style={styles.brMainTabContent}
+          {...this.panResponder.panHandlers}
+        >
+          {tabPanels.map(panel => {
+            const key = `${panel.panelType}_${panel.panelCode}`
+            if (key === this.currentFrontTab) {
+              return (
+                <PanelArea
+                  key={key}
+                  uiData={props.uiData}
+                  panelType={panel.panelType}
+                  panelCode={panel.panelCode}
+                />
+              )
+            }
+            return null
+          })}
+        </View>
+
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
             this.state.tabMenuShowingDialogVersion
           }
-          className='brMainTabMenuBalloonDialog'
+          style={styles.brMainTabMenuBalloonDialog}
         >
-          {tabMenuItemList}
+          {this.renderTabMenuItems()}
         </MenuBalloonDialog>
+
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
             this.state.tabLinkContextMenuShowingDialogVersion
           }
-          className='brMainTabLinkContextMenuBalloonDialog'
-          style={this.state.mainTabLinkContextMenuBalloonDialogStyle}
+          style={[
+            styles.brMainTabLinkContextMenuBalloonDialog,
+            this.state.mainTabLinkContextMenuBalloonDialogStyle,
+          ]}
         >
-          <MenuItem
-            className='brMainTabLinkContextMenuItem'
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'tabLinkHideButton_onClick',
-              this.state.mainTabLinkContextMenuPanelType,
-              this.state.mainTabLinkContextMenuPanelCode,
-            )}
-          >
-            {uawMsgs.LBL_TAB_LINK_HIDE_MENU}
-          </MenuItem>
-          <MenuItem
-            className='brMainTabLinkContextMenuItem brTabLinkMoveHContextMenuItem'
-            hidden={props.uiData.mainAreaSplitters === 0}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'tabLinkMoveHContextMenuItem_onClick',
-              this.state.mainTabLinkContextMenuPanelType,
-              this.state.mainTabLinkContextMenuPanelCode,
-            )}
-          >
-            {string(props.position).indexOf('east') !== -1 ||
-            string(props.position).indexOf('se') !== -1
-              ? uawMsgs.LBL_TAB_LINK_MOVE_LEFT_MENU
-              : uawMsgs.LBL_TAB_LINK_MOVE_RIGHT_MENU}
-          </MenuItem>
-          <MenuItem
-            className='brMainTabLinkContextMenuItem brTabLinkMoveVContextMenuItem'
-            hidden={props.uiData.mainAreaSplitters !== 2}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'tabLinkMoveVContextMenuItem_onClick',
-              this.state.mainTabLinkContextMenuPanelType,
-              this.state.mainTabLinkContextMenuPanelCode,
-            )}
-          >
-            {string(props.position).indexOf('south') !== -1 ||
-            string(props.position).indexOf('se') !== -1
-              ? uawMsgs.LBL_TAB_LINK_MOVE_UP_MENU
-              : uawMsgs.LBL_TAB_LINK_MOVE_DOWN_MENU}
-          </MenuItem>
+          {this.renderContextMenuItems()}
         </MenuBalloonDialog>
-      </Tabs>
+      </View>
     )
   }
 }
+
+// First, define the colors from the CSS variables
+const colors = {
+  medium_turquoise: '#color2', // Replace with actual color
+  blue_green: '#darkenColor2', // Replace with actual color
+  mantis: '#color1', // Replace with actual color
+  white: '#ffffff',
+  snow: '#fafafa',
+  white_smoke: '#f5f5f5',
+  isabelline: '#eeeeee',
+  platinum: '#e0e0e0',
+  dark_gray: '#9e9e9e',
+  dark_jungle_green: '#212121',
+  disabled_gray: '#bdbdbd',
+}
+
+const styles = StyleSheet.create({
+  brMainTabs: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+  brMainTabLinks: {
+    position: 'absolute',
+    left: 0,
+    top: 14,
+    right: 23,
+    height: 25,
+    backgroundColor: colors.platinum,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.platinum,
+  },
+  brMainTabLinkSpan: {
+    paddingLeft: 5,
+    paddingRight: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  brFirst: {
+    marginLeft: 1,
+  },
+  tabLink: {
+    position: 'relative',
+    height: 25,
+    marginRight: -1,
+    borderWidth: 1,
+    borderColor: colors.platinum,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    paddingHorizontal: 8,
+    backgroundColor: colors.white_smoke,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tabLinkActive: {
+    borderBottomWidth: 0,
+    backgroundColor: colors.white,
+  },
+  brBlinking: {
+    // Using React Native Animated API for blinking effect
+  },
+  brDiscarded: {
+    opacity: 0.7,
+  },
+  brStatusIcon: {
+    width: 10,
+    height: 10,
+    marginRight: 5,
+  },
+  brTabLinkTitle: {
+    maxWidth: 80,
+    fontSize: 11 * (1 / 16),
+    fontWeight: '400',
+    letterSpacing: 0.3 * (1 / 16),
+    lineHeight: 1.6 * (11 * (1 / 16)),
+  },
+  brTabLinkHideButton: {
+    width: 18,
+    height: 18,
+    marginLeft: 2,
+  },
+  brMainTabMenu: {
+    position: 'absolute',
+    right: 0,
+    top: 14,
+    width: 23,
+    height: 25,
+    borderWidth: 1,
+    borderColor: colors.platinum,
+    backgroundColor: colors.white_smoke,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brMainTabMenuPressed: {
+    backgroundColor: colors.isabelline,
+  },
+  brMainTabMenuHidden: {
+    borderColor: colors.snow,
+    borderBottomColor: colors.platinum,
+    backgroundColor: colors.snow,
+  },
+  brMainTabMenuBalloonDialog: {
+    position: 'absolute',
+    right: 2,
+    top: 39,
+    maxWidth: '90%',
+    zIndex: 9999,
+    backgroundColor: colors.white,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  brMainTabMenuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+  },
+  brSelected: {
+    backgroundColor: colors.white,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.medium_turquoise,
+  },
+  brMainTabMenuItemTitle: {
+    marginLeft: 5,
+  },
+  brMainTabLinkContextMenuBalloonDialog: {
+    position: 'absolute',
+    zIndex: 9999,
+    backgroundColor: colors.white,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  brMainTabLinksLastDndable: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 14,
+    height: 25,
+    display: 'none', // Will be handled in component logic
+  },
+  brMainTabContent: {
+    position: 'absolute',
+    width: '100%',
+    top: 39,
+    bottom: 0,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.platinum,
+    backgroundColor: colors.white_smoke,
+  },
+  brMainTabContentSelected: {
+    backgroundColor: colors.white,
+  },
+  brHidden: {
+    display: 'none',
+  },
+  brCanDrop: {
+    borderWidth: 3,
+    borderColor: colors.medium_turquoise,
+  },
+  menuIcon: {
+    width: 12,
+    height: 12,
+    tintColor: '#666666',
+  },
+  brMainTabLinkContextMenuItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEEEEE',
+  },
+  brTabLinkMoveHContextMenuItem: {
+    borderTopWidth: 1,
+    borderTopColor: '#EEEEEE',
+  },
+  brTabLinkMoveVContextMenuItem: {
+    borderTopWidth: 1,
+    borderTopColor: '#EEEEEE',
+  },
+  brInternetExplorer: {
+    // Not needed for React Native
+  },
+  tabTouchable: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+})

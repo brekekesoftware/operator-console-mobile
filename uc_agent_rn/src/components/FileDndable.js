@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native'
-import * as DocumentPicker from 'expo-document-picker'
-import * as FileSystem from 'expo-file-system'
+import DocumentPicker, { types } from 'react-native-document-picker'
+import RNFS from 'react-native-fs'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -25,54 +25,53 @@ export default class FileDndable extends React.Component {
   handlePress = async () => {
     const { onDrop, onClick } = this.props
 
-    // Handle regular click if provided
     if (onClick) {
       onClick()
     }
 
-    // If onDrop is provided, handle file selection
     if (onDrop) {
       try {
-        // Show document picker
-        const result = await DocumentPicker.getDocumentAsync({
-          type: '*/*',
-          copyToCacheDirectory: true,
-          multiple: true,
+        const results = await DocumentPicker.pickMultiple({
+          type: [DocumentPicker.types.allFiles],
+          allowMultiSelection: true,
         })
 
-        if (
-          result.type === 'success' ||
-          (result.assets && result.assets.length > 0)
-        ) {
-          // Process selected files
-          const files = result.assets || [result]
-
-          // Create file objects similar to web File API
+        if (results && results.length > 0) {
           const fileObjects = await Promise.all(
-            files.map(async file => {
-              // Get file info
-              const fileInfo = await FileSystem.getInfoAsync(file.uri)
+            results.map(async file => {
+              let fileContent = null
+              try {
+                fileContent = await RNFS.readFile(file.uri)
+              } catch (err) {
+                console.error('Error reading file:', err)
+              }
 
               return {
                 name: file.name,
-                size: fileInfo.size,
-                type: file.mimeType,
+                size: file.size,
+                type: file.type,
                 uri: file.uri,
-                // Add methods to read file if needed
                 async text() {
-                  return await FileSystem.readAsStringAsync(file.uri)
+                  try {
+                    return await RNFS.readFile(file.uri, 'utf8')
+                  } catch (err) {
+                    console.error('Error reading file as text:', err)
+                    return ''
+                  }
                 },
                 async arrayBuffer() {
-                  const base64 = await FileSystem.readAsStringAsync(file.uri, {
-                    encoding: FileSystem.EncodingType.Base64,
-                  })
-                  return Buffer.from(base64, 'base64')
+                  try {
+                    const base64 = await RNFS.readFile(file.uri, 'base64')
+                    return Buffer.from(base64, 'base64')
+                  } catch (err) {
+                    console.error('Error reading file as array buffer:', err)
+                    return new ArrayBuffer(0)
+                  }
                 },
               }
             }),
           )
 
-          // Create event object similar to drop event
           const dropEvent = {
             preventDefault: () => {},
             stopPropagation: () => {},
@@ -81,11 +80,12 @@ export default class FileDndable extends React.Component {
             },
           }
 
-          // Call onDrop with the event
           onDrop(dropEvent)
         }
       } catch (error) {
-        console.error('Error picking document', error)
+        if (!DocumentPicker.isCancel(error)) {
+          console.error('Error picking document:', error)
+        }
       }
     }
   }

@@ -1,8 +1,9 @@
 import React from 'react'
+import { View, StyleSheet } from 'react-native'
+import Sound from 'react-native-sound'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import { formatStr } from '../utilities/strings.js'
 
 /**
@@ -10,118 +11,108 @@ import { formatStr } from '../utilities/strings.js'
  * props.uiData
  * props.uiData.ucUiStore
  * props.uiData.phone
- * props.uiData.ownerDocument
  * props.src
  * props.loop
  * props.playing
  * props.deviceId
  * props.localStoragePreferenceKey
  * props.className
- * props.selectors
  */
-export default class extends React.Component {
+export default class FlyweightAudio extends React.Component {
   constructor(props) {
     super(props)
-    this.audioDeviceId = ''
+    this.audioPlaying = false
+    this.sound = null
+  }
+
+  componentDidMount() {
+    this.initSound()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.src !== this.props.src) {
+      this.releaseSound()
+      this.initSound()
+    } else {
+      this.play()
+    }
+  }
+
+  componentWillUnmount() {
+    this.releaseSound()
+  }
+
+  initSound() {
+    const { props } = this
+    Sound.setCategory('Playback')
+    this.sound = new Sound(props.src, Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        props.uiData.ucUiStore.getLogger().log('warn', error)
+        return
+      }
+      if (props.loop) {
+        this.sound.setNumberOfLoops(-1)
+      }
+      if (props.playing) {
+        this.play()
+      }
+    })
+  }
+
+  releaseSound() {
+    if (this.sound) {
+      this.sound.release()
+      this.sound = null
+    }
     this.audioPlaying = false
   }
-  componentDidMount() {
-    const props = this.props
-    this.play()
-  }
-  componentDidUpdate() {
-    const props = this.props
-    this.play()
-  }
+
   play() {
-    const props = this.props
-    const node = (props.uiData.ownerDocument &&
-      props.uiData.ownerDocument.querySelector &&
-      props.uiData.ownerDocument.querySelector(
-        formatStr(
-          props.selectors || ".brFlyweightAudioAudio[src='{0}']",
-          props.src,
-        ),
-      )) || {
-      play: () => {
-        throw 'not found flyweight audio audio src=' + props.src
-      },
-      pause: () => {},
+    const { props } = this
+
+    if (!this.sound) {
+      return
     }
-    let playOrPauseFunc = () => {}
+
     if (props.playing && !this.audioPlaying) {
-      // play
-      playOrPauseFunc = () => {
-        try {
-          node
-            .play()
-            .then(() => {})
-            .catch(error => {
-              props.uiData.ucUiStore.getLogger().log('warn', error)
-            })
-        } catch (ex) {
-          props.uiData.ucUiStore.getLogger().log('warn', ex)
-        }
-      }
-    } else if (!props.playing && this.audioPlaying) {
-      // pause
-      playOrPauseFunc = () => {
-        try {
-          node.pause()
-          node.currentTime = 0
-        } catch (ex) {
-          props.uiData.ucUiStore.getLogger().log('warn', ex)
-        }
-      }
-    }
-    if (props.loop && !node.loop) {
-      node.loop = true
-    } else if (!props.loop && node.loop) {
-      node.loop = false
-    }
-    const deviceId = string(
-      props.deviceId ||
-        props.uiData.ucUiStore.getLocalStoragePreference({
-          keyList: [props.localStoragePreferenceKey || 'bellAudioTarget'],
-        })[0],
-    )
-    if (deviceId !== this.audioDeviceId) {
-      // setSinkId
       try {
-        node
-          .setSinkId(deviceId)
-          .then(playOrPauseFunc)
-          .catch(error => {
-            props.uiData.ucUiStore.getLogger().log('warn', error)
-            if (
-              error &&
-              string(error.message).indexOf('permission') !== -1 &&
-              this.audioDeviceId &&
-              props.uiData.phone
-            ) {
-              this.audioDeviceId = ''
-              props.uiData.phone.checkUserMedia()
-            }
-            playOrPauseFunc()
-          })
+        this.sound.play(success => {
+          if (!success) {
+            props.uiData.ucUiStore
+              .getLogger()
+              .log('warn', 'Sound playback failed')
+          }
+        })
       } catch (ex) {
         props.uiData.ucUiStore.getLogger().log('warn', ex)
-        playOrPauseFunc()
       }
-    } else {
-      playOrPauseFunc()
+    } else if (!props.playing && this.audioPlaying) {
+      try {
+        this.sound.stop()
+        this.sound.setCurrentTime(0)
+      } catch (ex) {
+        props.uiData.ucUiStore.getLogger().log('warn', ex)
+      }
     }
-    this.audioDeviceId = deviceId
+
+    if (props.loop && this.sound.getNumberOfLoops() !== -1) {
+      this.sound.setNumberOfLoops(-1)
+    } else if (!props.loop && this.sound.getNumberOfLoops() === -1) {
+      this.sound.setNumberOfLoops(0)
+    }
+
     this.audioPlaying = props.playing
   }
+
   render() {
-    const props = this.props
-    return (
-      <div
-        className={
-          'brFlyweightAudio' + (props.className ? ' ' + props.className : '')
-        }
-      ></div>
-    )
+    return <View style={styles.brFlyweightAudio} />
   }
 }
+
+const styles = StyleSheet.create({
+  brFlyweightAudio: {
+    width: 0,
+    height: 0,
+    opacity: 0,
+  },
+})

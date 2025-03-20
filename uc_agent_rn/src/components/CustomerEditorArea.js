@@ -1,8 +1,14 @@
 import React from 'react'
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import ButtonIconic from './ButtonIconic.js'
 import MenuBalloonDialog from './MenuBalloonDialog.js'
 import MenuItem from './MenuItem.js'
@@ -29,68 +35,68 @@ import MenuItem from './MenuItem.js'
  * props.withMenuOptions
  * props.disabled
  */
-export default class extends React.Component {
+export default class CustomerEditorArea extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       showingDialogVersion: null,
     }
+    this.editorTextarea = React.createRef()
   }
+
   componentDidMount() {
-    const props = this.props
-    const editorTextarea = ReactDOM.findDOMNode(this.refs['editorTextarea'])
-    editorTextarea.focus()
+    if (this.editorTextarea.current) {
+      this.editorTextarea.current.focus()
+    }
   }
+
   componentWillUnmount() {
-    const props = this.props
-    props.uiData.removeHandler(this)
+    this.props.uiData.removeHandler(this)
   }
-  handleSendButtonClick(ev) {
-    const props = this.props
-    const editorTextarea = ReactDOM.findDOMNode(this.refs['editorTextarea'])
+
+  handleSendButtonPress = () => {
+    const { props } = this
     props.uiData.fire(
       'editorSendButton_onClick',
       props.panelType,
       props.panelCode,
-      editorTextarea,
-      ev,
+      this.editorTextarea.current,
     )
   }
-  handleOptionsLinkClick(ev) {
-    const props = this.props
+
+  handleOptionsPress = () => {
+    const { props } = this
     if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
       this.setState({
         showingDialogVersion: ++props.uiData.showingDialogVersion,
       })
-      ev.stopPropagation()
       props.uiData.fire('showingDialog_update')
     }
   }
-  handleMenuOptionsItemClick(eventName, enabled, ev) {
-    const props = this.props
+
+  handleMenuOptionsItemPress = (eventName, enabled) => {
+    const { props } = this
     if (enabled) {
-      props.uiData.fire(eventName, props.panelType, props.panelCode, ev)
+      props.uiData.fire(eventName, props.panelType, props.panelCode)
     }
   }
+
   render() {
-    const props = this.props
+    const { props } = this
     const settings = props.uiData.ucUiStore.getChatClient().getSettings()
     const myUcCimUserType = int(props.uiData.ucUiStore.getUcCimUserType())
     const signedIn = props.uiData.ucUiStore.getSignInStatus() === 3
     const disabled = props.disabled || !signedIn
-    let className = 'brEditorArea'
+
+    let containerStyle = [
+      styles.brEditorArea,
+      props.withMenuOptions && styles.brWithMenuOptions,
+      props.uiData.configurations?.sendButton && styles.brWithSendButton,
+      disabled && styles.brDisabled,
+    ]
+
     let menuOptions = []
-    if (props.withMenuOptions) {
-      className += ' brWithMenuOptions'
-    }
-    if (props.uiData.configurations && props.uiData.configurations.sendButton) {
-      className += ' brWithSendButton'
-    }
-    if (
-      props.uiData.configurations &&
-      props.uiData.configurations.menuOptions &&
-      props.uiData.configurations.menuOptions.length
-    ) {
+    if (props.uiData.configurations?.menuOptions?.length) {
       const optionInfoTable = {
         end: {
           eventName: 'editorEndChatLink_onClick',
@@ -108,11 +114,10 @@ export default class extends React.Component {
           enabled:
             signedIn &&
             (!(
-              props.uiData.phoneSettings &&
-              props.uiData.phoneSettings.call_target ===
-                props.uiData.phoneSettings.customer_sip_user &&
-              props.uiData.phoneSettings.customer_call_target ===
-                props.uiData.phoneSettings.conf_ext
+              props.uiData.phoneSettings?.call_target ===
+                props.uiData.phoneSettings?.customer_sip_user &&
+              props.uiData.phoneSettings?.customer_call_target ===
+                props.uiData.phoneSettings?.conf_ext
             ) ||
               props.uiData.ucUiStore
                 .getChatClient()
@@ -122,25 +127,23 @@ export default class extends React.Component {
         transcript: {
           eventName: 'editorReportMailLink_onClick',
           label: (
-            <span>
-              <span
-                className={
-                  'brEditorReportMailLinkIcon' +
-                  ((settings &&
-                    settings.optional_settings &&
-                    settings.optional_settings.send_report_mail) ||
-                  props.uiData.reportMailStatus[props.panelCode] === 2
-                    ? ' br_bi_icon_check_svg'
-                    : ' br_bi_icon_square_svg')
-                }
-              ></span>
-              <span>{uawMsgs.LBL_EDITOR_REPORT_MAIL_LINK}</span>
-            </span>
+            <View style={styles.transcriptLabel}>
+              <View
+                style={[
+                  styles.reportMailIcon,
+                  (settings?.optional_settings?.send_report_mail ||
+                    props.uiData.reportMailStatus[props.panelCode] === 2) &&
+                    styles.reportMailIconChecked,
+                ]}
+              />
+              <Text>{uawMsgs.LBL_EDITOR_REPORT_MAIL_LINK}</Text>
+            </View>
           ),
           enabled:
             signedIn || props.uiData.reportMailStatus[props.panelCode] !== 2,
         },
       }
+
       if (props.uiData.reportEmailAddress) {
         optionInfoTable['email'] = {
           eventName: 'editorEditEmailLink_onClick',
@@ -149,6 +152,7 @@ export default class extends React.Component {
             signedIn || props.uiData.reportMailStatus[props.panelCode] !== 2,
         }
       }
+
       if (
         (int(props.uiData.ucUiStore.getOptionalSetting({ key: 'fsp' })) &
           myUcCimUserType) ===
@@ -156,78 +160,294 @@ export default class extends React.Component {
       ) {
         delete optionInfoTable.file
       }
+
       menuOptions = props.uiData.configurations.menuOptions.map((s, i) => {
         if (optionInfoTable[s]) {
           return (
             <MenuItem
               key={i}
-              className='brEditorOptionsItem'
+              style={styles.brEditorOptionsItem}
               disabled={!optionInfoTable[s].enabled}
-              onClick={this.handleMenuOptionsItemClick.bind(
-                this,
-                optionInfoTable[s].eventName,
-                optionInfoTable[s].enabled,
-              )}
+              onPress={() =>
+                this.handleMenuOptionsItemPress(
+                  optionInfoTable[s].eventName,
+                  optionInfoTable[s].enabled,
+                )
+              }
             >
               {optionInfoTable[s].label}
             </MenuItem>
           )
         } else if (s === 'separator') {
-          return <div key={i} className='brEditorOptionsSeparator'></div>
-        } else {
-          return <span key={i}></span>
+          return <View key={i} style={styles.brEditorOptionsSeparator} />
         }
+        return null
       })
     }
-    if (disabled) {
-      className += ' brDisabled'
-    }
+
     return (
-      <div className={className}>
-        <textarea
-          ref='editorTextarea'
-          className='brEditorTextarea'
+      <View style={containerStyle}>
+        <TextInput
+          ref={this.editorTextarea}
+          style={styles.brEditorTextarea}
+          multiline
           placeholder={disabled ? '' : uawMsgs.LBL_EDITOR_TEXTAREA_PLACEHOLDER}
-          onKeyDown={props.uiData.fire.bind(
-            props.uiData,
-            'editorTextarea_onKeyDown',
-            props.panelType,
-            props.panelCode,
-            disabled,
-          )}
+          onKeyPress={e =>
+            props.uiData.fire(
+              'editorTextarea_onKeyDown',
+              props.panelType,
+              props.panelCode,
+              disabled,
+              e,
+            )
+          }
+          editable={!disabled}
         />
+
         <ButtonIconic
-          className='brEditorSendButton br_bi_icon_chat_svg'
+          style={styles.brEditorSendButton}
+          iconName='chat'
           title={uawMsgs.LBL_EDITOR_SEND_BUTTON_TOOLTIP}
-          onClick={this.handleSendButtonClick.bind(this)}
+          onPress={this.handleSendButtonPress}
           disabled={disabled}
-        ></ButtonIconic>
-        <button
-          className='brEditorOptionsButton'
-          title={uawMsgs.LBL_EDITOR_OPTIONS_LINK}
-          onClick={this.handleOptionsLinkClick.bind(this)}
+        />
+
+        <TouchableOpacity
+          style={styles.brEditorOptionsButton}
+          onPress={this.handleOptionsPress}
           disabled={!props.withMenuOptions}
         >
-          <span
-            className={
-              'brEditorOptionsIcon' +
-              (props.uiData.showingDialogVersion ===
+          <View
+            style={[
+              styles.brEditorOptionsIcon,
+              props.uiData.showingDialogVersion ===
               this.state.showingDialogVersion
-                ? ' br_bi_icon_triangle_up_svg'
-                : ' br_bi_icon_triangle_down_svg')
-            }
-          ></span>
-        </button>
+                ? styles.iconUp
+                : styles.iconDown,
+            ]}
+          />
+        </TouchableOpacity>
+
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
             this.state.showingDialogVersion
           }
-          className='brEditorOptionsBalloon'
+          style={styles.brEditorOptionsBalloon}
         >
           {menuOptions}
         </MenuBalloonDialog>
-      </div>
+      </View>
     )
   }
 }
+
+const colors = {
+  white: '#ffffff',
+  snow: '#fafafa',
+  white_smoke: '#f5f5f5',
+  isabelline: '#eeeeee',
+  isabelline_tp: 'rgba(0, 0, 0, 0.065)',
+  platinum: '#e0e0e0',
+  dark_gray: '#9e9e9e',
+  dark_jungle_green: '#212121',
+  portland_orange: '#ff4526',
+  disabled_gray: '#bdbdbd',
+  pressed_gray: '#9e9e9e',
+  hover_gray: '#616161',
+  hint_gray: '#424242',
+  status_available: '#5fac3f',
+  status_idle: '#f3c915',
+  status_busy: '#ff4526',
+  status_invisible: '#bdbdbd',
+  medium_turquoise: '#4BC5DE',
+  mantis: '#5fac3f',
+  green: '#4c8a32',
+  sap_green: '#2d521e',
+}
+
+const styles = StyleSheet.create({
+  brEditorArea: {
+    position: 'absolute',
+    padding: 0,
+    paddingBottom: 1,
+    width: '100%',
+    height: 64,
+    left: 0,
+    bottom: 0,
+    borderTopWidth: 1,
+    borderTopColor: colors.platinum,
+  },
+  brEditorTextarea: {
+    width: '100%',
+    height: '100%',
+    fontFamily: 'System',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20,
+    letterSpacing: 0.3,
+    borderWidth: 0,
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingLeft: 80,
+    paddingRight: 8,
+    backgroundColor: 'transparent',
+  },
+  brEditorTextareaDisabled: {
+    color: colors.dark_gray,
+  },
+  brEditorTextareaFocused: {
+    borderWidth: 2,
+    borderColor: colors.medium_turquoise,
+  },
+  brEditorTextareaDisabledFocused: {
+    borderWidth: 0,
+  },
+  brEditorTextareaPlaceholder: {
+    color: colors.dark_gray,
+  },
+  brEditorSendButton: {
+    display: 'none',
+    position: 'absolute',
+    right: 16,
+    top: 16,
+    borderWidth: 0,
+    opacity: 0.2,
+  },
+  brEditorSendButtonActive: {
+    opacity: 1,
+  },
+  brEditorSendButtonDisabled: {
+    backgroundColor: 'transparent',
+  },
+  brEditorSendButtonDisabledCircle: {
+    position: 'absolute',
+    left: 4,
+    top: 4,
+    width: 20,
+    height: 20,
+    borderWidth: 2,
+    borderColor: colors.dark_jungle_green,
+    borderRadius: 10,
+  },
+  brEditorSendButtonDisabledLine: {
+    position: 'absolute',
+    left: 6,
+    top: 14,
+    width: 20,
+    height: 2,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.white,
+    backgroundColor: colors.dark_jungle_green,
+    transform: [{ rotate: '45deg' }],
+  },
+  brWithSendButton: {
+    display: 'flex',
+  },
+  brEditorOptionsButton: {
+    position: 'absolute',
+    width: 40,
+    height: 40,
+    left: 20,
+    top: 8,
+    borderWidth: 0,
+    borderRadius: 4,
+    backgroundColor: colors.mantis,
+    shadowColor: colors.mantis,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  brEditorOptionsButtonHover: {
+    backgroundColor: colors.green,
+    shadowColor: colors.green,
+  },
+  brEditorOptionsButtonActive: {
+    backgroundColor: colors.sap_green,
+    shadowColor: colors.sap_green,
+  },
+  brEditorOptionsButtonDisabled: {
+    backgroundColor: colors.disabled_gray,
+    shadowColor: colors.disabled_gray,
+  },
+  brEditorOptionsIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    tintColor: colors.white,
+  },
+  brEditorOptionsBalloon: {
+    position: 'absolute',
+    left: 20,
+    bottom: 56,
+    backgroundColor: colors.white,
+    borderRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  brEditorOptionsItem: {
+    padding: 14,
+    paddingHorizontal: 16,
+  },
+  brEditorReportMailLinkIcon: {
+    width: 20,
+    height: 16,
+    marginRight: 4,
+  },
+  brEditorReportMailLinkIconDisabled: {
+    opacity: 0.2,
+  },
+  brEditorOptionsSeparator: {
+    marginVertical: 2,
+    marginHorizontal: 10,
+    height: 1,
+    backgroundColor: colors.platinum,
+  },
+  brEditorOptionsButtonDisabled: {
+    backgroundColor: colors.disabled_gray,
+    shadowColor: colors.disabled_gray,
+  },
+  brEditorOptionsSeparator: {
+    marginVertical: 2,
+    marginHorizontal: 10,
+    height: 1,
+    backgroundColor: colors.platinum,
+  },
+  transcriptLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  reportMailIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  reportMailIconChecked: {
+    backgroundColor: '#4CAF50',
+  },
+  iconUp: {
+    transform: [{ rotate: '180deg' }],
+  },
+  iconDown: {
+    transform: [{ rotate: '0deg' }],
+  },
+  brEditorOptionsButtonDisabled: {
+    backgroundColor: colors.disabled_gray,
+    shadowColor: colors.disabled_gray,
+  },
+  brEditorOptionsSeparator: {
+    marginVertical: 2,
+    marginHorizontal: 10,
+    height: 1,
+    backgroundColor: colors.platinum,
+  },
+})

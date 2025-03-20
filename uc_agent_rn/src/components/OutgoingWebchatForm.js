@@ -1,8 +1,8 @@
 import React from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import DropDownMenu from './DropDownMenu.js'
 import MenuItem from './MenuItem.js'
 import TextBox from './TextBox.js'
@@ -12,142 +12,186 @@ import TextBox from './TextBox.js'
  * props.uiData
  * props.params
  */
-export default class extends React.Component {
+export default class OutgoingWebchatForm extends React.Component {
   constructor(props) {
     super(props)
-    const defaultReplyType = string(
-      props &&
-        props.params &&
-        props.params.replyTypes &&
-        props.params.replyTypes[0],
-    )
+    const defaultReplyType = string(props?.params?.replyTypes?.[0])
     this.state = {
       replyType: defaultReplyType,
       serviceId: string(
-        props &&
-          props.params &&
-          props.params.webchatServiceIds &&
-          props.params.webchatServiceIds[defaultReplyType] &&
-          props.params.webchatServiceIds[defaultReplyType][0],
+        props?.params?.webchatServiceIds?.[defaultReplyType]?.[0],
       ),
       text: '',
     }
+    this.outgoingWebchatTextInputRef = React.createRef()
   }
+
   componentDidMount() {
-    const props = this.props
-    const outgoingWebchatTextInput = ReactDOM.findDOMNode(
-      this.refs['outgoingWebchatTextInput'],
-    )
     setTimeout(() => {
-      outgoingWebchatTextInput.focus()
+      if (this.outgoingWebchatTextInputRef.current) {
+        this.outgoingWebchatTextInputRef.current.focus()
+      }
     }, 0)
   }
-  handleOutgoingWebchatReplyTypeItemClick(replyType, ev) {
-    const props = this.props
+
+  handleOutgoingWebchatReplyTypeItemClick = replyType => {
+    const { props } = this
     if (this.state.replyType !== replyType) {
       this.setState({
         replyType: replyType,
-        serviceId: string(
-          props &&
-            props.params &&
-            props.params.webchatServiceIds &&
-            props.params.webchatServiceIds[replyType] &&
-            props.params.webchatServiceIds[replyType][0],
-        ),
+        serviceId: string(props?.params?.webchatServiceIds?.[replyType]?.[0]),
       })
     }
   }
-  handleOutgoingWebchatServiceIdItemClick(serviceId, ev) {
-    const props = this.props
+
+  handleOutgoingWebchatServiceIdItemClick = serviceId => {
     if (this.state.serviceId !== serviceId) {
-      this.setState({
-        serviceId: serviceId,
-      })
+      this.setState({ serviceId })
     }
   }
-  handleOutgoingWebchatTextInputChange(ev) {
-    const props = this.props
-    this.setState({ text: string(ev.target.value) })
+
+  handleOutgoingWebchatTextInputChange = text => {
+    this.setState({ text: string(text) })
   }
+
   render() {
-    const props = this.props
-    const replyTypes = (props && props.params && props.params.replyTypes) || []
+    const { props } = this
+    const replyTypes = props?.params?.replyTypes || []
     const webchatServiceIds =
-      (props &&
-        props.params &&
-        props.params.webchatServiceIds &&
-        props.params.webchatServiceIds[this.state.replyType]) ||
-      []
+      props?.params?.webchatServiceIds?.[this.state.replyType] || []
+
     return (
-      <div className='brOutgoingWebchatForm'>
-        <table className='brOutgoingWebchatTable'>
-          <tbody>
-            <tr>
-              <td>{uawMsgs.LBL_OUTGOING_WEBCHAT_REPLY_TYPE}</td>
-              <td>
+      <View style={styles.brOutgoingWebchatForm}>
+        <View style={styles.brOutgoingWebchatTable}>
+          <View style={styles.tableRow}>
+            <Text style={styles.brOutgoingWebchatLabelCell}>
+              {uawMsgs.LBL_OUTGOING_WEBCHAT_REPLY_TYPE}
+            </Text>
+            <View style={styles.brOutgoingWebchatInputCell}>
+              <DropDownMenu
+                uiData={props.uiData}
+                style={styles.brOutgoingWebchatReplyTypeMenu}
+                text={this.state.replyType}
+              >
+                {replyTypes.map(replyType => (
+                  <MenuItem
+                    key={replyType}
+                    style={[
+                      styles.brOutgoingWebchatFormMenuItem,
+                      styles.brOutgoingWebchatReplyTypeItem,
+                    ]}
+                    dropDown={true}
+                    onPress={() =>
+                      this.handleOutgoingWebchatReplyTypeItemClick(replyType)
+                    }
+                  >
+                    {replyType}
+                  </MenuItem>
+                ))}
+              </DropDownMenu>
+            </View>
+          </View>
+          {webchatServiceIds.length >= 2 && (
+            <View style={styles.tableRow}>
+              <Text style={styles.brOutgoingWebchatLabelCell}>
+                {uawMsgs.LBL_OUTGOING_WEBCHAT_SERVICE_ID}
+              </Text>
+              <View style={styles.brOutgoingWebchatInputCell}>
                 <DropDownMenu
                   uiData={props.uiData}
-                  className='brOutgoingWebchatReplyTypeMenu'
-                  text={this.state.replyType}
-                >
-                  {replyTypes.map(replyType => (
-                    <MenuItem
-                      key={replyType}
-                      className='brOutgoingWebchatFormMenuItem brOutgoingWebchatReplyTypeItem'
-                      dropDown={true}
-                      onClick={this.handleOutgoingWebchatReplyTypeItemClick.bind(
-                        this,
-                        replyType,
-                      )}
-                    >
-                      {replyType}
-                    </MenuItem>
-                  ))}
-                </DropDownMenu>
-              </td>
-            </tr>
-            <tr style={webchatServiceIds.length < 2 ? { display: 'none' } : {}}>
-              <td>{uawMsgs.LBL_OUTGOING_WEBCHAT_SERVICE_ID}</td>
-              <td>
-                <DropDownMenu
-                  uiData={props.uiData}
-                  className='brOutgoingWebchatServiceIdMenu'
+                  style={styles.brOutgoingWebchatServiceIdMenu}
                   text={this.state.serviceId}
                 >
                   {webchatServiceIds.map(serviceId => (
                     <MenuItem
                       key={serviceId}
-                      className='brOutgoingWebchatFormMenuItem brOutgoingWebchatServiceIdItem'
+                      style={[
+                        styles.brOutgoingWebchatFormMenuItem,
+                        styles.brOutgoingWebchatServiceIdItem,
+                      ]}
                       dropDown={true}
-                      onClick={this.handleOutgoingWebchatServiceIdItemClick.bind(
-                        this,
-                        serviceId,
-                      )}
+                      onPress={() =>
+                        this.handleOutgoingWebchatServiceIdItemClick(serviceId)
+                      }
                     >
                       {serviceId}
                     </MenuItem>
                   ))}
                 </DropDownMenu>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan='2'>
-                <TextBox
-                  ref='outgoingWebchatTextInput'
-                  className='brOutgoingWebchatTextInput'
-                  value={this.state.text}
-                  type='text'
-                  placeholder={uawMsgs.LBL_OUTGOING_WEBCHAT_TEXT_PLACEHOLDER}
-                  autoCapitalize='off'
-                  onChange={this.handleOutgoingWebchatTextInputChange.bind(
-                    this,
-                  )}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </View>
+            </View>
+          )}
+
+          <View style={styles.tableRow}>
+            <TextBox
+              ref={this.outgoingWebchatTextInputRef}
+              style={styles.brOutgoingWebchatTextInput}
+              value={this.state.text}
+              placeholder={uawMsgs.LBL_OUTGOING_WEBCHAT_TEXT_PLACEHOLDER}
+              autoCapitalize='none'
+              onChangeText={this.handleOutgoingWebchatTextInputChange}
+            />
+          </View>
+        </View>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  brOutgoingWebchatForm: {
+    flex: 1,
+    paddingTop: 8,
+    paddingHorizontal: 32,
+    backgroundColor: '#FFFFFF',
+  },
+  brOutgoingWebchatTable: {
+    width: '100%',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    alignItems: 'center',
+  },
+  brOutgoingWebchatLabelCell: {
+    padding: 4,
+    fontSize: 13 * (1 / 16),
+    fontWeight: '500',
+    letterSpacing: 0.3 * (1 / 16),
+    minWidth: 80,
+  },
+  brOutgoingWebchatInputCell: {
+    padding: 4,
+    fontSize: 13 * (1 / 16),
+    fontWeight: '500',
+    letterSpacing: 0.3 * (1 / 16),
+    flex: 1,
+    minWidth: 80,
+  },
+  brOutgoingWebchatReplyTypeMenu: {
+    minWidth: 150,
+  },
+  brOutgoingWebchatServiceIdMenu: {
+    minWidth: 150,
+  },
+  brOutgoingWebchatTextInput: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    backgroundColor: '#FFFFFF',
+  },
+  brOutgoingWebchatFormMenuItem: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  brOutgoingWebchatReplyTypeItem: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEEEEE',
+  },
+  brOutgoingWebchatServiceIdItem: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEEEEE',
+  },
+})

@@ -1,9 +1,18 @@
 import React from 'react'
+import {
+  View,
+  Modal,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Animated,
+  Platform,
+  Dimensions,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
-import Modal from 'react-modal'
 import BgColorEditForm from './BgColorEditForm.js'
 import BroadcastForm from './BroadcastForm.js'
 import ButtonLabeled from './ButtonLabeled.js'
@@ -16,269 +25,404 @@ import StatusDisplayForm from './StatusDisplayForm.js'
 import UserListForm from './UserListForm.js'
 
 /**
- * WidgetBody
- * props.uiData
- * props.uiData.modalInfo
- * props.uiData.widgetBody_onClick
- * props.uiData.modalOk_onClick
- * props.uiData.modalCancel_onClick
- * props.uiData.modalThirdButton_onClick
- * props.modalOverlayClassName
+ * WidgetBody - React Native version
+ * A component that displays modal dialogs and content
  */
-export default class extends React.Component {
-  handleModalAfterOpen() {
-    const modalTable = ReactDOM.findDOMNode(this.refs['modalTable'])
-    if (
-      modalTable &&
-      modalTable.parentNode &&
-      modalTable.parentNode.style &&
-      modalTable.offsetHeight
-    ) {
-      modalTable.parentNode.style.height = modalTable.offsetHeight + 'px'
-    }
-    const modalOk = ReactDOM.findDOMNode(this.refs['modalOk'])
-    if (modalOk && modalOk.focus) {
-      modalOk.focus()
+export default class WidgetBody extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      modalHeight: new Animated.Value(120),
+      modalContentHeight: 120,
     }
   }
-  handleModalTableKeyDown(ev) {
-    const props = this.props
+
+  handleModalShow = () => {
+    if (this.okButtonRef) {
+      this.okButtonRef.focus()
+    }
+  }
+
+  handleModalTableKeyDown = ev => {
+    const { props } = this
     const modalInfo = props.uiData.modalInfo
-    if (ev && ev.keyCode === 13 && !ev.shiftKey) {
-      props.uiData.fire('modalOk_onClick', this.refs['content'])
-      ev.preventDefault()
-    } else if (ev && ev.keyCode === 27 && !ev.shiftKey) {
-      props.uiData.fire(
-        modalInfo.cancelByThirdButton
-          ? 'modalThirdButton_onClick'
-          : 'modalCancel_onClick',
-        this.refs['content'],
-      )
-      ev.preventDefault()
-    }
+
+    // TODO: Handle enter/escape in native way if needed
   }
-  handleModalCheckBoxClick(ev) {
-    const props = this.props
+
+  handleModalCheckBoxClick = () => {
+    const { props } = this
     const modalInfo = props.uiData.modalInfo
     if (modalInfo) {
-      modalInfo.checkBoxChecked = Boolean(!modalInfo.checkBoxChecked)
+      modalInfo.checkBoxChecked = !modalInfo.checkBoxChecked
+      this.forceUpdate()
     }
-    this.setState({})
   }
-  handleModalMenuItemClick(index, ev) {
-    const props = this.props
+
+  handleModalMenuItemClick = index => {
+    const { props } = this
     const modalInfo = props.uiData.modalInfo
-    if (
-      modalInfo &&
-      modalInfo.selectItemList &&
-      modalInfo.selectItemList.length
-    ) {
-      for (let i = 0; i < modalInfo.selectItemList.length; i++) {
-        modalInfo.selectItemList[i].selected = i === index
-      }
+    if (modalInfo?.selectItemList?.length) {
+      modalInfo.selectItemList.forEach((item, i) => {
+        item.selected = i === index
+      })
+      this.forceUpdate()
     }
-    this.setState({})
   }
-  handleModalOKButtonClick(ev) {
-    const props = this.props
-    props.uiData.fire('modalOk_onClick', this.refs['content'])
+
+  handleModalOKButtonClick = () => {
+    const { props } = this
+    props.uiData.fire('modalOk_onClick', this.contentRef)
   }
-  handleModalCancelButtonClick(ev) {
-    const props = this.props
-    props.uiData.fire('modalCancel_onClick', this.refs['content'])
+
+  handleModalCancelButtonClick = () => {
+    const { props } = this
+    props.uiData.fire('modalCancel_onClick', this.contentRef)
   }
-  handleModalThirdButtonClick(ev) {
-    const props = this.props
-    props.uiData.fire('modalThirdButton_onClick', this.refs['content'])
+
+  handleModalThirdButtonClick = () => {
+    const { props } = this
+    props.uiData.fire('modalThirdButton_onClick', this.contentRef)
   }
+
+  onModalContentLayout = event => {
+    const { height } = event.nativeEvent.layout
+    if (height !== this.state.modalContentHeight) {
+      this.setState({ modalContentHeight: height })
+      Animated.timing(this.state.modalHeight, {
+        toValue: height,
+        duration: 200,
+        useNativeDriver: false,
+      }).start()
+    }
+  }
+
+  renderModalContent() {
+    const { props } = this
+    const modalInfo = props.uiData.modalInfo
+
+    if (!modalInfo) return null
+
+    switch (modalInfo.contentClass) {
+      case 'ConferenceInviteForm':
+        return (
+          <ConferenceInviteForm
+            ref={ref => (this.contentRef = ref)}
+            uiData={props.uiData}
+            params={modalInfo.contentParams}
+          />
+        )
+      case 'BroadcastForm':
+        return (
+          <BroadcastForm
+            ref={ref => (this.contentRef = ref)}
+            uiData={props.uiData}
+            params={modalInfo.contentParams}
+          />
+        )
+      case 'BgColorEditForm':
+        return (
+          <BgColorEditForm
+            ref={ref => (this.contentRef = ref)}
+            uiData={props.uiData}
+            params={modalInfo.contentParams}
+          />
+        )
+      case 'ConfirmForm':
+        return (
+          <ConfirmForm
+            ref={ref => (this.contentRef = ref)}
+            uiData={props.uiData}
+            params={modalInfo.contentParams}
+          />
+        )
+      case 'OutgoingWebchatForm':
+        return (
+          <OutgoingWebchatForm
+            ref={ref => (this.contentRef = ref)}
+            uiData={props.uiData}
+            params={modalInfo.contentParams}
+          />
+        )
+      case 'StatusDisplayForm':
+        return (
+          <StatusDisplayForm
+            ref={ref => (this.contentRef = ref)}
+            uiData={props.uiData}
+            params={modalInfo.contentParams}
+          />
+        )
+      case 'UserListForm':
+        return (
+          <UserListForm
+            ref={ref => (this.contentRef = ref)}
+            uiData={props.uiData}
+            params={modalInfo.contentParams}
+          />
+        )
+      default:
+        if (modalInfo.contentParams?.content) {
+          return (
+            <View ref={ref => (this.contentRef = ref)}>
+              {modalInfo.contentParams.content}
+            </View>
+          )
+        }
+        return <View ref={ref => (this.contentRef = ref)} />
+    }
+  }
+
   render() {
-    const props = this.props
+    const { props } = this
     const modalInfo = props.uiData.modalInfo
-    const content =
-      modalInfo && modalInfo.contentClass === 'ConferenceInviteForm' ? (
-        <ConferenceInviteForm
-          ref='content'
-          uiData={props.uiData}
-          params={modalInfo.contentParams}
-        />
-      ) : modalInfo && modalInfo.contentClass === 'BroadcastForm' ? (
-        <BroadcastForm
-          ref='content'
-          uiData={props.uiData}
-          params={modalInfo.contentParams}
-        />
-      ) : modalInfo && modalInfo.contentClass === 'UserListForm' ? (
-        <UserListForm
-          ref='content'
-          uiData={props.uiData}
-          params={modalInfo.contentParams}
-        />
-      ) : modalInfo && modalInfo.contentClass === 'StatusDisplayForm' ? (
-        <StatusDisplayForm
-          ref='content'
-          uiData={props.uiData}
-          params={modalInfo.contentParams}
-        />
-      ) : modalInfo && modalInfo.contentClass === 'BgColorEditForm' ? (
-        <BgColorEditForm
-          ref='content'
-          uiData={props.uiData}
-          params={modalInfo.contentParams}
-        />
-      ) : modalInfo && modalInfo.contentClass === 'OutgoingWebchatForm' ? (
-        <OutgoingWebchatForm
-          ref='content'
-          uiData={props.uiData}
-          params={modalInfo.contentParams}
-        />
-      ) : modalInfo && modalInfo.contentClass === 'ConfirmForm' ? (
-        <ConfirmForm
-          ref='content'
-          uiData={props.uiData}
-          params={modalInfo.contentParams}
-        />
-      ) : modalInfo &&
-        modalInfo.contentParams &&
-        modalInfo.contentParams.content ? (
-        <div ref='content'>{modalInfo.contentParams.content}</div>
-      ) : (
-        <div ref='content'></div>
-      )
+    const content = this.renderModalContent()
+
     return (
-      <div
-        className='brWidgetBody'
-        onClick={props.uiData.fire.bind(props.uiData, 'widgetBody_onClick')}
+      <View
+        style={[styles.widgetBody, props.style]}
+        onTouchEnd={() => props.uiData.fire('widgetBody_onClick')}
       >
         <Modal
-          className={
-            'brWidgetBodyModal' +
-            (modalInfo && modalInfo.modalClassName
-              ? ' ' + modalInfo.modalClassName
-              : '')
-          }
-          overlayClassName={
-            'brWidgetBodyModalOverlay' +
-            (props.modalOverlayClassName
-              ? ' ' + props.modalOverlayClassName
-              : '') +
-            (modalInfo && modalInfo.overlayClassName
-              ? ' ' + modalInfo.overlayClassName
-              : '')
-          }
-          style={(modalInfo && modalInfo.modalStyle) || {}}
-          isOpen={modalInfo !== null}
-          onAfterOpen={this.handleModalAfterOpen.bind(this)}
+          visible={modalInfo !== null}
+          transparent={true}
+          onShow={this.handleModalShow}
+          animationType='fade'
         >
-          <div
-            ref='modalTable'
-            className={
-              'brModalTable' +
-              (modalInfo && modalInfo.tableClassName
-                ? ' ' + modalInfo.tableClassName
-                : '')
-            }
-            onKeyDown={this.handleModalTableKeyDown.bind(this)}
+          <View
+            style={[
+              styles.modalOverlay,
+              props.modalOverlayClassName &&
+                styles[props.modalOverlayClassName],
+              modalInfo?.overlayClassName && styles[modalInfo.overlayClassName],
+            ]}
           >
-            <div className='brModalTitle'>{modalInfo && modalInfo.title}</div>
-            <div className='brModalContent'>{content}</div>
-            <div className='brModalMessage'>
-              {(modalInfo &&
-                (modalInfo.asHTML ? (
-                  <span
-                    dangerouslySetInnerHTML={{ __html: modalInfo.message }}
-                  />
-                ) : (
-                  modalInfo.message
-                ))) ||
-                ''}
-              <span
-                className={
-                  'brModalCheckBox' +
-                  (modalInfo && modalInfo.checkBoxLabel
-                    ? modalInfo.checkBoxChecked
-                      ? ' br_bi_icon_check_svg'
-                      : ' br_bi_icon_square_svg'
-                    : ' brHidden')
-                }
-                onClick={this.handleModalCheckBoxClick.bind(this)}
+            <Animated.View
+              style={[
+                styles.modal,
+                modalInfo?.modalClassName && styles[modalInfo.modalClassName],
+                { height: this.state.modalHeight },
+                modalInfo?.modalStyle,
+              ]}
+            >
+              <View
+                style={[
+                  styles.modalTable,
+                  modalInfo?.tableClassName && styles[modalInfo.tableClassName],
+                  modalInfo?.expandInlineImage && styles.expandInlineImage,
+                ]}
+                onLayout={this.onModalContentLayout}
               >
-                {modalInfo && modalInfo.checkBoxLabel}
-              </span>
-              <DropDownMenu
-                uiData={props.uiData}
-                className='brModalMenu'
-                hidden={
-                  !(
-                    modalInfo &&
-                    modalInfo.selectItemList &&
-                    modalInfo.selectItemList.length
-                  )
-                }
-                text={string(
-                  modalInfo &&
-                    modalInfo.selectItemList &&
-                    modalInfo.selectItemList.filter &&
-                    modalInfo.selectItemList
-                      .filter(item => item.selected)
-                      .map(item => item.label)
-                      .pop(),
-                )}
-              >
-                {modalInfo &&
-                  modalInfo.selectItemList &&
-                  modalInfo.selectItemList.map &&
-                  modalInfo.selectItemList.map((item, i) => (
-                    <MenuItem
-                      key={i}
-                      dropDown={true}
-                      onClick={this.handleModalMenuItemClick.bind(this, i)}
+                <Text style={styles.modalTitle}>{modalInfo?.title}</Text>
+
+                <View style={styles.modalContent}>{content}</View>
+
+                <ScrollView style={styles.modalMessage}>
+                  {modalInfo?.message &&
+                    (modalInfo.asHTML ? (
+                      <Text>{modalInfo.message}</Text> // TODO: Handle HTML content
+                    ) : (
+                      <Text>{modalInfo.message}</Text>
+                    ))}
+
+                  {modalInfo?.checkBoxLabel && (
+                    <TouchableOpacity
+                      style={styles.modalCheckBox}
+                      onPress={this.handleModalCheckBoxClick}
                     >
-                      {item.label}
-                    </MenuItem>
-                  ))}
-              </DropDownMenu>
-            </div>
-            <ButtonLabeled
-              ref='modalOk'
-              className={
-                'brModalOKButton ' + string(modalInfo && modalInfo.okClassName)
-              }
-              vivid={true}
-              title={(modalInfo && modalInfo.okCaption) || uawMsgs.CMN_OK}
-              onClick={this.handleModalOKButtonClick.bind(this)}
-            >
-              {(modalInfo && modalInfo.okCaption) || uawMsgs.CMN_OK}
-            </ButtonLabeled>
-            <ButtonLabeled
-              className={
-                'brModalCancelButton ' +
-                string(modalInfo && modalInfo.cancelClassName)
-              }
-              title={
-                (modalInfo && modalInfo.cancelCaption) || uawMsgs.CMN_CANCEL
-              }
-              hidden={!(modalInfo && modalInfo.cancelable)}
-              onClick={this.handleModalCancelButtonClick.bind(this)}
-            >
-              {(modalInfo && modalInfo.cancelCaption) || uawMsgs.CMN_CANCEL}
-            </ButtonLabeled>
-            <ButtonLabeled
-              className={
-                'brModalThirdButtonButton ' +
-                string(modalInfo && modalInfo.thirdButtonClassName)
-              }
-              title={
-                (modalInfo && modalInfo.thirdButtonCaption) || uawMsgs.CMN_CLOSE
-              }
-              hidden={!(modalInfo && modalInfo.thirdButton)}
-              onClick={this.handleModalThirdButtonClick.bind(this)}
-            >
-              {(modalInfo && modalInfo.thirdButtonCaption) || uawMsgs.CMN_CLOSE}
-            </ButtonLabeled>
-          </div>
+                      <Text>{modalInfo.checkBoxLabel}</Text>
+                    </TouchableOpacity>
+                  )}
+
+                  {modalInfo?.selectItemList?.length > 0 && (
+                    <DropDownMenu
+                      uiData={props.uiData}
+                      style={styles.modalMenu}
+                      text={string(
+                        modalInfo.selectItemList.find(item => item.selected)
+                          ?.label,
+                      )}
+                    >
+                      {modalInfo.selectItemList.map((item, i) => (
+                        <MenuItem
+                          key={i}
+                          dropDown={true}
+                          onPress={() => this.handleModalMenuItemClick(i)}
+                        >
+                          {item.label}
+                        </MenuItem>
+                      ))}
+                    </DropDownMenu>
+                  )}
+                </ScrollView>
+
+                <ButtonLabeled
+                  ref={ref => (this.okButtonRef = ref)}
+                  style={[
+                    styles.modalOKButton,
+                    modalInfo?.okClassName && styles[modalInfo.okClassName],
+                  ]}
+                  vivid={true}
+                  title={modalInfo?.okCaption || uawMsgs.CMN_OK}
+                  onPress={this.handleModalOKButtonClick}
+                >
+                  {modalInfo?.okCaption || uawMsgs.CMN_OK}
+                </ButtonLabeled>
+
+                {modalInfo?.cancelable && (
+                  <ButtonLabeled
+                    style={[
+                      styles.modalCancelButton,
+                      modalInfo?.cancelClassName &&
+                        styles[modalInfo.cancelClassName],
+                    ]}
+                    title={modalInfo?.cancelCaption || uawMsgs.CMN_CANCEL}
+                    onPress={this.handleModalCancelButtonClick}
+                  >
+                    {modalInfo?.cancelCaption || uawMsgs.CMN_CANCEL}
+                  </ButtonLabeled>
+                )}
+
+                {modalInfo?.thirdButton && (
+                  <ButtonLabeled
+                    style={[
+                      styles.modalThirdButtonButton,
+                      modalInfo?.thirdButtonClassName &&
+                        styles[modalInfo.thirdButtonClassName],
+                    ]}
+                    title={modalInfo?.thirdButtonCaption || uawMsgs.CMN_CLOSE}
+                    onPress={this.handleModalThirdButtonClick}
+                  >
+                    {modalInfo?.thirdButtonCaption || uawMsgs.CMN_CLOSE}
+                  </ButtonLabeled>
+                )}
+              </View>
+            </Animated.View>
+          </View>
         </Modal>
         {props.children}
-      </div>
+      </View>
     )
   }
 }
+
+// Define colors from CSS variables
+const colors = {
+  white: '#FFFFFF',
+  platinum: '#E0E0E0',
+  darkGray: '#9E9E9E',
+  darkJungleGreen: '#212121',
+}
+
+const styles = StyleSheet.create({
+  widgetBody: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.white,
+  },
+  modalOverlay: {
+    position: 'absolute',
+    zIndex: 9999,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+  },
+  modal: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    margin: 'auto',
+    width: '100%',
+    backgroundColor: 'transparent',
+  },
+  modalTable: {
+    margin: 'auto',
+    maxHeight: 120,
+    borderRadius: 4,
+    backgroundColor: colors.white,
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.platinum,
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  modalTitle: {
+    height: 56,
+    padding: 21,
+    paddingBottom: 0,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 25.6,
+    letterSpacing: 0.3,
+  },
+  modalMessage: {
+    maxHeight: Dimensions.get('window').height * 0.4,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.platinum,
+    padding: 24,
+    paddingTop: 0,
+  },
+  modalMessageText: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8,
+    letterSpacing: 0.3,
+    color: colors.darkGray,
+  },
+  modalCheckBox: {
+    marginTop: 8,
+    paddingLeft: 32,
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8,
+    letterSpacing: 0.3,
+    color: colors.darkJungleGreen,
+  },
+  modalMenu: {
+    display: 'flex',
+  },
+  modalOKButton: {
+    minWidth: 80,
+    margin: 16,
+  },
+  modalCancelButton: {
+    minWidth: 80,
+    margin: 16,
+    marginLeft: -8,
+  },
+  modalThirdButtonButton: {
+    minWidth: 80,
+    margin: 16,
+    marginLeft: -8,
+  },
+  expandInlineImage: {
+    ...Platform.select({
+      ios: {
+        shadowColor: 'transparent',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0,
+        shadowRadius: 0,
+      },
+      android: {
+        elevation: 0,
+      },
+    }),
+  },
+  hidden: {
+    display: 'none',
+  },
+})

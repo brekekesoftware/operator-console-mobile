@@ -24,7 +24,7 @@ export default class extends React.Component {
     const props = this.props
 
     if (props.hidden) {
-      return null // Equivalent to display: none
+      return null
     }
 
     return (
@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     backgroundColor: 'transparent',
-    borderRadius: 16, // 50% of width/height
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden', // Ensures content stays within border radius
+    overflow: 'hidden',
   },
   iconContainer: {
     width: '100%',
@@ -62,11 +62,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
-  // Note: hover state is simulated by TouchableOpacity's activeOpacity
   brDisabled: {
-    opacity: 0, // Equivalent to visibility: hidden
+    opacity: 0,
   },
-  // Active state styles - applied via pressable state
   pressed: {
     backgroundColor: 'rgba(245, 245, 245, 0.8)', // @isabelline_tp
     borderWidth: 1,

@@ -1,9 +1,16 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  PanResponder,
+  Animated,
+  TouchableOpacity,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
-import Draggable from 'react-draggable'
 import ButtonIconic from './ButtonIconic.js'
 import ButtonLabeled from './ButtonLabeled.js'
 import NameEmbeddedSpan from './NameEmbeddedSpan.js'
@@ -12,19 +19,13 @@ import SimpleButton from './SimpleButton.js'
 import { toPlainText } from '../utilities/strings.js'
 
 /**
- * WebchatQueueTable
- * props.uiData
- * props.uiData.ucUiStore
- * props.uiData.configurations
- * props.uiData.webchatRoomChatButton_onClick
- * props.uiData.webchatRoomJoinButton_onClick
- * props.filter
- * props.bigStyle
- * props.resizerName
+ * WebchatQueueTable - React Native version
+ * A component that displays webchat queue information in a table-like layout
  */
-export default class extends React.Component {
+export default class WebchatQueueTable extends React.Component {
   constructor(props) {
     super(props)
+
     const lastState = props.uiData.ucUiStore.getLocalStoragePreference({
       keyList: [
         props.resizerName + '_' + 'commandWidth',
@@ -32,345 +33,463 @@ export default class extends React.Component {
         props.resizerName + '_' + 'nameWidth',
       ],
     })
+
     this.state = {
       commandWidth: int(lastState[0]) || 50,
       agentWidth: int(lastState[1]) || 70,
       nameWidth: int(lastState[2]) || 70,
+      containerWidth: 0,
+    }
+
+    this.commandPanResponder = this.createColumnPanResponder('commandWidth')
+    this.agentPanResponder = this.createColumnPanResponder('agentWidth')
+    this.namePanResponder = this.createColumnPanResponder('nameWidth')
+  }
+
+  createColumnPanResponder(columnKey) {
+    return PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        this.startWidth = this.state[columnKey]
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        const newWidth = this.startWidth + gestureState.dx
+        this.setState({ [columnKey]: newWidth })
+      },
+      onPanResponderRelease: () => {
+        this.props.uiData.ucUiAction.setLocalStoragePreference({
+          keyValueList: [
+            {
+              key: this.props.resizerName + '_' + columnKey,
+              value: string(this.state[columnKey]),
+            },
+          ],
+        })
+        this.checkAndUpdateColumnBounds()
+      },
+    })
+  }
+
+  onLayout = event => {
+    const { width } = event.nativeEvent.layout
+    if (width !== this.state.containerWidth) {
+      this.setState({ containerWidth: width }, this.checkAndUpdateColumnBounds)
     }
   }
-  componentDidMount() {
-    this.componentDidUpdate()
-  }
-  componentDidUpdate() {
-    const props = this.props
+
+  checkAndUpdateColumnBounds() {
+    const { containerWidth, commandWidth, agentWidth, nameWidth } = this.state
+    const { bigStyle } = this.props
     const newState = {}
-    const node = ReactDOM.findDOMNode(this)
-    if (node && node.clientWidth) {
-      const commandWidthMin = props.bigStyle ? 100 : 50
-      const commandWidthMax = props.bigStyle ? 190 : 50
+
+    if (containerWidth > 0) {
+      const commandWidthMin = bigStyle ? 100 : 50
+      const commandWidthMax = bigStyle ? 190 : 50
+      if (commandWidth < commandWidthMin) {
+        newState.commandWidth = commandWidthMin
+      } else if (commandWidth > commandWidthMax) {
+        newState.commandWidth = commandWidthMax
+      }
+
       const agentWidthMin = 50
       const agentWidthMax = 100
+      if (agentWidth < agentWidthMin) {
+        newState.agentWidth = agentWidthMin
+      } else if (agentWidth > agentWidthMax) {
+        newState.agentWidth = agentWidthMax
+      }
+
       const nameWidthMin = 50
       const nameWidthMax = Math.max(
         nameWidthMin,
-        node.clientWidth - commandWidthMin - agentWidthMin - 50,
+        containerWidth - commandWidthMin - agentWidthMin - 50,
       )
-      if (this.state.commandWidth < commandWidthMin) {
-        newState.commandWidth = commandWidthMin
-      } else if (this.state.commandWidth > commandWidthMax) {
-        newState.commandWidth = commandWidthMax
-      }
-      if (this.state.agentWidth < agentWidthMin) {
-        newState.agentWidth = agentWidthMin
-      } else if (this.state.agentWidth > agentWidthMax) {
-        newState.agentWidth = agentWidthMax
-      }
-      if (this.state.nameWidth < nameWidthMin) {
+      if (nameWidth < nameWidthMin) {
         newState.nameWidth = nameWidthMin
-      } else if (this.state.nameWidth > nameWidthMax) {
+      } else if (nameWidth > nameWidthMax) {
         newState.nameWidth = nameWidthMax
       }
     }
-    if (Object.keys(newState).length) {
+
+    if (Object.keys(newState).length > 0) {
       this.setState(newState)
     }
   }
-  handleDrag(key, ev, ui) {
-    const props = this.props
-    const newState = {}
-    newState[key] = this.state[key] + ui.deltaX
-    this.setState(newState)
-  }
-  handleStop(key, ev, ui) {
-    const props = this.props
-    props.uiData.ucUiAction.setLocalStoragePreference({
-      keyValueList: [
-        { key: props.resizerName + '_' + key, value: string(this.state[key]) },
-      ],
-    })
-  }
-  render() {
-    const props = this.props
-    let queueList = props.uiData.ucUiStore.getWebchatQueueList()
-    if (props.filter === 'INVITED_WEBCHAT') {
-      queueList = queueList.filter(webchatQueue => {
-        return (
-          webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
-        )
-      })
-    } else if (!props.uiData.configurations.queueAll) {
-      queueList = queueList.filter(webchatQueue => {
-        return (
-          webchatQueue.conf_status !== Constants.CONF_STATUS_INACTIVE &&
-          (webchatQueue.creator.conf_status === Constants.CONF_STATUS_JOINED ||
-            webchatQueue.creator.conf_status ===
-              Constants.CONF_STATUS_LEFT_UNANSWERED ||
-            webchatQueue.from.conf_status === Constants.CONF_STATUS_JOINED ||
-            webchatQueue.isTalking)
-        )
-      })
-    }
-    const queueTrs = queueList.map(webchatQueue => {
-      const lines = Math.max(1, int(props.uiData.configurations.queueLines))
-      let agent = ''
-      if (webchatQueue.assigned.user_id) {
-        agent = (
-          <NameEmbeddedSpan
-            ucUiStore={props.uiData.ucUiStore}
-            format={'{0}'}
-            title={'{0}'}
-            buddy={webchatQueue.assigned}
+
+  renderHeader() {
+    const { commandWidth, agentWidth, nameWidth } = this.state
+
+    return (
+      <View style={styles.headerRow}>
+        <View style={[styles.headerCell, { width: commandWidth }]}>
+          <View
+            {...this.commandPanResponder.panHandlers}
+            style={styles.resizeHandle}
           />
-        )
-      } else if (
-        webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
-      ) {
-        agent = <TimerSpan baseTime={webchatQueue.baseTime} />
-      }
-      const profinfo = string(webchatQueue.webchatinfo.profinfo_formatted)
-      const profinfoLines = profinfo
-        .split('\n')
-        .slice(0, lines)
-        .map((currentValue, index) => (
-          <span key={index}>
-            {index > 0 ? <br /> : ''}
-            {currentValue}
-          </span>
-        ))
-      let messageTextLines = []
-      let messageFullText = ''
-      if (webchatQueue.messageList.length > 0) {
-        messageTextLines = webchatQueue.messageList
-          .slice(
-            Math.max(0, webchatQueue.messageList.length - lines),
-            webchatQueue.messageList.length,
-          )
-          .map((currentValue, index) => (
-            <span key={index}>
-              {index > 0 ? <br /> : ''}
-              {currentValue.ctype === Constants.CTYPE_TEXT
-                ? toPlainText(currentValue.messageText)
-                : ''}
-            </span>
-          ))
-        messageFullText = webchatQueue.messageList.reduce(
-          (previousValue, currentValue) =>
-            previousValue +
-            (currentValue.ctype === Constants.CTYPE_TEXT
-              ? toPlainText(currentValue.messageText)
-              : '') +
-            ' \n',
-          '',
-        )
-      }
-      if (props.uiData.configurations.queueAll) {
-        messageTextLines.push(
-          <ButtonIconic
-            key='webchatRoomHideButton'
-            className='brWebchatRoomHideButton br_bi_icon_close_svg'
-            hidden={webchatQueue.conf_status !== Constants.CONF_STATUS_INACTIVE}
-            title={uawMsgs.LBL_WEBCHAT_ROOM_HIDE_BUTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'webchatRoomHideButton_onClick',
-              webchatQueue.conf_id,
-            )}
-          />,
-        )
-      }
-      const commandButtons = [
-        props.bigStyle ? (
+        </View>
+
+        <View style={[styles.headerCell, { width: agentWidth }]}>
+          <Text style={styles.headerText}>
+            {uawMsgs.LBL_WEBCHAT_QUEUE_TABLE_AGENT_COLUMN}
+          </Text>
+          <View
+            {...this.agentPanResponder.panHandlers}
+            style={styles.resizeHandle}
+          />
+        </View>
+
+        <View style={[styles.headerCell, { width: nameWidth }]}>
+          <Text style={styles.headerText}>
+            {uawMsgs.LBL_WEBCHAT_QUEUE_TABLE_NAME_COLUMN}
+          </Text>
+          <View
+            {...this.namePanResponder.panHandlers}
+            style={styles.resizeHandle}
+          />
+        </View>
+
+        <View style={styles.headerCell}>
+          <Text style={styles.headerText}>
+            {uawMsgs.LBL_WEBCHAT_QUEUE_TABLE_MESSAGE_COLUMN}
+          </Text>
+        </View>
+      </View>
+    )
+  }
+
+  renderQueueRow(webchatQueue) {
+    const { commandWidth, agentWidth, nameWidth } = this.state
+    const { props } = this
+    const lines = Math.max(1, int(props.uiData.configurations.queueLines))
+
+    let agent = null
+    if (webchatQueue.assigned.user_id) {
+      agent = (
+        <NameEmbeddedSpan
+          ucUiStore={props.uiData.ucUiStore}
+          format='{0}'
+          title='{0}'
+          buddy={webchatQueue.assigned}
+        />
+      )
+    } else if (
+      webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
+    ) {
+      agent = <TimerSpan baseTime={webchatQueue.baseTime} />
+    }
+
+    const profinfo = string(webchatQueue.webchatinfo.profinfo_formatted)
+    const profinfoLines = profinfo.split('\n').slice(0, lines)
+
+    const messageTextLines = webchatQueue.messageList
+      .slice(-lines)
+      .map(msg =>
+        msg.ctype === Constants.CTYPE_TEXT ? toPlainText(msg.messageText) : '',
+      )
+      .filter(text => text)
+
+    const messageFullText = webchatQueue.messageList.reduce(
+      (prev, curr) =>
+        prev +
+        (curr.ctype === Constants.CTYPE_TEXT
+          ? toPlainText(curr.messageText)
+          : '') +
+        '\n',
+      '',
+    )
+
+    return (
+      <View key={webchatQueue.conf_id} style={styles.row}>
+        <View style={[styles.cell, { width: commandWidth }]}>
+          {this.renderCommandButtons(webchatQueue)}
+        </View>
+
+        <View style={[styles.cell, { width: agentWidth }]}>{agent}</View>
+
+        <View style={[styles.cell, { width: nameWidth }]}>
+          <Text numberOfLines={lines} style={styles.profinfoText}>
+            {profinfoLines.join('\n')}
+          </Text>
+        </View>
+
+        <View style={styles.cell}>
+          <Text numberOfLines={lines} style={styles.messageText}>
+            {messageTextLines.join('\n')}
+          </Text>
+          {this.renderHideButton(webchatQueue)}
+        </View>
+      </View>
+    )
+  }
+
+  renderCommandButtons(webchatQueue) {
+    const { props } = this
+    const isInvited =
+      webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
+
+    if (props.bigStyle) {
+      return (
+        <View style={styles.commandButtons}>
           <ButtonLabeled
-            key='webchatRoomChatButton'
-            className='brCommandButton'
+            style={styles.commandButton}
             title={
-              webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
+              isInvited
                 ? uawMsgs.LBL_WEBCHAT_ROOM_CHAT_BUTON_TOOLTIP
                 : uawMsgs.LBL_WEBCHAT_ROOM_SHOW_BUTON_TOOLTIP
             }
             disabled={
-              webchatQueue.conf_status !==
-                Constants.CONF_STATUS_INVITED_WEBCHAT &&
+              !isInvited &&
               webchatQueue.conf_status !== Constants.CONF_STATUS_JOINED
             }
-            vivid={
-              webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
+            vivid={isInvited}
+            onPress={() =>
+              props.uiData.fire(
+                'webchatRoomChatButton_onClick',
+                webchatQueue.conf_id,
+              )
             }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'webchatRoomChatButton_onClick',
-              webchatQueue.conf_id,
-            )}
           >
-            {webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
+            {isInvited
               ? uawMsgs.LBL_WEBCHAT_ROOM_CHAT_BUTON
               : uawMsgs.LBL_WEBCHAT_ROOM_SHOW_BUTON}
           </ButtonLabeled>
-        ) : (
-          <SimpleButton
-            key='webchatRoomChatButton'
-            className={
-              webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
-                ? 'brWebchatRoomChatButton'
-                : 'brWebchatRoomShowButton'
-            }
-            title={
-              webchatQueue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
-                ? uawMsgs.LBL_WEBCHAT_ROOM_CHAT_BUTON_TOOLTIP
-                : uawMsgs.LBL_WEBCHAT_ROOM_SHOW_BUTON_TOOLTIP
-            }
-            disabled={
-              webchatQueue.conf_status !==
-                Constants.CONF_STATUS_INVITED_WEBCHAT &&
-              webchatQueue.conf_status !== Constants.CONF_STATUS_JOINED
-            }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'webchatRoomChatButton_onClick',
-              webchatQueue.conf_id,
-            )}
-          ></SimpleButton>
-        ),
-        props.bigStyle ? (
+
           <ButtonLabeled
-            key='webchatRoomJoinButton'
-            className='brCommandButton'
+            style={styles.commandButton}
             title={uawMsgs.LBL_WEBCHAT_ROOM_JOIN_BUTON_TOOLTIP}
             disabled={
               webchatQueue.conf_status !== Constants.CONF_STATUS_INVITED
             }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'webchatRoomJoinButton_onClick',
-              webchatQueue.conf_id,
-            )}
+            onPress={() =>
+              props.uiData.fire(
+                'webchatRoomJoinButton_onClick',
+                webchatQueue.conf_id,
+              )
+            }
           >
             {uawMsgs.LBL_WEBCHAT_ROOM_JOIN_BUTON}
           </ButtonLabeled>
-        ) : (
-          <SimpleButton
-            key='webchatRoomJoinButton'
-            className='brWebchatRoomJoinButton'
-            title={uawMsgs.LBL_WEBCHAT_ROOM_JOIN_BUTON_TOOLTIP}
-            disabled={
-              webchatQueue.conf_status !== Constants.CONF_STATUS_INVITED
-            }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
+        </View>
+      )
+    }
+
+    return (
+      <View style={styles.commandButtons}>
+        <SimpleButton
+          style={[
+            styles.simpleButton,
+            isInvited ? styles.chatButton : styles.showButton,
+          ]}
+          title={
+            isInvited
+              ? uawMsgs.LBL_WEBCHAT_ROOM_CHAT_BUTON_TOOLTIP
+              : uawMsgs.LBL_WEBCHAT_ROOM_SHOW_BUTON_TOOLTIP
+          }
+          disabled={
+            !isInvited &&
+            webchatQueue.conf_status !== Constants.CONF_STATUS_JOINED
+          }
+          onPress={() =>
+            props.uiData.fire(
+              'webchatRoomChatButton_onClick',
+              webchatQueue.conf_id,
+            )
+          }
+        >
+          {isInvited ? (
+            <Image source={require('../images/webchatroomchat.png')} />
+          ) : (
+            <Image source={require('../images/webchatroomshow.png')} />
+          )}
+        </SimpleButton>
+
+        <SimpleButton
+          style={[styles.simpleButton, styles.joinButton]}
+          title={uawMsgs.LBL_WEBCHAT_ROOM_JOIN_BUTON_TOOLTIP}
+          disabled={webchatQueue.conf_status !== Constants.CONF_STATUS_INVITED}
+          onPress={() =>
+            props.uiData.fire(
               'webchatRoomJoinButton_onClick',
               webchatQueue.conf_id,
-            )}
-          ></SimpleButton>
-        ),
-      ]
+            )
+          }
+        >
+          <Image source={require('../images/webchatroomjoin.png')} />
+        </SimpleButton>
+      </View>
+    )
+  }
+
+  renderHideButton(webchatQueue) {
+    const { props } = this
+    if (
+      props.uiData.configurations.queueAll &&
+      webchatQueue.conf_status === Constants.CONF_STATUS_INACTIVE
+    ) {
       return (
-        <tr key={webchatQueue.conf_id}>
-          <td
-            className='brCommandColumn'
-            style={{ width: this.state.commandWidth + 'px' }}
-          >
-            {commandButtons}
-            <Draggable
-              axis='x'
-              position={{ x: this.state.commandWidth, y: 0 }}
-              onDrag={this.handleDrag.bind(this, 'commandWidth')}
-              onStop={this.handleStop.bind(this, 'commandWidth')}
-            >
-              <div className='brSplitter'></div>
-            </Draggable>
-          </td>
-          <td
-            className='brAgentColumn'
-            style={{ width: this.state.agentWidth + 'px' }}
-          >
-            {agent}
-            <Draggable
-              axis='x'
-              position={{ x: this.state.agentWidth, y: 0 }}
-              onDrag={this.handleDrag.bind(this, 'agentWidth')}
-              onStop={this.handleStop.bind(this, 'agentWidth')}
-            >
-              <div className='brSplitter'></div>
-            </Draggable>
-          </td>
-          <td
-            className='brNameColumn'
-            style={{ width: this.state.nameWidth + 'px' }}
-          >
-            <span title={profinfo}>{profinfoLines}</span>
-            <Draggable
-              axis='x'
-              position={{ x: this.state.nameWidth, y: 0 }}
-              onDrag={this.handleDrag.bind(this, 'nameWidth')}
-              onStop={this.handleStop.bind(this, 'nameWidth')}
-            >
-              <div className='brSplitter'></div>
-            </Draggable>
-          </td>
-          <td className='brMessageColumn' title={messageFullText}>
-            {messageTextLines}
-          </td>
-        </tr>
+        <ButtonIconic
+          style={styles.hideButton}
+          iconName='close'
+          title={uawMsgs.LBL_WEBCHAT_ROOM_HIDE_BUTON_TOOLTIP}
+          onPress={() =>
+            props.uiData.fire(
+              'webchatRoomHideButton_onClick',
+              webchatQueue.conf_id,
+            )
+          }
+        />
       )
-    })
+    }
+    return null
+  }
+
+  render() {
+    const { props } = this
+    let queueList = props.uiData.ucUiStore.getWebchatQueueList()
+
+    if (props.filter === 'INVITED_WEBCHAT') {
+      queueList = queueList.filter(
+        queue => queue.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT,
+      )
+    } else if (!props.uiData.configurations.queueAll) {
+      queueList = queueList.filter(
+        queue =>
+          queue.conf_status !== Constants.CONF_STATUS_INACTIVE &&
+          (queue.creator.conf_status === Constants.CONF_STATUS_JOINED ||
+            queue.creator.conf_status ===
+              Constants.CONF_STATUS_LEFT_UNANSWERED ||
+            queue.from.conf_status === Constants.CONF_STATUS_JOINED ||
+            queue.isTalking),
+      )
+    }
+
     return (
-      <table
-        className={
-          'brWebchatQueueTable' +
-          (props.bigStyle ? ' brBigStyle' : '') +
-          (props.resizerName ? ' brColumnResizable' : '')
-        }
+      <View
+        style={[
+          styles.container,
+          props.bigStyle && styles.bigStyle,
+          props.resizerName && styles.columnResizable,
+        ]}
+        onLayout={this.onLayout}
       >
-        <thead>
-          <tr>
-            <th
-              className='brCommandColumn'
-              style={{ width: this.state.commandWidth + 'px' }}
-            >
-              <Draggable
-                axis='x'
-                position={{ x: this.state.commandWidth, y: 0 }}
-                onDrag={this.handleDrag.bind(this, 'commandWidth')}
-                onStop={this.handleStop.bind(this, 'commandWidth')}
-              >
-                <div className='brSplitter'></div>
-              </Draggable>
-            </th>
-            <th
-              className='brAgentColumn'
-              style={{ width: this.state.agentWidth + 'px' }}
-            >
-              {uawMsgs.LBL_WEBCHAT_QUEUE_TABLE_AGENT_COLUMN}
-              <Draggable
-                axis='x'
-                position={{ x: this.state.agentWidth, y: 0 }}
-                onDrag={this.handleDrag.bind(this, 'agentWidth')}
-                onStop={this.handleStop.bind(this, 'agentWidth')}
-              >
-                <div className='brSplitter'></div>
-              </Draggable>
-            </th>
-            <th
-              className='brNameColumn'
-              style={{ width: this.state.nameWidth + 'px' }}
-            >
-              {uawMsgs.LBL_WEBCHAT_QUEUE_TABLE_NAME_COLUMN}
-              <Draggable
-                axis='x'
-                position={{ x: this.state.nameWidth, y: 0 }}
-                onDrag={this.handleDrag.bind(this, 'nameWidth')}
-                onStop={this.handleStop.bind(this, 'nameWidth')}
-              >
-                <div className='brSplitter'></div>
-              </Draggable>
-            </th>
-            <th className='brMessageColumn'>
-              {uawMsgs.LBL_WEBCHAT_QUEUE_TABLE_MESSAGE_COLUMN}
-            </th>
-          </tr>
-        </thead>
-        <tbody>{queueTrs}</tbody>
-      </table>
+        {this.renderHeader()}
+        <ScrollView>
+          {queueList.map(queue => this.renderQueueRow(queue))}
+        </ScrollView>
+      </View>
     )
   }
 }
+
+const colors = {
+  platinum: '#E0E0E0',
+  isabelline: '#EEEEEE',
+  portlandOrange: '#FF4526',
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: colors.platinum,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.platinum,
+    backgroundColor: '#FFFFFF',
+  },
+  headerCell: {
+    position: 'relative',
+    padding: 2,
+    paddingHorizontal: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  headerText: {
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 20.8, // 1.6 * 13
+    letterSpacing: 0.3,
+    textAlign: 'left',
+  },
+  row: {
+    flexDirection: 'row',
+    height: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.platinum,
+  },
+  rowHover: {
+    backgroundColor: colors.isabelline,
+  },
+  cell: {
+    position: 'relative',
+    padding: 2,
+    paddingHorizontal: 4,
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  cellText: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8,
+    letterSpacing: 0.3,
+  },
+  resizeHandle: {
+    position: 'absolute',
+    width: 16,
+    height: '100%',
+    right: -8,
+    backgroundColor: 'transparent',
+    zIndex: 1,
+  },
+  resizeHandleActive: {
+    backgroundColor: colors.platinum,
+  },
+  commandButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  simpleButton: {
+    width: 20,
+    height: 20,
+    marginRight: 2,
+  },
+  commandButton: {
+    width: 80,
+    margin: 4,
+    marginLeft: 8,
+  },
+  agentIsMe: {
+    color: colors.portlandOrange,
+  },
+  hideButton: {
+    position: 'absolute',
+    right: 4,
+    top: '50%',
+    transform: [{ translateY: -10 }],
+  },
+  bigStyle: {},
+  commandColumn: {},
+  bigStyleCommandColumn: {
+    flexWrap: 'wrap',
+  },
+  columnResizable: {},
+  messageText: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8,
+    letterSpacing: 0.3,
+    color: '#424242',
+  },
+  profinfoText: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8,
+    letterSpacing: 0.3,
+  },
+})

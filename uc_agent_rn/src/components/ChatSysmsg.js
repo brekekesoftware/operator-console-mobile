@@ -1,37 +1,14 @@
 import React from 'react'
-import { View, Text, StyleSheet, Animated } from 'react-native'
+import { View, Text, Animated } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import NameEmbeddedSpan from './NameEmbeddedSpan.js'
 
 const colors = {
-  darkGray: '#9E9E9E',
-  portlandOrange: '#FF4526',
+  dark_gray: '#9e9e9e',
+  portland_orange: '#ff4526',
 }
-
-const styles = StyleSheet.create({
-  sysmsg: {
-    fontSize: 13,
-    fontWeight: '400',
-    lineHeight: 20.8, // 1.6 * 13
-    letterSpacing: 0.3,
-    paddingTop: 4,
-    paddingBottom: 4,
-    paddingLeft: 16,
-    paddingRight: 0,
-    color: colors.darkGray,
-  },
-  error: {
-    color: colors.portlandOrange,
-  },
-  hidden: {
-    lineHeight: 0,
-    height: 0,
-    padding: 0,
-    overflow: 'hidden',
-  },
-})
 
 /**
  * ChatSysmsg
@@ -45,129 +22,124 @@ const styles = StyleSheet.create({
  * props.sysmsg.sysmsgData
  * props.nextChat
  */
-export default class extends React.Component {
+export default class ChatSysmsg extends React.Component {
   constructor(props) {
     super(props)
-
-    this.animatedHeight = new Animated.Value(this.shouldBeHidden() ? 0 : 1)
-    this.animatedOpacity = new Animated.Value(this.shouldBeHidden() ? 0 : 1)
+    this.state = {
+      animation: new Animated.Value(0),
+    }
   }
 
   componentDidMount() {
-    this.handleAnimation()
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.sysmsg.sysmsgType !== this.props.sysmsg.sysmsgType ||
-      (prevProps.nextChat &&
-        this.props.nextChat &&
-        prevProps.nextChat.type !== this.props.nextChat.type) ||
-      (prevProps.nextChat &&
-        this.props.nextChat &&
-        prevProps.nextChat.sysmsgType !== this.props.nextChat.sysmsgType)
-    ) {
-      this.handleAnimation()
-    }
-  }
-
-  shouldBeHidden() {
-    const { props } = this
-
-    if (props.sysmsg.sysmsgType === 'MSG_CONFERENCE_MEMBER_OFFLINE') {
-      if (
-        props.nextChat &&
-        props.nextChat.type === 'sysmsg' &&
-        props.nextChat.sysmsgType === 'MSG_CONFERENCE_MEMBER_ONLINE'
-      ) {
-        return true
-      }
-    }
-
-    if (
-      props.sysmsg.sysmsgType === 'MSG_CONFERENCE_MEMBER_ONLINE' &&
-      props.prevChat &&
-      props.prevChat.type === 'sysmsg' &&
-      props.prevChat.sysmsgType === 'MSG_CONFERENCE_MEMBER_OFFLINE'
-    ) {
-      return true
-    }
-
-    return false
-  }
-
-  handleAnimation() {
-    const { props } = this
-
-    if (
-      props.sysmsg.sysmsgType === 'MSG_CONFERENCE_MEMBER_OFFLINE' &&
-      !props.nextChat
-    ) {
+    if (this.shouldAnimate()) {
+      const delay = this.props.uiData.configurations.sysmsgDelay || 3000
       setTimeout(() => {
-        Animated.parallel([
-          Animated.timing(this.animatedHeight, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: false,
-          }),
-          Animated.timing(this.animatedOpacity, {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: false,
-          }),
-        ]).start()
-      }, 3000)
+        Animated.timing(this.state.animation, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: false,
+        }).start()
+      }, delay)
     }
+  }
+
+  shouldAnimate() {
+    const { props } = this
+    return (
+      props.sysmsg.sysmsgType === 'MSG_CONFERENCE_MEMBER_OFFLINE' &&
+      (!props.nextChat ||
+        (props.nextChat.type === 'sysmsg' &&
+          props.nextChat.sysmsgType === 'MSG_CONFERENCE_MEMBER_ONLINE'))
+    )
   }
 
   render() {
     const { props } = this
     const isError = props.sysmsg.sysmsgLevel === 'error'
-    const isConferenceMemberOffline =
+    const isOffline =
       props.sysmsg.sysmsgType === 'MSG_CONFERENCE_MEMBER_OFFLINE'
-    const isConferenceMemberOnline =
-      props.sysmsg.sysmsgType === 'MSG_CONFERENCE_MEMBER_ONLINE'
-    const isEndOfChatList = !props.nextChat
+    const isOnline = props.sysmsg.sysmsgType === 'MSG_CONFERENCE_MEMBER_ONLINE'
+    const isEndOfList = !props.nextChat
     const isBeforeOnline =
-      props.nextChat &&
-      props.nextChat.type === 'sysmsg' &&
-      props.nextChat.sysmsgType === 'MSG_CONFERENCE_MEMBER_ONLINE'
-
-    const shouldHide = this.shouldBeHidden()
-
-    const containerStyles = [
-      styles.sysmsg,
-      isError && styles.error,
-      shouldHide && styles.hidden,
-    ]
-
-    const animatedStyles = {
-      height: this.animatedHeight.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, 30],
-      }),
-      opacity: this.animatedOpacity,
-    }
-
-    let animationDelay = null
-    if (props.uiData.configurations.sysmsgDelay) {
-      animationDelay = props.uiData.configurations.sysmsgDelay
-    }
+      props.nextChat?.type === 'sysmsg' &&
+      props.nextChat?.sysmsgType === 'MSG_CONFERENCE_MEMBER_ONLINE'
 
     const format = uawMsgs[props.sysmsg.sysmsgType] || '{0}'
 
+    const animatedStyle = this.shouldAnimate()
+      ? {
+          height: this.state.animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 24],
+          }),
+          paddingTop: this.state.animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 4],
+          }),
+          paddingBottom: this.state.animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 4],
+          }),
+          paddingLeft: this.state.animation.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 16],
+          }),
+        }
+      : {}
+
     return (
-      <Animated.View style={[containerStyles, animatedStyles]}>
-        {props.sysmsg.sysmsgData ? (
-          <Text>{format.split('{0}').join(props.sysmsg.sysmsgData)}</Text>
-        ) : (
-          <NameEmbeddedSpan
-            ucUiStore={props.uiData.ucUiStore}
-            format={format}
-            buddy={props.sysmsg.buddy}
-          />
-        )}
+      <Animated.View style={[styles.brChatSysmsg, animatedStyle]}>
+        <Text
+          style={[
+            styles.sysmsgText,
+            isError && styles.brChatError,
+            isOffline && isBeforeOnline && styles.brBeforeOnline,
+            isOnline &&
+              isBeforeOnline &&
+              styles.brConferenceMemberOnlineCollapsed,
+          ]}
+        >
+          {props.sysmsg.sysmsgData ? (
+            format.split('{0}').join(props.sysmsg.sysmsgData)
+          ) : (
+            <NameEmbeddedSpan
+              ucUiStore={props.uiData.ucUiStore}
+              format={format}
+              buddy={props.sysmsg.buddy}
+            />
+          )}
+        </Text>
       </Animated.View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  brChatSysmsg: {
+    overflow: 'hidden',
+  },
+  sysmsgText: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8, // 1.6 * 13
+    letterSpacing: 0.3,
+    paddingVertical: 4,
+    paddingLeft: 16,
+    color: colors.dark_gray,
+  },
+  brChatError: {
+    color: colors.portland_orange,
+  },
+  brBeforeOnline: {
+    height: 0,
+    paddingVertical: 0,
+    paddingLeft: 0,
+    overflow: 'hidden',
+  },
+  brConferenceMemberOnlineCollapsed: {
+    height: 0,
+    paddingVertical: 0,
+    paddingLeft: 0,
+    overflow: 'hidden',
+  },
+})
