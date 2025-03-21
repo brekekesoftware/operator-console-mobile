@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
  * props.onBlur - Blur handler
  * props.onKeyPress - Key press handler
  */
-export default class extends React.Component {
+class TextBox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -107,6 +107,18 @@ export default class extends React.Component {
     }
   }
 
+  focus() {
+    if (this.input) {
+      this.input.focus()
+    }
+  }
+
+  clear() {
+    if (this.input) {
+      this.input.clear()
+    }
+  }
+
   render() {
     const { props, state } = this
     const inputStyles = [
@@ -127,6 +139,7 @@ export default class extends React.Component {
 
     return (
       <TextInput
+        ref={input => (this.input = input)}
         style={inputStyles}
         value={props.value}
         editable={!props.disabled}
@@ -145,3 +158,7 @@ export default class extends React.Component {
     )
   }
 }
+
+export default React.forwardRef((props, ref) => {
+  return <TextBox {...props} ref={ref} />
+})

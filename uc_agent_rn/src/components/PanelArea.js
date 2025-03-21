@@ -22,6 +22,22 @@ import WebchatQueuePanel from './WebchatQueuePanel.js'
 import HistorySearchPanel from './HistorySearchPanel.js'
 import HistorySummariesPanel from './HistorySummariesPanel.js'
 import HistoryDetailPanel from './HistoryDetailPanel.js'
+import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native'
+
+const icons = {
+  logOut: require('../assets/icons/log-out.png'),
+  reply: require('../assets/icons/reply.png'),
+  envelope: require('../assets/icons/envelope.png'),
+  upload: require('../assets/icons/upload.png'),
+  phone: require('../assets/icons/phone.png'),
+  videoCall: require('../assets/icons/video-call.png'),
+  channelMosaic1: require('../assets/icons/channel-mosaic-1.png'),
+  history: require('../assets/icons/history.png'),
+  chevronUp: require('../assets/icons/chevron-up.png'),
+  chevronDown: require('../assets/icons/chevron-down.png'),
+  search: require('../assets/icons/search.png'),
+  more: require('../assets/icons/more.png'),
+}
 
 /**
  * PanelArea
@@ -65,46 +81,121 @@ export default class extends React.Component {
         })[0],
       historySummariesWithHeader: false,
     }
+
+    // Create refs for elements we need to measure
+    this.panelHeaderAreaRef = React.createRef()
+    this.panelHeaderTitleRef = React.createRef()
+    this.panelHeaderInfoRef = React.createRef()
+    this.panelHeaderMembersRef = React.createRef()
+    this.panelHeaderButtonsAreaRef = React.createRef()
+    this.headerSearchConditionsContentInputRef = React.createRef()
   }
+
   componentDidMount() {
-    const props = this.props
-    const headerSearchConditionsContentInput = ReactDOM.findDOMNode(
-      this.refs['headerSearchConditionsContentInput'],
-    )
-    if (
-      headerSearchConditionsContentInput &&
-      headerSearchConditionsContentInput.focus
-    ) {
-      headerSearchConditionsContentInput.focus()
+    // Focus input if available
+    if (this.headerSearchConditionsContentInputRef.current) {
+      this.headerSearchConditionsContentInputRef.current.focus()
     }
   }
+
   componentDidUpdate() {
-    const props = this.props
+    // Use measure() to get dimensions
+    this.updateHeaderLayout()
+  }
+
+  // New method to handle layout measurements
+  updateHeaderLayout() {
     const newState = {}
-    const panelHeaderArea = ReactDOM.findDOMNode(this.refs['panelHeaderArea'])
-    const panelHeaderTitle = ReactDOM.findDOMNode(this.refs['panelHeaderTitle'])
-    const panelHeaderInfo = ReactDOM.findDOMNode(this.refs['panelHeaderInfo'])
-    const panelHeaderMembers = ReactDOM.findDOMNode(
-      this.refs['panelHeaderMembers'],
-    )
-    const panelHeaderButtonsArea = ReactDOM.findDOMNode(
-      this.refs['panelHeaderButtonsArea'],
-    )
-    const widthOfArea = panelHeaderArea && int(panelHeaderArea.offsetWidth)
-    if (typeof widthOfArea === 'number' && widthOfArea > 0) {
-      const rightOfTexts =
-        panelHeaderMembers && panelHeaderMembers.offsetWidth
-          ? int(panelHeaderMembers.offsetLeft + panelHeaderMembers.offsetWidth)
-          : panelHeaderInfo && panelHeaderInfo.offsetWidth
-            ? int(panelHeaderInfo.offsetLeft + panelHeaderInfo.offsetWidth)
-            : panelHeaderTitle && panelHeaderTitle.offsetWidth
-              ? int(panelHeaderTitle.offsetLeft + panelHeaderTitle.offsetWidth)
-              : null
+
+    // Create a promise array for all measurements
+    const measurements = []
+
+    if (this.panelHeaderAreaRef.current) {
+      measurements.push(
+        new Promise(resolve => {
+          this.panelHeaderAreaRef.current.measure(
+            (x, y, width, height, pageX, pageY) => {
+              resolve({ width, pageX })
+            },
+          )
+        }),
+      )
+    }
+
+    if (this.panelHeaderTitleRef.current) {
+      measurements.push(
+        new Promise(resolve => {
+          this.panelHeaderTitleRef.current.measure(
+            (x, y, width, height, pageX) => {
+              resolve({ type: 'title', width, pageX })
+            },
+          )
+        }),
+      )
+    }
+
+    if (this.panelHeaderInfoRef.current) {
+      measurements.push(
+        new Promise(resolve => {
+          this.panelHeaderInfoRef.current.measure(
+            (x, y, width, height, pageX) => {
+              resolve({ type: 'info', width, pageX })
+            },
+          )
+        }),
+      )
+    }
+
+    if (this.panelHeaderMembersRef.current) {
+      measurements.push(
+        new Promise(resolve => {
+          this.panelHeaderMembersRef.current.measure(
+            (x, y, width, height, pageX) => {
+              resolve({ type: 'members', width, pageX })
+            },
+          )
+        }),
+      )
+    }
+
+    if (this.panelHeaderButtonsAreaRef.current) {
+      measurements.push(
+        new Promise(resolve => {
+          this.panelHeaderButtonsAreaRef.current.measure(
+            (x, y, width, height, pageX) => {
+              resolve({ type: 'buttons', width, pageX })
+            },
+          )
+        }),
+      )
+    }
+
+    // Process all measurements
+    Promise.all(measurements).then(results => {
+      const areaWidth = results[0].width
+
+      // Find rightmost edge of text elements
+      let rightOfTexts = null
+      const textMeasurements = results.slice(1)
+
+      for (const measure of textMeasurements) {
+        if (measure.type === 'members' && measure.width) {
+          rightOfTexts = measure.pageX + measure.width
+          break
+        } else if (measure.type === 'info' && measure.width) {
+          rightOfTexts = measure.pageX + measure.width
+          break
+        } else if (measure.type === 'title' && measure.width) {
+          rightOfTexts = measure.pageX + measure.width
+          break
+        }
+      }
+
       if (typeof rightOfTexts === 'number') {
-        const leftOfButtons =
-          panelHeaderButtonsArea &&
-          (widthOfArea - int(panelHeaderButtonsArea.offsetWidth)) / 2
-        if (typeof leftOfButtons === 'number') {
+        const buttonsResult = results.find(r => r.type === 'buttons')
+        if (buttonsResult) {
+          const leftOfButtons = (areaWidth - buttonsResult.width) / 2
+
           if (
             leftOfButtons < rightOfTexts &&
             !this.state.headerButtonsCollapsible
@@ -117,18 +208,21 @@ export default class extends React.Component {
             newState.headerButtonsCollapsible = false
           }
         }
+
         if (
           this.state.headerSearchConditionsWidth !==
-          widthOfArea - rightOfTexts
+          areaWidth - rightOfTexts
         ) {
-          newState.headerSearchConditionsWidth = widthOfArea - rightOfTexts
+          newState.headerSearchConditionsWidth = areaWidth - rightOfTexts
         }
       }
-    }
-    if (Object.keys(newState).length) {
-      this.setState(newState)
-    }
+
+      if (Object.keys(newState).length) {
+        this.setState(newState)
+      }
+    })
   }
+
   handlePanelHeaderButtonsMenuClick(ev) {
     const props = this.props
     if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
@@ -139,6 +233,7 @@ export default class extends React.Component {
       props.uiData.fire('showingDialog_update')
     }
   }
+
   handleReplyWebchatButtonClick(ev) {
     const props = this.props
     if (
@@ -147,32 +242,46 @@ export default class extends React.Component {
     ) {
       props.uiData.showingDialogVersion++
       const replyDialogStyle = {}
-      const panelHeaderArea = ReactDOM.findDOMNode(this.refs['panelHeaderArea'])
-      const panelHeaderAreaRect =
-        panelHeaderArea && panelHeaderArea.getBoundingClientRect()
-      const replyWebchatButtonRect =
-        ev && ev.target && ev.target.getBoundingClientRect()
-      if (panelHeaderAreaRect && replyWebchatButtonRect) {
-        replyDialogStyle.left =
-          replyWebchatButtonRect.left - panelHeaderAreaRect.left + 'px'
-        replyDialogStyle.top =
-          replyWebchatButtonRect.bottom - panelHeaderAreaRect.top + 'px'
+
+      // Get measurements for positioning dialog
+      if (this.panelHeaderAreaRef.current && ev.target) {
+        Promise.all([
+          new Promise(resolve => {
+            this.panelHeaderAreaRef.current.measure(
+              (x, y, width, height, pageX, pageY) => {
+                resolve({ pageX, pageY })
+              },
+            )
+          }),
+          new Promise(resolve => {
+            ev.target.measure((x, y, width, height, pageX, pageY) => {
+              resolve({ pageX, pageY, height })
+            })
+          }),
+        ]).then(([areaRect, buttonRect]) => {
+          replyDialogStyle.left = buttonRect.pageX - areaRect.pageX
+          replyDialogStyle.top =
+            buttonRect.pageY - areaRect.pageY + buttonRect.height
+
+          this.setState({
+            showingDialogVersion: props.uiData.showingDialogVersion,
+            showingReplyDialogVersion: props.uiData.showingDialogVersion,
+            replyDialogStyle,
+          })
+        })
       }
-      this.setState({
-        showingDialogVersion: props.uiData.showingDialogVersion,
-        showingReplyDialogVersion: props.uiData.showingDialogVersion,
-        replyDialogStyle: replyDialogStyle,
-      })
-      ev.stopPropagation()
+
       props.uiData.fire('showingDialog_update')
     }
   }
+
   handleHeaderSearchConditionsDetailButtonClick(ev) {
     const props = this.props
     this.setState({
       historySummariesWithHeader: !this.state.historySummariesWithHeader,
     })
   }
+
   handleHeaderSearchConditionsContentInputChange(ev) {
     const props = this.props
     // cache value to state not to store (do not render uiData)
@@ -182,6 +291,7 @@ export default class extends React.Component {
       ),
     })
   }
+
   handleHeaderSearchConditionsContentInputBlur(ev) {
     const props = this.props
     // save value to store
@@ -189,6 +299,7 @@ export default class extends React.Component {
     // clear cached value in state
     this.setState({ headerSearchConditionsContentCache: null })
   }
+
   handleHeaderSearchConditionsContentInputKeyDown(ev) {
     const props = this.props
     if (ev && ev.keyCode === 13 && !ev.shiftKey) {
@@ -208,6 +319,7 @@ export default class extends React.Component {
       })
     }
   }
+
   handleHeaderSearchConditionsSearchButtonClick(ev) {
     const props = this.props
     // do search
@@ -218,6 +330,7 @@ export default class extends React.Component {
       queueing: true,
     })
   }
+
   handleHeaderSearchConditionsUserGroupClick(groupName, ev) {
     const props = this.props
     if (
@@ -247,6 +360,7 @@ export default class extends React.Component {
       }
     }
   }
+
   handleHeaderSearchConditionsUserItemClick(user_id, ev) {
     const props = this.props
     this.setSearchCondition('_userId', user_id)
@@ -257,6 +371,7 @@ export default class extends React.Component {
       queueing: true,
     })
   }
+
   handleHeaderSearchConditionsUserAllClick(ev) {
     const props = this.props
     const searchConditions =
@@ -278,6 +393,7 @@ export default class extends React.Component {
       queueing: true,
     })
   }
+
   setSearchCondition(conditionKey, conditionValue) {
     const props = this.props
     const searchConditions =
@@ -303,6 +419,7 @@ export default class extends React.Component {
       searchConditions: searchConditions,
     })
   }
+
   render() {
     const props = this.props
     const profile = props.uiData.ucUiStore.getChatClient().getProfile()
@@ -394,21 +511,21 @@ export default class extends React.Component {
             chatCode: props.panelCode,
           })
           .map((member, i) => (
-            <span
+            <Text
               key={i}
-              className={
-                'brConfStatus' +
-                (
-                  conference.user.find(
-                    u =>
-                      u.tenant === member.tenant &&
-                      u.user_id === member.user_id,
-                  ) || {}
-                ).conf_status
-              }
+              // className={
+              //   'brConfStatus' +
+              //   (
+              //     conference.user.find(
+              //       u =>
+              //         u.tenant === member.tenant &&
+              //         u.user_id === member.user_id,
+              //     ) || {}
+              //   ).conf_status
+              // }
             >
               {props.uiData.ucUiStore.getBuddyUserForUi(member).name + '\n'}
-            </span>
+            </Text>
           ))
         headerMembersTitle = props.uiData.ucUiStore
           .getMemberList({
@@ -430,21 +547,28 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='leave'
-            className='brPanelHeaderButton brLeaveButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brLeaveButton,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+              conference.conf_status !==
+                Constants.CONF_STATUS_JOINED /* || conference.conf_type === 'webchat' && conference.user.filter(u => u.conf_status === Constants.CONF_STATUS_JOINED).length < 3 */,
+            ]}
             disabled={
               conference.conf_status !==
               Constants.CONF_STATUS_JOINED /* || conference.conf_type === 'webchat' && conference.user.filter(u => u.conf_status === Constants.CONF_STATUS_JOINED).length < 3 */
             }
-            title={uawMsgs.LBL_PANEL_HEADER_LEAVE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.logOut}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_LEAVE_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderLeaveButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_log_out_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (chatHeaderInfo.confType === 'webchat') {
@@ -471,17 +595,23 @@ export default class extends React.Component {
           headerButtons.push(
             <ButtonIconic
               key='reply'
-              className='brPanelHeaderButton brReplyWebchatButton'
+              style={[
+                styles.brPanelHeaderButton,
+                styles.brReplyWebchatButton,
+                !replyOptions.length && styles.brDisabled,
+                !props.uiData.currentSelectedTab.includes(
+                  props.panelType + '_' + props.panelCode,
+                ) && styles.brNotSelected,
+              ]}
               disabled={!replyOptions.length}
-              title={uawMsgs.LBL_PANEL_HEADER_REPLY_BUTTON_TOOLTIP}
-              onClick={
+              iconSource={icons.reply}
+              accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_REPLY_BUTTON_TOOLTIP}
+              onPress={
                 replyOptions.length === 1
                   ? replyOptions[0].event
                   : this.handleReplyWebchatButtonClick.bind(this)
               }
-            >
-              <span className='brPanelHeaderButtonIcon br_bi_icon_reply_svg'></span>
-            </ButtonIconic>,
+            />,
           )
         }
       }
@@ -494,7 +624,23 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='invite'
-            className='brPanelHeaderButton brInviteButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brInviteButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                (chatHeaderInfo.confType === 'webchat' &&
+                  (-int(
+                    (conference.webchatinfo &&
+                      string(conference.webchatinfo.invite_button_type)) ||
+                      '-98',
+                  ) &
+                    myUcCimUserType) !==
+                    myUcCimUserType)) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
               conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               (chatHeaderInfo.confType === 'webchat' &&
@@ -506,16 +652,15 @@ export default class extends React.Component {
                   myUcCimUserType) !==
                   myUcCimUserType)
             }
-            title={uawMsgs.LBL_PANEL_HEADER_INVITE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.envelope}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_INVITE_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderInviteButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_envelope_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -532,21 +677,29 @@ export default class extends React.Component {
           headerButtons.push(
             <ButtonIconic
               key='file'
-              className='brPanelHeaderButton brFileButton'
+              style={[
+                styles.brPanelHeaderButton,
+                styles.brFileButton,
+                (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                  joinedCount < 2) &&
+                  styles.brDisabled,
+                !props.uiData.currentSelectedTab.includes(
+                  props.panelType + '_' + props.panelCode,
+                ) && styles.brNotSelected,
+              ]}
               disabled={
                 conference.conf_status !== Constants.CONF_STATUS_JOINED ||
                 joinedCount < 2
               }
-              title={uawMsgs.LBL_PANEL_HEADER_FILE_BUTTON_TOOLTIP}
-              onClick={props.uiData.fire.bind(
+              iconSource={icons.upload}
+              accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_FILE_BUTTON_TOOLTIP}
+              onPress={props.uiData.fire.bind(
                 props.uiData,
                 'panelHeaderFileButton_onClick',
                 props.panelType,
                 props.panelCode,
               )}
-            >
-              <span className='brPanelHeaderButtonIcon br_bi_icon_upload_svg'></span>
-            </ButtonIconic>,
+            />,
           )
         }
       }
@@ -559,23 +712,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='voice'
-            className='brPanelHeaderButton brVoiceButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brVoiceButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
               conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.phone}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderVoiceButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_phone_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -587,23 +750,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='video'
-            className='brPanelHeaderButton brVideoButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brVideoButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
               conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.videoCall}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderVideoButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_video_call_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -615,23 +788,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='screen'
-            className='brPanelHeaderButton brScreenButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brScreenButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
               conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.channelMosaic1}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderScreenButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_channel_mosaic_1_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (!props.uiData.isSubWindow) {
@@ -734,17 +917,29 @@ export default class extends React.Component {
           headerButtons.push(
             <ButtonIconic
               key='file'
-              className='brPanelHeaderButton brFileButton'
-              title={uawMsgs.LBL_PANEL_HEADER_FILE_BUTTON_TOOLTIP}
-              onClick={props.uiData.fire.bind(
+              style={[
+                styles.brPanelHeaderButton,
+                styles.brFileButton,
+                (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                  joinedCount < 2) &&
+                  styles.brDisabled,
+                !props.uiData.currentSelectedTab.includes(
+                  props.panelType + '_' + props.panelCode,
+                ) && styles.brNotSelected,
+              ]}
+              disabled={
+                conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                joinedCount < 2
+              }
+              iconSource={icons.upload}
+              accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_FILE_BUTTON_TOOLTIP}
+              onPress={props.uiData.fire.bind(
                 props.uiData,
                 'panelHeaderFileButton_onClick',
                 props.panelType,
                 props.panelCode,
               )}
-            >
-              <span className='brPanelHeaderButtonIcon br_bi_icon_upload_svg'></span>
-            </ButtonIconic>,
+            />,
           )
         }
       }
@@ -757,22 +952,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='voice'
-            className='brPanelHeaderButton brVoiceButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brVoiceButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
+              conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.phone}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderVoiceButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_phone_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -784,22 +990,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='video'
-            className='brPanelHeaderButton brVideoButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brVideoButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
+              conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.videoCall}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderVideoButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_video_call_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -811,22 +1028,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='screen'
-            className='brPanelHeaderButton brScreenButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brScreenButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
+              conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.channelMosaic1}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderScreenButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_channel_mosaic_1_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -838,17 +1066,30 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='history'
-            className='brPanelHeaderButton brHistoryButton'
-            title={uawMsgs.LBL_PANEL_HEADER_HISTORY_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brHistoryButton,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
+            disabled={
+              !(
+                props.uiData.historyDetailWorkTable &&
+                props.uiData.historyDetailWorkTable[props.panelCode] &&
+                props.uiData.historyDetailWorkTable[props.panelCode]
+                  .chatPanelCode
+              )
+            }
+            iconSource={icons.history}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_HISTORY_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderHistoryButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_history_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (!props.uiData.isSubWindow) {
@@ -909,22 +1150,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='voice'
-            className='brPanelHeaderButton brVoiceButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brVoiceButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
+              conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.phone}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderVoiceButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_phone_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -936,22 +1188,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='video'
-            className='brPanelHeaderButton brVideoButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brVideoButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
+              conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.videoCall}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderVideoButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_video_call_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -963,22 +1226,33 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='screen'
-            className='brPanelHeaderButton brScreenButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brScreenButton,
+              (conference.conf_status !== Constants.CONF_STATUS_JOINED ||
+                !props.uiData.phone ||
+                props.uiData.phone.getPhoneStatus() !== 'started' ||
+                panelSession) &&
+                styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
+              conference.conf_status !== Constants.CONF_STATUS_JOINED ||
               !props.uiData.phone ||
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            title={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            iconSource={icons.channelMosaic1}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderScreenButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_channel_mosaic_1_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       contents = (
@@ -1069,9 +1343,9 @@ export default class extends React.Component {
                 tenant: buddy.tenant,
                 user_id: buddy.user_id,
               })}
-              className='brHeaderSearchConditionsUserItem'
+              style={styles.brHeaderSearchConditionsUserItem}
               dropDown={true}
-              onClick={this.handleHeaderSearchConditionsUserItemClick.bind(
+              onPress={this.handleHeaderSearchConditionsUserItemClick.bind(
                 this,
                 buddy.user_id,
               )}
@@ -1087,52 +1361,65 @@ export default class extends React.Component {
         }
       })
       headerSearchConditions = (
-        <div>
+        <View>
           <ButtonIconic
-            className={
-              'brHeaderSearchConditionsDetailButton' +
-              (this.state.historySummariesWithHeader
-                ? ' br_bi_icon_chevron_up_svg'
-                : ' br_bi_icon_chevron_down_svg')
+            style={[
+              styles.brHeaderSearchConditionsDetailButton,
+              this.state.historySummariesWithHeader
+                ? styles.iconChevronUp
+                : styles.iconChevronDown,
+            ]}
+            iconSource={
+              this.state.historySummariesWithHeader
+                ? icons.chevronUp
+                : icons.chevronDown
             }
-            title={uawMsgs.LBL_PANEL_HEADER_SEARCH_DETAIL_BUTTON_TOOLTIP}
-            onClick={this.handleHeaderSearchConditionsDetailButtonClick.bind(
+            accessibilityLabel={
+              uawMsgs.LBL_PANEL_HEADER_SEARCH_DETAIL_BUTTON_TOOLTIP
+            }
+            onPress={this.handleHeaderSearchConditionsDetailButtonClick.bind(
               this,
             )}
           />
-          <div className='brHeaderSearchConditionsContentArea'>
+
+          <View style={styles.brHeaderSearchConditionsContentArea}>
             <TextBox
               ref='headerSearchConditionsContentInput'
-              className='brHeaderSearchConditionsContentInput'
+              style={styles.brHeaderSearchConditionsContentInput}
               value={
                 this.state.headerSearchConditionsContentCache === null
                   ? string(conditions._any.conditionValue)
                   : this.state.headerSearchConditionsContentCache
               }
               placeholder={uawMsgs.LBL_PANEL_HEADER_SEARCH_INPUT_PLACEHOLDER}
-              onChange={this.handleHeaderSearchConditionsContentInputChange.bind(
+              onChangeText={this.handleHeaderSearchConditionsContentInputChange.bind(
                 this,
               )}
               onBlur={this.handleHeaderSearchConditionsContentInputBlur.bind(
                 this,
               )}
-              onKeyDown={this.handleHeaderSearchConditionsContentInputKeyDown.bind(
+              onKeyPress={this.handleHeaderSearchConditionsContentInputKeyDown.bind(
                 this,
               )}
             />
+
             <ButtonIconic
-              className='brHeaderSearchConditionsSearchButton br_bi_icon_search_svg'
-              title={uawMsgs.LBL_PANEL_HEADER_SEARCH_BUTTON_TOOLTIP}
-              onClick={this.handleHeaderSearchConditionsSearchButtonClick.bind(
+              style={styles.brHeaderSearchConditionsSearchButton}
+              iconSource={icons.search}
+              accessibilityLabel={
+                uawMsgs.LBL_PANEL_HEADER_SEARCH_BUTTON_TOOLTIP
+              }
+              onPress={this.handleHeaderSearchConditionsSearchButtonClick.bind(
                 this,
               )}
             />
-          </div>
-          <div className='brHeaderSearchConditionsUserArea'>
+          </View>
+
+          <View style={styles.brHeaderSearchConditionsUserArea}>
             <DropDownMenu
               uiData={props.uiData}
-              className='brHeaderSearchConditionsUserMenu'
-              dialogClassName='brPanelAreaDialog brHeaderSearchConditionsUserDialog'
+              style={styles.brHeaderSearchConditionsUserMenu}
+              dialogStyle={styles.brHeaderSearchConditionsUserDialog}
               text={
                 conditions._userId.conditionValue
                   ? string(
@@ -1143,14 +1430,15 @@ export default class extends React.Component {
               }
             >
               <MenuItem
-                className='brHeaderSearchConditionsUserItem'
+                style={styles.brHeaderSearchConditionsUserItem}
                 dropDown={true}
-                onClick={this.handleHeaderSearchConditionsUserAllClick.bind(
+                onPress={this.handleHeaderSearchConditionsUserAllClick.bind(
                   this,
                 )}
               >
-                {uawMsgs.LBL_PANEL_HEADER_SEARCH_USER_ALL}
+                <Text>{uawMsgs.LBL_PANEL_HEADER_SEARCH_USER_ALL}</Text>
               </MenuItem>
+
               {Object.keys(groupTable)
                 .sort(
                   (groupName1, groupName2) =>
@@ -1158,37 +1446,36 @@ export default class extends React.Component {
                     (groupTable[groupName2].groupIndex >>> 0),
                 )
                 .map(groupName => (
-                  <div
+                  <TouchableOpacity
                     key={groupName}
-                    className={
-                      'brHeaderSearchConditionsUserGroup' +
-                      (groupName ? ' brGroupName' : '')
+                    style={[
+                      styles.brHeaderSearchConditionsUserGroup,
+                      groupName && styles.brGroupName,
+                    ]}
+                    accessibilityLabel={groupName}
+                    onPress={() =>
+                      this.handleHeaderSearchConditionsUserGroupClick(groupName)
                     }
-                    title={groupName}
-                    onClick={this.handleHeaderSearchConditionsUserGroupClick.bind(
-                      this,
-                      groupName,
-                    )}
                   >
-                    <div
-                      className={
-                        'brHeaderSearchConditionsUserGroupIcon' +
-                        (this.state.headerSearchConditionsUserGroupOpen
+                    <Image
+                      source={
+                        this.state.headerSearchConditionsUserGroupOpen
                           .split(',')
                           .indexOf(groupName) !== -1
-                          ? ' br_bi_icon_chevron_up_svg'
-                          : ' br_bi_icon_chevron_down_svg')
+                          ? icons.chevronUp
+                          : icons.chevronDown
                       }
+                      style={styles.brHeaderSearchConditionsUserGroupIcon}
                     />
-                    <div className='brHeaderSearchConditionsUserGroupName'>
+                    <Text style={styles.brHeaderSearchConditionsUserGroupName}>
                       {groupName}
-                    </div>
+                    </Text>
                     {groupTable[groupName].buddyNodes}
-                  </div>
+                  </TouchableOpacity>
                 ))}
             </DropDownMenu>
-          </div>
-        </div>
+          </View>
+        </View>
       )
       contents = (
         <HistorySummariesPanel
@@ -1230,18 +1517,23 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='chat'
-            className='brPanelHeaderButton brChatButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brChatButton,
+              !isBuddy && styles.brDisabled,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={!isBuddy}
-            title={uawMsgs.LBL_PANEL_HEADER_CHAT_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_CHAT_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderChatButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_chat_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       if (
@@ -1253,7 +1545,13 @@ export default class extends React.Component {
         headerButtons.push(
           <ButtonIconic
             key='history'
-            className='brPanelHeaderButton brHistoryButton'
+            style={[
+              styles.brPanelHeaderButton,
+              styles.brHistoryButton,
+              !props.uiData.currentSelectedTab.includes(
+                props.panelType + '_' + props.panelCode,
+              ) && styles.brNotSelected,
+            ]}
             disabled={
               !(
                 props.uiData.historyDetailWorkTable &&
@@ -1262,16 +1560,14 @@ export default class extends React.Component {
                   .chatPanelCode
               )
             }
-            title={uawMsgs.LBL_PANEL_HEADER_HISTORY_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_HISTORY_BUTTON_TOOLTIP}
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderHistoryButton_onClick',
               props.panelType,
               props.panelCode,
             )}
-          >
-            <span className='brPanelHeaderButtonIcon br_bi_icon_history_svg'></span>
-          </ButtonIconic>,
+          />,
         )
       }
       contents = (
@@ -1283,113 +1579,120 @@ export default class extends React.Component {
       )
     }
     return (
-      <div
-        className={
-          'brPanelArea ' +
-          panelTypeClassName +
-          (props.uiData.currentSelectedTab ===
-          props.panelType + '_' + props.panelCode
-            ? ' brSelected'
-            : '') +
-          (this.state.headerButtonsCollapsible
-            ? ' brHeaderButtonsCollapsible'
-            : '') +
-          (props.uiData.configurations.headerButtonsVisible
-            ? ' brHeaderButtonsVisible'
-            : '')
-        }
+      <View
+        style={[
+          styles.brPanelArea,
+          styles[panelTypeClassName],
+          props.uiData.currentSelectedTab ===
+            props.panelType + '_' + props.panelCode && styles.brSelected,
+          this.state.headerButtonsCollapsible &&
+            styles.brHeaderButtonsCollapsible,
+          props.uiData.configurations.headerButtonsVisible &&
+            styles.brHeaderButtonsVisible,
+        ]}
       >
-        <div className='brPanelAreaInner'>{contents}</div>
-        <div ref='panelHeaderArea' className='brPanelHeaderArea'>
-          <div
-            ref='panelHeaderTitle'
-            className={'brPanelHeaderTitle' + (headerTitle ? '' : ' brHidden')}
-            title={headerTitle}
+        <View style={styles.brPanelAreaInner}>{contents}</View>
+
+        <View ref={this.panelHeaderAreaRef} style={styles.brPanelHeaderArea}>
+          <View
+            ref={this.panelHeaderTitleRef}
+            style={[styles.brPanelHeaderTitle, !headerTitle && styles.brHidden]}
+            accessibilityLabel={headerTitle}
           >
-            {headerTitle}
-          </div>
-          <div
-            ref='panelHeaderInfo'
-            className={'brPanelHeaderInfo' + (headerInfo ? '' : ' brHidden')}
-            title={headerInfo}
+            <Text>{headerTitle}</Text>
+          </View>
+
+          <View
+            ref={this.panelHeaderInfoRef}
+            style={[styles.brPanelHeaderInfo, !headerInfo && styles.brHidden]}
+            accessibilityLabel={headerInfo}
           >
-            {headerInfo}
-          </div>
-          <div
-            ref='panelHeaderMembers'
-            className={
-              'brPanelHeaderMembers' + (headerMembers.length ? '' : ' brHidden')
-            }
-            title={headerMembersTitle}
+            <Text>{headerInfo}</Text>
+          </View>
+
+          <View
+            ref={this.panelHeaderMembersRef}
+            style={[
+              styles.brPanelHeaderMembers,
+              !headerMembers.length && styles.brHidden,
+            ]}
+            accessibilityLabel={headerMembersTitle}
           >
             {headerMembers}
-          </div>
-          <div
-            ref='panelHeaderButtonsArea'
-            className='brPanelHeaderButtonsArea'
+          </View>
+
+          <View
+            ref={this.panelHeaderButtonsAreaRef}
+            style={styles.brPanelHeaderButtonsArea}
           >
             {headerButtons}
-          </div>
+          </View>
+
           <ButtonIconic
-            className={
-              'brPanelHeaderButtonsMenu br_bi_icon_more_svg' +
-              (headerButtons.length ? '' : ' brHidden')
-            }
-            onClick={this.handlePanelHeaderButtonsMenuClick.bind(this)}
+            style={[
+              styles.brPanelHeaderButtonsMenu,
+              !headerButtons.length && styles.brHidden,
+            ]}
+            iconSource={icons.more}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_MORE_BUTTON_TOOLTIP}
+            onPress={this.handlePanelHeaderButtonsMenuClick.bind(this)}
           >
-            <div
-              className={
-                'brPanelHeaderButtonsBalloonDialog' +
-                (props.uiData.showingDialogVersion ===
-                this.state.showingDialogVersion
-                  ? ''
-                  : ' brHidden')
-              }
+            <View
+              style={[
+                styles.brPanelHeaderButtonsBalloonDialog,
+                props.uiData.showingDialogVersion !==
+                  this.state.showingDialogVersion && styles.brHidden,
+              ]}
             >
               {headerButtons}
-            </div>
+            </View>
           </ButtonIconic>
+
           <MenuBalloonDialog
-            className='brReplyWebchatBalloonDialog'
+            style={[styles.brReplyDialog, this.state.replyDialogStyle]}
+            accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_REPLY_BUTTON_TOOLTIP}
             showing={
               props.uiData.showingDialogVersion ===
                 this.state.showingDialogVersion &&
               props.uiData.showingDialogVersion ===
                 this.state.showingReplyDialogVersion
             }
-            style={this.state.replyDialogStyle}
           >
             {replyOptions.map((s, i) => (
               <MenuItem
                 key={i}
-                className={'brReplyWebchatMenuItem ' + s.className}
-                onClick={s.event}
-              >
-                {s.label}
-              </MenuItem>
+                style={[styles.brReplyWebchatMenuItem, styles[s.className]]}
+                accessibilityLabel={s.label}
+                onPress={s.event}
+              />
             ))}
           </MenuBalloonDialog>
-          <div
-            className={
-              'brPanelHeaderSimpleButtonsArea' +
-              (props.uiData.configurations.panelHeader ? ' brVisible' : '')
-            }
+
+          <View
+            style={[
+              styles.brPanelHeaderSimpleButtonsArea,
+              props.uiData.configurations.panelHeader && styles.brVisible,
+            ]}
           >
             {headerSimpleButtons}
-          </div>
-          <div
+          </View>
+
+          <View
             ref='panelHeaderSearchConditions'
-            className={
-              'brHeaderSearchConditions' +
-              (headerSearchConditions ? '' : ' brHidden')
+            style={[
+              styles.brHeaderSearchConditions,
+              !headerSearchConditions && styles.brHidden,
+            ]}
+            accessibilityLabel={
+              uawMsgs.LBL_PANEL_HEADER_SEARCH_CONDITIONS_TOOLTIP
             }
-            style={{ width: this.state.headerSearchConditionsWidth + 'px' }}
           >
             {headerSearchConditions}
-          </div>
+          </View>
+
           <DndableSafe
             uiData={props.uiData}
-            className='brPanelHeaderInviteDndable'
+            style={styles.brPanelHeaderInviteDndable}
             onCheckCanDrop={props.uiData.fire.bind(
               props.uiData,
               'panelHeaderInviteDndable_onCheckCanDrop',
@@ -1403,8 +1706,266 @@ export default class extends React.Component {
               props.panelCode,
             )}
           />
-        </div>
-      </div>
+        </View>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  brPanelArea: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+  },
+
+  brPanelHeaderArea: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: 56,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5', // @platinum
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  brPanelHeaderTitle: {
+    maxHeight: '100%',
+    paddingLeft: 22,
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 25.6, // 1.6 * 16
+    letterSpacing: 0.3,
+  },
+
+  brPanelHeaderInfo: {
+    maxHeight: '100%',
+    paddingLeft: 26,
+    fontSize: 9,
+    fontWeight: '400',
+    lineHeight: 14.4, // 1.6 * 9
+    letterSpacing: 1.3,
+    color: '#666666', // @dark_gray
+  },
+
+  brPreferenceHeaderInfo: {
+    marginLeft: 16,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 2,
+    paddingBottom: 2,
+    borderWidth: 1,
+    borderColor: '#FF4526', // @portland_orange
+    color: '#FF4526',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20.8, // 1.6 * 13
+    letterSpacing: 0.3,
+  },
+
+  brPanelHeaderMembers: {
+    maxHeight: '100%',
+    paddingLeft: 22,
+    fontSize: 9,
+    fontWeight: '400',
+    lineHeight: 14.4, // 1.6 * 9
+    letterSpacing: 1.3,
+    color: '#666666', // @dark_gray
+  },
+
+  brConfStatus1: {
+    color: '#E5E5E5', // @platinum
+  },
+
+  brPanelHeaderButtonsArea: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    height: 0,
+    transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
+    overflow: 'hidden',
+  },
+
+  brHeaderButtonsVisible: {
+    height: 32,
+  },
+
+  brPanelHeaderButton: {
+    marginHorizontal: 2,
+    backgroundColor: '#82C341',
+  },
+
+  brNotSelected: {
+    opacity: 0.5,
+  },
+
+  brDisabled: {
+    backgroundColor: '#A0A0A0',
+  },
+
+  brKickButton: {
+    backgroundColor: '#FF4526',
+  },
+
+  brPanelHeaderButtonsMenu: {
+    position: 'absolute',
+    right: 8,
+    top: '50%',
+    transform: [{ translateY: '-50%' }],
+    display: 'none',
+  },
+
+  brPanelHeaderButtonsBalloonDialog: {
+    position: 'absolute',
+    right: -4,
+    top: 36,
+    height: 40,
+    padding: 4,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 4,
+    shadowColor: '#E5E5E5',
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 4,
+    shadowOpacity: 1,
+    elevation: 4,
+  },
+
+  brPanelHeaderSimpleButtonsArea: {
+    position: 'absolute',
+    right: 2,
+    top: '50%',
+    height: 20,
+    transform: [{ translateY: '-50%' }],
+  },
+
+  brSimpleButton: {
+    width: 20,
+    height: 20,
+    marginLeft: 2,
+  },
+
+  brHeaderSearchConditions: {
+    position: 'absolute',
+    right: 0,
+    maxWidth: 600,
+    top: '50%',
+    height: 42,
+    transform: [{ translateY: '-50%' }],
+    overflow: 'hidden',
+  },
+
+  brHeaderSearchConditionsDetailButton: {
+    position: 'absolute',
+    right: 8,
+    width: 32,
+    top: 5,
+    height: 32,
+  },
+
+  brHeaderSearchConditionsContentArea: {
+    position: 'absolute',
+    left: 200,
+    right: 48,
+    top: 0,
+    height: 42,
+    overflow: 'hidden',
+  },
+
+  brHeaderSearchConditionsContentInput: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    top: 0,
+    height: '100%',
+  },
+
+  brHeaderSearchConditionsSearchButton: {
+    position: 'absolute',
+    right: 5,
+    width: 32,
+    top: 5,
+    height: 32,
+    opacity: 0.2,
+  },
+
+  brHeaderSearchConditionsUserArea: {
+    position: 'absolute',
+    left: 12,
+    width: 176,
+    top: 5,
+    height: 32,
+  },
+
+  brHeaderSearchConditionsUserMenu: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    top: 0,
+    height: '100%',
+  },
+
+  brHeaderSearchConditionsUserGroup: {
+    position: 'relative',
+    minWidth: 80,
+    paddingTop: 24,
+  },
+
+  brHeaderSearchConditionsUserGroupIcon: {
+    width: 16,
+    height: 16,
+    position: 'absolute',
+    right: 4,
+    top: 4,
+  },
+
+  brHeaderSearchConditionsUserGroupName: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    top: 0,
+    height: 24,
+    lineHeight: 24,
+    overflow: 'hidden',
+    fontSize: 9,
+    fontWeight: '400',
+    letterSpacing: 1.3,
+    paddingLeft: 8,
+    color: '#666666',
+  },
+
+  brPanelHeaderInviteDndable: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+
+  brCanDrop: {},
+
+  brIsOver: {
+    borderWidth: 3,
+    borderColor: '#48D1CC',
+  },
+
+  brPanelAreaInner: {
+    position: 'absolute',
+    left: 0,
+    top: 56,
+    bottom: 0,
+    width: '100%',
+  },
+
+  brHidden: {
+    display: 'none',
+  },
+
+  brVisible: {
+    display: 'flex',
+  },
+})

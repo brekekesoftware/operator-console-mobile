@@ -1,5 +1,12 @@
 import React from 'react'
-import { TouchableOpacity, StyleSheet, View } from 'react-native'
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  StyleProp,
+  ViewStyle,
+  ImageSourcePropType,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -37,7 +44,7 @@ export default class extends React.Component {
         activeOpacity={props.disabled ? 1 : 0.7}
         onPress={this.handlePress}
         disabled={props.disabled}
-        accessibilityLabel={props.title}
+        accessibilityLabel={props.accessibilityLabel}
       >
         <View style={styles.iconContainer}>{props.children}</View>
       </TouchableOpacity>

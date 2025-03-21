@@ -2,21 +2,27 @@ import React from 'react'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import ButtonIconic from './ButtonIconic.js'
 import DropDownMenu from './DropDownMenu.js'
 import HistoryDetailArea from './HistoryDetailArea.js'
 import MenuBalloonDialog from './MenuBalloonDialog.js'
 import MenuItem from './MenuItem.js'
+import NameEmbeddedSpan from './NameEmbeddedSpan.js'
 import { formatMessageDateTime } from '../utilities/strings.js'
-import '../utilities/disableamd.js'
-import DatePicker from 'react-datepicker'
-import '../utilities/restoreamd.js'
-import 'moment/locale/ja'
-import 'moment/locale/zh-cn'
 import moment from 'moment'
-moment.locale('en')
-uawMsgs.registerMoment(moment)
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform,
+  Modal,
+  Animated,
+  Easing,
+} from 'react-native'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 /**
  * HistorySummariesPanel
@@ -38,55 +44,57 @@ export default class extends React.Component {
       showingReplyDialogVersion: null,
       showingReplyDialogSearchResultId: null,
     }
+    this.historySummariesAreaRef = React.createRef()
+    this.historyProgressRef = React.createRef()
+    this.progressAnimation = new Animated.Value(0)
   }
+
   componentDidUpdate() {
-    const props = this.props
-    const historySummariesArea = ReactDOM.findDOMNode(
-      this.refs['historySummariesArea'],
-    )
-    if (
-      historySummariesArea &&
-      this.state.areaHeight !== historySummariesArea.offsetHeight
-    ) {
-      this.setState({ areaHeight: historySummariesArea.offsetHeight })
-      return
+    // Use onLayout instead of DOM measurements
+    if (this.historySummariesAreaRef.current) {
+      this.historySummariesAreaRef.current.measure((x, y, width, height) => {
+        if (this.state.areaHeight !== height) {
+          this.setState({ areaHeight: height })
+          return
+        }
+      })
     }
     this.checkAndSearchMore()
   }
-  handleHistorySummariesAreaScroll(ev) {
-    const props = this.props
+
+  handleHistorySummariesAreaScroll = () => {
     this.checkAndSearchMore()
   }
-  handleHistorySummaryExpandButtonClick(searchResultId, ev) {
-    const props = this.props
-    props.uiData.ucUiAction.expandSearchResult({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
+
+  handleHistorySummaryExpandButtonClick = searchResultId => {
+    this.props.uiData.ucUiAction.expandSearchResult({
+      chatType: this.props.panelType,
+      chatCode: this.props.panelCode,
       searchResultIds: [searchResultId],
     })
   }
-  handleHistoryReplyWebchatButtonClick(searchResultId, ev) {
-    const props = this.props
+
+  handleHistoryReplyWebchatButtonClick = (searchResultId, ev) => {
     if (
-      props.uiData.showingDialogVersion !==
+      this.props.uiData.showingDialogVersion !==
         this.state.showingReplyDialogVersion ||
       searchResultId !== this.state.showingReplyDialogSearchResultId
     ) {
       this.setState({
-        showingReplyDialogVersion: ++props.uiData.showingDialogVersion,
+        showingReplyDialogVersion: ++this.props.uiData.showingDialogVersion,
         showingReplyDialogSearchResultId: searchResultId,
       })
-      ev.stopPropagation()
-      props.uiData.fire('showingDialog_update')
+      this.props.uiData.fire('showingDialog_update')
     }
   }
-  handleSearchConditionsDatePickerChange(isEnd, moment) {
-    const props = this.props
+
+  handleSearchConditionsDatePickerChange = (isEnd, moment) => {
     const searchConditions =
-      props.uiData.ucUiStore.getSearchConditions({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
+      this.props.uiData.ucUiStore.getSearchConditions({
+        chatType: this.props.panelType,
+        chatCode: this.props.panelCode,
       }) || []
+
     if (
       !searchConditions.some(condition => {
         if (condition.conditionKey === '_datetime') {
@@ -100,9 +108,8 @@ export default class extends React.Component {
           }
           condition.conditionValue = startEnd.join('-')
           return true
-        } else {
-          return false
         }
+        return false
       })
     ) {
       searchConditions.push({
@@ -112,28 +119,31 @@ export default class extends React.Component {
           : string(moment && moment.startOf('day').valueOf()) + '-',
       })
     }
-    props.uiData.ucUiAction.setSearchConditions({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
+
+    this.props.uiData.ucUiAction.setSearchConditions({
+      chatType: this.props.panelType,
+      chatCode: this.props.panelCode,
       searchConditions: searchConditions,
     })
-    props.uiData.ucUiAction.doSearch({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
+
+    this.props.uiData.ucUiAction.doSearch({
+      chatType: this.props.panelType,
+      chatCode: this.props.panelCode,
       emphasize: true,
       queueing: true,
     })
   }
-  handleSearchConditionsWebchatItemClick(index, ev) {
-    const props = this.props
+
+  handleSearchConditionsWebchatItemClick = index => {
     const searchConditions =
-      props.uiData.ucUiStore.getSearchConditions({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
+      this.props.uiData.ucUiStore.getSearchConditions({
+        chatType: this.props.panelType,
+        chatCode: this.props.panelCode,
       }) || []
-    props.uiData.ucUiAction.setSearchConditions({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
+
+    this.props.uiData.ucUiAction.setSearchConditions({
+      chatType: this.props.panelType,
+      chatCode: this.props.panelCode,
       searchConditions: searchConditions
         .filter(
           condition =>
@@ -146,45 +156,69 @@ export default class extends React.Component {
             : { conditionKey: '_onlyMe', conditionValue: '2' },
         ),
     })
-    props.uiData.ucUiAction.doSearch({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
+
+    this.props.uiData.ucUiAction.doSearch({
+      chatType: this.props.panelType,
+      chatCode: this.props.panelCode,
       emphasize: true,
       queueing: true,
     })
   }
-  checkAndSearchMore() {
-    const props = this.props
-    const historySummariesArea = ReactDOM.findDOMNode(
-      this.refs['historySummariesArea'],
-    )
-    const historyProgress = ReactDOM.findDOMNode(this.refs['historyProgress'])
+
+  checkAndSearchMore = () => {
     if (
-      historySummariesArea &&
-      historyProgress &&
-      historyProgress.offsetHeight > 0 &&
-      historySummariesArea.scrollTop >
-        historySummariesArea.scrollHeight -
-          historySummariesArea.offsetHeight -
-          historyProgress.offsetHeight
+      this.historySummariesAreaRef.current &&
+      this.historyProgressRef.current
     ) {
-      const searchWorkData =
-        props.uiData.ucUiStore.getSearchWorkData({
-          chatType: props.panelType,
-          chatCode: props.panelCode,
-        }) || {}
-      if (searchWorkData.hasMore && !searchWorkData.searching) {
-        props.uiData.ucUiAction.doSearch({
-          chatType: props.panelType,
-          chatCode: props.panelCode,
-          searchMore: true,
-          emphasize: true,
-        })
-      }
+      this.historySummariesAreaRef.current.measure(
+        (x, y, width, height, pageX, pageY) => {
+          this.historyProgressRef.current.measure((x2, y2, width2, height2) => {
+            const scrollInfo = {
+              scrollTop: pageY,
+              scrollHeight: height,
+              offsetHeight: height2,
+            }
+
+            if (
+              scrollInfo.scrollTop >
+              scrollInfo.scrollHeight - scrollInfo.offsetHeight - height2
+            ) {
+              const searchWorkData =
+                this.props.uiData.ucUiStore.getSearchWorkData({
+                  chatType: this.props.panelType,
+                  chatCode: this.props.panelCode,
+                }) || {}
+
+              if (searchWorkData.hasMore && !searchWorkData.searching) {
+                this.props.uiData.ucUiAction.doSearch({
+                  chatType: this.props.panelType,
+                  chatCode: this.props.panelCode,
+                  searchMore: true,
+                  emphasize: true,
+                })
+              }
+            }
+          })
+        },
+      )
     }
   }
+
+  startProgressAnimation = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(this.progressAnimation, {
+          toValue: 1,
+          duration: 1500,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start()
+  }
+
   render() {
-    const props = this.props
+    const { props } = this
     const configProperties = props.uiData.ucUiStore.getConfigProperties()
     const searchConditions =
       props.uiData.ucUiStore.getSearchConditions({
@@ -245,52 +279,54 @@ export default class extends React.Component {
         })
       }
       return (
-        <div
+        <View
           key={string(searchResult.searchResultId)}
-          className='brHistorySummaryEntry'
+          style={styles.brHistorySummaryEntry}
         >
-          <div className='brHistoryOpenDetailArea'>
+          <View style={styles.brHistoryOpenDetailArea}>
             <ButtonIconic
-              className='brHistoryOpenDetailButton br_bi_icon_new_window_svg'
-              title={uawMsgs.LBL_HISTORY_OPEN_DETAIL_BUTTON_TOOLTIP}
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'historySummariesPanelOpenDetailButton_onClick',
-                props.panelType,
-                props.panelCode,
-                searchResult.searchResultId,
-                searchResult._topic && searchResult._topic.peer,
-                searchResult.chatType === 'webchat'
-                  ? string(searchResult.customerName)
-                  : searchResult.chatType === 'userchatconf'
-                    ? string(
-                        searchResult._topic &&
-                          searchResult._topic.peer &&
-                          searchResult._topic.peer.subject,
-                      )
-                    : string(
-                        searchResult._topic &&
-                          searchResult._topic.peer &&
-                          (searchResult._topic.peer.user_name ||
-                            searchResult._topic.peer.user_id),
-                      ),
-              )}
-            />
-            <ButtonIconic
-              className='brHistoryReplyWebchatButton br_bi_icon_reply_svg'
-              title={uawMsgs.LBL_HISTORY_REPLY_BUTTON_TOOLTIP}
-              hidden={!replyOptions.length}
-              onClick={
-                replyOptions.length === 1
-                  ? replyOptions[0].event
-                  : this.handleHistoryReplyWebchatButtonClick.bind(
-                      this,
-                      searchResult.searchResultId,
-                    )
+              style={styles.brHistoryOpenDetailButton}
+              iconSource={icons.newWindow}
+              accessibilityLabel={
+                uawMsgs.LBL_HISTORY_OPEN_DETAIL_BUTTON_TOOLTIP
+              }
+              onPress={() =>
+                props.uiData.fire(
+                  'historySummariesPanelOpenDetailButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                  searchResult.searchResultId,
+                  searchResult._topic?.peer,
+                  searchResult.chatType === 'webchat'
+                    ? string(searchResult.customerName)
+                    : searchResult.chatType === 'userchatconf'
+                      ? string(searchResult._topic?.peer?.subject)
+                      : string(
+                          searchResult._topic?.peer?.user_name ||
+                            searchResult._topic?.peer?.user_id,
+                        ),
+                )
               }
             />
+
+            {replyOptions.length > 0 && (
+              <ButtonIconic
+                style={styles.brHistoryReplyWebchatButton}
+                iconSource={icons.reply}
+                accessibilityLabel={uawMsgs.LBL_HISTORY_REPLY_BUTTON_TOOLTIP}
+                onPress={
+                  replyOptions.length === 1
+                    ? replyOptions[0].event
+                    : () =>
+                        this.handleHistoryReplyWebchatButtonClick(
+                          searchResult.searchResultId,
+                        )
+                }
+              />
+            )}
+
             <MenuBalloonDialog
-              className='brHistoryReplyWebchatBalloonDialog'
+              style={styles.brHistoryReplyWebchatBalloonDialog}
               showing={
                 props.uiData.showingDialogVersion ===
                   this.state.showingReplyDialogVersion &&
@@ -298,19 +334,23 @@ export default class extends React.Component {
                   this.state.showingReplyDialogSearchResultId
               }
             >
-              {replyOptions.map((s, i) => (
+              {replyOptions.map((option, i) => (
                 <MenuItem
                   key={i}
-                  className={'brHistoryReplyWebchatMenuItem ' + s.className}
-                  onClick={s.event}
+                  style={[
+                    styles.brHistoryReplyWebchatMenuItem,
+                    styles[option.className],
+                  ]}
+                  accessibilityLabel={option.label}
+                  onPress={option.event}
                 >
-                  {s.label}
+                  <Text>{option.label}</Text>
                 </MenuItem>
               ))}
             </MenuBalloonDialog>
-          </div>
-          <div
-            className={
+          </View>
+          <View
+            style={
               'brHistorySummary' + (searchResult._expanded ? ' brExpanded' : '')
             }
             onClick={
@@ -322,7 +362,7 @@ export default class extends React.Component {
                   )
             }
           >
-            <div className='brHistorySummaryMarker' />
+            <View style={styles.brHistorySummaryMarker} />
             {searchResult.chatType === 'webchat' ? (
               ((profile_image_url = string(
                 searchResult._topic &&
@@ -338,8 +378,8 @@ export default class extends React.Component {
                     .pop(),
               )) &&
                 false) || (
-                <div
-                  className={
+                <View
+                  style={
                     'brHistorySummaryImage' +
                     (profile_image_url ? '' : ' brWithIcon') +
                     (profile_image_url &&
@@ -349,27 +389,14 @@ export default class extends React.Component {
                       ? ' brMyProfileImageUrl'
                       : '')
                   }
-                  title={
-                    profile_image_url
-                      ? string(searchResult.customerName)
-                      : uawMsgs.LBL_HISTORY_TYPE_WEBCHAT
-                  }
-                  style={
-                    profile_image_url
-                      ? { backgroundImage: 'url(' + profile_image_url + ')' }
-                      : {}
-                  }
                 >
-                  <div className='brIcon br_bi_icon_internet_svg' />
-                </div>
+                  <Image source={icons.internet} style={styles.brIcon} />
+                </View>
               )
             ) : searchResult.chatType === 'userchatconf' ? (
-              <div
-                className={'brHistorySummaryImage brWithIcon'}
-                title={uawMsgs.LBL_HISTORY_TYPE_CONFERENCE}
-              >
-                <div className='brIcon br_bi_icon_conference_foreground_selected_svg' />
-              </div>
+              <View style={styles.brHistorySummaryImage}>
+                <Image source={icons.conference} style={styles.brIcon} />
+              </View>
             ) : (
               ((profile_image_url = string(
                 (
@@ -379,8 +406,8 @@ export default class extends React.Component {
                 ).profile_image_url,
               )) &&
                 false) || (
-                <div
-                  className={
+                <View
+                  style={
                     'brHistorySummaryImage' +
                     (profile_image_url ? '' : ' brNoImage') +
                     (profile_image_url &&
@@ -390,21 +417,12 @@ export default class extends React.Component {
                       ? ' brMyProfileImageUrl'
                       : '')
                   }
-                  title={string(
-                    searchResult._topic &&
-                      searchResult._topic.peer &&
-                      (searchResult._topic.peer.user_name ||
-                        searchResult._topic.peer.user_id),
-                  )}
-                  style={
-                    profile_image_url
-                      ? { backgroundImage: 'url(' + profile_image_url + ')' }
-                      : {}
-                  }
-                />
+                >
+                  <Image source={icons.user} style={styles.brIcon} />
+                </View>
               )
             )}
-            <div className='brHistorySummaryName'>
+            <View style={styles.brHistorySummaryName}>
               {searchResult.chatType === 'webchat'
                 ? string(searchResult.customerName)
                 : searchResult.chatType === 'userchatconf'
@@ -419,16 +437,18 @@ export default class extends React.Component {
                         (searchResult._topic.peer.user_name ||
                           searchResult._topic.peer.user_id),
                     )}
-            </div>
-            <div className='brHistorySummaryProfinfo'>
-              {string(searchResult._profinfoFormatted)}
-            </div>
-            <div className='brHistorySummaryTime'>
+            </View>
+            <View style={styles.brHistorySummaryProfinfo}>
+              <NameEmbeddedSpan
+                text={string(searchResult._profinfoFormatted)}
+              />
+            </View>
+            <View style={styles.brHistorySummaryTime}>
               {searchResult.customerStartTime
                 ? formatMessageDateTime(searchResult.customerStartTime)
                 : ''}
-            </div>
-            <div className='brHistorySummarySenderName'>
+            </View>
+            <View style={styles.brHistorySummarySenderName}>
               {(searchResult.chatType === 'webchat' &&
                 searchResult._topic &&
                 searchResult.customerTenant ===
@@ -453,59 +473,58 @@ export default class extends React.Component {
                       {}
                     ).name,
                   )}
-            </div>
-            <div className='brHistorySummarySummary'>
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: string(searchResult.summary)
-                    .replace(
-                      /brFileRequest">/g,
-                      'brFileRequest ' +
-                        ((
-                          (searchResult._topic &&
-                            props.uiData.ucUiStore.getBuddyUserForUi({
-                              tenant: searchResult._topic.content_sender_tenant,
-                              user_id:
-                                searchResult._topic.content_sender_user_id,
-                            })) ||
-                          {}
-                        ).isMe
-                          ? 'br_bi_icon_upload_svg'
-                          : 'br_bi_icon_download_svg') +
-                        '" title="' +
-                        uawMsgs.LBL_HISTORY_SUMMARY_FILE +
-                        '">',
-                    )
-                    .replace(
-                      /brCallResult">/g,
-                      'brCallResult br_bi_icon_phone_svg" title="' +
-                        uawMsgs.LBL_HISTORY_SUMMARY_CALL +
-                        '">',
-                    )
-                    .replace(
-                      /brObject">/g,
-                      'brObject br_bi_icon_job_svg" title="' +
-                        uawMsgs.LBL_HISTORY_SUMMARY_OBJECT +
-                        '">',
-                    ),
-                }}
+            </View>
+            <View style={styles.brHistorySummarySummary}>
+              <NameEmbeddedSpan
+                text={string(searchResult.summary)
+                  .replace(
+                    /brFileRequest">/g,
+                    'brFileRequest ' +
+                      ((
+                        (searchResult._topic &&
+                          props.uiData.ucUiStore.getBuddyUserForUi({
+                            tenant: searchResult._topic.content_sender_tenant,
+                            user_id: searchResult._topic.content_sender_user_id,
+                          })) ||
+                        {}
+                      ).isMe
+                        ? 'br_bi_icon_upload_svg'
+                        : 'br_bi_icon_download_svg') +
+                      '" title="' +
+                      uawMsgs.LBL_HISTORY_SUMMARY_FILE +
+                      '">',
+                  )
+                  .replace(
+                    /brCallResult">/g,
+                    'brCallResult br_bi_icon_phone_svg" title="' +
+                      uawMsgs.LBL_HISTORY_SUMMARY_CALL +
+                      '">',
+                  )
+                  .replace(
+                    /brObject">/g,
+                    'brObject br_bi_icon_job_svg" title="' +
+                      uawMsgs.LBL_HISTORY_SUMMARY_OBJECT +
+                      '">',
+                  )}
               />
-            </div>
+            </View>
             <HistoryDetailArea
               uiData={props.uiData}
               panelType='SEARCHRESULTDETAIL'
               panelCode={searchResult.searchResultId}
             />
-            <div className='brHistorySummaryExpandDummy br_bi_icon_chevron_down_svg' />
+            <View style={styles.brHistorySummaryExpandDummy} />
             <ButtonIconic
-              className='brHistorySummaryExpandButton br_bi_icon_chevron_up_svg'
-              onClick={this.handleHistorySummaryExpandButtonClick.bind(
+              style={styles.brHistorySummaryExpandButton}
+              iconSource={icons.chevronUp}
+              accessibilityLabel={uawMsgs.LBL_HISTORY_SUMMARY_EXPAND_BUTTON}
+              onPress={this.handleHistorySummaryExpandButtonClick.bind(
                 this,
                 searchResult.searchResultId,
               )}
             />
-          </div>
-        </div>
+          </View>
+        </View>
       )
     })
     // conditions
@@ -517,79 +536,111 @@ export default class extends React.Component {
     const startMoment = startEnd[0] ? moment(int(startEnd[0])) : null
     const endMoment = startEnd[1] ? moment(int(startEnd[1])) : null
     return (
-      <div
-        className={
-          'brHistorySummariesPanel' + (props.withHeader ? ' brWithHeader' : '')
-        }
+      <View
+        style={[
+          styles.brHistorySummariesPanel,
+          props.withHeader && styles.brWithHeader,
+        ]}
       >
-        <div
-          ref='historySummariesArea'
-          className={
-            'brHistorySummariesArea' +
-            (props.uiData.currentSelectedTab ===
-            props.panelType + '_' + props.panelCode
-              ? ' brSelected'
-              : '') +
-            (searchResults.some(searchResult => searchResult._expanded)
-              ? ''
-              : ' brDetailClosed') +
-            (entries.length === 0 ? ' brNoEntries' : '') +
-            (searchWorkData.searching ? ' brSearching' : '') +
-            (searchWorkData.hasMore ? ' brHasMore' : '') +
-            (searchWorkData.errorType ? ' brError' : '')
-          }
-          onScroll={this.handleHistorySummariesAreaScroll.bind(this)}
+        <ScrollView
+          ref={this.historySummariesAreaRef}
+          style={[
+            styles.brHistorySummariesArea,
+            props.uiData.currentSelectedTab ===
+              props.panelType + '_' + props.panelCode && styles.brSelected,
+            searchResults.some(result => result._expanded) &&
+              styles.brDetailClosed,
+            entries.length === 0 && styles.brNoEntries,
+            searchWorkData.searching && styles.brSearching,
+            searchWorkData.hasMore && styles.brHasMore,
+            searchWorkData.errorType && styles.brError,
+          ]}
+          onScroll={this.handleHistorySummariesAreaScroll}
         >
-          <div
-            className='brHistorySummariesAreaMarker'
-            style={{ height: this.state.areaHeight }}
+          <View
+            style={[
+              styles.brHistorySummariesAreaMarker,
+              { height: this.state.areaHeight },
+            ]}
           />
-          <div className='brHistorySummariesList'>
+
+          <View style={styles.brHistorySummariesList}>
             {entries}
-            <div className='brHistoryNoResults'>
-              {uawMsgs.LBL_HISTORY_NO_RESULTS}
-            </div>
-            <div className='brHistoryError'>
-              {(uawMsgs[searchWorkData.errorType] || searchWorkData.errorType) +
-                (searchWorkData.errorDetail
-                  ? ' (' + searchWorkData.errorDetail + ')'
-                  : '')}
-            </div>
-            <div ref='historyProgress' className='brHistoryProgress'>
-              <div className='brHistoryProgressInner' />
-            </div>
-          </div>
-        </div>
-        <div className='brHistorySummariesHeader'>
-          <span className='brHistorySummariesHeaderDateLabel'>
+
+            {entries.length === 0 && (
+              <Text style={styles.brHistoryNoResults}>
+                {uawMsgs.LBL_HISTORY_NO_RESULTS}
+              </Text>
+            )}
+
+            {searchWorkData.errorType && (
+              <Text style={styles.brHistoryError}>
+                {(uawMsgs[searchWorkData.errorType] ||
+                  searchWorkData.errorType) +
+                  (searchWorkData.errorDetail
+                    ? ` (${searchWorkData.errorDetail})`
+                    : '')}
+              </Text>
+            )}
+
+            <View
+              ref={this.historyProgressRef}
+              style={styles.brHistoryProgress}
+            >
+              <Animated.View
+                style={[
+                  styles.brHistoryProgressInner,
+                  {
+                    transform: [
+                      {
+                        rotate: this.progressAnimation.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: ['0deg', '360deg'],
+                        }),
+                      },
+                    ],
+                  },
+                ]}
+              />
+            </View>
+          </View>
+        </ScrollView>
+        <View style={styles.brHistorySummariesHeader}>
+          <View style={styles.brHistorySummariesHeaderDateLabel}>
             {uawMsgs.LBL_HISTORY_DATE}
-          </span>
-          <DatePicker
-            className='brSearchConditionsDatePicker brSearchConditionsStartDatePicker'
-            selected={startMoment}
-            isClearable={true}
-            showMonthDropdown
-            showYearDropdown
-            onChange={this.handleSearchConditionsDatePickerChange.bind(
-              this,
-              false,
-            )}
+          </View>
+          <CustomDatePicker
+            style={[
+              styles.brSearchConditionsDatePicker,
+              styles.brSearchConditionsStartDatePicker,
+            ]}
+            value={startMoment ? startMoment.toDate() : null}
+            onChange={date => {
+              this.handleSearchConditionsDatePickerChange(
+                false,
+                date ? moment(date) : null,
+              )
+            }}
           />
-          <span className='brHistorySummariesHeaderDateSeparator'>-</span>
-          <DatePicker
-            className='brSearchConditionsDatePicker brSearchConditionsEndDatePicker'
-            selected={endMoment}
-            isClearable={true}
-            showMonthDropdown
-            showYearDropdown
-            onChange={this.handleSearchConditionsDatePickerChange.bind(
-              this,
-              true,
-            )}
+          <View style={styles.brHistorySummariesHeaderDateSeparator}>
+            <Text>-</Text>
+          </View>
+          <CustomDatePicker
+            style={[
+              styles.brSearchConditionsDatePicker,
+              styles.brSearchConditionsEndDatePicker,
+            ]}
+            value={endMoment ? endMoment.toDate() : null}
+            onChange={date => {
+              this.handleSearchConditionsDatePickerChange(
+                true,
+                date ? moment(date) : null,
+              )
+            }}
           />
           <DropDownMenu
             uiData={props.uiData}
-            className='brSearchConditionsWebchatMenu'
+            style={styles.brSearchConditionsWebchatMenu}
             text={
               string(conditions._onlyMe.conditionValue) === '2'
                 ? uawMsgs.LBL_HISTORY_YOUR_CHATS
@@ -599,28 +650,416 @@ export default class extends React.Component {
             }
           >
             <MenuItem
-              className='brSearchConditionsWebchatItem'
+              style={styles.brSearchConditionsWebchatItem}
               dropDown={true}
-              onClick={this.handleSearchConditionsWebchatItemClick.bind(
+              onPress={this.handleSearchConditionsWebchatItemClick.bind(
                 this,
                 0,
               )}
             >
-              {uawMsgs.LBL_HISTORY_YOUR_CHATS}
+              <Text>{uawMsgs.LBL_HISTORY_YOUR_CHATS}</Text>
             </MenuItem>
             <MenuItem
-              className='brSearchConditionsWebchatItem'
+              style={styles.brSearchConditionsWebchatItem}
               dropDown={true}
-              onClick={this.handleSearchConditionsWebchatItemClick.bind(
+              onPress={this.handleSearchConditionsWebchatItemClick.bind(
                 this,
                 1,
               )}
             >
-              {uawMsgs.LBL_HISTORY_WEBCHATS}
+              <Text>{uawMsgs.LBL_HISTORY_WEBCHATS}</Text>
             </MenuItem>
           </DropDownMenu>
-        </div>
-      </div>
+        </View>
+      </View>
     )
   }
+}
+
+const CustomDatePicker = ({ value, onChange, style }) => {
+  const [show, setShow] = React.useState(false)
+  const displayDate = value ? moment(value).format('YYYY-MM-DD') : 'Select date'
+
+  if (Platform.OS === 'ios') {
+    return (
+      <View style={style}>
+        <DateTimePicker
+          value={value || new Date()}
+          mode='date'
+          display='spinner'
+          onChange={(event, selectedDate) => {
+            onChange(selectedDate)
+          }}
+          style={styles.datePickerIOS}
+        />
+      </View>
+    )
+  }
+
+  return (
+    <View style={style}>
+      <TouchableOpacity
+        onPress={() => setShow(true)}
+        style={styles.datePickerButton}
+      >
+        <Text style={styles.datePickerButtonText}>{displayDate}</Text>
+      </TouchableOpacity>
+
+      {show && (
+        <DateTimePicker
+          value={value || new Date()}
+          mode='date'
+          display='default'
+          onChange={(event, selectedDate) => {
+            setShow(false)
+            if (event.type !== 'dismissed' && selectedDate) {
+              onChange(selectedDate)
+            }
+          }}
+        />
+      )}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  brHistorySummariesPanel: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+  },
+
+  brHistorySummariesArea: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    padding: 4,
+    backgroundColor: '#F5F5F5',
+  },
+
+  brWithHeader: {
+    paddingTop: 48,
+  },
+
+  brSelected: {
+    backgroundColor: '#FFFFFF',
+  },
+
+  brDetailClosed: {
+    backgroundColor: '#FFFFFF',
+  },
+
+  brHistorySummariesAreaMarker: {
+    position: 'absolute',
+    width: 40,
+    borderRightWidth: 1,
+    borderRightColor: '#F0F0F0',
+    marginLeft: -4,
+    marginTop: -4,
+  },
+
+  brHistorySummaryEntry: {
+    position: 'relative',
+  },
+
+  brHistoryOpenDetailArea: {
+    position: 'relative',
+    zIndex: 1,
+    height: 0,
+  },
+
+  brHistoryOpenDetailButton: {
+    position: 'absolute',
+    right: 48,
+    width: 32,
+    top: 8,
+    height: 32,
+  },
+
+  brHistoryReplyWebchatButton: {
+    position: 'absolute',
+    right: 88,
+    width: 32,
+    top: 8,
+    height: 32,
+  },
+
+  brHistoryReplyWebchatBalloonDialog: {
+    position: 'absolute',
+    right: 120,
+    top: 8,
+  },
+
+  brHistorySummary: {
+    position: 'relative',
+    zIndex: 0,
+    minHeight: 64,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingLeft: 72,
+  },
+
+  brExpanded: {
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#E5E5E5',
+    backgroundColor: '#FFFFFF',
+  },
+
+  brHistorySummaryMarker: {
+    position: 'absolute',
+    left: 0,
+    width: 37,
+    top: -1,
+    bottom: -1,
+    borderRightWidth: 2,
+    borderRightColor: '#40E0D0',
+    backgroundColor: '#F5F5F5',
+  },
+
+  brHistorySummaryImage: {
+    position: 'absolute',
+    left: 16,
+    top: 16,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+
+  brNoImage: {
+    backgroundColor: '#F5F5F5',
+  },
+
+  brMyProfileImageUrl: {
+    backgroundColor: 'transparent',
+  },
+
+  brWithIcon: {
+    backgroundColor: '#E5E5E5',
+  },
+
+  brIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    opacity: 4.79,
+  },
+
+  brHistorySummaryName: {
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 1.6 * 13,
+    letterSpacing: 0.3,
+  },
+
+  brHistorySummaryProfinfo: {
+    fontSize: 9,
+    fontWeight: '400',
+    lineHeight: 1.6 * 9,
+    letterSpacing: 1.3,
+    paddingLeft: 26,
+    color: '#666666',
+  },
+
+  brHistorySummaryTime: {
+    fontSize: 9,
+    fontWeight: '400',
+    lineHeight: 1.6 * 9,
+    letterSpacing: 1.3,
+    paddingLeft: 26,
+    color: '#666666',
+  },
+
+  brHistorySummarySenderName: {
+    fontSize: 13,
+    fontWeight: '500',
+    lineHeight: 1.6 * 13,
+    letterSpacing: 0.3,
+  },
+
+  brHistorySummarySummary: {
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 1.6 * 13,
+    letterSpacing: 0.3,
+    paddingVertical: 1,
+  },
+
+  brHistorySummariesHeader: {
+    position: 'absolute',
+    right: 0,
+    width: '100%',
+    top: -1,
+    height: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+    paddingRight: 16,
+    alignItems: 'flex-end',
+  },
+
+  brHistorySummariesHeaderDateLabel: {
+    paddingRight: 16,
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 1.6 * 16,
+    letterSpacing: 0.3,
+  },
+
+  brHistorySummariesHeaderDateSeparator: {
+    paddingHorizontal: 8,
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 1.6 * 16,
+    letterSpacing: 0.3,
+  },
+
+  brSearchConditionsDatePicker: {
+    width: 120,
+    height: 32,
+    paddingLeft: 12,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    borderRadius: 4,
+    fontSize: 13,
+    fontWeight: '400',
+    letterSpacing: 0.3,
+    color: '#1A2421',
+  },
+
+  brSearchConditionsStartDatePicker: {
+    right: 300,
+  },
+
+  brSearchConditionsEndDatePicker: {
+    right: 50,
+  },
+
+  brSearchConditionsWebchatMenu: {
+    width: 160,
+    marginLeft: 16,
+    alignItems: 'flex-start',
+  },
+
+  brHistoryProgress: {
+    height: 28,
+    alignItems: 'center',
+    display: 'none',
+  },
+
+  brHistoryProgressInner: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#40E0D0',
+  },
+
+  brEmphasized: {
+    fontWeight: 'bold',
+    color: '#40E0D0',
+  },
+
+  brHistoryDetailArea: {
+    overflow: 'hidden',
+    maxHeight: 0,
+  },
+
+  brHistoryDetailAreaExpanded: {
+    maxHeight: '50%',
+  },
+
+  brNoEntries: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  brSearching: {
+    opacity: 0.5,
+  },
+
+  brHasMore: {
+    paddingBottom: 32,
+  },
+
+  brError: {
+    backgroundColor: '#FFE4E1',
+  },
+
+  brHistorySummariesList: {
+    padding: 8,
+  },
+
+  brHistoryNoResults: {
+    textAlign: 'center',
+    padding: 16,
+    color: '#666666',
+  },
+
+  brHistoryError: {
+    padding: 16,
+    color: '#FF0000',
+  },
+
+  brManualContinuation: {
+    backgroundColor: '#82C341', // @mantis color
+  },
+
+  brContinuation: {
+    backgroundColor: '#4CAF50', // @green color
+  },
+
+  brHistorySummaryExpandDummy: {
+    height: 32,
+  },
+
+  brHistorySummaryExpandButton: {
+    position: 'absolute',
+    right: 8,
+    bottom: 8,
+    width: 32,
+    height: 32,
+    backgroundColor: '#82C341',
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  brHistoryReplyWebchatMenuItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+  },
+
+  datePickerButton: {
+    height: 32,
+    paddingHorizontal: 8,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    borderRadius: 4,
+    justifyContent: 'center',
+  },
+
+  datePickerButtonText: {
+    fontSize: 14,
+    color: '#212121',
+  },
+
+  datePickerIOS: {
+    height: 120,
+    width: 320,
+  },
+})
+
+export const icons = {
+  newWindow: require('../assets/icons/new-window.png'),
+  reply: require('../assets/icons/reply.png'),
+  internet: require('../assets/icons/internet.png'),
+  conference: require('../assets/icons/conference.png'),
+  user: require('../assets/icons/user.png'),
+  chevronUp: require('../assets/icons/chevron-up.png'),
 }

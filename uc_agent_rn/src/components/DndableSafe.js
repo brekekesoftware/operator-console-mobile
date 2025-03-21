@@ -5,6 +5,7 @@ import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import Dndable from './Dndable.js'
 import FileDndable from './FileDndable.js'
+import { PanResponder } from 'react-native'
 
 /**
  * DndableSafe - React Native version
@@ -28,32 +29,56 @@ export default class DndableSafe extends React.Component {
     this.isReactNative = true
 
     this.state = {
-      isDragOver: false,
+      isDragging: false,
+      isOver: false,
+    }
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: this.handleDragStart,
+      onPanResponderMove: this.handleDragMove,
+      onPanResponderRelease: this.handleDragEnd,
+      onPanResponderTerminate: this.handleDragEnd,
+    })
+  }
+
+  handleDragStart = (e, gestureState) => {
+    const { dragSourceInfo } = this.props
+    this.setState({ isDragging: true })
+
+    // Notify parent of drag start
+    if (this.props.onDragStart) {
+      this.props.onDragStart({
+        dragSourceInfo,
+      })
     }
   }
 
-  handleLegacyDragOver = ev => {
-    // In React Native, we simulate dragOver with a state
-    if (!this.state.isDragOver) {
-      this.setState({ isDragOver: true })
+  handleDragMove = (e, gestureState) => {
+    if (this.props.onDragOver) {
+      this.props.onDragOver({
+        dragSourceInfo: this.props.dragSourceInfo,
+      })
     }
-
-    // Prevent default behavior (equivalent to ev.preventDefault())
-    return true
   }
 
-  handleLegacyDrop = ev => {
-    const props = this.props
+  handleDragEnd = (e, gestureState) => {
+    const { onDrop, onCheckCanDrop, dragSourceInfo } = this.props
 
-    // Reset drag over state
-    this.setState({ isDragOver: false })
+    this.setState({ isDragging: false })
 
-    if (typeof props.onDrop === 'function') {
-      props.onDrop(ev)
+    if (onCheckCanDrop) {
+      const canDrop = onCheckCanDrop({
+        dragSourceInfo,
+      })
+
+      if (canDrop && onDrop) {
+        onDrop({
+          dragSourceInfo,
+        })
+      }
     }
-
-    // Prevent default behavior (equivalent to ev.preventDefault())
-    return true
   }
 
   handlePress = ev => {
@@ -91,6 +116,7 @@ export default class DndableSafe extends React.Component {
 
   render() {
     const props = this.props
+    const { isDragging, isOver } = this.state
 
     // Check if drag and drop is enabled
     const dndEnabled =
@@ -103,9 +129,16 @@ export default class DndableSafe extends React.Component {
       if (props.dndableClass === 'FileDndable') {
         return (
           <FileDndable
-            style={[styles.dndableSafe, props.style]}
+            style={[
+              styles.dndableSafe,
+              props.style,
+              isDragging && styles.dragging,
+              isOver && styles.over,
+              props.canDrop && styles.canDrop,
+            ]}
             onDrop={props.onDrop}
             onClick={props.onClick}
+            {...this.panResponder.panHandlers}
           >
             {props.children}
           </FileDndable>
@@ -113,11 +146,18 @@ export default class DndableSafe extends React.Component {
       } else {
         return (
           <Dndable
-            style={[styles.dndableSafe, props.style]}
+            style={[
+              styles.dndableSafe,
+              props.style,
+              isDragging && styles.dragging,
+              isOver && styles.over,
+              props.canDrop && styles.canDrop,
+            ]}
             dragSourceInfo={props.dragSourceInfo}
             onCheckCanDrop={props.onCheckCanDrop}
             onDrop={props.onDrop}
             onClick={props.onClick}
+            {...this.panResponder.panHandlers}
           >
             {props.children}
           </Dndable>
@@ -151,9 +191,7 @@ export default class DndableSafe extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  dndableSafe: {
-    // Base styles for the component
-  },
+  dndableSafe: {},
   legacy: {
     position: 'relative',
   },
@@ -168,7 +206,100 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: 'transparent',
-    // This overlay is invisible but captures touch events
-    // for file selection when needed
+  },
+  dragging: {
+    opacity: 0.5,
+  },
+  over: {
+    backgroundColor: '#f0f0f0',
+  },
+  canDrop: {
+    borderWidth: 2,
+    borderColor: '#40E0D0', // @medium_turquoise
+  },
+  brBuddylistItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+  },
+  // TODO: Remove this if not use
+  brWithColor: {},
+  brWithIcon: {},
+  brCallStatus: {},
+  brConferenceStatus: {},
+  brConferenceStatusWebchat: {},
+  brSelected: {
+    backgroundColor: '#eeeeee',
+  },
+  brOffline: {
+    opacity: 0.5,
+  },
+  brBuddylistItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  brCallStatusIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 4,
+  },
+  brConferenceStatusIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 4,
+  },
+  brConferenceStatusWebchatIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 4,
+  },
+  brBuddylistItemInfo: {
+    fontSize: 13,
+    color: '#212121',
+  },
+  brBuddylistItemMessage: {
+    marginTop: 4,
+  },
+  brBuddylistItemTime: {
+    marginTop: 2,
+    fontSize: 12,
+    color: '#9e9e9e',
+  },
+  brBuddylistItemMarker: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#40E0D0',
+    marginHorizontal: 4,
+  },
+  brBuddylistItemUnread: {
+    backgroundColor: '#ff4526',
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  brHidden: {
+    display: 'none',
+  },
+  brBuddylistItemImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginLeft: 8,
+  },
+  brNoImage: {
+    backgroundColor: '#eeeeee',
+  },
+  brMyProfileImageUrl: {
+    borderWidth: 2,
+    borderColor: '#40E0D0',
+  },
+  brBuddylistItemStatusIcon: {
+    position: 'absolute',
+    right: 8,
+    bottom: 8,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
   },
 })

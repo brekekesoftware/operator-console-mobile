@@ -15,6 +15,14 @@ import {
   formatMessageDateTime,
   toPlainText,
 } from '../utilities/strings.js'
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+} from 'react-native'
 
 /**
  * Sidebar
@@ -55,6 +63,12 @@ export default class extends React.Component {
     this.interval = null
     this.delay = 0
     this.collapsibleControlButtonsCount = 0
+
+    // Add refs
+    this.controlProfileRef = React.createRef()
+    this.areaSplitterButtonRef = React.createRef()
+    this.signOutButtonRef = React.createRef()
+
     this.state = {
       buddylistFilterShowingDialogVersion: null,
       controlProfileShowingDialogVersion: null,
@@ -63,41 +77,70 @@ export default class extends React.Component {
       buddylistFilterInputValue: '',
       controlButtonsCollapsedCount: 0,
     }
+
+    this.statusDisplayAnim = new Animated.Value(0)
   }
   componentDidUpdate() {
     const props = this.props
     const newState = {}
-    const controlProfile = ReactDOM.findDOMNode(this.refs['controlProfile'])
-    const areaSplitterButton = ReactDOM.findDOMNode(
-      this.refs['areaSplitterButton'],
-    )
-    const signOutButton = ReactDOM.findDOMNode(this.refs['signOutButton'])
-    const controlProfileY1 = int(controlProfile && controlProfile.offsetTop)
-    const areaSplitterButtonY2 = int(
-      areaSplitterButton &&
-        areaSplitterButton.offsetTop + areaSplitterButton.offsetHeight,
-    )
-    const signOutButtonY2 = int(
-      signOutButton && signOutButton.offsetTop + signOutButton.offsetHeight,
-    )
-    if (
-      controlProfileY1 - signOutButtonY2 < 0 &&
-      this.state.controlButtonsCollapsedCount <
-        this.collapsibleControlButtonsCount - 1
-    ) {
-      newState.controlButtonsCollapsedCount =
-        this.state.controlButtonsCollapsedCount + 1
-    } else if (
-      controlProfileY1 - signOutButtonY2 >=
-        signOutButtonY2 - areaSplitterButtonY2 &&
-      this.state.controlButtonsCollapsedCount > 0
-    ) {
-      newState.controlButtonsCollapsedCount =
-        this.state.controlButtonsCollapsedCount - 1
-    }
-    if (Object.keys(newState).length) {
-      this.setState(newState)
-    }
+
+    // Get measurements using onLayout
+    Promise.all([
+      new Promise(resolve => {
+        if (this.controlProfileRef.current) {
+          this.controlProfileRef.current.measure(
+            (x, y, width, height, pageX, pageY) => {
+              resolve(pageY) // This is equivalent to offsetTop
+            },
+          )
+        } else {
+          resolve(0)
+        }
+      }),
+      new Promise(resolve => {
+        if (this.areaSplitterButtonRef.current) {
+          this.areaSplitterButtonRef.current.measure(
+            (x, y, width, height, pageX, pageY) => {
+              resolve(pageY + height) // This is equivalent to offsetTop + offsetHeight
+            },
+          )
+        } else {
+          resolve(0)
+        }
+      }),
+      new Promise(resolve => {
+        if (this.signOutButtonRef.current) {
+          this.signOutButtonRef.current.measure(
+            (x, y, width, height, pageX, pageY) => {
+              resolve(pageY + height) // This is equivalent to offsetTop + offsetHeight
+            },
+          )
+        } else {
+          resolve(0)
+        }
+      }),
+    ]).then(([controlProfileY1, areaSplitterButtonY2, signOutButtonY2]) => {
+      if (
+        controlProfileY1 - signOutButtonY2 < 0 &&
+        this.state.controlButtonsCollapsedCount <
+          this.collapsibleControlButtonsCount - 1
+      ) {
+        newState.controlButtonsCollapsedCount =
+          this.state.controlButtonsCollapsedCount + 1
+      } else if (
+        controlProfileY1 - signOutButtonY2 >=
+          signOutButtonY2 - areaSplitterButtonY2 &&
+        this.state.controlButtonsCollapsedCount > 0
+      ) {
+        newState.controlButtonsCollapsedCount =
+          this.state.controlButtonsCollapsedCount - 1
+      }
+
+      if (Object.keys(newState).length) {
+        this.setState(newState)
+      }
+    })
+
     if (this.interval) {
       clearInterval(this.interval)
       this.interval = null
@@ -183,6 +226,21 @@ export default class extends React.Component {
       ev.stopPropagation()
       props.uiData.fire('showingDialog_update')
     }
+  }
+  animateStatusDisplay() {
+    Animated.sequence([
+      Animated.timing(this.statusDisplayAnim, {
+        toValue: -30,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.delay(1000),
+      Animated.timing(this.statusDisplayAnim, {
+        toValue: -60,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ]).start()
   }
   render() {
     const props = this.props
@@ -369,27 +427,20 @@ export default class extends React.Component {
         <DndableSafe
           key={panelCode}
           uiData={props.uiData}
-          className={
-            'brBuddylistItem' +
-            (displayCallStatus & 1 ? ' brWithColor' : '') +
-            (displayCallStatus & 2 ? '' : ' brWithIcon') +
-            (status.ui_customized_status &&
-            status.ui_customized_status.callStatus > 0
-              ? ' brCallStatus'
-              : '') +
-            (status.ui_customized_status &&
-            1 <= status.ui_customized_status.conferenceStatus &&
-            status.ui_customized_status.conferenceStatus < 100
-              ? ' brConferenceStatus'
-              : '') +
-            (status.ui_customized_status &&
-            100 <= status.ui_customized_status.conferenceStatus
-              ? ' brConferenceStatusWebchat'
-              : '') +
-            (selected ? ' brSelected' : '') +
-            (status.status === Constants.STATUS_OFFLINE ? ' brOffline' : '')
-          }
-          style={{ height: height }}
+          style={[
+            styles.brBuddylistItem,
+            displayCallStatus & 1 && styles.brWithColor,
+            displayCallStatus & 2 && styles.brWithIcon,
+            status.ui_customized_status?.callStatus > 0 && styles.brCallStatus,
+            status.ui_customized_status?.conferenceStatus >= 1 &&
+              status.ui_customized_status?.conferenceStatus < 100 &&
+              styles.brConferenceStatus,
+            status.ui_customized_status?.conferenceStatus >= 100 &&
+              styles.brConferenceStatusWebchat,
+            selected && styles.brSelected,
+            status.status === Constants.STATUS_OFFLINE && styles.brOffline,
+            { height },
+          ]}
           dragSourceInfo={{
             dragSourceInfoType: 'buddylistItem',
             dragSourceInfoCode: panelCode,
@@ -400,100 +451,109 @@ export default class extends React.Component {
             ev.dragSourceInfo.dragSourceInfoType === 'buddylistItem' &&
             ev.dragSourceInfo.dragSourceInfoCode !== panelCode
           }
-          onDrop={props.uiData.fire.bind(
-            props.uiData,
-            'sidebarBuddylistDndable_onDrop',
-            {
+          onDrop={() =>
+            props.uiData.fire('sidebarBuddylistDndable_onDrop', {
               dropTargetInfoType: 'buddylistItem',
               dropTargetInfoCode: panelCode,
-            },
-          )}
-          onClick={props.uiData.fire.bind(
-            props.uiData,
-            'sidebarBuddylistItem_onClick',
-            { tenant: buddy.tenant, user_id: buddy.user_id },
-          )}
+            })
+          }
+          onPress={() =>
+            props.uiData.fire('sidebarBuddylistItem_onClick', {
+              tenant: buddy.tenant,
+              user_id: buddy.user_id,
+            })
+          }
         >
-          <div className='brBuddylistItemHeader'>
+          <View style={styles.brBuddylistItemHeader}>
             <NameEmbeddedSpan
               ucUiStore={props.uiData.ucUiStore}
-              format={
-                '{0}' +
-                (nameDisplayMode === 1 ? ' (' + buddy.user_id + ')' : '')
-              }
-              title={
-                '{0}' +
-                (nameDisplayMode === 1 ? ' (' + buddy.user_id + ') ' : ' ') +
-                string(status.display)
-              }
+              format={`{0}${nameDisplayMode === 1 ? ` (${buddy.user_id})` : ''}`}
+              title={`{0}${nameDisplayMode === 1 ? ` (${buddy.user_id}) ` : ' '}${string(status.display)}`}
               buddy={buddy}
             />
-            <span
-              className='brCallStatusIcon br_bi_icon_phone_svg'
-              title={uawMsgs.LBL_SIDEBAR_CALL_STATUS_ICON_TOOLTIP}
-            ></span>
-            <span
-              className='brConferenceStatusIcon br_bi_icon_conference_foreground_selected_svg'
-              title={uawMsgs.LBL_SIDEBAR_CONFERENCE_STATUS_ICON_TOOLTIP}
-            ></span>
-            <span
-              className='brConferenceStatusWebchatIcon br_bi_icon_internet_svg'
-              title={
-                uawMsgs.LBL_SIDEBAR_CONFERENCE_STATUS_ICON_TOOLTIP +
-                ' (Webchat)'
+            <Image
+              source={icons.phone}
+              style={styles.brCallStatusIcon}
+              accessibilityLabel={uawMsgs.LBL_SIDEBAR_CALL_STATUS_ICON_TOOLTIP}
+            />
+            <Image
+              source={icons.conference}
+              style={styles.brConferenceStatusIcon}
+              accessibilityLabel={
+                uawMsgs.LBL_SIDEBAR_CONFERENCE_STATUS_ICON_TOOLTIP
               }
-            ></span>
-            <span
-              className='brBuddylistItemInfo'
-              title={string(status.display)}
+            />
+            <Image
+              source={icons.internet}
+              style={styles.brConferenceStatusWebchatIcon}
+              accessibilityLabel={`${uawMsgs.LBL_SIDEBAR_CONFERENCE_STATUS_ICON_TOOLTIP} (Webchat)`}
+            />
+            <Text
+              style={styles.brBuddylistItemInfo}
+              accessibilityLabel={string(status.display)}
             >
               {string(status.display)}
-            </span>
-          </div>
-          <div className='brBuddylistItemMessage'>
-            <span className='brBuddylistItemInfo' title={message}>
+            </Text>
+          </View>
+
+          <View style={styles.brBuddylistItemMessage}>
+            <Text
+              style={styles.brBuddylistItemInfo}
+              accessibilityLabel={message}
+              numberOfLines={1}
+            >
               {message}
-            </span>
-          </div>
-          <div className='brBuddylistItemTime'>
-            <span
-              className='brBuddylistItemInfo'
-              title={formatMessageDateTime(messageObject.sentTimeValue)}
+            </Text>
+          </View>
+
+          <View style={styles.brBuddylistItemTime}>
+            <Text
+              style={styles.brBuddylistItemInfo}
+              accessibilityLabel={formatMessageDateTime(
+                messageObject.sentTimeValue,
+              )}
             >
               {time}
-            </span>
-          </div>
-          <div className='brBuddylistItemMarker' />
-          <div
-            className={'brBuddylistItemUnread' + (unread ? '' : ' brHidden')}
+            </Text>
+          </View>
+
+          <View style={styles.brBuddylistItemMarker} />
+
+          {unread ? (
+            <View style={styles.brBuddylistItemUnread}>
+              <Text style={styles.brBuddylistItemInfo}>{unread}</Text>
+            </View>
+          ) : null}
+
+          <TouchableOpacity
+            style={[
+              styles.brBuddylistItemImage,
+              !buddy.profile_image_url && styles.brNoImage,
+              buddy.profile_image_url &&
+                string(buddy.profile_image_url).indexOf(
+                  Constants.PROFILE_IMAGE_URL_DOWNLOAD,
+                ) === -1 &&
+                styles.brMyProfileImageUrl,
+              status.status === Constants.STATUS_OFFLINE && styles.brOffline,
+            ]}
+            accessibilityLabel={string(user.name)}
+            onPress={() =>
+              props.uiData.ucUiAction.uncacheProfileImageUrl({
+                minSignInOKCount: 1,
+                uncacheParam2: int(Date.now() / 3600000),
+              })
+            }
           >
-            <span className='brBuddylistItemInfo'>{unread}</span>
-          </div>
-          <div
-            className={
-              'brBuddylistItemImage' +
-              (buddy.profile_image_url ? '' : ' brNoImage') +
-              (buddy.profile_image_url &&
-              string(buddy.profile_image_url).indexOf(
-                Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-              ) === -1
-                ? ' brMyProfileImageUrl'
-                : '') +
-              (status.status === Constants.STATUS_OFFLINE ? ' brOffline' : '')
-            }
-            title={string(user.name)}
-            style={
-              buddy.profile_image_url
-                ? { backgroundImage: 'url(' + buddy.profile_image_url + ')' }
-                : {}
-            }
-            onClick={props.uiData.ucUiAction.uncacheProfileImageUrl.bind(
-              props.uiData.ucUiAction,
-              { minSignInOKCount: 1, uncacheParam2: int(Date.now() / 3600000) },
+            {buddy.profile_image_url && (
+              <Image
+                source={{ uri: buddy.profile_image_url }}
+                style={styles.profileImage}
+              />
             )}
-          />
+          </TouchableOpacity>
+
           <StatusIcon
-            className='brBuddylistItemStatusIcon'
+            style={styles.brBuddylistItemStatusIcon}
             status={status.status}
             degree={status.degree}
           />
@@ -518,12 +578,13 @@ export default class extends React.Component {
           (groupTable[groupName2].groupIndex >>> 0),
       )
       .map(groupName => (
-        <div key={groupName} className='brBuddylistGroup'>
+        <View key={groupName} style={styles.brBuddylistGroup}>
           <DndableSafe
             uiData={props.uiData}
-            className={
-              'brBuddylistGroupTitle' + (groupName ? ' brGroupName' : '')
-            }
+            style={[
+              styles.brBuddylistGroupTitle,
+              groupName && styles.brGroupName,
+            ]}
             dragSourceInfo={{
               dragSourceInfoType: 'buddylistGroupTitle',
               dragSourceInfoCode: groupName,
@@ -538,115 +599,107 @@ export default class extends React.Component {
                   ev.dragSourceInfo.dragSourceInfoCode &&
                   groupName))
             }
-            onDrop={props.uiData.fire.bind(
-              props.uiData,
-              'sidebarBuddylistDndable_onDrop',
-              {
+            onDrop={() =>
+              props.uiData.fire('sidebarBuddylistDndable_onDrop', {
                 dropTargetInfoType: 'buddylistGroupTitle',
                 dropTargetInfoCode: groupName,
-              },
-            )}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'sidebarBuddylistGroupTitle_onClick',
-              groupName,
-            )}
+              })
+            }
+            onPress={() =>
+              props.uiData.fire('sidebarBuddylistGroupTitle_onClick', groupName)
+            }
           >
-            <div className='brBuddylistGroupLabel'>
-              <span className='brBuddylistGroupName'>{groupName}</span>
-              <span className='brBuddylistGroupOnlines'>
+            <View style={styles.brBuddylistGroupLabel}>
+              <Text style={styles.brBuddylistGroupName}>{groupName}</Text>
+              <Text style={styles.brBuddylistGroupOnlines}>
                 {groupTable[groupName].buddyNodes.length
-                  ? ' ' +
-                    groupTable[groupName].onlines +
-                    '/' +
-                    groupTable[groupName].buddyNodes.length
+                  ? ` ${groupTable[groupName].onlines}/${groupTable[groupName].buddyNodes.length}`
                   : ''}
-              </span>
-            </div>
-            <div
-              className={
-                'brBuddylistGroupOpenIcon' +
-                (buddylistOpenList.indexOf(groupName) !== -1
-                  ? ' br_bi_icon_chevron_up_svg'
-                  : ' br_bi_icon_chevron_down_svg')
+              </Text>
+            </View>
+            <Image
+              source={
+                buddylistOpenList.indexOf(groupName) !== -1
+                  ? icons.chevronUp
+                  : icons.chevronDown
               }
+              style={styles.brBuddylistGroupOpenIcon}
             />
           </DndableSafe>
-          <div
-            className='brBuddylistItems'
-            style={{ height: groupTable[groupName].height }}
+
+          <View
+            style={[
+              styles.brBuddylistItems,
+              { height: groupTable[groupName].height },
+            ]}
           >
             {groupTable[groupName].buddyNodes}
-          </div>
-        </div>
+          </View>
+        </View>
       ))
     const collapsibleControlButtons = [
       <ButtonIconic
         key='createConferenceButton'
-        className='brControlButton brCreateConferenceButton br_bi_icon_conference_foreground_selected_svg'
-        title={uawMsgs.LBL_SIDEBAR_CREATE_CONFERENCE_BUTTON_TOOLTIP}
-        onClick={props.uiData.fire.bind(
-          props.uiData,
-          'sidebarCreateConferenceButton_onClick',
-        )}
-      ></ButtonIconic>,
+        style={[styles.brControlButton, styles.brCreateConferenceButton]}
+        iconSource={icons.conferenceForeground}
+        accessibilityLabel={
+          uawMsgs.LBL_SIDEBAR_CREATE_CONFERENCE_BUTTON_TOOLTIP
+        }
+        onPress={() =>
+          props.uiData.fire('sidebarCreateConferenceButton_onClick')
+        }
+      />,
       <ButtonIconic
         key='sendBroadcastTextButton'
-        className='brControlButton brSendBroadcastTextButton br_bi_icon_broadcasting_svg'
-        title={uawMsgs.LBL_SIDEBAR_SEND_BROADCAST_TEXT_BUTTON_TOOLTIP}
-        onClick={props.uiData.fire.bind(
-          props.uiData,
-          'sidebarSendBroadcastTextButton_onClick',
-        )}
-      ></ButtonIconic>,
+        style={[styles.brControlButton, styles.brSendBroadcastTextButton]}
+        iconSource={icons.broadcasting}
+        accessibilityLabel={
+          uawMsgs.LBL_SIDEBAR_SEND_BROADCAST_TEXT_BUTTON_TOOLTIP
+        }
+        onPress={() =>
+          props.uiData.fire('sidebarSendBroadcastTextButton_onClick')
+        }
+      />,
       <ButtonIconic
         key='externalCallButton'
-        className='brControlButton brExternalCallButton br_bi_icon_phone_svg'
-        title={uawMsgs.LBL_SIDEBAR_EXTERNAL_CALL_BUTTON_TOOLTIP}
-        onClick={props.uiData.fire.bind(
-          props.uiData,
-          'sidebarExternalCallButton_onClick',
-        )}
-      ></ButtonIconic>,
+        style={[styles.brControlButton, styles.brExternalCallButton]}
+        iconSource={icons.phone}
+        accessibilityLabel={uawMsgs.LBL_SIDEBAR_EXTERNAL_CALL_BUTTON_TOOLTIP}
+        onPress={() => props.uiData.fire('sidebarExternalCallButton_onClick')}
+      />,
     ]
     if (
-      (
-        (configProperties &&
-          configProperties.optional_config &&
-          configProperties.optional_config.awsl) ||
-        []
-      ).some(
+      (configProperties?.optional_config?.awsl || []).some(
         aws =>
           aws.og &&
           !aws.og.disabled &&
-          aws.og.reply_types &&
-          aws.og.reply_types.length &&
+          aws.og.reply_types?.length &&
           aws.senders,
       )
     ) {
       collapsibleControlButtons.push(
         <ButtonIconic
           key='outgoingWebchatButton'
-          className='brControlButton brOutgoingWebchatButton br_bi_icon_send_svg'
-          title={uawMsgs.LBL_SIDEBAR_OUTGOING_WEBCHAT_BUTTON_TOOLTIP}
-          onClick={props.uiData.fire.bind(
-            props.uiData,
-            'sidebarOutgoingWebchatButton_onClick',
-          )}
-        ></ButtonIconic>,
+          style={[styles.brControlButton, styles.brOutgoingWebchatButton]}
+          iconSource={icons.send}
+          accessibilityLabel={
+            uawMsgs.LBL_SIDEBAR_OUTGOING_WEBCHAT_BUTTON_TOOLTIP
+          }
+          onPress={() =>
+            props.uiData.fire('sidebarOutgoingWebchatButton_onClick')
+          }
+        />,
       )
     }
     if (configProperties.buddy_mode !== Constants.BUDDY_MODE_AUTO) {
       collapsibleControlButtons.push(
         <ButtonIconic
           key='createGroupButton'
-          className='brControlButton brCreateGroupButton br_bi_icon_add_folder_svg'
-          title={uawMsgs.LBL_SIDEBAR_CREATE_GROUP_BUTTON_TOOLTIP}
-          onClick={props.uiData.fire.bind(
-            props.uiData,
-            'sidebarCreateGroupButton_onClick',
-          )}
-        ></ButtonIconic>,
+          style={[styles.brControlButton, styles.brCreateGroupButton]}
+          iconSource={icons.addFolder}
+          accessibilityLabel={uawMsgs.LBL_SIDEBAR_CREATE_GROUP_BUTTON_TOOLTIP}
+          onPress={() => props.uiData.fire('sidebarCreateGroupButton_onClick')}
+        />,
       )
     }
     const userListButtonType = int(
@@ -658,6 +711,7 @@ export default class extends React.Component {
     const buddy_max = int(
       props.uiData.ucUiStore.getOptionalSetting({ key: 'buddy_max' }),
     )
+
     if (
       !(
         userListButtonType === 2 ||
@@ -670,257 +724,289 @@ export default class extends React.Component {
       collapsibleControlButtons.push(
         <ButtonIconic
           key='userListButton'
-          className={
-            'brControlButton brUserListButton br_bi_icon_list_svg' +
-            (statusMe.status !== Constants.STATUS_OFFLINE &&
-            !buddylist.screened &&
-            allUsersCount > buddy_max
-              ? ' brOver'
-              : '')
-          }
-          title={uawMsgs.LBL_SIDEBAR_USER_LIST_BUTTON_TOOLTIP}
-          onClick={props.uiData.fire.bind(
-            props.uiData,
-            'sidebarUserListButton_onClick',
-          )}
-        ></ButtonIconic>,
+          style={[
+            styles.brControlButton,
+            styles.brUserListButton,
+            statusMe.status !== Constants.STATUS_OFFLINE &&
+              !buddylist.screened &&
+              allUsersCount > buddy_max &&
+              styles.brOver,
+          ]}
+          iconSource={icons.list}
+          accessibilityLabel={uawMsgs.LBL_SIDEBAR_USER_LIST_BUTTON_TOOLTIP}
+          onPress={() => props.uiData.fire('sidebarUserListButton_onClick')}
+        />,
       )
     }
     this.collapsibleControlButtonsCount = collapsibleControlButtons.length
     return (
-      <div
-        className={
-          'brSidebar' +
-          (this.state.controlButtonsCollapsedCount
-            ? ' brControlButtonsCollapsible' +
-              ' brControlButtonsCollapsedCount' +
-              this.state.controlButtonsCollapsedCount
-            : '')
-        }
-        style={props.style || {}}
+      <View
+        style={[
+          styles.brSidebar,
+          this.state.controlButtonsCollapsedCount &&
+            styles.brControlButtonsCollapsible,
+          this.state.controlButtonsCollapsedCount && {
+            ...styles[
+              `brControlButtonsCollapsedCount${this.state.controlButtonsCollapsedCount}`
+            ],
+          },
+          props.style,
+        ]}
       >
-        <div className='brBuddylistbar'>
-          <div className='brBuddylist'>{groupNodes}</div>
-          <div className='brBuddylistFilterArea'>
+        <View style={styles.brBuddylistbar}>
+          <View style={styles.brBuddylist}>{groupNodes}</View>
+
+          <View style={styles.brBuddylistFilterArea}>
             <TextBox
-              className='brBuddylistFilterInput'
+              style={styles.brBuddylistFilterInput}
               value={this.state.buddylistFilterInputValue}
               placeholder={
                 uawMsgs.LBL_SIDEBAR_BUDDYLIST_FILTER_INPUT_PLACEHOLDER
               }
-              onChange={this.handleBuddylistFilterInputTextBoxChange.bind(this)}
+              onChangeText={text =>
+                this.setState({ buddylistFilterInputValue: string(text) })
+              }
             />
-          </div>
+          </View>
+
           <ButtonIconic
-            className='brBuddylistFilterButton br_bi_icon_filtration_svg'
-            title={uawMsgs.LBL_SIDEBAR_BUDDYLIST_FILTER_BUTTON_TOOLTIP}
-            onClick={this.handleBuddylistFilterButtonClick.bind(this)}
+            style={styles.brBuddylistFilterButton}
+            iconSource={icons.filtration}
+            accessibilityLabel={
+              uawMsgs.LBL_SIDEBAR_BUDDYLIST_FILTER_BUTTON_TOOLTIP
+            }
+            onPress={this.handleBuddylistFilterButtonClick.bind(this)}
           >
             <MenuBalloonDialog
               showing={
                 props.uiData.showingDialogVersion ===
                 this.state.buddylistFilterShowingDialogVersion
               }
-              className='brBuddylistFilterBalloonDialog'
+              style={styles.brBuddylistFilterBalloonDialog}
             >
-              <div
-                className={
-                  'brBuddylistFilterOnlineOnlyCheckBox' +
-                  (onlineOnly
-                    ? ' br_bi_icon_check_svg'
-                    : ' br_bi_icon_square_svg')
+              <TouchableOpacity
+                style={[
+                  styles.brBuddylistFilterOnlineOnlyCheckBox,
+                  onlineOnly ? styles.brChecked : styles.brUnchecked,
+                ]}
+                onPress={() =>
+                  props.uiData.fire(
+                    'sidebarBuddylistFilterOnlineOnlyCheckBox_onClick',
+                  )
                 }
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'sidebarBuddylistFilterOnlineOnlyCheckBox_onClick',
-                )}
               >
-                {uawMsgs.LBL_SIDEBAR_ONLINE_ONLY_ITEM}
-              </div>
+                <Image
+                  source={onlineOnly ? icons.check : icons.square}
+                  style={styles.checkboxIcon}
+                />
+                <Text style={styles.checkboxLabel}>
+                  {uawMsgs.LBL_SIDEBAR_ONLINE_ONLY_ITEM}
+                </Text>
+              </TouchableOpacity>
             </MenuBalloonDialog>
           </ButtonIconic>
+
           <DndableSafe
             uiData={props.uiData}
-            className='brBuddylistGroupRemoveDndable br_bi_icon_bin_svg'
+            style={styles.brBuddylistGroupRemoveDndable}
+            iconSource={icons.bin}
             onCheckCanDrop={ev =>
               configProperties.buddy_mode !== Constants.BUDDY_MODE_AUTO &&
               ev.dragSourceInfo &&
               ev.dragSourceInfo.dragSourceInfoType === 'buddylistGroupTitle' &&
               ev.dragSourceInfo.dragSourceInfoCode
             }
-            onDrop={props.uiData.fire.bind(
-              props.uiData,
-              'sidebarBuddylistGroupRemoveDndable_onDrop',
-            )}
-          ></DndableSafe>
-        </div>
-        <div className='brControlbar'>
-          <div
-            className='brControlLogo'
-            title={props.uiData.configurations.productShortName || 'UC'}
-            style={{
-              backgroundImage:
-                'url(' +
-                (((profile.user_type !== Constants.USER_TYPE_SYSTEM_ADMIN ||
-                  props.uiData.configurations.hideProductComp === 'true') &&
-                  props.uiData.configurations.logoPath) ||
-                  'img/logo.png') +
-                ')',
-            }}
+            onDrop={() =>
+              props.uiData.fire('sidebarBuddylistGroupRemoveDndable_onDrop')
+            }
           />
-          <div
-            ref='controlProfile'
-            className={
-              'brControlProfile' +
-              (userMe.profile_image_url ? '' : ' brNoImage') +
-              (userMe.profile_image_url &&
-              string(userMe.profile_image_url).indexOf(
-                Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-              ) === -1
-                ? ' brMyProfileImageUrl'
-                : '')
+        </View>
+        <View style={styles.brControlbar}>
+          <Image
+            source={
+              (profile.user_type !== Constants.USER_TYPE_SYSTEM_ADMIN ||
+                props.uiData.configurations.hideProductComp === 'true') &&
+              props.uiData.configurations.logoPath
+                ? { uri: props.uiData.configurations.logoPath }
+                : require('../assets/images/logo.png')
             }
-            title={userMe.name + ' ' + statusMe.display}
-            style={
-              userMe.profile_image_url
-                ? { backgroundImage: 'url(' + userMe.profile_image_url + ')' }
-                : {}
+            style={styles.brControlLogo}
+            accessibilityLabel={
+              props.uiData.configurations.productShortName || 'UC'
             }
-            onClick={this.handleControlProfileClick.bind(this)}
-            onMouseEnter={props.uiData.fire.bind(
-              props.uiData,
-              'sidebarControlProfile_onMouseEnter',
-            )}
+          />
+
+          <TouchableOpacity
+            ref={this.controlProfileRef}
+            style={[
+              styles.brControlProfile,
+              !userMe.profile_image_url && styles.brNoImage,
+              userMe.profile_image_url &&
+                string(userMe.profile_image_url).indexOf(
+                  Constants.PROFILE_IMAGE_URL_DOWNLOAD,
+                ) === -1 &&
+                styles.brMyProfileImageUrl,
+            ]}
+            accessibilityLabel={userMe.name + ' ' + statusMe.display}
+            onPress={this.handleControlProfileClick.bind(this)}
+            onPressIn={() =>
+              props.uiData.fire('sidebarControlProfile_onMouseEnter')
+            }
           >
+            {userMe.profile_image_url && (
+              <Image
+                source={{ uri: userMe.profile_image_url }}
+                style={styles.profileImage}
+              />
+            )}
             <StatusIcon
-              className='brControlProfileStatusIcon'
+              style={styles.brControlProfileStatusIcon}
               status={statusMe.status}
             />
-          </div>
+          </TouchableOpacity>
+
           <MenuBalloonDialog
             showing={
               props.uiData.showingDialogVersion ===
               this.state.controlProfileShowingDialogVersion
             }
-            className='brControlProfileBalloonDialog'
-            onClick={this.handleControlProfileBalloonDialogClick.bind(this)}
+            style={styles.brControlProfileBalloonDialog}
+            onPress={this.handleControlProfileBalloonDialogClick.bind(this)}
           >
-            <div className='brControlProfileHeader'>
-              <span className='brControlProfileName'>
+            <View style={styles.brControlProfileHeader}>
+              <Text style={styles.brControlProfileName}>
                 {userMe.name +
-                  (nameDisplayMode === 1 ? ' (' + profile.user_id + ') ' : ' ')}
-              </span>
-              <span className='brControlProfileDisplay'>
+                  (nameDisplayMode === 1 ? ` (${profile.user_id}) ` : ' ')}
+              </Text>
+              <Text style={styles.brControlProfileDisplay}>
                 {statusMe.display + ' '}
-              </span>
+              </Text>
               <ButtonIconic
-                className='brEditStatusDisplay br_bi_icon_edit_svg'
-                hidden={statusMe.status === Constants.STATUS_OFFLINE}
-                title={uawMsgs.LBL_SIDEBAR_EDIT_STATUS_DISPLAY_BUTTON_TOOLTIP}
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'sidebarEditStatusDisplayButton_onClick',
-                )}
-              ></ButtonIconic>
-            </div>
+                style={[
+                  styles.brEditStatusDisplay,
+                  statusMe.status === Constants.STATUS_OFFLINE &&
+                    styles.brHidden,
+                ]}
+                iconSource={icons.edit}
+                accessibilityLabel={
+                  uawMsgs.LBL_SIDEBAR_EDIT_STATUS_DISPLAY_BUTTON_TOOLTIP
+                }
+                onPress={() =>
+                  props.uiData.fire('sidebarEditStatusDisplayButton_onClick')
+                }
+              />
+            </View>
             {statusList.map(s => (
-              <MenuItem
+              <TouchableOpacity
                 key={s.status}
-                className='brControlProfileStatusItem'
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'sidebarControlProfileStatusItem_onClick',
-                  s.status,
-                )}
+                style={styles.brControlProfileStatusItem}
+                onPress={() =>
+                  props.uiData.fire(
+                    'sidebarControlProfileStatusItem_onClick',
+                    s.status,
+                  )
+                }
               >
                 <StatusIcon
-                  className='brControlProfileStatusItemStatusIcon'
+                  style={styles.brControlProfileStatusItemStatusIcon}
                   status={s.status}
                 />
-                <div
-                  className={
-                    'brControlProfileStatusItemChecked' +
-                    (s.status === statusMe.status
-                      ? ' br_bi_icon_ook_svg'
-                      : ' brHidden')
-                  }
-                />
-                {s.label}
-              </MenuItem>
+                <View
+                  style={[
+                    styles.brControlProfileStatusItemChecked,
+                    s.status === statusMe.status
+                      ? styles.brIconOok
+                      : styles.brHidden,
+                  ]}
+                >
+                  <Image source={icons.check} style={styles.checkIcon} />
+                </View>
+                <Text>{s.label}</Text>
+              </TouchableOpacity>
             ))}
-            <div className='brSeparator' />
-            <MenuItem
-              className='brControlProfileItem brPreferenceButton br_bi_icon_user_svg'
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'sidebarPreferenceButton_onClick',
-              )}
+            <View style={styles.brSeparator} />
+
+            <TouchableOpacity
+              style={[styles.brControlProfileItem, styles.brPreferenceButton]}
+              onPress={() =>
+                props.uiData.fire('sidebarPreferenceButton_onClick')
+              }
             >
-              <span>{uawMsgs.LBL_SIDEBAR_PREFERENCE_ITEM}</span>
-            </MenuItem>
-            <MenuItem
-              className='brControlProfileItem brHistoryButton br_bi_icon_history_svg'
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'sidebarHistoryButton_onClick',
-              )}
+              <Image source={icons.user} style={styles.menuIcon} />
+              <Text>{uawMsgs.LBL_SIDEBAR_PREFERENCE_ITEM}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.brControlProfileItem, styles.brHistoryButton]}
+              onPress={() => props.uiData.fire('sidebarHistoryButton_onClick')}
             >
-              <span>{uawMsgs.LBL_SIDEBAR_HISTORY_ITEM}</span>
-            </MenuItem>
-            <MenuItem
-              className='brControlProfileItem brWebchatRequestsButton br_bi_icon_internet_svg'
-              hidden={configProperties.webchat_enabled !== 'true'}
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'sidebarWebchatRequestsButton_onClick',
-              )}
+              <Image source={icons.history} style={styles.menuIcon} />
+              <Text>{uawMsgs.LBL_SIDEBAR_HISTORY_ITEM}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.brControlProfileItem,
+                styles.brWebchatRequestsButton,
+              ]}
+              onPress={() =>
+                props.uiData.fire('sidebarWebchatRequestsButton_onClick')
+              }
+              disabled={configProperties.webchat_enabled !== 'true'}
             >
-              <span>{uawMsgs.LBL_SIDEBAR_WEBCHAT_REQUESTS_ITEM}</span>
-            </MenuItem>
-            <MenuItem
-              className='brControlProfileItem brServerPropertiesButton br_bi_icon_settings_svg'
-              hidden={
+              <Image source={icons.internet} style={styles.menuIcon} />
+              <Text>{uawMsgs.LBL_SIDEBAR_WEBCHAT_REQUESTS_ITEM}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.brControlProfileItem,
+                styles.brServerPropertiesButton,
+              ]}
+              onPress={() =>
+                props.uiData.fire('sidebarServerPropertiesButton_onClick')
+              }
+              disabled={
                 true /* profile.user_type !== Constants.USER_TYPE_TENANT_ADMIN */
               }
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'sidebarServerPropertiesButton_onClick',
-              )}
             >
-              <span>{uawMsgs.LBL_SIDEBAR_SERVER_PROPERTIES_ITEM}</span>
-            </MenuItem>
-            <MenuItem
-              className='brControlProfileItem brAboutButton br_bi_icon_about_svg'
-              hidden={
+              <Image source={icons.settings} style={styles.menuIcon} />
+              <Text>{uawMsgs.LBL_SIDEBAR_SERVER_PROPERTIES_ITEM}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.brControlProfileItem, styles.brAboutButton]}
+              onPress={() => props.uiData.fire('sidebarAboutButton_onClick')}
+              disabled={
                 props.uiData.configurations.hideProduct === 'true' &&
                 (profile.user_type !== Constants.USER_TYPE_SYSTEM_ADMIN ||
                   props.uiData.configurations.hideProductComp === 'true')
               }
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'sidebarAboutButton_onClick',
-              )}
             >
-              <span>
+              <Image source={icons.about} style={styles.menuIcon} />
+              <Text>
                 {formatStr(
                   uawMsgs.LBL_SIDEBAR_ABOUT_ITEM,
                   props.uiData.configurations.productName || 'UC',
                 )}
-              </span>
-            </MenuItem>
+              </Text>
+            </TouchableOpacity>
           </MenuBalloonDialog>
-          <div className='brControlStatusDisplayArea'>
-            <div
-              className={
-                'brControlStatusDisplayLabel' +
-                (props.uiData.runningAnimationTable['controlstatusdisplay']
-                  ? ' brAnimation'
-                  : '')
-              }
+          <View style={styles.brControlStatusDisplayArea}>
+            <Animated.Text
+              style={[
+                styles.brControlStatusDisplayLabel,
+                props.uiData.runningAnimationTable['controlstatusdisplay'] && {
+                  transform: [
+                    { rotate: '-90deg' },
+                    { translateX: this.statusDisplayAnim },
+                  ],
+                },
+              ]}
             >
               {statusMe.display}
-            </div>
-          </div>
+            </Animated.Text>
+          </View>
           {this.state.controlButtonsCollapsedCount
             ? collapsibleControlButtons.slice(
                 0,
@@ -928,12 +1014,16 @@ export default class extends React.Component {
               )
             : collapsibleControlButtons}
           <ButtonIconic
-            className='brControlButton brControlButtonsCollapsedMenuButton br_bi_icon_more_svg'
-            hidden={this.state.controlButtonsCollapsedCount === 0}
-            title={
+            style={[
+              styles.brControlButton,
+              styles.brControlButtonsCollapsedMenuButton,
+              this.state.controlButtonsCollapsedCount === 0 && styles.brHidden,
+            ]}
+            iconSource={icons.more}
+            accessibilityLabel={
               uawMsgs.LBL_SIDEBAR_CONTROL_BUTTONS_COLLAPSED_MENU_BUTTON_TOOLTIP
             }
-            onClick={this.handleControlButtonsCollapsedMenuButtonClick.bind(
+            onPress={this.handleControlButtonsCollapsedMenuButtonClick.bind(
               this,
             )}
           >
@@ -942,7 +1032,7 @@ export default class extends React.Component {
                 props.uiData.showingDialogVersion ===
                 this.state.controlButtonsCollapsedMenuShowingDialogVersion
               }
-              className='brControlButtonsCollapsedMenuBalloonDialog'
+              style={styles.brControlButtonsCollapsedMenuBalloonDialog}
             >
               {this.state.controlButtonsCollapsedCount
                 ? collapsibleControlButtons.slice(
@@ -952,68 +1042,494 @@ export default class extends React.Component {
             </MenuBalloonDialog>
           </ButtonIconic>
           <ButtonIconic
-            ref='areaSplitterButton'
-            className={
-              'brControlButton brAreaSplitterButton' +
-              (props.uiData.mainAreaSplitters === 2
-                ? ' br_bi_icon_channel_mosaic_4_svg'
+            ref={this.areaSplitterButtonRef}
+            style={[
+              styles.brControlButton,
+              styles.brAreaSplitterButton,
+              props.uiData.mainAreaSplitters === 2 &&
+                styles.brIconChannelMosaic4,
+              props.uiData.mainAreaSplitters === 1 &&
+                styles.brIconChannelMosaic12,
+              props.uiData.mainAreaSplitters === 0 &&
+                styles.brIconChannelMosaic1,
+            ]}
+            iconSource={
+              props.uiData.mainAreaSplitters === 2
+                ? icons.channelMosaic4
                 : props.uiData.mainAreaSplitters === 1
-                  ? ' br_bi_icon_channel_mosaic_1_2_svg'
-                  : ' br_bi_icon_channel_mosaic_1_svg')
+                  ? icons.channelMosaic12
+                  : icons.channelMosaic1
             }
-            title={uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_BUTTON_TOOLTIP}
-            onClick={this.handleAreaSplitterButtonClick.bind(this)}
+            accessibilityLabel={
+              uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_BUTTON_TOOLTIP
+            }
+            onPress={this.handleAreaSplitterButtonClick.bind(this)}
           >
             <MenuBalloonDialog
               showing={
                 props.uiData.showingDialogVersion ===
                 this.state.areaSplitterShowingDialogVersion
               }
-              className='brAreaSplitterBalloonDialog'
+              style={styles.brAreaSplitterBalloonDialog}
             >
-              <MenuItem
-                className='brAreaSplitterItem br_bi_icon_channel_mosaic_1_svg'
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'sidebarAreaSplitterItem_onClick',
-                  0,
-                )}
+              <TouchableOpacity
+                style={[styles.brAreaSplitterItem, styles.brIconChannelMosaic1]}
+                onPress={() =>
+                  props.uiData.fire('sidebarAreaSplitterItem_onClick', 0)
+                }
               >
-                <span>{uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_0}</span>
-              </MenuItem>
-              <MenuItem
-                className='brAreaSplitterItem br_bi_icon_channel_mosaic_1_2_svg'
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'sidebarAreaSplitterItem_onClick',
-                  1,
-                )}
+                <Image source={icons.channelMosaic1} style={styles.menuIcon} />
+                <Text style={styles.menuItemText}>
+                  {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_0}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.brAreaSplitterItem,
+                  styles.brIconChannelMosaic12,
+                ]}
+                onPress={() =>
+                  props.uiData.fire('sidebarAreaSplitterItem_onClick', 1)
+                }
               >
-                <span>{uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_1}</span>
-              </MenuItem>
-              <MenuItem
-                className='brAreaSplitterItem br_bi_icon_channel_mosaic_4_svg'
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'sidebarAreaSplitterItem_onClick',
-                  2,
-                )}
+                <Image source={icons.channelMosaic12} style={styles.menuIcon} />
+                <Text style={styles.menuItemText}>
+                  {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_1}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.brAreaSplitterItem, styles.brIconChannelMosaic4]}
+                onPress={() =>
+                  props.uiData.fire('sidebarAreaSplitterItem_onClick', 2)
+                }
               >
-                <span>{uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_2}</span>
-              </MenuItem>
+                <Image source={icons.channelMosaic4} style={styles.menuIcon} />
+                <Text style={styles.menuItemText}>
+                  {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_2}
+                </Text>
+              </TouchableOpacity>
             </MenuBalloonDialog>
           </ButtonIconic>
           <ButtonIconic
-            ref='signOutButton'
-            className='brControlButton brSignOutButton br_bi_icon_log_out_svg'
-            title={uawMsgs.LBL_SIDEBAR_SIGN_OUT_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'sidebarSignOutButton_onClick',
-            )}
-          ></ButtonIconic>
-        </div>
-      </div>
+            ref={this.signOutButtonRef}
+            style={[styles.brControlButton, styles.brSignOutButton]}
+            iconSource={icons.logOut}
+            accessibilityLabel={uawMsgs.LBL_SIDEBAR_SIGN_OUT_BUTTON_TOOLTIP}
+            onPress={() => props.uiData.fire('sidebarSignOutButton_onClick')}
+          />
+        </View>
+      </View>
     )
   }
+}
+
+const styles = StyleSheet.create({
+  brBuddylistItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    backgroundColor: '#ffffff',
+  },
+  // TODO: Remove this if not use
+  brWithColor: {},
+  brWithIcon: {},
+  brCallStatus: {},
+  brConferenceStatus: {},
+  brConferenceStatusWebchat: {},
+  brSelected: {
+    backgroundColor: '#eeeeee',
+  },
+  brOffline: {
+    opacity: 0.5,
+  },
+  brBuddylistItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  brCallStatusIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 4,
+  },
+  brConferenceStatusIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 4,
+  },
+  brConferenceStatusWebchatIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 4,
+  },
+  brBuddylistItemInfo: {
+    fontSize: 13,
+    color: '#212121',
+  },
+  brBuddylistItemMessage: {
+    marginTop: 4,
+  },
+  brBuddylistItemTime: {
+    marginTop: 2,
+    fontSize: 12,
+    color: '#9e9e9e',
+  },
+  brBuddylistItemMarker: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#40E0D0',
+    marginHorizontal: 4,
+  },
+  brBuddylistItemUnread: {
+    backgroundColor: '#ff4526',
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+  },
+  brBuddylistItemImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginLeft: 8,
+    overflow: 'hidden',
+  },
+  profileImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  brNoImage: {
+    backgroundColor: '#eeeeee',
+  },
+  brMyProfileImageUrl: {
+    borderWidth: 2,
+    borderColor: '#40E0D0',
+  },
+  brBuddylistItemStatusIcon: {
+    position: 'absolute',
+    right: 8,
+    bottom: 8,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  brBuddylistGroup: {
+    marginBottom: 8,
+  },
+  brBuddylistGroupTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: '#ffffff',
+  },
+  brGroupName: {
+    backgroundColor: '#f5f5f5', // or whatever color you want for named groups
+  },
+  brBuddylistGroupLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  brBuddylistGroupName: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#212121',
+  },
+  brBuddylistGroupOnlines: {
+    fontSize: 12,
+    color: '#9e9e9e',
+    marginLeft: 4,
+  },
+  brBuddylistGroupOpenIcon: {
+    width: 16,
+    height: 16,
+    marginLeft: 8,
+  },
+  brBuddylistItems: {
+    overflow: 'hidden', // This replaces the height animation from CSS
+  },
+  brControlButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 4,
+    borderRadius: 20,
+    backgroundColor: '#ffffff',
+  },
+  brCreateConferenceButton: {
+    // Add any specific styles for conference button
+  },
+  brSendBroadcastTextButton: {
+    // Add any specific styles for broadcast button
+  },
+  brExternalCallButton: {
+    // Add any specific styles for call button
+  },
+  brOutgoingWebchatButton: {
+    // Add any specific styles for webchat button
+  },
+  brCreateGroupButton: {
+    // Add any specific styles for group button
+  },
+  brUserListButton: {
+    // Add any specific styles for user list button
+  },
+  brOver: {
+    backgroundColor: '#ff4526',
+  },
+  brBuddylistbar: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  brBuddylistFilterArea: {
+    padding: 8,
+    backgroundColor: '#ffffff',
+  },
+  brBuddylistFilterInput: {
+    height: 36,
+    paddingHorizontal: 8,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 4,
+  },
+  brBuddylistFilterButton: {
+    width: 32,
+    height: 32,
+    margin: 4,
+  },
+  brBuddylistFilterBalloonDialog: {
+    backgroundColor: '#ffffff',
+    borderRadius: 4,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  brBuddylistFilterOnlineOnlyCheckBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+  },
+  checkboxIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 8,
+  },
+  checkboxLabel: {
+    fontSize: 14,
+    color: '#212121',
+  },
+  brBuddylistGroupRemoveDndable: {
+    width: 32,
+    height: 32,
+    margin: 4,
+  },
+  brControlbar: {
+    width: '100%',
+    backgroundColor: '#ffffff',
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    padding: 8,
+  },
+  brControlLogo: {
+    width: 120,
+    height: 40,
+    resizeMode: 'contain',
+    marginBottom: 16,
+  },
+  brControlProfile: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: '#ffffff',
+    marginBottom: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brControlProfileStatusIcon: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  brChecked: {
+    backgroundColor: '#e3f2fd',
+  },
+  brUnchecked: {
+    backgroundColor: '#ffffff',
+  },
+  brSidebar: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  brControlButtonsCollapsible: {
+    // Add styles for collapsed state
+  },
+  brControlButtonsCollapsedCount1: {
+    // Styles for 1 collapsed button
+  },
+  brControlButtonsCollapsedCount2: {
+    // Styles for 2 collapsed buttons
+  },
+  brControlProfileHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  brControlProfileName: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#212121',
+  },
+  brControlProfileDisplay: {
+    fontSize: 13,
+    color: '#757575',
+    marginRight: 8,
+  },
+  brEditStatusDisplay: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brHidden: {
+    display: 'none',
+  },
+  brControlProfileBalloonDialog: {
+    backgroundColor: '#ffffff',
+    borderRadius: 4,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  brControlProfileStatusItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+  },
+  brControlProfileStatusItemStatusIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 8,
+  },
+  brControlProfileStatusItemChecked: {
+    width: 16,
+    height: 16,
+    marginRight: 8,
+  },
+  brIconOok: {
+    opacity: 1,
+  },
+  brSeparator: {
+    height: 1,
+    backgroundColor: '#e0e0e0',
+    marginVertical: 8,
+  },
+  brControlProfileItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+  },
+  menuIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 8,
+  },
+  brControlStatusDisplayArea: {
+    padding: 8,
+  },
+  brControlStatusDisplayLabel: {
+    fontSize: 13,
+    color: '#212121',
+  },
+  brAnimation: {
+    transform: [
+      { rotate: '-90deg' },
+      {
+        translateX: 0, // Will need to be animated using Animated API
+      },
+    ],
+  },
+  brAreaSplitterBalloonDialog: {
+    backgroundColor: '#ffffff',
+    borderRadius: 4,
+    padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  brAreaSplitterItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+  },
+  menuItemText: {
+    fontSize: 14,
+    color: '#212121',
+    marginLeft: 8,
+  },
+  brIconChannelMosaic1: {
+    // Add specific styles if needed
+  },
+  brIconChannelMosaic12: {
+    // Add specific styles if needed
+  },
+  brIconChannelMosaic4: {
+    // Add specific styles if needed
+  },
+  brControlButtonsCollapsedMenuButton: {
+    // Add specific styles for collapsed menu button
+  },
+  brAreaSplitterButton: {
+    // Add specific styles for area splitter button
+  },
+  brSignOutButton: {
+    // Add specific styles for sign out button
+  },
+})
+
+export const icons = {
+  phone: require('../assets/icons/phone.png'),
+  conference: require('../assets/icons/conference.png'),
+  internet: require('../assets/icons/internet.png'),
+  chevronUp: require('../assets/icons/chevron-up.png'),
+  chevronDown: require('../assets/icons/chevron-down.png'),
+  conferenceForeground: require('../assets/icons/conference-foreground.png'),
+  broadcasting: require('../assets/icons/broadcasting.png'),
+  send: require('../assets/icons/send.png'),
+  addFolder: require('../assets/icons/add-folder.png'),
+  list: require('../assets/icons/list.png'),
+  filtration: require('../assets/icons/filtration.png'),
+  check: require('../assets/icons/check.png'),
+  square: require('../assets/icons/square.png'),
+  bin: require('../assets/icons/bin.png'),
+  edit: require('../assets/icons/edit.png'),
+  user: require('../assets/icons/user.png'),
+  history: require('../assets/icons/history.png'),
+  settings: require('../assets/icons/settings.png'),
+  about: require('../assets/icons/about.png'),
+  channelMosaic1: require('../assets/icons/channel-mosaic-1.png'),
+  channelMosaic12: require('../assets/icons/channel-mosaic-1-2.png'),
+  channelMosaic4: require('../assets/icons/channel-mosaic-4.png'),
+  more: require('../assets/icons/more.png'),
+  logOut: require('../assets/icons/log-out.png'),
+  // ... other icons
 }

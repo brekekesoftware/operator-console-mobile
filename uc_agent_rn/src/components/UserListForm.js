@@ -10,6 +10,14 @@ import DropDownMenu from './DropDownMenu.js'
 import MenuBalloonDialog from './MenuBalloonDialog.js'
 import MenuItem from './MenuItem.js'
 import TextBox from './TextBox.js'
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  ScrollView,
+  StyleSheet,
+} from 'react-native'
 
 /**
  * UserListForm
@@ -22,6 +30,7 @@ import TextBox from './TextBox.js'
 export default class extends React.Component {
   constructor(props) {
     super(props)
+    this.userListCreateGroupInputRef = React.createRef()
     const buddylist = JSON.parse(
       JSON.stringify((props && props.params && props.params.buddylist) || {}),
     )
@@ -338,12 +347,10 @@ export default class extends React.Component {
       })
       ev.stopPropagation()
       props.uiData.fire('showingDialog_update')
-      // focus
-      const input = ReactDOM.findDOMNode(this.refs['userListCreateGroupInput'])
+
       setTimeout(() => {
-        if (input) {
-          input.focus()
-          input.select()
+        if (this.userListCreateGroupInputRef.current) {
+          this.userListCreateGroupInputRef.current.focus()
         }
       }, 0)
     }
@@ -362,7 +369,7 @@ export default class extends React.Component {
   }
   handleUserListCreateGroupSubmitButtonClick(ev) {
     const props = this.props
-    const input = ReactDOM.findDOMNode(this.refs['userListCreateGroupInput'])
+    const input = this.userListCreateGroupInputRef.current
     const id = string(input && input.value)
     const buddylist = this.state.buddylist
     if (
@@ -380,7 +387,9 @@ export default class extends React.Component {
         buddylist: buddylist,
         createGroupShowingDialogVersion: null,
       })
-      input.value = ''
+      if (input) {
+        input.clear()
+      }
     } else {
       setTimeout(() => {
         if (input) {
@@ -469,11 +478,11 @@ export default class extends React.Component {
       label: uawMsgs.LBL_USER_LIST_SORT_ORDER_GROUP,
     })
 
-    let buddies = (this.state.buddylist.user || []).concat() // shallow copy
+    let buddies = (this.state.buddylist.user || []).concat()
     const groupUserCountTable = {}
     if (this.state.selectedSortOrderKey !== '_group') {
       buddies = buddies.filter(buddy => {
-        return buddy.user_id // is not a group
+        return buddy.user_id
       })
       buddies = this.sortBuddylist(buddies, this.state.selectedSortOrderKey)
     } else {
@@ -505,359 +514,502 @@ export default class extends React.Component {
     let currentGroupId = null
 
     return (
-      <div
-        className={
-          'brUserListForm brBuddyMode' +
-          int(props.params && props.params.buddy_mode) +
-          (this.state.buddylist.screened ? ' brScreened' : '') +
-          (this.state.saveOrder ? ' brSaveOrder' : '')
-        }
+      <View
+        style={[
+          styles.brUserListForm,
+          styles[`brBuddyMode${int(props.params && props.params.buddy_mode)}`],
+          this.state.buddylist.screened && styles.brScreened,
+          this.state.saveOrder && styles.brSaveOrder,
+        ]}
       >
-        <table className='brUserListTable'>
-          <tbody>
-            <tr>
-              <td colSpan='2'>
-                <span
-                  className={
-                    'brUserListAllUsersCheck' +
-                    (props.params && props.params.allUsersCheckDisabled
-                      ? ' brDisabled'
-                      : '') +
-                    (props.params && props.params.allUsersCheckHidden
-                      ? ' brHidden'
-                      : '')
-                  }
-                  onClick={this.handleUserListAllUsersCheckClick.bind(this)}
-                >
-                  <span
-                    className={
-                      'brUserListAllUsersCheckIcon' +
-                      (this.state.buddylist.screened
-                        ? ' br_bi_icon_square_svg'
-                        : ' brSelected br_bi_icon_check_svg')
+        <View style={styles.brUserListTable}>
+          <View style={styles.brUserListAllUsersCheck}>
+            <TouchableOpacity
+              style={[
+                styles.brUserListAllUsersCheck,
+                props.params?.allUsersCheckDisabled && styles.brDisabled,
+                props.params?.allUsersCheckHidden && styles.brHidden,
+              ]}
+              onPress={this.handleUserListAllUsersCheckClick.bind(this)}
+              disabled={props.params?.allUsersCheckDisabled}
+            >
+              <Image
+                source={
+                  this.state.buddylist.screened ? icons.square : icons.check
+                }
+                style={[
+                  styles.brUserListAllUsersCheckIcon,
+                  this.state.buddylist.screened ? null : styles.brSelected,
+                ]}
+              />
+              <Text style={styles.brUserListAllUsersCheckLabel}>
+                {uawMsgs.LBL_USER_LIST_ALL_USERS_CHECK}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.brUserListSaveOrderCheck}>
+            <TouchableOpacity
+              style={styles.brUserListSaveOrderCheck}
+              onPress={this.handleUserListSaveOrderCheckClick.bind(this)}
+            >
+              <Image
+                source={this.state.saveOrder ? icons.check : icons.square}
+                style={[
+                  styles.brUserListSaveOrderCheckIcon,
+                  this.state.saveOrder && styles.brSelected,
+                ]}
+              />
+              <Text style={styles.brUserListSaveOrderCheckLabel}>
+                {uawMsgs.LBL_USER_LIST_SAVE_ORDER_CHECK}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.brUserListSortOrderGroupCheck}
+              onPress={this.handleUserListSortOrderGroupCheckClick.bind(this)}
+            >
+              <Image
+                source={
+                  this.state.selectedSortOrderKey === '_group'
+                    ? icons.check
+                    : icons.square
+                }
+                style={[
+                  styles.brUserListSortOrderGroupCheckIcon,
+                  this.state.selectedSortOrderKey === '_group' &&
+                    styles.brSelected,
+                ]}
+              />
+              <Text style={styles.brUserListSortOrderGroupCheckLabel}>
+                {uawMsgs.LBL_USER_LIST_SORT_ORDER_GROUP_CHECK}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.brUserListCaptionArea}>
+            <Text>{uawMsgs.LBL_USER_LIST_CAPTION}</Text>
+          </View>
+          <View style={styles.brUserListCapacityArea}>
+            <Text style={styles.brUserListCapacityLabel}>
+              {uawMsgs.LBL_USER_LIST_CAPACITY}
+            </Text>
+            <View style={styles.brUserListCapacityValue}>
+              <Text
+                style={[
+                  styles.brUserListCapacityUsed,
+                  this.state.usedCount > props.params.buddy_max &&
+                    styles.brOver,
+                ]}
+              >
+                {this.state.usedCount}
+              </Text>
+              <Text> / </Text>
+              <Text style={styles.brUserListCapacityMax}>
+                {props.params.buddy_max}
+              </Text>
+            </View>
+          </View>
+
+          <ScrollView style={styles.brUserListBuddies}>
+            {buddies.map((buddy, i) => {
+              if (buddy && buddy.user_id) {
+                const key = JSON.stringify({
+                  tenant: buddy.tenant,
+                  user_id: buddy.user_id,
+                })
+                const label =
+                  (buddy.name || buddy.user_id) +
+                  (nameDisplayMode === 1 ? ` (${buddy.user_id})` : '')
+
+                return (
+                  <DndableSafe
+                    key={key}
+                    uiData={props.uiData}
+                    style={[
+                      styles.brUserListBuddyItem,
+                      this.state.selectedSortOrderKey === '_group' &&
+                        !this.state.expandedGroupIds[currentGroupId] &&
+                        styles.brCollapsed,
+                      { zIndex: buddies.length - 1 },
+                    ]}
+                    dragSourceInfo={{
+                      dragSourceInfoType: 'userListBuddyItem',
+                      dragSourceInfoCode: key,
+                    }}
+                    onCheckCanDrop={ev =>
+                      this.state.saveOrder &&
+                      this.state.selectedSortOrderKey === '_group' &&
+                      ev.dragSourceInfo &&
+                      ev.dragSourceInfo.dragSourceInfoType ===
+                        'userListBuddyItem' &&
+                      ev.dragSourceInfo.dragSourceInfoCode !== key
                     }
-                  ></span>
-                  <span className='brUserListAllUsersCheckLabel'>
-                    {uawMsgs.LBL_USER_LIST_ALL_USERS_CHECK}
-                  </span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan='2'>
-                <span
-                  className='brUserListSaveOrderCheck'
-                  onClick={this.handleUserListSaveOrderCheckClick.bind(this)}
-                >
-                  <span
-                    className={
-                      'brUserListSaveOrderCheckIcon' +
-                      (this.state.saveOrder
-                        ? ' brSelected br_bi_icon_check_svg'
-                        : ' br_bi_icon_square_svg')
+                    onDrop={this.handleUserListDrop.bind(this, {
+                      dropTargetInfoType: 'userListBuddyItem',
+                      dropTargetInfoCode: key,
+                    })}
+                    onPress={this.handleUserListBuddyItemClick.bind(
+                      this,
+                      buddy,
+                    )}
+                  >
+                    <Image
+                      source={
+                        this.state.buddylist.screened && buddy.delete
+                          ? icons.square
+                          : icons.check
+                      }
+                      style={[
+                        styles.brUserListBuddyItemIcon,
+                        !(this.state.buddylist.screened && buddy.delete) &&
+                          styles.brSelected,
+                      ]}
+                    />
+                    <Text
+                      style={styles.brUserListBuddyItemLabel}
+                      numberOfLines={1}
+                    >
+                      {label}
+                    </Text>
+                  </DndableSafe>
+                )
+              } else if (buddy) {
+                currentGroupId = buddy.id
+                return (
+                  <DndableSafe
+                    key={currentGroupId}
+                    uiData={props.uiData}
+                    style={[
+                      styles.brUserListGroupArea,
+                      buddy.id && styles.brGroupId,
+                      { zIndex: buddies.length - i },
+                    ]}
+                    dragSourceInfo={{
+                      dragSourceInfoType: 'userListGroupArea',
+                      dragSourceInfoCode: buddy.id,
+                    }}
+                    onCheckCanDrop={ev =>
+                      this.state.saveOrder &&
+                      this.state.selectedSortOrderKey === '_group' &&
+                      ev.dragSourceInfo &&
+                      (ev.dragSourceInfo.dragSourceInfoType ===
+                        'userListBuddyItem' ||
+                        (ev.dragSourceInfo.dragSourceInfoType ===
+                          'userListGroupArea' &&
+                          ev.dragSourceInfo.dragSourceInfoCode !== buddy.id &&
+                          ev.dragSourceInfo.dragSourceInfoCode &&
+                          buddy.id))
                     }
-                  ></span>
-                  <span className='brUserListSaveOrderCheckLabel'>
-                    {uawMsgs.LBL_USER_LIST_SAVE_ORDER_CHECK}
-                  </span>
-                </span>
-                <span
-                  className='brUserListSortOrderGroupCheck'
-                  onClick={this.handleUserListSortOrderGroupCheckClick.bind(
-                    this,
-                  )}
-                >
-                  <span
-                    className={
-                      'brUserListSortOrderGroupCheckIcon' +
-                      (this.state.selectedSortOrderKey === '_group'
-                        ? ' brSelected br_bi_icon_check_svg'
-                        : ' br_bi_icon_square_svg')
-                    }
-                  ></span>
-                  <span className='brUserListSortOrderGroupCheckLabel'>
-                    {uawMsgs.LBL_USER_LIST_SORT_ORDER_GROUP_CHECK}
-                  </span>
-                </span>
-              </td>
-            </tr>
-            <tr style={{ display: 'none' }}>
-              <td>{uawMsgs.LBL_USER_LIST_SORT_ORDER}</td>
-              <td>
-                <DropDownMenu
-                  uiData={props.uiData}
-                  className='brUserListSortOrderMenu'
-                  text={
-                    (
-                      sortOrders.find(
-                        sortOrder =>
-                          sortOrder.key === this.state.selectedSortOrderKey,
-                      ) || {}
-                    ).label || uawMsgs.LBL_USER_LIST_SORT_ORDER_NONE
-                  }
-                >
-                  {sortOrders.map(sortOrder => (
-                    <MenuItem
-                      key={sortOrder.key}
-                      className='brUserListFormMenuItem brUserListSortOrderItem'
-                      dropDown={true}
-                      onClick={this.handleUserListSortOrderItemClick.bind(
+                    onDrop={this.handleUserListDrop.bind(this, {
+                      dropTargetInfoType: 'userListGroupArea',
+                      dropTargetInfoCode: buddy.id,
+                    })}
+                  >
+                    <View style={styles.brUserListGroupMenuArea}>
+                      <ButtonIconic
+                        style={styles.brUserListGroupMenuButton}
+                        iconSource={icons.more}
+                        onPress={this.handleUserListGroupMenuButtonClick.bind(
+                          this,
+                          buddy,
+                        )}
+                      >
+                        <MenuBalloonDialog
+                          showing={
+                            props.uiData.showingDialogVersion ===
+                              this.state.groupMenuShowingDialogVersion &&
+                            buddy.id === this.state.groupMenuShowingDialogId
+                          }
+                          style={styles.brUserListGroupMenuBalloonDialog}
+                        >
+                          <MenuItem
+                            style={[
+                              styles.brUserListGroupMenuItem,
+                              styles.brCheckAll,
+                            ]}
+                            disabled={!this.state.buddylist.screened}
+                            onPress={this.handleUserListGroupCheckAllMenuItemClick.bind(
+                              this,
+                              buddies.slice(i + 1),
+                              true,
+                            )}
+                          >
+                            {uawMsgs.LBL_USER_LIST_GROUP_CHECK_ALL_MENU}
+                          </MenuItem>
+                          <MenuItem
+                            style={[
+                              styles.brUserListGroupMenuItem,
+                              styles.brUncheckAll,
+                            ]}
+                            disabled={!this.state.buddylist.screened}
+                            onPress={this.handleUserListGroupCheckAllMenuItemClick.bind(
+                              this,
+                              buddies.slice(i + 1),
+                              false,
+                            )}
+                          >
+                            {uawMsgs.LBL_USER_LIST_GROUP_UNCHECK_ALL_MENU}
+                          </MenuItem>
+                          <MenuItem
+                            style={[
+                              styles.brUserListGroupMenuItem,
+                              styles.brRemoveGroup,
+                            ]}
+                            disabled={!(this.state.saveOrder && buddy.id)}
+                            onPress={this.handleUserListGroupRemoveGroupMenuItemClick.bind(
+                              this,
+                              buddy.id,
+                            )}
+                          >
+                            {uawMsgs.LBL_USER_LIST_GROUP_REMOVE_GROUP_MENU}
+                          </MenuItem>
+                        </MenuBalloonDialog>
+                      </ButtonIconic>
+                    </View>
+                    <TouchableOpacity
+                      style={styles.brUserListGroupItem}
+                      onPress={this.handleUserListGroupItemClick.bind(
                         this,
-                        sortOrder.key,
+                        buddy,
                       )}
                     >
-                      {sortOrder.label}
-                    </MenuItem>
-                  ))}
-                </DropDownMenu>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan='2'>
-                <span className='brUserListCaptionArea'>
-                  {uawMsgs.LBL_USER_LIST_CAPTION}
-                </span>
-                <span className='brUserListCapacityArea'>
-                  <span className='brUserListCapacityLabel'>
-                    {uawMsgs.LBL_USER_LIST_CAPACITY}
-                  </span>
-                  <span className='brUserListCapacityValue'>
-                    <span
-                      className={
-                        'brUserListCapacityUsed' +
-                        (this.state.usedCount > props.params.buddy_max
-                          ? ' brOver'
-                          : '')
-                      }
-                    >
-                      {this.state.usedCount}
-                    </span>
-                    <span>{' / '}</span>
-                    <span className='brUserListCapacityMax'>
-                      {props.params.buddy_max}
-                    </span>
-                  </span>
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td colSpan='2'>
-                <div className='brUserListBuddies'>
-                  {buddies.map((buddy, i) => {
-                    if (buddy && buddy.user_id) {
-                      const key = JSON.stringify({
-                        tenant: buddy.tenant,
-                        user_id: buddy.user_id,
-                      })
-                      const label =
-                        (buddy.name || buddy.user_id) +
-                        (nameDisplayMode === 1
-                          ? ' (' + buddy.user_id + ')'
-                          : '')
-                      return (
-                        <DndableSafe
-                          uiData={props.uiData}
-                          className={
-                            'brUserListBuddyItem' +
-                            (this.state.selectedSortOrderKey === '_group' &&
-                            !this.state.expandedGroupIds[currentGroupId]
-                              ? ' brCollapsed'
-                              : '')
-                          }
-                          key={key}
-                          style={{ zIndex: buddies.length - 1 }}
-                          dragSourceInfo={{
-                            dragSourceInfoType: 'userListBuddyItem',
-                            dragSourceInfoCode: key,
-                          }}
-                          onCheckCanDrop={ev =>
-                            this.state.saveOrder &&
-                            this.state.selectedSortOrderKey === '_group' &&
-                            ev.dragSourceInfo &&
-                            ev.dragSourceInfo.dragSourceInfoType ===
-                              'userListBuddyItem' &&
-                            ev.dragSourceInfo.dragSourceInfoCode !== key
-                          }
-                          onDrop={this.handleUserListDrop.bind(this, {
-                            dropTargetInfoType: 'userListBuddyItem',
-                            dropTargetInfoCode: key,
-                          })}
-                          onClick={this.handleUserListBuddyItemClick.bind(
-                            this,
-                            buddy,
-                          )}
-                        >
-                          <span
-                            className={
-                              'brUserListBuddyItemIcon' +
-                              (this.state.buddylist.screened && buddy.delete
-                                ? ' br_bi_icon_square_svg'
-                                : ' brSelected br_bi_icon_check_svg')
-                            }
-                            title={label}
-                          ></span>
-                          <span
-                            className='brUserListBuddyItemLabel'
-                            title={label}
-                          >
-                            {label}
-                          </span>
-                        </DndableSafe>
-                      )
-                    } else if (buddy) {
-                      return (
-                        <DndableSafe
-                          uiData={props.uiData}
-                          className={
-                            'brUserListGroupArea' +
-                            (buddy.id ? ' brGroupId' : '')
-                          }
-                          key={(currentGroupId = buddy.id)}
-                          style={{ zIndex: buddies.length - i }}
-                          dragSourceInfo={{
-                            dragSourceInfoType: 'userListGroupArea',
-                            dragSourceInfoCode: buddy.id,
-                          }}
-                          onCheckCanDrop={ev =>
-                            this.state.saveOrder &&
-                            this.state.selectedSortOrderKey === '_group' &&
-                            ev.dragSourceInfo &&
-                            (ev.dragSourceInfo.dragSourceInfoType ===
-                              'userListBuddyItem' ||
-                              (ev.dragSourceInfo.dragSourceInfoType ===
-                                'userListGroupArea' &&
-                                ev.dragSourceInfo.dragSourceInfoCode !==
-                                  buddy.id &&
-                                ev.dragSourceInfo.dragSourceInfoCode &&
-                                buddy.id))
-                          }
-                          onDrop={this.handleUserListDrop.bind(this, {
-                            dropTargetInfoType: 'userListGroupArea',
-                            dropTargetInfoCode: buddy.id,
-                          })}
-                        >
-                          <div className='brUserListGroupMenuArea'>
-                            <ButtonIconic
-                              className='brUserListGroupMenuButton br_bi_icon_more_svg'
-                              onClick={this.handleUserListGroupMenuButtonClick.bind(
-                                this,
-                                buddy,
-                              )}
-                            >
-                              <MenuBalloonDialog
-                                showing={
-                                  props.uiData.showingDialogVersion ===
-                                    this.state.groupMenuShowingDialogVersion &&
-                                  buddy.id ===
-                                    this.state.groupMenuShowingDialogId
-                                }
-                                className='brUserListGroupMenuBalloonDialog'
-                              >
-                                <MenuItem
-                                  className='brUserListGroupMenuItem brCheckAll'
-                                  disabled={!this.state.buddylist.screened}
-                                  onClick={this.handleUserListGroupCheckAllMenuItemClick.bind(
-                                    this,
-                                    buddies.slice(i + 1),
-                                    true,
-                                  )}
-                                >
-                                  {uawMsgs.LBL_USER_LIST_GROUP_CHECK_ALL_MENU}
-                                </MenuItem>
-                                <MenuItem
-                                  className='brUserListGroupMenuItem brUncheckAll'
-                                  disabled={!this.state.buddylist.screened}
-                                  onClick={this.handleUserListGroupCheckAllMenuItemClick.bind(
-                                    this,
-                                    buddies.slice(i + 1),
-                                    false,
-                                  )}
-                                >
-                                  {uawMsgs.LBL_USER_LIST_GROUP_UNCHECK_ALL_MENU}
-                                </MenuItem>
-                                <MenuItem
-                                  className='brUserListGroupMenuItem brRemoveGroup'
-                                  disabled={!(this.state.saveOrder && buddy.id)}
-                                  onClick={this.handleUserListGroupRemoveGroupMenuItemClick.bind(
-                                    this,
-                                    buddy.id,
-                                  )}
-                                >
-                                  {
-                                    uawMsgs.LBL_USER_LIST_GROUP_REMOVE_GROUP_MENU
-                                  }
-                                </MenuItem>
-                              </MenuBalloonDialog>
-                            </ButtonIconic>
-                          </div>
-                          <div
-                            className={
-                              'brUserListGroupItem' +
-                              (this.state.expandedGroupIds[buddy.id]
-                                ? ' br_bi_icon_chevron_up_svg'
-                                : ' br_bi_icon_chevron_down_svg')
-                            }
-                            onClick={this.handleUserListGroupItemClick.bind(
-                              this,
-                              buddy,
-                            )}
-                          >
-                            {string(
-                              groupUserCountTable[buddy.id] &&
-                                buddy.name +
-                                  ' ' +
-                                  (this.state.buddylist.screened
-                                    ? groupUserCountTable[buddy.id].activeCount
-                                    : groupUserCountTable[buddy.id]
-                                        .totalCount) +
-                                  '/' +
-                                  groupUserCountTable[buddy.id].totalCount,
-                            )}
-                          </div>
-                        </DndableSafe>
-                      )
-                    } else {
-                      return <div></div>
-                    }
-                  })}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <ButtonIconic
-          className='brUserListCreateGroupButton br_bi_icon_add_folder_svg'
-          hidden={
-            !(
-              this.state.saveOrder &&
-              this.state.selectedSortOrderKey === '_group'
-            )
-          }
-          title={uawMsgs.LBL_USER_LIST_CREATE_GROUP_BUTTON_TOOLTIP}
-          onClick={this.handleUserListCreateGroupButtonClick.bind(this)}
-        ></ButtonIconic>
+                      <Image
+                        source={
+                          this.state.expandedGroupIds[buddy.id]
+                            ? icons.chevronUp
+                            : icons.chevronDown
+                        }
+                        style={styles.brGroupIcon}
+                      />
+                      <Text>
+                        {string(
+                          groupUserCountTable[buddy.id] &&
+                            buddy.name +
+                              ' ' +
+                              (this.state.buddylist.screened
+                                ? groupUserCountTable[buddy.id].activeCount
+                                : groupUserCountTable[buddy.id].totalCount) +
+                              '/' +
+                              groupUserCountTable[buddy.id].totalCount,
+                        )}
+                      </Text>
+                    </TouchableOpacity>
+                  </DndableSafe>
+                )
+              }
+              return <View key={i} />
+            })}
+          </ScrollView>
+        </View>
+
+        {this.state.saveOrder &&
+          this.state.selectedSortOrderKey === '_group' && (
+            <ButtonIconic
+              style={styles.brUserListCreateGroupButton}
+              iconSource={icons.addFolder}
+              onPress={this.handleUserListCreateGroupButtonClick.bind(this)}
+            />
+          )}
+
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
             this.state.createGroupShowingDialogVersion
           }
-          className='brUserListCreateGroupBalloonDialog'
+          style={styles.brUserListCreateGroupBalloonDialog}
         >
           <TextBox
-            ref='userListCreateGroupInput'
-            className='brUserListCreateGroupInput'
+            ref={this.userListCreateGroupInputRef}
+            style={styles.brUserListCreateGroupInput}
             placeholder={uawMsgs.LBL_USER_LIST_CREATE_GROUP_INPUT_PLACEHOLDER}
-            onKeyDown={this.handleUserListCreateGroupInputKeyDown.bind(this)}
-          ></TextBox>
+            onKeyPress={this.handleUserListCreateGroupInputKeyDown.bind(this)}
+          />
           <ButtonLabeled
-            className='brUserListCreateGroupSubmitButton'
-            title={uawMsgs.LBL_USER_LIST_CREATE_GROUP_SUBMIT_BUTTON_TOOLTIP}
-            onClick={this.handleUserListCreateGroupSubmitButtonClick.bind(this)}
+            style={styles.brUserListCreateGroupSubmitButton}
+            onPress={this.handleUserListCreateGroupSubmitButtonClick.bind(this)}
           >
             {uawMsgs.LBL_USER_LIST_CREATE_GROUP_SUBMIT_BUTTON}
           </ButtonLabeled>
         </MenuBalloonDialog>
-      </div>
+      </View>
     )
   }
+}
+const styles = StyleSheet.create({
+  brUserListForm: {
+    position: 'relative',
+    padding: 8,
+    paddingHorizontal: 32,
+  },
+  brUserListTable: {
+    padding: 4,
+    fontSize: 13 * (1 / 16),
+    fontWeight: '500',
+    letterSpacing: 0.3 * (1 / 16),
+  },
+  brUserListAllUsersCheck: {
+    fontSize: 13 * (1 / 16),
+    fontWeight: '400',
+    lineHeight: 1.6,
+    letterSpacing: 0.3 * (1 / 16),
+    color: '#212121',
+    flexWrap: 'nowrap',
+  },
+  brDisabled: {
+    color: '#9e9e9e',
+  },
+  brHidden: {
+    display: 'none',
+  },
+  brUserListAllUsersCheckIcon: {
+    paddingLeft: 40,
+  },
+  brUserListSaveOrderCheck: {
+    fontSize: 13 * (1 / 16),
+    fontWeight: '400',
+    lineHeight: 1.6,
+    letterSpacing: 0.3 * (1 / 16),
+    color: '#212121',
+    flexWrap: 'nowrap',
+  },
+  brUserListSaveOrderCheckIcon: {
+    paddingLeft: 40,
+  },
+  brUserListSortOrderGroupCheck: {
+    fontSize: 13 * (1 / 16),
+    fontWeight: '400',
+    lineHeight: 1.6,
+    letterSpacing: 0.3 * (1 / 16),
+    color: '#212121',
+    flexWrap: 'nowrap',
+  },
+  brUserListSortOrderGroupCheckIcon: {
+    paddingLeft: 40,
+  },
+  brUserListCapacityArea: {
+    alignSelf: 'flex-end',
+  },
+  brUserListCapacityLabel: {
+    paddingLeft: 20,
+    paddingRight: 4,
+  },
+  brUserListCapacityValue: {
+    width: 60,
+    textAlign: 'right',
+    fontSize: 13 * (1 / 16),
+    fontWeight: '400',
+    lineHeight: 1.6,
+    letterSpacing: 0.3 * (1 / 16),
+    color: '#212121',
+  },
+  brUserListCapacityUsed: {
+    color: '#212121',
+  },
+  brOver: {
+    color: '#ff4526',
+    fontWeight: '500',
+  },
+  brUserListBuddies: {
+    width: 300,
+    height: 200,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    borderRadius: 4,
+  },
+  brUserListBuddyItem: {
+    padding: 8,
+    paddingRight: 12,
+    fontSize: 13 * (1 / 16),
+    fontWeight: '400',
+    lineHeight: 1.6,
+    letterSpacing: 0.3 * (1 / 16),
+    color: '#212121',
+    flexWrap: 'nowrap',
+  },
+  brCollapsed: {
+    opacity: 0,
+    height: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  brIsOver: {
+    borderWidth: 3,
+    borderColor: '#48d1cc',
+  },
+  brUserListBuddyItemIcon: {
+    paddingLeft: 44,
+  },
+  brUserListGroupArea: {
+    position: 'relative',
+  },
+  brUserListGroupMenuArea: {
+    zIndex: 1,
+    height: 0,
+  },
+  brUserListGroupMenuButton: {
+    position: 'absolute',
+    left: 238,
+    width: 24,
+    height: 24,
+    transform: [{ translateY: -12 }],
+  },
+  brUserListGroupMenuBalloonDialog: {
+    position: 'absolute',
+    right: 0,
+    top: 24,
+  },
+  brUserListGroupItem: {
+    zIndex: 0,
+    padding: 8,
+    paddingHorizontal: 12,
+    fontSize: 9 * (1 / 16),
+    fontWeight: '400',
+    lineHeight: 1.6,
+    letterSpacing: 1.3 * (1 / 16),
+    color: '#9e9e9e',
+    flexWrap: 'nowrap',
+  },
+  brUserListCreateGroupButton: {
+    position: 'absolute',
+    right: 40,
+    top: 40,
+  },
+  brUserListCreateGroupBalloonDialog: {
+    position: 'absolute',
+    zIndex: 9999,
+    right: 40,
+    top: 72,
+    padding: 8,
+  },
+  brUserListCreateGroupInput: {
+    marginBottom: 8,
+  },
+  brUserListBuddyItemHover: {
+    backgroundColor: '#eeeeee',
+  },
+  brUserListGroupItemHover: {
+    backgroundColor: '#eeeeee',
+  },
+  brBuddyMode1: {},
+  brScreened: {},
+  brSaveOrder: {},
+  brUserListAllUsersCheckLabel: {
+    fontSize: 14,
+  },
+  brUserListCaptionArea: {
+    flex: 1,
+  },
+  brUserListCapacityValue: {
+    flexDirection: 'row',
+  },
+  brUserListCapacityMax: {},
+})
+const icons = {
+  check: require('../assets/icons/check.png'),
+  square: require('../assets/icons/square.png'),
+  more: require('../assets/icons/more.png'),
+  chevronUp: require('../assets/icons/chevron-up.png'),
+  chevronDown: require('../assets/icons/chevron-down.png'),
+  addFolder: require('../assets/icons/add-folder.png'),
 }
