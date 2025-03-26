@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
  * props.uiData.ucUiStore
  * props.uiData.runningAnimationTable
  * props.uiData.statusbarCloseButton_onClick
+ * props.style - Style object for the statusbar
  */
 export default class extends React.Component {
   constructor(props) {
@@ -146,7 +147,9 @@ export default class extends React.Component {
     }
 
     return (
-      <Animated.View style={[styles.statusbar, { opacity: this.fadeAnim }]}>
+      <Animated.View
+        style={[styles.statusbar, { opacity: this.fadeAnim }, this.props.style]}
+      >
         <View style={styles.statusbarMessage}>
           <View style={styles.row}>
             <Text style={styles.statusbarMessageHeader}>

@@ -1,4 +1,15 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Dimensions,
+  PanResponder,
+  Platform,
+  StatusBar,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -12,6 +23,12 @@ import MenuBalloonDialog from './MenuBalloonDialog.js'
 import MenuItem from './MenuItem.js'
 import MultipleAudio from '../components/MultipleAudio.js'
 import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
+import { RTCView } from 'react-native-webrtc'
+import Animated, {
+  useAnimatedStyle,
+  withSpring,
+  useSharedValue,
+} from 'react-native-reanimated'
 
 /**
  * CustomerCallArea
@@ -39,7 +56,7 @@ import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
  * props.uiData.callDeclineButton_onClick
  * props.withMenuOptions
  */
-export default class extends React.Component {
+export default class CustomerCallArea extends React.Component {
   constructor(props) {
     super(props)
     this.fullscreenEntered = false
@@ -52,38 +69,68 @@ export default class extends React.Component {
       touchMoveX: 0,
       touchMoveY: 0,
       swipedTime: 0,
-      callLocalVideoX: -40,
-      callLocalVideoY: -40,
+      callLocalVideoPosition: {
+        x: -40,
+        y: -40,
+      },
       videoOptionsPanelTime: {},
+      isFullscreen: false,
+      fullscreenVideo: null,
     }
+
+    // Create refs
+    this.callVideoAreaRef = React.createRef()
+    this.videoRefs = {}
+
+    // Setup pan responder for draggable local video
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: (evt, gestureState) => {
+        this.setState({
+          touchStartX: gestureState.x0,
+          touchStartY: gestureState.y0,
+          touchStartTime: Date.now(),
+        })
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        this.setState({
+          touchMoveX: gestureState.moveX,
+          touchMoveY: gestureState.moveY,
+        })
+
+        if (this.props.uiData.callAreaExpanded) {
+          this.setState({
+            callLocalVideoPosition: {
+              x: gestureState.dx + this.state.callLocalVideoPosition.x,
+              y: gestureState.dy + this.state.callLocalVideoPosition.y,
+            },
+          })
+        }
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        const nowTime = Date.now()
+        const dTime = nowTime - this.state.touchStartTime
+        const dY = gestureState.dy
+
+        if (dTime < 1000) {
+          if (24 < dY && dY < 200) {
+            this.setState({ swipedTime: nowTime })
+            this.props.uiData.fire('callArea_onSwipedDown', evt)
+          } else if (-200 < dY && dY < -24) {
+            this.setState({ swipedTime: nowTime })
+            this.props.uiData.fire('callArea_onSwipedUp', evt)
+          }
+        }
+      },
+    })
   }
   componentDidUpdate() {
     const props = this.props
     const session = props.uiData.phone && props.uiData.phone.getSession()
-    if (!session) {
-      // no call
-      if (this.fullscreenEntered) {
-        const doc = props.uiData.ownerDocument
-        if (doc) {
-          try {
-            const p = (
-              doc.exitFullscreen ||
-              doc.webkitExitFullscreen ||
-              doc.mozCancelFullScreen ||
-              doc.msExitFullscreen ||
-              function () {}
-            ).call(doc)
-            if (p && p.catch) {
-              p.catch(error => {
-                props.uiData.ucUiStore.getLogger().log('warn', error)
-              })
-            }
-          } catch (ex) {
-            props.uiData.ucUiStore.getLogger().log('warn', ex)
-          }
-        }
-        this.fullscreenEntered = false
-      }
+
+    if (!session && this.fullscreenEntered) {
+      this.fullscreenEntered = false
     }
   }
   handleEvent(ev) {
@@ -124,43 +171,59 @@ export default class extends React.Component {
       }
     }
   }
-  handleFullscreenButtonClick(ev) {
-    const props = this.props
-    const v = ReactDOM.findDOMNode(this.refs['callVideoArea'])
-    if (v) {
-      try {
-        const p = (
-          v.requestFullscreen ||
-          v.webkitRequestFullScreen ||
-          v.mozRequestFullScreen ||
-          v.msRequestFullscreen ||
-          function () {}
-        ).call(v)
-        if (p && p.catch) {
-          p.catch(error => {
-            props.uiData.ucUiStore.getLogger().log('warn', error)
+  handleFullscreenButtonClick() {
+    if (Platform.OS === 'ios') {
+      // iOS fullscreen handling
+      if (this.callVideoAreaRef.current) {
+        if (!this.fullscreenEntered) {
+          // Enter fullscreen
+          this.setState({
+            isFullscreen: true,
           })
+          this.fullscreenEntered = true
+        } else {
+          // Exit fullscreen
+          this.setState({
+            isFullscreen: false,
+          })
+          this.fullscreenEntered = false
         }
-      } catch (ex) {
-        props.uiData.ucUiStore.getLogger().log('warn', ex)
       }
-      this.fullscreenEntered = true
+    } else {
+      // Android fullscreen handling
+      if (this.callVideoAreaRef.current) {
+        if (!this.fullscreenEntered) {
+          // Enter fullscreen
+          StatusBar.setHidden(true)
+          this.setState({
+            isFullscreen: true,
+          })
+          this.fullscreenEntered = true
+        } else {
+          // Exit fullscreen
+          StatusBar.setHidden(false)
+          this.setState({
+            isFullscreen: false,
+          })
+          this.fullscreenEntered = false
+        }
+      }
     }
   }
   handleCallRemoteVideoClick(videoClientSessionId, ev) {
     const props = this.props
     props.uiData.callVideoOptionsHidden = false
-    this.state.videoOptionsPanelTime[videoClientSessionId] = +new Date()
+    this.state.videoOptionsPanelTime[videoClientSessionId] = Date.now()
     this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
-    setTimeout(this.setState.bind(this, {}), 2000)
-    setTimeout(this.setState.bind(this, {}), 3000)
+    setTimeout(() => this.setState({}), 2000)
+    setTimeout(() => this.setState({}), 3000)
   }
   handleCallRemoteVideoMouseMove(videoClientSessionId, ev) {
     const props = this.props
-    this.state.videoOptionsPanelTime[videoClientSessionId] = +new Date()
+    this.state.videoOptionsPanelTime[videoClientSessionId] = Date.now()
     this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
-    setTimeout(this.setState.bind(this, {}), 2000)
-    setTimeout(this.setState.bind(this, {}), 3000)
+    setTimeout(() => this.setState({}), 2000)
+    setTimeout(() => this.setState({}), 3000)
   }
   handleCallRemoteVideoMouseLeave(videoClientSessionId, ev) {
     const props = this.props
@@ -190,51 +253,47 @@ export default class extends React.Component {
     props.uiData.callVideoOptionsHidden = true
     ev.stopPropagation()
   }
-  handleCallVideoOptionsFullscreenButtonClick(videoClientSessionId, ev) {
-    const props = this.props
-    const v = ReactDOM.findDOMNode(
-      this.refs['callRemoteVideo' + videoClientSessionId],
-    )
-    if (v) {
-      const doc = props.uiData.ownerDocument
-      if (!(doc && doc.fullscreenElement === v)) {
-        try {
-          const p = (
-            v.requestFullscreen ||
-            v.webkitRequestFullScreen ||
-            v.mozRequestFullScreen ||
-            v.msRequestFullscreen ||
-            function () {}
-          ).call(v)
-          if (p && p.catch) {
-            p.catch(error => {
-              props.uiData.ucUiStore.getLogger().log('warn', error)
-            })
-          }
-        } catch (ex) {
-          props.uiData.ucUiStore.getLogger().log('warn', ex)
+  handleCallVideoOptionsFullscreenButtonClick(videoClientSessionId) {
+    const videoRef = this.videoRefs[videoClientSessionId]
+
+    if (Platform.OS === 'ios') {
+      // iOS fullscreen handling
+      if (videoRef) {
+        if (!this.fullscreenEntered) {
+          this.setState({
+            fullscreenVideo: videoClientSessionId,
+            isFullscreen: true,
+          })
+          this.fullscreenEntered = true
+        } else {
+          this.setState({
+            fullscreenVideo: null,
+            isFullscreen: false,
+          })
+          this.fullscreenEntered = false
         }
-        this.fullscreenEntered = true
-      } else {
-        try {
-          const p = (
-            doc.exitFullscreen ||
-            doc.webkitExitFullscreen ||
-            doc.mozCancelFullScreen ||
-            doc.msExitFullscreen ||
-            function () {}
-          ).call(doc)
-          if (p && p.catch) {
-            p.catch(error => {
-              props.uiData.ucUiStore.getLogger().log('warn', error)
-            })
-          }
-        } catch (ex) {
-          props.uiData.ucUiStore.getLogger().log('warn', ex)
+      }
+    } else {
+      // Android fullscreen handling
+      if (videoRef) {
+        if (!this.fullscreenEntered) {
+          StatusBar.setHidden(true)
+          this.setState({
+            fullscreenVideo: videoClientSessionId,
+            isFullscreen: true,
+          })
+          this.fullscreenEntered = true
+        } else {
+          StatusBar.setHidden(false)
+          this.setState({
+            fullscreenVideo: null,
+            isFullscreen: false,
+          })
+          this.fullscreenEntered = false
         }
-        this.fullscreenEntered = false
       }
     }
+
     delete this.state.videoOptionsPanelTime[videoClientSessionId]
     this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
   }
@@ -341,27 +400,21 @@ export default class extends React.Component {
                 100 / Math.ceil((Math.sqrt(4 * keys.length + 1) - 1) / 2),
               ) + '%'
             videos = keys.map((videoClientSessionId, index) => (
-              <div
+              <View
                 key={videoClientSessionId}
-                ref={'callRemoteVideo' + videoClientSessionId}
-                className='brCallRemoteVideo'
-                style={{ width: width, height: height }}
-                onClick={this.handleCallRemoteVideoClick.bind(
-                  this,
-                  videoClientSessionId,
-                )}
-                onTouchStart={this.handleCallRemoteVideoClick.bind(
-                  this,
-                  videoClientSessionId,
-                )}
-                onMouseMove={this.handleCallRemoteVideoMouseMove.bind(
-                  this,
-                  videoClientSessionId,
-                )}
-                onMouseLeave={this.handleCallRemoteVideoMouseLeave.bind(
-                  this,
-                  videoClientSessionId,
-                )}
+                ref={ref => (this.videoRefs[videoClientSessionId] = ref)}
+                style={[
+                  styles.brCallRemoteVideo,
+                  { width, height },
+                  this.state.fullscreenVideo === videoClientSessionId &&
+                    styles.fullscreen,
+                ]}
+                onTouchStart={() =>
+                  this.handleCallRemoteVideoClick(videoClientSessionId)
+                }
+                onTouchMove={() =>
+                  this.handleCallRemoteVideoMouseMove(videoClientSessionId)
+                }
               >
                 <CallVideo
                   uiData={props.uiData}
@@ -377,11 +430,13 @@ export default class extends React.Component {
                         .remoteStreamObject.id,
                   )}
                   isLocal={false}
-                  className={
-                    props.uiData.callAreaExpanded ? 'brCancelCallAreaClick' : ''
+                  style={
+                    props.uiData.callAreaExpanded
+                      ? styles.brCancelCallAreaClick
+                      : null
                   }
                 />
-                <div className='brCallVideoName'>
+                <Text style={styles.brCallVideoName}>
                   {
                     (user =>
                       remoteBuddies[user] ||
@@ -403,38 +458,38 @@ export default class extends React.Component {
                       ),
                     ).name
                   }
-                </div>
-                <div
-                  className={
-                    'brCallVideoOptionsPanel brCancelCallAreaClick' +
-                    (props.uiData.callVideoOptionsHidden ||
-                    !props.uiData.callAreaExpanded
-                      ? ' brHidden'
-                      : '') +
-                    (+new Date() <
-                    int(
-                      this.state.videoOptionsPanelTime[videoClientSessionId],
-                    ) +
-                      1500
-                      ? ' brVisible'
-                      : '') +
-                    (+new Date() <
-                    int(
-                      this.state.videoOptionsPanelTime[videoClientSessionId],
-                    ) +
-                      2500
-                      ? ' brEnabled'
-                      : '')
-                  }
+                </Text>
+                <View
+                  style={[
+                    styles.brCallVideoOptionsPanel,
+                    styles.brCancelCallAreaClick,
+                    props.uiData.callVideoOptionsHidden ||
+                      (!props.uiData.callAreaExpanded && styles.brHidden),
+                    Date.now() <
+                      this.state.videoOptionsPanelTime[videoClientSessionId] +
+                        1500 && styles.brVisible,
+                    Date.now() <
+                      this.state.videoOptionsPanelTime[videoClientSessionId] +
+                        2500 && styles.brEnabled,
+                  ]}
                 >
                   <ButtonIconic
-                    className='brCallVideoOptionsOptionsButton brCancelCallAreaClick'
-                    onClick={this.handleCallVideoOptionsOptionsButtonClick.bind(
-                      this,
-                      videoClientSessionId,
-                    )}
+                    style={[
+                      styles.brCallVideoOptionsOptionsButton,
+                      styles.brCancelCallAreaClick,
+                    ]}
+                    onPress={() =>
+                      this.handleCallVideoOptionsOptionsButtonClick(
+                        videoClientSessionId,
+                      )
+                    }
                   >
-                    <span className='brCallVideoOptionsOptionsButtonIcon br_bi_icon_more_svg'></span>
+                    <View
+                      style={[
+                        styles.brCallVideoOptionsOptionsButtonIcon,
+                        styles.br_bi_icon_more_svg,
+                      ]}
+                    />
                   </ButtonIconic>
                   <MenuBalloonDialog
                     showing={
@@ -444,41 +499,25 @@ export default class extends React.Component {
                         this.state
                           .callVideoOptionsMenuShowingDialogVideoClientSessionId
                     }
-                    className='brCallVideoOptionsMenuBalloon'
+                    style={styles.brCallVideoOptionsMenuBalloon}
                   >
                     <MenuItem
-                      className='brCallVideoOptionsMenuItem brCallVideoOptionsHideMenuItem brCancelCallAreaClick'
-                      onClick={this.handleCallVideoOptionsHideMenuItemClick.bind(
-                        this,
-                        videoClientSessionId,
-                      )}
+                      style={[
+                        styles.brCallVideoOptionsMenuItem,
+                        styles.brCallVideoOptionsHideMenuItem,
+                        styles.brCancelCallAreaClick,
+                      ]}
+                      onPress={() =>
+                        this.handleCallVideoOptionsHideMenuItemClick(
+                          videoClientSessionId,
+                        )
+                      }
                     >
-                      {uawMsgs.LBL_CALL_VIDEO_OPTIONS_HIDE_MENU}
+                      <Text>{uawMsgs.LBL_CALL_VIDEO_OPTIONS_HIDE_MENU}</Text>
                     </MenuItem>
                   </MenuBalloonDialog>
                   <ButtonIconic
-                    className='brCallVideoOptionsFullscreenButton brCancelCallAreaClick'
-                    onClick={this.handleCallVideoOptionsFullscreenButtonClick.bind(
-                      this,
-                      videoClientSessionId,
-                    )}
-                  >
-                    <span
-                      className={
-                        'brCallVideoOptionsFullscreenButtonIcon brCancelCallAreaClick' +
-                        (props.uiData.ownerDocument &&
-                        props.uiData.ownerDocument.fullscreenElement &&
-                        string(
-                          props.uiData.ownerDocument.fullscreenElement
-                            .className,
-                        ).indexOf('brCallRemoteVideo') !== -1
-                          ? ' br_bi_icon_collapse_svg'
-                          : ' br_bi_icon_expand_svg')
-                      }
-                    ></span>
-                  </ButtonIconic>
-                  <ButtonIconic
-                    className='brCallVideoOptionsTheaterButton'
+                    style={[styles.brCallVideoOptionsTheaterButton]}
                     hidden={
                       !(
                         props.uiData.configurations &&
@@ -491,58 +530,54 @@ export default class extends React.Component {
                             .className,
                         ).indexOf('brCallRemoteVideo') !== -1)
                     }
-                    onClick={props.uiData.fire.bind(
-                      props.uiData,
-                      'callAreaTheaterButton_onClick',
-                    )}
+                    onPress={() =>
+                      props.uiData.fire('callAreaTheaterButton_onClick')
+                    }
                   >
-                    <span
-                      className={
-                        'brCallVideoOptionsTheaterButtonIcon' +
-                        (props.uiData.callAreaTheater
-                          ? ' br_bi_icon_chevron_up_svg'
-                          : ' br_bi_icon_chevron_down_svg')
-                      }
-                    ></span>
+                    <View
+                      style={[
+                        styles.brCallVideoOptionsTheaterButtonIcon,
+                        props.uiData.callAreaTheater
+                          ? styles.br_bi_icon_chevron_up_svg
+                          : styles.br_bi_icon_chevron_down_svg,
+                      ]}
+                    />
                   </ButtonIconic>
-                </div>
-              </div>
+                </View>
+              </View>
             ))
           }
           if (props.uiData.callAreaExpanded) {
             videos.push(
-              <Draggable
+              <Animated.View
                 key='local'
-                bounds='parent'
-                defaultPosition={{
-                  x: this.state.callLocalVideoX,
-                  y: this.state.callLocalVideoY,
-                }}
-                onStop={(e, position) =>
-                  this.setState({
-                    callLocalVideoX: position.x,
-                    callLocalVideoY: position.y,
-                  })
-                }
+                style={[
+                  styles.brCallLocalVideo,
+                  {
+                    transform: [
+                      { translateX: this.state.callLocalVideoPosition.x },
+                      { translateY: this.state.callLocalVideoPosition.y },
+                    ],
+                  },
+                ]}
+                {...this.panResponder.panHandlers}
               >
-                <div className='brCallLocalVideo'>
-                  <CallVideo
-                    uiData={props.uiData}
-                    sessionId={string(session && session.sessionId)}
-                    streamMarker={string(
-                      session &&
-                        session.localVideoStreamObject &&
-                        session.localVideoStreamObject.id,
-                    )}
-                    isLocal={true}
-                    className='brCancelCallAreaClick'
-                  />
-                </div>
-              </Draggable>,
+                <CallVideo
+                  uiData={props.uiData}
+                  sessionId={string(session && session.sessionId)}
+                  streamMarker={string(
+                    session &&
+                      session.localVideoStreamObject &&
+                      session.localVideoStreamObject.id,
+                  )}
+                  isLocal={true}
+                  style={styles.brCancelCallAreaClick}
+                />
+              </Animated.View>,
             )
           } else {
             videos.push(
-              <div key='local' className='brCallLocalVideo'>
+              <View key='local' style={styles.brCallLocalVideo}>
                 <CallVideo
                   uiData={props.uiData}
                   sessionId={string(session && session.sessionId)}
@@ -553,7 +588,7 @@ export default class extends React.Component {
                   )}
                   isLocal={true}
                 />
-              </div>,
+              </View>,
             )
           }
         }
@@ -562,133 +597,124 @@ export default class extends React.Component {
         }
       }
       return (
-        <div
-          className={className}
-          onClick={this.handleEvent.bind(this)}
-          onTouchStart={this.handleEvent.bind(this)}
-          onTouchMove={this.handleEvent.bind(this)}
-          onTouchEnd={this.handleEvent.bind(this)}
+        <View
+          style={[
+            styles.brCallArea,
+            className,
+            {
+              ...this.panResponder.panHandlers,
+            },
+          ]}
+          {...this.panResponder.panHandlers}
         >
-          <div className='brCallHeaderArea'>
-            <button
-              className='brCallMuteMicButton brCallAreaButton brCancelCallAreaClick'
-              title={
-                session && session.muted && session.muted.main
-                  ? uawMsgs.LBL_CALL_MICROPHONE_UNMUTE_BUTTON_TOOLTIP
-                  : uawMsgs.LBL_CALL_MICROPHONE_MUTE_BUTTON_TOOLTIP
-              }
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'callMuteMicButton_onClick',
-              )}
+          <View style={styles.brCallHeaderArea}>
+            <TouchableOpacity
+              style={[styles.brCallMuteMicButton, styles.brCallAreaButton]}
+              onPress={() => props.uiData.fire('callMuteMicButton_onClick')}
             >
-              <span className='brCallMuteMicIcon brCallAreaIcon brCancelCallAreaClick br_bi_icon_block_microphone_svg'></span>
-            </button>
-            <button
-              className='brCallMuteCamButton brCallAreaButton brCancelCallAreaClick'
-              title={
-                props.uiData.cameraOff
-                  ? uawMsgs.LBL_CALL_CAMERA_UNMUTE_BUTTON_TOOLTIP
-                  : uawMsgs.LBL_CALL_CAMERA_MUTE_BUTTON_TOOLTIP
-              }
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'callMuteCamButton_onClick',
-              )}
-            >
-              <span className='brCallMuteCamIcon brCallAreaIcon brCancelCallAreaClick br_bi_icon_no_video_svg'></span>
-            </button>
-            <button
-              className='brCallScreenButton brCallAreaButton brCancelCallAreaClick'
-              title={
-                props.uiData.isScreen
-                  ? uawMsgs.LBL_CALL_SCREEN_END_BUTTON_TOOLTIP
-                  : uawMsgs.LBL_CALL_SCREEN_BUTTON_TOOLTIP
-              }
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'callScreenButton_onClick',
-              )}
-            >
-              <span className='brCallScreenIconArea brCallAreaIconArea'>
-                <span className='brCallScreenIcon brCallAreaIconAreaIcon brCancelCallAreaClick br_bi_icon_channel_mosaic_1_svg'></span>
-              </span>
-            </button>
-            <button
-              className='brCallHangUpButton brCallAreaButton brCancelCallAreaClick'
-              title={uawMsgs.LBL_CALL_HANG_UP_BUTTON_TOOLTIP}
-              onClick={props.uiData.fire.bind(
-                props.uiData,
-                'callHangUpButton_onClick',
-              )}
-            >
-              <span className='brCallHangUpIcon brCallAreaIcon brCancelCallAreaClick br_bi_icon_end_call_svg'></span>
-            </button>
-            <button
-              className='brCallFullscreenButton brCallAreaButton brCancelCallAreaClick br_bi_icon_expand_svg'
-              title={uawMsgs.LBL_CALL_FULLSCREEN_BUTTON_TOOLTIP}
-              onClick={this.handleFullscreenButtonClick.bind(this)}
-            ></button>
-            <CallTimer startTime={startTime} />
-          </div>
-          <div className='brCallAnswerArea brCancelCallAreaClick'>
-            <div className='brCallIncomingArea brCancelCallAreaClick'>
-              <img
-                className='brCallIncomingIcon brCancelCallAreaClick'
-                src={imcomingRemoteBuddy.profile_image_url}
+              <View
+                style={[
+                  styles.brCallMuteMicIcon,
+                  styles.brCallAreaIcon,
+                  styles.br_bi_icon_block_microphone_svg,
+                ]}
               />
-              <span className='brCallIncomingMessageArea brCancelCallAreaClick'>
-                <span className='brCallIncomingName brCancelCallAreaClick'>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.brCallMuteCamButton, styles.brCallAreaButton]}
+              onPress={() => props.uiData.fire('callMuteCamButton_onClick')}
+            >
+              <View
+                style={[
+                  styles.brCallMuteCamIcon,
+                  styles.brCallAreaIcon,
+                  styles.br_bi_icon_no_video_svg,
+                ]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.brCallScreenButton, styles.brCallAreaButton]}
+              onPress={() => props.uiData.fire('callScreenButton_onClick')}
+            >
+              <View style={styles.brCallScreenIconArea}>
+                <View
+                  style={[
+                    styles.brCallScreenIcon,
+                    styles.brCallAreaIconAreaIcon,
+                    styles.br_bi_icon_channel_mosaic_1_svg,
+                  ]}
+                />
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.brCallHangUpButton, styles.brCallAreaButton]}
+              onPress={() => props.uiData.fire('callHangUpButton_onClick')}
+            >
+              <View
+                style={[
+                  styles.brCallHangUpIcon,
+                  styles.brCallAreaIcon,
+                  styles.br_bi_icon_end_call_svg,
+                ]}
+              />
+            </TouchableOpacity>
+            <CallTimer startTime={startTime} />
+          </View>
+          <View style={styles.brCallAnswerArea}>
+            <View style={styles.brCallIncomingArea}>
+              <Image
+                style={styles.brCallIncomingIcon}
+                source={{ uri: imcomingRemoteBuddy.profile_image_url }}
+              />
+              <View style={styles.brCallIncomingMessageArea}>
+                <Text style={styles.brCallIncomingName}>
                   {imcomingRemoteBuddy.name}
-                </span>
-                <br />
-                <span className='brCallIncomingMessage brCancelCallAreaClick'>
+                </Text>
+                <Text style={styles.brCallIncomingMessage}>
                   {uawMsgs.LBL_CALL_INCOMING}
-                </span>
-              </span>
-            </div>
-            <div className='brCallAnswerButtonArea brCancelCallAreaClick'>
-              <button
-                className='brCallAnswerButton brCallAnswerAreaButton brCancelCallAreaClick'
-                title={uawMsgs.LBL_CALL_ANSWER_BUTTON_TOOLTIP}
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'callAnswerButton_onClick',
-                )}
-              ></button>
-              <button
-                className='brCallAnswerWithVideoButton brCallAnswerAreaButton brCancelCallAreaClick'
-                title={uawMsgs.LBL_CALL_ANSWER_WITH_VIDEO_BUTTON_TOOLTIP}
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'callAnswerWithVideoButton_onClick',
-                )}
-              ></button>
-              <button
-                className='brCallDeclineButton brCallAnswerAreaButton brCancelCallAreaClick'
-                title={uawMsgs.LBL_CALL_DECLINE_BUTTON_TOOLTIP}
-                onClick={props.uiData.fire.bind(
-                  props.uiData,
-                  'callDeclineButton_onClick',
-                )}
-              ></button>
-            </div>
-          </div>
-          <div
-            ref='callVideoArea'
-            className={
-              'brCallVideoArea' +
-              (Object.keys((session && session.videoClientSessionTable) || {})
-                .length >= 2
-                ? ' brMultiRemoteVideo'
-                : '')
-            }
+                </Text>
+              </View>
+            </View>
+            <View style={styles.brCallAnswerButtonArea}>
+              <TouchableOpacity
+                style={[
+                  styles.brCallAnswerButton,
+                  styles.brCallAnswerAreaButton,
+                ]}
+                onPress={() => props.uiData.fire('callAnswerButton_onClick')}
+              />
+              <TouchableOpacity
+                style={[
+                  styles.brCallAnswerWithVideoButton,
+                  styles.brCallAnswerAreaButton,
+                ]}
+                onPress={() =>
+                  props.uiData.fire('callAnswerWithVideoButton_onClick')
+                }
+              />
+              <TouchableOpacity
+                style={[
+                  styles.brCallDeclineButton,
+                  styles.brCallAnswerAreaButton,
+                ]}
+                onPress={() => props.uiData.fire('callDeclineButton_onClick')}
+              />
+            </View>
+          </View>
+          <View
+            ref={this.callVideoAreaRef}
+            style={[
+              styles.brCallVideoArea,
+              Object.keys((session && session.videoClientSessionTable) || {})
+                .length >= 2 && styles.brMultiRemoteVideo,
+              this.state.isFullscreen && styles.fullscreen,
+            ]}
           >
             {videos}
-          </div>
+          </View>
           <MultipleAudio
             uiData={props.uiData}
-            className='brRingMultipleAudio'
+            style={styles.brRingMultipleAudio}
             src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/ring.mp3'}
             loop={true}
             playing={
@@ -703,7 +729,7 @@ export default class extends React.Component {
           />
           <MultipleAudio
             uiData={props.uiData}
-            className='brRingbackMultipleAudio'
+            style={styles.brRingbackMultipleAudio}
             src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/ringback.mp3'}
             loop={true}
             playing={
@@ -727,12 +753,327 @@ export default class extends React.Component {
               ) + string(session && session.remoteStreamUrl)
             }
             isLocal={false}
-            className='brCallRemoteAudio'
+            style={styles.brCallRemoteAudio}
           />
-        </div>
+        </View>
       )
     } else {
-      return <div></div>
+      return <View />
     }
   }
 }
+
+const styles = StyleSheet.create({
+  brCallArea: {
+    position: 'absolute',
+    width: '100%',
+    height: 48,
+    left: 0,
+    top: -48,
+    backgroundColor: 'transparent',
+  },
+  brContracted: {
+    top: 0,
+  },
+  brExpanded: {
+    top: 0,
+  },
+  brIncomingProgress: {
+    top: 0,
+    height: 'auto',
+    bottom: 64,
+  },
+  brWithVideo: {
+    top: 0,
+    height: 'auto',
+    bottom: 64,
+  },
+  brNonTheaterLarge: {
+    top: 0,
+    height: '50%',
+  },
+  brNonTheaterSmall: {
+    top: 0,
+    height: 144,
+  },
+  brCallHeaderArea: {
+    position: 'relative',
+    backgroundColor: '#F5F5F5', // @hint_gray
+  },
+  brCallAreaButton: {
+    width: 48,
+    maxWidth: '12%',
+    height: 32,
+    margin: 8,
+    marginHorizontal: 4,
+    borderRadius: 4,
+    backgroundColor: '#FFFFFF', // @white
+  },
+  brCallMuteMicButton: {
+    margin: 8,
+    marginLeft: 8,
+    marginRight: 4,
+  },
+  brMicMutedButton: {
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    shadowColor: '#FF5722', // @portland_orange
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 4,
+  },
+  brCallMuteCamButton: {
+    // Default styles
+  },
+  brCameraOffButton: {
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    shadowColor: '#FF5722',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 4,
+  },
+  brCallScreenButton: {
+    // Default styles
+  },
+  brIsScreenButton: {
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    shadowColor: '#48D1CC', // @medium_turquoise
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 4,
+  },
+  brCallHangUpButton: {
+    alignSelf: 'flex-end',
+    margin: 8,
+    marginLeft: 4,
+    marginRight: 8,
+    backgroundColor: '#FF5722', // @portland_orange
+  },
+  brCallAreaIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+  },
+  brCallAreaIconArea: {
+    position: 'absolute',
+    left: 5,
+    top: 5,
+    right: 5,
+    bottom: 5,
+  },
+  brCallAreaIconAreaIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+  },
+  brCallAnswerArea: {
+    display: 'none',
+  },
+  brCallAnswerAreaVisible: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 48,
+    bottom: 0,
+    backgroundColor: 'transparent',
+    overflow: 'hidden',
+  },
+  brCallIncomingArea: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: '50%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    alignItems: 'center',
+  },
+  brCallIncomingIcon: {
+    margin: 4,
+  },
+  brCallIncomingMessageArea: {
+    margin: 4,
+  },
+  brCallIncomingName: {
+    color: '#FFFFFF',
+    fontWeight: 'normal',
+    fontSize: 13,
+  },
+  brCallIncomingMessage: {
+    color: '#F3C915',
+    fontWeight: 'bold',
+    fontSize: 24,
+  },
+  brCallAnswerButtonArea: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+  },
+  brCallAnswerAreaButton: {
+    width: 48,
+    height: 48,
+    marginHorizontal: 16,
+    marginBottom: 32,
+    borderRadius: 24,
+    backgroundColor: '#F0F0EC',
+  },
+  brCallAnswerButton: {
+    backgroundColor: '#4CAF50',
+  },
+  brCallAnswerWithVideoButton: {
+    backgroundColor: '#2196F3',
+  },
+  brCallDeclineButton: {
+    backgroundColor: '#F44336',
+  },
+  brCallVideoArea: {
+    display: 'none',
+  },
+  brCallVideoAreaVisible: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 48,
+    bottom: 0,
+    backgroundColor: '#F5F5F5', // @hint_gray
+  },
+  brCallVideoAreaContracted: {
+    left: '75%',
+    width: '20%',
+    top: 48,
+    height: '20%',
+    opacity: 0.5,
+  },
+  brCallRemoteVideo: {
+    position: 'relative',
+  },
+  brMultiRemoteVideo: {
+    borderLeftWidth: 2,
+    borderTopWidth: 2,
+    borderRightWidth: 2,
+    borderBottomWidth: 2,
+    borderLeftColor: 'transparent',
+    borderTopColor: 'transparent',
+    borderRightColor: 'rgba(128, 128, 128, 0.5)',
+    borderBottomColor: 'rgba(128, 128, 128, 0.5)',
+  },
+  brCallVideoName: {
+    display: 'none',
+    position: 'absolute',
+    left: -2,
+    bottom: 0,
+    paddingHorizontal: 8,
+    backgroundColor: 'rgba(128, 128, 128, 0.5)',
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 24,
+    letterSpacing: 0.3,
+  },
+  brCallVideoOptionsPanel: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    top: 0,
+    height: '100%',
+    backgroundColor: 'transparent',
+    opacity: 0,
+  },
+  brCallVideoOptionsPanelVisible: {
+    opacity: 1,
+  },
+  brCallVideoOptionsOptionsButton: {
+    position: 'absolute',
+    left: 8,
+    bottom: 8,
+  },
+  brCallVideoOptionsOptionsButtonIcon: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    tintColor: '#FFFFFF',
+  },
+  brCallVideoOptionsFullscreenButton: {
+    position: 'absolute',
+    right: 48,
+    bottom: 8,
+  },
+  brCallVideoOptionsTheaterButton: {
+    position: 'absolute',
+    right: 8,
+    bottom: 8,
+  },
+  brCallVideoOptionsMenuBalloon: {
+    position: 'absolute',
+    left: 8,
+    bottom: 40,
+  },
+  brCallLocalVideo: {
+    position: 'absolute',
+    right: 0,
+    width: '20%',
+    bottom: 0,
+    height: '20%',
+    backgroundColor: 'transparent',
+  },
+  brCallLocalVideoExpanded: {
+    height: '50%',
+  },
+  brCallTimer: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+  },
+  // Icon styles
+  br_bi_icon_more_svg: {
+    tintColor: '#FFFFFF',
+  },
+  br_bi_icon_chevron_up_svg: {
+    tintColor: '#FFFFFF',
+  },
+  br_bi_icon_chevron_down_svg: {
+    tintColor: '#FFFFFF',
+  },
+  br_bi_icon_block_microphone_svg: {
+    tintColor: '#FF5722',
+  },
+  br_bi_icon_no_video_svg: {
+    tintColor: '#FF5722',
+  },
+  br_bi_icon_channel_mosaic_1_svg: {
+    tintColor: '#48D1CC',
+  },
+  br_bi_icon_end_call_svg: {
+    tintColor: '#FFFFFF',
+  },
+  brRingMultipleAudio: {
+    // Add audio styles
+  },
+  brRingbackMultipleAudio: {
+    // Add audio styles
+  },
+  brCallRemoteAudio: {
+    // Add audio styles
+  },
+  fullscreen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    backgroundColor: '#000',
+  },
+})

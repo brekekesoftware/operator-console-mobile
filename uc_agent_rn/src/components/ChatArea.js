@@ -15,6 +15,7 @@ import ChatOptionButtons from './ChatOptionButtons.js'
  * props.uiData.chatArea_onScrolledToBottomChanged
  * props.panelType
  * props.panelCode
+ * props.style
  */
 export default class extends React.Component {
   constructor(props) {

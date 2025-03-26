@@ -28,6 +28,7 @@ import { formatStr, parsePanelKey } from '../utilities/strings.js'
  * props.uiData.callScreenToggleButton_onClick
  * props.uiData.callVideoRefreshButton_onClick
  * props.uiData.callHangUpButton_onClick
+ * props.style - Style object for the incomingbar
  */
 export default class Incomingbar extends React.Component {
   constructor(props) {
@@ -152,6 +153,7 @@ export default class Incomingbar extends React.Component {
           incomingProgress && styles.brIncomingProgress,
           collapsed && styles.brCollapsed,
           this.state.someDragging && styles.brSomeDragging,
+          this.props.style,
         ]}
       >
         <Animated.View

@@ -1,8 +1,20 @@
 import React from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Platform,
+  StatusBar,
+  Animated,
+  PanResponder,
+  Dimensions,
+  ScreenOrientation,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import Draggable from 'react-draggable'
 import ButtonIconic from './ButtonIconic.js'
 import ButtonLabeled from './ButtonLabeled.js'
@@ -18,6 +30,419 @@ import NameEmbeddedSpan from '../components/NameEmbeddedSpan.js'
 import StatusIcon from '../components/StatusIcon.js'
 import TextBox from '../components/TextBox.js'
 import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
+
+const styles = StyleSheet.create({
+  brCallArea: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    height: 0,
+    backgroundColor: '#F5F5F5', // hint_gray
+    overflow: 'hidden',
+  },
+  brHeaderButtonsCollapsible: {
+    // Handled via conditional styles in render
+  },
+  brWithTarget: {
+    // Handled via conditional styles in render
+  },
+  brWithSession: {
+    overflow: 'visible',
+  },
+  brWithVideo: {
+    // Handled via conditional styles in render
+  },
+  brOutgoingDialing: {
+    // Handled via conditional styles in render
+  },
+  brOutgoingProgress: {
+    // Handled via conditional styles in render
+  },
+  brIncomingProgress: {
+    position: 'relative',
+  },
+  brTheater: {
+    bottom: 0,
+  },
+  brOpened: {
+    // Handled via conditional styles in render
+  },
+  brClosed: {
+    // Handled via conditional styles in render
+  },
+  brIncomingArea: {
+    position: 'absolute',
+    width: 160,
+    height: 200,
+    left: '50%',
+    top: '50%',
+    transform: [{ translateX: -80 }, { translateY: -100 }],
+    borderRadius: 4,
+    backgroundColor: '#F5F5F5',
+  },
+  incomingAnimation: {
+    position: 'absolute',
+    left: 61,
+    top: 41,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: '#48D1CC', // medium_turquoise
+  },
+  brIncomingImage: {
+    position: 'absolute',
+    left: 60,
+    top: 40,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+  },
+  brNoImage: {
+    backgroundColor: '#F5F5F5', // hint_gray
+  },
+  brMyProfileImageUrl: {
+    resizeMode: 'cover',
+  },
+  profileImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 20,
+  },
+  brIncomingMessage: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 104,
+    textAlign: 'center',
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '400',
+    letterSpacing: 0.3,
+  },
+  videoCallButtons: {
+    flexDirection: 'row',
+    position: 'absolute',
+    left: 16,
+    top: 140,
+  },
+  brCallAnswerButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#74C365', // mantis
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brCallAnswerButtonIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#FFFFFF',
+  },
+  brCallAnswerWithVideoButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#74C365',
+    borderRadius: 20,
+    marginLeft: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brCallDeclineButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#FF5349', // portland_orange
+    borderRadius: 20,
+    marginLeft: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brCallDeclineButtonIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#FFFFFF',
+  },
+  brCallVideoArea: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 8,
+  },
+  brCallLocalVideo: {
+    position: 'absolute',
+    right: 0,
+    width: '20%',
+    bottom: 0,
+    height: '20%',
+  },
+  brCallRemoteVideo: {
+    flex: 1,
+    position: 'relative',
+  },
+  brMultiRemoteVideo: {
+    borderWidth: 2,
+    borderColor: 'rgba(128, 128, 128, 0.5)',
+  },
+  brCallVideoName: {
+    position: 'absolute',
+    left: -2,
+    bottom: 0,
+    paddingHorizontal: 8,
+    backgroundColor: 'rgba(128, 128, 128, 0.5)',
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '400',
+    letterSpacing: 0.3,
+  },
+  brCallVideoOptionsPanel: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+    top: 0,
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    opacity: 0,
+  },
+  brHidden: {
+    display: 'none',
+  },
+  brVisible: {
+    opacity: 1,
+  },
+  brEnabled: {
+    // Handled via conditional styles in render
+  },
+  brCallVideoOptionsOptionsButton: {
+    position: 'absolute',
+    left: 8,
+    bottom: 8,
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brCallVideoOptionsOptionsButtonIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#FFFFFF',
+  },
+  brCallVideoOptionsFullscreenButton: {
+    position: 'absolute',
+    right: 48,
+    bottom: 8,
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brCallVideoOptionsMenuBalloon: {
+    position: 'absolute',
+    left: 8,
+    bottom: 40,
+  },
+  controlsContainer: {
+    position: 'absolute',
+    left: 24,
+    top: 16,
+    width: 160,
+    height: 32,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  buttonContainer: {
+    flex: 1,
+  },
+  menuButton: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonIcon: {
+    width: 32,
+    height: 32,
+  },
+  arrowIcon: {
+    width: 16,
+    height: 16,
+    marginHorizontal: 4,
+  },
+  menuIcon: {
+    width: 12,
+    height: 12,
+    marginLeft: 4,
+  },
+  buttonText: {
+    color: '#1A2421', // dark_jungle_green
+    fontSize: 13,
+    marginLeft: 8,
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  holdedIcon: {
+    tintColor: '#FF5349', // portland_orange
+  },
+  mutedIcon: {
+    tintColor: '#FF5349',
+  },
+  cameraControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  microphoneControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  mainControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  transferMenuBalloon: {
+    position: 'absolute',
+    left: 192,
+    top: 124,
+    width: 160,
+    padding: 8,
+    paddingBottom: 0,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  transferTargetArea: {
+    width: 108,
+    marginTop: 8,
+  },
+  transferTargetUserMenu: {
+    position: 'absolute',
+    width: 108,
+  },
+  transferTargetInput: {
+    position: 'absolute',
+    width: 84,
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 4,
+    padding: 8,
+  },
+  transferButtonsContainer: {
+    flexDirection: 'row',
+    marginTop: 8,
+    justifyContent: 'space-between',
+  },
+  transferButton: {
+    height: 32,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  transferIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  transferIcon: {
+    width: 16,
+    height: 16,
+    tintColor: '#FFFFFF',
+  },
+  transferArrowIcon: {
+    width: 12,
+    height: 12,
+    marginLeft: 4,
+    tintColor: '#FFFFFF',
+  },
+  transferButtonText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    marginLeft: 8,
+  },
+  transferTargetUserGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+  },
+  transferTargetUserGroupIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 8,
+  },
+  transferTargetUserGroupName: {
+    fontSize: 13,
+    color: '#1A2421',
+  },
+  dtmfMenuBalloon: {
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  dtmfLog: {
+    fontSize: 16,
+    color: '#1A2421',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  dtmfButtonsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  dtmfButton: {
+    width: '30%',
+    aspectRatio: 1,
+    margin: '1.5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5F5F5',
+    borderRadius: 4,
+  },
+  dtmfButtonText: {
+    fontSize: 24,
+    color: '#1A2421',
+  },
+  deviceTitle: {
+    fontSize: 13,
+    color: '#1A2421',
+    marginBottom: 8,
+  },
+  deviceMenu: {
+    marginBottom: 16,
+  },
+  deviceMenuItem: {
+    padding: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEEEEE',
+  },
+})
 
 /**
  * CallArea
@@ -52,6 +477,14 @@ export default class extends React.Component {
     this.sessionExisting = false
     this.sessionBeginTime = 0
     this.sessionEndTime = 0
+
+    // Create refs for React Native
+    this.callVideoAreaRef = React.createRef()
+    this.transferTargetInputRef = React.createRef()
+    this.transferTargetButtonRef = React.createRef()
+    this.videoRefs = {}
+    this.containerRef = React.createRef()
+
     this.state = {
       transferMenuShowingDialogVersion: null,
       dtmfMenuShowingDialogVersion: null,
@@ -59,8 +492,7 @@ export default class extends React.Component {
       microphoneMenuShowingDialogVersion: null,
       callVideoOptionsMenuShowingDialogVersion: null,
       callVideoOptionsMenuShowingDialogVideoClientSessionId: null,
-      callLocalVideoX: -40,
-      callLocalVideoY: -40,
+      callLocalVideoPosition: new Animated.ValueXY({ x: -40, y: -40 }),
       splitterHeight: int(
         props.uiData.ucUiStore.getLocalStoragePreference({
           keyList: ['callAreaHeight'],
@@ -76,7 +508,39 @@ export default class extends React.Component {
       devices: [],
       headerButtonsCollapsible: false,
       videoOptionsPanelTime: {},
+      isFullscreen: false,
+      fullscreenVideo: null,
+      layout: {
+        width: 0,
+        height: 0,
+      },
     }
+
+    // Setup PanResponder for draggable video
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        this.state.callLocalVideoPosition.setOffset({
+          x: this.state.callLocalVideoPosition.x._value,
+          y: this.state.callLocalVideoPosition.y._value,
+        })
+        this.state.callLocalVideoPosition.setValue({ x: 0, y: 0 })
+      },
+      onPanResponderMove: Animated.event(
+        [
+          null,
+          {
+            dx: this.state.callLocalVideoPosition.x,
+            dy: this.state.callLocalVideoPosition.y,
+          },
+        ],
+        { useNativeDriver: false },
+      ),
+      onPanResponderRelease: () => {
+        this.state.callLocalVideoPosition.flattenOffset()
+      },
+    })
   }
   componentDidUpdate() {
     const props = this.props
@@ -89,7 +553,7 @@ export default class extends React.Component {
       panelSession.sessionId &&
       props.uiData.phone &&
       props.uiData.phone.getSession(panelSession.sessionId)
-    const node = ReactDOM.findDOMNode(this)
+    const node = this.containerRef.current
     if (node && node.style) {
       const maxHeight =
         int(node.parentNode && node.parentNode.clientHeight) || 88
@@ -102,7 +566,7 @@ export default class extends React.Component {
         !session.answering
       ) {
         // incoming (not answered yet)
-        node.style.height = '0px'
+        newState.height = 0
       } else if (session) {
         // session exists
         if (session && session.withVideo) {
@@ -123,21 +587,21 @@ export default class extends React.Component {
                 // do not reduce height if parentNode does not have height
               }
             }
-            node.style.height =
+            newState.height =
               (newState.splitterHeight || this.state.splitterHeight) + 'px'
           } else {
-            node.style.height = maxHeight + 'px'
+            newState.height = maxHeight + 'px'
           }
         } else {
           // audio only
-          node.style.height = minHeight + 'px'
+          newState.height = minHeight + 'px'
         }
       } else if (panelSession && panelSession.target) {
         // outgoing (session not created yet)
-        node.style.height = minHeight + 'px'
+        newState.height = minHeight + 'px'
       } else {
         // no call
-        node.style.height = '0px'
+        newState.height = '0px'
         if (this.state.dtmfTime) {
           newState.dtmfTime = 0
         }
@@ -145,9 +609,10 @@ export default class extends React.Component {
           newState.dtmfLog = ''
         }
         if (this.fullscreenEntered) {
-          const doc = props.uiData.ownerDocument
-          if (doc) {
+          const isWeb = Platform.OS === 'web'
+          if (isWeb) {
             try {
+              const doc = props.uiData.ownerDocument
               const p = (
                 doc.exitFullscreen ||
                 doc.webkitExitFullscreen ||
@@ -163,20 +628,17 @@ export default class extends React.Component {
             } catch (ex) {
               props.uiData.ucUiStore.getLogger().log('warn', ex)
             }
+          } else {
+            // React Native fullscreen handling using ScreenOrientation
           }
           this.fullscreenEntered = false
         }
       }
     }
-    if (
-      node &&
-      node.clientWidth < 400 &&
-      !this.state.headerButtonsCollapsible
-    ) {
+    if (this.state.layout.width < 400 && !this.state.headerButtonsCollapsible) {
       newState.headerButtonsCollapsible = true
     } else if (
-      node &&
-      node.clientWidth >= 400 &&
+      this.state.layout.width >= 400 &&
       this.state.headerButtonsCollapsible
     ) {
       newState.headerButtonsCollapsible = false
@@ -322,7 +784,7 @@ export default class extends React.Component {
       ev.stopPropagation()
       props.uiData.fire('showingDialog_update')
       // focus
-      const input = ReactDOM.findDOMNode(this.refs['transferTargetInput'])
+      const input = this.transferTargetInputRef.current
       setTimeout(() => {
         if (input) {
           input.focus()
@@ -337,23 +799,9 @@ export default class extends React.Component {
       transferMenuShowingDialogVersion: props.uiData.showingDialogVersion,
     })
   }
-  handleTransferTargetInputKeyDown(ev) {
+  handleTransferTargetInputSubmit() {
     const props = this.props
-    if (ev && ev.keyCode === 13 && !ev.shiftKey) {
-      const input = ev.target
-      if (input && input.value) {
-        props.uiData.fire(
-          'callTransferButton_onClick',
-          props.panelType,
-          props.panelCode,
-          string(input.value),
-        )
-      }
-    }
-  }
-  handleTransferTargetButtonClick(ev) {
-    const props = this.props
-    const input = ReactDOM.findDOMNode(this.refs['transferTargetInput'])
+    const input = this.transferTargetInputRef.current
     if (input && input.value) {
       props.uiData.fire(
         'callTransferButton_onClick',
@@ -391,10 +839,10 @@ export default class extends React.Component {
   }
   handleTransferTargetUserItemClick(user_id, ev) {
     const props = this.props
-    const input = ReactDOM.findDOMNode(this.refs['transferTargetInput'])
+    const input = this.transferTargetInputRef.current
     if (input) {
       input.value = string(user_id)
-      const button = ReactDOM.findDOMNode(this.refs['transferTargetButton'])
+      const button = this.transferTargetButtonRef.current
       if (button && button.focus) {
         button.focus()
       }
@@ -424,26 +872,23 @@ export default class extends React.Component {
     )
   }
   handleFullscreenButtonClick(ev) {
-    const props = this.props
-    const v = ReactDOM.findDOMNode(this.refs['callVideoArea'])
-    if (v) {
+    const { props } = this
+    if (Platform.OS !== 'web') {
       try {
-        const p = (
-          v.requestFullscreen ||
-          v.webkitRequestFullScreen ||
-          v.mozRequestFullScreen ||
-          v.msRequestFullscreen ||
-          function () {}
-        ).call(v)
-        if (p && p.catch) {
-          p.catch(error => {
-            props.uiData.ucUiStore.getLogger().log('warn', error)
-          })
+        if (!this.state.isFullscreen) {
+          ScreenOrientation.lockAsync(
+            ScreenOrientation.OrientationLock.LANDSCAPE,
+          )
+          this.setState({ isFullscreen: true })
+        } else {
+          ScreenOrientation.lockAsync(
+            ScreenOrientation.OrientationLock.PORTRAIT,
+          )
+          this.setState({ isFullscreen: false })
         }
-      } catch (ex) {
-        props.uiData.ucUiStore.getLogger().log('warn', ex)
+      } catch (error) {
+        props.uiData.ucUiStore.getLogger().log('warn', error)
       }
-      this.fullscreenEntered = true
     }
   }
   handleCameraMenuButtonClick(ev) {
@@ -494,14 +939,14 @@ export default class extends React.Component {
     setTimeout(this.setState.bind(this, {}), 2000)
     setTimeout(this.setState.bind(this, {}), 3000)
   }
-  handleCallRemoteVideoMouseMove(videoClientSessionId, ev) {
+  handleCallRemoteVideoTouchMove(videoClientSessionId, ev) {
     const props = this.props
     this.state.videoOptionsPanelTime[videoClientSessionId] = +new Date()
     this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
     setTimeout(this.setState.bind(this, {}), 2000)
     setTimeout(this.setState.bind(this, {}), 3000)
   }
-  handleCallRemoteVideoMouseLeave(videoClientSessionId, ev) {
+  handleCallRemoteVideoTouchEnd(videoClientSessionId, ev) {
     const props = this.props
     delete this.state.videoOptionsPanelTime[videoClientSessionId]
     this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
@@ -533,12 +978,10 @@ export default class extends React.Component {
   }
   handleCallVideoOptionsFullscreenButtonClick(videoClientSessionId, ev) {
     const props = this.props
-    const v = ReactDOM.findDOMNode(
-      this.refs['callRemoteVideo' + videoClientSessionId],
-    )
+    const v = this.callVideoAreaRef.current
     if (v) {
-      const doc = props.uiData.ownerDocument
-      if (!(doc && doc.fullscreenElement === v)) {
+      const isWeb = Platform.OS === 'web'
+      if (!isWeb) {
         try {
           const p = (
             v.requestFullscreen ||
@@ -581,7 +1024,7 @@ export default class extends React.Component {
   }
   checkResized() {
     const props = this.props
-    const node = ReactDOM.findDOMNode(this)
+    const node = this.containerRef.current
     if (node) {
       const height = int(node.offsetHeight)
       if (height !== this.lastHeight) {
@@ -593,7 +1036,7 @@ export default class extends React.Component {
     }
   }
   render() {
-    const props = this.props
+    const { props } = this
     const profile = props.uiData.ucUiStore.getChatClient().getProfile()
     const lampTypeOptionsCache = () =>
       lampTypeOptionsCache.value ||
@@ -724,109 +1167,128 @@ export default class extends React.Component {
       }
     }
     return (
-      <div
-        className={
-          'brCallArea' +
-          (this.state.headerButtonsCollapsible
-            ? ' brHeaderButtonsCollapsible'
-            : '') +
-          (panelSession && panelSession.target ? ' brWithTarget' : '') +
-          (session ? ' brWithSession' : '') +
-          (session && session.withVideo ? ' brWithVideo' : '') +
-          (session &&
-          session.rtcSession &&
-          session.rtcSession.direction === 'outgoing' &&
-          session.sessionStatus === 'dialing'
-            ? ' brOutgoingDialing'
-            : '') +
-          (session &&
-          session.rtcSession &&
-          session.rtcSession.direction === 'outgoing' &&
-          session.sessionStatus === 'progress'
-            ? ' brOutgoingProgress'
-            : '') +
-          (session &&
-          session.rtcSession &&
-          session.rtcSession.direction === 'incoming' &&
-          session.sessionStatus === 'progress' &&
-          !session.answering
-            ? ' brIncomingProgress'
-            : '') +
-          (callAreaTheaterPreference ? ' brTheater' : '') +
-          (callMenuOpened ? ' brOpened' : ' brClosed')
-        }
-        onTransitionEnd={this.handleTransitionEnd.bind(this)}
+      <View
+        style={[
+          styles.brCallArea,
+          this.state.headerButtonsCollapsible &&
+            styles.brHeaderButtonsCollapsible,
+          panelSession && panelSession.target && styles.brWithTarget,
+          session && styles.brWithSession,
+          session && session.withVideo && styles.brWithVideo,
+          session &&
+            session.rtcSession &&
+            session.rtcSession.direction === 'outgoing' &&
+            session.sessionStatus === 'dialing' &&
+            styles.brOutgoingDialing,
+          session &&
+            session.rtcSession &&
+            session.rtcSession.direction === 'outgoing' &&
+            session.sessionStatus === 'progress' &&
+            styles.brOutgoingProgress,
+          session &&
+            session.rtcSession &&
+            session.rtcSession.direction === 'incoming' &&
+            session.sessionStatus === 'progress' &&
+            !session.answering &&
+            styles.brIncomingProgress,
+          callAreaTheaterPreference && styles.brTheater,
+          callMenuOpened ? styles.brOpened : styles.brClosed,
+        ]}
+        ref={this.containerRef}
       >
-        <div className='brIncomingArea'>
-          <div className='brIncomingAnimation'></div>
-          <div
-            className={
-              'brIncomingImage' +
-              (buddy.profile_image_url ? '' : ' brNoImage') +
-              (buddy.profile_image_url &&
-              string(buddy.profile_image_url).indexOf(
-                Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-              ) === -1
-                ? ' brMyProfileImageUrl'
-                : '')
-            }
-            title={string(buddy.name)}
-            style={
-              buddy.profile_image_url
-                ? { backgroundImage: 'url(' + buddy.profile_image_url + ')' }
-                : {}
-            }
-          />
-          <div className='brIncomingMessage'>
+        <View style={styles.brIncomingArea}>
+          <Animated.View style={styles.brIncomingAnimation} />
+          <View
+            style={[
+              styles.brIncomingImage,
+              !buddy.profile_image_url && styles.brNoImage,
+              buddy.profile_image_url &&
+                string(buddy.profile_image_url).indexOf(
+                  Constants.PROFILE_IMAGE_URL_DOWNLOAD,
+                ) === -1 &&
+                styles.brMyProfileImageUrl,
+            ]}
+          >
+            {buddy.profile_image_url ? (
+              <Image
+                source={{ uri: buddy.profile_image_url }}
+                style={styles.profileImage}
+              />
+            ) : (
+              <Image
+                source={require('../assets/images/noimage.png')}
+                style={styles.profileImage}
+              />
+            )}
+          </View>
+
+          <Text style={styles.brIncomingMessage}>
             {session && session.remoteWithVideo
               ? uawMsgs.LBL_CALL_INCOMING_WITH_VIDEO
               : uawMsgs.LBL_CALL_INCOMING}
-          </div>
-          <ButtonIconic
-            className='brCallAnswerButton'
-            title={uawMsgs.LBL_CALL_ANSWER_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callAnswerButton_onClick',
-              props.panelType,
-              props.panelCode,
-              false,
-            )}
-          >
-            <span className='brCallAnswerButtonIcon br_bi_icon_phone_svg'></span>
-          </ButtonIconic>
-          <ButtonIconic
-            className='brCallAnswerWithVideoButton'
-            title={uawMsgs.LBL_CALL_ANSWER_WITH_VIDEO_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callAnswerButton_onClick',
-              props.panelType,
-              props.panelCode,
-              true,
-            )}
-          >
-            <span className='brCallAnswerButtonIcon br_bi_icon_video_call_svg'></span>
-          </ButtonIconic>
-          <ButtonIconic
-            className='brCallDeclineButton'
-            title={uawMsgs.LBL_CALL_DECLINE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callHangUpButton_onClick',
-              props.panelType,
-              props.panelCode,
-            )}
-          >
-            <span className='brCallDeclineButtonIcon br_bi_icon_end_call_svg'></span>
-          </ButtonIconic>
-        </div>
+          </Text>
+
+          <View style={styles.videoCallButtons}>
+            <ButtonIconic
+              style={styles.brCallAnswerButton}
+              title={uawMsgs.LBL_CALL_ANSWER_BUTTON_TOOLTIP}
+              onPress={() =>
+                props.uiData.fire(
+                  'callAnswerButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                  false,
+                )
+              }
+            >
+              <Image
+                style={styles.brCallAnswerButtonIcon}
+                source={require('../assets/icons/phone.png')}
+              />
+            </ButtonIconic>
+
+            <ButtonIconic
+              style={styles.brCallAnswerWithVideoButton}
+              title={uawMsgs.LBL_CALL_ANSWER_WITH_VIDEO_BUTTON_TOOLTIP}
+              onPress={() =>
+                props.uiData.fire(
+                  'callAnswerButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                  true,
+                )
+              }
+            >
+              <Image
+                style={styles.brCallAnswerButtonIcon}
+                source={require('../assets/icons/video_call.png')}
+              />
+            </ButtonIconic>
+
+            <ButtonIconic
+              style={styles.brCallDeclineButton}
+              title={uawMsgs.LBL_CALL_DECLINE_BUTTON_TOOLTIP}
+              onPress={() =>
+                props.uiData.fire(
+                  'callHangUpButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                )
+              }
+            >
+              <Image
+                style={styles.brCallDeclineButtonIcon}
+                source={require('../assets/icons/end_call.png')}
+              />
+            </ButtonIconic>
+          </View>
+        </View>
+
         <SoundAudio
           uiData={props.uiData}
-          className='brRingSoundAudio'
+          style={styles.brRingSoundAudio}
           src={
-            (props.uiData.configurations &&
-              props.uiData.configurations.alternativeRingTone) ||
+            props.uiData.configurations?.alternativeRingTone ||
             CURRENT_SCRIPT_URL.DIR + '../../../sounds/ring.mp3'
           }
           loop={true}
@@ -841,9 +1303,10 @@ export default class extends React.Component {
             lampTypeOptionsCache().ring !== false
           }
         />
+
         <SoundAudio
           uiData={props.uiData}
-          className='brRingbackSoundAudio'
+          style={styles.brRingbackSoundAudio}
           src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/ringback.mp3'}
           loop={true}
           playing={
@@ -855,526 +1318,446 @@ export default class extends React.Component {
           }
           localStoragePreferenceKey='audioTarget'
         />
-        <SoundAudio
-          uiData={props.uiData}
-          className='brBeginedSoundAudio'
-          src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/tone1.mp3'}
-          playing={
-            isSafari && session && +new Date() - this.sessionBeginTime < 5000
-          }
-        />
-        <SoundAudio
-          uiData={props.uiData}
-          className='brTerminatedSoundAudio'
-          src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/terminated.mp3'}
-          playing={!session && +new Date() - this.sessionEndTime < 5000}
-        />
-        <CallAudio
-          uiData={props.uiData}
-          sessionId={string(session && session.sessionId)}
-          streamMarker={string(
-            session &&
-              session.remoteStreamObject &&
-              session.remoteStreamObject.id,
-          )}
-          isLocal={false}
-          deviceId={audioTargetPreference}
-        />
-        <div
-          ref='callVideoArea'
-          className={
-            'brCallVideoArea' +
-            (videoClientSessionIds.length >= 2 ? ' brMultiRemoteVideo' : '')
-          }
+
+        <View
+          ref={this.callVideoAreaRef}
+          style={[
+            styles.brCallVideoArea,
+            videoClientSessionIds.length >= 2 && styles.brMultiRemoteVideo,
+          ]}
         >
-          {videoClientSessionIds
-            .map(videoClientSessionId => (
-              <div
-                key={videoClientSessionId}
-                ref={'callRemoteVideo' + videoClientSessionId}
-                className='brCallRemoteVideo'
-                style={{
-                  width:
-                    Math.floor(
-                      100 / Math.ceil(Math.sqrt(videoClientSessionIds.length)),
-                    ) + '%',
-                  height:
-                    Math.floor(
-                      100 /
-                        Math.ceil(
-                          (Math.sqrt(4 * videoClientSessionIds.length + 1) -
-                            1) /
-                            2,
-                        ),
-                    ) + '%',
-                }}
-                onClick={this.handleCallRemoteVideoClick.bind(
-                  this,
-                  videoClientSessionId,
+          {videoClientSessionIds.map(videoClientSessionId => (
+            <TouchableOpacity
+              key={videoClientSessionId}
+              ref={ref => (this.videoRefs[videoClientSessionId] = ref)}
+              style={[
+                styles.brCallRemoteVideo,
+                {
+                  width: `${Math.floor(100 / Math.ceil(Math.sqrt(videoClientSessionIds.length)))}%`,
+                  height: `${Math.floor(100 / Math.ceil((Math.sqrt(4 * videoClientSessionIds.length + 1) - 1) / 2))}%`,
+                },
+              ]}
+              onPress={() =>
+                this.handleCallRemoteVideoClick(videoClientSessionId)
+              }
+              onTouchMove={() =>
+                this.handleCallRemoteVideoTouchMove(videoClientSessionId)
+              }
+              onTouchEnd={() =>
+                this.handleCallRemoteVideoTouchEnd(videoClientSessionId)
+              }
+            >
+              <CallVideo
+                uiData={props.uiData}
+                sessionId={string(session?.sessionId)}
+                videoClientSessionId={videoClientSessionId}
+                streamMarker={string(
+                  session?.videoClientSessionTable?.[videoClientSessionId]
+                    ?.remoteStreamObject?.id,
                 )}
-                onTouchStart={this.handleCallRemoteVideoClick.bind(
-                  this,
+                isLocal={false}
+              />
+
+              <Text style={styles.brCallVideoName}>
+                {this.getVideoName(
+                  session,
                   videoClientSessionId,
+                  buddyForVideoNameTable,
                 )}
-                onMouseMove={this.handleCallRemoteVideoMouseMove.bind(
-                  this,
-                  videoClientSessionId,
-                )}
-                onMouseLeave={this.handleCallRemoteVideoMouseLeave.bind(
-                  this,
-                  videoClientSessionId,
-                )}
+              </Text>
+
+              <View
+                style={[
+                  styles.brCallVideoOptionsPanel,
+                  callVideoOptionsHiddenPreference && styles.brHidden,
+                  +new Date() <
+                    int(
+                      this.state.videoOptionsPanelTime[videoClientSessionId],
+                    ) +
+                      1500 && styles.brVisible,
+                  +new Date() <
+                    int(
+                      this.state.videoOptionsPanelTime[videoClientSessionId],
+                    ) +
+                      2500 && styles.brEnabled,
+                ]}
               >
-                <CallVideo
-                  uiData={props.uiData}
-                  sessionId={string(session && session.sessionId)}
-                  videoClientSessionId={videoClientSessionId}
-                  streamMarker={string(
-                    session &&
-                      session.videoClientSessionTable &&
-                      session.videoClientSessionTable[videoClientSessionId] &&
-                      session.videoClientSessionTable[videoClientSessionId]
-                        .remoteStreamObject &&
-                      session.videoClientSessionTable[videoClientSessionId]
-                        .remoteStreamObject.id,
-                  )}
-                  isLocal={false}
-                />
-                <div className='brCallVideoName'>
-                  {(user =>
-                    buddyForVideoNameTable[user] ||
-                    buddyForVideoNameTable[
-                      Object.keys(buddyForVideoNameTable).find(
-                        user_id =>
-                          user.indexOf(string(user_id).replace('#', '')) !== -1,
-                      )
-                    ] ||
-                    user)(
-                    string(
-                      session &&
-                        session.videoClientSessionTable &&
-                        session.videoClientSessionTable[videoClientSessionId] &&
-                        session.videoClientSessionTable[videoClientSessionId]
-                          .user,
-                    ),
-                  )}
-                </div>
-                <div
-                  className={
-                    'brCallVideoOptionsPanel' +
-                    (callVideoOptionsHiddenPreference ? ' brHidden' : '') +
-                    (+new Date() <
-                    int(
-                      this.state.videoOptionsPanelTime[videoClientSessionId],
-                    ) +
-                      1500
-                      ? ' brVisible'
-                      : '') +
-                    (+new Date() <
-                    int(
-                      this.state.videoOptionsPanelTime[videoClientSessionId],
-                    ) +
-                      2500
-                      ? ' brEnabled'
-                      : '')
-                  }
-                >
-                  <ButtonIconic
-                    className='brCallVideoOptionsOptionsButton'
-                    onClick={this.handleCallVideoOptionsOptionsButtonClick.bind(
-                      this,
-                      videoClientSessionId,
-                    )}
-                  >
-                    <span className='brCallVideoOptionsOptionsButtonIcon br_bi_icon_more_svg'></span>
-                  </ButtonIconic>
-                  <MenuBalloonDialog
-                    showing={
-                      props.uiData.showingDialogVersion ===
-                        this.state.callVideoOptionsMenuShowingDialogVersion &&
-                      videoClientSessionId ===
-                        this.state
-                          .callVideoOptionsMenuShowingDialogVideoClientSessionId
-                    }
-                    className='brCallVideoOptionsMenuBalloon'
-                  >
-                    <MenuItem
-                      className='brCallVideoOptionsMenuItem brCallVideoOptionsHideMenuItem'
-                      onClick={this.handleCallVideoOptionsHideMenuItemClick.bind(
-                        this,
-                        videoClientSessionId,
-                      )}
-                    >
-                      {uawMsgs.LBL_CALL_VIDEO_OPTIONS_HIDE_MENU}
-                    </MenuItem>
-                  </MenuBalloonDialog>
-                  <ButtonIconic
-                    className='brCallVideoOptionsFullscreenButton'
-                    onClick={this.handleCallVideoOptionsFullscreenButtonClick.bind(
-                      this,
-                      videoClientSessionId,
-                    )}
-                  >
-                    <span
-                      className={
-                        'brCallVideoOptionsFullscreenButtonIcon' +
-                        (props.uiData.ownerDocument &&
-                        props.uiData.ownerDocument.fullscreenElement &&
-                        string(
-                          props.uiData.ownerDocument.fullscreenElement
-                            .className,
-                        ).indexOf('brCallRemoteVideo') !== -1
-                          ? ' br_bi_icon_collapse_svg'
-                          : ' br_bi_icon_expand_svg')
-                      }
-                    ></span>
-                  </ButtonIconic>
-                </div>
-              </div>
-            ))
-            .concat(
-              session && session.localVideoStreamObject
-                ? [
-                    <Draggable
-                      key='local'
-                      bounds='parent'
-                      defaultPosition={{
-                        x: this.state.callLocalVideoX,
-                        y: this.state.callLocalVideoY,
-                      }}
-                      onStop={(e, position) =>
-                        this.setState({
-                          callLocalVideoX: position.x,
-                          callLocalVideoY: position.y,
-                        })
-                      }
-                    >
-                      <div className='brCallLocalVideo'>
-                        <CallVideo
-                          uiData={props.uiData}
-                          sessionId={string(session && session.sessionId)}
-                          streamMarker={string(
-                            session &&
-                              session.localVideoStreamObject &&
-                              session.localVideoStreamObject.id,
-                          )}
-                          isLocal={true}
-                        />
-                      </div>
-                    </Draggable>,
-                  ]
-                : [],
+                {this.renderVideoOptionsButtons(videoClientSessionId)}
+              </View>
+            </TouchableOpacity>
+          ))}
+
+          {session?.localVideoStreamObject && (
+            <Animated.View
+              style={[
+                styles.brCallLocalVideo,
+                {
+                  transform:
+                    this.state.callLocalVideoPosition.getTranslateTransform(),
+                },
+              ]}
+              {...this.panResponder.panHandlers}
+            >
+              <CallVideo
+                uiData={props.uiData}
+                sessionId={string(session?.sessionId)}
+                streamMarker={string(session?.localVideoStreamObject?.id)}
+                isLocal={true}
+              />
+            </Animated.View>
+          )}
+        </View>
+
+        {this.renderCallControls(session, panelSession, callMenuOpened)}
+
+        {this.renderMenuDialogs(session, panelSession, callMenuOpened)}
+
+        {session && (
+          <CallAudio
+            uiData={props.uiData}
+            sessionId={string(session && session.sessionId)}
+            streamMarker={string(
+              session &&
+                session.remoteStreamObject &&
+                session.remoteStreamObject.id,
             )}
-        </div>
-        <div className='brOutgoingAnimation'></div>
-        <div
-          className={
-            'brOutgoingImage' +
-            (buddy.profile_image_url ? '' : ' brNoImage') +
-            (buddy.profile_image_url &&
-            string(buddy.profile_image_url).indexOf(
-              Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-            ) === -1
-              ? ' brMyProfileImageUrl'
-              : '')
-          }
-          title={string(buddy.name)}
-          style={
-            buddy.profile_image_url
-              ? { backgroundImage: 'url(' + buddy.profile_image_url + ')' }
-              : {}
-          }
-        />
-        <div className='brOutgoingMessage'>{uawMsgs.LBL_CALL_OUTGOING}</div>
-        <CallTimer
-          startTime={int(
-            session && session.rtcSession && +session.rtcSession.start_time,
-          )}
-        />
+            isLocal={false}
+            deviceId={audioTargetPreference}
+          />
+        )}
+
+        {session && (
+          <CallTimer
+            startTime={int(
+              session && session.rtcSession && +session.rtcSession.start_time,
+            )}
+          />
+        )}
+      </View>
+    )
+  }
+
+  renderVideoOptionsButtons(videoClientSessionId) {
+    const { props } = this
+    return (
+      <>
         <ButtonIconic
-          className='brTheaterButton'
-          hidden={!(session && session.withVideo)}
-          onClick={props.uiData.fire.bind(
-            props.uiData,
-            'callAreaTheaterButton_onClick',
-            props.panelType,
-            props.panelCode,
-          )}
-        >
-          <span
-            className={
-              'brTheaterButtonIcon' +
-              (callAreaTheaterPreference
-                ? ' br_bi_icon_chevron_up_svg'
-                : ' br_bi_icon_chevron_down_svg')
-            }
-          ></span>
-        </ButtonIconic>
-        <Draggable
-          axis='y'
-          position={{ x: 0, y: this.state.splitterHeight }}
-          onDrag={this.handleSplitterHeightDrag.bind(this)}
-          onStop={this.handleSplitterHeightStop.bind(this)}
-        >
-          <div className='brSplitterHeight'></div>
-        </Draggable>
-        <div
-          className={
-            'brCallMenuItemButtonArea brTransferMenuButtonArea' +
-            (((panelSession && panelSession.target) || session) &&
-            dtmfShortcutPreference & 2
-              ? ''
-              : ' brHidden')
+          style={styles.brCallVideoOptionsOptionsButton}
+          onPress={() =>
+            this.handleCallVideoOptionsOptionsButtonClick(videoClientSessionId)
           }
         >
+          <Image
+            style={styles.brCallVideoOptionsOptionsButtonIcon}
+            source={require('../assets/icons/more.png')}
+          />
+        </ButtonIconic>
+
+        <MenuBalloonDialog
+          showing={
+            props.uiData.showingDialogVersion ===
+              this.state.callVideoOptionsMenuShowingDialogVersion &&
+            videoClientSessionId ===
+              this.state.callVideoOptionsMenuShowingDialogVideoClientSessionId
+          }
+          style={styles.brCallVideoOptionsMenuBalloon}
+        >
+          <MenuItem
+            style={[
+              styles.brCallVideoOptionsMenuItem,
+              styles.brCallVideoOptionsHideMenuItem,
+            ]}
+            onPress={() =>
+              this.handleCallVideoOptionsHideMenuItemClick(videoClientSessionId)
+            }
+          >
+            <Text>{uawMsgs.LBL_CALL_VIDEO_OPTIONS_HIDE_MENU}</Text>
+          </MenuItem>
+        </MenuBalloonDialog>
+      </>
+    )
+  }
+
+  renderCallControls(session, panelSession, callMenuOpened) {
+    const { props } = this
+    const dtmfShortcutPreference = int(
+      props.uiData.ucUiStore.getOptionalSetting({ key: ['dtmf_shortcut'] }),
+    )
+
+    return (
+      <View style={styles.controlsContainer}>
+        {/* Transfer Menu Button */}
+        {(panelSession?.target || session) && dtmfShortcutPreference & 2 && (
+          <View style={styles.buttonContainer}>
+            <ButtonLabeled
+              style={[
+                styles.menuButton,
+                styles.transferButton,
+                !(
+                  session?.sessionStatus === 'connected' &&
+                  panelSession &&
+                  (panelSession.holded || panelSession.transferring)
+                ) && styles.disabled,
+              ]}
+              onPress={this.handleTransferMenuButtonClick}
+            >
+              <View style={styles.buttonContent}>
+                <Image
+                  style={styles.buttonIcon}
+                  source={require('../assets/icons/phone.png')}
+                />
+                <Image
+                  style={styles.arrowIcon}
+                  source={require('../assets/icons/arrow_right.png')}
+                />
+                {!this.state.headerButtonsCollapsible && (
+                  <Text style={styles.buttonText}>
+                    {uawMsgs.LBL_CALL_TRANSFER_MENU_BUTTON}
+                  </Text>
+                )}
+                <Image
+                  style={styles.menuIcon}
+                  source={require(
+                    `../assets/icons/${props.uiData.showingDialogVersion !== this.state.transferMenuShowingDialogVersion ? 'triangle_right' : 'triangle_left'}.png`,
+                  )}
+                />
+              </View>
+            </ButtonLabeled>
+          </View>
+        )}
+
+        {/* Hold Button */}
+        {(panelSession?.target || session) && dtmfShortcutPreference & 1 && (
+          <View style={styles.buttonContainer}>
+            <ButtonLabeled
+              style={[
+                styles.menuButton,
+                styles.holdButton,
+                !(session?.sessionStatus === 'connected') && styles.disabled,
+              ]}
+              onPress={() =>
+                props.uiData.fire(
+                  'callHoldButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                )
+              }
+            >
+              <View style={styles.buttonContent}>
+                <Image
+                  style={[
+                    styles.buttonIcon,
+                    panelSession?.holded && styles.holdedIcon,
+                  ]}
+                  source={require('../assets/icons/hold.png')}
+                />
+                {!this.state.headerButtonsCollapsible && (
+                  <Text style={styles.buttonText}>
+                    {panelSession?.holded
+                      ? uawMsgs.LBL_CALL_UNHOLD_BUTTON
+                      : uawMsgs.LBL_CALL_HOLD_BUTTON}
+                  </Text>
+                )}
+              </View>
+            </ButtonLabeled>
+          </View>
+        )}
+
+        {/* DTMF Menu Button */}
+        {(panelSession?.target || session) && (
+          <View style={styles.buttonContainer}>
+            <ButtonLabeled
+              style={[
+                styles.menuButton,
+                styles.dtmfButton,
+                !session && styles.disabled,
+              ]}
+              onPress={this.handleDtmfMenuButtonClick}
+            >
+              <View style={styles.buttonContent}>
+                <Image
+                  style={styles.buttonIcon}
+                  source={require('../assets/icons/keypad.png')}
+                />
+                {!this.state.headerButtonsCollapsible && (
+                  <Text style={styles.buttonText}>
+                    {uawMsgs.LBL_CALL_DTMF_MENU_BUTTON}
+                  </Text>
+                )}
+                <Image
+                  style={styles.menuIcon}
+                  source={require(
+                    `../assets/icons/${props.uiData.showingDialogVersion !== this.state.dtmfMenuShowingDialogVersion ? 'triangle_right' : 'triangle_left'}.png`,
+                  )}
+                />
+              </View>
+            </ButtonLabeled>
+          </View>
+        )}
+
+        {/* Camera Controls */}
+        {(panelSession?.target || session) && (
+          <View style={styles.cameraControls}>
+            <ButtonLabeled
+              style={[
+                styles.menuButton,
+                styles.cameraButton,
+                !session && styles.disabled,
+              ]}
+              onPress={() =>
+                props.uiData.fire(
+                  'callCameraMuteButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                )
+              }
+            >
+              <View style={styles.buttonContent}>
+                <Image
+                  style={[
+                    styles.buttonIcon,
+                    panelSession?.cameraMuted && styles.mutedIcon,
+                  ]}
+                  source={require('../assets/icons/no_video.png')}
+                />
+                {!this.state.headerButtonsCollapsible && (
+                  <Text style={styles.buttonText}>
+                    {panelSession?.cameraMuted
+                      ? uawMsgs.LBL_CALL_CAMERA_UNMUTE_BUTTON
+                      : uawMsgs.LBL_CALL_CAMERA_MUTE_BUTTON}
+                  </Text>
+                )}
+              </View>
+            </ButtonLabeled>
+
+            <ButtonLabeled
+              style={[
+                styles.menuButton,
+                styles.cameraMenuButton,
+                !session && styles.disabled,
+              ]}
+              onPress={this.handleCameraMenuButtonClick}
+            >
+              <Image
+                style={styles.menuIcon}
+                source={require(
+                  `../assets/icons/${props.uiData.showingDialogVersion !== this.state.cameraMenuShowingDialogVersion ? 'triangle_right' : 'triangle_left'}.png`,
+                )}
+              />
+            </ButtonLabeled>
+          </View>
+        )}
+
+        {/* Microphone Controls */}
+        {(panelSession?.target || session) && (
+          <View style={styles.microphoneControls}>
+            <ButtonLabeled
+              style={[
+                styles.menuButton,
+                styles.microphoneButton,
+                !session && styles.disabled,
+              ]}
+              onPress={() =>
+                props.uiData.fire(
+                  'callMuteButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                  'main',
+                )
+              }
+            >
+              <View style={styles.buttonContent}>
+                <Image
+                  style={[
+                    styles.buttonIcon,
+                    session?.muted?.main && styles.mutedIcon,
+                  ]}
+                  source={require('../assets/icons/block_microphone.png')}
+                />
+                {!this.state.headerButtonsCollapsible && (
+                  <Text style={styles.buttonText}>
+                    {session?.muted?.main
+                      ? uawMsgs.LBL_CALL_MICROPHONE_UNMUTE_BUTTON
+                      : uawMsgs.LBL_CALL_MICROPHONE_MUTE_BUTTON}
+                  </Text>
+                )}
+              </View>
+            </ButtonLabeled>
+
+            {session?.analyser && (
+              <CallMicrophoneLevel
+                uiData={props.uiData}
+                sessionId={session.sessionId}
+              />
+            )}
+          </View>
+        )}
+
+        {/* Main Call Controls */}
+        <View style={styles.mainControls}>
           <ButtonLabeled
-            className='brCallMenuItemButton brTransferMenuButton'
-            disabled={
-              !(
-                session &&
-                session.sessionStatus === 'connected' &&
-                panelSession &&
-                (panelSession.holded || panelSession.transferring)
+            style={[
+              styles.menuButton,
+              styles.callMenuButton,
+              !session && styles.disabled,
+              !(panelSession?.target || session) && styles.hidden,
+            ]}
+            onPress={this.handleCallMenuButtonClick}
+          >
+            <Image
+              style={styles.buttonIcon}
+              source={require('../assets/icons/chevron_down.png')}
+            />
+          </ButtonLabeled>
+
+          <ButtonLabeled
+            style={[
+              styles.menuButton,
+              styles.hangUpButton,
+              !(panelSession?.target || session) && styles.hidden,
+            ]}
+            onPress={() =>
+              props.uiData.fire(
+                'callHangUpButton_onClick',
+                props.panelType,
+                props.panelCode,
               )
             }
-            title={uawMsgs.LBL_CALL_TRANSFER_MENU_BUTTON_TOOLTIP}
-            onClick={this.handleTransferMenuButtonClick.bind(this)}
           >
-            <span className='brCallMenuItemIcon br_bi_icon_phone_svg'>
-              <span className='brCallMenuItemIconIcon br_bi_icon_arrow_right_svg'></span>
-            </span>
-            {this.state.headerButtonsCollapsible
-              ? ''
-              : uawMsgs.LBL_CALL_TRANSFER_MENU_BUTTON}
-            <span
-              className={
-                'brCallMenuItemMenuIcon' +
-                (props.uiData.showingDialogVersion !==
-                this.state.transferMenuShowingDialogVersion
-                  ? ' br_bi_icon_triangle_right_svg'
-                  : ' br_bi_icon_triangle_left_svg')
-              }
-            ></span>
-          </ButtonLabeled>
-        </div>
-        <div
-          className={
-            'brCallMenuItemButtonArea brHoldButtonArea' +
-            (((panelSession && panelSession.target) || session) &&
-            dtmfShortcutPreference & 1
-              ? ''
-              : ' brHidden')
-          }
-        >
-          <ButtonLabeled
-            className='brCallMenuItemButton brHoldButton'
-            disabled={!(session && session.sessionStatus === 'connected')}
-            title={
-              panelSession && panelSession.holded
-                ? uawMsgs.LBL_CALL_UNHOLD_BUTTON_TOOLTIP
-                : uawMsgs.LBL_CALL_HOLD_BUTTON_TOOLTIP
-            }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callHoldButton_onClick',
-              props.panelType,
-              props.panelCode,
-            )}
-          >
-            <span
-              className={
-                'brCallMenuItemIcon br_bi_icon_hold_svg' +
-                (panelSession && panelSession.holded ? ' brHolded' : '')
-              }
-            ></span>
-            {this.state.headerButtonsCollapsible
-              ? ''
-              : panelSession && panelSession.holded
-                ? uawMsgs.LBL_CALL_UNHOLD_BUTTON
-                : uawMsgs.LBL_CALL_HOLD_BUTTON}
-          </ButtonLabeled>
-        </div>
-        <div
-          className={
-            'brCallMenuItemButtonArea brDtmfMenuButtonArea' +
-            ((panelSession && panelSession.target) || session
-              ? ''
-              : ' brHidden')
-          }
-        >
-          <ButtonLabeled
-            className='brCallMenuItemButton brDtmfMenuButton'
-            disabled={!session}
-            title={uawMsgs.LBL_CALL_DTMF_MENU_BUTTON_TOOLTIP}
-            onClick={this.handleDtmfMenuButtonClick.bind(this)}
-          >
-            <span className='brCallMenuItemIcon br_bi_icon_keypad_svg'></span>
-            {this.state.headerButtonsCollapsible
-              ? ''
-              : uawMsgs.LBL_CALL_DTMF_MENU_BUTTON}
-            <span
-              className={
-                'brCallMenuItemMenuIcon' +
-                (props.uiData.showingDialogVersion !==
-                this.state.dtmfMenuShowingDialogVersion
-                  ? ' br_bi_icon_triangle_right_svg'
-                  : ' br_bi_icon_triangle_left_svg')
-              }
-            ></span>
-          </ButtonLabeled>
-        </div>
-        <div
-          className={
-            'brCallMenuItemButtonArea brFullscreenButtonArea' +
-            ((panelSession && panelSession.target) || session
-              ? ''
-              : ' brHidden')
-          }
-        >
-          <ButtonLabeled
-            className='brCallMenuItemButton brFullscreenButton'
-            disabled={!session || !session.withVideo}
-            title={uawMsgs.LBL_CALL_FULLSCREEN_BUTTON_TOOLTIP}
-            onClick={this.handleFullscreenButtonClick.bind(this)}
-          >
-            <span className='brCallMenuItemIcon br_bi_icon_expand_svg'></span>
-            {this.state.headerButtonsCollapsible
-              ? ''
-              : uawMsgs.LBL_CALL_FULLSCREEN_BUTTON}
-          </ButtonLabeled>
-        </div>
-        <div
-          className={
-            'brCallMenuItemButtonArea brCameraButtonArea' +
-            ((panelSession && panelSession.target) || session
-              ? ''
-              : ' brHidden')
-          }
-        >
-          <ButtonLabeled
-            className='brCallMenuItemButton brCameraMuteButton'
-            disabled={!session}
-            title={
-              panelSession && panelSession.cameraMuted
-                ? uawMsgs.LBL_CALL_CAMERA_UNMUTE_BUTTON_TOOLTIP
-                : uawMsgs.LBL_CALL_CAMERA_MUTE_BUTTON_TOOLTIP
-            }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callCameraMuteButton_onClick',
-              props.panelType,
-              props.panelCode,
-            )}
-          >
-            <span
-              className={
-                'brCallMenuItemIcon br_bi_icon_no_video_svg' +
-                (panelSession && panelSession.cameraMuted ? ' brMuted' : '')
-              }
-            ></span>
-            {this.state.headerButtonsCollapsible
-              ? ''
-              : panelSession && panelSession.cameraMuted
-                ? uawMsgs.LBL_CALL_CAMERA_UNMUTE_BUTTON
-                : uawMsgs.LBL_CALL_CAMERA_MUTE_BUTTON}
-          </ButtonLabeled>
-          <ButtonLabeled
-            className='brCallMenuItemButton brCameraMenuButton'
-            disabled={!session}
-            title={uawMsgs.LBL_CALL_CAMERA_MENU_BUTTON_TOOLTIP}
-            onClick={this.handleCameraMenuButtonClick.bind(this)}
-          >
-            <span
-              className={
-                'brCallMenuItemMenuIcon' +
-                (props.uiData.showingDialogVersion !==
-                this.state.cameraMenuShowingDialogVersion
-                  ? ' br_bi_icon_triangle_right_svg'
-                  : ' br_bi_icon_triangle_left_svg')
-              }
-            ></span>
-          </ButtonLabeled>
-          <div className='brCallMenuItemButtonAreaSeparator' />
-        </div>
-        <div
-          className={
-            'brCallMenuItemButtonArea brMicrophoneButtonArea' +
-            ((panelSession && panelSession.target) || session
-              ? ''
-              : ' brHidden')
-          }
-        >
-          <ButtonLabeled
-            className='brCallMenuItemButton brMicrophoneMuteButton'
-            disabled={!session}
-            title={
-              session && session.muted && session.muted.main
-                ? uawMsgs.LBL_CALL_MICROPHONE_UNMUTE_BUTTON_TOOLTIP
-                : uawMsgs.LBL_CALL_MICROPHONE_MUTE_BUTTON_TOOLTIP
-            }
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callMuteButton_onClick',
-              props.panelType,
-              props.panelCode,
-              'main',
-            )}
-          >
-            <span
-              className={
-                'brCallMenuItemIcon br_bi_icon_block_microphone_svg' +
-                (session && session.muted && session.muted.main
-                  ? ' brMuted'
-                  : '')
-              }
-            ></span>
-            {this.state.headerButtonsCollapsible
-              ? ''
-              : session && session.muted && session.muted.main
-                ? uawMsgs.LBL_CALL_MICROPHONE_UNMUTE_BUTTON
-                : uawMsgs.LBL_CALL_MICROPHONE_MUTE_BUTTON}
-          </ButtonLabeled>
-          <ButtonLabeled
-            className='brCallMenuItemButton brMicrophoneMenuButton'
-            disabled={!session}
-            title={uawMsgs.LBL_CALL_MICROPHONE_MENU_BUTTON_TOOLTIP}
-            onClick={this.handleMicrophoneMenuButtonClick.bind(this)}
-          >
-            <span
-              className={
-                'brCallMenuItemMenuIcon' +
-                (props.uiData.showingDialogVersion !==
-                this.state.microphoneMenuShowingDialogVersion
-                  ? ' br_bi_icon_triangle_right_svg'
-                  : ' br_bi_icon_triangle_left_svg')
-              }
-            ></span>
-          </ButtonLabeled>
-          {session && session.analyser ? (
-            <CallMicrophoneLevel
-              uiData={props.uiData}
-              sessionId={string(session && session.sessionId)}
+            <Image
+              style={styles.buttonIcon}
+              source={require('../assets/icons/end_call.png')}
             />
-          ) : (
-            ''
-          )}
-          <div className='brCallMenuItemButtonAreaSeparator' />
-        </div>
+          </ButtonLabeled>
+        </View>
+      </View>
+    )
+  }
+
+  renderMenuDialogs(session, panelSession, callMenuOpened) {
+    const { props } = this
+    const dtmfShortcutPreference = int(
+      props.uiData.ucUiStore.getOptionalSetting({ key: ['dtmf_shortcut'] }),
+    )
+
+    return (
+      <>
+        {/* Transfer Menu Dialog */}
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
               this.state.transferMenuShowingDialogVersion && callMenuOpened
           }
-          className='brTransferMenuBalloon'
+          style={styles.brTransferMenuBalloon}
         >
-          <span className='brTransferTargetArea'>
+          <View style={styles.transferTargetArea}>
             <DropDownMenu
               uiData={props.uiData}
-              className='brTransferTargetUserMenu'
-              dialogClassName='brCallAreaDialog brTransferTargetUserDialog'
-              onShowingDialogUpdate={this.handleTransferMenuDropDownMenuShowingDialogUpdate.bind(
-                this,
-              )}
+              style={styles.transferTargetUserMenu}
+              dialogStyle={styles.transferTargetUserDialog}
+              onShowingDialogUpdate={
+                this.handleTransferMenuDropDownMenuShowingDialogUpdate
+              }
             >
               {Object.keys(groupTable)
                 .sort(
@@ -1383,316 +1766,354 @@ export default class extends React.Component {
                     (groupTable[groupName2].groupIndex >>> 0),
                 )
                 .map(groupName => (
-                  <div
+                  <TouchableOpacity
                     key={groupName}
-                    className={
-                      'brTransferTargetUserGroup' +
-                      (groupName ? ' brGroupName' : '')
+                    style={[
+                      styles.transferTargetUserGroup,
+                      groupName && styles.groupName,
+                    ]}
+                    onPress={() =>
+                      this.handleTransferTargetUserGroupClick(groupName)
                     }
-                    title={groupName}
-                    onClick={this.handleTransferTargetUserGroupClick.bind(
-                      this,
-                      groupName,
-                    )}
                   >
-                    <div
-                      className={
-                        'brTransferTargetUserGroupIcon' +
-                        (this.state.transferTargetUserGroupOpen
-                          .split(',')
-                          .indexOf(groupName) !== -1
-                          ? ' br_bi_icon_chevron_up_svg'
-                          : ' br_bi_icon_chevron_down_svg')
-                      }
+                    <Image
+                      style={styles.transferTargetUserGroupIcon}
+                      source={require(
+                        `../assets/icons/${
+                          this.state.transferTargetUserGroupOpen
+                            .split(',')
+                            .indexOf(groupName) !== -1
+                            ? 'chevron_up.png'
+                            : 'chevron_down.png'
+                        }`,
+                      )}
                     />
-                    <div className='brTransferTargetUserGroupName'>
+                    <Text style={styles.transferTargetUserGroupName}>
                       {groupName}
-                    </div>
+                    </Text>
                     {groupTable[groupName].buddyNodes}
-                  </div>
+                  </TouchableOpacity>
                 ))}
             </DropDownMenu>
+
             <TextBox
-              ref='transferTargetInput'
-              className='brTransferTargetInput'
-              autoCapitalize='off'
-              onKeyDown={this.handleTransferTargetInputKeyDown.bind(this)}
-            ></TextBox>
-          </span>
-          <ButtonLabeled
-            ref='transferTargetButton'
-            className='brTransferButton brTransferTargetButton'
-            disabled={
-              !(
-                session &&
-                session.sessionStatus === 'connected' &&
-                panelSession &&
-                panelSession.holded &&
-                !panelSession.transferring
-              )
-            }
-            ghost={true}
-            title={uawMsgs.LBL_CALL_TRANSFER_TARGET_BUTTON_TOOLTIP}
-            onClick={this.handleTransferTargetButtonClick.bind(this)}
-          >
-            <span className='brTransferIcon br_bi_icon_phone_svg'></span>
-          </ButtonLabeled>
-          <ButtonLabeled
-            className='brTransferButton brTransferCompleteButton'
-            disabled={
-              !(
-                session &&
-                session.sessionStatus === 'connected' &&
-                panelSession &&
-                panelSession.transferring
-              )
-            }
-            vivid={true}
-            title={uawMsgs.LBL_CALL_TRANSFER_COMPLETE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callHangUpButton_onClick',
-              props.panelType,
-              props.panelCode,
+              ref={this.transferTargetInputRef}
+              style={styles.transferTargetInput}
+              autoCapitalize='none'
+              onSubmitEditing={this.handleTransferTargetInputSubmit}
+            />
+          </View>
+
+          {/* Transfer Buttons */}
+          <View style={styles.transferButtonsContainer}>
+            <ButtonLabeled
+              ref={this.transferTargetButtonRef}
+              style={[
+                styles.transferButton,
+                styles.transferTargetButton,
+                !(
+                  session?.sessionStatus === 'connected' &&
+                  panelSession?.holded &&
+                  !panelSession?.transferring
+                ) && styles.disabled,
+              ]}
+              ghost={true}
+              onPress={this.handleTransferTargetButtonClick}
+            >
+              <Image
+                style={styles.transferIcon}
+                source={require('../assets/icons/phone.png')}
+              />
+            </ButtonLabeled>
+
+            <ButtonLabeled
+              style={[
+                styles.transferButton,
+                styles.transferCompleteButton,
+                !(
+                  session?.sessionStatus === 'connected' &&
+                  panelSession?.transferring
+                ) && styles.disabled,
+              ]}
+              vivid={true}
+              onPress={() =>
+                props.uiData.fire(
+                  'callHangUpButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                )
+              }
+            >
+              <View style={styles.transferIconContainer}>
+                <Image
+                  style={styles.transferIcon}
+                  source={require('../assets/icons/phone.png')}
+                />
+                <Image
+                  style={styles.transferArrowIcon}
+                  source={require('../assets/icons/arrow_right.png')}
+                />
+              </View>
+              <Text style={styles.transferButtonText}>
+                {uawMsgs.LBL_CALL_TRANSFER_COMPLETE_BUTTON}
+              </Text>
+            </ButtonLabeled>
+
+            {dtmfShortcutPreference & 8 && (
+              <ButtonLabeled
+                style={[
+                  styles.transferButton,
+                  styles.transferConferenceButton,
+                  !(
+                    session?.sessionStatus === 'connected' &&
+                    panelSession?.transferring
+                  ) && styles.disabled,
+                ]}
+                ghost={true}
+                onPress={() =>
+                  props.uiData.fire(
+                    'callTransferConferenceButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  )
+                }
+              >
+                <Image
+                  style={styles.transferIcon}
+                  source={require('../assets/icons/conference_foreground_selected.png')}
+                />
+                <Text style={styles.transferButtonText}>
+                  {uawMsgs.LBL_CALL_TRANSFER_CONFERENCE_BUTTON}
+                </Text>
+              </ButtonLabeled>
             )}
-          >
-            <span className='brTransferIcon br_bi_icon_phone_svg'>
-              <span className='brTransferIconIcon br_bi_icon_arrow_right_svg'></span>
-            </span>
-            {uawMsgs.LBL_CALL_TRANSFER_COMPLETE_BUTTON}
-          </ButtonLabeled>
-          <ButtonLabeled
-            className='brTransferButton brTransferConferenceButton'
-            disabled={
-              !(
-                session &&
-                session.sessionStatus === 'connected' &&
-                panelSession &&
-                panelSession.transferring
-              )
-            }
-            hidden={!(dtmfShortcutPreference & 8)}
-            ghost={true}
-            title={uawMsgs.LBL_CALL_TRANSFER_CONFERENCE_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callTransferConferenceButton_onClick',
-              props.panelType,
-              props.panelCode,
-            )}
-          >
-            <span className='brTransferIcon br_bi_icon_conference_foreground_selected_svg'></span>
-            {uawMsgs.LBL_CALL_TRANSFER_CONFERENCE_BUTTON}
-          </ButtonLabeled>
-          <ButtonLabeled
-            className='brTransferButton brTransferCancelButton'
-            disabled={
-              !(
-                session &&
-                session.sessionStatus === 'connected' &&
-                panelSession &&
-                panelSession.transferring
-              )
-            }
-            ghost={true}
-            title={uawMsgs.LBL_CALL_TRANSFER_CANCEL_BUTTON_TOOLTIP}
-            onClick={props.uiData.fire.bind(
-              props.uiData,
-              'callHoldButton_onClick',
-              props.panelType,
-              props.panelCode,
-            )}
-          >
-            <span className='brTransferIcon br_bi_icon_phone_svg'>
-              <span className='brTransferIconIcon br_bi_icon_arrow_left_svg'></span>
-            </span>
-            {uawMsgs.LBL_CALL_TRANSFER_CANCEL_BUTTON}
-          </ButtonLabeled>
+
+            <ButtonLabeled
+              style={[
+                styles.transferButton,
+                styles.transferCancelButton,
+                !(
+                  session?.sessionStatus === 'connected' &&
+                  panelSession?.transferring
+                ) && styles.disabled,
+              ]}
+              ghost={true}
+              onPress={() =>
+                props.uiData.fire(
+                  'callHoldButton_onClick',
+                  props.panelType,
+                  props.panelCode,
+                )
+              }
+            >
+              <View style={styles.transferIconContainer}>
+                <Image
+                  style={styles.transferIcon}
+                  source={require('../assets/icons/phone.png')}
+                />
+                <Image
+                  style={styles.transferArrowIcon}
+                  source={require('../assets/icons/arrow_left.png')}
+                />
+              </View>
+              <Text style={styles.transferButtonText}>
+                {uawMsgs.LBL_CALL_TRANSFER_CANCEL_BUTTON}
+              </Text>
+            </ButtonLabeled>
+          </View>
         </MenuBalloonDialog>
+
+        {/* DTMF Menu Dialog */}
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
               this.state.dtmfMenuShowingDialogVersion && callMenuOpened
           }
-          className='brDtmfMenuBalloon'
+          style={styles.dtmfMenuBalloon}
         >
-          <span className='brDtmfLog'>{this.state.dtmfLog}</span>
-          {['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'].map(
-            (tone, i) => (
-              <ButtonLabeled
-                key={i}
-                className={'brCallDtmfButton brCallDtmfButton' + (i + 1)}
-                ghost={true}
-                title={tone}
-                onClick={this.handleCallDtmfButtonClick.bind(this, tone)}
-              >
-                {tone}
-                <SoundAudio
-                  uiData={props.uiData}
-                  className='brDtmfSoundAudio'
-                  src={
-                    CURRENT_SCRIPT_URL.DIR +
-                    '../../../sounds/' +
-                    (tone === '*'
-                      ? 'asterisk'
-                      : tone === '#'
-                        ? 'pound'
-                        : tone) +
-                    '.mp3'
-                  }
-                  playing={
-                    tone === string(this.state.dtmfLog).slice(-1) &&
-                    +new Date() - this.state.dtmfTime < 100
-                  }
-                  localStoragePreferenceKey='audioTarget'
-                />
-              </ButtonLabeled>
-            ),
-          )}
+          <Text style={styles.dtmfLog}>{this.state.dtmfLog}</Text>
+          <View style={styles.dtmfButtonsGrid}>
+            {['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'].map(
+              (tone, i) => (
+                <ButtonLabeled
+                  key={i}
+                  style={[styles.dtmfButton, styles[`dtmfButton${i + 1}`]]}
+                  ghost={true}
+                  onPress={() => this.handleCallDtmfButtonClick(tone)}
+                >
+                  <Text style={styles.dtmfButtonText}>{tone}</Text>
+                  <SoundAudio
+                    uiData={props.uiData}
+                    style={styles.dtmfSoundAudio}
+                    src={`${CURRENT_SCRIPT_URL.DIR}../../../sounds/${
+                      tone === '*' ? 'asterisk' : tone === '#' ? 'pound' : tone
+                    }.mp3`}
+                    playing={
+                      tone === string(this.state.dtmfLog).slice(-1) &&
+                      +new Date() - this.state.dtmfTime < 100
+                    }
+                    localStoragePreferenceKey='audioTarget'
+                  />
+                </ButtonLabeled>
+              ),
+            )}
+          </View>
         </MenuBalloonDialog>
+
+        {/* Camera Menu Dialog */}
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
               this.state.cameraMenuShowingDialogVersion && callMenuOpened
           }
-          className='brCameraMenuBalloon'
+          style={styles.cameraMenuBalloon}
         >
-          <div className='brChangeDeviceTitle brChangeVideoinputTitle'>
+          <Text style={styles.deviceTitle}>
             {uawMsgs.LBL_CALL_CAMERA_CHANGE}
-          </div>
+          </Text>
           <DropDownMenu
             uiData={props.uiData}
-            className='brChangeDeviceMenu brChangeVideoinputMenu'
-            disabled={panelSession && panelSession.isScreen}
-            hidden={!callMenuOpened}
+            style={[
+              styles.deviceMenu,
+              styles.videoInputMenu,
+              panelSession?.isScreen && styles.disabled,
+              !callMenuOpened && styles.hidden,
+            ]}
             text={this.getDeviceLabel({
               deviceId: videoSourcePreference,
               kind: 'videoinput',
             })}
-            onShowingDialogUpdate={this.handleCameraMenuDropDownMenuShowingDialogUpdate.bind(
-              this,
-            )}
+            onShowingDialogUpdate={
+              this.handleCameraMenuDropDownMenuShowingDialogUpdate
+            }
           >
             {this.state.devices
               .filter(device => device.kind === 'videoinput')
               .map(device => (
                 <MenuItem
                   key={device.deviceId}
-                  className='brChangeDeviceMenuItem brChangeVideoinputMenuItem'
+                  style={[styles.deviceMenuItem, styles.videoInputMenuItem]}
                   dropDown={true}
-                  onClick={props.uiData.fire.bind(
-                    props.uiData,
-                    'callAreaChangeDeviceMenuItem_onClick',
-                    props.panelType,
-                    props.panelCode,
-                    device,
-                  )}
+                  onPress={() =>
+                    props.uiData.fire(
+                      'callAreaChangeDeviceMenuItem_onClick',
+                      props.panelType,
+                      props.panelCode,
+                      device,
+                    )
+                  }
                 >
-                  {this.getDeviceLabel(device)}
+                  <Text>{this.getDeviceLabel(device)}</Text>
                 </MenuItem>
               ))}
           </DropDownMenu>
         </MenuBalloonDialog>
+
+        {/* Microphone Menu Dialog */}
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
               this.state.microphoneMenuShowingDialogVersion && callMenuOpened
           }
-          className='brMicrophoneMenuBalloon'
+          style={styles.microphoneMenuBalloon}
         >
-          <div className='brChangeDeviceTitle brChangeAudioinputTitle'>
+          {/* Audio Input Section */}
+          <Text style={styles.deviceTitle}>
             {uawMsgs.LBL_CALL_MICROPHONE_CHANGE}
-          </div>
+          </Text>
           <DropDownMenu
             uiData={props.uiData}
-            className='brChangeDeviceMenu brChangeAudioinputMenu'
-            hidden={!callMenuOpened}
+            style={[
+              styles.deviceMenu,
+              styles.audioInputMenu,
+              !callMenuOpened && styles.hidden,
+            ]}
             text={this.getDeviceLabel({
               deviceId: audioSourcePreference,
               kind: 'audioinput',
             })}
-            onShowingDialogUpdate={this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate.bind(
-              this,
-            )}
+            onShowingDialogUpdate={
+              this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate
+            }
           >
             {this.state.devices
               .filter(device => device.kind === 'audioinput')
               .map(device => (
                 <MenuItem
                   key={device.deviceId}
-                  className='brChangeDeviceMenuItem brChangeAudioinputMenuItem'
+                  style={[styles.deviceMenuItem, styles.audioInputMenuItem]}
                   dropDown={true}
-                  onClick={props.uiData.fire.bind(
-                    props.uiData,
-                    'callAreaChangeDeviceMenuItem_onClick',
-                    props.panelType,
-                    props.panelCode,
-                    device,
-                  )}
+                  onPress={() =>
+                    props.uiData.fire(
+                      'callAreaChangeDeviceMenuItem_onClick',
+                      props.panelType,
+                      props.panelCode,
+                      device,
+                    )
+                  }
                 >
-                  {this.getDeviceLabel(device)}
+                  <Text>{this.getDeviceLabel(device)}</Text>
                 </MenuItem>
               ))}
           </DropDownMenu>
-          <div className='brChangeDeviceTitle brChangeAudiooutputTitle'>
+
+          {/* Audio Output Section */}
+          <Text style={styles.deviceTitle}>
             {uawMsgs.LBL_CALL_SPEAKER_CHANGE}
-          </div>
+          </Text>
           <DropDownMenu
             uiData={props.uiData}
-            className='brChangeDeviceMenu brChangeAudiooutputMenu'
-            hidden={!callMenuOpened}
+            style={[
+              styles.deviceMenu,
+              styles.audioOutputMenu,
+              !callMenuOpened && styles.hidden,
+            ]}
             text={this.getDeviceLabel({
               deviceId: audioTargetPreference,
               kind: 'audiooutput',
             })}
-            onShowingDialogUpdate={this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate.bind(
-              this,
-            )}
+            onShowingDialogUpdate={
+              this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate
+            }
           >
             {this.state.devices
               .filter(device => device.kind === 'audiooutput')
               .map(device => (
                 <MenuItem
                   key={device.deviceId}
-                  className='brChangeDeviceMenuItem brChangeAudiooutputMenuItem'
+                  style={[styles.deviceMenuItem, styles.audioOutputMenuItem]}
                   dropDown={true}
-                  onClick={props.uiData.fire.bind(
-                    props.uiData,
-                    'callAreaChangeDeviceMenuItem_onClick',
-                    props.panelType,
-                    props.panelCode,
-                    device,
-                  )}
+                  onPress={() =>
+                    props.uiData.fire(
+                      'callAreaChangeDeviceMenuItem_onClick',
+                      props.panelType,
+                      props.panelCode,
+                      device,
+                    )
+                  }
                 >
-                  {this.getDeviceLabel(device)}
+                  <Text>{this.getDeviceLabel(device)}</Text>
                 </MenuItem>
               ))}
           </DropDownMenu>
         </MenuBalloonDialog>
-        <ButtonLabeled
-          className='brCallMenuButton'
-          disabled={!session}
-          hidden={!((panelSession && panelSession.target) || session)}
-          vivid={true}
-          title={uawMsgs.LBL_CALL_MENU_BUTTON_TOOLTIP}
-          onClick={this.handleCallMenuButtonClick.bind(this)}
-        >
-          <span className='brCallMenuIcon br_bi_icon_chevron_down_svg'></span>
-        </ButtonLabeled>
-        <ButtonLabeled
-          className='brCallHangUpButton'
-          hidden={!((panelSession && panelSession.target) || session)}
-          title={uawMsgs.LBL_CALL_HANG_UP_BUTTON_TOOLTIP}
-          onClick={props.uiData.fire.bind(
-            props.uiData,
-            'callHangUpButton_onClick',
-            props.panelType,
-            props.panelCode,
-          )}
-        >
-          <span className='brCallHangUpIcon br_bi_icon_end_call_svg'></span>
-        </ButtonLabeled>
-      </div>
+      </>
     )
+  }
+
+  getVideoName(session, videoClientSessionId, buddyForVideoNameTable) {
+    const { props } = this
+    const videoClientSessionTable = session && session.videoClientSessionTable
+    const videoClientSession =
+      videoClientSessionTable && videoClientSessionTable[videoClientSessionId]
+    const user = videoClientSession && videoClientSession.user
+    return (user =>
+      buddyForVideoNameTable[user] ||
+      buddyForVideoNameTable[
+        Object.keys(buddyForVideoNameTable).find(
+          user_id => user.indexOf(string(user_id).replace('#', '')) !== -1,
+        )
+      ] ||
+      user)(string(user))
   }
 }

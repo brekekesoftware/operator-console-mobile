@@ -11,6 +11,7 @@ import { int, string } from '../utilities/strings.js'
  * props.uiData - UI data object
  * props.uiData.configurations - Configuration properties
  * props.uiData.licenseMessageAppx - Additional license message
+ * props.style - Style object for the licensebar
  */
 export default class Licensebar extends React.Component {
   render() {
@@ -26,7 +27,7 @@ export default class Licensebar extends React.Component {
     }
 
     return (
-      <View style={styles.licensebar}>
+      <View style={[styles.licensebar, this.props.style]}>
         <Text
           style={styles.licensebarMessage}
           numberOfLines={2}
