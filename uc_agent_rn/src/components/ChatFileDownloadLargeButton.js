@@ -10,7 +10,7 @@ import {
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import Icon from './Icon'
+// import Icon from './Icon'
 // TODO: Add icon component
 
 /**
@@ -134,7 +134,7 @@ export default class ChatFileDownloadLargeButton extends React.Component {
         activeOpacity={isEnabled ? 0.7 : 1}
       >
         <View style={styles.iconContainer}>
-          <Icon style={styles.fileIcon} name='file' />
+          {/* <Icon style={styles.fileIcon} name='file' /> */}
 
           <Animated.View
             style={[

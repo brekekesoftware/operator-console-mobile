@@ -1,9 +1,4 @@
 import React from 'react'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import ChatArea from '../components/ChatArea.js'
 import { View } from 'react-native'
 
@@ -29,4 +24,4 @@ class ChatOnlyApp extends React.Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(ChatOnlyApp)
+export default ChatOnlyApp

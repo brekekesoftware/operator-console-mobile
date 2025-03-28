@@ -25,20 +25,27 @@ import DialogApp from './apps/DialogApp.js'
 import StaticApp from './apps/StaticApp.js'
 import ChatOnlyApp from './apps/ChatOnlyApp.js'
 import UndockedPanelSubWindowApp from './apps/UndockedPanelSubWindowApp.js'
+import ElementManager from './utilities/elementManager.js'
+import { View } from 'react-native'
+import RnAsyncStorage from '@react-native-async-storage/async-storage'
 
 const Brekeke = (window.BLIB = window.Brekeke = window.Brekeke || {})
 Brekeke.UCClient =
-  Brekeke.UCClient || require('./js/brekeke/ucclient/ucclient.js')
+  Brekeke.UCClient || require('../../../web/js/brekeke/ucclient/ucclient.js')
 Brekeke.WebNotification =
   Brekeke.WebNotification ||
-  require('./js/brekeke/webnotification/webnotification.js')
+  require('../../../web/js/brekeke/webnotification/webnotification.js')
 const UcUiAction = (Brekeke.UcUiAction =
-  Brekeke.UcUiAction || require('./js/brekeke/ucuiaction/ucuiaction.js'))
+  Brekeke.UcUiAction ||
+  require('../../../web/js/brekeke/ucuiaction/ucuiaction.js'))
 const UcUiStore = (Brekeke.UcUiStore =
-  Brekeke.UcUiStore || require('./js/brekeke/ucuistore/ucuistore.js'))
+  Brekeke.UcUiStore ||
+  require('../../../web/js/brekeke/ucuistore/ucuistore.js'))
 
 CURRENT_SCRIPT_URL.init(/(^|.*\/)(ucagentwidget.*\.js)(.*)/)
 uawMsgs.init(CURRENT_SCRIPT_URL)
+
+Brekeke.ElementManager = Brekeke.ElementManager || ElementManager
 
 /**
  * uiData class
@@ -179,62 +186,7 @@ uiData.prototype.initApp = function (option) {
   if (option.handler) {
     this.addHandler(option.handler)
   }
-  this.ownerDocument = option.ownerDocument || document
-  if (option.webchatNotificationTarget && Brekeke.WebNotification) {
-    Brekeke.WebNotification.requestPermission({
-      document: this.ownerDocument,
-      callback: result => {
-        option.ucUiStore
-          .getLogger()
-          .log(
-            result === 'granted' ? 'info' : 'warn',
-            'WebNotification.requestPermission result=' + result,
-          )
-      },
-    })
-  }
-  const win = this.ownerDocument.defaultView
-  if (win) {
-    const eventListenersToAdd = [
-      {
-        target: win,
-        type: 'focus',
-        listener: this.window_onfocus.bind(this),
-      },
-      {
-        target: win,
-        type: 'click',
-        listener: this.window_onclick.bind(this),
-      },
-      {
-        target: win,
-        type: 'blur',
-        listener: this.window_onblur.bind(this),
-      },
-      {
-        target: win,
-        type: 'resize',
-        listener: this.window_onresize.bind(this),
-      },
-      {
-        target: win,
-        type: 'unload',
-        listener: this.window_onunload.bind(this),
-      },
-    ]
-    eventListenersToAdd.forEach(eventListener => {
-      if (
-        eventListener.target &&
-        typeof eventListener.target.addEventListener === 'function'
-      ) {
-        eventListener.target.addEventListener(
-          eventListener.type,
-          eventListener.listener,
-        )
-      }
-    })
-    this.addedEventListeners = eventListenersToAdd
-  }
+
   this.ucUiAction = option.ucUiAction
   this.ucUiStore = option.ucUiStore
   this.ucUiStore.addHandler(this)
@@ -400,21 +352,8 @@ uiData.prototype.initPhone = function (option) {
 uiData.prototype.destroyApp = function () {
   let parentElement = null
   if (this.ownerDocument) {
-    parentElement =
-      typeof this.parentElement === 'string'
-        ? this.ownerDocument.getElementById(this.parentElement)
-        : this.parentElement
-    this.addedEventListeners.forEach(eventListener => {
-      if (
-        eventListener.target &&
-        typeof eventListener.target.removeEventListener === 'function'
-      ) {
-        eventListener.target.removeEventListener(
-          eventListener.type,
-          eventListener.listener,
-        )
-      }
-    })
+    let parentElement =
+      typeof this.parentElement === 'string' ? this.parentElement : null
     this.addedEventListeners = []
 
     if (
@@ -428,7 +367,11 @@ uiData.prototype.destroyApp = function () {
   }
 
   if (parentElement) {
-    ReactDOM.render(<noscript />, parentElement)
+    // ReactDOM.render(<noscript />, parentElement)
+    const childrens = this.getChildren(parentElement)
+    childrens.forEach(childKey =>
+      ElementManager.removeChild(parentElement, childKey),
+    )
   }
 
   this.shutdownPhone()
@@ -552,60 +495,145 @@ uiData.prototype.render = function () {
   this.lastRenderedTime = Date.now()
   this.nextRenderingTimer = 0
   const parentElement =
-    typeof this.parentElement === 'string'
-      ? this.ownerDocument.getElementById(this.parentElement)
-      : this.parentElement
+    typeof this.parentElement === 'string' ? this.parentElement : null
   if (parentElement) {
     if (this.iconName) {
-      ReactDOM.render(
+      //   ReactDOM.render(
+      //     <IconApp
+      //       uiData={this}
+      //       iconName={this.iconName}
+      //       iconDisabled={this.iconDisabled}
+      //     />,
+      //     parentElement,
+      //   )
+      const iconKey = `icon_${Date.now()}`
+      ElementManager.createElement(iconKey)
+      ElementManager.createElement(parentElement)
+      ElementManager.setComponent(parentElement, () => (
+        <View style={{ flex: 1 }}>{this.props.children}</View>
+      ))
+      ElementManager.setComponent(iconKey, () => (
         <IconApp
           uiData={this}
           iconName={this.iconName}
           iconDisabled={this.iconDisabled}
-        />,
-        parentElement,
-      )
+        />
+      ))
+      ElementManager.appendChild(parentElement, iconKey)
     } else if (this.dialogPanel) {
-      ReactDOM.render(
+      //   ReactDOM.render(
+      //     <DialogApp
+      //       uiData={this}
+      //       panelType={this.dialogPanel.panelType}
+      //       panelCode={this.dialogPanel.panelCode}
+      //       dialogOption={this.dialogOption}
+      //     />,
+      //     parentElement,
+      //   )
+      const dialogKey = `dialog_${Date.now()}`
+      ElementManager.createElement(dialogKey)
+      ElementManager.createElement(parentElement)
+      ElementManager.setComponent(parentElement, () => (
+        <View style={{ flex: 1 }}>{this.props.children}</View>
+      ))
+      ElementManager.setComponent(dialogKey, () => (
         <DialogApp
           uiData={this}
           panelType={this.dialogPanel.panelType}
           panelCode={this.dialogPanel.panelCode}
           dialogOption={this.dialogOption}
-        />,
-        parentElement,
-      )
+        />
+      ))
+      ElementManager.appendChild(parentElement, dialogKey)
     } else if (this.staticPanel) {
-      ReactDOM.render(
+      //   ReactDOM.render(
+      //     <StaticApp
+      //       uiData={this}
+      //       panelType={this.staticPanel.panelType}
+      //       panelCode={this.staticPanel.panelCode}
+      //     />,
+      //     parentElement,
+      //   )
+      const staticKey = `static_${Date.now()}`
+      ElementManager.createElement(staticKey)
+      ElementManager.createElement(parentElement)
+      ElementManager.setComponent(parentElement, () => (
+        <View style={{ flex: 1 }}>{this.props.children}</View>
+      ))
+      ElementManager.setComponent(staticKey, () => (
         <StaticApp
           uiData={this}
           panelType={this.staticPanel.panelType}
           panelCode={this.staticPanel.panelCode}
-        />,
-        parentElement,
-      )
+        />
+      ))
+      ElementManager.appendChild(parentElement, staticKey)
     } else if (this.chatOnly) {
-      ReactDOM.render(
+      //   ReactDOM.render(
+      //     <ChatOnlyApp
+      //       uiData={this}
+      //       panelType={this.chatOnly.panelType}
+      //       panelCode={this.chatOnly.panelCode}
+      //     />,
+      //     parentElement,
+      //   )
+      const chatOnlyKey = `chatOnly_${Date.now()}`
+      ElementManager.createElement(chatOnlyKey)
+      ElementManager.createElement(parentElement)
+      ElementManager.setComponent(parentElement, () => (
+        <View style={{ flex: 1 }}>{this.props.children}</View>
+      ))
+      ElementManager.setComponent(chatOnlyKey, () => (
         <ChatOnlyApp
           uiData={this}
           panelType={this.chatOnly.panelType}
           panelCode={this.chatOnly.panelCode}
-        />,
-        parentElement,
-      )
+        />
+      ))
+      ElementManager.appendChild(parentElement, chatOnlyKey)
     } else if (this.isSubWindow) {
-      ReactDOM.render(
+      //   ReactDOM.render(
+      //     <UndockedPanelSubWindowApp
+      //       uiData={this}
+      //       panelType={this.subWindowPanelType}
+      //       panelCode={this.subWindowPanelCode}
+      //     />,
+      //     parentElement,
+      //   )
+      const subWindowKey = `subWindow_${Date.now()}`
+      ElementManager.createElement(subWindowKey)
+      ElementManager.createElement(parentElement)
+      ElementManager.setComponent(parentElement, () => (
+        <View style={{ flex: 1 }}>{this.props.children}</View>
+      ))
+      ElementManager.setComponent(subWindowKey, () => (
         <UndockedPanelSubWindowApp
           uiData={this}
           panelType={this.subWindowPanelType}
           panelCode={this.subWindowPanelCode}
-        />,
-        parentElement,
-      )
+        />
+      ))
+      ElementManager.appendChild(parentElement, subWindowKey)
     } else if (this.isUC) {
-      ReactDOM.render(<UCApp uiData={this} />, parentElement)
+      // ReactDOM.render(<UCApp uiData={this} />, parentElement)
+      const ucKey = `uc_${Date.now()}`
+      ElementManager.createElement(ucKey)
+      ElementManager.createElement(parentElement)
+      ElementManager.setComponent(parentElement, () => (
+        <View style={{ flex: 1 }}>{this.props.children}</View>
+      ))
+      ElementManager.setComponent(ucKey, () => <UCApp uiData={this} />)
+      ElementManager.appendChild(parentElement, ucKey)
     } else {
-      ReactDOM.render(<App uiData={this} />, parentElement)
+      //   ReactDOM.render(<App uiData={this} />, parentElement)
+      const ucKey = `uc_${Date.now()}`
+      ElementManager.createElement(ucKey)
+      ElementManager.createElement(parentElement)
+      ElementManager.setComponent(parentElement, () => (
+        <View style={{ flex: 1 }}>{this.props.children}</View>
+      ))
+      ElementManager.setComponent(ucKey, () => <App uiData={this} />)
+      ElementManager.appendChild(parentElement, ucKey)
     }
   }
   this.changeLamp()
@@ -1170,7 +1198,7 @@ uiData.prototype.loadLanguage = function () {
   this.ucUiStore.getChatClient().setExosProperty('current_lang', lang)
   // save to localStorage for ucindex
   try {
-    localStorage.setItem('UC.ucindex.lang', lang)
+    RnAsyncStorage.setItem('UC.ucindex.lang', lang)
   } catch (ex) {
     this.ucUiStore
       .getLogger()
@@ -1500,16 +1528,14 @@ uiData.prototype.makeCall = function (panelType, panelCode, isVideo, isScreen) {
     }
     target = string(buddy.user_id)
   } else if (panelType === 'CONFERENCE') {
-    const conference = this.ucUiStore
-      .getChatClient()
-      .getConference(
-        string(
-          this.ucUiStore.getChatHeaderInfo({
-            chatType: panelType,
-            chatCode: panelCode,
-          }).conf_id,
-        ),
-      )
+    const conference = this.ucUiStore.getChatClient().getConference(
+      string(
+        this.ucUiStore.getChatHeaderInfo({
+          chatType: panelType,
+          chatCode: panelCode,
+        }).conf_id,
+      ),
+    )
     if (conference.webchatinfo && conference.webchatinfo.call_target) {
       target = string(conference.webchatinfo.call_target)
     } else {
@@ -5962,10 +5988,10 @@ uiData.prototype.preferenceSaveButton_onClick = function (
       if (this.preferenceWorkTable[panelCode].autoSignIn) {
         try {
           const signInOption = this.ucUiStore.getSignInOption()
-          localStorage.setItem('UC.ucindex.rememberme', 'on')
-          localStorage.setItem('UC.ucindex.user', signInOption.user)
-          localStorage.setItem('UC.ucindex.pass', signInOption.pass)
-          localStorage.setItem('UC.ucindex.tenant', signInOption.tenant)
+          RnAsyncStorage.setItem('UC.ucindex.rememberme', 'on')
+          RnAsyncStorage.setItem('UC.ucindex.user', signInOption.user)
+          RnAsyncStorage.setItem('UC.ucindex.pass', signInOption.pass)
+          RnAsyncStorage.setItem('UC.ucindex.tenant', signInOption.tenant)
         } catch (ex) {
           this.ucUiStore
             .getLogger()
@@ -7658,14 +7684,14 @@ const AgentComponent = function () {
  * option.configurations (optional)
  * option.handler (optional)
  */
-AgentComponent.prototype.initComponent = function (option) {
+AgentComponent.prototype.initComponent = async function (option) {
   if (this.initializeStatus !== 0) {
     return
   }
   this.initializeStatus = 1
   let defaultConsoleLogType = 0
   try {
-    defaultConsoleLogType = localStorage.getItem(
+    defaultConsoleLogType = await RnAsyncStorage.getItem(
       'UC.ucagentwidget.agentcomponent.defaultconsolelogtype',
     )
   } catch (e) {}
@@ -7673,7 +7699,6 @@ AgentComponent.prototype.initComponent = function (option) {
   option = option || {}
   this.option = {}
   this.option.iconParents = option.iconParents || {}
-  this.option.ownerDocument = option.ownerDocument || document
   this.option.loggerLevel = option.loggerLevel || 'all'
   this.option.consoleLogType =
     int(option.consoleLogType || defaultConsoleLogType) || 2
@@ -7724,22 +7749,23 @@ AgentComponent.prototype.initComponent = function (option) {
     this.option.language = 'default'
   }
   uawMsgs.loadLanguage(this.option.language, this.languageLoaded.bind(this))
-  // init css
-  if (
-    this.option.ownerDocument &&
-    this.option.ownerDocument.head &&
-    this.option.ownerDocument.createElement
-  ) {
-    this.elementsAddedToOwner = this.elementsAddedToOwner.concat(
-      ['../../../css/react-datepicker.css'].map(url => {
-        const link = this.option.ownerDocument.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = CURRENT_SCRIPT_URL.DIR + url + CURRENT_SCRIPT_URL.QUERY
-        this.option.ownerDocument.head.appendChild(link)
-        return link
-      }),
-    )
-  }
+  // TODO: Check css and move to stylesheet
+  //  init css
+  //   if (
+  //     this.option.ownerDocument &&
+  //     this.option.ownerDocument.head &&
+  //     this.option.ownerDocument.createElement
+  //   ) {
+  //     this.elementsAddedToOwner = this.elementsAddedToOwner.concat(
+  //       ['../../../css/react-datepicker.css'].map(url => {
+  //         const link = this.option.ownerDocument.createElement('link')
+  //         link.rel = 'stylesheet'
+  //         link.href = CURRENT_SCRIPT_URL.DIR + url + CURRENT_SCRIPT_URL.QUERY
+  //         this.option.ownerDocument.head.appendChild(link)
+  //         return link
+  //       }),
+  //     )
+  //   }
   // init main widget
   this.mainWidgetUiData = null
   this.mainWidgetHandler = {
@@ -7785,7 +7811,6 @@ AgentComponent.prototype.initComponent = function (option) {
       ucUiAction: this._dummyUcUiAction,
       ucUiStore: this._dummyUcUiStore,
       agentComponentInstance: this,
-      ownerDocument: this.option.ownerDocument,
       configurations: this.option.configurations,
       webchatNotificationTarget: false,
       iconName: iconName,
@@ -7829,10 +7854,8 @@ AgentComponent.prototype.destroyComponent = function () {
   this.popupFailedCount = 0
   // terminate dialogs
   for (let dialogName in this.dialogUiDataTable) {
-    let parentElementOrg = this.dialogUiDataTable[dialogName].parentElement
     this.dialogUiDataTable[dialogName].destroyApp()
     try {
-      parentElementOrg.parentNode.removeChild(parentElementOrg)
     } catch (e) {
       try {
         this._logger.log('warn', e)
@@ -8004,7 +8027,6 @@ AgentComponent.prototype.startUCClient = function (option) {
         ucUiAction: this.ucUiAction,
         ucUiStore: this.ucUiStore,
         agentComponentInstance: this,
-        ownerDocument: this.option.ownerDocument,
         configurations: this.option.configurations,
         dndEnabled: true,
         bindsFunctions: true,
@@ -8510,18 +8532,11 @@ AgentComponent.prototype.showSearchDialog = function (option) {
     return
   }
   if (this.dialogUiDataTable[dialogName]) {
-    let parentElementOrg = this.dialogUiDataTable[dialogName].parentElement
     this.dialogUiDataTable[dialogName].destroyApp()
-    try {
-      parentElementOrg.parentNode.removeChild(parentElementOrg)
-    } catch (e) {
-      try {
-        this._logger.log('warn', e)
-      } catch (e) {}
-    }
   }
-  const parentElement = this.option.ownerDocument.createElement('div')
-  this.option.ownerDocument.body.appendChild(parentElement)
+  //   const parentElement = this.option.ownerDocument.createElement('div')
+  //   this.option.ownerDocument.body.appendChild(parentElement)
+  const parentElement = `dialogPanel_${Date.now()}`
   const dialogOption = clone(option)
   if (!this.dialogWorkDataTable[dialogName]) {
     this.dialogWorkDataTable[dialogName] = {}
@@ -8567,7 +8582,6 @@ AgentComponent.prototype.showSearchDialog = function (option) {
     ucUiAction: this.dialogUcUiAction,
     ucUiStore: this.dialogUcUiStore,
     agentComponentInstance: this,
-    ownerDocument: this.option.ownerDocument,
     dialogPanel: 'HISTORYSEARCH' + '_' + dialogName,
     dialogOption: dialogOption,
     handler: this.dialogHandler,
@@ -8598,15 +8612,7 @@ AgentComponent.prototype.hideSearchDialog = function (option) {
     return
   }
   if (this.dialogUiDataTable[dialogName]) {
-    let parentElementOrg = this.dialogUiDataTable[dialogName].parentElement
     this.dialogUiDataTable[dialogName].destroyApp()
-    try {
-      parentElementOrg.parentNode.removeChild(parentElementOrg)
-    } catch (e) {
-      try {
-        this._logger.log('warn', e)
-      } catch (e) {}
-    }
     delete this.dialogUiDataTable[dialogName]
   }
   if (option.clear) {
@@ -9379,7 +9385,7 @@ AgentComponent.prototype.heartBeatMainWindow = function () {
 }
 
 //
-AgentComponent.prototype.checkAndShowSubWindow = function () {
+AgentComponent.prototype.checkAndShowSubWindow = async function () {
   if (this.initializeStatus !== 2) {
     return
   }
@@ -9393,7 +9399,7 @@ AgentComponent.prototype.checkAndShowSubWindow = function () {
   try {
     let windowBoxStr = ''
     try {
-      windowBoxStr = localStorage.getItem(
+      windowBoxStr = await RnAsyncStorage.getItem(
         'UC.ucagentwidget.agentcomponent.subwindowbox',
       )
     } catch (e) {}
@@ -9463,7 +9469,7 @@ AgentComponent.prototype.checkAndShowSubWindow = function () {
     let writableSubwindow = 0
     try {
       writableSubwindow = int(
-        localStorage.getItem(
+        await RnAsyncStorage.getItem(
           'UC.ucagentwidget.agentcomponent.writablesubwindow',
         ),
       )
@@ -9571,7 +9577,6 @@ AgentComponent.prototype.updateIconUiData = function () {
           ucUiAction: this.ucUiAction,
           ucUiStore: this.ucUiStore,
           agentComponentInstance: this,
-          ownerDocument: iconUiDataOrg.ownerDocument,
           configurations: iconUiDataOrg.configurations,
           webchatNotificationTarget: webchatNotificationTarget,
           iconName: iconName,
@@ -9626,12 +9631,12 @@ AgentComponent.prototype.ucUiStore_signedIn = function (ev) {
   )
   try {
     if (dclt) {
-      localStorage.setItem(
+      RnAsyncStorage.setItem(
         'UC.ucagentwidget.agentcomponent.defaultconsolelogtype',
         dclt,
       )
     } else {
-      localStorage.removeItem(
+      RnAsyncStorage.removeItem(
         'UC.ucagentwidget.agentcomponent.defaultconsolelogtype',
       )
     }
@@ -10440,7 +10445,7 @@ SubWindowModule.prototype.onbeforeunload = function (e) {
         int(this._diffWindowBox && this._diffWindowBox.h),
     })
     try {
-      localStorage.setItem(
+      RnAsyncStorage.setItem(
         'UC.ucagentwidget.agentcomponent.subwindowbox',
         windowBoxStr,
       )

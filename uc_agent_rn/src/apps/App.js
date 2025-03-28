@@ -1,9 +1,4 @@
 import React from 'react'
-import uawMsgs from '../1/uawmsgs.js'
-import Constants from '../1/constants.js'
-import { int, string } from '../1/strings.js'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import WidgetBody from '../components/WidgetBody.js'
 import MainArea from '../components/MainArea.js'
 import WebchatQueueButton from '../components/WebchatQueueButton.js'
@@ -43,4 +38,4 @@ class App extends React.Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(App)
+export default App

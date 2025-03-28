@@ -10,9 +10,7 @@ import {
   PermissionsAndroid,
 } from 'react-native'
 import RNFetchBlob from 'rn-fetch-blob'
-import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
 
 const colors = {
   darkGray: '#9e9e9e',

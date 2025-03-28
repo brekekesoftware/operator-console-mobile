@@ -102,6 +102,7 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
     this._uccacAc.init(initUccacAcOptions)
 
     const oc = BrekekeOperatorConsole.getStaticInstance()
+    // TODO: Replace logic with Brekeke.ElementManager
     const startUCClientOptions = {
       ucclientWidgetParent: this._uccacRootElementRef,
       ucclientUcurl: this._UccacWrapper.getUcurl(),
