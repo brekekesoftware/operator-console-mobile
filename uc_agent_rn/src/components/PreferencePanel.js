@@ -26,6 +26,8 @@ import TextBox from './TextBox.js'
 import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
 import * as ImagePicker from 'react-native-image-picker'
 
+const sound = require('../sounds/bell.mp3')
+
 /**
  * PreferencePanel
  * props.uiData
@@ -1570,7 +1572,7 @@ export default class PreferencePanel extends React.Component {
                   uiData={props.uiData}
                   style={styles.brBellAudioTargetTestMultipleAudio}
                   audioClassName='brBellAudioTargetTestAudio'
-                  src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/bell.mp3'}
+                  src={sound}
                   deviceId={preferenceWork.bellAudioTarget}
                 />
               </View>

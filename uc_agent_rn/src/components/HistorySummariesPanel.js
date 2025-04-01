@@ -23,6 +23,12 @@ import {
   Easing,
 } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import NewWindowIcon from '../icons/NewWindowIcon.js'
+import ReplyIcon from '../icons/ReplyIcon.js'
+import InternetIcon from '../icons/InternetIcon.js'
+import ConferenceIcon from '../icons/ConferenceIcon.js'
+import UserIcon from '../icons/UserIcon.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
 
 /**
  * HistorySummariesPanel
@@ -286,7 +292,7 @@ export default class extends React.Component {
           <View style={styles.brHistoryOpenDetailArea}>
             <ButtonIconic
               style={styles.brHistoryOpenDetailButton}
-              iconSource={icons.newWindow}
+              iconSource={<NewWindowIcon />}
               accessibilityLabel={
                 uawMsgs.LBL_HISTORY_OPEN_DETAIL_BUTTON_TOOLTIP
               }
@@ -312,7 +318,7 @@ export default class extends React.Component {
             {replyOptions.length > 0 && (
               <ButtonIconic
                 style={styles.brHistoryReplyWebchatButton}
-                iconSource={icons.reply}
+                iconSource={<ReplyIcon />}
                 accessibilityLabel={uawMsgs.LBL_HISTORY_REPLY_BUTTON_TOOLTIP}
                 onPress={
                   replyOptions.length === 1
@@ -390,12 +396,16 @@ export default class extends React.Component {
                       : '')
                   }
                 >
-                  <Image source={icons.internet} style={styles.brIcon} />
+                  <View style={styles.brIcon}>
+                    <InternetIcon />
+                  </View>
                 </View>
               )
             ) : searchResult.chatType === 'userchatconf' ? (
               <View style={styles.brHistorySummaryImage}>
-                <Image source={icons.conference} style={styles.brIcon} />
+                <View style={styles.brIcon}>
+                  <ConferenceIcon />
+                </View>
               </View>
             ) : (
               ((profile_image_url = string(
@@ -418,7 +428,9 @@ export default class extends React.Component {
                       : '')
                   }
                 >
-                  <Image source={icons.user} style={styles.brIcon} />
+                  <View style={styles.brIcon}>
+                    <UserIcon />
+                  </View>
                 </View>
               )
             )}
@@ -516,7 +528,7 @@ export default class extends React.Component {
             <View style={styles.brHistorySummaryExpandDummy} />
             <ButtonIconic
               style={styles.brHistorySummaryExpandButton}
-              iconSource={icons.chevronUp}
+              iconSource={<ChevronUpIcon />}
               accessibilityLabel={uawMsgs.LBL_HISTORY_SUMMARY_EXPAND_BUTTON}
               onPress={this.handleHistorySummaryExpandButtonClick.bind(
                 this,

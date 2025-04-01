@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/text-height</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M17.3333334,5.33333329 L15.3333334,8.66666665 L16.6666667,8.66666665 L16.6666667,15.3333334 L15.3333334,15.3333334 L17.3333334,18.6666667 L19.3333334,15.3333334 L18,15.3333334 L18,8.66666665 L19.3333334,8.66666665 L17.3333334,5.33333329 Z M4.66666662,6.66666663 L4.66666662,7.99999997 L8.66666665,7.99999997 L8.66666665,17.3333334 L10.6666667,17.3333334 L10.6666667,7.99999997 L14.6666667,7.99999997 L14.6666667,6.66666663 L4.66666662,6.66666663 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/text-height" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="text-height" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

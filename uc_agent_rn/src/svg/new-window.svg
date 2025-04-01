@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/new-window</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M6.74999997,5.24999996 C5.92124997,5.24999996 5.24999996,5.92124997 5.24999996,6.74999997 L5.24999996,8.24999998 L5.24999996,17.25 C5.24999996,18.0697973 5.93020287,18.75 6.74999997,18.75 L17.25,18.75 C18.0697973,18.75 18.75,18.0697973 18.75,17.25 L18.75,7.49999997 L18.75,6.74999997 C18.75,5.92124997 18.07875,5.24999996 17.25,5.24999996 L6.74999997,5.24999996 Z M6.74999997,8.24999998 L17.25,8.24999998 L17.25,17.25 L6.74999997,17.25 L6.74999997,8.24999998 Z M11.25,9.74999999 L11.25,12 L8.99999998,12 L8.99999998,13.5 L11.25,13.5 L11.25,15.75 L12.75,15.75 L12.75,13.5 L15,13.5 L15,12 L12.75,12 L12.75,9.74999999 L11.25,9.74999999 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/new-window" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="icons8-new_window" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

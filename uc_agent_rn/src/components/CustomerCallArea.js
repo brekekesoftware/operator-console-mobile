@@ -11,10 +11,7 @@ import {
   StatusBar,
 } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
-import Draggable from 'react-draggable'
 import ButtonIconic from './ButtonIconic.js'
 import CallAudio from './CallAudio.js'
 import CallVideo from './CallVideo.js'
@@ -715,7 +712,7 @@ export default class CustomerCallArea extends React.Component {
           <MultipleAudio
             uiData={props.uiData}
             style={styles.brRingMultipleAudio}
-            src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/ring.mp3'}
+            src={CURRENT_SCRIPT_URL.DIR + '../sounds/ring.mp3'}
             loop={true}
             playing={
               props.uiData.configurations &&
@@ -730,7 +727,7 @@ export default class CustomerCallArea extends React.Component {
           <MultipleAudio
             uiData={props.uiData}
             style={styles.brRingbackMultipleAudio}
-            src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/ringback.mp3'}
+            src={CURRENT_SCRIPT_URL.DIR + '../sounds/ringback.mp3'}
             loop={true}
             playing={
               props.uiData.configurations &&

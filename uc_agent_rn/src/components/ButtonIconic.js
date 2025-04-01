@@ -18,6 +18,7 @@ import { int, string } from '../utilities/strings.js'
  * props.hidden
  * props.title
  * props.onPress - Renamed from onClick for React Native
+ * props.iconSource - Icon source
  */
 export default class extends React.Component {
   handlePress = () => {
@@ -46,7 +47,9 @@ export default class extends React.Component {
         disabled={props.disabled}
         accessibilityLabel={props.accessibilityLabel}
       >
-        <View style={styles.iconContainer}>{props.children}</View>
+        <View style={styles.iconContainer}>
+          {props.children || props.iconSource}
+        </View>
       </TouchableOpacity>
     )
   }

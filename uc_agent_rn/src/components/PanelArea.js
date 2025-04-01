@@ -23,6 +23,18 @@ import HistorySearchPanel from './HistorySearchPanel.js'
 import HistorySummariesPanel from './HistorySummariesPanel.js'
 import HistoryDetailPanel from './HistoryDetailPanel.js'
 import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native'
+import LogOutIcon from '../icons/LogOutIcon.js'
+import ReplyIcon from '../icons/ReplyIcon.js'
+import EnvelopeIcon from '../icons/EnvelopeIcon.js'
+import UploadIcon from '../icons/UploadIcon.js'
+import PhoneIcon from '../icons/PhoneIcon.js'
+import VideoCallIcon from '../icons/VideoCallIcon.js'
+import ChannelMosaic1Icon from '../icons/ChannelMosaic1Icon.js'
+import HistoryIcon from '../icons/HistoryIcon.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
+import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import SearchIcon from '../icons/SearchIcon.js'
+import MoreIcon from '../icons/MoreIcon.js'
 
 const icons = {
   logOut: require('../assets/icons/log-out.png'),
@@ -560,7 +572,7 @@ export default class extends React.Component {
               conference.conf_status !==
               Constants.CONF_STATUS_JOINED /* || conference.conf_type === 'webchat' && conference.user.filter(u => u.conf_status === Constants.CONF_STATUS_JOINED).length < 3 */
             }
-            iconSource={icons.logOut}
+            iconSource={<LogOutIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_LEAVE_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -604,7 +616,7 @@ export default class extends React.Component {
                 ) && styles.brNotSelected,
               ]}
               disabled={!replyOptions.length}
-              iconSource={icons.reply}
+              iconSource={<ReplyIcon />}
               accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_REPLY_BUTTON_TOOLTIP}
               onPress={
                 replyOptions.length === 1
@@ -652,7 +664,7 @@ export default class extends React.Component {
                   myUcCimUserType) !==
                   myUcCimUserType)
             }
-            iconSource={icons.envelope}
+            iconSource={<EnvelopeIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_INVITE_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -691,7 +703,7 @@ export default class extends React.Component {
                 conference.conf_status !== Constants.CONF_STATUS_JOINED ||
                 joinedCount < 2
               }
-              iconSource={icons.upload}
+              iconSource={<UploadIcon />}
               accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_FILE_BUTTON_TOOLTIP}
               onPress={props.uiData.fire.bind(
                 props.uiData,
@@ -730,7 +742,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.phone}
+            iconSource={<PhoneIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -768,7 +780,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.videoCall}
+            iconSource={<VideoCallIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -806,7 +818,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.channelMosaic1}
+            iconSource={<ChannelMosaic1Icon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -931,7 +943,7 @@ export default class extends React.Component {
                 conference.conf_status !== Constants.CONF_STATUS_JOINED ||
                 joinedCount < 2
               }
-              iconSource={icons.upload}
+              iconSource={<UploadIcon />}
               accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_FILE_BUTTON_TOOLTIP}
               onPress={props.uiData.fire.bind(
                 props.uiData,
@@ -970,7 +982,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.phone}
+            iconSource={<PhoneIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -1008,7 +1020,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.videoCall}
+            iconSource={<VideoCallIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -1046,7 +1058,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.channelMosaic1}
+            iconSource={<ChannelMosaic1Icon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -1081,7 +1093,7 @@ export default class extends React.Component {
                   .chatPanelCode
               )
             }
-            iconSource={icons.history}
+            iconSource={<HistoryIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_HISTORY_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -1168,7 +1180,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.phone}
+            iconSource={<PhoneIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VOICE_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -1206,7 +1218,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.videoCall}
+            iconSource={<VideoCallIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_VIDEO_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -1244,7 +1256,7 @@ export default class extends React.Component {
               props.uiData.phone.getPhoneStatus() !== 'started' ||
               panelSession
             }
-            iconSource={icons.channelMosaic1}
+            iconSource={<ChannelMosaic1Icon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_SCREEN_BUTTON_TOOLTIP}
             onPress={props.uiData.fire.bind(
               props.uiData,
@@ -1370,9 +1382,11 @@ export default class extends React.Component {
                 : styles.iconChevronDown,
             ]}
             iconSource={
-              this.state.historySummariesWithHeader
-                ? icons.chevronUp
-                : icons.chevronDown
+              this.state.historySummariesWithHeader ? (
+                <ChevronUpIcon />
+              ) : (
+                <ChevronDownIcon />
+              )
             }
             accessibilityLabel={
               uawMsgs.LBL_PANEL_HEADER_SEARCH_DETAIL_BUTTON_TOOLTIP
@@ -1405,7 +1419,7 @@ export default class extends React.Component {
 
             <ButtonIconic
               style={styles.brHeaderSearchConditionsSearchButton}
-              iconSource={icons.search}
+              iconSource={<SearchIcon />}
               accessibilityLabel={
                 uawMsgs.LBL_PANEL_HEADER_SEARCH_BUTTON_TOOLTIP
               }
@@ -1461,9 +1475,11 @@ export default class extends React.Component {
                       source={
                         this.state.headerSearchConditionsUserGroupOpen
                           .split(',')
-                          .indexOf(groupName) !== -1
-                          ? icons.chevronUp
-                          : icons.chevronDown
+                          .indexOf(groupName) !== -1 ? (
+                          <ChevronUpIcon />
+                        ) : (
+                          <ChevronDownIcon />
+                        )
                       }
                       style={styles.brHeaderSearchConditionsUserGroupIcon}
                     />
@@ -1633,7 +1649,7 @@ export default class extends React.Component {
               styles.brPanelHeaderButtonsMenu,
               !headerButtons.length && styles.brHidden,
             ]}
-            iconSource={icons.more}
+            iconSource={<MoreIcon />}
             accessibilityLabel={uawMsgs.LBL_PANEL_HEADER_MORE_BUTTON_TOOLTIP}
             onPress={this.handlePanelHeaderButtonsMenuClick.bind(this)}
           >

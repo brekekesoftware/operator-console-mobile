@@ -15,7 +15,14 @@ import {
   PanResponder,
   Animated,
 } from 'react-native'
-
+import LogOutIcon from '../icons/LogOutIcon.js'
+import EnvelopeIcon from '../icons/EnvelopeIcon.js'
+import UploadIcon from '../icons/UploadIcon.js'
+import ReplyIcon from '../icons/ReplyIcon.js'
+import SendIcon from '../icons/SendIcon.js'
+import ChatIcon from '../icons/ChatIcon.js'
+import TriangleUpIcon from '../icons/TriangleUpIcon.js'
+import TriangleDownIcon from '../icons/TriangleDownIcon.js'
 /**
  * EditorArea
  * props.uiData
@@ -313,7 +320,13 @@ export default class extends React.Component {
             styles.brEditorSendButton,
             isEmail ? styles.brEmailSendButton : styles.brChatSendButton,
           ]}
-          iconSource={isEmail ? icons.send : icons.chat}
+          iconSource={
+            isEmail ? (
+              <SendIcon width={24} height={24} />
+            ) : (
+              <ChatIcon width={24} height={24} />
+            )
+          }
           accessibilityLabel={uawMsgs.LBL_EDITOR_SEND_BUTTON_TOOLTIP}
           disabled={props.disabled}
           onPress={this.handleSendButtonClick}
@@ -324,15 +337,14 @@ export default class extends React.Component {
           accessibilityLabel={uawMsgs.LBL_EDITOR_OPTIONS_LINK}
           onPress={this.handleOptionsLinkClick}
         >
-          <Image
-            source={
-              this.state.showingDialogVersion ===
-              props.uiData.showingDialogVersion
-                ? icons.triangleUp
-                : icons.triangleDown
-            }
-            style={styles.brEditorOptionsIcon}
-          />
+          <View style={styles.brEditorOptionsIcon}>
+            {this.state.showingDialogVersion ===
+            props.uiData.showingDialogVersion ? (
+              <TriangleUpIcon width={24} height={24} />
+            ) : (
+              <TriangleDownIcon width={24} height={24} />
+            )}
+          </View>
         </TouchableOpacity>
 
         <MenuBalloonDialog
@@ -483,14 +495,14 @@ export default class extends React.Component {
       {
         headerButtonName: 'leave',
         label: uawMsgs.LBL_EDITOR_LEAVE_LINK,
-        iconSource: icons.logOut,
+        iconSource: <LogOutIcon width={24} height={24} />,
         eventName: 'panelHeaderLeaveButton_onClick',
         enabled: conference.conf_status === Constants.CONF_STATUS_JOINED,
       },
       {
         headerButtonName: 'invite',
         label: uawMsgs.LBL_EDITOR_INVITE_LINK,
-        iconSource: icons.envelope,
+        iconSource: <EnvelopeIcon width={24} height={24} />,
         eventName: 'panelHeaderInviteButton_onClick',
         enabled: this.checkInviteEnabled(conference, chatHeaderInfo),
       },
@@ -501,7 +513,7 @@ export default class extends React.Component {
       options.splice(1, 0, {
         headerButtonName: 'reply',
         label: uawMsgs.LBL_EDITOR_REPLY_LINK,
-        iconSource: icons.reply,
+        iconSource: <ReplyIcon width={24} height={24} />,
         event:
           replyOptions.length === 1
             ? replyOptions[0].event
@@ -518,7 +530,7 @@ export default class extends React.Component {
       {
         headerButtonName: 'file',
         label: uawMsgs.LBL_EDITOR_FILE_LINK,
-        iconSource: icons.upload,
+        iconSource: <UploadIcon width={24} height={24} />,
         eventName: 'panelHeaderFileButton_onClick',
         enabled: true,
       },

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/text-color</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M11.2708333,5.33333329 L7.4583333,15.3333334 L9.27083332,15.3333334 L10.0625,13 L13.9375,13 L14.7916667,15.3333334 L16.6041667,15.3333334 L12.7916667,5.33333329 L11.2708333,5.33333329 Z M12,7.4583333 L13.3958333,11.6041667 L10.5416667,11.6041667 L12,7.4583333 Z M6.66666663,16.6666667 L6.66666663,18.6666667 L17.3333334,18.6666667 L17.3333334,16.6666667 L6.66666663,16.6666667 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/text-color" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="text-color" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

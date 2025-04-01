@@ -33,26 +33,25 @@ export default {
     'react-native-dimensions',
     'react-native-linking',
     'react-native-platform-touchable',
+    // Add these to prevent bundling internal RN modules
+    'EventEmitter',
+    /react-native\/.*/, // Exclude all react-native internal modules
   ],
   plugins: [
     resolve({
       extensions: ['.js', '.jsx', '.json'],
       preferBuiltins: true,
+      resolveOnly: [/^(?!react-native).*$/],
     }),
     commonjs({
       include: /node_modules/,
+      exclude: [/react-native\/.*/],
       transformMixedEsModules: true,
     }),
     babel({
       babelHelpers: 'bundled',
-      // presets: [
-      //   'module:metro-react-native-babel-preset'
-      // ],
       presets: ['@babel/preset-env', '@babel/preset-react'],
-      // plugins: [
-      //   ['@babel/plugin-transform-modules-commonjs', { strict: false }]
-      // ],
-      // exclude: 'node_modules/**',
+      exclude: ['node_modules/**', /react-native\/.*/],
     }),
     json(),
     image(),

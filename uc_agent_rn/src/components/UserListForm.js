@@ -18,6 +18,12 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native'
+import AddFolderIcon from '../icons/AddFolderIcon.js'
+import MoreIcon from '../icons/MoreIcon.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
+import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import CheckIcon from '../icons/CheckIcon.js'
+import SquareIcon from '../icons/SquareIcon.js'
 
 /**
  * UserListForm
@@ -533,15 +539,17 @@ export default class extends React.Component {
               onPress={this.handleUserListAllUsersCheckClick.bind(this)}
               disabled={props.params?.allUsersCheckDisabled}
             >
-              <Image
-                source={
-                  this.state.buddylist.screened ? icons.square : icons.check
-                }
-                style={[
-                  styles.brUserListAllUsersCheckIcon,
-                  this.state.buddylist.screened ? null : styles.brSelected,
-                ]}
-              />
+              <View style={styles.brUserListAllUsersCheckIcon}>
+                {this.state.buddylist.screened ? (
+                  <SquareIcon
+                    color={this.state.buddylist.screened ? null : 'white'}
+                  />
+                ) : (
+                  <CheckIcon
+                    color={this.state.buddylist.screened ? null : 'white'}
+                  />
+                )}
+              </View>
               <Text style={styles.brUserListAllUsersCheckLabel}>
                 {uawMsgs.LBL_USER_LIST_ALL_USERS_CHECK}
               </Text>
@@ -553,13 +561,13 @@ export default class extends React.Component {
               style={styles.brUserListSaveOrderCheck}
               onPress={this.handleUserListSaveOrderCheckClick.bind(this)}
             >
-              <Image
-                source={this.state.saveOrder ? icons.check : icons.square}
-                style={[
-                  styles.brUserListSaveOrderCheckIcon,
-                  this.state.saveOrder && styles.brSelected,
-                ]}
-              />
+              <View style={styles.brUserListSaveOrderCheckIcon}>
+                {this.state.saveOrder ? (
+                  <CheckIcon color={this.state.saveOrder ? null : 'white'} />
+                ) : (
+                  <SquareIcon color={this.state.saveOrder ? null : 'white'} />
+                )}
+              </View>
               <Text style={styles.brUserListSaveOrderCheckLabel}>
                 {uawMsgs.LBL_USER_LIST_SAVE_ORDER_CHECK}
               </Text>
@@ -569,18 +577,25 @@ export default class extends React.Component {
               style={styles.brUserListSortOrderGroupCheck}
               onPress={this.handleUserListSortOrderGroupCheckClick.bind(this)}
             >
-              <Image
-                source={
-                  this.state.selectedSortOrderKey === '_group'
-                    ? icons.check
-                    : icons.square
-                }
-                style={[
-                  styles.brUserListSortOrderGroupCheckIcon,
-                  this.state.selectedSortOrderKey === '_group' &&
-                    styles.brSelected,
-                ]}
-              />
+              <View style={styles.brUserListSortOrderGroupCheckIcon}>
+                {this.state.selectedSortOrderKey === '_group' ? (
+                  <CheckIcon
+                    color={
+                      this.state.selectedSortOrderKey === '_group'
+                        ? null
+                        : 'white'
+                    }
+                  />
+                ) : (
+                  <SquareIcon
+                    color={
+                      this.state.selectedSortOrderKey === '_group'
+                        ? null
+                        : 'white'
+                    }
+                  />
+                )}
+              </View>
               <Text style={styles.brUserListSortOrderGroupCheckLabel}>
                 {uawMsgs.LBL_USER_LIST_SORT_ORDER_GROUP_CHECK}
               </Text>
@@ -654,18 +669,25 @@ export default class extends React.Component {
                       buddy,
                     )}
                   >
-                    <Image
-                      source={
-                        this.state.buddylist.screened && buddy.delete
-                          ? icons.square
-                          : icons.check
-                      }
-                      style={[
-                        styles.brUserListBuddyItemIcon,
-                        !(this.state.buddylist.screened && buddy.delete) &&
-                          styles.brSelected,
-                      ]}
-                    />
+                    <View style={styles.brUserListBuddyItemIcon}>
+                      {this.state.buddylist.screened && buddy.delete ? (
+                        <SquareIcon
+                          color={
+                            this.state.buddylist.screened && buddy.delete
+                              ? null
+                              : 'white'
+                          }
+                        />
+                      ) : (
+                        <CheckIcon
+                          color={
+                            this.state.buddylist.screened && buddy.delete
+                              ? null
+                              : 'white'
+                          }
+                        />
+                      )}
+                    </View>
                     <Text
                       style={styles.brUserListBuddyItemLabel}
                       numberOfLines={1}
@@ -709,7 +731,7 @@ export default class extends React.Component {
                     <View style={styles.brUserListGroupMenuArea}>
                       <ButtonIconic
                         style={styles.brUserListGroupMenuButton}
-                        iconSource={icons.more}
+                        iconSource={<MoreIcon />}
                         onPress={this.handleUserListGroupMenuButtonClick.bind(
                           this,
                           buddy,
@@ -774,14 +796,13 @@ export default class extends React.Component {
                         buddy,
                       )}
                     >
-                      <Image
-                        source={
-                          this.state.expandedGroupIds[buddy.id]
-                            ? icons.chevronUp
-                            : icons.chevronDown
-                        }
-                        style={styles.brGroupIcon}
-                      />
+                      <View style={styles.brGroupIcon}>
+                        {this.state.expandedGroupIds[buddy.id] ? (
+                          <ChevronUpIcon />
+                        ) : (
+                          <ChevronDownIcon />
+                        )}
+                      </View>
                       <Text>
                         {string(
                           groupUserCountTable[buddy.id] &&
@@ -807,7 +828,7 @@ export default class extends React.Component {
           this.state.selectedSortOrderKey === '_group' && (
             <ButtonIconic
               style={styles.brUserListCreateGroupButton}
-              iconSource={icons.addFolder}
+              iconSource={<AddFolderIcon />}
               onPress={this.handleUserListCreateGroupButtonClick.bind(this)}
             />
           )}

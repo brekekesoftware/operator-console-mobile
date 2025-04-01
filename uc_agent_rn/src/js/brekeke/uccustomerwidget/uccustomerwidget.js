@@ -1264,7 +1264,6 @@
                   'Expected an existing source.',
                 )
                 this.store.dispatch((0, _registry.removeSource)(sourceId))
-
                 ;(0, _asap2.default)(function () {
                   delete _this2.handlers[sourceId]
                   delete _this2.types[sourceId]
@@ -1281,7 +1280,6 @@
                   'Expected an existing target.',
                 )
                 this.store.dispatch((0, _registry.removeTarget)(targetId))
-
                 ;(0, _asap2.default)(function () {
                   delete _this3.handlers[targetId]
                   delete _this3.types[targetId]
@@ -9048,7 +9046,6 @@
 
         var cachedSetTimeout
         var cachedClearTimeout
-
         ;(function () {
           try {
             cachedSetTimeout = setTimeout
@@ -12787,7 +12784,6 @@
 
                     _this.handleChange = _this.handleChange.bind(_this)
                     _this.handleChildRef = _this.handleChildRef.bind(_this)
-
                     ;(0, _invariant2.default)(
                       _typeof(_this.context.dragDropManager) === 'object',
                       'Could not find the drag and drop manager in the context of %s. ' +
@@ -13764,7 +13760,6 @@
                             ),
                           )
                           if (shouldStop === false) return false
-
                           ;(0, _log2.default)(
                             'Draggable: onDragStop: %j',
                             coreData,
@@ -14112,8 +14107,7 @@
 	  Licensed under the MIT License (MIT), see
 	  http://jedwatson.github.io/classnames
 	*/
-                  /* global define */
-
+                    /* global define */
                   ;(function () {
                     'use strict'
 
@@ -15130,7 +15124,8 @@
                               deltaX = _snapToGrid2[0]
                               deltaY = _snapToGrid2[1]
 
-                              if (!deltaX && !deltaY) return // skip useless drag
+                              if (!deltaX && !deltaY)
+                                return // skip useless drag
                               ;(x = _this.state.lastX + deltaX),
                                 (y = _this.state.lastY + deltaY)
                             }
@@ -15205,7 +15200,6 @@
                             // Remove user-select hack
                             if (_this.props.enableUserSelectHack)
                               (0, _domFns.removeUserSelectStyles)()
-
                             ;(0, _log2.default)(
                               'DraggableCore: handleDragStop: %j',
                               coreEvent,
@@ -45784,16 +45778,14 @@
                 var conference =
                   props.params &&
                   props.params.panelType === 'CONFERENCE' &&
-                  props.uiData.ucUiStore
-                    .getChatClient()
-                    .getConference(
-                      (0, _strings.string)(
-                        props.uiData.ucUiStore.getChatHeaderInfo({
-                          chatType: props.params.panelType,
-                          chatCode: props.params.panelCode,
-                        }).conf_id,
-                      ),
-                    )
+                  props.uiData.ucUiStore.getChatClient().getConference(
+                    (0, _strings.string)(
+                      props.uiData.ucUiStore.getChatHeaderInfo({
+                        chatType: props.params.panelType,
+                        chatCode: props.params.panelCode,
+                      }).conf_id,
+                    ),
+                  )
                 var profile = props.uiData.ucUiStore
                   .getChatClient()
                   .getProfile()
@@ -47296,8 +47288,7 @@
                           uiData: props.uiData,
                           className: 'brRingMultipleAudio',
                           src:
-                            _currentscript2.default.DIR +
-                            '../../../sounds/ring.mp3',
+                            _currentscript2.default.DIR + '../sounds/ring.mp3',
                           loop: true,
                           playing:
                             props.uiData.configurations &&
@@ -47313,7 +47304,7 @@
                           className: 'brRingbackMultipleAudio',
                           src:
                             _currentscript2.default.DIR +
-                            '../../../sounds/ringback.mp3',
+                            '../sounds/ringback.mp3',
                           loop: true,
                           playing:
                             props.uiData.configurations &&
@@ -54397,16 +54388,14 @@
                 var signOutFunc = _this4.ucUiAction.signOut.bind(
                   _this4.ucUiAction,
                 )
-                _this4.ucUiStore
-                  .getChatClient()
-                  .sendConfLeave(
-                    { conf_id: _this4.ucUiStore.getGuestConfId() },
-                    JSON.stringify({
-                      reenterUserId: _this4.ucUiStore.getReenterUserId(),
-                    }),
-                    signOutFunc,
-                    signOutFunc,
-                  )
+                _this4.ucUiStore.getChatClient().sendConfLeave(
+                  { conf_id: _this4.ucUiStore.getGuestConfId() },
+                  JSON.stringify({
+                    reenterUserId: _this4.ucUiStore.getReenterUserId(),
+                  }),
+                  signOutFunc,
+                  signOutFunc,
+                )
               } else {
                 _this4.ucUiStore
                   .getLogger()

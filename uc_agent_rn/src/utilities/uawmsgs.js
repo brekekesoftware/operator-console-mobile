@@ -1,7 +1,12 @@
 const Brekeke = (window.Brekeke = window.Brekeke || {})
 Brekeke.UAWMsgs_default =
-  Brekeke.UAWMsgs_default ||
-  require('../js/brekeke2/uawmsgs/uawmsgs_default.js')
+  Brekeke.UAWMsgs_default || require('../js/brekeke/uawmsgs/uawmsgs_default.js')
+
+const languageFiles = {
+  default: require('../js/brekeke/uawmsgs/uawmsgs_default.js'),
+  en: require('../js/brekeke/uawmsgs/uawmsgs_en.js'),
+  ja: require('../js/brekeke/uawmsgs/uawmsgs_ja.js'),
+}
 
 const uawMsgs = {
   init: function (options) {
@@ -25,11 +30,13 @@ const uawMsgs = {
   },
   loadLanguage: function (lang, func) {
     if (!Brekeke['UAWMsgs_' + lang]) {
-      setTimeout(() => {
-        require(
-          `${uawMsgs.current_script_url.DIR}../js/brekeke/uawmsgs_${lang}.js${uawMsgs.current_script_url.QUERY}`,
-        )
-      }, 0)
+      try {
+        Brekeke['UAWMsgs_' + lang] =
+          languageFiles[lang] || languageFiles.default
+      } catch (e) {
+        console.error('Error loading language file:', e)
+        Brekeke['UAWMsgs_' + lang] = languageFiles.default
+      }
     }
     let tryCount = 0
     const f = function () {
@@ -37,9 +44,9 @@ const uawMsgs = {
         tryCount++
         setTimeout(f, 100)
       } else {
-        let msgs = Brekeke['UAWMsgs_' + lang] // current language
+        let msgs = Brekeke['UAWMsgs_' + lang]
         if (!msgs) {
-          msgs = Brekeke.UAWMsgs_default // default language
+          msgs = Brekeke.UAWMsgs_default
           lang = 'default'
         }
         for (let key in msgs) {
@@ -64,8 +71,8 @@ const uawMsgs = {
     f()
   },
 }
+
 for (let key in Brekeke.UAWMsgs_default) {
-  // default language
   uawMsgs[key] = Brekeke.UAWMsgs_default[key]
 }
 

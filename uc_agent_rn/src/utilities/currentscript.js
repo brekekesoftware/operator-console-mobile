@@ -1,4 +1,4 @@
-export default {
+const currentScript = {
   DIR: '',
   FILE: '',
   QUERY: '',
@@ -8,3 +8,5 @@ export default {
     this.QUERY = ''
   },
 }
+
+export default currentScript

@@ -15,6 +15,8 @@ import Statusbar from '../components/Statusbar.js'
 import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 
+const sound = require('../sounds/bell.mp3')
+
 /**
  * UCApp
  * props.uiData
@@ -67,7 +69,7 @@ class UCApp extends React.Component {
         'terminated',
         'tone1',
       ])
-      .map(s => CURRENT_SCRIPT_URL.DIR + '../../../sounds/' + s + '.mp3')
+      .map(s => CURRENT_SCRIPT_URL.DIR + '../sounds/' + s + '.mp3')
 
     return (
       <View style={styles.container}>
@@ -76,7 +78,7 @@ class UCApp extends React.Component {
           <MultipleAudio
             uiData={uiData}
             audioStyle={styles.bellAudio}
-            src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/bell.mp3'}
+            src={sound}
           />
           <MainArea style={{ left: this.state.splitterLeft }} uiData={uiData} />
           <Sidebar

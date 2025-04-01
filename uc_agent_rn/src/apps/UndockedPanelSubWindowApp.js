@@ -8,6 +8,8 @@ import PanelArea from '../components/PanelArea.js'
 import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
 import { RnAudioPlayer } from '../components/RnAudioPlayer.js'
 
+const sound = require('../sounds/bell.mp3')
+
 /**
  * UndockedPanelSubWindowApp
  * props.uiData
@@ -21,10 +23,7 @@ class UndockedPanelSubWindowApp extends React.Component {
     return (
       <View style={[styles.brUCAgentApp, styles.brUndockedPanelSubWindowApp]}>
         <WidgetBody uiData={uiData} modalOverlayStyle={styles.brUCAgentApp}>
-          <RnAudioPlayer
-            audioStyle={styles.brBellAudio}
-            src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/bell.mp3'}
-          />
+          <RnAudioPlayer audioStyle={styles.brBellAudio} src={sound} />
           <PanelArea
             uiData={uiData}
             panelType={panelType}

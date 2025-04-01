@@ -10,6 +10,8 @@ import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
 import { View } from 'react-native'
 import { RnAudioPlayer } from '../components/RnAudioPlayer.js'
 
+const sound = require('../sounds/bell.mp3')
+
 /**
  * App
  * props.uiData
@@ -20,11 +22,7 @@ class App extends React.Component {
     return (
       <View className='brUCAgentApp'>
         <WidgetBody uiData={props.uiData} modalOverlayClassName='brUCAgentApp'>
-          <RnAudioPlayer
-            source={require(
-              CURRENT_SCRIPT_URL.DIR + '../../../sounds/bell.mp3',
-            )}
-          />
+          <RnAudioPlayer source={sound} />
           <MainArea className='brWithToolbar' uiData={props.uiData} />
           <Toolbar>
             <WebchatQueueButton uiData={props.uiData} disabled={false} />

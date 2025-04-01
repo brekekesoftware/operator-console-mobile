@@ -15,7 +15,6 @@ import {
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import Draggable from 'react-draggable'
 import ButtonIconic from './ButtonIconic.js'
 import ButtonLabeled from './ButtonLabeled.js'
 import CallAudio from './CallAudio.js'
@@ -30,6 +29,40 @@ import NameEmbeddedSpan from '../components/NameEmbeddedSpan.js'
 import StatusIcon from '../components/StatusIcon.js'
 import TextBox from '../components/TextBox.js'
 import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
+import PhoneIcon from '../icons/PhoneIcon.js'
+import VideoCallIcon from '../icons/VideoCallIcon.js'
+import EndCallIcon from '../icons/EndCallIcon.js'
+import MoreIcon from '../icons/MoreIcon.js'
+import TriangleRightIcon from '../icons/TriangleRightIcon.js'
+import TriangleLeftIcon from '../icons/TriangleLeftIcon.js'
+import HoldIcon from '../icons/HoldIcon.js'
+import KeypadIcon from '../icons/KeypadIcon.js'
+import NoVideoIcon from '../icons/NoVideoIcon.js'
+import BlockMicrophoneIcon from '../icons/BlockMicrophoneIcon.js'
+import ConferenceForegroundSelectedIcon from '../icons/ConferenceForegroundSelectedIcon.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
+import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import ArrowRightIcon from '../icons/ArrowRightIcon.js'
+import ArrowLeftIcon from '../icons/ArrowLeftIcon.js'
+
+const icons = {
+  phone: require('../assets/icons/phone.png'),
+  video_call: require('../assets/icons/video_call.png'),
+  end_call: require('../assets/icons/end_call.png'),
+  more: require('../assets/icons/more.png'),
+  triangle_right: require('../assets/icons/triangle_right.png'),
+  triangle_left: require('../assets/icons/triangle_left.png'),
+  hold: require('../assets/icons/hold.png'),
+  keypad: require('../assets/icons/keypad.png'),
+  no_video: require('../assets/icons/no_video.png'),
+  block_microphone: require('../assets/icons/block_microphone.png'),
+  chevron_down: require('../assets/icons/chevron_down.png'),
+  arrow_right: require('../assets/icons/arrow_right.png'),
+  arrow_left: require('../assets/icons/arrow_left.png'),
+  conference_foreground_selected: require('../assets/icons/conference_foreground_selected.png'),
+  chevron_up: require('../assets/icons/chevron_up.png'),
+  noimage: require('../assets/images/noimage.png'),
+}
 
 const styles = StyleSheet.create({
   brCallArea: {
@@ -1215,10 +1248,7 @@ export default class extends React.Component {
                 style={styles.profileImage}
               />
             ) : (
-              <Image
-                source={require('../assets/images/noimage.png')}
-                style={styles.profileImage}
-              />
+              <Image source={icons.noimage} style={styles.profileImage} />
             )}
           </View>
 
@@ -1241,10 +1271,7 @@ export default class extends React.Component {
                 )
               }
             >
-              <Image
-                style={styles.brCallAnswerButtonIcon}
-                source={require('../assets/icons/phone.png')}
-              />
+              <PhoneIcon width={24} height={24} color='#ffffff' />
             </ButtonIconic>
 
             <ButtonIconic
@@ -1259,10 +1286,7 @@ export default class extends React.Component {
                 )
               }
             >
-              <Image
-                style={styles.brCallAnswerButtonIcon}
-                source={require('../assets/icons/video_call.png')}
-              />
+              <VideoCallIcon width={24} height={24} color='#ffffff' />
             </ButtonIconic>
 
             <ButtonIconic
@@ -1276,10 +1300,7 @@ export default class extends React.Component {
                 )
               }
             >
-              <Image
-                style={styles.brCallDeclineButtonIcon}
-                source={require('../assets/icons/end_call.png')}
-              />
+              <EndCallIcon width={24} height={24} color='#ffffff' />
             </ButtonIconic>
           </View>
         </View>
@@ -1289,7 +1310,7 @@ export default class extends React.Component {
           style={styles.brRingSoundAudio}
           src={
             props.uiData.configurations?.alternativeRingTone ||
-            CURRENT_SCRIPT_URL.DIR + '../../../sounds/ring.mp3'
+            CURRENT_SCRIPT_URL.DIR + '../sounds/ring.mp3'
           }
           loop={true}
           playing={
@@ -1307,7 +1328,7 @@ export default class extends React.Component {
         <SoundAudio
           uiData={props.uiData}
           style={styles.brRingbackSoundAudio}
-          src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/ringback.mp3'}
+          src={CURRENT_SCRIPT_URL.DIR + '../sounds/ringback.mp3'}
           loop={true}
           playing={
             session &&
@@ -1447,10 +1468,7 @@ export default class extends React.Component {
             this.handleCallVideoOptionsOptionsButtonClick(videoClientSessionId)
           }
         >
-          <Image
-            style={styles.brCallVideoOptionsOptionsButtonIcon}
-            source={require('../assets/icons/more.png')}
-          />
+          <MoreIcon width={24} height={24} color='#ffffff' />
         </ButtonIconic>
 
         <MenuBalloonDialog
@@ -1502,25 +1520,27 @@ export default class extends React.Component {
               onPress={this.handleTransferMenuButtonClick}
             >
               <View style={styles.buttonContent}>
-                <Image
-                  style={styles.buttonIcon}
-                  source={require('../assets/icons/phone.png')}
-                />
-                <Image
-                  style={styles.arrowIcon}
-                  source={require('../assets/icons/arrow_right.png')}
-                />
+                <PhoneIcon width={32} height={32} />
+                <ArrowRightIcon width={16} height={16} />
                 {!this.state.headerButtonsCollapsible && (
                   <Text style={styles.buttonText}>
                     {uawMsgs.LBL_CALL_TRANSFER_MENU_BUTTON}
                   </Text>
                 )}
-                <Image
-                  style={styles.menuIcon}
-                  source={require(
-                    `../assets/icons/${props.uiData.showingDialogVersion !== this.state.transferMenuShowingDialogVersion ? 'triangle_right' : 'triangle_left'}.png`,
+                <View style={styles.menuIcon}>
+                  {props.uiData.showingDialogVersion !==
+                  this.state.transferMenuShowingDialogVersion ? (
+                    <TriangleRightIcon width={24} height={24} />
+                  ) : (
+                    <TriangleLeftIcon width={24} height={24} />
                   )}
-                />
+                </View>
+                {props.uiData.showingDialogVersion !==
+                this.state.transferMenuShowingDialogVersion ? (
+                  <TriangleRightIcon width={24} height={24} />
+                ) : (
+                  <TriangleLeftIcon width={24} height={24} />
+                )}
               </View>
             </ButtonLabeled>
           </View>
@@ -1544,13 +1564,14 @@ export default class extends React.Component {
               }
             >
               <View style={styles.buttonContent}>
-                <Image
-                  style={[
-                    styles.buttonIcon,
-                    panelSession?.holded && styles.holdedIcon,
-                  ]}
-                  source={require('../assets/icons/hold.png')}
-                />
+                <View style={styles.buttonIcon}>
+                  <HoldIcon
+                    width={24}
+                    height={24}
+                    color={panelSession?.holded ? '#FF5349' : undefined}
+                  />
+                </View>
+
                 {!this.state.headerButtonsCollapsible && (
                   <Text style={styles.buttonText}>
                     {panelSession?.holded
@@ -1575,21 +1596,20 @@ export default class extends React.Component {
               onPress={this.handleDtmfMenuButtonClick}
             >
               <View style={styles.buttonContent}>
-                <Image
-                  style={styles.buttonIcon}
-                  source={require('../assets/icons/keypad.png')}
-                />
+                <KeypadIcon width={32} height={32} />
                 {!this.state.headerButtonsCollapsible && (
                   <Text style={styles.buttonText}>
                     {uawMsgs.LBL_CALL_DTMF_MENU_BUTTON}
                   </Text>
                 )}
-                <Image
-                  style={styles.menuIcon}
-                  source={require(
-                    `../assets/icons/${props.uiData.showingDialogVersion !== this.state.dtmfMenuShowingDialogVersion ? 'triangle_right' : 'triangle_left'}.png`,
+                <View>
+                  {props.uiData.showingDialogVersion !==
+                  this.state.dtmfMenuShowingDialogVersion ? (
+                    <TriangleRightIcon width={24} height={24} />
+                  ) : (
+                    <TriangleLeftIcon width={24} height={24} />
                   )}
-                />
+                </View>
               </View>
             </ButtonLabeled>
           </View>
@@ -1613,12 +1633,10 @@ export default class extends React.Component {
               }
             >
               <View style={styles.buttonContent}>
-                <Image
-                  style={[
-                    styles.buttonIcon,
-                    panelSession?.cameraMuted && styles.mutedIcon,
-                  ]}
-                  source={require('../assets/icons/no_video.png')}
+                <NoVideoIcon
+                  width={24}
+                  height={24}
+                  color={panelSession?.cameraMuted ? '#FF5349' : undefined}
                 />
                 {!this.state.headerButtonsCollapsible && (
                   <Text style={styles.buttonText}>
@@ -1638,12 +1656,14 @@ export default class extends React.Component {
               ]}
               onPress={this.handleCameraMenuButtonClick}
             >
-              <Image
-                style={styles.menuIcon}
-                source={require(
-                  `../assets/icons/${props.uiData.showingDialogVersion !== this.state.cameraMenuShowingDialogVersion ? 'triangle_right' : 'triangle_left'}.png`,
+              <View style={styles.menuButton}>
+                {props.uiData.showingDialogVersion !==
+                this.state.cameraMenuShowingDialogVersion ? (
+                  <TriangleRightIcon width={24} height={24} />
+                ) : (
+                  <TriangleLeftIcon width={24} height={24} />
                 )}
-              />
+              </View>
             </ButtonLabeled>
           </View>
         )}
@@ -1667,12 +1687,10 @@ export default class extends React.Component {
               }
             >
               <View style={styles.buttonContent}>
-                <Image
-                  style={[
-                    styles.buttonIcon,
-                    session?.muted?.main && styles.mutedIcon,
-                  ]}
-                  source={require('../assets/icons/block_microphone.png')}
+                <BlockMicrophoneIcon
+                  width={32}
+                  height={32}
+                  color={session?.muted?.main ? '#FF5349' : undefined}
                 />
                 {!this.state.headerButtonsCollapsible && (
                   <Text style={styles.buttonText}>
@@ -1704,10 +1722,7 @@ export default class extends React.Component {
             ]}
             onPress={this.handleCallMenuButtonClick}
           >
-            <Image
-              style={styles.buttonIcon}
-              source={require('../assets/icons/chevron_down.png')}
-            />
+            <ChevronDownIcon width={32} height={32} />
           </ButtonLabeled>
 
           <ButtonLabeled
@@ -1724,10 +1739,9 @@ export default class extends React.Component {
               )
             }
           >
-            <Image
-              style={styles.buttonIcon}
-              source={require('../assets/icons/end_call.png')}
-            />
+            <View style={styles.buttonIcon}>
+              <EndCallIcon width={24} height={24} />
+            </View>
           </ButtonLabeled>
         </View>
       </View>
@@ -1776,18 +1790,13 @@ export default class extends React.Component {
                       this.handleTransferTargetUserGroupClick(groupName)
                     }
                   >
-                    <Image
-                      style={styles.transferTargetUserGroupIcon}
-                      source={require(
-                        `../assets/icons/${
-                          this.state.transferTargetUserGroupOpen
-                            .split(',')
-                            .indexOf(groupName) !== -1
-                            ? 'chevron_up.png'
-                            : 'chevron_down.png'
-                        }`,
-                      )}
-                    />
+                    {this.state.transferTargetUserGroupOpen
+                      .split(',')
+                      .indexOf(groupName) !== -1 ? (
+                      <ChevronUpIcon width={16} height={16} />
+                    ) : (
+                      <ChevronDownIcon width={16} height={16} />
+                    )}
                     <Text style={styles.transferTargetUserGroupName}>
                       {groupName}
                     </Text>
@@ -1820,10 +1829,7 @@ export default class extends React.Component {
               ghost={true}
               onPress={this.handleTransferTargetButtonClick}
             >
-              <Image
-                style={styles.transferIcon}
-                source={require('../assets/icons/phone.png')}
-              />
+              <PhoneIcon width={16} height={16} />
             </ButtonLabeled>
 
             <ButtonLabeled
@@ -1845,14 +1851,8 @@ export default class extends React.Component {
               }
             >
               <View style={styles.transferIconContainer}>
-                <Image
-                  style={styles.transferIcon}
-                  source={require('../assets/icons/phone.png')}
-                />
-                <Image
-                  style={styles.transferArrowIcon}
-                  source={require('../assets/icons/arrow_right.png')}
-                />
+                <PhoneIcon width={16} height={16} />
+                <ArrowRightIcon width={16} height={16} />
               </View>
               <Text style={styles.transferButtonText}>
                 {uawMsgs.LBL_CALL_TRANSFER_COMPLETE_BUTTON}
@@ -1878,9 +1878,10 @@ export default class extends React.Component {
                   )
                 }
               >
-                <Image
-                  style={styles.transferIcon}
-                  source={require('../assets/icons/conference_foreground_selected.png')}
+                <ConferenceForegroundSelectedIcon
+                  width={16}
+                  height={16}
+                  color='#FFFFFF'
                 />
                 <Text style={styles.transferButtonText}>
                   {uawMsgs.LBL_CALL_TRANSFER_CONFERENCE_BUTTON}
@@ -1907,14 +1908,10 @@ export default class extends React.Component {
               }
             >
               <View style={styles.transferIconContainer}>
-                <Image
-                  style={styles.transferIcon}
-                  source={require('../assets/icons/phone.png')}
-                />
-                <Image
-                  style={styles.transferArrowIcon}
-                  source={require('../assets/icons/arrow_left.png')}
-                />
+                <PhoneIcon width={16} height={16} />
+                <View style={{ marginLeft: 4 }}>
+                  <ArrowLeftIcon width={12} height={12} />
+                </View>
               </View>
               <Text style={styles.transferButtonText}>
                 {uawMsgs.LBL_CALL_TRANSFER_CANCEL_BUTTON}
@@ -1945,7 +1942,7 @@ export default class extends React.Component {
                   <SoundAudio
                     uiData={props.uiData}
                     style={styles.dtmfSoundAudio}
-                    src={`${CURRENT_SCRIPT_URL.DIR}../../../sounds/${
+                    src={`${CURRENT_SCRIPT_URL.DIR}../sounds/${
                       tone === '*' ? 'asterisk' : tone === '#' ? 'pound' : tone
                     }.mp3`}
                     playing={

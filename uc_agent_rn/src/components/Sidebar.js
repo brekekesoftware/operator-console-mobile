@@ -2,7 +2,6 @@ import React from 'react'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ReactDOM from 'react-dom'
 import ButtonIconic from './ButtonIconic.js'
 import DndableSafe from './DndableSafe.js'
 import MenuBalloonDialog from './MenuBalloonDialog.js'
@@ -23,6 +22,29 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native'
+import AboutIcon from '../icons/AboutIcon.js'
+import PhoneIcon from '../icons/PhoneIcon.js'
+import ConferenceForegroundSelectedIcon from '../icons/ConferenceForegroundSelectedIcon.js'
+import BroadcastingIcon from '../icons/BroadcastingIcon.js'
+import SendIcon from '../icons/SendIcon.js'
+import AddFolderIcon from '../icons/AddFolderIcon.js'
+import ListIcon from '../icons/ListIcon.js'
+import FiltrationIcon from '../icons/FiltrationIcon.js'
+import BinIcon from '../icons/BinIcon.js'
+import EditIcon from '../icons/EditIcon.js'
+import UserIcon from '../icons/UserIcon.js'
+import HistoryIcon from '../icons/HistoryIcon.js'
+import SettingsIcon from '../icons/SettingsIcon.js'
+import MoreIcon from '../icons/MoreIcon.js'
+import LogOutIcon from '../icons/LogOutIcon.js'
+import CheckIcon from '../icons/CheckIcon.js'
+import SquareIcon from '../icons/SquareIcon.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
+import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import ChannelMosaic4Icon from '../icons/ChannelMosaic4Icon.js'
+import ChannelMosaic12Icon from '../icons/ChannelMosaic12Icon.js'
+import InternetIcon from '../icons/InternetIcon.js'
+import ChannelMosaic1Icon from '../icons/ChannelMosaic1Icon.js'
 
 /**
  * Sidebar
@@ -471,23 +493,13 @@ export default class extends React.Component {
               title={`{0}${nameDisplayMode === 1 ? ` (${buddy.user_id}) ` : ' '}${string(status.display)}`}
               buddy={buddy}
             />
-            <Image
-              source={icons.phone}
-              style={styles.brCallStatusIcon}
-              accessibilityLabel={uawMsgs.LBL_SIDEBAR_CALL_STATUS_ICON_TOOLTIP}
-            />
-            <Image
-              source={icons.conference}
-              style={styles.brConferenceStatusIcon}
-              accessibilityLabel={
-                uawMsgs.LBL_SIDEBAR_CONFERENCE_STATUS_ICON_TOOLTIP
-              }
-            />
-            <Image
-              source={icons.internet}
-              style={styles.brConferenceStatusWebchatIcon}
-              accessibilityLabel={`${uawMsgs.LBL_SIDEBAR_CONFERENCE_STATUS_ICON_TOOLTIP} (Webchat)`}
-            />
+            <PhoneIcon width={16} height={16} />
+            <View style={{ marginHorizontal: 4 }}>
+              <ConferenceForegroundSelectedIcon width={16} height={16} />
+            </View>
+            <View style={{ marginHorizontal: 4 }}>
+              <InternetIcon width={16} height={16} />
+            </View>
             <Text
               style={styles.brBuddylistItemInfo}
               accessibilityLabel={string(status.display)}
@@ -617,14 +629,13 @@ export default class extends React.Component {
                   : ''}
               </Text>
             </View>
-            <Image
-              source={
-                buddylistOpenList.indexOf(groupName) !== -1
-                  ? icons.chevronUp
-                  : icons.chevronDown
-              }
-              style={styles.brBuddylistGroupOpenIcon}
-            />
+            <View style={{ marginLeft: 4 }}>
+              {buddylistOpenList.indexOf(groupName) !== -1 ? (
+                <ChevronUpIcon width={16} height={16} />
+              ) : (
+                <ChevronDownIcon width={16} height={16} />
+              )}
+            </View>
           </DndableSafe>
 
           <View
@@ -641,7 +652,7 @@ export default class extends React.Component {
       <ButtonIconic
         key='createConferenceButton'
         style={[styles.brControlButton, styles.brCreateConferenceButton]}
-        iconSource={icons.conferenceForeground}
+        iconSource={<ConferenceForegroundSelectedIcon />}
         accessibilityLabel={
           uawMsgs.LBL_SIDEBAR_CREATE_CONFERENCE_BUTTON_TOOLTIP
         }
@@ -652,7 +663,7 @@ export default class extends React.Component {
       <ButtonIconic
         key='sendBroadcastTextButton'
         style={[styles.brControlButton, styles.brSendBroadcastTextButton]}
-        iconSource={icons.broadcasting}
+        iconSource={<BroadcastingIcon />}
         accessibilityLabel={
           uawMsgs.LBL_SIDEBAR_SEND_BROADCAST_TEXT_BUTTON_TOOLTIP
         }
@@ -663,7 +674,7 @@ export default class extends React.Component {
       <ButtonIconic
         key='externalCallButton'
         style={[styles.brControlButton, styles.brExternalCallButton]}
-        iconSource={icons.phone}
+        iconSource={<PhoneIcon width={16} height={16} />}
         accessibilityLabel={uawMsgs.LBL_SIDEBAR_EXTERNAL_CALL_BUTTON_TOOLTIP}
         onPress={() => props.uiData.fire('sidebarExternalCallButton_onClick')}
       />,
@@ -681,7 +692,7 @@ export default class extends React.Component {
         <ButtonIconic
           key='outgoingWebchatButton'
           style={[styles.brControlButton, styles.brOutgoingWebchatButton]}
-          iconSource={icons.send}
+          iconSource={<SendIcon />}
           accessibilityLabel={
             uawMsgs.LBL_SIDEBAR_OUTGOING_WEBCHAT_BUTTON_TOOLTIP
           }
@@ -696,7 +707,7 @@ export default class extends React.Component {
         <ButtonIconic
           key='createGroupButton'
           style={[styles.brControlButton, styles.brCreateGroupButton]}
-          iconSource={icons.addFolder}
+          iconSource={<AddFolderIcon />}
           accessibilityLabel={uawMsgs.LBL_SIDEBAR_CREATE_GROUP_BUTTON_TOOLTIP}
           onPress={() => props.uiData.fire('sidebarCreateGroupButton_onClick')}
         />,
@@ -732,7 +743,7 @@ export default class extends React.Component {
               allUsersCount > buddy_max &&
               styles.brOver,
           ]}
-          iconSource={icons.list}
+          iconSource={<ListIcon />}
           accessibilityLabel={uawMsgs.LBL_SIDEBAR_USER_LIST_BUTTON_TOOLTIP}
           onPress={() => props.uiData.fire('sidebarUserListButton_onClick')}
         />,
@@ -771,7 +782,7 @@ export default class extends React.Component {
 
           <ButtonIconic
             style={styles.brBuddylistFilterButton}
-            iconSource={icons.filtration}
+            iconSource={<FiltrationIcon />}
             accessibilityLabel={
               uawMsgs.LBL_SIDEBAR_BUDDYLIST_FILTER_BUTTON_TOOLTIP
             }
@@ -795,10 +806,9 @@ export default class extends React.Component {
                   )
                 }
               >
-                <Image
-                  source={onlineOnly ? icons.check : icons.square}
-                  style={styles.checkboxIcon}
-                />
+                <View style={{ marginRight: 8 }}>
+                  {onlineOnly ? <CheckIcon /> : <SquareIcon />}
+                </View>
                 <Text style={styles.checkboxLabel}>
                   {uawMsgs.LBL_SIDEBAR_ONLINE_ONLY_ITEM}
                 </Text>
@@ -809,7 +819,7 @@ export default class extends React.Component {
           <DndableSafe
             uiData={props.uiData}
             style={styles.brBuddylistGroupRemoveDndable}
-            iconSource={icons.bin}
+            iconSource={<BinIcon />}
             onCheckCanDrop={ev =>
               configProperties.buddy_mode !== Constants.BUDDY_MODE_AUTO &&
               ev.dragSourceInfo &&
@@ -887,7 +897,7 @@ export default class extends React.Component {
                   statusMe.status === Constants.STATUS_OFFLINE &&
                     styles.brHidden,
                 ]}
-                iconSource={icons.edit}
+                iconSource={<EditIcon />}
                 accessibilityLabel={
                   uawMsgs.LBL_SIDEBAR_EDIT_STATUS_DISPLAY_BUTTON_TOOLTIP
                 }
@@ -919,7 +929,7 @@ export default class extends React.Component {
                       : styles.brHidden,
                   ]}
                 >
-                  <Image source={icons.check} style={styles.checkIcon} />
+                  <CheckIcon />
                 </View>
                 <Text>{s.label}</Text>
               </TouchableOpacity>
@@ -932,7 +942,7 @@ export default class extends React.Component {
                 props.uiData.fire('sidebarPreferenceButton_onClick')
               }
             >
-              <Image source={icons.user} style={styles.menuIcon} />
+              <UserIcon width={20} height={20} />
               <Text>{uawMsgs.LBL_SIDEBAR_PREFERENCE_ITEM}</Text>
             </TouchableOpacity>
 
@@ -940,7 +950,9 @@ export default class extends React.Component {
               style={[styles.brControlProfileItem, styles.brHistoryButton]}
               onPress={() => props.uiData.fire('sidebarHistoryButton_onClick')}
             >
-              <Image source={icons.history} style={styles.menuIcon} />
+              <View style={styles.menuIcon}>
+                <HistoryIcon width={20} height={20} />
+              </View>
               <Text>{uawMsgs.LBL_SIDEBAR_HISTORY_ITEM}</Text>
             </TouchableOpacity>
 
@@ -954,7 +966,9 @@ export default class extends React.Component {
               }
               disabled={configProperties.webchat_enabled !== 'true'}
             >
-              <Image source={icons.internet} style={styles.menuIcon} />
+              <View style={{ marginHorizontal: 4 }}>
+                <InternetIcon width={20} height={20} />
+              </View>
               <Text>{uawMsgs.LBL_SIDEBAR_WEBCHAT_REQUESTS_ITEM}</Text>
             </TouchableOpacity>
 
@@ -970,7 +984,9 @@ export default class extends React.Component {
                 true /* profile.user_type !== Constants.USER_TYPE_TENANT_ADMIN */
               }
             >
-              <Image source={icons.settings} style={styles.menuIcon} />
+              <View style={styles.menuIcon}>
+                <SettingsIcon width={20} height={20} />
+              </View>
               <Text>{uawMsgs.LBL_SIDEBAR_SERVER_PROPERTIES_ITEM}</Text>
             </TouchableOpacity>
 
@@ -983,7 +999,7 @@ export default class extends React.Component {
                   props.uiData.configurations.hideProductComp === 'true')
               }
             >
-              <Image source={icons.about} style={styles.menuIcon} />
+              <AboutIcon width={20} height={20} />
               <Text>
                 {formatStr(
                   uawMsgs.LBL_SIDEBAR_ABOUT_ITEM,
@@ -1019,7 +1035,7 @@ export default class extends React.Component {
               styles.brControlButtonsCollapsedMenuButton,
               this.state.controlButtonsCollapsedCount === 0 && styles.brHidden,
             ]}
-            iconSource={icons.more}
+            iconSource={<MoreIcon />}
             accessibilityLabel={
               uawMsgs.LBL_SIDEBAR_CONTROL_BUTTONS_COLLAPSED_MENU_BUTTON_TOOLTIP
             }
@@ -1054,11 +1070,13 @@ export default class extends React.Component {
                 styles.brIconChannelMosaic1,
             ]}
             iconSource={
-              props.uiData.mainAreaSplitters === 2
-                ? icons.channelMosaic4
-                : props.uiData.mainAreaSplitters === 1
-                  ? icons.channelMosaic12
-                  : icons.channelMosaic1
+              props.uiData.mainAreaSplitters === 2 ? (
+                <ChannelMosaic4Icon />
+              ) : props.uiData.mainAreaSplitters === 1 ? (
+                <ChannelMosaic12Icon />
+              ) : (
+                <ChannelMosaic1Icon />
+              )
             }
             accessibilityLabel={
               uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_BUTTON_TOOLTIP
@@ -1078,7 +1096,9 @@ export default class extends React.Component {
                   props.uiData.fire('sidebarAreaSplitterItem_onClick', 0)
                 }
               >
-                <Image source={icons.channelMosaic1} style={styles.menuIcon} />
+                <View style={styles.menuIcon}>
+                  <ChannelMosaic1Icon />
+                </View>
                 <Text style={styles.menuItemText}>
                   {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_0}
                 </Text>
@@ -1093,7 +1113,9 @@ export default class extends React.Component {
                   props.uiData.fire('sidebarAreaSplitterItem_onClick', 1)
                 }
               >
-                <Image source={icons.channelMosaic12} style={styles.menuIcon} />
+                <View style={styles.menuIcon}>
+                  <ChannelMosaic12Icon />
+                </View>
                 <Text style={styles.menuItemText}>
                   {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_1}
                 </Text>
@@ -1105,7 +1127,9 @@ export default class extends React.Component {
                   props.uiData.fire('sidebarAreaSplitterItem_onClick', 2)
                 }
               >
-                <Image source={icons.channelMosaic4} style={styles.menuIcon} />
+                <View style={styles.menuIcon}>
+                  <ChannelMosaic4Icon />
+                </View>
                 <Text style={styles.menuItemText}>
                   {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_2}
                 </Text>
@@ -1115,7 +1139,7 @@ export default class extends React.Component {
           <ButtonIconic
             ref={this.signOutButtonRef}
             style={[styles.brControlButton, styles.brSignOutButton]}
-            iconSource={icons.logOut}
+            iconSource={<LogOutIcon />}
             accessibilityLabel={uawMsgs.LBL_SIDEBAR_SIGN_OUT_BUTTON_TOOLTIP}
             onPress={() => props.uiData.fire('sidebarSignOutButton_onClick')}
           />

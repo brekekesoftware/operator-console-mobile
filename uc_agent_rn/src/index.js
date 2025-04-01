@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 
 import uawMsgs from './utilities/uawmsgs.js'
 import Constants from './utilities/constants.js'
@@ -15,7 +15,6 @@ import {
   parsePanelKey,
 } from './utilities/strings.js'
 import CURRENT_SCRIPT_URL from './utilities/currentscript.js'
-import cookie from './utilities/cookie.js'
 import './utilities/polyfills.js'
 
 import App from './apps/App.js'
@@ -31,16 +30,14 @@ import RnAsyncStorage from '@react-native-async-storage/async-storage'
 
 const Brekeke = (window.BLIB = window.Brekeke = window.Brekeke || {})
 Brekeke.UCClient =
-  Brekeke.UCClient || require('../../../web/js/brekeke/ucclient/ucclient.js')
+  Brekeke.UCClient || require('./js/brekeke/ucclient/ucclient.js')
 Brekeke.WebNotification =
   Brekeke.WebNotification ||
-  require('../../../web/js/brekeke/webnotification/webnotification.js')
+  require('./js/brekeke/webnotification/webnotification.js')
 const UcUiAction = (Brekeke.UcUiAction =
-  Brekeke.UcUiAction ||
-  require('../../../web/js/brekeke/ucuiaction/ucuiaction.js'))
+  Brekeke.UcUiAction || require('./js/brekeke/ucuiaction/ucuiaction.js'))
 const UcUiStore = (Brekeke.UcUiStore =
-  Brekeke.UcUiStore ||
-  require('../../../web/js/brekeke/ucuistore/ucuistore.js'))
+  Brekeke.UcUiStore || require('./js/brekeke/ucuistore/ucuistore.js'))
 
 CURRENT_SCRIPT_URL.init(/(^|.*\/)(ucagentwidget.*\.js)(.*)/)
 uawMsgs.init(CURRENT_SCRIPT_URL)
@@ -9404,7 +9401,7 @@ AgentComponent.prototype.checkAndShowSubWindow = async function () {
       )
     } catch (e) {}
     if (!windowBoxStr) {
-      windowBoxStr = cookie('brekeke.ucagentwidget.agentcomponent.subwindowbox')
+      // windowBoxStr = cookie('brekeke.ucagentwidget.agentcomponent.subwindowbox')
     }
     if (windowBoxStr) {
       const newWindowBox = JSON.parse(windowBoxStr)
@@ -10449,15 +10446,15 @@ SubWindowModule.prototype.onbeforeunload = function (e) {
         'UC.ucagentwidget.agentcomponent.subwindowbox',
         windowBoxStr,
       )
-      cookie('brekeke.ucagentwidget.agentcomponent.subwindowbox', null, {
-        expires: -1,
-      })
+      // cookie('brekeke.ucagentwidget.agentcomponent.subwindowbox', null, {
+      //   expires: -1,
+      // })
     } catch (e) {
-      cookie(
-        'brekeke.ucagentwidget.agentcomponent.subwindowbox',
-        windowBoxStr,
-        { expires: 365 },
-      )
+      // cookie(
+      //   'brekeke.ucagentwidget.agentcomponent.subwindowbox',
+      //   windowBoxStr,
+      //   { expires: 365 },
+      // )
     }
   } catch (e) {}
   if (this.alertsBeforeUnload) {
