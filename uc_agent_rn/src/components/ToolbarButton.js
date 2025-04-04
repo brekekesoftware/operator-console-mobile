@@ -140,7 +140,7 @@ export default class extends React.Component {
         )}
         {props.dropDown && (
           <Image
-            source={require('../assets/images/buttonArrows.png')}
+            source={require('../images/buttonArrows.png')}
             style={arrowStyles}
           />
         )}

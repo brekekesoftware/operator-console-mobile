@@ -794,15 +794,3 @@ const styles = StyleSheet.create({
   },
   // ... other icon styles
 })
-
-export const icons = {
-  send: require('../assets/icons/send.png'),
-  chat: require('../assets/icons/chat.png'),
-  triangleUp: require('../assets/icons/triangle-up.png'),
-  triangleDown: require('../assets/icons/triangle-down.png'),
-  logOut: require('../assets/icons/log-out.png'),
-  envelope: require('../assets/icons/envelope.png'),
-  upload: require('../assets/icons/upload.png'),
-  reply: require('../assets/icons/reply.png'),
-  // ... add other icons
-}

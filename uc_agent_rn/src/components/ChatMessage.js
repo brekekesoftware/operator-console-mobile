@@ -15,7 +15,10 @@ import NameEmbeddedSpan from './NameEmbeddedSpan.js'
 import ChatFileDownloadButton from './ChatFileDownloadButton.js'
 import ChatFileDownloadLargeButton from './ChatFileDownloadLargeButton.js'
 import { formatStr, formatFileSize, formatTime } from '../utilities/strings.js'
-
+import PhoneIcon from '../icons/PhoneIcon.js'
+import CloseIcon from '../icons/CloseIcon.js'
+import ErrorIcon from '../icons/ErrorIcon.js'
+import FileIcon from '../icons/FileIcon.js'
 const urlRegExp = new RegExp(
   "https?://[\\w!#\\$%&'\\(\\)\\*\\+,\\-\\./:;=\\?@~]+",
   'g',
@@ -97,11 +100,9 @@ export default class ChatMessage extends React.Component {
       if (props.message.errorType) {
         elements.push(
           <View key='error' style={styles.chatMessageError}>
-            <Image
-              source={require('../images/error.png')}
-              style={styles.errorIcon}
-              resizeMode='contain'
-            />
+            <View style={styles.errorIcon}>
+              <ErrorIcon color={colors.errorColor} />
+            </View>
           </View>,
         )
       }
@@ -125,11 +126,9 @@ export default class ChatMessage extends React.Component {
         // File icon and name
         elements.push(
           <View key='file' style={styles.fileContainer}>
-            <Image
-              source={require('../images/file.png')}
-              style={styles.fileIcon}
-              resizeMode='contain'
-            />
+            <View style={styles.fileIcon}>
+              <FileIcon />
+            </View>
             <Text style={styles.fileName}>{file.name}</Text>
           </View>,
         )
@@ -195,17 +194,13 @@ export default class ChatMessage extends React.Component {
                 !callResult.talklen && styles.callResultIconMissed,
               ]}
             >
-              <Image
-                source={require('../images/phone.png')}
-                style={styles.phoneIcon}
-                resizeMode='contain'
-              />
+              <View style={styles.phoneIcon}>
+                <PhoneIcon />
+              </View>
               {!callResult.talklen && (
-                <Image
-                  source={require('../images/close.png')}
-                  style={styles.missedCallIcon}
-                  resizeMode='contain'
-                />
+                <View style={styles.missedCallIcon}>
+                  <CloseIcon />
+                </View>
               )}
             </View>
             <Text style={styles.callResultTime}>

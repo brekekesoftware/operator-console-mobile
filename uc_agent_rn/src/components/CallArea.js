@@ -45,25 +45,6 @@ import ChevronDownIcon from '../icons/ChevronDownIcon.js'
 import ArrowRightIcon from '../icons/ArrowRightIcon.js'
 import ArrowLeftIcon from '../icons/ArrowLeftIcon.js'
 
-const icons = {
-  phone: require('../assets/icons/phone.png'),
-  video_call: require('../assets/icons/video_call.png'),
-  end_call: require('../assets/icons/end_call.png'),
-  more: require('../assets/icons/more.png'),
-  triangle_right: require('../assets/icons/triangle_right.png'),
-  triangle_left: require('../assets/icons/triangle_left.png'),
-  hold: require('../assets/icons/hold.png'),
-  keypad: require('../assets/icons/keypad.png'),
-  no_video: require('../assets/icons/no_video.png'),
-  block_microphone: require('../assets/icons/block_microphone.png'),
-  chevron_down: require('../assets/icons/chevron_down.png'),
-  arrow_right: require('../assets/icons/arrow_right.png'),
-  arrow_left: require('../assets/icons/arrow_left.png'),
-  conference_foreground_selected: require('../assets/icons/conference_foreground_selected.png'),
-  chevron_up: require('../assets/icons/chevron_up.png'),
-  noimage: require('../assets/images/noimage.png'),
-}
-
 const styles = StyleSheet.create({
   brCallArea: {
     position: 'absolute',
@@ -1248,7 +1229,10 @@ export default class extends React.Component {
                 style={styles.profileImage}
               />
             ) : (
-              <Image source={icons.noimage} style={styles.profileImage} />
+              <Image
+                source={require('../images/noimage.png')}
+                style={styles.profileImage}
+              />
             )}
           </View>
 

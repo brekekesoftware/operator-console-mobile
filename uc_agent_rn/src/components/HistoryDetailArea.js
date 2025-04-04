@@ -14,6 +14,9 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ChatParagraph from './ChatParagraph.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
+import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import ErrorIcon from '../icons/ErrorIcon.js'
 
 /**
  * HistoryDetailArea - React Native version
@@ -239,25 +242,20 @@ export default class HistoryDetailArea extends React.Component {
     let icon = null
 
     if (isClickable) {
-      // TODO: Add chevron icon
       icon = (
-        <Image
-          source={
-            index === 0
-              ? require('../assets/images/chevron_up.png')
-              : require('../assets/images/chevron_down.png')
-          }
-          style={[styles.showmorelinkIcon, { tintColor: colors.darkGray }]}
-          resizeMode='contain'
-        />
+        <View style={styles.showmorelinkIcon}>
+          {index === 0 ? (
+            <ChevronUpIcon color={colors.darkGray} />
+          ) : (
+            <ChevronDownIcon color={colors.darkGray} />
+          )}
+        </View>
       )
     } else if (isError) {
       icon = (
-        <Image
-          source={require('../assets/images/error.png')}
-          style={[styles.showmorelinkIcon, styles.errorIcon]}
-          resizeMode='contain'
-        />
+        <View style={styles.showmorelinkIcon}>
+          <ErrorIcon color={colors.errorColor} />
+        </View>
       )
     } else if (isProgress) {
       icon = (

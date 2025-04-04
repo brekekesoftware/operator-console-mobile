@@ -13,6 +13,9 @@ import { int, string } from '../utilities/strings.js'
 import ButtonIconic from './ButtonIconic.js'
 import ButtonLabeled from './ButtonLabeled.js'
 import TextBox from './TextBox.js'
+import DownloadIcon from '../icons/DownloadIcon.js'
+import CloseIcon from '../icons/CloseIcon.js'
+import EditIcon from '../icons/EditIcon.js'
 
 const colors = {
   white: '#FFFFFF',
@@ -190,13 +193,13 @@ export default class extends React.Component {
             />
             <ButtonIconic
               style={styles.useLaterButton}
-              iconSource={require('../assets/images/download.png')}
+              iconSource={<DownloadIcon />}
               title={uawMsgs.LBL_STATUS_DISPLAY_USE_LATER_BUTTON_TOOLTIP}
               onPress={this.handleUseLaterPress}
             />
             <ButtonIconic
               style={styles.clearButton}
-              iconSource={require('../assets/images/close.png')}
+              iconSource={<CloseIcon />}
               title={uawMsgs.LBL_STATUS_DISPLAY_CLEAR_BUTTON_TOOLTIP}
               onPress={this.handleClearPress}
             />
@@ -222,13 +225,13 @@ export default class extends React.Component {
                   </Text>
                   <ButtonIconic
                     style={styles.editButton}
-                    iconSource={require('../assets/images/edit.png')}
+                    iconSource={<EditIcon />}
                     title={uawMsgs.LBL_STATUS_DISPLAY_ITEM_EDIT_BUTTON_TOOLTIP}
                     onPress={() => this.handleItemEdit(item)}
                   />
                   <ButtonIconic
                     style={styles.deleteButton}
-                    iconSource={require('../assets/images/close.png')}
+                    iconSource={<CloseIcon />}
                     title={
                       uawMsgs.LBL_STATUS_DISPLAY_ITEM_DELETE_BUTTON_TOOLTIP
                     }

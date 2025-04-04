@@ -4,8 +4,9 @@ Brekeke.UAWMsgs_default =
 
 const languageFiles = {
   default: require('../js/brekeke/uawmsgs/uawmsgs_default.js'),
-  en: require('../js/brekeke/uawmsgs/uawmsgs_en.js'),
+  it: require('../js/brekeke/uawmsgs/uawmsgs_it.js'),
   ja: require('../js/brekeke/uawmsgs/uawmsgs_ja.js'),
+  zh: require('../js/brekeke/uawmsgs/uawmsgs_zh.js'),
 }
 
 const uawMsgs = {

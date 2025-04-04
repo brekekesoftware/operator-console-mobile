@@ -26,7 +26,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import NewWindowIcon from '../icons/NewWindowIcon.js'
 import ReplyIcon from '../icons/ReplyIcon.js'
 import InternetIcon from '../icons/InternetIcon.js'
-import ConferenceIcon from '../icons/ConferenceIcon.js'
+import ConferenceIcon from '../icons/ConferenceForegroundSelectedIcon.js'
 import UserIcon from '../icons/UserIcon.js'
 import ChevronUpIcon from '../icons/ChevronUpIcon.js'
 
@@ -1066,12 +1066,3 @@ const styles = StyleSheet.create({
     width: 320,
   },
 })
-
-export const icons = {
-  newWindow: require('../assets/icons/new-window.png'),
-  reply: require('../assets/icons/reply.png'),
-  internet: require('../assets/icons/internet.png'),
-  conference: require('../assets/icons/conference.png'),
-  user: require('../assets/icons/user.png'),
-  chevronUp: require('../assets/icons/chevron-up.png'),
-}

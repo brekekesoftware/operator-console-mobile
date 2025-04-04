@@ -16,6 +16,9 @@ import DropDownMenu from './DropDownMenu.js'
 import MenuItem from './MenuItem.js'
 import NameEmbeddedSpan from './NameEmbeddedSpan.js'
 import TextBox from './TextBox.js'
+import CheckIcon from '../icons/CheckIcon.js'
+import SquareIcon from '../icons/SquareIcon.js'
+import ErrorIcon from '../icons/ErrorIcon.js'
 
 const colors = {
   white: '#FFFFFF',
@@ -327,13 +330,16 @@ export default class extends React.Component {
               ]}
             >
               <View style={styles.subjectError}>
-                <Animated.Image
-                  source={require('../assets/images/error.png')}
+                {/* <Animated.Image
+                  source={require('../images/error.png')}
                   style={[
                     styles.subjectErrorIcon,
                     { height: this.errorIconHeight },
                   ]}
-                />
+                /> */}
+                <View style={styles.subjectErrorIcon}>
+                  <ErrorIcon />
+                </View>
                 <Text style={styles.subjectErrorText}>
                   {this.state.subjectError}
                 </Text>
@@ -415,14 +421,13 @@ export default class extends React.Component {
                   onPressOut={() => this.setState({ hoveredBuddyIndex: null })}
                   disabled={buddy.disabled}
                 >
-                  <Image
-                    source={
-                      buddy.selected || buddy.disabled
-                        ? require('../assets/images/check.png')
-                        : require('../assets/images/square.png')
-                    }
-                    style={styles.buddyItemIcon}
-                  />
+                  <View style={styles.buddyItemTextContainer}>
+                    {buddy.selected || buddy.disabled ? (
+                      <CheckIcon />
+                    ) : (
+                      <SquareIcon />
+                    )}
+                  </View>
                   <NameEmbeddedSpan
                     ucUiStore={props.uiData.ucUiStore}
                     format={'{0}'}

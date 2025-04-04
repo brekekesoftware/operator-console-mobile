@@ -110,13 +110,13 @@ export default class extends React.Component {
   getIconSource = iconClass => {
     switch (iconClass) {
       case 'brIconWebchatQueueWarning':
-        return require('../assets/images/webchatqueue_warning.gif')
+        return require('../images/webchatqueue_warning.gif')
       case 'brIconWebchatQueueAlert':
-        return require('../assets/images/webchatqueue_alert.gif')
+        return require('../images/webchatqueue_alert.gif')
       case 'brIconWebchatQueueStarting':
       case 'brIconWebchatQueueOffline':
       default:
-        return require('../assets/images/webchatqueue.png')
+        return require('../images/webchatqueue.png')
     }
   }
 
@@ -222,7 +222,7 @@ export default class extends React.Component {
             <View style={styles.progressOverlay}>
               <Image
                 style={styles.overlayImage}
-                source={require('../assets/images/progress.gif')}
+                source={require('../images/progress.gif')}
               />
             </View>
           )}
@@ -230,7 +230,7 @@ export default class extends React.Component {
             <View style={styles.iconOverlay}>
               <Image
                 style={styles.overlayImage}
-                source={require('../assets/images/delete.png')}
+                source={require('../images/delete.png')}
               />
             </View>
           )}

@@ -261,5 +261,5 @@ const styles = StyleSheet.create({
 })
 
 export const images = {
-  resize: require('../assets/images/resize.png'),
+  resize: require('../images/resize.png'),
 }

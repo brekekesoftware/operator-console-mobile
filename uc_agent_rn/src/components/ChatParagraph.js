@@ -268,7 +268,7 @@ export default class extends React.Component {
 
     let imageSource = null
     if (!profile_image_url) {
-      imageSource = require('../assets/images/noimage.png')
+      imageSource = require('../images/noimage.png')
     } else if (
       profile_image_url.indexOf(Constants.PROFILE_IMAGE_URL_DOWNLOAD) === -1
     ) {

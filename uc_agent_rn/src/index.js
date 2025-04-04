@@ -1,5 +1,4 @@
 import React from 'react'
-// import ReactDOM from 'react-dom'
 
 import uawMsgs from './utilities/uawmsgs.js'
 import Constants from './utilities/constants.js'

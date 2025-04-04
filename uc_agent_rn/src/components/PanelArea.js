@@ -36,21 +36,6 @@ import ChevronDownIcon from '../icons/ChevronDownIcon.js'
 import SearchIcon from '../icons/SearchIcon.js'
 import MoreIcon from '../icons/MoreIcon.js'
 
-const icons = {
-  logOut: require('../assets/icons/log-out.png'),
-  reply: require('../assets/icons/reply.png'),
-  envelope: require('../assets/icons/envelope.png'),
-  upload: require('../assets/icons/upload.png'),
-  phone: require('../assets/icons/phone.png'),
-  videoCall: require('../assets/icons/video-call.png'),
-  channelMosaic1: require('../assets/icons/channel-mosaic-1.png'),
-  history: require('../assets/icons/history.png'),
-  chevronUp: require('../assets/icons/chevron-up.png'),
-  chevronDown: require('../assets/icons/chevron-down.png'),
-  search: require('../assets/icons/search.png'),
-  more: require('../assets/icons/more.png'),
-}
-
 /**
  * PanelArea
  * props.uiData

@@ -5,7 +5,8 @@ import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ButtonIconic from './ButtonIconic.js'
 import StatusIcon from './StatusIcon.js'
-
+import OokIcon from '../icons/OokIcon.js'
+import CloseIcon from '../icons/CloseIcon.js'
 const colors = {
   white: '#FFFFFF',
   platinum: '#E5E5E5',
@@ -160,10 +161,9 @@ export default class extends React.Component {
                 style={styles.statusbarMessageStatusIcon}
                 status={statusMe.status}
               />
-              <Image
-                style={styles.statusbarMessageStatusChecked}
-                source={require('../assets/images/ook.png')}
-              />
+              <View style={styles.statusbarMessageStatusChecked}>
+                <OokIcon />
+              </View>
             </View>
             <Text style={styles.statusbarMessageStatusLabel}>
               {statusMe.status === Constants.STATUS_AVAILABLE
@@ -181,7 +181,7 @@ export default class extends React.Component {
         </View>
         <ButtonIconic
           style={styles.statusbarCloseButton}
-          iconSource={require('../assets/images/close.png')}
+          iconSource={<CloseIcon />}
           title={uawMsgs.CMN_CLOSE}
           onPress={() => props.uiData.fire('statusbarCloseButton_onClick')}
         />

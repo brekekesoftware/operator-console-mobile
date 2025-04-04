@@ -13,6 +13,8 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import MenuBalloonDialog from './MenuBalloonDialog.js'
+import TriangleUpIcon from '../icons/TriangleUpIcon.js'
+import TriangleDownIcon from '../icons/TriangleDownIcon.js'
 
 /**
  * DropDownMenu - React Native version
@@ -176,15 +178,13 @@ export default class DropDownMenu extends React.Component {
           </Text>
 
           <View style={styles.iconContainer}>
-            <Image
-              source={
-                iconName === 'triangle_up'
-                  ? require('../assets/images/triangle_up.png')
-                  : require('../assets/images/triangle_down.png')
-              }
-              style={styles.icon}
-              resizeMode='contain'
-            />
+            <View style={styles.icon}>
+              {iconName === 'triangle_up' ? (
+                <TriangleUpIcon />
+              ) : (
+                <TriangleDownIcon />
+              )}
+            </View>
           </View>
         </TouchableOpacity>
 

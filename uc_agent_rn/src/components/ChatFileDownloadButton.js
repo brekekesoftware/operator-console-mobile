@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import RNFetchBlob from 'rn-fetch-blob'
 import Constants from '../utilities/constants.js'
+import DownloadIcon from '../icons/DownloadIcon.js'
 
 const colors = {
   darkGray: '#9e9e9e',
@@ -202,10 +203,10 @@ export default class extends React.Component {
           disabled={!isEnabled || isUnclickable}
           style={buttonStyles}
         >
-          <Image
-            source={require('../assets/images/download.png')}
-            style={iconStyles}
-          />
+          <View style={iconStyles}>
+            <DownloadIcon />
+          </View>
+
           <Text style={textStyles} numberOfLines={1}>
             {messageFile.name}
           </Text>

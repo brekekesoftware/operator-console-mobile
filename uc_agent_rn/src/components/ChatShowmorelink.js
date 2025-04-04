@@ -11,6 +11,9 @@ import {
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
+import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import ErrorIcon from '../icons/ErrorIcon.js'
 
 const colors = {
   white: '#FFFFFF',
@@ -288,12 +291,12 @@ export default class extends React.Component {
     let iconSource = null
     if (isIconic && !isError && !isProgress) {
       if (isFirst) {
-        iconSource = require('../assets/images/chevron_up.png')
+        iconSource = <ChevronUpIcon />
       } else {
-        iconSource = require('../assets/images/chevron_down.png')
+        iconSource = <ChevronDownIcon />
       }
     } else if (isError) {
-      iconSource = require('../assets/images/error.png')
+      iconSource = <ErrorIcon />
     }
 
     const linkStyles = [

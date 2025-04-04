@@ -3,6 +3,11 @@ import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import image from '@rollup/plugin-image'
+import url from '@rollup/plugin-url'
+import { fileURLToPath } from 'url'
+import path from 'path'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default {
   input: 'src/index.js',
@@ -15,6 +20,11 @@ export default {
     {
       file: 'dist/ucagentrn.esm.js',
       format: 'es',
+      exports: 'named',
+    },
+    {
+      file: 'dist/ucagentrn.iife.js',
+      format: 'iife',
       exports: 'named',
     },
   ],
@@ -33,27 +43,41 @@ export default {
     'react-native-dimensions',
     'react-native-linking',
     'react-native-platform-touchable',
-    // Add these to prevent bundling internal RN modules
     'EventEmitter',
-    /react-native\/.*/, // Exclude all react-native internal modules
+    /react-native\/.*/,
   ],
   plugins: [
     resolve({
       extensions: ['.js', '.jsx', '.json'],
       preferBuiltins: true,
       resolveOnly: [/^(?!react-native).*$/],
+      rootDir: path.join(__dirname, 'src'),
     }),
     commonjs({
-      include: /node_modules/,
+      include: [/node_modules/, 'src/js/**'],
       exclude: [/react-native\/.*/],
       transformMixedEsModules: true,
+      dynamicRequireTargets: [
+        // 'src/js/**/*.js',
+        '**/js/brekeke/*.js',
+        // 'src/index.js',
+        // '*/js/brekeke/ucclient/ucclient.js',
+      ],
     }),
     babel({
       babelHelpers: 'bundled',
       presets: ['@babel/preset-env', '@babel/preset-react'],
       exclude: ['node_modules/**', /react-native\/.*/],
+      include: ['src/**', 'src/js/**', '**/js/brekeke/*.js'],
     }),
     json(),
     image(),
+    url({
+      include: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.gif', '**/*.mp3'],
+      limit: 0,
+      emitFiles: true,
+      fileName: '[name][extname]',
+      destDir: 'dist/assets',
+    }),
   ],
 }

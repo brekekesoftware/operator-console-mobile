@@ -15,6 +15,8 @@ import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ChatList from './ChatList.js'
 import { formatTopicDate } from '../utilities/strings.js'
+import RadioCheckboxCheckedIcon from '../icons/RadioCheckboxCheckedIcon.js'
+import RadioCheckboxUncheckedIcon from '../icons/RadioCheckboxUncheckedIcon.js'
 
 const colors = {
   white: '#FFFFFF',
@@ -328,14 +330,15 @@ export default class extends React.Component {
   }
 
   renderCheckbox = selected => {
-    let imageSource
-    if (selected) {
-      imageSource = require('../assets/images/checkbox_selected.png')
-    } else {
-      imageSource = require('../assets/images/checkbox_unselected.png')
-    }
-
-    return <Image source={imageSource} style={styles.checkbox} />
+    return (
+      <View style={styles.checkbox}>
+        {selected ? (
+          <RadioCheckboxCheckedIcon />
+        ) : (
+          <RadioCheckboxUncheckedIcon />
+        )}
+      </View>
+    )
   }
 
   renderButton = (text, onPress, selected, style, textStyle) => {
@@ -560,7 +563,7 @@ export default class extends React.Component {
             ]}
           >
             <Image
-              source={require('../assets/images/progress.gif')}
+              source={require('../images/progress.gif')}
               style={styles.searchingIcon}
             />
             <Text style={styles.searchingMessage}>

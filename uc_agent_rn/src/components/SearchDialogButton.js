@@ -16,7 +16,7 @@ export default props => {
   return (
     <View>
       <ToolbarButton
-        iconSource={require('../assets/searchdialog.png')}
+        iconSource={require('../images/searchdialog.png')}
         title={uawMsgs.LBL_SEARCH_DIALOG_BUTTON_TOOLTIP}
         clickableInterval={WidgetConstants.CLICKABLE_INTERVAL}
         disabled={props.disabled}

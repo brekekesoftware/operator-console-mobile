@@ -640,7 +640,8 @@ if (!window.Brekeke.UCClientUI) {
               jingle: null,
               windowFocused: false,
               panelSelected: false,
-              changeLamp: eval(configProperties.optional_config.change_lamp),
+              // changeLamp: eval(configProperties.optional_config.change_lamp),
+              // TODO: check this params
             }
             lampObject.changeLamp(lampObject)
           }

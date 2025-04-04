@@ -20,6 +20,7 @@ import MenuBalloonDialog from './MenuBalloonDialog.js'
 import MenuItem from './MenuItem.js'
 import PanelArea from './PanelArea.js'
 import StatusIcon from './StatusIcon.js'
+import TriangleDownIcon from '../icons/TriangleDownIcon.js'
 
 /**
  * MainTabs
@@ -427,13 +428,14 @@ export default class MainTabs extends React.Component {
               props.uiData.fire('showingDialog_update')
             }}
           >
-            <Image
-              source={require('../assets/images/triangle_down.png')}
+            <View
               style={[
                 styles.menuIcon,
                 this.state.blinksTabMenu && styles.brBlinking,
               ]}
-            />
+            >
+              <TriangleDownIcon />
+            </View>
           </TouchableOpacity>
         )}
 

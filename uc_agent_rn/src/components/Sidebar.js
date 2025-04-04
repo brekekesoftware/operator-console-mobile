@@ -838,7 +838,7 @@ export default class extends React.Component {
                 props.uiData.configurations.hideProductComp === 'true') &&
               props.uiData.configurations.logoPath
                 ? { uri: props.uiData.configurations.logoPath }
-                : require('../assets/images/logo.png')
+                : require('../images/logo.png')
             }
             style={styles.brControlLogo}
             accessibilityLabel={
@@ -1529,31 +1529,3 @@ const styles = StyleSheet.create({
     // Add specific styles for sign out button
   },
 })
-
-export const icons = {
-  phone: require('../assets/icons/phone.png'),
-  conference: require('../assets/icons/conference.png'),
-  internet: require('../assets/icons/internet.png'),
-  chevronUp: require('../assets/icons/chevron-up.png'),
-  chevronDown: require('../assets/icons/chevron-down.png'),
-  conferenceForeground: require('../assets/icons/conference-foreground.png'),
-  broadcasting: require('../assets/icons/broadcasting.png'),
-  send: require('../assets/icons/send.png'),
-  addFolder: require('../assets/icons/add-folder.png'),
-  list: require('../assets/icons/list.png'),
-  filtration: require('../assets/icons/filtration.png'),
-  check: require('../assets/icons/check.png'),
-  square: require('../assets/icons/square.png'),
-  bin: require('../assets/icons/bin.png'),
-  edit: require('../assets/icons/edit.png'),
-  user: require('../assets/icons/user.png'),
-  history: require('../assets/icons/history.png'),
-  settings: require('../assets/icons/settings.png'),
-  about: require('../assets/icons/about.png'),
-  channelMosaic1: require('../assets/icons/channel-mosaic-1.png'),
-  channelMosaic12: require('../assets/icons/channel-mosaic-1-2.png'),
-  channelMosaic4: require('../assets/icons/channel-mosaic-4.png'),
-  more: require('../assets/icons/more.png'),
-  logOut: require('../assets/icons/log-out.png'),
-  // ... other icons
-}
