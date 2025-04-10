@@ -33,6 +33,7 @@ export const SystemSettingsForm = props => {
   }
 
   const d = props.systemSettingsData.getData()
+  console.log('#Duy Phan console d', d)
   const formItemStyle = {
     Item: {
       backgroundColor: 'transparent',

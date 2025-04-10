@@ -16,7 +16,7 @@ import SearchDialogButton from '../components/SearchDialogButton.js'
 class IconApp extends React.Component {
   render() {
     const { uiData, iconName, iconDisabled } = this.props
-
+    console.log('#Duy Phan console namene', iconName, uiData)
     if (iconName === 'webchatqueue') {
       return (
         <View style={[styles.brUCAgentApp, styles.brIconApp]}>

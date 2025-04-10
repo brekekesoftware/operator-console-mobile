@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 40,
     height: 36,
-    resizeMode: 'center',
+    resizeMode: 'contain',
   },
   dropDownButton: {
     width: 57,

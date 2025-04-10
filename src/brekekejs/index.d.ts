@@ -14,6 +14,13 @@ export type Brekeke = {
   Phone: {
     render: Function
   }
+  UCAgentWidget: {
+    AgentComponent: any
+  }
+  ElementManager: {
+    renderElement: any
+    renderComponent: any
+  }
   Phonebook: Phonebook
   WebNotification: WebNotification
 }

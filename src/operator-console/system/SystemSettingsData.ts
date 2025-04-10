@@ -73,6 +73,10 @@ export class SystemSettingsData {
     this._Data.ringtoneInfos = appData.ringtoneInfos
     this._Data.quickBusyClickToCall = appData.quickBusyClickToCall
     this._Data.ucUrl = appData.ucUrl
+    console.log(
+      '#Duy Phan console appData.ucChatAgentComponentEnabled',
+      appData.ucChatAgentComponentEnabled,
+    )
     this._Data.ucChatAgentComponentEnabled = appData.ucChatAgentComponentEnabled
       ? '1'
       : '0'

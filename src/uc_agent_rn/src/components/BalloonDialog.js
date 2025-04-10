@@ -10,7 +10,7 @@ import { StyleSheet, View } from 'react-native'
 export default props => {
   if (props.shows) {
     return (
-      <View style={styles.brBalloonDialog} onClick={ev => ev.stopPropagation()}>
+      <View style={styles.brBalloonDialog}>
         <View
           style={[
             styles.brBalloonDialogInner,
@@ -30,7 +30,7 @@ export default props => {
 
 const styles = StyleSheet.create({
   brBalloonDialog: {
-    position: relative,
+    position: 'relative',
     left: 0,
     top: 8,
     width: 0,

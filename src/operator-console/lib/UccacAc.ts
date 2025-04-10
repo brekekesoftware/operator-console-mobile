@@ -209,7 +209,6 @@ export class UccacAc {
     if (this._state !== UCCAC_AC_STATES.init) {
       return false
     }
-
     this._onAcErrorOccurredFunctionForUser = null
     this._confirmMessageWhenClosingWebchat = null
     this._AgentComponent.destroyComponent()

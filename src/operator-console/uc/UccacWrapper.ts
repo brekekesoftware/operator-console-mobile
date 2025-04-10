@@ -125,6 +125,7 @@ export class UccacWrapper {
     const lastUcChatAgentComponentEnabled = lastData.ucChatAgentComponentEnabled
 
     const uccacState = this._Uccac.getState()
+    // console.log('#Duy Phan console uccacState',uccacState, newUcChatAgentComponentEnabled)
     if (
       newUcChatAgentComponentEnabled === true &&
       uccacState !== UCCAC_UCCAC_STATES.init

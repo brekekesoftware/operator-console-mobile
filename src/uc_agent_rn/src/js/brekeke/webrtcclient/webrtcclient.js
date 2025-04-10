@@ -3097,7 +3097,6 @@ if (!Brekeke.WebrtcClient) {
           // prepare OscillatorNodes to send inband DTMF
           oscillators = {}
           dtmfOscillatorTable = {}
-
           ;[
             ['1', [697, 1209]],
             ['2', [697, 1336]],

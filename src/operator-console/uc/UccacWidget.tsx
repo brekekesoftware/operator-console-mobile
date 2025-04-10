@@ -40,14 +40,17 @@ export class UccacWidget extends React.Component<
   _onUccacDeinitFunction
   _uccacRootElementRef
   _onUccacInitSuccessFunction
+  _uccacClientPanelRootRef
 
   constructor(props) {
     super(props)
+
     this._IsEditMode = !props.context
     this._OperatorConsoleAsParent = props.operatorConsoleAsParent
     this._UccacWrapper = props.uccacWrapper
     this.state = { isRestartButtonDisabled: false }
     this._uccacAc = null
+    this._uccacClientPanelRootRef = createRef()
 
     if (!this._IsEditMode) {
       this._uccacRootElementRef = createRef()
@@ -69,6 +72,10 @@ export class UccacWidget extends React.Component<
   }
 
   _refreshUccacAc() {
+    console.log(
+      '#Duy Phan console this._UccacWrapper.isInitialized()',
+      this._UccacWrapper.isInitialized(),
+    )
     if (this._UccacWrapper.isInitialized() === true) {
       this._initUccacAc()
     } else {
@@ -120,26 +127,16 @@ export class UccacWidget extends React.Component<
       this._uccacAc = null
     }
 
-    const eUccacRoot = this._uccacRootElementRef.current
-    const eWebchatqueue = eUccacRoot.querySelector('span[name="webchatqueue"]')
-    const eWebchatpickup = eUccacRoot.querySelector(
-      'span[name="webchatpickup"]',
-    )
-    const eSearch = eUccacRoot.querySelector('span[name="search"]')
-    const eUcclientPanelRoot = eUccacRoot.querySelector(
-      'div[name="ucclientPanelRoot"]',
-    )
-
     this._uccacAc = this._UccacWrapper.addUccacAc()
     const initUccacAcOptions = {
-      acIconParentsWebchatqueue: eWebchatqueue,
-      acIconParentsWebchatpickup: eWebchatpickup,
-      acIconParentsSearch: eSearch,
+      acIconParentsWebchatqueue: 'webchatqueue',
+      acIconParentsWebchatpickup: 'webchatpickup',
+      acIconParentsSearch: 'search',
     }
     this._uccacAc.init(initUccacAcOptions)
 
     const startUCClientOptions = {
-      ucclientWidgetParent: eUcclientPanelRoot,
+      ucclientWidgetParent: 'ucclientPanelRoot',
       ucclientUcurl: this._UccacWrapper.getUcurl(),
       ucclientTenant: this._OperatorConsoleAsParent.getLoginTenantname(),
       ucclientUser: this._OperatorConsoleAsParent.getLoginUsername(),
@@ -161,12 +158,8 @@ export class UccacWidget extends React.Component<
 
     this.setState({ isRestartButtonDisabled: true }, () => {
       this._uccacAc.stopUCClient()
-      const eUccacRoot = this._uccacRootElementRef.current
-      const eUcclientPanelRoot = eUccacRoot.querySelector(
-        'div[name="ucclientPanelRoot"]',
-      )
       const startUCClientOptions = {
-        ucclientWidgetParent: eUcclientPanelRoot,
+        ucclientWidgetParent: 'ucclientPanelRoot',
         ucclientUcurl: this._UccacWrapper.getUcurl(),
         ucclientTenant: this._OperatorConsoleAsParent.getLoginTenantname(),
         ucclientUser: this._OperatorConsoleAsParent.getLoginUsername(),
@@ -310,14 +303,18 @@ export class UccacWidget extends React.Component<
           >
             <View style={styles.leftPanel}>
               <Text style={{ color: uccacwidgetFgColor }}>
-                {'webchatqueue'}
+                {window.Brekeke.ElementManager.renderElement('webchatqueue')}
               </Text>
               <Text style={{ color: uccacwidgetFgColor }}>
-                {'webchatpickup'}
+                {window.Brekeke.ElementManager.renderElement('webchatpickup')}
               </Text>
-              <Text style={{ color: uccacwidgetFgColor }}>{'search'}</Text>
+              <Text style={{ color: uccacwidgetFgColor }}>
+                {window.Brekeke.ElementManager.renderElement('search')}
+              </Text>
             </View>
-            <View style={styles.rightPanel} />
+            <View style={styles.rightPanel}>
+              {window.Brekeke.ElementManager.renderElement('ucclientPanelRoot')}
+            </View>
           </View>
           <View style={styles.footer}>
             <Button
