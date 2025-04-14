@@ -24,7 +24,7 @@ import DialogApp from './apps/DialogApp.js'
 import StaticApp from './apps/StaticApp.js'
 import ChatOnlyApp from './apps/ChatOnlyApp.js'
 import UndockedPanelSubWindowApp from './apps/UndockedPanelSubWindowApp.js'
-import ElementManager from './utilities/elementManager.js'
+import ElementManager from './utilities/elementmanager.js'
 import { View } from 'react-native'
 import RnAsyncStorage from '@react-native-async-storage/async-storage'
 import ParentElement from './components/ParentElement.js'
@@ -40,7 +40,7 @@ const UcUiAction = (Brekeke.UcUiAction =
 const UcUiStore = (Brekeke.UcUiStore =
   Brekeke.UcUiStore || require('./js/brekeke/ucuistore/ucuistore.js'))
 
-CURRENT_SCRIPT_URL.init(/(^|.*\/)(ucagentwidget.*\.js)(.*)/)
+CURRENT_SCRIPT_URL.init()
 uawMsgs.init(CURRENT_SCRIPT_URL)
 
 /**
@@ -348,7 +348,7 @@ uiData.prototype.initPhone = function (option) {
 uiData.prototype.destroyApp = function () {
   let parentElement = null
   if (this.ownerDocument) {
-    let parentElement =
+    parentElement =
       typeof this.parentElement === 'string' ? this.parentElement : null
     this.addedEventListeners = []
 
@@ -492,137 +492,89 @@ uiData.prototype.render = function () {
   this.nextRenderingTimer = 0
   const parentElement =
     typeof this.parentElement === 'string' ? this.parentElement : null
+  if (this.iconName === 'webchatqueue') {
+    const signInStatus = this.ucUiStore.getSignInStatus()
+    console.log('#Duy Phan console signInStatus', signInStatus)
+  }
   if (parentElement) {
-    console.log('#Duy Phan console iconName', this.iconName)
     if (this.iconName) {
-      //   ReactDOM.render(
-      //     <IconApp
-      //       uiData={this}
-      //       iconName={this.iconName}
-      //       iconDisabled={this.iconDisabled}
-      //     />,
-      //     parentElement,
-      //   )
-      const temp = (
-        <IconApp
-          uiData={this}
-          iconName={this.iconName}
-          iconDisabled={this.iconDisabled}
-        />
-      )
-      const iconKey = `icon_${Date.now()}`
+      const iconKey = `icon_${this.iconName}`
       ElementManager.createElement(iconKey)
       ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, ParentElement)
-      ElementManager.setComponent(iconKey, () => temp)
+      ElementManager.setComponent(parentElement, View)
+      ElementManager.setComponent(iconKey, IconApp, {})
+      ElementManager.updateProps(iconKey, {
+        uiData: this,
+        iconName: this.iconName,
+        iconDisabled: this.iconDisabled,
+      })
       ElementManager.appendChild(parentElement, iconKey)
     } else if (this.dialogPanel) {
-      //   ReactDOM.render(
-      //     <DialogApp
-      //       uiData={this}
-      //       panelType={this.dialogPanel.panelType}
-      //       panelCode={this.dialogPanel.panelCode}
-      //       dialogOption={this.dialogOption}
-      //     />,
-      //     parentElement,
-      //   )
-      const temp = (
-        <DialogApp
-          uiData={this}
-          panelType={this.dialogPanel.panelType}
-          panelCode={this.dialogPanel.panelCode}
-          dialogOption={this.dialogOption}
-        />
-      )
       const dialogKey = `dialog_${Date.now()}`
       ElementManager.createElement(dialogKey)
       ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, ParentElement)
-      ElementManager.setComponent(dialogKey, () => temp)
+      ElementManager.setComponent(parentElement, View)
+      ElementManager.setComponent(dialogKey, DialogApp, {
+        uiData: this,
+        panelType: this.dialogPanel.panelType,
+        panelCode: this.dialogPanel.panelCode,
+        dialogOption: this.dialogOption,
+      })
       ElementManager.appendChild(parentElement, dialogKey)
     } else if (this.staticPanel) {
-      //   ReactDOM.render(
-      //     <StaticApp
-      //       uiData={this}
-      //       panelType={this.staticPanel.panelType}
-      //       panelCode={this.staticPanel.panelCode}
-      //     />,
-      //     parentElement,
-      //   )
-      const temp = (
-        <StaticApp
-          uiData={this}
-          panelType={this.staticPanel.panelType}
-          panelCode={this.staticPanel.panelCode}
-        />
-      )
       const staticKey = `static_${Date.now()}`
       ElementManager.createElement(staticKey)
       ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, ParentElement)
-      ElementManager.setComponent(staticKey, () => temp)
+      ElementManager.setComponent(parentElement, View)
+      ElementManager.setComponent(staticKey, StaticApp, {
+        uiData: this,
+        panelType: this.staticPanel.panelType,
+        panelCode: this.staticPanel.panelCode,
+      })
       ElementManager.appendChild(parentElement, staticKey)
     } else if (this.chatOnly) {
-      //   ReactDOM.render(
-      //     <ChatOnlyApp
-      //       uiData={this}
-      //       panelType={this.chatOnly.panelType}
-      //       panelCode={this.chatOnly.panelCode}
-      //     />,
-      //     parentElement,
-      //   )
-      const temp = (
-        <ChatOnlyApp
-          uiData={this}
-          panelType={this.chatOnly.panelType}
-          panelCode={this.chatOnly.panelCode}
-        />
-      )
       const chatOnlyKey = `chatOnly_${Date.now()}`
       ElementManager.createElement(chatOnlyKey)
       ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, ParentElement)
-      ElementManager.setComponent(chatOnlyKey, () => temp)
+      ElementManager.setComponent(parentElement, View)
+      ElementManager.setComponent(chatOnlyKey, ChatOnlyApp, {
+        uiData: this,
+        panelType: this.chatOnly.panelType,
+        panelCode: this.chatOnly.panelCode,
+      })
       ElementManager.appendChild(parentElement, chatOnlyKey)
     } else if (this.isSubWindow) {
-      //   ReactDOM.render(
-      //     <UndockedPanelSubWindowApp
-      //       uiData={this}
-      //       panelType={this.subWindowPanelType}
-      //       panelCode={this.subWindowPanelCode}
-      //     />,
-      //     parentElement,
-      //   )
-      const temp = (
-        <UndockedPanelSubWindowApp
-          uiData={this}
-          panelType={this.subWindowPanelType}
-          panelCode={this.subWindowPanelCode}
-        />
-      )
       const subWindowKey = `subWindow_${Date.now()}`
       ElementManager.createElement(subWindowKey)
       ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, ParentElement)
-      ElementManager.setComponent(subWindowKey, () => temp)
+      ElementManager.setComponent(parentElement, View)
+      ElementManager.setComponent(subWindowKey, UndockedPanelSubWindowApp, {
+        uiData: this,
+        panelType: this.subWindowPanelType,
+        panelCode: this.subWindowPanelCode,
+      })
       ElementManager.appendChild(parentElement, subWindowKey)
     } else if (this.isUC) {
-      const temp = <UCApp uiData={this} />
-      // ReactDOM.render(<UCApp uiData={this} />, parentElement)
       const ucKey = `uc_${Date.now()}`
       ElementManager.createElement(ucKey)
       ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, ParentElement)
-      ElementManager.setComponent(ucKey, () => temp)
+      ElementManager.setComponent(parentElement, View)
+      ElementManager.setComponent(ucKey, UCApp, {
+        uiData: this,
+      })
       ElementManager.appendChild(parentElement, ucKey)
     } else {
-      const temp = <App uiData={this} />
-      //   ReactDOM.render(<App uiData={this} />, parentElement)
-      const ucKey = `uc_${Date.now()}`
+      console.log('#Duy Phan console renderApp.js')
+      const ucKey = `uc_key`
       ElementManager.createElement(ucKey)
       ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, ParentElement)
-      ElementManager.setComponent(ucKey, () => temp)
+      ElementManager.setComponent(parentElement, View)
+      ElementManager.setComponent(ucKey, App, {
+        uiData: this,
+      })
+      ElementManager.updateProps(ucKey, {
+        uiData: this,
+      })
       ElementManager.appendChild(parentElement, ucKey)
     }
   }
@@ -7674,7 +7626,7 @@ const AgentComponent = function () {
  * option.configurations (optional)
  * option.handler (optional)
  */
-AgentComponent.prototype.initComponent = async function (option) {
+AgentComponent.prototype.initComponent = function (option) {
   if (this.initializeStatus !== 0) {
     return
   }
@@ -7824,7 +7776,6 @@ AgentComponent.prototype.initComponent = async function (option) {
     logger: this._logger,
     ucUiAction: this.dialogUcUiAction,
   })
-  console.log('#Duy Phan console  this.dialogUcUiAction', this.dialogUcUiAction)
   this.dialogUcUiStore.addHandler({
     searchConditionsChanged:
       this.dialogUcUiStore_searchConditionsChanged.bind(this),
@@ -8011,6 +7962,7 @@ AgentComponent.prototype.startUCClient = function (option) {
       confTagUpdated: this.chatClient_confTagUpdated.bind(this),
     })
     this._ucUiAction.signIn(this.option.signInOption)
+    console.log('#Duy Phan console startUCClient', this.option.widgetParent)
     if (this.option.widgetParent && !this.option.offline) {
       // init main widget uiData
       const signInOptionUrl = string(this.option.signInOption.url)
@@ -8038,10 +7990,6 @@ AgentComponent.prototype.startUCClient = function (option) {
 
   // init static dialog
   if (!this.option.offline) {
-    console.log(
-      '#Duy Phan console  this.dialogUcUiAction222',
-      this.dialogUcUiAction,
-    )
     this.dialogUcUiAction.setSearchConditions({
       chatType: 'HISTORYSEARCH',
       chatCode: '_static',

@@ -161,7 +161,11 @@ export default class extends React.Component {
         height: 90,
       }
     }
-
+    console.log(
+      '#Duy Phan console this.state.showingDialogVersion',
+      this.state.showingDialogVersion,
+      props.uiData.showingDialogVersion,
+    )
     return (
       <View style={styles.container}>
         <BalloonDialog

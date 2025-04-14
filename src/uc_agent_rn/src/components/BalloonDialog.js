@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   brBalloonDialog: {
     position: 'relative',
     left: 0,
-    top: 8,
+    top: 30,
     width: 0,
     height: 0,
   },

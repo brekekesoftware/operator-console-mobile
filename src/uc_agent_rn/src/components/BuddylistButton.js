@@ -102,6 +102,7 @@ export default class extends React.Component {
         </BalloonDialog>
         <ToolbarButton
           iconStyle={styles.brIconBuddylist}
+          iconSource={require('../images/buddylist.png')}
           title={uawMsgs.LBL_BUDDYLIST_BUTON_TOOLTIP}
           disabled={
             props.disabled ||

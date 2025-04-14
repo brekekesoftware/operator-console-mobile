@@ -4,6 +4,21 @@ declare global {
   }
 }
 
+declare class ElementManager {
+  createElement(key: string): any
+  appendChild(parentKey: string, childKey: string): void
+  removeChild(parentKey: string, childKey: string): void
+  getChildren(parentKey: string): string[]
+  setComponent(key: string, component: any, props?: Record<string, any>): void
+  getComponent(key: string): any
+  getProps(key: string): Record<string, any>
+  updateProps(key: string, newProps: Record<string, any>): void
+  registerUpdateCallback(key: string, callback: () => void): void
+  unregisterUpdateCallback(key: string, callback: () => void): void
+  triggerUpdate(key: string): void
+  renderComponent(key: string): any
+}
+
 export type Brekeke = {
   pbx: {
     getPal(wsUri: string, options: GetPalOptions): Pbx
@@ -17,10 +32,7 @@ export type Brekeke = {
   UCAgentWidget: {
     AgentComponent: any
   }
-  ElementManager: {
-    renderElement: any
-    renderComponent: any
-  }
+  ElementManager: ElementManager
   Phonebook: Phonebook
   WebNotification: WebNotification
 }

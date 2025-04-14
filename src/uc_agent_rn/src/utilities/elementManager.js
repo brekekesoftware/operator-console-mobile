@@ -1,7 +1,12 @@
+import React from 'react'
+import { View } from 'react-native'
+
 class ElementManager {
   constructor() {
     this.elements = new Map()
     this.children = new Map()
+    this.props = new Map()
+    this.updateCallbacks = new Map()
   }
 
   createElement(key) {
@@ -12,6 +17,8 @@ class ElementManager {
         parent: null,
       })
       this.children.set(key, [])
+      this.props.set(key, {})
+      this.updateCallbacks.set(key, [])
     }
     return this.elements.get(key)
   }
@@ -21,7 +28,6 @@ class ElementManager {
     const child = this.elements.get(childKey)
 
     if (parent && child) {
-      // Remove from old parent if exists
       if (child.parent) {
         const oldParentChildren = this.children.get(child.parent)
         const index = oldParentChildren.indexOf(childKey)
@@ -30,9 +36,10 @@ class ElementManager {
         }
       }
 
-      // Add to new parent
       child.parent = parentKey
       this.children.get(parentKey).push(childKey)
+
+      this.triggerUpdate(parentKey)
     }
   }
 
@@ -46,6 +53,8 @@ class ElementManager {
         if (child) {
           child.parent = null
         }
+
+        this.triggerUpdate(parentKey)
       }
     }
   }
@@ -54,10 +63,13 @@ class ElementManager {
     return this.children.get(parentKey) || []
   }
 
-  setComponent(key, component) {
+  setComponent(key, component, props = {}) {
     const element = this.elements.get(key)
     if (element) {
       element.component = component
+      this.props.set(key, props)
+
+      this.triggerUpdate(key)
     }
   }
 
@@ -66,18 +78,102 @@ class ElementManager {
     return element ? element.component : null
   }
 
+  getProps(key) {
+    return this.props.get(key) || {}
+  }
+
+  updateProps(key, newProps) {
+    const currentProps = this.props.get(key) || {}
+    const updatedProps = { ...currentProps, ...newProps }
+    this.props.set(key, updatedProps)
+
+    this.triggerUpdate(key)
+  }
+
+  registerUpdateCallback(key, callback) {
+    if (!this.updateCallbacks.has(key)) {
+      this.updateCallbacks.set(key, [])
+    }
+    this.updateCallbacks.get(key).push(callback)
+  }
+
+  unregisterUpdateCallback(key, callback) {
+    if (this.updateCallbacks.has(key)) {
+      const callbacks = this.updateCallbacks.get(key)
+      const index = callbacks.indexOf(callback)
+      if (index > -1) {
+        callbacks.splice(index, 1)
+      }
+    }
+  }
+
+  triggerUpdate(key) {
+    if (this.updateCallbacks.has(key)) {
+      this.updateCallbacks.get(key).forEach(callback => callback())
+    }
+
+    const element = this.elements.get(key)
+    if (element && element.parent) {
+      this.triggerUpdate(element.parent)
+    }
+  }
+
   renderComponent(key) {
     const element = this.elements.get(key)
     if (!element || !element.component) return null
 
     const Component = element.component
+    const props = this.getProps(key)
     const children = this.getChildren(key)
-    const childComponents = children.map(childKey =>
-      this.renderComponent(childKey),
-    )
 
-    return <Component key={key}>{childComponents}</Component>
+    const childComponents = []
+    for (let i = 0; i < children.length; i++) {
+      const childKey = children[i]
+      const childComponent = this.renderComponent(childKey)
+      if (childComponent) {
+        childComponents.push(childComponent)
+      }
+    }
+
+    const WrapperComponent = () => {
+      const [, forceUpdate] = React.useState({})
+
+      React.useEffect(() => {
+        const updateCallback = () => {
+          forceUpdate({})
+        }
+
+        this.registerUpdateCallback(key, updateCallback)
+
+        return () => {
+          this.unregisterUpdateCallback(key, updateCallback)
+        }
+      }, [])
+
+      return React.createElement(Component, { ...props, key }, childComponents)
+    }
+
+    return React.createElement(WrapperComponent, { key: `wrapper-${key}` })
   }
 }
 
-export default new ElementManager()
+const elementManager = new ElementManager()
+
+if (
+  typeof window !== 'undefined' &&
+  window.Brekeke &&
+  window.Brekeke.ElementManager
+) {
+  Object.getOwnPropertyNames(ElementManager.prototype).forEach(method => {
+    if (method !== 'constructor') {
+      window.Brekeke.ElementManager[method] =
+        elementManager[method].bind(elementManager)
+    }
+  })
+
+  Object.keys(elementManager).forEach(prop => {
+    window.Brekeke.ElementManager[prop] = elementManager[prop]
+  })
+}
+
+export default elementManager

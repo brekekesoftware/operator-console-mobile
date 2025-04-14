@@ -20,7 +20,7 @@ class App extends React.Component {
   render() {
     const props = this.props
     return (
-      <View className='brUCAgentApp'>
+      <View style={{ flex: 1 }}>
         <WidgetBody uiData={props.uiData} modalOverlayClassName='brUCAgentApp'>
           <RnAudioPlayer source={sound} />
           <MainArea className='brWithToolbar' uiData={props.uiData} />

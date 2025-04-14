@@ -333,7 +333,6 @@ export default class MainArea extends React.Component {
         ]}
         onLayout={this.onLayout}
       >
-        {/* Full area */}
         <View
           style={[
             styles.mainTabsArea,
@@ -354,7 +353,10 @@ export default class MainArea extends React.Component {
 
   render() {
     const { uiData } = this.props
-
+    console.log(
+      '#Duy Phan console uiData.mainAreaSplitters',
+      uiData.mainAreaSplitters,
+    )
     if (uiData.mainAreaSplitters === 2) {
       return this.renderWithTwoSplitters()
     } else if (uiData.mainAreaSplitters === 1) {
@@ -378,6 +380,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     overflow: 'hidden',
+    backgroundColor: colors.white,
   },
   splitters0: {},
   splitters1: {},

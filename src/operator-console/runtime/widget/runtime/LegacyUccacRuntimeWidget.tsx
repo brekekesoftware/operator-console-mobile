@@ -1,21 +1,7 @@
-import { createRef } from 'react'
-import type { ImageSourcePropType } from 'react-native'
-import {
-  Dimensions,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewComponent,
-} from 'react-native'
-import WebView from 'react-native-webview'
-
-import SearchDialogIcon from '../../../../assets/searchdialog.png'
-import WebChatPickupIcon from '../../../../assets/webchatpickup.png'
-import WebChatQueueIcon from '../../../../assets/webchatqueue.png'
+import { createRef, useRef } from 'react'
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native'
 
 import { i18n } from '../../../i18n'
-import { DynamicView } from '../../../lib/DynamicView'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
 import { Util } from '../../../Util'
 import { RuntimeWidget } from './RuntimeWidget'
@@ -31,10 +17,6 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
   refDynamicWebChatPickup
   constructor(props, context) {
     super(props, context)
-    console.log(
-      '#Duy Phan console window.Brekeke.ElementManager',
-      window.Brekeke.ElementManager,
-    )
     const oc = BrekekeOperatorConsole.getStaticInstance()
     this._UccacWrapper = oc.getUccacWrapper()
 
@@ -307,28 +289,34 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
               }}
             >
               <View>
-                {window.Brekeke.ElementManager.renderComponent('webchatqueue')}
+                <ElementWrapper elementKey='webchatqueue' />
               </View>
               <View>
-                {window.Brekeke.ElementManager.renderComponent('webchatpickup')}
+                <ElementWrapper elementKey='webchatpickup' />
               </View>
               <View>
-                {window.Brekeke.ElementManager.renderComponent('search')}
+                <ElementWrapper elementKey='search' />
               </View>
             </View>
             <View
               style={{ position: 'relative', width: '50%', height: '100%' }}
               ref={this._uccacRootElementRef}
             >
-              {window.Brekeke.ElementManager.renderComponent(
-                'ucclientPanelRoot',
-              )}
+              <ElementWrapper elementKey='ucclientPanelRoot' />
             </View>
           </View>
-          <View style={{ height: 30, padding: 4 }}>
+          <View style={{ padding: 4 }}>
             <TouchableOpacity
               disabled={this.state.isRestartButtonDisabled}
               onPress={this._onClickRestart.bind(this)}
+              style={{
+                backgroundColor: 'white',
+                width: 80,
+                height: 30,
+                borderRadius: 5,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
               <Text>{i18n.t('restart')}</Text>
             </TouchableOpacity>
@@ -336,5 +324,24 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
         </View>
       )
     }
+  }
+}
+
+const ElementWrapper = ({ elementKey }) => {
+  const isRenderingRef = useRef(false)
+  if (!window.Brekeke || !window.Brekeke.ElementManager) {
+    return null
+  }
+
+  if (isRenderingRef.current) {
+    console.warn(`Preventing infinite recursion for element: ${elementKey}`)
+    return null
+  }
+
+  try {
+    isRenderingRef.current = true
+    return window.Brekeke.ElementManager.renderComponent(elementKey)
+  } finally {
+    isRenderingRef.current = false
   }
 }

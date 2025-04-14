@@ -488,9 +488,9 @@ export default class MainTabs extends React.Component {
 
 // First, define the colors from the CSS variables
 const colors = {
-  medium_turquoise: '#color2', // Replace with actual color
-  blue_green: '#darkenColor2', // Replace with actual color
-  mantis: '#color1', // Replace with actual color
+  medium_turquoise: '#48D1CC',
+  blue_green: '#008B8B',
+  mantis: '#74C365',
   white: '#ffffff',
   snow: '#fafafa',
   white_smoke: '#f5f5f5',
