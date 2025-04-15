@@ -1,3 +1,4 @@
+import { DynamicView, ViewRegistryProvider } from 'dynamic-renderer'
 import { createRef, useRef } from 'react'
 import { Dimensions, Text, TouchableOpacity, View } from 'react-native'
 
@@ -289,20 +290,20 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
               }}
             >
               <View>
-                <ElementWrapper elementKey='webchatqueue' />
+                <DynamicView viewId='webchatqueue' />
               </View>
               <View>
-                <ElementWrapper elementKey='webchatpickup' />
+                <DynamicView viewId='webchatpickup' />
               </View>
               <View>
-                <ElementWrapper elementKey='search' />
+                <DynamicView viewId='search' />
               </View>
             </View>
             <View
               style={{ position: 'relative', width: '50%', height: '100%' }}
               ref={this._uccacRootElementRef}
             >
-              <ElementWrapper elementKey='ucclientPanelRoot' />
+              <DynamicView viewId='ucclientPanelRoot' />
             </View>
           </View>
           <View style={{ padding: 4 }}>
@@ -324,24 +325,5 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
         </View>
       )
     }
-  }
-}
-
-const ElementWrapper = ({ elementKey }) => {
-  const isRenderingRef = useRef(false)
-  if (!window.Brekeke || !window.Brekeke.ElementManager) {
-    return null
-  }
-
-  if (isRenderingRef.current) {
-    console.warn(`Preventing infinite recursion for element: ${elementKey}`)
-    return null
-  }
-
-  try {
-    isRenderingRef.current = true
-    return window.Brekeke.ElementManager.renderComponent(elementKey)
-  } finally {
-    isRenderingRef.current = false
   }
 }

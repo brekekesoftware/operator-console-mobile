@@ -209,6 +209,7 @@ export default class extends React.Component {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
+    backgroundColor: 'red',
   },
 
   brDialogResizableBoxResizable: {
@@ -220,6 +221,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    flex: 1,
   },
 
   brDisabled: {
@@ -228,6 +230,9 @@ const styles = StyleSheet.create({
 
   brDialogResizableBoxMovable: {
     position: 'absolute',
+    backgroundColor: 'white',
+    width: 500,
+    height: 400,
   },
 
   brDialogResizableBoxModal: {

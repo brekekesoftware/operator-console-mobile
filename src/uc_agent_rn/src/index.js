@@ -28,6 +28,7 @@ import ElementManager from './utilities/elementmanager.js'
 import { View } from 'react-native'
 import RnAsyncStorage from '@react-native-async-storage/async-storage'
 import ParentElement from './components/ParentElement.js'
+import { renderToView } from 'dynamic-renderer'
 
 const Brekeke = (window.BLIB = window.Brekeke = window.Brekeke || {})
 Brekeke.UCClient =
@@ -498,84 +499,108 @@ uiData.prototype.render = function () {
   }
   if (parentElement) {
     if (this.iconName) {
-      const iconKey = `icon_${this.iconName}`
-      ElementManager.createElement(iconKey)
-      ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, View)
-      ElementManager.setComponent(iconKey, IconApp, {})
-      ElementManager.updateProps(iconKey, {
+      // const iconKey = `icon_${this.iconName}`
+      // ElementManager.createElement(iconKey)
+      // ElementManager.createElement(parentElement)
+      // ElementManager.setComponent(parentElement, View)
+      // ElementManager.setComponent(iconKey, IconApp, {})
+      // ElementManager.updateProps(iconKey, {
+      //   uiData: this,
+      //   iconName: this.iconName,
+      //   iconDisabled: this.iconDisabled,
+      // })
+      // ElementManager.appendChild(parentElement, iconKey)
+      renderToView(parentElement, IconApp, {
         uiData: this,
         iconName: this.iconName,
         iconDisabled: this.iconDisabled,
       })
-      ElementManager.appendChild(parentElement, iconKey)
     } else if (this.dialogPanel) {
-      const dialogKey = `dialog_${Date.now()}`
-      ElementManager.createElement(dialogKey)
-      ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, View)
-      ElementManager.setComponent(dialogKey, DialogApp, {
+      // const dialogKey = `dialog_key`
+      // ElementManager.createElement(dialogKey)
+      // ElementManager.createElement(parentElement)
+      // ElementManager.setComponent(parentElement, View)
+      // ElementManager.setComponent(dialogKey, DialogApp, {})
+      // ElementManager.appendChild(parentElement, dialogKey)
+      // ElementManager.updateProps(dialogKey, {
+      //   uiData: this,
+      //   panelType: this.dialogPanel.panelType,
+      //   panelCode: this.dialogPanel.panelCode,
+      //   dialogOption: this.dialogOption,
+      // })
+      renderToView(parentElement, DialogApp, {
         uiData: this,
         panelType: this.dialogPanel.panelType,
         panelCode: this.dialogPanel.panelCode,
         dialogOption: this.dialogOption,
       })
-      ElementManager.appendChild(parentElement, dialogKey)
+      console.log('#Duy Phan console parentElement', parentElement)
     } else if (this.staticPanel) {
-      const staticKey = `static_${Date.now()}`
-      ElementManager.createElement(staticKey)
-      ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, View)
-      ElementManager.setComponent(staticKey, StaticApp, {
+      // const staticKey = `static_${Date.now()}`
+      // ElementManager.createElement(staticKey)
+      // ElementManager.createElement(parentElement)
+      // ElementManager.setComponent(parentElement, View)
+      // ElementManager.setComponent(staticKey, StaticApp, {
+      //   uiData: this,
+      //   panelType: this.staticPanel.panelType,
+      //   panelCode: this.staticPanel.panelCode,
+      // })
+      // ElementManager.appendChild(parentElement, staticKey)
+      renderToView(parentElement, StaticApp, {
         uiData: this,
         panelType: this.staticPanel.panelType,
         panelCode: this.staticPanel.panelCode,
       })
-      ElementManager.appendChild(parentElement, staticKey)
     } else if (this.chatOnly) {
-      const chatOnlyKey = `chatOnly_${Date.now()}`
-      ElementManager.createElement(chatOnlyKey)
-      ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, View)
-      ElementManager.setComponent(chatOnlyKey, ChatOnlyApp, {
+      renderToView(parentElement, ChatOnlyApp, {
         uiData: this,
         panelType: this.chatOnly.panelType,
         panelCode: this.chatOnly.panelCode,
       })
-      ElementManager.appendChild(parentElement, chatOnlyKey)
     } else if (this.isSubWindow) {
-      const subWindowKey = `subWindow_${Date.now()}`
-      ElementManager.createElement(subWindowKey)
-      ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, View)
-      ElementManager.setComponent(subWindowKey, UndockedPanelSubWindowApp, {
+      // const subWindowKey = `subWindow_${Date.now()}`
+      // ElementManager.createElement(subWindowKey)
+      // ElementManager.createElement(parentElement)
+      // ElementManager.setComponent(parentElement, View)
+      // ElementManager.setComponent(subWindowKey, UndockedPanelSubWindowApp, {
+      //   uiData: this,
+      //   panelType: this.subWindowPanelType,
+      //   panelCode: this.subWindowPanelCode,
+      // })
+      // ElementManager.appendChild(parentElement, subWindowKey)
+      renderToView(parentElement, UndockedPanelSubWindowApp, {
         uiData: this,
         panelType: this.subWindowPanelType,
         panelCode: this.subWindowPanelCode,
       })
-      ElementManager.appendChild(parentElement, subWindowKey)
     } else if (this.isUC) {
-      const ucKey = `uc_${Date.now()}`
-      ElementManager.createElement(ucKey)
-      ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, View)
-      ElementManager.setComponent(ucKey, UCApp, {
+      // const ucKey = `uc_${Date.now()}`
+      // ElementManager.createElement(ucKey)
+      // ElementManager.createElement(parentElement)
+      // ElementManager.setComponent(parentElement, View)
+      // ElementManager.setComponent(ucKey, UCApp, {
+      //   uiData: this,
+      // })
+      // ElementManager.appendChild(parentElement, ucKey)
+      renderToView(parentElement, UCApp, {
         uiData: this,
       })
-      ElementManager.appendChild(parentElement, ucKey)
     } else {
       console.log('#Duy Phan console renderApp.js')
-      const ucKey = `uc_key`
-      ElementManager.createElement(ucKey)
-      ElementManager.createElement(parentElement)
-      ElementManager.setComponent(parentElement, View)
-      ElementManager.setComponent(ucKey, App, {
+      // const ucKey = `uc_key`
+      // ElementManager.createElement(ucKey)
+      // ElementManager.createElement(parentElement)
+      // ElementManager.setComponent(parentElement, View)
+      // ElementManager.setComponent(ucKey, App, {
+      //   uiData: this,
+      // })
+      // ElementManager.updateProps(ucKey, {
+      //   uiData: this,
+      // })
+      // ElementManager.appendChild(parentElement, ucKey)
+      renderToView(parentElement, App, {
         uiData: this,
       })
-      ElementManager.updateProps(ucKey, {
-        uiData: this,
-      })
-      ElementManager.appendChild(parentElement, ucKey)
     }
   }
   this.changeLamp()
@@ -8480,7 +8505,7 @@ AgentComponent.prototype.showSearchDialog = function (option) {
   }
   //   const parentElement = this.option.ownerDocument.createElement('div')
   //   this.option.ownerDocument.body.appendChild(parentElement)
-  const parentElement = `dialogPanel_${Date.now()}`
+  const parentElement = `dialogPanel_top`
   const dialogOption = clone(option)
   if (!this.dialogWorkDataTable[dialogName]) {
     this.dialogWorkDataTable[dialogName] = {}

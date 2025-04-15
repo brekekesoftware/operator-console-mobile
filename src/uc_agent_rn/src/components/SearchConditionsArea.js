@@ -261,30 +261,34 @@ export default class SearchConditionsArea extends React.Component {
               </View>
             )
           })}
-        </ScrollView>
-
-        <View style={styles.searchButtonContainer}>
-          <TouchableOpacity
-            style={[
-              styles.searchButtonContainer,
-              styles.searchButton,
-              searchWorkData.searching && styles.searchButtonDisabled,
-            ]}
-            disabled={searchWorkData.searching}
-            onPress={() => this.handleDoSearchPress()}
-            activeOpacity={0.8}
-            pressRetentionOffset={{ top: 10, left: 10, right: 10, bottom: 10 }}
-          >
-            <Text
+          <View style={styles.searchButtonContainer}>
+            <TouchableOpacity
               style={[
-                styles.searchButtonText,
+                styles.searchButtonContainer,
+                styles.searchButton,
                 searchWorkData.searching && styles.searchButtonDisabled,
               ]}
+              disabled={searchWorkData.searching}
+              onPress={() => this.handleDoSearchPress()}
+              activeOpacity={0.8}
+              pressRetentionOffset={{
+                top: 10,
+                left: 10,
+                right: 10,
+                bottom: 10,
+              }}
             >
-              {uawMsgs.LBL_SEARCH_DO_BUTTON}
-            </Text>
-          </TouchableOpacity>
-        </View>
+              <Text
+                style={[
+                  styles.searchButtonText,
+                  searchWorkData.searching && styles.searchButtonDisabled,
+                ]}
+              >
+                {uawMsgs.LBL_SEARCH_DO_BUTTON}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     )
   }
@@ -314,6 +318,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dcdcd5',
     backgroundColor: '#FFFFFF',
+    width: 500,
+    height: 500,
   },
   conditionsContainer: {
     flex: 1,

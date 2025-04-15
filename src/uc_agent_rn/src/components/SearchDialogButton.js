@@ -20,7 +20,7 @@ export default props => {
         title={uawMsgs.LBL_SEARCH_DIALOG_BUTTON_TOOLTIP}
         clickableInterval={WidgetConstants.CLICKABLE_INTERVAL}
         disabled={props.disabled}
-        onClick={props.uiData.fire.bind(
+        onPress={props.uiData.fire.bind(
           props.uiData,
           'searchDialogButton_onClick',
           {},

@@ -3,6 +3,7 @@ import '../api'
 
 import { Provider } from '@ant-design/react-native'
 import NetInfo from '@react-native-community/netinfo'
+import { ViewRegistryProvider } from 'dynamic-renderer'
 import { debounce } from 'lodash'
 import { reaction, runInAction } from 'mobx'
 import { observer } from 'mobx-react'
@@ -400,7 +401,9 @@ export const App = observer(() => {
           >
             <Provider>
               <GestureHandlerRootView>
-                <BrekekeOperatorConsole />
+                <ViewRegistryProvider>
+                  <BrekekeOperatorConsole />
+                </ViewRegistryProvider>
               </GestureHandlerRootView>
             </Provider>
           </ToastProvider>

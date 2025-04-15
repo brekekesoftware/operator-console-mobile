@@ -104,6 +104,7 @@ export default class extends React.Component {
       props.uiData.fire('webchatQueueButton_onClick', { visible: true })
     } else {
       props.uiData.fire('webchatQueueButton_onClick', { visible: false })
+      props.uiData.window_onclick()
     }
   }
 

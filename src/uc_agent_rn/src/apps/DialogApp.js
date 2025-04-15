@@ -81,6 +81,7 @@ class DialogApp extends React.Component {
       dialogOption: option = {},
     } = this.props
     let contents = null
+    console.log('#Duy Phan console panelType', panelType)
 
     if (panelType === 'CONFERENCE' || panelType === 'CHAT') {
       contents = (
@@ -135,7 +136,7 @@ class DialogApp extends React.Component {
         <View
           style={[styles.brDialogTitle, option.draggable && styles.brDraggable]}
         >
-          <Text>{string(option.title)}</Text>
+          <Text style={{ flex: 1 }}>{string(option.title)}</Text>
           <TouchableOpacity
             style={[
               styles.brDialogCloseButton,
@@ -180,16 +181,8 @@ class DialogApp extends React.Component {
               <LinearGradient
                 colors={
                   pressed
-                    ? [
-                        'rgba(255,255,255,0.1)',
-                        'rgba(255,255,255,0.45)',
-                        'rgba(255,255,255,0.65)',
-                      ]
-                    : [
-                        'rgba(255,255,255,0.65)',
-                        'rgba(255,255,255,0.45)',
-                        'rgba(255,255,255,0.1)',
-                      ]
+                    ? ['#FFFFFF1A', '#FFFFFF73', '#FFFFFFA6']
+                    : ['#FFFFFFA6', '#FFFFFF73', '#FFFFFF1A']
                 }
                 style={styles.brDialogButton}
               >
@@ -235,7 +228,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 0,
-    right: 0,
+    // right: 0,
     height: 24,
     borderWidth: 1,
     borderColor: '#dcdcd5',
@@ -247,7 +240,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    width: 500,
   },
   brDraggable: {},
   brDialogCloseButton: {
@@ -279,6 +273,8 @@ const styles = StyleSheet.create({
     borderColor: '#dcdcd5',
     backgroundColor: 'white',
     overflow: 'hidden',
+    width: 500,
+    height: 200,
   },
   brWithButtons: {
     bottom: 40,
@@ -287,8 +283,9 @@ const styles = StyleSheet.create({
   brDialogButtons: {
     position: 'absolute',
     left: 0,
-    right: 0,
+    // right: 0,
     bottom: 0,
+    width: 200,
     height: 40,
     borderWidth: 1,
     borderColor: '#dcdcd5',

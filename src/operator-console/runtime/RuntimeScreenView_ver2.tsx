@@ -1,3 +1,4 @@
+import { DynamicView } from 'dynamic-renderer'
 import React from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, View } from 'react-native'
@@ -91,6 +92,9 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
               />
             </ColorPaneContextProvider>
           </View>
+        </View>
+        <View style={{ position: 'absolute' }}>
+          <DynamicView viewId='dialogPanel_top' />
         </View>
       </View>
     )

@@ -347,23 +347,14 @@ export default class extends React.Component {
         style={[style, selected && styles.selectButtonSelected]}
         onPress={onPress}
       >
-        <LinearGradient
-          style={styles.gradientButton}
+        {/* <LinearGradient
           colors={
             selected
-              ? [
-                  'rgba(255,255,255,0.1)',
-                  'rgba(255,255,255,0.45)',
-                  'rgba(255,255,255,0.65)',
-                ]
-              : [
-                  'rgba(255,255,255,0.65)',
-                  'rgba(255,255,255,0.45)',
-                  'rgba(255,255,255,0.1)',
-                ]
+              ? ['#FFFFFF1A', '#FFFFFF73', '#FFFFFFA6']
+              : ['#FFFFFFA6', '#FFFFFF73', '#FFFFFF1A']
           }
-          locations={[0, 0.5, 1]}
-        />
+          style={styles.gradientButton}
+        /> */}
         <Text style={textStyle}>{text}</Text>
       </TouchableOpacity>
     )
@@ -399,7 +390,6 @@ export default class extends React.Component {
             <TouchableOpacity
               onPress={e => {
                 this.handleSelectPress(searchResult.searchResultId)
-                e.stopPropagation()
               }}
             >
               {this.renderCheckbox(searchResult.selected)}
@@ -536,23 +526,19 @@ export default class extends React.Component {
               !searchWorkData.hasMore && styles.searchMoreAreaHidden,
             ]}
           >
+            {/* <LinearGradient
+              colors={['#FFFFFF', '#FFFFFF', '#FFFFFF']}
+              style={styles.gradientButton}
+            > */}
             <TouchableOpacity
               style={styles.searchMoreButton}
               onPress={this.handleSearchMorePress}
             >
-              <LinearGradient
-                style={styles.gradientButton}
-                colors={[
-                  'rgba(255,255,255,0.65)',
-                  'rgba(255,255,255,0.45)',
-                  'rgba(255,255,255,0.1)',
-                ]}
-                locations={[0, 0.5, 1]}
-              />
               <Text style={styles.searchMoreButtonText}>
                 {uawMsgs.LBL_SEARCH_MORE_BUTTON}
               </Text>
             </TouchableOpacity>
+            {/* </LinearGradient> */}
           </View>
 
           <View
