@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, PanResponder, Dimensions } from 'react-native'
+import { View, StyleSheet, PanResponder, Dimensions, Text } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -26,22 +26,25 @@ export default class HistorySearchPanel extends React.Component {
       panelHeight: 0,
       isDragging: false,
     }
-
+    this.upperPanelRef = React.createRef()
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => false,
       onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => false,
       onPanResponderGrant: () => {
         this.setState({ isDragging: true })
       },
       onPanResponderMove: (evt, gestureState) => {
+        evt.stopPropagation()
+        const dampingFactor = 0.3
         const newTop = Math.max(
           0,
           Math.min(
-            this.state.splitterTop + gestureState.dy,
+            this.state.splitterTop + gestureState.dy * dampingFactor,
             this.state.panelHeight * 0.9,
           ),
         )
-
         this.setState({ splitterTop: newTop })
         this.props.uiData.fire(
           'splitterTop_onChange',
@@ -56,29 +59,41 @@ export default class HistorySearchPanel extends React.Component {
       onPanResponderTerminate: () => {
         this.setState({ isDragging: false })
       },
+      onShouldBlockNativeResponder: () => false,
+      onResponderTerminationRequest: () => false,
     })
   }
 
-  componentDidMount() {
-    const windowHeight = Dimensions.get('window').height
-    const panelHeight = windowHeight * 0.8
-    const maxInitialTop = (panelHeight * 7) / 10
+  componentDidMount() {}
 
-    let initialTop = maxInitialTop
-    if (
-      this.props.panelOption &&
-      typeof this.props.panelOption.initialSplitterTop === 'number'
-    ) {
-      initialTop = Math.min(
-        this.props.panelOption.initialSplitterTop,
-        maxInitialTop,
-      )
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.panelHeight !== this.state.panelHeight) {
+      const panelHeight = this.state.panelHeight
+      const maxInitialTop = (panelHeight * 7) / 10
+
+      let initialTop = maxInitialTop
+      if (
+        this.props.panelOption &&
+        typeof this.props.panelOption.initialSplitterTop === 'number'
+      ) {
+        initialTop = Math.min(
+          this.props.panelOption.initialSplitterTop,
+          maxInitialTop,
+        )
+      } else {
+        this.upperPanelRef.current.measure(
+          (x, y, width, height, pageX, pageY) => {
+            console.log('#Duy Phan console height', height)
+            initialTop = Math.min(height + 4, maxInitialTop)
+          },
+        )
+      }
+      console.log('#Duy Phan console initialTop', initialTop)
+      this.setState({
+        splitterTop: initialTop,
+        // panelHeight: panelHeight,
+      })
     }
-
-    this.setState({
-      splitterTop: initialTop,
-      panelHeight: panelHeight,
-    })
   }
 
   onLayout = event => {
@@ -94,6 +109,7 @@ export default class HistorySearchPanel extends React.Component {
       <View style={styles.brHistorySearchPanel} onLayout={this.onLayout}>
         <View
           style={[styles.brHistorySearchPanelUpper, { height: splitterTop }]}
+          ref={this.upperPanelRef}
         >
           <SearchConditionsArea
             uiData={props.uiData}
@@ -109,6 +125,8 @@ export default class HistorySearchPanel extends React.Component {
             isDragging && styles.brHistorySearchPanelSplitterActive,
             { top: splitterTop },
           ]}
+          onStartShouldSetResponder={() => true}
+          onResponderTerminationRequest={() => false}
         >
           <View
             style={[
@@ -138,12 +156,17 @@ export default class HistorySearchPanel extends React.Component {
 
 const styles = StyleSheet.create({
   brHistorySearchPanel: {
-    position: 'absolute',
-    left: 8,
-    top: 8,
-    right: 8,
-    bottom: 8,
+    // position: 'absolute',
+    // left: 8,
+    // top: 8,
+    // right: 8,
+    // bottom: 8,
     backgroundColor: '#ffffff',
+    // width: '100%',
+    // height: '100%',
+    // width: 500,
+    // height: 400,
+    flex: 1,
   },
   brHistorySearchPanelUpper: {
     position: 'absolute',
@@ -158,6 +181,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    width: '100%',
+    height: '100%',
     backgroundColor: '#ffffff',
     zIndex: 1,
   },

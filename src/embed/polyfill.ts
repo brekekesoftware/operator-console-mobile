@@ -29,11 +29,6 @@ if (!window.Brekeke.Phone) {
   window.Brekeke.Phone = {} as any
 }
 
-if (!window.Brekeke.ElementManager) {
-  // type-coverage:ignore-next-line
-  window.Brekeke.ElementManager = {} as any
-}
-
 if (!window.Brekeke.UCAgentWidget) {
   // type-coverage:ignore-next-line
   window.Brekeke.UCAgentWidget = {} as any

@@ -97,18 +97,20 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
 
     const oc = BrekekeOperatorConsole.getStaticInstance()
 
-    const startUCClientOptions = {
-      ucclientWidgetParent: 'ucclientPanelRoot',
-      ucclientUcurl: this._UccacWrapper.getUcurl(),
-      ucclientTenant: oc.getLoginTenantname(),
-      ucclientUser: oc.getLoginUsername(),
-      ucclientPass: oc.getLoginPassword(),
-    }
-    this.setState({ isRestartButtonDisabled: true }, () => {
-      this._uccacAc.startUCClient(startUCClientOptions)
-      setTimeout(() => {
-        this.setState({ isRestartButtonDisabled: false })
-      }, 8000)
+    oc.getLoginPassword().then(pass => {
+      const startUCClientOptions = {
+        ucclientWidgetParent: 'ucclientPanelRoot',
+        ucclientUcurl: this._UccacWrapper.getUcurl(),
+        ucclientTenant: oc.getLoginTenantname(),
+        ucclientUser: oc.getLoginUsername(),
+        ucclientPass: pass,
+      }
+      this.setState({ isRestartButtonDisabled: true }, () => {
+        this._uccacAc.startUCClient(startUCClientOptions)
+        setTimeout(() => {
+          this.setState({ isRestartButtonDisabled: false })
+        }, 8000)
+      })
     })
   }
 

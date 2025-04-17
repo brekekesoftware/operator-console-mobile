@@ -225,7 +225,7 @@ export default class extends React.Component {
 
     return (
       <View style={styles.brChatList}>
-        {isFiltered && (
+        {!!isFiltered && (
           <TouchableOpacity
             style={styles.brChatListOpenDetailLink}
             onPress={() =>
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     color: '#74C365', // @mantis
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 20.8, // 1.6 * 13
+    // lineHeight: 20.8, // 1.6 * 13
     letterSpacing: 0.3,
   },
   brChatListOpenDetailLinkPressed: {

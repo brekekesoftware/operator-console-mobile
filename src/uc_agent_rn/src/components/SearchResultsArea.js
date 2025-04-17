@@ -32,13 +32,16 @@ const colors = {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
+    // position: 'absolute',
+    // left: 0,
+    // top: 0,
+    // right: 0,
+    // bottom: 0,
+    flex: 1,
     borderWidth: 1,
     borderColor: colors.borderColor,
+    backgroundColor: 'red',
+    // height: 500,
   },
   header: {
     display: 'none',
@@ -54,11 +57,13 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   scrollable: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
+    // position: 'absolute',
+    // left: 0,
+    // top: 0,
+    // right: 0,
+    // bottom: 0,
+    backgroundColor: '#ffffff',
+    flex: 1,
   },
   scrollableWithHeader: {
     top: 27,
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   tableContainer: {
-    width: '100%',
+    flex: 1,
   },
   tableHidden: {
     display: 'none',
@@ -107,6 +112,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.borderColor,
     backgroundColor: colors.backgroundColor,
+    height: 50,
   },
   rowHovered: {
     borderTopColor: colors.hoverColor,
@@ -127,6 +133,7 @@ const styles = StyleSheet.create({
   },
   checkCellHidden: {
     width: 0,
+    display: 'none',
   },
   timeCell: {
     width: 60,
@@ -365,6 +372,7 @@ export default class extends React.Component {
     const { hoveredRow, activeRow } = this.state
     const isHovered = hoveredRow === index
     const isActive = activeRow === index
+    console.log('#Duy Phan console searchResult', searchResult)
 
     return (
       <React.Fragment key={`result-${index}`}>
@@ -468,9 +476,9 @@ export default class extends React.Component {
 
     const scrollableStyles = [
       styles.scrollable,
-      props.allSelectable &&
-        searchResults.length &&
-        styles.scrollableWithHeader,
+      // props.allSelectable &&
+      //   searchResults.length &&
+      //   styles.scrollableWithHeader,
     ]
 
     return (

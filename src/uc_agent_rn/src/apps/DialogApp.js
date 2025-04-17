@@ -133,6 +133,7 @@ class DialogApp extends React.Component {
           uiData.fire('dialogResizableBox_onStop', panelType, panelCode)
         }
       >
+        {/* <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', backgroundColor: 'red'}}> */}
         <View
           style={[styles.brDialogTitle, option.draggable && styles.brDraggable]}
         >
@@ -200,6 +201,7 @@ class DialogApp extends React.Component {
         </View>
 
         <View style={contentStyle}>{contents}</View>
+        {/* </View> */}
       </DialogResizableBox>
     )
   }
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 0,
-    // right: 0,
+    right: 0,
     height: 24,
     borderWidth: 1,
     borderColor: '#dcdcd5',
@@ -271,10 +273,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderWidth: 1,
     borderColor: '#dcdcd5',
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     overflow: 'hidden',
     width: 500,
-    height: 200,
+    flex: 1,
   },
   brWithButtons: {
     bottom: 40,
@@ -283,7 +285,7 @@ const styles = StyleSheet.create({
   brDialogButtons: {
     position: 'absolute',
     left: 0,
-    // right: 0,
+    right: 0,
     bottom: 0,
     width: 200,
     height: 40,

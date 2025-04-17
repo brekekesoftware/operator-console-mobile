@@ -44,8 +44,8 @@ export default class extends React.Component {
   setupPanResponders() {
     // Pan responder for moving
     this.movePanResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () =>
-        this.props.movable && !this.props.disabled,
+      // onStartShouldSetPanResponder: () =>
+      //   this.props.movable && !this.props.disabled,
       onMoveShouldSetPanResponder: () =>
         this.props.movable && !this.props.disabled,
       onPanResponderGrant: () => {
@@ -209,7 +209,7 @@ export default class extends React.Component {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    backgroundColor: 'red',
+    backgroundColor: '#ffffff',
   },
 
   brDialogResizableBoxResizable: {
@@ -222,6 +222,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     flex: 1,
+    // width: '100%',
+    // height: '100%',
   },
 
   brDisabled: {
@@ -233,6 +235,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: 500,
     height: 400,
+    flex: 1,
   },
 
   brDialogResizableBoxModal: {

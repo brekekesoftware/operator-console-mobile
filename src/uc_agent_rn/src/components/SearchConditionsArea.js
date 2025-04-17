@@ -12,6 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
+import { Picker } from '@react-native-picker/picker'
 import '../utilities/disableamd.js'
 import '../utilities/restoreamd.js'
 import 'moment/locale/ja'
@@ -198,6 +199,7 @@ export default class SearchConditionsArea extends React.Component {
                             searchCondition.conditionValue,
                             false,
                           )}
+                          display='calendar'
                           mode='date'
                           onChange={(event, date) =>
                             this.handleDatePickerChange(i, false, date)
@@ -310,16 +312,17 @@ export default class SearchConditionsArea extends React.Component {
 
 const styles = StyleSheet.create({
   searchConditionsArea: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
+    // position: 'absolute',
+    // left: 0,
+    // top: 0,
+    // right: 0,
+    // bottom: 0,
     borderWidth: 1,
     borderColor: '#dcdcd5',
     backgroundColor: '#FFFFFF',
+    // height: 300,
     width: 500,
-    height: 500,
+    flex: 1,
   },
   conditionsContainer: {
     flex: 1,

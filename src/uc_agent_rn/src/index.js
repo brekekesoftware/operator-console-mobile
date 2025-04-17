@@ -24,10 +24,7 @@ import DialogApp from './apps/DialogApp.js'
 import StaticApp from './apps/StaticApp.js'
 import ChatOnlyApp from './apps/ChatOnlyApp.js'
 import UndockedPanelSubWindowApp from './apps/UndockedPanelSubWindowApp.js'
-import ElementManager from './utilities/elementmanager.js'
-import { View } from 'react-native'
 import RnAsyncStorage from '@react-native-async-storage/async-storage'
-import ParentElement from './components/ParentElement.js'
 import { renderToView } from 'dynamic-renderer'
 
 const Brekeke = (window.BLIB = window.Brekeke = window.Brekeke || {})
@@ -347,7 +344,8 @@ uiData.prototype.initPhone = function (option) {
  * destroyApp function
  */
 uiData.prototype.destroyApp = function () {
-  let parentElement = null
+  let parentElement =
+    typeof this.parentElement === 'string' ? this.parentElement : null
   if (this.ownerDocument) {
     parentElement =
       typeof this.parentElement === 'string' ? this.parentElement : null
@@ -362,13 +360,9 @@ uiData.prototype.destroyApp = function () {
 
     this.ownerDocument = null
   }
-
+  console.log('#Duy Phan console destroyApp', parentElement)
   if (parentElement) {
-    // ReactDOM.render(<noscript />, parentElement)
-    const childrens = this.getChildren(parentElement)
-    childrens.forEach(childKey =>
-      ElementManager.removeChild(parentElement, childKey),
-    )
+    renderToView(parentElement, null)
   }
 
   this.shutdownPhone()
@@ -499,53 +493,19 @@ uiData.prototype.render = function () {
   }
   if (parentElement) {
     if (this.iconName) {
-      // const iconKey = `icon_${this.iconName}`
-      // ElementManager.createElement(iconKey)
-      // ElementManager.createElement(parentElement)
-      // ElementManager.setComponent(parentElement, View)
-      // ElementManager.setComponent(iconKey, IconApp, {})
-      // ElementManager.updateProps(iconKey, {
-      //   uiData: this,
-      //   iconName: this.iconName,
-      //   iconDisabled: this.iconDisabled,
-      // })
-      // ElementManager.appendChild(parentElement, iconKey)
       renderToView(parentElement, IconApp, {
         uiData: this,
         iconName: this.iconName,
         iconDisabled: this.iconDisabled,
       })
     } else if (this.dialogPanel) {
-      // const dialogKey = `dialog_key`
-      // ElementManager.createElement(dialogKey)
-      // ElementManager.createElement(parentElement)
-      // ElementManager.setComponent(parentElement, View)
-      // ElementManager.setComponent(dialogKey, DialogApp, {})
-      // ElementManager.appendChild(parentElement, dialogKey)
-      // ElementManager.updateProps(dialogKey, {
-      //   uiData: this,
-      //   panelType: this.dialogPanel.panelType,
-      //   panelCode: this.dialogPanel.panelCode,
-      //   dialogOption: this.dialogOption,
-      // })
       renderToView(parentElement, DialogApp, {
         uiData: this,
         panelType: this.dialogPanel.panelType,
         panelCode: this.dialogPanel.panelCode,
         dialogOption: this.dialogOption,
       })
-      console.log('#Duy Phan console parentElement', parentElement)
     } else if (this.staticPanel) {
-      // const staticKey = `static_${Date.now()}`
-      // ElementManager.createElement(staticKey)
-      // ElementManager.createElement(parentElement)
-      // ElementManager.setComponent(parentElement, View)
-      // ElementManager.setComponent(staticKey, StaticApp, {
-      //   uiData: this,
-      //   panelType: this.staticPanel.panelType,
-      //   panelCode: this.staticPanel.panelCode,
-      // })
-      // ElementManager.appendChild(parentElement, staticKey)
       renderToView(parentElement, StaticApp, {
         uiData: this,
         panelType: this.staticPanel.panelType,
@@ -558,46 +518,16 @@ uiData.prototype.render = function () {
         panelCode: this.chatOnly.panelCode,
       })
     } else if (this.isSubWindow) {
-      // const subWindowKey = `subWindow_${Date.now()}`
-      // ElementManager.createElement(subWindowKey)
-      // ElementManager.createElement(parentElement)
-      // ElementManager.setComponent(parentElement, View)
-      // ElementManager.setComponent(subWindowKey, UndockedPanelSubWindowApp, {
-      //   uiData: this,
-      //   panelType: this.subWindowPanelType,
-      //   panelCode: this.subWindowPanelCode,
-      // })
-      // ElementManager.appendChild(parentElement, subWindowKey)
       renderToView(parentElement, UndockedPanelSubWindowApp, {
         uiData: this,
         panelType: this.subWindowPanelType,
         panelCode: this.subWindowPanelCode,
       })
     } else if (this.isUC) {
-      // const ucKey = `uc_${Date.now()}`
-      // ElementManager.createElement(ucKey)
-      // ElementManager.createElement(parentElement)
-      // ElementManager.setComponent(parentElement, View)
-      // ElementManager.setComponent(ucKey, UCApp, {
-      //   uiData: this,
-      // })
-      // ElementManager.appendChild(parentElement, ucKey)
       renderToView(parentElement, UCApp, {
         uiData: this,
       })
     } else {
-      console.log('#Duy Phan console renderApp.js')
-      // const ucKey = `uc_key`
-      // ElementManager.createElement(ucKey)
-      // ElementManager.createElement(parentElement)
-      // ElementManager.setComponent(parentElement, View)
-      // ElementManager.setComponent(ucKey, App, {
-      //   uiData: this,
-      // })
-      // ElementManager.updateProps(ucKey, {
-      //   uiData: this,
-      // })
-      // ElementManager.appendChild(parentElement, ucKey)
       renderToView(parentElement, App, {
         uiData: this,
       })
@@ -10878,8 +10808,6 @@ Brekeke.UCAgentWidget.AgentComponent = AgentComponent
  * SubWindowModule global class
  */
 Brekeke.UCAgentWidget.SubWindowModule = SubWindowModule
-
-Brekeke.ElementManager = ElementManager
 /**
  * export global object
  */

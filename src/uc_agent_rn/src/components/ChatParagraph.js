@@ -347,8 +347,6 @@ export default class extends React.Component {
             {!callResult.externalincoming ? user_name : ''}
           </Text>
 
-          <Text> </Text>
-
           {showUnreachedAnimation ? (
             <View style={styles.unreachedDotContainer}>
               <Animated.View
