@@ -2,27 +2,33 @@ import React from 'react'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import ButtonIconic from './ButtonIconic.js'
-import MenuBalloonDialog from './MenuBalloonDialog.js'
-import MenuItem from './MenuItem.js'
-import TextBox from './TextBox.js'
 import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
+  StyleSheet,
+  Platform,
+  findNodeHandle,
+  UIManager,
+  NativeModules,
   PanResponder,
   Animated,
 } from 'react-native'
+import ButtonIconic from './ButtonIconic.js'
+import MenuBalloonDialog from './MenuBalloonDialog.js'
+import MenuItem from './MenuItem.js'
+import TextBox from './TextBox.js'
 import LogOutIcon from '../icons/LogOutIcon.js'
 import EnvelopeIcon from '../icons/EnvelopeIcon.js'
 import UploadIcon from '../icons/UploadIcon.js'
 import ReplyIcon from '../icons/ReplyIcon.js'
-import SendIcon from '../icons/SendIcon.js'
-import ChatIcon from '../icons/ChatIcon.js'
-import TriangleUpIcon from '../icons/TriangleUpIcon.js'
-import TriangleDownIcon from '../icons/TriangleDownIcon.js'
+import EditIcon from '../icons/EditIcon.js'
+import HistoryIcon from '../icons/HistoryIcon.js'
+import ChannelMosaic1Icon from '../icons/ChannelMosaic1Icon.js'
+import PhoneIcon from '../icons/PhoneIcon.js'
+import VideoCallIcon from '../icons/VideoCallIcon.js'
+
 /**
  * EditorArea
  * props.uiData
@@ -61,41 +67,96 @@ export default class extends React.Component {
       showingChangeEditorTypeDialogVersion: null,
       changeEditorTypeDialogStyle: {},
       splitterHeight: 10000,
-      editorHeight: 0,
     }
     this.editorTextareaRef = React.createRef()
-    this.setupPanResponder()
-  }
+    this.subjectTextBoxRef = React.createRef()
+    this.editorOptionsBalloonRef = React.createRef()
+    this.editorAreaRef = React.createRef()
 
-  setupPanResponder() {
+    // Create animated value for splitter position
+    this.splitterPosition = new Animated.Value(0)
+
+    // Initialize pan responder for drag functionality
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        // Store the current position when touch starts
+        this.splitterPosition.setOffset(this.splitterPosition._value)
+        this.splitterPosition.setValue(0)
+      },
       onPanResponderMove: (evt, gestureState) => {
-        this.handleSplitterHeightDrag(gestureState.dy)
+        // Update position based on drag
+        this.splitterPosition.setValue(gestureState.dy)
       },
       onPanResponderRelease: () => {
-        this.handleSplitterHeightStop()
+        // Flatten the offset into the value
+        this.splitterPosition.flattenOffset()
+
+        // Get the current position
+        const currentPosition = this.splitterPosition._value
+
+        // Calculate new splitter height
+        let newSplitterHeight = this.state.splitterHeight + currentPosition
+
+        // Apply constraints
+        const props = this.props
+        if (this.editorTextareaRef.current) {
+          this.editorTextareaRef.current.measure(
+            (x, y, width, height, pageX, pageY) => {
+              const parentHeight =
+                props.uiData.ucUiStore.getChatClient().getProfile().height || 0
+              newSplitterHeight = Math.max(70 - parentHeight, newSplitterHeight)
+              newSplitterHeight = Math.min(0, newSplitterHeight)
+
+              // Update state with new height
+              this.setState({ splitterHeight: newSplitterHeight })
+
+              // Save to preferences
+              props.uiData.ucUiAction.setLocalStoragePreference({
+                keyValueList: [
+                  {
+                    key: 'emailSplitterHeight',
+                    value: string(newSplitterHeight),
+                  },
+                ],
+              })
+            },
+          )
+        }
       },
     })
   }
 
   componentDidMount() {
-    if (this.editorTextareaRef.current && !this.props.disabled) {
+    const props = this.props
+    if (this.editorTextareaRef.current && !props.disabled) {
       this.editorTextareaRef.current.focus()
       if (
-        this.props.uiData.selectedButNotFocusedTab ===
-        this.props.panelType + '_' + this.props.panelCode
+        props.uiData.selectedButNotFocusedTab ===
+        props.panelType + '_' + props.panelCode
       ) {
-        this.props.uiData.selectedButNotFocusedTab = ''
+        props.uiData.selectedButNotFocusedTab = ''
       }
     }
+
+    // Set initial splitter position
+    const isEmail = this.currentEditorType === 'Email'
+    let splitterHeight =
+      this.state.splitterHeight === 10000 && isEmail
+        ? int(
+            props.uiData.ucUiStore.getLocalStoragePreference({
+              keyList: ['emailSplitterHeight'],
+            })[0],
+          )
+        : this.state.splitterHeight
+    splitterHeight = Math.min(0, splitterHeight)
+    this.splitterPosition.setValue(splitterHeight)
   }
 
-  componentDidUpdate() {
-    const { props } = this
+  componentDidUpdate(prevProps, prevState) {
+    const props = this.props
     const isEmail = this.currentEditorType === 'Email'
-
     if (
       props.uiData.selectedButNotFocusedTab ===
       props.panelType + '_' + props.panelCode
@@ -106,47 +167,52 @@ export default class extends React.Component {
       }
     }
 
-    // Handle layout updates
-    if (isEmail && this.state.editorHeight) {
-      if (this.state.splitterHeight !== 0) {
-        this.setState({ splitterHeight: 0 })
-      }
+    // if (this.editorTextareaRef.current) {
+    //     this.editorTextareaRef.current.measure((x, y, width, height, pageX, pageY) => {
+    //         const editorHeight = height;
+    //         const parentHeight = props.uiData.ucUiStore.getChatClient().getProfile().height || 0;
+    //         const chatArea = props.uiData.ucUiStore.getChatClient().getChatArea();
+    //         const chatAreaScrollToBottomButton = props.uiData.ucUiStore.getChatClient().getChatAreaScrollToBottomButton();
+
+    //         if (this.hidden) {
+    //             if (chatArea) {
+    //                 chatArea.style = { bottom: 0 };
+    //             }
+    //             if (chatAreaScrollToBottomButton) {
+    //                 chatAreaScrollToBottomButton.style = { bottom: 26 };
+    //             }
+    //         } else if (isEmail && editorHeight) {
+    //             if (parentHeight < editorHeight && this.state.splitterHeight) {
+    //                 this.setState({ splitterHeight: 0 });
+    //                 return;
+    //             }
+    //             if (chatArea) {
+    //                 chatArea.style = { bottom: editorHeight };
+    //             }
+    //             if (chatAreaScrollToBottomButton) {
+    //                 chatAreaScrollToBottomButton.style = { bottom: editorHeight + 26 };
+    //             }
+    //         }
+    //     });
+    // }
+
+    // Update splitter position when state changes
+    if (prevState.splitterHeight !== this.state.splitterHeight) {
+      this.splitterPosition.setValue(this.state.splitterHeight)
     }
   }
 
-  handleSplitterHeightDrag = deltaY => {
-    const isEmail = this.currentEditorType === 'Email'
-    let splitterHeight =
-      this.state.splitterHeight === 10000 && isEmail
-        ? int(
-            this.props.uiData.ucUiStore.getLocalStoragePreference({
-              keyList: ['emailSplitterHeight'],
-            })[0],
-          )
-        : this.state.splitterHeight
-
-    splitterHeight = Math.min(0, splitterHeight + deltaY)
-    splitterHeight = Math.max(70 - this.state.editorHeight, splitterHeight)
-    splitterHeight = Math.min(0, splitterHeight)
-
-    this.setState({ splitterHeight })
+  handleSplitterHeightDrag(ev, ui) {
+    // This method is kept for compatibility but the actual drag is handled by PanResponder
   }
 
-  handleSplitterHeightStop = () => {
-    this.props.uiData.ucUiAction.setLocalStoragePreference({
-      keyValueList: [
-        {
-          key: 'emailSplitterHeight',
-          value: string(this.state.splitterHeight),
-        },
-      ],
-    })
+  handleSplitterHeightStop() {
+    // This method is kept for compatibility but the actual stop is handled by PanResponder
   }
 
-  handleSendButtonClick = () => {
-    const { props } = this
+  handleSendButtonClick(ev) {
+    const props = this.props
     const isEmail = this.currentEditorType === 'Email'
-
     props.uiData.fire(
       'editorSendButton_onClick',
       props.panelType,
@@ -154,57 +220,117 @@ export default class extends React.Component {
       this.editorTextareaRef.current,
       this.subjectTextBoxRef.current,
       isEmail,
+      ev,
     )
   }
 
-  handleOptionsLinkClick = () => {
-    if (
-      this.props.uiData.showingDialogVersion !== this.state.showingDialogVersion
-    ) {
+  handleOptionsLinkClick(ev) {
+    const props = this.props
+    if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
       this.setState({
-        showingDialogVersion: ++this.props.uiData.showingDialogVersion,
+        showingDialogVersion: ++props.uiData.showingDialogVersion,
       })
-      this.props.uiData.fire('showingDialog_update')
+      ev.stopPropagation()
+      props.uiData.fire('showingDialog_update')
     }
   }
 
-  handleReplyWebchatMenuClick = () => {
-    const { props } = this
+  handleReplyWebchatMenuClick(ev) {
+    const props = this.props
     if (
       props.uiData.showingDialogVersion !== this.state.showingDialogVersion ||
       props.uiData.showingDialogVersion !== this.state.showingReplyDialogVersion
     ) {
       props.uiData.showingDialogVersion++
+      const replyDialogStyle = {}
 
-      this.setState({
-        showingDialogVersion: props.uiData.showingDialogVersion,
-        showingReplyDialogVersion: props.uiData.showingDialogVersion,
-      })
+      if (this.editorTextareaRef.current) {
+        this.editorTextareaRef.current.measure(
+          (x, y, width, height, pageX, pageY) => {
+            const editorAreaRect = { left: pageX, top: pageY, width, height }
+            const editorOptionsBalloon = this.editorOptionsBalloonRef.current
+            const replyWebchatMenuRect =
+              ev && ev.target && ev.target.measure
+                ? ev.target.measure((x, y, width, height, pageX, pageY) => ({
+                    left: pageX,
+                    top: pageY,
+                    width,
+                    height,
+                  }))
+                : null
 
-      props.uiData.fire('showingDialog_update')
+            if (editorAreaRect && replyWebchatMenuRect) {
+              replyDialogStyle.left =
+                (editorOptionsBalloon || replyWebchatMenuRect).right -
+                editorAreaRect.left
+              replyDialogStyle.top =
+                replyWebchatMenuRect.top - editorAreaRect.top
+            }
+
+            this.setState({
+              showingDialogVersion: props.uiData.showingDialogVersion,
+              showingReplyDialogVersion: props.uiData.showingDialogVersion,
+              replyDialogStyle: replyDialogStyle,
+            })
+            ev.stopPropagation()
+            props.uiData.fire('showingDialog_update')
+          },
+        )
+      }
     }
   }
 
-  handleChangeEditorTypeMenuClick = () => {
-    const { props } = this
+  handleChangeEditorTypeMenuClick(ev) {
+    const props = this.props
     if (
       props.uiData.showingDialogVersion !== this.state.showingDialogVersion ||
       props.uiData.showingDialogVersion !==
         this.state.showingChangeEditorTypeDialogVersion
     ) {
       props.uiData.showingDialogVersion++
+      const changeEditorTypeDialogStyle = {}
 
-      this.setState({
-        showingDialogVersion: props.uiData.showingDialogVersion,
-        showingChangeEditorTypeDialogVersion: props.uiData.showingDialogVersion,
-      })
+      if (this.editorTextareaRef.current) {
+        this.editorTextareaRef.current.measure(
+          (x, y, width, height, pageX, pageY) => {
+            const editorAreaRect = { left: pageX, top: pageY, width, height }
+            const editorOptionsBalloon = this.editorOptionsBalloonRef.current
+            const changeEditorTypeMenuRect =
+              ev && ev.target && ev.target.measure
+                ? ev.target.measure((x, y, width, height, pageX, pageY) => ({
+                    left: pageX,
+                    top: pageY,
+                    width,
+                    height,
+                  }))
+                : null
 
-      props.uiData.fire('showingDialog_update')
+            if (editorAreaRect && changeEditorTypeMenuRect) {
+              changeEditorTypeDialogStyle.position = 'absolute'
+              changeEditorTypeDialogStyle.left =
+                (editorOptionsBalloon || changeEditorTypeMenuRect).right -
+                editorAreaRect.left
+              changeEditorTypeDialogStyle.bottom =
+                editorAreaRect.bottom - changeEditorTypeMenuRect.bottom
+            }
+
+            this.setState({
+              showingDialogVersion: props.uiData.showingDialogVersion,
+              showingChangeEditorTypeDialogVersion:
+                props.uiData.showingDialogVersion,
+              changeEditorTypeDialogStyle: changeEditorTypeDialogStyle,
+            })
+            ev.stopPropagation()
+            props.uiData.fire('showingDialog_update')
+          },
+        )
+      }
     }
   }
 
   render() {
-    const { props } = this
+    const props = this.props
+    const profile = props.uiData.ucUiStore.getChatClient().getProfile()
     const configProperties = props.uiData.ucUiStore.getConfigProperties()
     const myUcCimUserType = int(props.uiData.ucUiStore.getUcCimUserType())
     const chatHeaderInfo =
@@ -212,13 +338,11 @@ export default class extends React.Component {
         chatType: props.panelType,
         chatCode: props.panelCode,
       }) || {}
-
     const editorTypes = string(
       chatHeaderInfo.editorTypes ||
         props.uiData.ucUiStore.getOptionalSetting({ key: ['editor_types'] }) ||
         '_',
     ).split(',')
-
     const initialEditorType = string(
       chatHeaderInfo.initialEditorType ||
         props.uiData.ucUiStore.getOptionalSetting({
@@ -226,127 +350,386 @@ export default class extends React.Component {
         }) ||
         '',
     )
-
     this.currentEditorType =
       this.state.selectedEditorType ||
       this.currentEditorType ||
       editorTypes.find(t => t === initialEditorType) ||
       editorTypes[0]
-
     const isEmail = this.currentEditorType === 'Email'
     const panelSession =
-      props.uiData.panelSessionTable?.[props.panelType + '_' + props.panelCode]
+      props.uiData.panelSessionTable &&
+      props.uiData.panelSessionTable[props.panelType + '_' + props.panelCode]
     const session =
-      panelSession?.sessionId &&
-      props.uiData.phone?.getSession(panelSession.sessionId)
+      panelSession &&
+      panelSession.sessionId &&
+      props.uiData.phone &&
+      props.uiData.phone.getSession(panelSession.sessionId)
+    let className = 'brEditorArea brEditorType' + this.currentEditorType
+    let splitterHeight =
+      this.state.splitterHeight === 10000 && isEmail
+        ? int(
+            props.uiData.ucUiStore.getLocalStoragePreference({
+              keyList: ['emailSplitterHeight'],
+            })[0],
+          )
+        : this.state.splitterHeight
+    let disabled = props.disabled
+    this.hidden = props.hidden
+    let menuOptions = []
+    const replyOptions = []
 
-    // Build menu options
-    const menuOptions = this.buildMenuOptions(
-      chatHeaderInfo,
-      isEmail,
-      panelSession,
-      myUcCimUserType,
-    )
+    if (
+      props.uiData.currentSelectedTab ===
+      props.panelType + '_' + props.panelCode
+    ) {
+      className += ' brSelected'
+    }
+    if (
+      (props.uiData.configurations && props.uiData.configurations.sendButton) ||
+      isEmail
+    ) {
+      className += ' brWithSendButton'
+    }
+    if (
+      props.uiData.configurations &&
+      props.uiData.configurations.withMenuOptions
+    ) {
+      className += ' brWithMenuOptions'
+    }
+    if (isEmail && chatHeaderInfo.lastConfType === 'emptylast') {
+      className += ' brMaximized'
+    }
+
+    if (props.panelType === 'CONFERENCE') {
+      const conf_id = string(chatHeaderInfo.conf_id)
+      const conference = props.uiData.ucUiStore
+        .getChatClient()
+        .getConference(conf_id)
+      const joinedCount = conference.user.filter(
+        u => u.conf_status === Constants.CONF_STATUS_JOINED,
+      ).length
+      const replyTypes = string(chatHeaderInfo.replyTypes).split(',')
+
+      if ('TRUE' === string(chatHeaderInfo.webchatContinuable).toUpperCase()) {
+        replyOptions.push({
+          className: 'brManualContinuation',
+          event: props.uiData.fire.bind(
+            props.uiData,
+            'panelHeaderContinuationMenuItem_onClick',
+            props.panelType,
+            props.panelCode,
+            '',
+          ),
+          label: uawMsgs.LBL_EDITOR_REPLY_MANUAL_CONTINUATION_MENU,
+        })
+      }
+
+      if (
+        !props.uiData.ucUiStore.getWebchatQueue({ conf_id: conf_id })
+          .isTalking &&
+        (
+          (configProperties.optional_config &&
+            configProperties.optional_config.awsl) ||
+          []
+        ).some(aws => aws.id === chatHeaderInfo.webchatServiceId && aws.senders)
+      ) {
+        replyTypes.forEach((replyType, i) => {
+          if (replyType) {
+            replyOptions.push({
+              className: 'brContinuation',
+              event: props.uiData.fire.bind(
+                props.uiData,
+                'panelHeaderContinuationMenuItem_onClick',
+                props.panelType,
+                props.panelCode,
+                replyType,
+              ),
+              label: replyType,
+            })
+          }
+        })
+      }
+
+      const mustDisable = !(
+        (conference.conf_status === Constants.CONF_STATUS_JOINED &&
+          joinedCount >= 2) ||
+        chatHeaderInfo.nextDistributionTarget === profile.user_id
+      )
+      if (mustDisable) {
+        disabled = true
+      }
+      if (isEmail && (!chatHeaderInfo.lastConfType || mustDisable)) {
+        this.hidden = true
+      }
+
+      menuOptions = [
+        {
+          headerButtonName: 'leave',
+          label: uawMsgs.LBL_EDITOR_LEAVE_LINK,
+          iconClass: <LogOutIcon />,
+          eventName: 'panelHeaderLeaveButton_onClick',
+          enabled: conference.conf_status === Constants.CONF_STATUS_JOINED,
+        },
+        {
+          headerButtonName: 'invite',
+          label: uawMsgs.LBL_EDITOR_INVITE_LINK,
+          iconClass: <EnvelopeIcon />,
+          eventName: 'panelHeaderInviteButton_onClick',
+          enabled:
+            conference.conf_status === Constants.CONF_STATUS_JOINED &&
+            (chatHeaderInfo.confType !== 'webchat' ||
+              (-int(
+                (conference.webchatinfo &&
+                  string(conference.webchatinfo.invite_button_type)) ||
+                  '-98',
+              ) &
+                myUcCimUserType) ===
+                myUcCimUserType),
+        },
+        {
+          headerButtonName: 'file',
+          label: uawMsgs.LBL_EDITOR_FILE_LINK,
+          iconClass: <UploadIcon />,
+          eventName: 'panelHeaderFileButton_onClick',
+          enabled:
+            conference.conf_status === Constants.CONF_STATUS_JOINED &&
+            joinedCount >= 2,
+        },
+        {
+          headerButtonName: 'voice',
+          label: uawMsgs.LBL_EDITOR_VOICE_LINK,
+          iconClass: <PhoneIcon />,
+          eventName: 'panelHeaderVoiceButton_onClick',
+          enabled:
+            conference.conf_status === Constants.CONF_STATUS_JOINED &&
+            props.uiData.phone &&
+            props.uiData.phone.getPhoneStatus() === 'started' &&
+            !panelSession,
+        },
+        {
+          headerButtonName: 'video',
+          label: uawMsgs.LBL_EDITOR_VIDEO_LINK,
+          iconClass: <VideoCallIcon />,
+          eventName: 'panelHeaderVideoButton_onClick',
+          enabled:
+            conference.conf_status === Constants.CONF_STATUS_JOINED &&
+            props.uiData.phone &&
+            props.uiData.phone.getPhoneStatus() === 'started' &&
+            !panelSession,
+        },
+        {
+          headerButtonName: 'screen',
+          label: uawMsgs.LBL_EDITOR_SCREEN_LINK,
+          iconClass: <ChannelMosaic1Icon />,
+          eventName: 'panelHeaderScreenButton_onClick',
+          enabled:
+            conference.conf_status === Constants.CONF_STATUS_JOINED &&
+            props.uiData.phone &&
+            props.uiData.phone.getPhoneStatus() === 'started' &&
+            !panelSession,
+        },
+      ]
+
+      if (chatHeaderInfo.confType === 'webchat') {
+        menuOptions.splice(1, 0, {
+          headerButtonName: 'reply',
+          label: uawMsgs.LBL_EDITOR_REPLY_LINK,
+          iconClass: <ReplyIcon />,
+          event:
+            replyOptions.length === 1
+              ? replyOptions[0].event
+              : this.handleReplyWebchatMenuClick.bind(this),
+          enabled: replyOptions.length,
+        })
+      }
+
+      if (
+        isEmail &&
+        !chatHeaderInfo.originalWebchatId &&
+        props.uiData.ucUiStore
+          .getChatClient()
+          .getConferenceTag({ conf_id: conf_id, tag_key: '_outgoing_email_id' })
+      ) {
+        className += ' brWithSubjectTextBox'
+      }
+    } else if (props.panelType === 'CHAT') {
+      menuOptions = [
+        {
+          headerButtonName: 'file',
+          label: uawMsgs.LBL_EDITOR_FILE_LINK,
+          iconClass: <UploadIcon />,
+          eventName: 'panelHeaderFileButton_onClick',
+          enabled: true,
+        },
+        {
+          headerButtonName: 'voice',
+          label: uawMsgs.LBL_EDITOR_VOICE_LINK,
+          iconClass: <PhoneIcon />,
+          eventName: 'panelHeaderVoiceButton_onClick',
+          enabled:
+            props.uiData.phone &&
+            props.uiData.phone.getPhoneStatus() === 'started' &&
+            !panelSession,
+        },
+        {
+          headerButtonName: 'video',
+          label: uawMsgs.LBL_EDITOR_VIDEO_LINK,
+          iconClass: <VideoCallIcon />,
+          eventName: 'panelHeaderVideoButton_onClick',
+          enabled:
+            props.uiData.phone &&
+            props.uiData.phone.getPhoneStatus() === 'started' &&
+            !panelSession,
+        },
+        {
+          headerButtonName: 'screen',
+          label: uawMsgs.LBL_EDITOR_SCREEN_LINK,
+          iconClass: <ChannelMosaic1Icon />,
+          eventName: 'panelHeaderScreenButton_onClick',
+          enabled:
+            props.uiData.phone &&
+            props.uiData.phone.getPhoneStatus() === 'started' &&
+            !panelSession,
+        },
+        {
+          headerButtonName: 'history',
+          label: uawMsgs.LBL_EDITOR_HISTORY_LINK,
+          iconClass: <HistoryIcon />,
+          eventName: 'panelHeaderHistoryButton_onClick',
+          enabled: true,
+        },
+      ]
+    } else if (props.panelType === 'EXTERNALCALL') {
+      this.hidden = true
+    }
+
+    if (this.hidden) {
+      className += ' brHidden'
+    }
+    if (disabled) {
+      className += ' brDisabled'
+    }
+
+    if (editorTypes.length >= 2) {
+      menuOptions.push({
+        label: 'Change editor',
+        iconClass: <EditIcon />,
+        event: this.handleChangeEditorTypeMenuClick.bind(this),
+        enabled: true,
+      })
+    }
+
+    if (props.uiData.configurations.headerButtons) {
+      menuOptions = menuOptions.filter(
+        s =>
+          !s.headerButtonName ||
+          props.uiData.configurations.headerButtons.indexOf(
+            s.headerButtonName,
+          ) !== -1,
+      )
+    }
+
+    if (
+      (int(props.uiData.ucUiStore.getOptionalSetting({ key: 'fsp' })) &
+        myUcCimUserType) ===
+      myUcCimUserType
+    ) {
+      menuOptions = menuOptions.filter(s => s.headerButtonName !== 'file')
+    }
+
+    if (menuOptions.length) {
+      className += ' brMenuOptionsLength'
+    }
 
     return (
       <View
         style={[
-          styles.brEditorArea,
-          styles[`brEditorType${this.currentEditorType}`],
+          styles[className.split(' ')[0]],
+          styles[className.split(' ')[1]],
           props.uiData.currentSelectedTab ===
-            props.panelType + '_' + props.panelCode && styles.brSelected,
-          (props.uiData.configurations?.sendButton || isEmail) &&
-            styles.brWithSendButton,
-          props.uiData.configurations?.withMenuOptions &&
-            styles.brWithMenuOptions,
-          isEmail &&
-            chatHeaderInfo.lastConfType === 'emptylast' &&
-            styles.brMaximized,
-          this.hidden && styles.brHidden,
-          props.disabled && styles.brDisabled,
-          isEmail &&
-            !chatHeaderInfo.originalWebchatId &&
-            styles.brWithSubjectTextBox,
+          props.panelType + '_' + props.panelCode
+            ? styles.brSelected
+            : null,
+          (props.uiData.configurations &&
+            props.uiData.configurations.sendButton) ||
+          isEmail
+            ? styles.brWithSendButton
+            : null,
+          props.uiData.configurations &&
+          props.uiData.configurations.withMenuOptions
+            ? styles.brWithMenuOptions
+            : null,
+          isEmail && chatHeaderInfo.lastConfType === 'emptylast'
+            ? styles.brMaximized
+            : null,
+          this.hidden ? styles.brHidden : null,
+          disabled ? styles.brDisabled : null,
+          menuOptions.length ? styles.brMenuOptionsLength : null,
+          isEmail && chatHeaderInfo.lastConfType === 'webchat'
+            ? { height: 70 - Math.min(0, splitterHeight) }
+            : {},
         ]}
+        ref={this.editorAreaRef}
       >
         <TextBox
           ref={this.subjectTextBoxRef}
           style={styles.brSubjectTextBox}
           placeholder={uawMsgs.LBL_EDITOR_SUBJECT_PLACEHOLDER}
-          disabled={props.disabled}
+          disabled={disabled}
         />
-
         <View style={styles.brEditorTextareaContainer}>
           <TextInput
             ref={this.editorTextareaRef}
             style={styles.brEditorTextarea}
-            multiline
             placeholder={
-              props.disabled || isEmail
-                ? ''
-                : uawMsgs.LBL_EDITOR_TEXTAREA_PLACEHOLDER
+              disabled || isEmail ? '' : uawMsgs.LBL_EDITOR_TEXTAREA_PLACEHOLDER
             }
-            onKeyPress={event =>
-              props.uiData.fire(
-                'editorTextarea_onKeyDown',
-                props.panelType,
-                props.panelCode,
-                props.disabled,
-                isEmail,
-                event,
-              )
-            }
-            editable={!props.disabled}
+            onKeyPress={props.uiData.fire.bind(
+              props.uiData,
+              'editorTextarea_onKeyDown',
+              props.panelType,
+              props.panelCode,
+              disabled,
+              isEmail,
+            )}
+            multiline
           />
         </View>
 
-        <Animated.View
-          {...this.panResponder.panHandlers}
-          style={[
-            styles.brSplitterHeight,
-            isEmail && chatHeaderInfo.lastConfType === 'webchat'
-              ? {}
-              : styles.brHidden,
-            {
-              transform: [
-                { translateY: Math.min(0, this.state.splitterHeight) },
-              ],
-            },
-          ]}
-        />
+        {/* Draggable Splitter */}
+        {isEmail && chatHeaderInfo.lastConfType === 'webchat' && (
+          <Animated.View
+            style={[
+              styles.brSplitterHeight,
+              { transform: [{ translateY: this.splitterPosition }] },
+            ]}
+            {...this.panResponder.panHandlers}
+          />
+        )}
 
         <ButtonIconic
           style={[
             styles.brEditorSendButton,
-            isEmail ? styles.brEmailSendButton : styles.brChatSendButton,
+            isEmail ? styles.br_bi_icon_send_svg : styles.br_bi_icon_chat_svg,
           ]}
-          iconSource={
-            isEmail ? (
-              <SendIcon width={24} height={24} />
-            ) : (
-              <ChatIcon width={24} height={24} />
-            )
-          }
-          accessibilityLabel={uawMsgs.LBL_EDITOR_SEND_BUTTON_TOOLTIP}
-          disabled={props.disabled}
-          onPress={this.handleSendButtonClick}
+          title={uawMsgs.LBL_EDITOR_SEND_BUTTON_TOOLTIP}
+          disabled={disabled}
+          onPress={this.handleSendButtonClick.bind(this)}
         />
-
         <TouchableOpacity
           style={styles.brEditorOptionsButton}
-          accessibilityLabel={uawMsgs.LBL_EDITOR_OPTIONS_LINK}
-          onPress={this.handleOptionsLinkClick}
+          onPress={this.handleOptionsLinkClick.bind(this)}
         >
-          <View style={styles.brEditorOptionsIcon}>
-            {this.state.showingDialogVersion ===
-            props.uiData.showingDialogVersion ? (
-              <TriangleUpIcon width={24} height={24} />
-            ) : (
-              <TriangleDownIcon width={24} height={24} />
-            )}
-          </View>
+          <View
+            style={[
+              styles.brEditorOptionsIcon,
+              props.uiData.showingDialogVersion ===
+              this.state.showingDialogVersion
+                ? styles.br_bi_icon_triangle_up_svg
+                : styles.br_bi_icon_triangle_down_svg,
+            ]}
+          />
         </TouchableOpacity>
-
         <MenuBalloonDialog
           ref={this.editorOptionsBalloonRef}
           showing={
@@ -355,27 +738,26 @@ export default class extends React.Component {
           }
           style={styles.brEditorOptionsBalloon}
         >
-          {menuOptions.map((option, i) => (
+          {menuOptions.map((s, i) => (
             <MenuItem
               key={i}
-              style={[styles.brEditorOptionsItem, styles[option.iconClass]]}
-              disabled={!option.enabled}
+              style={[styles.brEditorOptionsItem]}
+              disabled={!s.enabled}
               onPress={
-                option.event ||
-                (() =>
-                  props.uiData.fire(
-                    option.eventName,
-                    props.panelType,
-                    props.panelCode,
-                  ))
+                s.event ||
+                props.uiData.fire.bind(
+                  props.uiData,
+                  s.eventName,
+                  props.panelType,
+                  props.panelCode,
+                )
               }
             >
-              <Text>{option.label}</Text>
+              <View style={{ marginLeft: 24 }}>{s.iconClass}</View>
+              <Text>{s.label}</Text>
             </MenuItem>
           ))}
         </MenuBalloonDialog>
-
-        {/* Reply Dialog */}
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
@@ -388,21 +770,19 @@ export default class extends React.Component {
             this.state.replyDialogStyle,
           ]}
         >
-          {this.buildReplyOptions().map((option, i) => (
+          {replyOptions.map((s, i) => (
             <MenuItem
               key={i}
               style={[
                 styles.brEditorOptionsReplyWebchatMenuItem,
-                styles[option.className],
+                styles[s.className],
               ]}
-              onPress={option.event}
+              onPress={s.event}
             >
-              <Text>{option.label}</Text>
+              <Text>{s.label}</Text>
             </MenuItem>
           ))}
         </MenuBalloonDialog>
-
-        {/* Editor Type Dialog */}
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
@@ -415,382 +795,241 @@ export default class extends React.Component {
             this.state.changeEditorTypeDialogStyle,
           ]}
         >
-          {editorTypes.map((type, i) => (
+          {editorTypes.map((t, i) => (
             <MenuItem
               key={i}
               style={[
                 styles.brEditorOptionsChangeEditorTypeMenuItem,
-                styles[`brEditorType${type}`],
+                styles['brEditorType' + t],
               ]}
-              onPress={() => this.setState({ selectedEditorType: type })}
+              onPress={() => this.setState({ selectedEditorType: t })}
             >
-              <Text>{uawMsgs[`LBL_EDITOR_TYPE_${type}`] || type}</Text>
+              <Text>{uawMsgs['LBL_EDITOR_TYPE_' + t] || t}</Text>
             </MenuItem>
           ))}
         </MenuBalloonDialog>
       </View>
     )
   }
-
-  buildMenuOptions(chatHeaderInfo, isEmail, panelSession, myUcCimUserType) {
-    const { props } = this
-    let menuOptions = []
-
-    if (props.panelType === 'CONFERENCE') {
-      const conf_id = string(chatHeaderInfo.conf_id)
-      const conference = props.uiData.ucUiStore
-        .getChatClient()
-        .getConference(conf_id)
-      const joinedCount = conference.user.filter(
-        u => u.conf_status === Constants.CONF_STATUS_JOINED,
-      ).length
-
-      menuOptions = this.buildConferenceMenuOptions(
-        conference,
-        joinedCount,
-        chatHeaderInfo,
-        panelSession,
-      )
-    } else if (props.panelType === 'CHAT') {
-      menuOptions = this.buildChatMenuOptions(panelSession)
-    } else if (props.panelType === 'EXTERNALCALL') {
-      this.hidden = true
-    }
-
-    // Filter based on configurations
-    if (props.uiData.configurations.headerButtons) {
-      menuOptions = menuOptions.filter(
-        option =>
-          !option.headerButtonName ||
-          props.uiData.configurations.headerButtons.includes(
-            option.headerButtonName,
-          ),
-      )
-    }
-
-    // Filter file option based on permissions
-    if (
-      (int(props.uiData.ucUiStore.getOptionalSetting({ key: 'fsp' })) &
-        myUcCimUserType) ===
-      myUcCimUserType
-    ) {
-      menuOptions = menuOptions.filter(
-        option => option.headerButtonName !== 'file',
-      )
-    }
-
-    return menuOptions
-  }
-
-  buildConferenceMenuOptions(
-    conference,
-    joinedCount,
-    chatHeaderInfo,
-    panelSession,
-  ) {
-    const { props } = this
-    const replyOptions = this.buildReplyOptions(chatHeaderInfo)
-
-    let options = [
-      {
-        headerButtonName: 'leave',
-        label: uawMsgs.LBL_EDITOR_LEAVE_LINK,
-        iconSource: <LogOutIcon width={24} height={24} />,
-        eventName: 'panelHeaderLeaveButton_onClick',
-        enabled: conference.conf_status === Constants.CONF_STATUS_JOINED,
-      },
-      {
-        headerButtonName: 'invite',
-        label: uawMsgs.LBL_EDITOR_INVITE_LINK,
-        iconSource: <EnvelopeIcon width={24} height={24} />,
-        eventName: 'panelHeaderInviteButton_onClick',
-        enabled: this.checkInviteEnabled(conference, chatHeaderInfo),
-      },
-      // ... other options
-    ]
-
-    if (chatHeaderInfo.confType === 'webchat' && replyOptions.length) {
-      options.splice(1, 0, {
-        headerButtonName: 'reply',
-        label: uawMsgs.LBL_EDITOR_REPLY_LINK,
-        iconSource: <ReplyIcon width={24} height={24} />,
-        event:
-          replyOptions.length === 1
-            ? replyOptions[0].event
-            : this.handleReplyWebchatMenuClick,
-        enabled: true,
-      })
-    }
-
-    return options
-  }
-
-  buildChatMenuOptions(panelSession) {
-    return [
-      {
-        headerButtonName: 'file',
-        label: uawMsgs.LBL_EDITOR_FILE_LINK,
-        iconSource: <UploadIcon width={24} height={24} />,
-        eventName: 'panelHeaderFileButton_onClick',
-        enabled: true,
-      },
-      // ... other chat options
-    ]
-  }
 }
 
 const styles = StyleSheet.create({
+  // Main editor area
   brEditorArea: {
     position: 'absolute',
     padding: 0,
     paddingBottom: 1,
     width: '100%',
-    height: 64,
+    height: 70,
     left: 0,
     bottom: 0,
     borderTopWidth: 1,
-    borderTopColor: '#E5E5E5', // @platinum
-    backgroundColor: '#FFFFFF',
+    borderTopColor: '@platinum',
+    backgroundColor: 'transparent',
   },
-
-  brSelected: {
-    borderColor: '#82C341',
-    borderWidth: 1,
-  },
-
-  brWithSendButton: {
-    paddingRight: 40,
-  },
-
-  brWithMenuOptions: {
-    paddingRight: 80,
-  },
-
-  brMaximized: {
-    flex: 1,
-  },
-
   brHidden: {
     display: 'none',
   },
-
-  brDisabled: {
-    opacity: 0.5,
+  brMaximized: {
+    height: '100%',
+  },
+  brSelected: {
+    backgroundColor: '@white',
   },
 
-  brWithSubjectTextBox: {
-    paddingTop: 40,
-  },
-
+  // Subject text box
   brSubjectTextBox: {
+    display: 'none',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
     height: 32,
-    paddingHorizontal: 8,
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-    borderRadius: 4,
-    marginBottom: 8,
+    borderRadius: 0,
+  },
+  brWithSubjectTextBox: {
+    // This is a modifier class, will be applied conditionally
   },
 
+  // Editor textarea container
   brEditorTextareaContainer: {
-    flex: 1,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
 
+  // Editor textarea
   brEditorTextarea: {
+    position: 'absolute',
     width: '100%',
     height: '100%',
-    fontFamily: 'inherit',
+    fontFamily: undefined, // Will inherit from parent
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 1.6 * 13,
+    lineHeight: 1.6,
     letterSpacing: 0.3,
     borderWidth: 0,
-    paddingTop: 16,
-    paddingBottom: 8,
-    paddingLeft: 80,
-    paddingRight: 8,
+    padding: 8,
     backgroundColor: 'transparent',
   },
-
-  brEditorTextareaDisabled: {
-    color: '#666666', // @dark_gray
+  brWithMenuOptions: {
+    // This is a modifier class, will be applied conditionally
+  },
+  brMenuOptionsLength: {
+    // This is a modifier class, will be applied conditionally
+  },
+  brDisabled: {
+    color: '@dark_gray',
   },
 
-  brEditorTextareaFocused: {
-    borderWidth: 2,
-    borderColor: '#40E0D0', // @medium_turquoise
+  // Splitter height
+  brSplitterHeight: {
+    position: 'absolute',
+    width: '100%',
+    height: 8,
+    left: 0,
+    bottom: 60,
+    // cursor: 'row-resize', // Not applicable in RN
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
-  brEditorTextareaDisabledFocused: {
-    borderWidth: 0,
-  },
-
-  brEditorTextareaPlaceholder: {
-    color: '#666666', // @dark_gray
-  },
-
+  // Editor send button
   brEditorSendButton: {
     display: 'none',
     position: 'absolute',
     right: 16,
-    top: 16,
+    bottom: 18,
     borderWidth: 0,
     opacity: 0.2,
   },
-
-  brEditorSendButtonActive: {
-    opacity: 1,
+  brWithSendButton: {
+    // This is a modifier class, will be applied conditionally
   },
 
-  brEditorSendButtonDisabled: {
-    opacity: 1,
-    backgroundColor: 'transparent',
-  },
-
-  brEditorSendButtonDisabledCircle: {
-    position: 'absolute',
-    left: 4,
-    top: 4,
-    width: 20,
-    height: 20,
-    borderWidth: 2,
-    borderColor: '#1A2421', // @dark_jungle_green
-    borderRadius: 10,
-  },
-
-  brEditorSendButtonDisabledLine: {
-    position: 'absolute',
-    left: 6,
-    top: 14,
-    width: 20,
-    height: 2,
-    borderTopWidth: 1,
-    borderTopColor: '#FFFFFF', // @white
-    borderBottomWidth: 1,
-    borderBottomColor: '#FFFFFF', // @white
-    backgroundColor: '#1A2421', // @dark_jungle_green
-    transform: [{ rotate: '45deg' }],
-  },
-
+  // Editor options button
   brEditorOptionsButton: {
+    display: 'none',
     position: 'absolute',
     width: 40,
     height: 40,
     left: 20,
-    top: 8,
+    bottom: 17,
     borderWidth: 0,
     borderRadius: 4,
-    backgroundColor: '#82C341', // @mantis
-    // Note: Linear gradient not directly available in RN
-    // Using a solid color instead
-    shadowColor: '#82C341',
-    shadowOffset: { width: 0, height: -10 },
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
-    elevation: 5,
+    backgroundColor: '@mantis',
+    // boxShadow: '0px 0px 20px -10px @mantis', // Will be handled differently in RN
   },
 
-  brEditorOptionsButtonHover: {
-    backgroundColor: '#4CAF50', // @green
-    shadowColor: '#4CAF50',
-  },
-
-  brEditorOptionsButtonActive: {
-    backgroundColor: '#378B29', // @sap_green
-    shadowColor: '#378B29',
-  },
-
-  brEditorOptionsButtonDisabled: {
-    backgroundColor: '#A6A6A6', // @disabled_gray
-    shadowColor: '#A6A6A6',
-  },
-
+  // Editor options icon
   brEditorOptionsIcon: {
+    display: 'flex',
     position: 'absolute',
     left: 0,
     top: 0,
     width: '100%',
     height: '100%',
-    // Note: brightness/invert filters not available in RN
-    // Use tintColor instead
-    tintColor: '#FFFFFF',
+    // backgroundPosition: 'center', // Will be handled differently in RN
+    // backgroundRepeat: 'no-repeat', // Will be handled differently in RN
+    // filter: 'brightness(0) invert(100%)', // Will be handled differently in RN
   },
 
+  // Editor options balloon
   brEditorOptionsBalloon: {
     position: 'absolute',
     left: 20,
-    bottom: 56,
+    bottom: 58,
   },
 
+  // Editor options item
   brEditorOptionsItem: {
-    padding: 14,
-    paddingHorizontal: 16,
+    paddingLeft: 46,
+    // backgroundRepeat: 'no-repeat', // Will be handled differently in RN
+    // backgroundPosition: '8px center', // Will be handled differently in RN
   },
 
-  brEditorReportMailLinkIcon: {
-    width: 20,
-    height: 16,
-    marginLeft: -4,
-  },
-
-  brEditorReportMailLinkIconDisabled: {
-    opacity: 5.73, // Approximation of brightness filter
-  },
-
+  // Editor options separator
   brEditorOptionsSeparator: {
-    marginVertical: 2,
-    marginHorizontal: 10,
-    height: 1,
-    backgroundColor: '#E5E5E5', // @platinum
+    margin: 2,
+    marginLeft: 10,
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: '@platinum',
+    borderStyle: 'inset',
   },
 
-  brSplitterHeight: {
-    height: 4,
-    backgroundColor: '#E5E5E5',
-    width: '100%',
-  },
-
+  // Editor options reply webchat balloon
   brEditorOptionsReplyWebchatBalloon: {
     position: 'absolute',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 4,
-    padding: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
 
-  brEditorOptionsReplyWebchatMenuItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
-  },
-
+  // Editor options change editor type balloon
   brEditorOptionsChangeEditorTypeBalloon: {
     position: 'absolute',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 4,
-    padding: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
 
+  // Editor options change editor type menu item
   brEditorOptionsChangeEditorTypeMenuItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
+    paddingLeft: 46,
   },
 
-  // Icon classes converted to styles
+  // Icon classes
   br_bi_icon_log_out_svg: {
-    // Add icon specific styles
+    // Icon styles will be handled differently in RN
   },
   br_bi_icon_envelope_svg: {
-    // Add icon specific styles
+    // Icon styles will be handled differently in RN
   },
-  // ... other icon styles
+  br_bi_icon_upload_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_phone_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_video_call_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_channel_mosaic_1_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_history_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_reply_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_edit_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_triangle_up_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_triangle_down_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_send_svg: {
+    // Icon styles will be handled differently in RN
+  },
+  br_bi_icon_chat_svg: {
+    // Icon styles will be handled differently in RN
+  },
+
+  // Editor type classes
+  brEditorTypeEmail: {
+    // Editor type specific styles
+  },
+  brEditorTypeChat: {
+    // Editor type specific styles
+  },
+
+  // Reply options classes
+  brManualContinuation: {
+    // Reply option specific styles
+  },
+  brContinuation: {
+    // Reply option specific styles
+  },
 })

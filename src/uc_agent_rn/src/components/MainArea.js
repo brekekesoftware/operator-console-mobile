@@ -115,7 +115,7 @@ export default class MainArea extends React.Component {
 
   onLayout = event => {
     const { width, height } = event.nativeEvent.layout
-
+    console.log('#Duy Phan console width', width, height)
     if (
       this.state.mainAreaWidth !== width ||
       this.state.mainAreaHeight !== height
@@ -167,7 +167,7 @@ export default class MainArea extends React.Component {
   renderWithTwoSplitters() {
     const { props } = this
     const { splitterRight, splitterBottom, isOverDrop, canDrop } = this.state
-
+    console.log('#Duy Phan console split', splitterRight, splitterBottom)
     return (
       <View
         style={[
@@ -342,6 +342,11 @@ export default class MainArea extends React.Component {
               top: 0,
               right: 0,
               bottom: 0,
+              //  width: 200,
+              //  height: 200,
+              // width: '100%',
+              // height: '100%',
+              // backgroundColor: 'red',
             },
           ]}
         >
@@ -376,10 +381,12 @@ const styles = StyleSheet.create({
   mainArea: {
     position: 'absolute',
     left: 0,
-    top: 0,
+    top: 49,
     right: 0,
     bottom: 0,
     overflow: 'hidden',
+    // width: 200,
+    // height: 200,
     backgroundColor: colors.white,
   },
   splitters0: {},

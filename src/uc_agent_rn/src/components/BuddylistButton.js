@@ -65,6 +65,7 @@ export default class extends React.Component {
 
     const buddyNodes = filteredBuddyList.sort().map(buddy => {
       const currentBuddyStatus = props.uiData.getCurrentBuddyStatus(buddy) || {}
+      console.log('#Duy Phan console buddy', buddy)
       return (
         <TouchableOpacity
           key={buddy.user_id}
@@ -126,6 +127,7 @@ export default class extends React.Component {
 const styles = StyleSheet.create({
   brBuddylistButton: {
     // Container styles
+    zIndex: 1,
   },
   brIconBuddylist: {
     // We'll need to import the image using require
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   brBuddylistArea: {
-    maxHeight: '50%', // 50vh converted to percentage
+    // maxHeight: '50%', // 50vh converted to percentage
   },
   brBuddylistBuddy: {
     padding: 14,

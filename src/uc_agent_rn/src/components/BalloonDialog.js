@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     top: 30,
     width: 0,
     height: 0,
+    zIndex: 1,
   },
   brBalloonDialogInner: {
     paddingTop: 8,

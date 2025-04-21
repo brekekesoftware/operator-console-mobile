@@ -321,6 +321,9 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: colors.white,
+    // width: 500,
+    height: 'auto',
+    zIndex: 12,
   },
   modalOverlay: {
     position: 'absolute',

@@ -305,7 +305,7 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
               style={{ position: 'relative', width: '50%', height: '100%' }}
               ref={this._uccacRootElementRef}
             >
-              <DynamicView viewId='ucclientPanelRoot' />
+              <DynamicView viewId='ucclientPanelRoot' style={{ flex: 1 }} />
             </View>
           </View>
           <View style={{ padding: 4 }}>

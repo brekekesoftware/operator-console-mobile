@@ -22,6 +22,7 @@ const colors = {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
+    zIndex: 1,
   },
   icon: {
     width: 36,

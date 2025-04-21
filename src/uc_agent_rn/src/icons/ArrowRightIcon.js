@@ -18,7 +18,7 @@ const ArrowRightIcon = ({
         fillRule='nonzero'
         xlinkHref='#path-1'
       ></Use>
-      3<Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
+      <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
     </G>
   </Svg>
 )

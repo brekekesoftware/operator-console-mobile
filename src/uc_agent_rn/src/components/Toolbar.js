@@ -12,16 +12,19 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     minWidth: 224,
+    minHeight: 48,
     height: 48,
-    borderBottomWidth: 1,
-    borderBottomColor: '#b2b2b2',
     paddingLeft: 4,
-    backgroundColor: '#f6f6f6',
+    // zIndex: 1,
   },
   toolbarContent: {
     flexDirection: 'row',
     alignItems: 'center',
     height: '100%',
+    backgroundColor: '#f6f6f6',
+    borderBottomWidth: 1,
+    borderBottomColor: '#b2b2b2',
+    // zIndex: 1,
   },
   // Style for child ToolbarButton components
   toolbarButton: {
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
  */
 export default function Toolbar(props) {
   // On iOS and Android, we'll use LinearGradient for the background
-  if (Platform.OS !== 'web') {
+  if (Platform.OS === 'web') {
     return (
       <LinearGradient
         style={[styles.toolbar, props.style]}
@@ -65,10 +68,10 @@ export default function Toolbar(props) {
     <View
       style={[
         styles.toolbar,
-        {
-          backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.7) 0, rgba(255,255,255,0) 100%)',
-        },
+        // {
+        //   backgroundImage:
+        //     'linear-gradient(rgba(255,255,255,0.7) 0, rgba(255,255,255,0) 100%)',
+        // },
         props.style,
       ]}
     >

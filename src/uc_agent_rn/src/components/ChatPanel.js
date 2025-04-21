@@ -35,7 +35,7 @@ export default class ChatPanel extends React.Component {
 
   componentDidUpdate() {
     const hasActiveReplyButton =
-      this.chatAreaRef.current?.hasActiveReplyButton()
+      this.chatAreaRef.current?.hasActiveReplyButton?.()
 
     if (hasActiveReplyButton !== this.state.editorAreaDisabled) {
       this.setState({ editorAreaDisabled: hasActiveReplyButton })
@@ -109,13 +109,14 @@ export default class ChatPanel extends React.Component {
           )
         }
       >
-        <ChatArea
-          ref={this.chatAreaRef}
-          uiData={props.uiData}
-          panelType={props.panelType}
-          panelCode={props.panelCode}
-          style={[styles.chatArea, { top: this.state.chatAreaTop }]}
-        />
+        <View ref={this.chatAreaRef}>
+          <ChatArea
+            uiData={props.uiData}
+            panelType={props.panelType}
+            panelCode={props.panelCode}
+            style={[styles.chatArea, { top: this.state.chatAreaTop }]}
+          />
+        </View>
 
         {!this.state.isScrolledToBottom && (
           <ButtonIconic
