@@ -161,6 +161,7 @@ export default class extends React.Component {
 
           if (Object.keys(newState).length) {
             this.setState(newState)
+            console.log('#Duy Phan console newState2', newState)
           }
         },
       )
@@ -1337,6 +1338,8 @@ export default class extends React.Component {
         />
       )
     }
+    console.log('#Duy Phan console headerButtons', headerButtons.length)
+
     return (
       <View
         ref={this.panelHeaderAreaRef}
@@ -1382,6 +1385,7 @@ export default class extends React.Component {
           >
             {headerInfo}
           </Text>
+
           <View
             ref={this.panelHeaderMembersRef}
             style={[
@@ -1489,6 +1493,9 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
+    // width: 500,
+    // height: 500,
+    // backgroundColor: 'blue',
   },
   brPanelHeaderArea: {
     flexDirection: 'row',
@@ -1499,8 +1506,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 56,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5', // @platinum
-    backgroundColor: 'transparent',
+    borderBottomColor: '#e0e0e0', // @platinum
+    // backgroundColor: 'red',
   },
   brPanelHeaderTitle: {
     maxHeight: '100%',
@@ -1559,6 +1566,7 @@ const styles = StyleSheet.create({
       { translateX: -16 }, // Half of the default button width
       { translateY: -16 }, // Half of the default button height
     ],
+    display: 'none',
   },
   brHeaderButtonsVisible: {
     height: 32,
@@ -1613,6 +1621,7 @@ const styles = StyleSheet.create({
     top: '50%',
     height: 20,
     transform: [{ translateY: -10 }], // Half of the height
+    display: 'none',
   },
   brPanelHeaderSimpleButtonsAreaVisible: {
     display: 'flex',
@@ -1720,5 +1729,8 @@ const styles = StyleSheet.create({
     top: 56,
     bottom: 0,
     width: '100%',
+  },
+  brHidden: {
+    display: 'none',
   },
 })

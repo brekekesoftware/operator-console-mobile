@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const ArrowUpIcon = ({
   width = 24,
@@ -8,7 +8,25 @@ const ArrowUpIcon = ({
   ...props
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
-    <G>
+    <Defs>
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Polygon
+        id='path-1'
+        points='10.7275401 0 10.7275401 20.1581192 6.419144 15.8497229 5 17.2688665 11.7311337 24 18.4622672 17.2688665 17.0431236 15.8497229 12.7347273 20.1581192 12.7347273 0'
+      />
+      <Use xlinkHref='#path-1' />
+      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+    </Defs>
+    <G
+      id='icon/arrow-up'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>

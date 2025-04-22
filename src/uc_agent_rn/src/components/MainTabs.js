@@ -21,7 +21,7 @@ import {
   NativeModules,
 } from 'react-native'
 import TriangleDownIcon from '../icons/TriangleDownIcon.js'
-
+import CancelIcon from '../icons/CancelIcon.js'
 /**
  * MainTabs
  * props.uiData
@@ -73,6 +73,10 @@ export default class extends React.Component {
       props.uiData &&
       prevProps.uiData.currentSelectedTab !== props.uiData.currentSelectedTab
     ) {
+      console.log(
+        '#Duy Phan console componentDidUpdate',
+        props.uiData.currentSelectedTab,
+      )
       this.setState({ activeTab: props.uiData.currentSelectedTab || '' })
     }
 
@@ -141,6 +145,7 @@ export default class extends React.Component {
 
             if (Object.keys(newState).length) {
               this.setState(newState)
+              console.log('#Duy Phan console newState', newState)
             }
           },
         )
@@ -231,6 +236,7 @@ export default class extends React.Component {
     let lastFrontTab = ''
     let hasSelectedTab = false
     const isIE = false
+
     let chatBgColorList = []
     try {
       chatBgColorList = [].concat(
@@ -450,7 +456,7 @@ export default class extends React.Component {
                   {tabTitle || '\u2002'}
                 </Text>
                 <ButtonIconic
-                  className='brTabLinkHideButton br_bi_icon_cancel_svg'
+                  className='brTabLinkHideButton'
                   title={uawMsgs.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP}
                   onClick={props.uiData.fire.bind(
                     props.uiData,
@@ -458,11 +464,13 @@ export default class extends React.Component {
                     panel.panelType,
                     panel.panelCode,
                   )}
+                  iconSource={<CancelIcon />}
                 ></ButtonIconic>
               </TouchableOpacity>
             </DndableSafe>
           </View>,
         )
+
         tabMenuItemList.push(
           <MenuItem
             key={key}
@@ -484,6 +492,7 @@ export default class extends React.Component {
             </Text>
           </MenuItem>,
         )
+        console.log('#Duy Phan console renderPanelArea', panel)
         tabContentList.push(
           <View
             key={key}
@@ -513,6 +522,7 @@ export default class extends React.Component {
       props.uiData.backgroundTabs[lastFrontTab] = { time: Date.now() }
     }
     this.currentFrontTab = frontTab
+    console.log('#Duy Phan console tabContentList', tabContentList.length)
     return (
       <View
         ref={this.mainTabsRef}
@@ -520,6 +530,7 @@ export default class extends React.Component {
           styles.brMainTabs,
           hasSelectedTab ? styles.brMainTabsSelected : {},
         ]}
+        pointerEvents='box-none'
       >
         <ScrollView
           ref={this.mainTabLinksRef}
@@ -573,10 +584,11 @@ export default class extends React.Component {
           ]}
           onTouchStart={this.handleMainTabContentTouchStart.bind(this)}
           onTouchEnd={this.handleMainTabContentTouchEnd.bind(this)}
+          pointerEvents='box-none'
         >
           {tabContentList}
         </View>
-        <MenuBalloonDialog
+        {/* <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
             this.state.tabMenuShowingDialogVersion
@@ -634,7 +646,7 @@ export default class extends React.Component {
               ? uawMsgs.LBL_TAB_LINK_MOVE_UP_MENU
               : uawMsgs.LBL_TAB_LINK_MOVE_DOWN_MENU}
           </MenuItem>
-        </MenuBalloonDialog>
+        </MenuBalloonDialog> */}
       </View>
     )
   }
@@ -647,7 +659,12 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    // width: '100%',
+    // height: '100%',
+    // flex: 1
+    // backgroundColor: 'blue',
   },
+
   brMainTabsSelected: {},
   brMainTabLinks: {
     position: 'absolute',
@@ -696,6 +713,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    // width: '100%',
+    // height: '100%',
+    // backgroundColor: 'red',
   },
   tabContentActive: {
     display: 'flex',
@@ -714,6 +734,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 17.6,
     letterSpacing: 0.3,
+    marginLeft: 5,
   },
   brTabLinkHideButton: {
     width: 18,
@@ -769,6 +790,7 @@ const styles = StyleSheet.create({
   brMainTabContent: {
     position: 'absolute',
     width: '100%',
+    height: '100%',
     top: 39,
     bottom: 0,
     borderLeftWidth: 1,
@@ -776,6 +798,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#E5E5E5',
     backgroundColor: '#F6F6F6',
+    // flex: 1,
   },
   brMainTabContentSelected: {
     backgroundColor: '#FFFFFF',

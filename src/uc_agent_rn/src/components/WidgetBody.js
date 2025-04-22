@@ -181,6 +181,7 @@ export default class WidgetBody extends React.Component {
       <View
         style={[styles.widgetBody, props.style]}
         onTouchEnd={() => props.uiData.fire('widgetBody_onClick')}
+        // pointerEvents='box-none'
       >
         <Modal
           visible={modalInfo !== null}
@@ -323,7 +324,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     // width: 500,
     height: 'auto',
-    zIndex: 12,
+    // zIndex: 11,
   },
   modalOverlay: {
     position: 'absolute',

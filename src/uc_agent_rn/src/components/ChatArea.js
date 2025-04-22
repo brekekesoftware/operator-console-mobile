@@ -31,10 +31,10 @@ export default class extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.scrolledFirst || 0 < this.shouldScrollBottom) {
-      this.scrollToBottom()
-    }
-    this.checkScrolledToBottom()
+    // if (!this.scrolledFirst || 0 < this.shouldScrollBottom) {
+    //   this.scrollToBottom()
+    // }
+    // this.checkScrolledToBottom()
   }
 
   scrollToBottom(animated = true) {
@@ -101,7 +101,6 @@ export default class extends React.Component {
     const isSelected =
       props.uiData.currentSelectedTab ===
       props.panelType + '_' + props.panelCode
-    alert(1)
 
     return (
       <ScrollView

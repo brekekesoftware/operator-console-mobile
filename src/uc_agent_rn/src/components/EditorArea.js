@@ -28,7 +28,10 @@ import HistoryIcon from '../icons/HistoryIcon.js'
 import ChannelMosaic1Icon from '../icons/ChannelMosaic1Icon.js'
 import PhoneIcon from '../icons/PhoneIcon.js'
 import VideoCallIcon from '../icons/VideoCallIcon.js'
-
+import TriangleUpIcon from '../icons/TriangleUpIcon.js'
+import TriangleDownIcon from '../icons/TriangleDownIcon.js'
+import SendIcon from '../icons/SendIcon.js'
+import ChatIcon from '../icons/ChatIcon.js'
 /**
  * EditorArea
  * props.uiData
@@ -226,6 +229,7 @@ export default class extends React.Component {
 
   handleOptionsLinkClick(ev) {
     const props = this.props
+    alert(1)
     if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
       this.setState({
         showingDialogVersion: ++props.uiData.showingDialogVersion,
@@ -641,6 +645,11 @@ export default class extends React.Component {
       className += ' brMenuOptionsLength'
     }
 
+    console.log(
+      '#Duy Phan console className.split',
+      className.split(' ')[0],
+      className.split(' ')[1],
+    )
     return (
       <View
         style={[
@@ -668,8 +677,12 @@ export default class extends React.Component {
           isEmail && chatHeaderInfo.lastConfType === 'webchat'
             ? { height: 70 - Math.min(0, splitterHeight) }
             : {},
+          { backgroundColor: 'blue' },
         ]}
         ref={this.editorAreaRef}
+        onTouchEnd={() => {
+          console.log('#Duy Phan console onTouchEnd3')
+        }}
       >
         <TextBox
           ref={this.subjectTextBoxRef}
@@ -708,27 +721,25 @@ export default class extends React.Component {
         )}
 
         <ButtonIconic
-          style={[
-            styles.brEditorSendButton,
-            isEmail ? styles.br_bi_icon_send_svg : styles.br_bi_icon_chat_svg,
-          ]}
+          style={[styles.brEditorSendButton]}
           title={uawMsgs.LBL_EDITOR_SEND_BUTTON_TOOLTIP}
+          iconSource={isEmail ? <SendIcon /> : <ChatIcon />}
           disabled={disabled}
           onPress={this.handleSendButtonClick.bind(this)}
         />
         <TouchableOpacity
           style={styles.brEditorOptionsButton}
           onPress={this.handleOptionsLinkClick.bind(this)}
+          pointerEvents='auto'
         >
-          <View
-            style={[
-              styles.brEditorOptionsIcon,
-              props.uiData.showingDialogVersion ===
-              this.state.showingDialogVersion
-                ? styles.br_bi_icon_triangle_up_svg
-                : styles.br_bi_icon_triangle_down_svg,
-            ]}
-          />
+          <View style={[styles.brEditorOptionsIcon]}>
+            {props.uiData.showingDialogVersion ===
+            this.state.showingDialogVersion ? (
+              <TriangleUpIcon color='white' width={30} height={30} />
+            ) : (
+              <TriangleDownIcon color='white' width={30} height={30} />
+            )}
+          </View>
         </TouchableOpacity>
         <MenuBalloonDialog
           ref={this.editorOptionsBalloonRef}
@@ -824,8 +835,8 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     borderTopWidth: 1,
-    borderTopColor: '@platinum',
-    backgroundColor: 'transparent',
+    borderTopColor: '#e0e0e0',
+    backgroundColor: 'red',
   },
   brHidden: {
     display: 'none',
@@ -862,17 +873,17 @@ const styles = StyleSheet.create({
 
   // Editor textarea
   brEditorTextarea: {
-    position: 'absolute',
+    // position: 'absolute',
     width: '100%',
     height: '100%',
     fontFamily: undefined, // Will inherit from parent
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 1.6,
+    // lineHeight: 1.6,
     letterSpacing: 0.3,
     borderWidth: 0,
     padding: 8,
-    backgroundColor: 'transparent',
+    paddingLeft: 80,
   },
   brWithMenuOptions: {
     // This is a modifier class, will be applied conditionally
@@ -912,7 +923,7 @@ const styles = StyleSheet.create({
 
   // Editor options button
   brEditorOptionsButton: {
-    display: 'none',
+    // display: 'none',
     position: 'absolute',
     width: 40,
     height: 40,
@@ -920,21 +931,20 @@ const styles = StyleSheet.create({
     bottom: 17,
     borderWidth: 0,
     borderRadius: 4,
-    backgroundColor: '@mantis',
+    backgroundColor: '#5fac3f',
     // boxShadow: '0px 0px 20px -10px @mantis', // Will be handled differently in RN
   },
 
   // Editor options icon
   brEditorOptionsIcon: {
     display: 'flex',
-    position: 'absolute',
-    left: 0,
-    top: 0,
+    // position: 'absolute',
+    // left: 0,
+    // top: 0,
     width: '100%',
     height: '100%',
-    // backgroundPosition: 'center', // Will be handled differently in RN
-    // backgroundRepeat: 'no-repeat', // Will be handled differently in RN
-    // filter: 'brightness(0) invert(100%)', // Will be handled differently in RN
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   // Editor options balloon

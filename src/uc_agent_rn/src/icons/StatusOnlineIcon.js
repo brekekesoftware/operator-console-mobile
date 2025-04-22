@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const StatusOnlineIcon = ({
   width = 24,
@@ -8,7 +8,14 @@ const StatusOnlineIcon = ({
   ...props
 }) => (
   <Svg width={width} height={height} viewBox='0 0 8 8' {...props}>
-    <G>
+    <Defs></Defs>
+    <G
+      id='icon/status-online'
+      fill='none'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Circle
         id='components/avatar/status-online'
         stroke='#F5F5F5'

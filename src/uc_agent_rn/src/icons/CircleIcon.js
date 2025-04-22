@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const CircleIcon = ({
   width = 24,
@@ -13,8 +13,20 @@ const CircleIcon = ({
         id='path-1'
         d='M12,18 C15.3137085,18 18,15.3137085 18,12 C18,8.6862915 15.3137085,6 12,6 C8.6862915,6 6,8.6862915 6,12 C6,15.3137085 8.6862915,18 12,18 Z M12,20 C7.581722,20 4,16.418278 4,12 C4,7.581722 7.581722,4 12,4 C16.418278,4 20,7.581722 20,12 C20,16.418278 16.418278,20 12,20 Z'
       />
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Use xlinkHref='#path-1' />
+      <Use id='Oval' fill='#383B41' fillRule='nonzero' xlinkHref='#path-1' />
     </Defs>
-    <G>
+    <G
+      id='icon/circle'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>

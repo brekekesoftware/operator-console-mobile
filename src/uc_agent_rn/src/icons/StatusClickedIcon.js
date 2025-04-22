@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const StatusClickedIcon = ({
   width = 24,
@@ -8,7 +8,22 @@ const StatusClickedIcon = ({
   ...props
 }) => (
   <Svg width={width} height={height} viewBox='0 0 8 8' {...props}>
-    <G>
+    <Defs>
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Polygon id='path-1' points='4 5 6 7 8 5' />
+      <Use xlinkHref='#path-1' />
+      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+    </Defs>
+    <G
+      id='icon/status-clicked'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Circle
         id='components/avatar/status-online'
         stroke='#F5F5F5'

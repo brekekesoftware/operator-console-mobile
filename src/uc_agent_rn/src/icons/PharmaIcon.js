@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const PharmaIcon = ({
   width = 24,
@@ -13,8 +13,20 @@ const PharmaIcon = ({
         id='path-1'
         d='M5.6,5 L5.6,6.6 L18.4,6.6 L18.4,5 L5.6,5 Z M5.6,8.2 L4,11.4 L4,13 L4.8,13 L4.8,19.4 L19.2,19.4 L19.2,13 L20,13 L20,11.4 L18.4,8.2 L5.6,8.2 Z M6.4,13 L17.6,13 L17.6,17.8 L6.4,17.8 L6.4,13 Z'
       />
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Use xlinkHref='#path-1' />
+      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
     </Defs>
-    <G>
+    <G
+      id='icon/pharma'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>

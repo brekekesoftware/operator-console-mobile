@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const StarFullIcon = ({
   width = 24,
@@ -8,7 +8,25 @@ const StarFullIcon = ({
   ...props
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
-    <G>
+    <Defs>
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Polygon
+        id='path-1'
+        points='12 16.1442963 16.9441781 19.1111111 15.6319551 13.52 20 9.75805291 14.2480774 9.2730582 12 4 9.75192255 9.2730582 4 9.75805291 8.36804487 13.52 7.05582195 19.1111111'
+      />
+      <Use xlinkHref='#path-1' />
+      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+    </Defs>
+    <G
+      id='icon/star-full'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>

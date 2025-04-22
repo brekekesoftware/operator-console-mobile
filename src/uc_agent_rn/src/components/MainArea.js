@@ -160,6 +160,7 @@ export default class MainArea extends React.Component {
     }
 
     if (Object.keys(newState).length > 0) {
+      console.log('#Duy Phan console newState spliter', newState)
       this.setState(newState)
     }
   }
@@ -349,6 +350,10 @@ export default class MainArea extends React.Component {
               // backgroundColor: 'red',
             },
           ]}
+          pointerEvents='box-none'
+          onTouchEnd={() => {
+            console.log('#Duy Phan console onTouchEnd2')
+          }}
         >
           <MainTabs uiData={props.uiData} position='center east south se' />
         </View>
@@ -387,7 +392,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     // width: 200,
     // height: 200,
-    backgroundColor: colors.white,
+    backgroundColor: 'yellow',
   },
   splitters0: {},
   splitters1: {},

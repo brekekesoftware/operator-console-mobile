@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const EllypsisIcon = ({
   width = 24,
@@ -13,8 +13,20 @@ const EllypsisIcon = ({
         id='path-1'
         d='M6.08695652,10 C4.93478261,10 4,10.9347826 4,12.0869565 C4,13.2391304 4.93478261,14.173913 6.08695652,14.173913 C7.23913043,14.173913 8.17391304,13.2391304 8.17391304,12.0869565 C8.17391304,10.9347826 7.23913043,10 6.08695652,10 Z M12,10 C10.8478261,10 9.91304348,10.9347826 9.91304348,12.0869565 C9.91304348,13.2391304 10.8478261,14.173913 12,14.173913 C13.1521739,14.173913 14.0869565,13.2391304 14.0869565,12.0869565 C14.0869565,10.9347826 13.1521739,10 12,10 Z M17.9130435,10 C16.7608696,10 15.826087,10.9347826 15.826087,12.0869565 C15.826087,13.2391304 16.7608696,14.173913 17.9130435,14.173913 C19.0652174,14.173913 20,13.2391304 20,12.0869565 C20,10.9347826 19.0652174,10 17.9130435,10 Z'
       />
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Use xlinkHref='#path-1' />
+      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
     </Defs>
-    <G>
+    <G
+      id='icon/ellypsis'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>

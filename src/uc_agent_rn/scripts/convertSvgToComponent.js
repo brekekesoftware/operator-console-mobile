@@ -58,26 +58,6 @@ function toPascalCaseElement(str) {
     feSpotLight: 'FeSpotLight',
     feDistantLight: 'FeDistantLight',
     feSurface: 'FeSurface',
-    feDistantLight: 'FeDistantLight',
-    feSpotLight: 'FeSpotLight',
-    fePointLight: 'FePointLight',
-    feSpecularLighting: 'FeSpecularLighting',
-    feDiffuseLighting: 'FeDiffuseLighting',
-    feConvolveMatrix: 'FeConvolveMatrix',
-    feMorphology: 'FeMorphology',
-    feTurbulence: 'FeTurbulence',
-    feDisplacementMap: 'FeDisplacementMap',
-    feTile: 'FeTile',
-    feImage: 'FeImage',
-    feBlend: 'FeBlend',
-    feComposite: 'FeComposite',
-    feFlood: 'FeFlood',
-    feMergeNode: 'FeMergeNode',
-    feMerge: 'FeMerge',
-    feOffset: 'FeOffset',
-    feColorMatrix: 'FeColorMatrix',
-    feGaussianBlur: 'FeGaussianBlur',
-    feFilter: 'FeFilter',
   }
   return elementMap[str] || toPascalCase(str)
 }
@@ -313,16 +293,78 @@ function convertSvgContent(content) {
   })
 }
 
-// Function to extract SVG paths
-function extractPaths(svgContent) {
+// Function to extract SVG paths, masks, and other elements
+function extractElements(svgContent) {
   const paths = svgContent.match(/<path[^>]+>/g) || []
-  return paths
+  const masks = svgContent.match(/<mask[^>]*>[\s\S]*?<\/mask>/g) || []
+  const polygons = svgContent.match(/<polygon[^>]+>/g) || []
+  const uses = svgContent.match(/<use[^>]+>/g) || []
+
+  const extractedPaths = paths
     .map(path => {
       const id = path.match(/id="([^"]+)"/)?.[1]
       const d = path.match(/d="([^"]+)"/)?.[1]
-      return { id, d }
+      return { id, d, type: 'path' }
     })
     .filter(path => path.id && path.d)
+
+  const extractedMasks = masks
+    .map(mask => {
+      const id = mask.match(/id="([^"]+)"/)?.[1]
+      const maskContent = mask.replace(/<mask[^>]*>|<\/mask>/g, '')
+      return { id, content: maskContent, type: 'mask' }
+    })
+    .filter(mask => mask.id)
+
+  const extractedPolygons = polygons
+    .map(polygon => {
+      const id = polygon.match(/id="([^"]+)"/)?.[1]
+      const points = polygon.match(/points="([^"]+)"/)?.[1]
+      return { id, points, type: 'polygon' }
+    })
+    .filter(polygon => polygon.id && polygon.points)
+
+  const extractedUses = uses
+    .map(use => {
+      const id = use.match(/id="([^"]+)"/)?.[1] || ''
+      const xlinkHref = use.match(/xlink:href="([^"]+)"/)?.[1] || ''
+      const fill = use.match(/fill="([^"]+)"/)?.[1] || ''
+      const fillRule = use.match(/fill-rule="([^"]+)"/)?.[1] || ''
+      return { id, xlinkHref, fill, fillRule, type: 'use' }
+    })
+    .filter(use => use.xlinkHref)
+
+  return [
+    ...extractedPaths,
+    ...extractedMasks,
+    ...extractedPolygons,
+    ...extractedUses,
+  ]
+}
+
+// Function to extract groups with their attributes
+function extractGroups(svgContent) {
+  const groups = svgContent.match(/<g[^>]*>[\s\S]*?<\/g>/g) || []
+  return groups.map(group => {
+    const id = group.match(/id="([^"]+)"/)?.[1] || ''
+    const fill = group.match(/fill="([^"]+)"/)?.[1] || ''
+    const mask = group.match(/mask="url\(#([^)]+)\)"/)?.[1] || ''
+    const fillRule = group.match(/fill-rule="([^"]+)"/)?.[1] || ''
+    const stroke = group.match(/stroke="([^"]+)"/)?.[1] || ''
+    const strokeWidth = group.match(/stroke-width="([^"]+)"/)?.[1] || ''
+
+    // Remove the outer g tags to get the content
+    const content = group.replace(/<g[^>]*>|<\/g>/g, '')
+    return {
+      id,
+      fill,
+      mask,
+      fillRule,
+      stroke,
+      strokeWidth,
+      content,
+    }
+  })
 }
 
 // Function to convert SVG to React Native component
@@ -338,39 +380,63 @@ function convertSvgToComponent(svgPath, outputDir) {
   const viewBoxMatch = svgContent.match(/viewBox="([^"]+)"/)
   const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 24 24'
 
-  // Extract paths
-  const paths = extractPaths(svgContent)
+  // Extract elements
+  const elements = extractElements(svgContent)
 
-  // Extract groups and convert content
-  const groups = svgContent.match(/<g[^>]*>[\s\S]*?<\/g>/g) || []
-  const convertedGroups = groups.map(group => {
-    const groupContent = group.replace(/<g[^>]*>|<\/g>/g, '')
-    return `<G>
-      ${convertSvgContent(groupContent)}
-    </G>`
-  })
+  // Extract groups with their attributes
+  const groups = extractGroups(svgContent)
 
   // Generate component code
   const componentCode = `import React from 'react';
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg';
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg';
 
 const ${componentName} = ({ width = 24, height = 24, color = '#212121', ...props }) => (
   <Svg width={width} height={height} viewBox="${viewBox}" {...props}>
-    ${
-      paths.length > 0
-        ? `<Defs>
-      ${paths
-        .map(
-          path => `<Path
-        id="${path.id}"
-        d="${path.d}"
-      />`,
-        )
+    <Defs>
+      ${elements
+        .map(element => {
+          if (element.type === 'path') {
+            return `<Path
+        id="${element.id}"
+        d="${element.d}"
+      />`
+          } else if (element.type === 'mask') {
+            return `<Mask id="${element.id}">
+        ${convertSvgContent(element.content)}
+      </Mask>`
+          } else if (element.type === 'polygon') {
+            return `<Polygon
+        id="${element.id}"
+        points="${element.points}"
+      />`
+          } else if (element.type === 'use') {
+            const attrs = []
+            if (element.id) attrs.push(`id="${element.id}"`)
+            if (element.fill) attrs.push(`fill="${element.fill}"`)
+            if (element.fillRule) attrs.push(`fillRule="${element.fillRule}"`)
+            if (element.xlinkHref)
+              attrs.push(`xlinkHref="${element.xlinkHref}"`)
+
+            return `<Use ${attrs.join(' ')} />`
+          }
+        })
         .join('\n')}
-    </Defs>`
-        : ''
-    }
-    ${convertedGroups.join('\n')}
+    </Defs>
+    ${groups
+      .map(group => {
+        const attrs = []
+        if (group.id) attrs.push(`id="${group.id}"`)
+        if (group.fill) attrs.push(`fill="${group.fill}"`)
+        if (group.mask) attrs.push(`mask="url(#${group.mask})"`)
+        if (group.fillRule) attrs.push(`fillRule="${group.fillRule}"`)
+        if (group.stroke) attrs.push(`stroke="${group.stroke}"`)
+        if (group.strokeWidth) attrs.push(`strokeWidth="${group.strokeWidth}"`)
+
+        return `<G ${attrs.join(' ')}>
+      ${convertSvgContent(group.content)}
+    </G>`
+      })
+      .join('\n')}
   </Svg>
 );
 

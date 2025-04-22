@@ -42,6 +42,7 @@ export default class extends React.Component {
       props.uiData.fire('buddylistButton_onClick', { visible: true }, ev)
     } else {
       props.uiData.fire('buddylistButton_onClick', { visible: false }, ev)
+      props.uiData.window_onclick()
     }
   }
 

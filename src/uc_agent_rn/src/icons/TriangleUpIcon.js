@@ -1,14 +1,29 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const TriangleUpIcon = ({
   width = 24,
   height = 24,
-  color = '#212121',
+  // color = '#212121',
   ...props
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
-    <G>
+    <Defs>
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Polygon id='path-1' points='8 10 12 14 16 10' />
+      <Use xlinkHref='#path-1' />
+      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+    </Defs>
+    <G
+      id='icon/triangle-up'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>

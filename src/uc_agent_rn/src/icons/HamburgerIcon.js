@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs } from 'react-native-svg'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 
 const HamburgerIcon = ({
   width = 24,
@@ -13,8 +13,20 @@ const HamburgerIcon = ({
         id='path-1'
         d='M4,6 L4,7.6 L20,7.6 L20,6 L4,6 Z M4,10.8 L4,12.4 L20,12.4 L20,10.8 L4,10.8 Z M4,15.6 L4,17.2 L20,17.2 L20,15.6 L4,15.6 Z'
       />
+      <Mask id='mask-2'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Use xlinkHref='#path-1' />
+      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
     </Defs>
-    <G>
+    <G
+      id='icon/hamburger'
+      fill='none'
+      mask='url(#mask-2)'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
