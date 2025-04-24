@@ -122,7 +122,9 @@ export default class DndableSafe extends React.Component {
     const dndEnabled =
       props.uiData &&
       props.uiData.uiDataId &&
-      global.reactNativeDndEnabled === props.uiData.uiDataId
+      global.$brUCDndEnabledApp === props.uiData.uiDataId
+
+    console.log('#Duy Phan console dndEnabled', dndEnabled)
 
     if (dndEnabled) {
       // Use the appropriate Dndable component

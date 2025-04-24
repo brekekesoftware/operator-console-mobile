@@ -31,10 +31,12 @@ const styles = StyleSheet.create({
   paragraph: {
     position: 'relative',
     minHeight: 64,
+    height: 64,
     paddingTop: 16,
     paddingBottom: 16,
     paddingLeft: 72,
     paddingRight: 0,
+    // backgroundColor: 'red',
   },
   paragraphHovered: {
     backgroundColor: colors.isabelline,

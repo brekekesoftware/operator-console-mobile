@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     // width: 200,
     // height: 200,
-    backgroundColor: 'yellow',
+    backgroundColor: colors.white,
   },
   splitters0: {},
   splitters1: {},

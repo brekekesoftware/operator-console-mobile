@@ -222,6 +222,7 @@ export default class extends React.Component {
       (displayPeriodBegin &&
         messageCount < UiConstants.SEARCH_PREV_NEXT_TEXTS_MAX &&
         showmorelinkTried)
+    console.log('#Duy Phan console chatNodes', chatNodes.length)
 
     return (
       <View style={styles.brChatList}>
@@ -259,6 +260,7 @@ export default class extends React.Component {
 const styles = StyleSheet.create({
   brChatList: {
     flex: 1,
+    width: '100%',
   },
   brChatListOpenDetailLink: {
     padding: 4,

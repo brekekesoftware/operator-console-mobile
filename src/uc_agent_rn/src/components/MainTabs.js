@@ -66,17 +66,15 @@ export default class extends React.Component {
   }
   componentDidUpdate(prevProps) {
     const props = this.props
-
+    console.log(
+      '#Duy Phan console currentSelectedTab',
+      props.uiData.currentSelectedTab,
+      prevProps?.uiData?.currentSelectedTab,
+    )
     if (
-      prevProps &&
-      prevProps.uiData &&
-      props.uiData &&
-      prevProps.uiData.currentSelectedTab !== props.uiData.currentSelectedTab
+      prevProps?.uiData?.currentSelectedTab !==
+      props?.uiData?.currentSelectedTab
     ) {
-      console.log(
-        '#Duy Phan console componentDidUpdate',
-        props.uiData.currentSelectedTab,
-      )
       this.setState({ activeTab: props.uiData.currentSelectedTab || '' })
     }
 
@@ -403,6 +401,7 @@ export default class extends React.Component {
         if (!this.tabRefs[key]) {
           this.tabRefs[key] = React.createRef()
         }
+        console.log('#Duy Phan console status user', status)
 
         tabLinkList.push(
           <View ref={this.tabRefs[key]} key={'span_' + key}>
@@ -458,7 +457,7 @@ export default class extends React.Component {
                 <ButtonIconic
                   className='brTabLinkHideButton'
                   title={uawMsgs.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP}
-                  onClick={props.uiData.fire.bind(
+                  onPress={props.uiData.fire.bind(
                     props.uiData,
                     'tabLinkHideButton_onClick',
                     panel.panelType,
@@ -479,7 +478,7 @@ export default class extends React.Component {
               (props.uiData.blinkingTabs[key] ? ' brBlinking' : '') +
               (key === props.uiData.currentSelectedTab ? ' brSelected' : '')
             }
-            onClick={props.uiData.fire.bind(
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'tabMenuItem_onClick',
               panel.panelType,
@@ -492,7 +491,10 @@ export default class extends React.Component {
             </Text>
           </MenuItem>,
         )
-        console.log('#Duy Phan console renderPanelArea', panel)
+        console.log(
+          '#Duy Phan console renderPanelArea',
+          this.state.activeTab === key,
+        )
         tabContentList.push(
           <View
             key={key}
@@ -528,9 +530,9 @@ export default class extends React.Component {
         ref={this.mainTabsRef}
         style={[
           styles.brMainTabs,
-          hasSelectedTab ? styles.brMainTabsSelected : {},
+          // hasSelectedTab ? styles.brMainTabsSelected : {},
         ]}
-        pointerEvents='box-none'
+        // pointerEvents='box-none'
       >
         <ScrollView
           ref={this.mainTabLinksRef}
@@ -541,6 +543,7 @@ export default class extends React.Component {
         >
           {tabLinkList}
         </ScrollView>
+
         <TouchableOpacity
           style={[
             styles.brMainTabMenu,
@@ -588,7 +591,7 @@ export default class extends React.Component {
         >
           {tabContentList}
         </View>
-        {/* <MenuBalloonDialog
+        <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
             this.state.tabMenuShowingDialogVersion
@@ -607,7 +610,7 @@ export default class extends React.Component {
         >
           <MenuItem
             className='brMainTabLinkContextMenuItem'
-            onClick={props.uiData.fire.bind(
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'tabLinkHideButton_onClick',
               this.state.mainTabLinkContextMenuPanelType,
@@ -619,7 +622,7 @@ export default class extends React.Component {
           <MenuItem
             className='brMainTabLinkContextMenuItem brTabLinkMoveHContextMenuItem'
             hidden={props.uiData.mainAreaSplitters === 0}
-            onClick={props.uiData.fire.bind(
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'tabLinkMoveHContextMenuItem_onClick',
               this.state.mainTabLinkContextMenuPanelType,
@@ -634,7 +637,7 @@ export default class extends React.Component {
           <MenuItem
             className='brMainTabLinkContextMenuItem brTabLinkMoveVContextMenuItem'
             hidden={props.uiData.mainAreaSplitters !== 2}
-            onClick={props.uiData.fire.bind(
+            onPress={props.uiData.fire.bind(
               props.uiData,
               'tabLinkMoveVContextMenuItem_onClick',
               this.state.mainTabLinkContextMenuPanelType,
@@ -646,7 +649,7 @@ export default class extends React.Component {
               ? uawMsgs.LBL_TAB_LINK_MOVE_UP_MENU
               : uawMsgs.LBL_TAB_LINK_MOVE_DOWN_MENU}
           </MenuItem>
-        </MenuBalloonDialog> */}
+        </MenuBalloonDialog>
       </View>
     )
   }
@@ -659,8 +662,8 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    // width: '100%',
-    // height: '100%',
+    width: '100%',
+    height: '100%',
     // flex: 1
     // backgroundColor: 'blue',
   },
@@ -790,15 +793,13 @@ const styles = StyleSheet.create({
   brMainTabContent: {
     position: 'absolute',
     width: '100%',
-    height: '100%',
     top: 39,
     bottom: 0,
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#E5E5E5',
-    backgroundColor: '#F6F6F6',
-    // flex: 1,
+    backgroundColor: '#FFFFFF',
   },
   brMainTabContentSelected: {
     backgroundColor: '#FFFFFF',

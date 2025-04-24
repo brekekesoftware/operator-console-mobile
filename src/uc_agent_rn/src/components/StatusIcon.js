@@ -6,8 +6,8 @@ import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 
 const colors = {
-  statusAvailable: '#bdbdbd',
-  statusInvisible: '#999999',
+  statusAvailable: '#5fac3f',
+  statusInvisible: '#bdbdbd',
   statusIdle: '#f3c915',
   statusBusy: '#ff4526',
   white: '#FFFFFF',
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
 })
 
 const getStatusColor = status => {
+  console.log('#Duy Phan console status', status)
   switch (int(status)) {
     case 1:
       return colors.statusAvailable

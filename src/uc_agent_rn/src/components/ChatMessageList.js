@@ -21,5 +21,6 @@ export default props => {
       isLastOfLast={props.isLast && index === array.length - 1}
     />
   ))
+  console.log('#Duy Phan console messageNodes', messageNodes.length)
   return <View>{messageNodes}</View>
 }

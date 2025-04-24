@@ -32,6 +32,7 @@ import TriangleUpIcon from '../icons/TriangleUpIcon.js'
 import TriangleDownIcon from '../icons/TriangleDownIcon.js'
 import SendIcon from '../icons/SendIcon.js'
 import ChatIcon from '../icons/ChatIcon.js'
+import CustomTextInput from './CustomTextInput.js'
 /**
  * EditorArea
  * props.uiData
@@ -229,13 +230,14 @@ export default class extends React.Component {
 
   handleOptionsLinkClick(ev) {
     const props = this.props
-    alert(1)
     if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
       this.setState({
         showingDialogVersion: ++props.uiData.showingDialogVersion,
       })
       ev.stopPropagation()
       props.uiData.fire('showingDialog_update')
+    } else {
+      props.uiData.window_onclick()
     }
   }
 
@@ -646,9 +648,8 @@ export default class extends React.Component {
     }
 
     console.log(
-      '#Duy Phan console className.split',
-      className.split(' ')[0],
-      className.split(' ')[1],
+      '#Duy Phan console check cond',
+      props.uiData.showingDialogVersion === this.state.showingDialogVersion,
     )
     return (
       <View
@@ -677,7 +678,6 @@ export default class extends React.Component {
           isEmail && chatHeaderInfo.lastConfType === 'webchat'
             ? { height: 70 - Math.min(0, splitterHeight) }
             : {},
-          { backgroundColor: 'blue' },
         ]}
         ref={this.editorAreaRef}
         onTouchEnd={() => {
@@ -691,7 +691,7 @@ export default class extends React.Component {
           disabled={disabled}
         />
         <View style={styles.brEditorTextareaContainer}>
-          <TextInput
+          <CustomTextInput
             ref={this.editorTextareaRef}
             style={styles.brEditorTextarea}
             placeholder={
@@ -735,9 +735,9 @@ export default class extends React.Component {
           <View style={[styles.brEditorOptionsIcon]}>
             {props.uiData.showingDialogVersion ===
             this.state.showingDialogVersion ? (
-              <TriangleUpIcon color='white' width={30} height={30} />
+              <TriangleUpIcon color='#ffffff' width={30} height={30} />
             ) : (
-              <TriangleDownIcon color='white' width={30} height={30} />
+              <TriangleDownIcon color='#ffffff' width={30} height={30} />
             )}
           </View>
         </TouchableOpacity>
@@ -764,7 +764,7 @@ export default class extends React.Component {
                 )
               }
             >
-              <View style={{ marginLeft: 24 }}>{s.iconClass}</View>
+              <View style={{ marginRight: 10 }}>{s.iconClass}</View>
               <Text>{s.label}</Text>
             </MenuItem>
           ))}
@@ -836,7 +836,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
   brHidden: {
     display: 'none',
@@ -910,12 +910,12 @@ const styles = StyleSheet.create({
 
   // Editor send button
   brEditorSendButton: {
-    display: 'none',
+    // display: 'none',
     position: 'absolute',
     right: 16,
     bottom: 18,
     borderWidth: 0,
-    opacity: 0.2,
+    // opacity: 0.2,
   },
   brWithSendButton: {
     // This is a modifier class, will be applied conditionally
@@ -956,7 +956,9 @@ const styles = StyleSheet.create({
 
   // Editor options item
   brEditorOptionsItem: {
-    paddingLeft: 46,
+    flexDirection: 'row',
+    paddingHorizontal: 6,
+    alignItems: 'center',
     // backgroundRepeat: 'no-repeat', // Will be handled differently in RN
     // backgroundPosition: '8px center', // Will be handled differently in RN
   },

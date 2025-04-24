@@ -1493,9 +1493,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    // width: 500,
-    // height: 500,
-    // backgroundColor: 'blue',
   },
   brPanelHeaderArea: {
     flexDirection: 'row',
@@ -1507,7 +1504,6 @@ const styles = StyleSheet.create({
     height: 56,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0', // @platinum
-    // backgroundColor: 'red',
   },
   brPanelHeaderTitle: {
     maxHeight: '100%',

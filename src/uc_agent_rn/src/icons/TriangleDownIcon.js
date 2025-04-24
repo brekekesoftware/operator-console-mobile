@@ -4,7 +4,7 @@ import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 const TriangleDownIcon = ({
   width = 24,
   height = 24,
-  // color = '#212121',
+  color = '#212121',
   ...props
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
@@ -14,7 +14,7 @@ const TriangleDownIcon = ({
       </Mask>
       <Polygon id='path-1' points='8 10 12 14 16 10' />
       <Use xlinkHref='#path-1' />
-      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+      <Use id='Shape' fill={color} fillRule='nonzero' xlinkHref='#path-1' />
     </Defs>
     <G
       id='icon/triangle-down'
@@ -27,12 +27,7 @@ const TriangleDownIcon = ({
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
-      <Use
-        id='Shape'
-        fill='#191919'
-        fillRule='nonzero'
-        xlinkHref='#path-1'
-      ></Use>
+      <Use id='Shape' fill={color} fillRule='nonzero' xlinkHref='#path-1'></Use>
 
       <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
     </G>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -109,9 +109,11 @@ export default class extends React.Component {
           styles.brChatArea,
           isSelected && styles.brSelected,
           props.hidden && styles.brHidden,
+          props.style,
         ]}
         onScroll={this.handleScroll}
-        scrollEventThrottle={16}
+        // contentContainerStyle={{ flexGrow: 1 }}
+        // scrollEventThrottle={16}
         showsVerticalScrollIndicator={true}
         showsHorizontalScrollIndicator={false}
       >
@@ -144,13 +146,16 @@ export default class extends React.Component {
 
 const styles = StyleSheet.create({
   brChatArea: {
-    position: 'absolute',
-    padding: 4,
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 70,
-    backgroundColor: 'transparent',
+    // position: 'absolute',
+    // padding: 4,
+    // left: 0,
+    // top: 0,
+    // right: 0,
+    // bottom: 70,
+    // width: '100%',
+    // height: '100%',
+    // backgroundColor: 'blue',
+    // flex: 1,
   },
   brSelected: {},
   brHidden: {

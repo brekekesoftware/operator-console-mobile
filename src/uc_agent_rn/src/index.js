@@ -193,14 +193,10 @@ uiData.prototype.initApp = function (option) {
   this.webchatNotificationTarget = Boolean(option.webchatNotificationTarget)
   this.dndEnabled = Boolean(option.dndEnabled)
   this.uiDataId = new Date().getTime().toString(36) + Math.random().toString(36)
-  // if (
-  //   this.dndEnabled &&
-  //   this.ownerDocument.defaultView &&
-  //   !this.ownerDocument.defaultView.$brUCDndEnabledApp
-  // ) {
-  //   // you can use DropTarget in only one uiData in a window (dndEnabled will be ingored in 2nd or later uiData)
-  //   this.ownerDocument.defaultView.$brUCDndEnabledApp = this.uiDataId
-  // }
+  if (this.dndEnabled && !global.$brUCDndEnabledApp) {
+    // you can use DropTarget in only one uiData in a window (dndEnabled will be ingored in 2nd or later uiData)
+    global.$brUCDndEnabledApp = this.uiDataId
+  }
   this.isUC = Boolean(option.isUC)
   this.iconName = string(option.iconName)
   this.iconDisabled = Boolean(option.iconDisabled)
@@ -1773,8 +1769,8 @@ uiData.prototype.sendTextFromEditor = function (
   subjectTextBox,
   isEmail,
 ) {
-  if (editorTextarea && editorTextarea.value) {
-    let text = string(editorTextarea.value)
+  if (editorTextarea && editorTextarea.getValue()) {
+    let text = string(editorTextarea.getValue())
     let isRichText = false
     if (text.substring(0, '/html '.length) === '/html ') {
       text = text.substring('/html '.length)
@@ -1788,7 +1784,7 @@ uiData.prototype.sendTextFromEditor = function (
         text: text,
         isRichText: isRichText,
       })
-      editorTextarea.value = ''
+      editorTextarea.setValue('')
       editorTextarea.focus()
       this.render()
     }
@@ -4684,7 +4680,8 @@ uiData.prototype.editorSendButton_onClick = function (
   isEmail,
   ev,
 ) {
-  if (editorTextarea.value) {
+  const value = editorTextarea.getValue()
+  if (value) {
     this.sendTextFromEditor(
       panelType,
       panelCode,

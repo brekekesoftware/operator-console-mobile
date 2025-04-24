@@ -95,7 +95,7 @@ export default class ChatMessage extends React.Component {
 
     const renderMessageContent = () => {
       const elements = []
-
+      console.log('#Duy Phan console props.message.ctype', props.message.ctype)
       // Error message
       if (props.message.errorType) {
         elements.push(
@@ -242,10 +242,11 @@ const styles = StyleSheet.create({
   brChatMessage: {
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 20.8, // 1.6 * 13
+    // lineHeight: 20.8, // 1.6 * 13
     letterSpacing: 0.3,
     paddingVertical: 1,
     paddingHorizontal: 0,
+    // height: 64,
   },
   chatMessageError: {
     width: 24,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Dimensions, Animated } from 'react-native'
+import { View, StyleSheet, Dimensions, Animated, Text } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -109,12 +109,15 @@ export default class ChatPanel extends React.Component {
           )
         }
       >
-        <View ref={this.chatAreaRef}>
+        <View
+          ref={this.chatAreaRef}
+          style={[styles.chatArea, { top: this.state.chatAreaTop }]}
+        >
           <ChatArea
             uiData={props.uiData}
             panelType={props.panelType}
             panelCode={props.panelCode}
-            style={[styles.chatArea, { top: this.state.chatAreaTop }]}
+            style={{ flex: 1 }}
           />
         </View>
 
@@ -171,6 +174,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
+    // backgroundColor: 'red',
   },
   brIsOverCanDrop: {
     borderWidth: 3,
@@ -212,4 +216,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   brHideSysmsg: {},
+  chatArea: {
+    position: 'absolute',
+    padding: 4,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 70,
+    // width: '100%',
+    // height: '100%',
+    // backgroundColor: 'blue',
+    flex: 1,
+  },
 })
