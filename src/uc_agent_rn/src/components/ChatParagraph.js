@@ -31,12 +31,13 @@ const styles = StyleSheet.create({
   paragraph: {
     position: 'relative',
     minHeight: 64,
-    height: 64,
+    // height: 64,
     paddingTop: 16,
     paddingBottom: 16,
     paddingLeft: 72,
     paddingRight: 0,
-    // backgroundColor: 'red',
+    // backgroundColor: 'blue',
+    // width: '100%',
   },
   paragraphHovered: {
     backgroundColor: colors.isabelline,
@@ -46,12 +47,16 @@ const styles = StyleSheet.create({
   },
   topicSplitter: {
     position: 'absolute',
-    left: 32,
+    left: 0,
     top: -16,
-    right: 32,
+    right: 0,
+    bottom: 0,
     height: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // backgroundColor: 'red',
+    // width: '100%',
+    // flex: 1
   },
   topicSplitterDate: {
     position: 'relative',
@@ -62,23 +67,24 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
   },
   topicSplitterDateWithDate: {
-    paddingHorizontal: 8,
+    marginHorizontal: 8,
   },
   topicSplitterLine: {
-    position: 'absolute',
+    // position: 'absolute',
     height: 1,
+    flex: 1,
     backgroundColor: colors.platinum,
-    top: 7,
+    // top: 7,
   },
   topicSplitterLineLeft: {
-    right: '50%',
-    left: -1000,
-    marginRight: 8,
+    // right: '50%',
+    // left: -1000,
+    // marginRight: 8,
   },
   topicSplitterLineRight: {
-    left: '50%',
-    right: -1000,
-    marginLeft: 8,
+    // left: '50%',
+    // right: -1000,
+    // marginLeft: 8,
   },
   messageImage: {
     position: 'absolute',
@@ -307,6 +313,7 @@ export default class extends React.Component {
       inputRange: [0, 1],
       outputRange: ['transparent', colors.mediumTurquoise],
     })
+    console.log('#Duy Phan console showTopicSplitter', showTopicSplitter)
 
     return (
       <TouchableOpacity
@@ -318,25 +325,34 @@ export default class extends React.Component {
         {showTopicSplitter && (
           <View style={styles.topicSplitter}>
             <View
-              style={[styles.topicSplitterLine, styles.topicSplitterLineLeft]}
-            />
-            {showDateInSplitter ? (
-              <Text
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <View
+                style={[styles.topicSplitterLine, styles.topicSplitterLineLeft]}
+              />
+              {showDateInSplitter ? (
+                <Text
+                  style={[
+                    styles.topicSplitterDate,
+                    styles.topicSplitterDateWithDate,
+                  ]}
+                >
+                  {string(
+                    messageTimeValue && formatMessageDate(messageTimeValue),
+                  )}
+                </Text>
+              ) : null}
+              <View
                 style={[
-                  styles.topicSplitterDate,
-                  styles.topicSplitterDateWithDate,
+                  styles.topicSplitterLine,
+                  styles.topicSplitterLineRight,
                 ]}
-              >
-                {string(
-                  messageTimeValue && formatMessageDate(messageTimeValue),
-                )}
-              </Text>
-            ) : (
-              <Text style={styles.topicSplitterDate}></Text>
-            )}
-            <View
-              style={[styles.topicSplitterLine, styles.topicSplitterLineRight]}
-            />
+              />
+            </View>
           </View>
         )}
 

@@ -3778,13 +3778,23 @@
               this._lastMessageTime = int(result.tstamp)
 
               var form
-              var fd
-              // FormData
-              form = document.createElement('form')
-              form.method = 'POST'
-              form.enctype = 'multipart/form-data'
-              fd = new window.FormData(form)
-              fd.append(name, file)
+              const fd = new FormData()
+              fd.append('file', {
+                ...file,
+                type: 'multipart/form-data',
+              })
+              inputrn = {
+                form: 'This is not a form element, see src/api/uc.ts for detail',
+                files: [file],
+                __rnFormData: fd,
+              } // __rnFormData from react native ./uc.js
+              if (!fd && window.FormData) {
+                // FormData enabled
+                // upload with XHR + FormData
+                options.input.form.method = 'POST'
+                options.input.form.enctype = 'multipart/form-data'
+                fd = new window.FormData(options.input.form)
+              }
               // new file info
               this._newFileInfo(
                 fileProps.file_id,
@@ -3797,12 +3807,6 @@
                 fd,
               )
               for (var i = 0; i < fileProps.additionals.length; i++) {
-                // FormData for additional conf_users
-                form = document.createElement('form')
-                form.method = 'POST'
-                form.enctype = 'multipart/form-data'
-                fd = new window.FormData(form)
-                fd.append(name, file)
                 // new file info for additional conf_users
                 this._newFileInfo(
                   fileProps.additionals[i].file_id,

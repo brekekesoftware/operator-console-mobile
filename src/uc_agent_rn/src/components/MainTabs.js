@@ -709,6 +709,7 @@ const styles = StyleSheet.create({
   tabLinkActiveSelected: {
     backgroundColor: '#FFFFFF',
     color: '#1A2B2B',
+    borderBottomColor: 'transparent',
   },
   tabContent: {
     position: 'absolute',

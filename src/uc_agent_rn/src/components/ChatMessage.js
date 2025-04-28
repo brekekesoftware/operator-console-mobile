@@ -101,7 +101,7 @@ export default class ChatMessage extends React.Component {
         elements.push(
           <View key='error' style={styles.chatMessageError}>
             <View style={styles.errorIcon}>
-              <ErrorIcon color={colors.errorColor} />
+              <ErrorIcon />
             </View>
           </View>,
         )

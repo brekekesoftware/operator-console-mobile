@@ -17,6 +17,7 @@ type State = {
   error?: boolean
   saving?: boolean
   isRestartButtonDisabled?: boolean
+  isShowModal?: boolean
 }
 
 export class RuntimeWidget extends Component<Props, State> {

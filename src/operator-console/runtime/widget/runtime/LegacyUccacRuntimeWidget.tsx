@@ -1,6 +1,6 @@
 import { DynamicView, ViewRegistryProvider } from 'dynamic-renderer'
 import { createRef, useRef } from 'react'
-import { Dimensions, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Modal, Text, TouchableOpacity, View } from 'react-native'
 
 import { i18n } from '../../../i18n'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -21,7 +21,7 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
     const oc = BrekekeOperatorConsole.getStaticInstance()
     this._UccacWrapper = oc.getUccacWrapper()
 
-    this.state = { isRestartButtonDisabled: false }
+    this.state = { isRestartButtonDisabled: false, isShowModal: false }
     this._uccacAc = null
 
     this._uccacRootElementRef = createRef()
@@ -115,26 +115,22 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
   }
 
   _onClickRestart() {
-    const bConfirm = confirm(i18n.t('confirmRestartUccac'))
-    if (!bConfirm) {
-      return
-    }
-
-    this.setState({ isRestartButtonDisabled: true }, () => {
+    this.setState({ isRestartButtonDisabled: true, isShowModal: false }, () => {
       this._uccacAc.stopUCClient()
-
       const oc = BrekekeOperatorConsole.getStaticInstance()
-      const startUCClientOptions = {
-        ucclientWidgetParent: 'ucclientPanelRoot',
-        ucclientUcurl: this._UccacWrapper.getUcurl(),
-        ucclientTenant: oc.getLoginTenantname(),
-        ucclientUser: oc.getLoginUsername(),
-        ucclientPass: oc.getLoginPassword(),
-      }
-      this._uccacAc.startUCClient(startUCClientOptions)
-      setTimeout(() => {
-        this.setState({ isRestartButtonDisabled: false })
-      }, 8000)
+      oc.getLoginPassword().then(pass => {
+        const startUCClientOptions = {
+          ucclientWidgetParent: 'ucclientPanelRoot',
+          ucclientUcurl: this._UccacWrapper.getUcurl(),
+          ucclientTenant: oc.getLoginTenantname(),
+          ucclientUser: oc.getLoginUsername(),
+          ucclientPass: pass,
+        }
+        this._uccacAc.startUCClient(startUCClientOptions)
+        setTimeout(() => {
+          this.setState({ isRestartButtonDisabled: false })
+        }, 8000)
+      })
     })
   }
 
@@ -266,65 +262,132 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
       )
     } else {
       return (
-        <View
-          style={{
-            flex: 1,
-            borderRadius,
-            backgroundColor: uccacwidgetBgColor,
-            // boxShadow: sBoxShadow,
-          }}
-        >
+        <>
           <View
             style={{
-              display: 'flex',
               flex: 1,
-              flexWrap: 'wrap',
-              height: Dimensions.get('screen').height - 200,
+              borderRadius,
+              backgroundColor: uccacwidgetBgColor,
+              // boxShadow: sBoxShadow,
             }}
           >
             <View
               style={{
-                position: 'relative',
-                width: '50%',
-                height: '100%',
-                flexDirection: 'row',
-                gap: 10,
+                display: 'flex',
+                flex: 1,
+                flexWrap: 'wrap',
+                height: Dimensions.get('screen').height - 200,
               }}
             >
-              <View>
-                <DynamicView viewId='webchatqueue' />
+              <View
+                style={{
+                  position: 'relative',
+                  width: '50%',
+                  height: '100%',
+                  flexDirection: 'row',
+                  gap: 10,
+                }}
+              >
+                <View>
+                  <DynamicView viewId='webchatqueue' />
+                </View>
+                <View>
+                  <DynamicView viewId='webchatpickup' />
+                </View>
+                <View>
+                  <DynamicView viewId='search' />
+                </View>
               </View>
-              <View>
-                <DynamicView viewId='webchatpickup' />
-              </View>
-              <View>
-                <DynamicView viewId='search' />
+              <View
+                style={{ position: 'relative', width: '50%', height: '100%' }}
+                ref={this._uccacRootElementRef}
+              >
+                <DynamicView viewId='ucclientPanelRoot' style={{ flex: 1 }} />
               </View>
             </View>
+            <View style={{ padding: 4 }}>
+              <TouchableOpacity
+                disabled={this.state.isRestartButtonDisabled}
+                onPress={() => this.setState({ isShowModal: true })}
+                style={{
+                  backgroundColor: 'white',
+                  width: 80,
+                  height: 30,
+                  borderRadius: 5,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Text>{i18n.t('restart')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Modal
+            animationType='slide'
+            transparent={true}
+            visible={this.state.isShowModal}
+          >
             <View
-              style={{ position: 'relative', width: '50%', height: '100%' }}
-              ref={this._uccacRootElementRef}
-            >
-              <DynamicView viewId='ucclientPanelRoot' style={{ flex: 1 }} />
-            </View>
-          </View>
-          <View style={{ padding: 4 }}>
-            <TouchableOpacity
-              disabled={this.state.isRestartButtonDisabled}
-              onPress={this._onClickRestart.bind(this)}
               style={{
-                backgroundColor: 'white',
-                width: 80,
-                height: 30,
-                borderRadius: 5,
-                alignItems: 'center',
+                flex: 1,
                 justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              <Text>{i18n.t('restart')}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+              <View
+                style={{
+                  width: 200,
+                  height: 'auto',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
+                  borderRadius: 10,
+                  backgroundColor: 'white',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 10,
+                }}
+              >
+                <View>
+                  <Text>{i18n.t('confirmRestartUccac')}</Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      gap: 10,
+                      justifyContent: 'flex-end',
+                      alignItems: 'center',
+                      marginTop: 10,
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={() => this.setState({ isShowModal: false })}
+                    >
+                      <Text>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => this._onClickRestart()}
+                      style={{
+                        backgroundColor: '#5fac3f',
+                        padding: 5,
+                        borderRadius: 5,
+                        width: 60,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Text style={{ color: '#ffffff' }}>Ok</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </>
       )
     }
   }

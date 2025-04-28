@@ -261,6 +261,9 @@ const styles = StyleSheet.create({
   brChatList: {
     flex: 1,
     width: '100%',
+    // height: 200,
+    // minHeight: 200,
+    // backgroundColor: 'red',
   },
   brChatListOpenDetailLink: {
     padding: 4,

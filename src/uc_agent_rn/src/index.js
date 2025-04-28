@@ -4003,27 +4003,61 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
       .log('warn', 'invalid fsp in panelHeaderFileButton_onClick')
     return
   }
-  let input = this.ownerDocument.querySelector('input.brPanelHeaderFileInput')
-  if (!input) {
-    input = this.ownerDocument.createElement('input')
-    input.type = 'file'
-    input.className = 'brPanelHeaderFileInput'
-    input.multiple = 'multiple'
-    input.style.display = 'none'
-    this.ownerDocument.body.appendChild(input)
-  }
-  input.onchange = () => {
-    if (input.files && input.files.length) {
-      this.ucUiAction.sendFiles({
-        chatType: panelType,
-        chatCode: panelCode,
-        files: input.files,
-      })
-    } else {
-      this.ucUiStore.getLogger().log('info', 'empty input.files')
-    }
-  }
-  input.click()
+
+  // Import DocumentPicker from react-native-document-picker
+  const DocumentPicker = require('react-native-document-picker').default
+
+  // Launch document picker
+  DocumentPicker.pick({
+    type: [DocumentPicker.types.allFiles],
+    allowMultiSelection: true,
+  })
+    .then(results => {
+      if (results && results.length > 0) {
+        // Convert DocumentPicker results to File objects
+        const files = results.map(result => {
+          // Create a File-like object from the document picker result
+          return {
+            uri: result.uri,
+            name: result.name,
+            type: result.type,
+            size: result.size,
+            // Add a method to get the file content as a blob
+            blob: async () => {
+              try {
+                const RNFS = require('react-native-fs')
+                const fileContent = await RNFS.readFile(result.uri, 'base64')
+                const blob = new Blob([fileContent], { type: result.type })
+                return blob
+              } catch (error) {
+                this.ucUiStore
+                  .getLogger()
+                  .log('error', 'Error reading file: ' + error)
+                return null
+              }
+            },
+          }
+        })
+
+        // Send the files
+        this.ucUiAction.sendFiles({
+          chatType: panelType,
+          chatCode: panelCode,
+          files: files,
+        })
+      } else {
+        this.ucUiStore.getLogger().log('info', 'No files selected')
+      }
+    })
+    .catch(err => {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker
+        this.ucUiStore.getLogger().log('info', 'User cancelled file picker')
+      } else {
+        // Error occurred
+        this.ucUiStore.getLogger().log('error', 'Error picking files: ' + err)
+      }
+    })
 }
 uiData.prototype.panelHeaderVoiceButton_onClick = function (
   panelType,
