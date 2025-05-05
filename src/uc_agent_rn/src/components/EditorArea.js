@@ -684,7 +684,7 @@ export default class extends React.Component {
           console.log('#Duy Phan console onTouchEnd3')
         }}
       >
-        <TextBox
+        <CustomTextInput
           ref={this.subjectTextBoxRef}
           style={styles.brSubjectTextBox}
           placeholder={uawMsgs.LBL_EDITOR_SUBJECT_PLACEHOLDER}

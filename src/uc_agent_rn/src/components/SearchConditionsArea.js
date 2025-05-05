@@ -13,6 +13,7 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import { Picker } from '@react-native-picker/picker'
+import DatePicker from 'react-native-date-picker'
 import '../utilities/disableamd.js'
 import '../utilities/restoreamd.js'
 import 'moment/locale/ja'
@@ -193,29 +194,33 @@ export default class SearchConditionsArea extends React.Component {
                         </Text>
                       </TouchableOpacity>
 
-                      {this.state.showStartDatePicker && (
-                        <DateTimePicker
-                          value={this.getDateValue(
-                            searchCondition.conditionValue,
-                            false,
-                          )}
-                          display='calendar'
-                          mode='date'
-                          onChange={(event, date) =>
-                            this.handleDatePickerChange(i, false, date)
-                          }
-                        />
-                      )}
+                      <DatePicker
+                        date={this.getDateValue(
+                          searchCondition.conditionValue,
+                          false,
+                        )}
+                        modal
+                        open={this.state.showStartDatePicker}
+                        onConfirm={date =>
+                          this.handleDatePickerChange(i, false, date)
+                        }
+                        onCancel={() =>
+                          this.setState({ showStartDatePicker: false })
+                        }
+                      />
 
                       {this.state.showEndDatePicker && (
-                        <DateTimePicker
-                          value={this.getDateValue(
+                        <DatePicker
+                          date={this.getDateValue(
                             searchCondition.conditionValue,
                             true,
                           )}
-                          mode='date'
-                          onChange={(event, date) =>
+                          open={this.state.showEndDatePicker}
+                          onConfirm={date =>
                             this.handleDatePickerChange(i, true, date)
+                          }
+                          onCancel={() =>
+                            this.setState({ showEndDatePicker: false })
                           }
                         />
                       )}

@@ -31,13 +31,10 @@ const styles = StyleSheet.create({
   paragraph: {
     position: 'relative',
     minHeight: 64,
-    // height: 64,
     paddingTop: 16,
     paddingBottom: 16,
     paddingLeft: 72,
     paddingRight: 0,
-    // backgroundColor: 'blue',
-    // width: '100%',
   },
   paragraphHovered: {
     backgroundColor: colors.isabelline,
@@ -52,11 +49,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     height: 16,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // backgroundColor: 'red',
-    // width: '100%',
-    // flex: 1
   },
   topicSplitterDate: {
     position: 'relative',
@@ -70,22 +62,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   topicSplitterLine: {
-    // position: 'absolute',
     height: 1,
     flex: 1,
     backgroundColor: colors.platinum,
-    // top: 7,
   },
-  topicSplitterLineLeft: {
-    // right: '50%',
-    // left: -1000,
-    // marginRight: 8,
-  },
-  topicSplitterLineRight: {
-    // left: '50%',
-    // right: -1000,
-    // marginLeft: 8,
-  },
+  topicSplitterLineLeft: {},
+  topicSplitterLineRight: {},
   messageImage: {
     position: 'absolute',
     left: 16,

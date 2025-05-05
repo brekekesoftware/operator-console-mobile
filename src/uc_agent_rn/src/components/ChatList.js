@@ -261,9 +261,6 @@ const styles = StyleSheet.create({
   brChatList: {
     flex: 1,
     width: '100%',
-    // height: 200,
-    // minHeight: 200,
-    // backgroundColor: 'red',
   },
   brChatListOpenDetailLink: {
     padding: 4,
@@ -271,13 +268,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   brChatListOpenDetailLinkText: {
-    color: '#74C365', // @mantis
+    color: '#74C365',
     fontSize: 13,
     fontWeight: '400',
-    // lineHeight: 20.8, // 1.6 * 13
     letterSpacing: 0.3,
   },
   brChatListOpenDetailLinkPressed: {
-    backgroundColor: '#F5F5F5', // @isabelline
+    backgroundColor: '#F5F5F5',
   },
 })

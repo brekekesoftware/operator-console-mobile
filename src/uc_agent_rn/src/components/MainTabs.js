@@ -22,6 +22,9 @@ import {
 } from 'react-native'
 import TriangleDownIcon from '../icons/TriangleDownIcon.js'
 import CancelIcon from '../icons/CancelIcon.js'
+import DraggableFlatList, {
+  ScaleDecorator,
+} from 'react-native-draggable-flatlist'
 /**
  * MainTabs
  * props.uiData
@@ -59,6 +62,7 @@ export default class extends React.Component {
       mainTabLinkContextMenuPanelType: '',
       mainTabLinkContextMenuPanelCode: '',
       activeTab: props.uiData.currentSelectedTab || '',
+      isDragging: false,
     }
     this.mainTabLinksRef = React.createRef()
     this.mainTabsRef = React.createRef()
@@ -201,6 +205,8 @@ export default class extends React.Component {
         tabMenuShowingDialogVersion: ++props.uiData.showingDialogVersion,
       })
       props.uiData.fire('showingDialog_update')
+    } else {
+      props.uiData.window_onclick()
     }
   }
   handleMainTabContentTouchStart(ev) {
@@ -225,6 +231,86 @@ export default class extends React.Component {
     this.setState({ activeTab: tabId })
     this.props.uiData.fire('mainArea_handleSelect', tabId)
   }
+
+  handleDragStart = () => {
+    this.setState({ isDragging: true })
+    if (this.mainTabLinksRef.current) {
+      this.mainTabLinksRef.current.setNativeProps({ scrollEnabled: false })
+    }
+  }
+
+  handleDragEnd = ({ data }) => {
+    const props = this.props
+    this.setState({ isDragging: false })
+
+    if (this.mainTabLinksRef.current) {
+      this.mainTabLinksRef.current.setNativeProps({ scrollEnabled: true })
+    }
+
+    const newPanelList = data
+      .map(item => {
+        return props.uiData.mainPanelList.find(
+          panel => panel.panelType + '_' + panel.panelCode === item.key,
+        )
+      })
+      .filter(Boolean)
+
+    if (newPanelList.length === props.uiData.mainPanelList.length) {
+      props.uiData.mainPanelList = newPanelList
+      this.forceUpdate()
+    }
+  }
+
+  renderItem = ({ item, index, drag, isActive }) => {
+    const props = this.props
+    return (
+      <ScaleDecorator>
+        <TouchableOpacity
+          ref={this.tabRefs[item.key]}
+          key={'span_' + item.key}
+          onPress={() => this.handleTabSelect(item.key)}
+          onLongPress={drag}
+          delayLongPress={150}
+          activeOpacity={1}
+          style={[styles.brMainTabLinkSpan, { flex: 1 }]}
+        >
+          <View
+            style={[
+              styles.tabLink,
+              this.state.activeTab === item.key
+                ? styles.tabLinkActiveSelected
+                : {},
+              item.bgColorTable?.[item.key]
+                ? { backgroundColor: item.bgColorTable[item.key] }
+                : {},
+              isActive && styles.dragging,
+            ]}
+          >
+            <StatusIcon status={item.status} degree={item.degree} />
+            <Text
+              style={styles.brTabLinkTitle}
+              numberOfLines={1}
+              ellipsizeMode='tail'
+            >
+              {item.tabTitle || '\u2002'}
+            </Text>
+            <ButtonIconic
+              className='brTabLinkHideButton'
+              title={uawMsgs.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP}
+              onPress={props.uiData.fire.bind(
+                props.uiData,
+                'tabLinkHideButton_onClick',
+                item.panel.panelType,
+                item.panel.panelCode,
+              )}
+              iconSource={<CancelIcon />}
+            ></ButtonIconic>
+          </View>
+        </TouchableOpacity>
+      </ScaleDecorator>
+    )
+  }
+
   render() {
     const props = this.props
     const tabLinkList = []
@@ -403,72 +489,15 @@ export default class extends React.Component {
         }
         console.log('#Duy Phan console status user', status)
 
-        tabLinkList.push(
-          <View ref={this.tabRefs[key]} key={'span_' + key}>
-            <DndableSafe
-              uiData={props.uiData}
-              className={
-                'brMainTabLinkSpan' +
-                (tabLinkList.length ? '' : ' brFirst') +
-                (props.uiData.blinkingTabs[key] ? ' brBlinking' : '') +
-                (props.uiData.backgroundTabs[key] &&
-                props.uiData.backgroundTabs[key].discarded
-                  ? ' brDiscarded'
-                  : '')
-              }
-              dragSourceInfo={{
-                dragSourceInfoType: 'mainTabLinkSpan',
-                dragSourceInfoCode: dndInfoCode,
-              }}
-              onCheckCanDrop={ev =>
-                ev.dragSourceInfo &&
-                ev.dragSourceInfo.dragSourceInfoType === 'mainTabLinkSpan'
-              }
-              onDrop={props.uiData.fire.bind(
-                props.uiData,
-                'mainTabsDndable_onDrop',
-                {
-                  dropTargetInfoType: 'mainTabLinkSpan',
-                  dropTargetInfoCode: dndInfoCode,
-                },
-              )}
-            >
-              <TouchableOpacity
-                key={key}
-                onPress={() => this.handleTabSelect(key)}
-                style={[
-                  styles.tabLink,
-                  this.state.activeTab === key
-                    ? styles.tabLinkActiveSelected
-                    : {},
-                  bgColorTable[key]
-                    ? { backgroundColor: bgColorTable[key] }
-                    : {},
-                ]}
-              >
-                <StatusIcon status={status} degree={degree} />
-                <Text
-                  style={styles.brTabLinkTitle}
-                  numberOfLines={1}
-                  ellipsizeMode='tail'
-                >
-                  {tabTitle || '\u2002'}
-                </Text>
-                <ButtonIconic
-                  className='brTabLinkHideButton'
-                  title={uawMsgs.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP}
-                  onPress={props.uiData.fire.bind(
-                    props.uiData,
-                    'tabLinkHideButton_onClick',
-                    panel.panelType,
-                    panel.panelCode,
-                  )}
-                  iconSource={<CancelIcon />}
-                ></ButtonIconic>
-              </TouchableOpacity>
-            </DndableSafe>
-          </View>,
-        )
+        tabLinkList.push({
+          key,
+          status,
+          degree,
+          tabTitle,
+          panel,
+          dndInfoCode,
+          bgColorTable,
+        })
 
         tabMenuItemList.push(
           <MenuItem
@@ -478,12 +507,23 @@ export default class extends React.Component {
               (props.uiData.blinkingTabs[key] ? ' brBlinking' : '') +
               (key === props.uiData.currentSelectedTab ? ' brSelected' : '')
             }
-            onPress={props.uiData.fire.bind(
-              props.uiData,
-              'tabMenuItem_onClick',
-              panel.panelType,
-              panel.panelCode,
-            )}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 8,
+              ...(key === this.state.activeTab ? styles.brSelected : {}),
+            }}
+            onPress={() => {
+              props.uiData.fire.bind(
+                props.uiData,
+                'tabMenuItem_onClick',
+                panel.panelType,
+                panel.panelCode,
+              )
+              this.setState({
+                activeTab: key,
+              })
+            }}
           >
             <StatusIcon status={status} degree={degree} />
             <Text style={styles.brMainTabMenuItemTitle}>
@@ -525,13 +565,11 @@ export default class extends React.Component {
     }
     this.currentFrontTab = frontTab
     console.log('#Duy Phan console tabContentList', tabContentList.length)
+
     return (
       <View
         ref={this.mainTabsRef}
-        style={[
-          styles.brMainTabs,
-          // hasSelectedTab ? styles.brMainTabsSelected : {},
-        ]}
+        style={[styles.brMainTabs]}
         // pointerEvents='box-none'
       >
         <ScrollView
@@ -540,8 +578,22 @@ export default class extends React.Component {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           onContentSizeChange={() => this.componentDidUpdate()}
+          scrollEnabled={!this.state.isDragging}
+          bounces={false}
+          decelerationRate='fast'
         >
-          {tabLinkList}
+          <DraggableFlatList
+            data={tabLinkList}
+            keyExtractor={item => item.key}
+            renderItem={this.renderItem}
+            horizontal
+            onDragStart={this.handleDragStart}
+            onDragEnd={this.handleDragEnd}
+            activationDistance={15}
+            containerStyle={styles.draggableList}
+            scrollEnabled={false}
+            dragHitSlop={{ top: 10, bottom: 10, left: 15, right: 15 }}
+          />
         </ScrollView>
 
         <TouchableOpacity
@@ -596,7 +648,7 @@ export default class extends React.Component {
             props.uiData.showingDialogVersion ===
             this.state.tabMenuShowingDialogVersion
           }
-          className='brMainTabMenuBalloonDialog'
+          style={styles.brMainTabMenuBalloonDialog}
         >
           {tabMenuItemList}
         </MenuBalloonDialog>
@@ -664,8 +716,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: '100%',
-    // flex: 1
-    // backgroundColor: 'blue',
   },
 
   brMainTabsSelected: {},
@@ -717,9 +767,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    // width: '100%',
-    // height: '100%',
-    // backgroundColor: 'red',
   },
   tabContentActive: {
     display: 'flex',
@@ -804,5 +851,21 @@ const styles = StyleSheet.create({
   },
   brMainTabContentSelected: {
     backgroundColor: '#FFFFFF',
+  },
+  brSelected: {
+    borderLeftWidth: 2,
+    borderLeftColor: '#4bc5de',
+  },
+  draggableList: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    paddingHorizontal: 2,
+  },
+  dragging: {
+    opacity: 0.7,
+    elevation: 5,
+    zIndex: 999,
+    transform: [{ scale: 1.05 }],
   },
 })

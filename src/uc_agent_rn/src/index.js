@@ -1776,7 +1776,7 @@ uiData.prototype.sendTextFromEditor = function (
       text = text.substring('/html '.length)
       isRichText = true
     }
-    const subject = string(subjectTextBox && subjectTextBox.value)
+    const subject = string(subjectTextBox && subjectTextBox.getValue())
     const sendTextFuncInner = () => {
       this.ucUiAction.sendText({
         chatType: panelType,
