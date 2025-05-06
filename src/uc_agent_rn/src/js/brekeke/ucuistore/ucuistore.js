@@ -1,3 +1,7 @@
+const {
+  default: AsyncStorage,
+} = require('@react-native-async-storage/async-storage')
+
 ;(function (root, factory) {
   if (typeof module === 'object' && module.exports) {
     module.exports = factory({
@@ -5458,9 +5462,9 @@
       _this.localStoragePreference[key] = value
       try {
         if (key && key[key.length - 1] === '+') {
-          localStorage.setItem(key + t + '+' + u, value) // not tenant but t for compatibility with cim
+          AsyncStorage.setItem(key + t + '+' + u, value) // not tenant but t for compatibility with cim
         } else {
-          localStorage.setItem(
+          AsyncStorage.setItem(
             'UC.ucclientui.' + userKey + '.cookiePreference.' + key,
             value,
           )
@@ -5473,7 +5477,7 @@
       }
     })
     try {
-      localStorage.setItem(
+      AsyncStorage.setItem(
         'UC.ucclientui.' + userKey + '.cookiePreferenceSaved',
         Object.keys(this.localStoragePreference).join(','),
       )

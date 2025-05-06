@@ -3,6 +3,7 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import SimpleButton from './SimpleButton.js'
+import { Image } from 'react-native'
 
 /**
  * PanelHeaderRejoinButton

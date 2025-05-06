@@ -38,9 +38,9 @@ export default class WidgetBody extends React.Component {
   }
 
   handleModalShow = () => {
-    if (this.okButtonRef) {
-      this.okButtonRef.focus()
-    }
+    // if (this.okButtonRef) {
+    //   this.okButtonRef?.focus()
+    // }
   }
 
   handleModalTableKeyDown = ev => {
@@ -249,53 +249,63 @@ export default class WidgetBody extends React.Component {
                           dropDown={true}
                           onPress={() => this.handleModalMenuItemClick(i)}
                         >
-                          {item.label}
+                          <Text>{item.label}</Text>
                         </MenuItem>
                       ))}
                     </DropDownMenu>
                   )}
                 </ScrollView>
 
-                <ButtonLabeled
-                  ref={ref => (this.okButtonRef = ref)}
-                  style={[
-                    styles.modalOKButton,
-                    modalInfo?.okClassName && styles[modalInfo.okClassName],
-                  ]}
-                  vivid={true}
-                  title={modalInfo?.okCaption || uawMsgs.CMN_OK}
-                  onPress={this.handleModalOKButtonClick}
+                <View
+                  style={{ flexDirection: 'row', justifyContent: 'flex-start' }}
                 >
-                  {modalInfo?.okCaption || uawMsgs.CMN_OK}
-                </ButtonLabeled>
-
-                {modalInfo?.cancelable && (
                   <ButtonLabeled
+                    ref={ref => (this.okButtonRef = ref)}
                     style={[
-                      styles.modalCancelButton,
-                      modalInfo?.cancelClassName &&
-                        styles[modalInfo.cancelClassName],
+                      styles.modalOKButton,
+                      modalInfo?.okClassName && styles[modalInfo.okClassName],
                     ]}
-                    title={modalInfo?.cancelCaption || uawMsgs.CMN_CANCEL}
-                    onPress={this.handleModalCancelButtonClick}
+                    vivid={true}
+                    title={modalInfo?.okCaption || uawMsgs.CMN_OK}
+                    onPress={this.handleModalOKButtonClick}
                   >
-                    {modalInfo?.cancelCaption || uawMsgs.CMN_CANCEL}
+                    <Text style={{ color: '#ffffff', fontWeight: 'bold' }}>
+                      {modalInfo?.okCaption || uawMsgs.CMN_OK}
+                    </Text>
                   </ButtonLabeled>
-                )}
 
-                {modalInfo?.thirdButton && (
-                  <ButtonLabeled
-                    style={[
-                      styles.modalThirdButtonButton,
-                      modalInfo?.thirdButtonClassName &&
-                        styles[modalInfo.thirdButtonClassName],
-                    ]}
-                    title={modalInfo?.thirdButtonCaption || uawMsgs.CMN_CLOSE}
-                    onPress={this.handleModalThirdButtonClick}
-                  >
-                    {modalInfo?.thirdButtonCaption || uawMsgs.CMN_CLOSE}
-                  </ButtonLabeled>
-                )}
+                  {modalInfo?.cancelable && (
+                    <ButtonLabeled
+                      style={[
+                        styles.modalCancelButton,
+                        modalInfo?.cancelClassName &&
+                          styles[modalInfo.cancelClassName],
+                      ]}
+                      title={modalInfo?.cancelCaption || uawMsgs.CMN_CANCEL}
+                      onPress={this.handleModalCancelButtonClick}
+                    >
+                      <Text style={{ color: '#ffffff', fontWeight: 'bold' }}>
+                        {modalInfo?.cancelCaption || uawMsgs.CMN_CANCEL}
+                      </Text>
+                    </ButtonLabeled>
+                  )}
+
+                  {modalInfo?.thirdButton && (
+                    <ButtonLabeled
+                      style={[
+                        styles.modalThirdButtonButton,
+                        modalInfo?.thirdButtonClassName &&
+                          styles[modalInfo.thirdButtonClassName],
+                      ]}
+                      title={modalInfo?.thirdButtonCaption || uawMsgs.CMN_CLOSE}
+                      onPress={this.handleModalThirdButtonClick}
+                    >
+                      <Text style={{ color: '#ffffff', fontWeight: 'bold' }}>
+                        {modalInfo?.thirdButtonCaption || uawMsgs.CMN_CLOSE}
+                      </Text>
+                    </ButtonLabeled>
+                  )}
+                </View>
               </View>
             </Animated.View>
           </View>
@@ -343,13 +353,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     margin: 'auto',
     width: '100%',
-    backgroundColor: 'transparent',
+    backgroundColor: 'red',
   },
   modalTable: {
     margin: 'auto',
-    maxHeight: 120,
+    // maxHeight: 120,
     borderRadius: 4,
     backgroundColor: colors.white,
+    // backgroundColor: 'red',
     ...Platform.select({
       ios: {
         shadowColor: colors.platinum,
@@ -370,7 +381,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 4,
     fontSize: 16,
     fontWeight: '400',
-    lineHeight: 25.6,
+    // lineHeight: 25.6,
     letterSpacing: 0.3,
   },
   modalMessage: {
@@ -429,4 +440,5 @@ const styles = StyleSheet.create({
   hidden: {
     display: 'none',
   },
+  modalContent: {},
 })

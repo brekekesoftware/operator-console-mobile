@@ -19,7 +19,7 @@ import TextBox from './TextBox.js'
 import CheckIcon from '../icons/CheckIcon.js'
 import SquareIcon from '../icons/SquareIcon.js'
 import ErrorIcon from '../icons/ErrorIcon.js'
-
+import CustomTextInput from './CustomTextInput.js'
 const colors = {
   white: '#FFFFFF',
   whiteSmoke: '#F5F5F5',
@@ -34,18 +34,28 @@ const styles = StyleSheet.create({
   container: {
     padding: 8,
     paddingHorizontal: 32,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    backgroundColor: '#f8f8f8',
   },
   tableRow: {
     flexDirection: 'row',
     marginBottom: 8,
+    // width: '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
   },
   tableCell: {
     padding: 4,
+    flex: 1,
+    // borderWidth: 1,
+    // borderColor: 'blue',
   },
   tableCellLabel: {
     fontSize: 13,
     fontWeight: '500',
     letterSpacing: 0.3,
+    textAlign: 'center',
   },
   tableCellContent: {
     flex: 1,
@@ -94,6 +104,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingLeft: 44,
     paddingRight: 12,
+    flex: 1,
   },
   buddyItemDisabled: {
     color: colors.darkGray,
@@ -151,7 +162,7 @@ export default class extends React.Component {
     setTimeout(() => {
       if (this.textInputRef.current) {
         this.textInputRef.current.focus()
-        this.textInputRef.current.select()
+        // this.textInputRef.current.select()
       }
     }, 100)
   }
@@ -314,7 +325,7 @@ export default class extends React.Component {
             </Text>
           </View>
           <View style={styles.tableCellContent}>
-            <TextBox
+            <CustomTextInput
               ref={this.textInputRef}
               style={styles.subjectInput}
               value={conference ? conference.subject : this.state.subject}
@@ -376,7 +387,9 @@ export default class extends React.Component {
                     dropDown={true}
                     onPress={() => this.handleGroupSelect(groupName)}
                   >
-                    {groupName || uawMsgs.LBL_CONFERENCE_INVITE_GROUP_NONE}
+                    <Text>
+                      {groupName || uawMsgs.LBL_CONFERENCE_INVITE_GROUP_NONE}
+                    </Text>
                   </MenuItem>
                 ))}
             </DropDownMenu>

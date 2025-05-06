@@ -215,6 +215,7 @@ export default class SearchConditionsArea extends React.Component {
                             searchCondition.conditionValue,
                             true,
                           )}
+                          modal
                           open={this.state.showEndDatePicker}
                           onConfirm={date =>
                             this.handleDatePickerChange(i, true, date)

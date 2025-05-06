@@ -3,7 +3,7 @@ import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ButtonLabeled from './ButtonLabeled.js'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
 /**
  * ChatOptionButtons
@@ -96,7 +96,13 @@ export default class extends React.Component {
                 style={[{ width: 80, marginRight: 8 }, buttonInfo.style]}
                 onPress={buttonInfo.onClick}
               >
-                {buttonInfo.children}
+                {typeof buttonInfo.children === 'string' ? (
+                  <Text style={{ color: '#ffffff', fontWeight: 'bold' }}>
+                    {buttonInfo.children}
+                  </Text>
+                ) : (
+                  buttonInfo.children
+                )}
               </ButtonLabeled>
             )
           })}

@@ -42,6 +42,7 @@ export default class extends React.Component {
           props.progress && styles.brProgress,
           props.vivid && styles.brVivid,
           props.ghost && styles.brGhost,
+          props.hidden && styles.brHidden,
           props.style,
         ]}
         onPress={this.handleClick.bind(this)}
@@ -57,6 +58,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 4,
     backgroundColor: '#212121',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   brDisabled: {
     backgroundColor: '#bdbdbd',

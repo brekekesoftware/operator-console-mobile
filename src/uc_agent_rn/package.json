@@ -21,7 +21,8 @@
     "react-native-linking": "*",
     "react-native-platform-touchable": "*",
     "react-native-share": "*",
-    "react-native-video": "*"
+    "react-native-video": "*",
+    "react-native-date-picker": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

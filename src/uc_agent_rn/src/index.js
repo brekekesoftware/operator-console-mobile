@@ -9517,6 +9517,7 @@ AgentComponent.prototype.updateIconUiData = function () {
         this.iconUiDataTable[iconName] = iconUiData
         iconUiDataOrg.destroyApp()
         iconUiData.render()
+        console.log('#Duy Phan console render iconUiData')
       }
     }
   }

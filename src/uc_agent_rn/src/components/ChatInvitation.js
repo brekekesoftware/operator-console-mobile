@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -49,7 +49,9 @@ export default props => {
             )
           }
         >
-          {uawMsgs.LBL_CONFERENCE_REJOIN_BUTTON}
+          <Text style={styles.brTextButton}>
+            {uawMsgs.LBL_CONFERENCE_REJOIN_BUTTON}
+          </Text>
         </ButtonLabeled>
       </View>
     )
@@ -69,7 +71,9 @@ export default props => {
           )
         }
       >
-        {uawMsgs.LBL_CONFERENCE_JOIN_BUTTON}
+        <Text style={styles.brTextButton}>
+          {uawMsgs.LBL_CONFERENCE_JOIN_BUTTON}
+        </Text>
       </ButtonLabeled>
       <ButtonLabeled
         style={styles.brRejectButton}
@@ -82,7 +86,9 @@ export default props => {
           )
         }
       >
-        {uawMsgs.LBL_CONFERENCE_REJECT_BUTTON}
+        <Text style={styles.brTextButton}>
+          {uawMsgs.LBL_CONFERENCE_REJECT_BUTTON}
+        </Text>
       </ButtonLabeled>
     </View>
   )
@@ -102,5 +108,9 @@ const styles = StyleSheet.create({
   brRejectButton: {
     minWidth: 80,
     marginRight: 8,
+  },
+  brTextButton: {
+    color: '#ffffff',
+    fontWeight: 'bold',
   },
 })

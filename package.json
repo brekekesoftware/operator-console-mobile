@@ -63,7 +63,7 @@
     "react-native-autocomplete-input": "^5.5.2",
     "react-native-background-timer": "2.4.1",
     "react-native-callkeep": "4.3.9",
-    "react-native-date-picker": "^5.0.1",
+    "react-native-date-picker": "4.4.0",
     "react-native-document-picker": "9.0.1",
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-emoji-selector": "0.2.0",

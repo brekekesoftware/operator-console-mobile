@@ -92,6 +92,7 @@ export default class ChatPanel extends React.Component {
       (int(props.uiData.ucUiStore.getOptionalSetting({ key: 'fsp' })) &
         myUcCimUserType) !==
       myUcCimUserType
+    console.log('#Duy Phan console render ChatPanel')
 
     return (
       <DndableSafe

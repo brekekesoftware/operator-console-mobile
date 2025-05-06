@@ -175,7 +175,7 @@ export default class extends React.Component {
           !session.answering
         ) {
           // incoming (not answered yet)
-          this.setState({ height: 0 })
+          newState.height = 0
         } else if (session) {
           // session exists
           if (session && session.withVideo) {
@@ -192,22 +192,22 @@ export default class extends React.Component {
               } else if (maxHeight < this.state.splitterHeight) {
                 newState.splitterHeight = maxHeight
               }
-              this.setState({
-                height: newState.splitterHeight || this.state.splitterHeight,
-              })
+
+              newState.height =
+                newState.splitterHeight || this.state.splitterHeight
             } else {
-              this.setState({ height: maxHeight })
+              newState.height = maxHeight
             }
           } else {
             // audio only
-            this.setState({ height: minHeight })
+            newState.height = minHeight
           }
         } else if (panelSession && panelSession.target) {
           // outgoing (session not created yet)
-          this.setState({ height: minHeight })
+          newState.height = minHeight
         } else {
           // no call
-          this.setState({ height: 0 })
+          newState.height = 0
           if (this.state.dtmfTime) {
             newState.dtmfTime = 0
           }
@@ -241,9 +241,12 @@ export default class extends React.Component {
       this.setState(newState)
     }
     this.checkResized()
+    console.log('#Duy Phan console componentDidUpdate')
   }
+
   componentWillUnmount() {
     const props = this.props
+
     props.uiData.ucUiAction.setLocalStoragePreference({
       keyValueList: [
         { key: 'callAreaHeight', value: string(this.state.splitterHeight) },
@@ -591,6 +594,10 @@ export default class extends React.Component {
   }
   render() {
     const props = this.props
+    console.log(
+      '#Duy Phan console props.uiData.ucUiAction',
+      !!props.uiData.ucUiAction,
+    )
     const profile = props.uiData.ucUiStore.getChatClient().getProfile()
     const lampTypeOptionsCache = () =>
       lampTypeOptionsCache.value ||

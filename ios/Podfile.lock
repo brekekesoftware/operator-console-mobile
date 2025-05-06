@@ -296,7 +296,7 @@ PODS:
     - glog
   - react-native-background-timer (2.4.1):
     - React-Core
-  - react-native-date-picker (5.0.12):
+  - react-native-date-picker (4.4.0):
     - React-Core
   - react-native-document-picker (9.0.1):
     - React-Core
@@ -727,7 +727,7 @@ SPEC CHECKSUMS:
   React-jsinspector: b511447170f561157547bc0bef3f169663860be7
   React-logger: 65faa8b52440199d5e8c5df976457c8f27b109d9
   react-native-background-timer: 4638ae3bee00320753647900b21260b10587b6f7
-  react-native-date-picker: 2eb0ed05ab9dcb4f337deda77deaa779807c4c61
+  react-native-date-picker: 59170b5d643d1644f77645175819c55362d5076d
   react-native-document-picker: 10fce9a283ba4b74533d8378e76b3c38a66347d6
   react-native-get-random-values: 419569b6ed3d15bfb9b6781b2f2e058f8e8d2698
   react-native-image-picker: 81940a00e3fff39786f4bfa242d5b6d454a8b36b
