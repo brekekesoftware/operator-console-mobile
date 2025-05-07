@@ -6,9 +6,8 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
+import TriangleDownIcon from '../icons/TriangleDownIcon.js'
 
 const styles = StyleSheet.create({
   toolbarButton: {
@@ -19,6 +18,9 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+    marginHorizontal: 5,
+    position: 'relative',
     ...Platform.select({
       ios: {
         shadowColor: '#c0c0c0',
@@ -56,17 +58,15 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   dropDownButton: {
-    width: 57,
+    width: 65,
   },
   arrowButtonInner: {
-    width: 15,
-    height: 15,
     position: 'absolute',
-    right: 0,
-    display: 'none', // Initially hidden
+    right: -10,
+    display: 'none',
   },
   arrowButtonInnerVisible: {
-    display: 'flex', // Show when dropdown
+    display: 'flex',
   },
 })
 
@@ -139,10 +139,9 @@ export default class extends React.Component {
           <Image source={props.iconSource} style={styles.icon} />
         )}
         {props.dropDown && (
-          <Image
-            source={require('../images/buttonArrows.png')}
-            style={arrowStyles}
-          />
+          <View style={arrowStyles}>
+            <TriangleDownIcon color='#b6b6b6' width={30} height={30} />
+          </View>
         )}
       </TouchableOpacity>
     )

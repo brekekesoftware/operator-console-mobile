@@ -106,7 +106,7 @@ export default class extends React.Component {
             Object.keys(this.tabRefs).forEach(key => {
               const tabRef = this.tabRefs[key]
               if (tabRef && tabRef.current) {
-                totalTabWidth += 150
+                totalTabWidth += 100
               }
             })
 
@@ -272,7 +272,7 @@ export default class extends React.Component {
           onLongPress={drag}
           delayLongPress={150}
           activeOpacity={1}
-          style={[styles.brMainTabLinkSpan, { flex: 1 }]}
+          style={[styles.brMainTabLinkSpan]}
         >
           <View
             style={[
@@ -725,8 +725,6 @@ const styles = StyleSheet.create({
     top: 14,
     right: 23,
     height: 25,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5E5',
   },
   brMainTabLinkSpan: {
     paddingLeft: 5,
@@ -796,7 +794,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 14,
-    width: 23,
+    width: 27,
     height: 25,
     borderWidth: 1,
     borderColor: '#E5E5E5',
@@ -843,10 +841,8 @@ const styles = StyleSheet.create({
     width: '100%',
     top: 39,
     bottom: 0,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#E5E5E5',
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
     backgroundColor: '#FFFFFF',
   },
   brMainTabContentSelected: {

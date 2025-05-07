@@ -8,7 +8,7 @@ const HoldIcon = ({ width = 24, height = 24, color = '#212121', ...props }) => (
         id='path-1'
         d='M6,6 L6,18 L10,18 L10,6 L6,6 Z M14,6 L14,18 L18,18 L18,6 L14,6 Z'
       />
-      <Mask id='mask-2'>
+      <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
       <Use xlinkHref='#path-1' />

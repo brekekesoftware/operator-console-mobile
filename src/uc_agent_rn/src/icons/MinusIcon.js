@@ -9,7 +9,7 @@ const MinusIcon = ({
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
-      <Mask id='mask-2'>
+      <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
       <Polygon id='path-1' points='5 11 5 13 19 13 19 11' />

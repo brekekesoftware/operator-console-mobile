@@ -9,7 +9,7 @@ const ArrowUpIcon = ({
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
-      <Mask id='mask-2'>
+      <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
       <Polygon
@@ -26,6 +26,7 @@ const ArrowUpIcon = ({
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
+      transform='translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) '
     >
       <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>

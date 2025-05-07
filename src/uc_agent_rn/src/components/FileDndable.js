@@ -24,7 +24,6 @@ export default class FileDndable extends React.Component {
 
   handlePress = async () => {
     const { onDrop, onClick } = this.props
-
     if (onClick) {
       onClick()
     }

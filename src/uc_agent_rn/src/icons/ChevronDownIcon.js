@@ -9,7 +9,7 @@ const ChevronDownIcon = ({
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
-      <Mask id='mask-2'>
+      <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
       <Polygon

@@ -115,8 +115,16 @@ export default class extends React.Component {
 
     // Initialize pan responder for drag functionality
     this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponder: (evt, gestureState) => {
+        // Only capture touch events on the splitter area
+        const { locationY } = evt.nativeEvent
+        return locationY <= 10 // Capture touches within 10px of the top
+      },
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        // Only capture move events if we started on the splitter
+        const { locationY } = evt.nativeEvent
+        return locationY <= 10
+      },
       onPanResponderGrant: () => {
         this.splitterPosition.setOffset(this.splitterPosition._value)
         this.splitterPosition.setValue(0)
@@ -246,12 +254,13 @@ export default class extends React.Component {
 
   componentWillUnmount() {
     const props = this.props
-
-    props.uiData.ucUiAction.setLocalStoragePreference({
-      keyValueList: [
-        { key: 'callAreaHeight', value: string(this.state.splitterHeight) },
-      ],
-    })
+    if (props.uiData && props.uiData.ucUiAction) {
+      props.uiData.ucUiAction.setLocalStoragePreference({
+        keyValueList: [
+          { key: 'callAreaHeight', value: string(this.state.splitterHeight) },
+        ],
+      })
+    }
   }
   handleTransitionEnd(ev) {
     const props = this.props

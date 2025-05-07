@@ -1393,7 +1393,13 @@ export default class extends React.Component {
               headerMembers.length ? null : styles.brPanelHeaderMembersHidden,
             ]}
           >
-            {headerMembers}
+            <ScrollView
+              // horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.headerMembersScrollContent}
+            >
+              {headerMembers}
+            </ScrollView>
           </View>
           <View
             ref={this.panelHeaderButtonsAreaRef}
@@ -1540,12 +1546,17 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   brPanelHeaderMembers: {
-    maxHeight: '100%',
+    paddingHorizontal: 3,
+    maxWidth: '100%',
+    overflow: 'hidden',
     paddingLeft: 22,
     fontSize: 9,
     fontWeight: '400',
-    letterSpacing: 1.3,
+    maxHeight: '100%',
     color: '#666666', // @dark_gray
+  },
+  headerMembersScrollContent: {
+    paddingRight: 8,
   },
   brPanelHeaderMembersHidden: {
     display: 'none',

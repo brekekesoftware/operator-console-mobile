@@ -352,6 +352,7 @@ function extractGroups(svgContent) {
     const fillRule = group.match(/fill-rule="([^"]+)"/)?.[1] || ''
     const stroke = group.match(/stroke="([^"]+)"/)?.[1] || ''
     const strokeWidth = group.match(/stroke-width="([^"]+)"/)?.[1] || ''
+    const transform = group.match(/transform="([^"]+)"/)?.[1] || ''
 
     // Remove the outer g tags to get the content
     const content = group.replace(/<g[^>]*>|<\/g>/g, '')
@@ -362,6 +363,7 @@ function extractGroups(svgContent) {
       fillRule,
       stroke,
       strokeWidth,
+      transform,
       content,
     }
   })
@@ -401,7 +403,7 @@ const ${componentName} = ({ width = 24, height = 24, color = '#212121', ...props
         d="${element.d}"
       />`
           } else if (element.type === 'mask') {
-            return `<Mask id="${element.id}">
+            return `<Mask id="${element.id}" fill="white">
         ${convertSvgContent(element.content)}
       </Mask>`
           } else if (element.type === 'polygon') {
@@ -431,6 +433,7 @@ const ${componentName} = ({ width = 24, height = 24, color = '#212121', ...props
         if (group.fillRule) attrs.push(`fillRule="${group.fillRule}"`)
         if (group.stroke) attrs.push(`stroke="${group.stroke}"`)
         if (group.strokeWidth) attrs.push(`strokeWidth="${group.strokeWidth}"`)
+        if (group.transform) attrs.push(`transform="${group.transform}"`)
 
         return `<G ${attrs.join(' ')}>
       ${convertSvgContent(group.content)}

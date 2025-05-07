@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: colors.borderColor,
+    height: '100%',
   },
   header: {
     display: 'none',
@@ -45,21 +46,18 @@ const styles = StyleSheet.create({
     height: 27,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderColor,
+    zIndex: 1,
   },
   headerVisible: {
     display: 'flex',
   },
   scrollable: {
-    // position: 'absolute',
-    // left: 0,
-    // top: 0,
-    // right: 0,
-    // bottom: 0,
-    backgroundColor: '#ffffff',
     flex: 1,
+    backgroundColor: '#ffffff',
+    height: '100%',
   },
   scrollableWithHeader: {
-    top: 27,
+    marginTop: 27,
   },
   selectAllButton: {
     position: 'absolute',
@@ -469,9 +467,9 @@ export default class extends React.Component {
 
     const scrollableStyles = [
       styles.scrollable,
-      // props.allSelectable &&
-      //   searchResults.length &&
-      //   styles.scrollableWithHeader,
+      props.allSelectable &&
+        searchResults.length &&
+        styles.scrollableWithHeader,
     ]
 
     return (

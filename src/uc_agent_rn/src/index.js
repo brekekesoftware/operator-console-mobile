@@ -348,10 +348,10 @@ uiData.prototype.destroyApp = function () {
     this.addedEventListeners = []
 
     if (
-      this.ownerDocument.defaultView &&
-      this.ownerDocument.defaultView.$brUCDndEnabledApp === this.uiDataId
+      global.$brUCDndEnabledApp &&
+      global.$brUCDndEnabledApp === this.uiDataId
     ) {
-      delete this.ownerDocument.defaultView.$brUCDndEnabledApp
+      delete global.$brUCDndEnabledApp
     }
 
     this.ownerDocument = null

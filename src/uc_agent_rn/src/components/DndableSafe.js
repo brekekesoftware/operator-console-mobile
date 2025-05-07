@@ -176,16 +176,6 @@ export default class DndableSafe extends React.Component {
           >
             {props.children}
           </TouchableOpacity>
-
-          {/* Only show file selection button if onDrop is provided */}
-          {props.onDrop && (
-            <TouchableOpacity
-              style={styles.dropZone}
-              onPress={this.handleFileSelect}
-            >
-              {/* This is an invisible overlay that handles file drops */}
-            </TouchableOpacity>
-          )}
         </View>
       )
     }

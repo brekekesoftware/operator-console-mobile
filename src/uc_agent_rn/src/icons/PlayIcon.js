@@ -4,7 +4,7 @@ import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
 const PlayIcon = ({ width = 24, height = 24, color = '#212121', ...props }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
-      <Mask id='mask-2'>
+      <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
       <Polygon id='path-1' points='8 7 8 18 17 12.5' />

@@ -135,7 +135,7 @@ export default class extends React.Component {
   componentDidMount() {
     const props = this.props
     if (this.editorTextareaRef.current && !props.disabled) {
-      this.editorTextareaRef.current.focus()
+      // this.editorTextareaRef.current.focus()
       if (
         props.uiData.selectedButNotFocusedTab ===
         props.panelType + '_' + props.panelCode
@@ -166,7 +166,7 @@ export default class extends React.Component {
       props.panelType + '_' + props.panelCode
     ) {
       if (this.editorTextareaRef.current && !props.disabled) {
-        this.editorTextareaRef.current.focus()
+        // this.editorTextareaRef.current.focus()
         props.uiData.selectedButNotFocusedTab = ''
       }
     }

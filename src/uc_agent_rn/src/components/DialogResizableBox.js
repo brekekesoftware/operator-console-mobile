@@ -2,7 +2,14 @@ import React from 'react'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
-import { View, PanResponder, Animated, StyleSheet, Image } from 'react-native'
+import {
+  View,
+  PanResponder,
+  Animated,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from 'react-native'
 
 /**
  * DialogResizableBox
@@ -22,6 +29,9 @@ import { View, PanResponder, Animated, StyleSheet, Image } from 'react-native'
 export default class extends React.Component {
   constructor(props) {
     super(props)
+    const { width: screenWidth, height: screenHeight } =
+      Dimensions.get('window')
+
     this.state = {
       pan: new Animated.ValueXY(),
       size: new Animated.ValueXY({
@@ -36,6 +46,8 @@ export default class extends React.Component {
       },
       isResizing: false,
       isDragging: false,
+      screenWidth,
+      screenHeight,
     }
 
     this.setupPanResponders()
@@ -44,8 +56,6 @@ export default class extends React.Component {
   setupPanResponders() {
     // Pan responder for moving
     this.movePanResponder = PanResponder.create({
-      // onStartShouldSetPanResponder: () =>
-      //   this.props.movable && !this.props.disabled,
       onMoveShouldSetPanResponder: () =>
         this.props.movable && !this.props.disabled,
       onPanResponderGrant: () => {
@@ -73,8 +83,13 @@ export default class extends React.Component {
 
     // Pan responder for resizing
     this.resizePanResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => !this.props.disabled,
-      onMoveShouldSetPanResponder: () => !this.props.disabled,
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        return (
+          !this.props.disabled &&
+          (Math.abs(gestureState.dx) > 2 || Math.abs(gestureState.dy) > 2)
+        )
+      },
       onPanResponderGrant: () => {
         this.state.size.setOffset({
           x: this.state.size.x._value,
@@ -85,20 +100,51 @@ export default class extends React.Component {
       },
       onPanResponderMove: (e, gesture) => {
         const { resizableOpts } = this.props
+        const { screenWidth, screenHeight } = this.state
+
+        // Calculate new dimensions
         const newWidth = this.state.currentRect.width + gesture.dx
         const newHeight = this.state.currentRect.height + gesture.dy
 
-        // Apply min/max constraints
-        const width = Math.min(
-          Math.max(newWidth, resizableOpts?.minConstraints?.[0] ?? 0),
-          resizableOpts?.maxConstraints?.[0] ?? Infinity,
+        // Get min constraints from props or use defaults
+        const minWidth = resizableOpts?.minConstraints?.[0] ?? 100
+        const minHeight = resizableOpts?.minConstraints?.[1] ?? 100
+
+        // Calculate max constraints considering screen size
+        const maxWidth = Math.min(
+          screenWidth - this.state.currentRect.left - 20,
+          resizableOpts?.maxConstraints?.[0] ?? screenWidth,
         )
-        const height = Math.min(
-          Math.max(newHeight, resizableOpts?.minConstraints?.[1] ?? 0),
-          resizableOpts?.maxConstraints?.[1] ?? Infinity,
+        const maxHeight = Math.min(
+          screenHeight - this.state.currentRect.top - 20,
+          resizableOpts?.maxConstraints?.[1] ?? screenHeight,
         )
 
-        this.state.size.setValue({ x: width, y: height })
+        // Apply constraints
+        const width = Math.min(Math.max(newWidth, minWidth), maxWidth)
+        const height = Math.min(Math.max(newHeight, minHeight), maxHeight)
+
+        // Use Animated.spring for smooth resizing with adjusted parameters
+        Animated.parallel([
+          Animated.spring(this.state.size.x, {
+            toValue: width,
+            useNativeDriver: false,
+            friction: 12, // Increased friction for slower movement
+            tension: 20, // Reduced tension for gentler spring
+            velocity: 0, // Start from rest
+            restDisplacementThreshold: 0.01,
+            restSpeedThreshold: 0.01,
+          }),
+          Animated.spring(this.state.size.y, {
+            toValue: height,
+            useNativeDriver: false,
+            friction: 12, // Increased friction for slower movement
+            tension: 20, // Reduced tension for gentler spring
+            velocity: 0, // Start from rest
+            restDisplacementThreshold: 0.01,
+            restSpeedThreshold: 0.01,
+          }),
+        ]).start()
       },
       onPanResponderRelease: (e, gesture) => {
         this.state.size.flattenOffset()
@@ -167,11 +213,13 @@ export default class extends React.Component {
             height: size.y,
           },
         ]}
-        {...this.resizePanResponder.panHandlers}
       >
         {props.children}
         {!props.disabled && (
-          <View style={styles.resizeHandle}>
+          <View
+            style={styles.resizeHandle}
+            {...this.resizePanResponder.panHandlers}
+          >
             <Image source={images.resize} style={styles.resizeHandleImage} />
           </View>
         )}

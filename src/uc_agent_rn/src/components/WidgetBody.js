@@ -353,14 +353,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     margin: 'auto',
     width: '100%',
-    backgroundColor: 'red',
   },
   modalTable: {
     margin: 'auto',
     // maxHeight: 120,
     borderRadius: 4,
     backgroundColor: colors.white,
-    // backgroundColor: 'red',
     ...Platform.select({
       ios: {
         shadowColor: colors.platinum,
@@ -372,6 +370,7 @@ const styles = StyleSheet.create({
         elevation: 4,
       },
     }),
+    margin: 50,
   },
   modalTitle: {
     height: 56,

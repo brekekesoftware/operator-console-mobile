@@ -8,7 +8,7 @@ const NextIcon = ({ width = 24, height = 24, color = '#212121', ...props }) => (
         id='path-1'
         d='M5,7 L5,17 L11.6111111,12 L5,7 Z M12,7 L12,17 L18.6111111,12 L12,7 Z'
       />
-      <Mask id='mask-2'>
+      <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
       <Use xlinkHref='#path-1' />

@@ -13,7 +13,7 @@ const HamburgerIcon = ({
         id='path-1'
         d='M4,6 L4,7.6 L20,7.6 L20,6 L4,6 Z M4,10.8 L4,12.4 L20,12.4 L20,10.8 L4,10.8 Z M4,15.6 L4,17.2 L20,17.2 L20,15.6 L4,15.6 Z'
       />
-      <Mask id='mask-2'>
+      <Mask id='mask-2' fill='white'>
         <Use xlinkHref='#path-1'></Use>
       </Mask>
       <Use xlinkHref='#path-1' />
