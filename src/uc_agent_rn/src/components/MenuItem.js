@@ -74,7 +74,7 @@ export default class MenuItem extends React.Component {
         disabled={disabled}
         accessibilityLabel={this.extractTitle()}
       >
-        {children}
+        {typeof children === 'string' ? <Text>{children}</Text> : children}
       </TouchableOpacity>
     )
   }

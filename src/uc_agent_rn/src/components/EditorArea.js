@@ -678,6 +678,7 @@ export default class extends React.Component {
           isEmail && chatHeaderInfo.lastConfType === 'webchat'
             ? { height: 70 - Math.min(0, splitterHeight) }
             : {},
+          // { zIndex: 100 },
         ]}
         ref={this.editorAreaRef}
         onTouchEnd={() => {
@@ -748,6 +749,7 @@ export default class extends React.Component {
             this.state.showingDialogVersion
           }
           style={styles.brEditorOptionsBalloon}
+          onPress={this.handleOptionsLinkClick.bind(this)}
         >
           {menuOptions.map((s, i) => (
             <MenuItem
@@ -952,6 +954,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     bottom: 58,
+    // zIndex: 9999,
   },
 
   // Editor options item

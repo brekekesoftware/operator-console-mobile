@@ -7647,8 +7647,17 @@ AgentComponent.prototype.initComponent = function (option) {
   if (!('replyWebchatButton' in this.option.configurations)) {
     this.option.configurations['replyWebchatButton'] = true
   }
+  // TODO: Remove this once we have a way to set headerButtons
   if (!('headerButtons' in this.option.configurations)) {
-    this.option.configurations['headerButtons'] = ['invite', 'file']
+    this.option.configurations['headerButtons'] = [
+      'invite',
+      'file',
+      'leave',
+      'voice',
+      'video',
+      'chat',
+      'history',
+    ]
   }
   if (!('withMenuOptions' in this.option.configurations)) {
     this.option.configurations['withMenuOptions'] = true

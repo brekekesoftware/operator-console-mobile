@@ -1,51 +1,43 @@
 import React from 'react'
-import {
-  View,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-  Easing,
-  Image,
-  Platform,
-} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
 import ChatParagraph from './ChatParagraph.js'
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  Animated,
+  ActivityIndicator,
+} from 'react-native'
 import ChevronUpIcon from '../icons/ChevronUpIcon.js'
 import ChevronDownIcon from '../icons/ChevronDownIcon.js'
 import ErrorIcon from '../icons/ErrorIcon.js'
 
 /**
- * HistoryDetailArea - React Native version
- * A component that displays chat history details with loading indicators
- *
- * props.uiData - UI data object
- * props.uiData.ucUiAction - UI actions
- * props.uiData.ucUiStore - UI store
- * props.uiData.selectedButNotFocusedTab - Selected but not focused tab
- * props.panelType - Panel type
- * props.panelCode - Panel code
- * props.style - Additional styles
+ * HistoryDetailArea
+ * props.uiData
+ * props.uiData.ucUiAction
+ * props.uiData.ucUiStore
+ * props.uiData.selectedButNotFocusedTab
+ * props.panelType
+ * props.panelCode
  */
-export default class HistoryDetailArea extends React.Component {
+
+const colors = {
+  white: '#FFFFFF',
+  platinum: '#E0E0E0',
+  isabelline: '#EEEEEE',
+  mediumTurquoise: '#4BC5DE',
+  darkGray: '#9E9E9E',
+  errorColor: '#FF4526',
+}
+export default class extends React.Component {
   constructor(props) {
     super(props)
-
-    this.scrollViewRef = React.createRef()
-    this.paragraphRefs = {}
-
-    this.spinnerAnimation = new Animated.Value(0)
-
-    this.state = {
-      firstShowmorelinkIndex: -1,
-      lastShowmorelinkIndex: -1,
-      firstParagraphKey: '',
-      scrolledToFirst: false,
-    }
-
     this.scrolledFirst = false
     this.firstShowmorelinkNodeKey = ''
     this.first_showmorelink_id = ''
@@ -57,6 +49,7 @@ export default class HistoryDetailArea extends React.Component {
     this.soonAfterScrollTop = 0
     this.scrolledUpwardManuallyFirst = false
     this.lastScrollTop = 0
+    this.scrollViewRef = React.createRef()
 
     if (props.panelType === 'HISTORYDETAIL') {
       this.autoReceiveMore = true
@@ -64,7 +57,6 @@ export default class HistoryDetailArea extends React.Component {
       try {
         user_id = string((JSON.parse(props.panelCode) || {}).user_id)
       } catch (e) {}
-
       if (user_id) {
         const displayPeriod =
           int(
@@ -81,17 +73,10 @@ export default class HistoryDetailArea extends React.Component {
     } else {
       this.autoReceiveMore = false
     }
-
-    this.startSpinnerAnimation()
   }
 
-  componentDidMount() {
-    this.checkInitialScroll()
-  }
-
-  componentDidUpdate(prevProps) {
-    const { props } = this
-
+  componentDidUpdate() {
+    const props = this.props
     if (
       props.uiData.selectedButNotFocusedTab ===
       props.panelType + '_' + props.panelCode
@@ -101,49 +86,25 @@ export default class HistoryDetailArea extends React.Component {
         props.uiData.selectedButNotFocusedTab = ''
       }
     }
+    this.checkAndSearchMore()
+  }
 
-    this.checkInitialScroll()
+  handleScroll = event => {
+    const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent
+    this.lastScrollTop = contentOffset.y
+
+    if (contentOffset.y < this.lastScrollTop) {
+      this.scrolledUpwardManuallyFirst = true
+    }
 
     this.checkAndSearchMore()
   }
 
-  startSpinnerAnimation() {
-    Animated.loop(
-      Animated.timing(this.spinnerAnimation, {
-        toValue: 1,
-        duration: 1500,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }),
-    ).start()
-  }
-
-  checkInitialScroll() {
-    const { scrolledFirst, firstScrollNodeKey, firstShowmorelinkNodeKey } = this
-    const { scrollViewRef } = this
-
-    if (
-      this.props.panelType === 'SEARCHRESULTDETAIL' &&
-      firstShowmorelinkNodeKey &&
-      !scrolledFirst &&
-      scrollViewRef.current
-    ) {
-      this.scrolledFirst = true
+  checkAndSearchMore = () => {
+    const props = this.props
+    if (!this.autoReceiveMore) {
+      return
     }
-
-    if (firstScrollNodeKey && !scrolledFirst && scrollViewRef.current) {
-      this.scrolledFirst = true
-    }
-  }
-
-  handleScroll = event => {
-    const scrollY = event.nativeEvent.contentOffset.y
-
-    if (scrollY < this.lastScrollTop) {
-      this.scrolledUpwardManuallyFirst = true
-    }
-
-    this.lastScrollTop = scrollY
 
     if (this.scrolledUpwardManuallyFirst) {
       if (this.soonAfterScrollTop === 1) {
@@ -157,151 +118,50 @@ export default class HistoryDetailArea extends React.Component {
       this.soonAfterScrollTop = 0
     }
 
-    this.checkAndSearchMore()
-  }
+    const showmorelinkTable = props.uiData.ucUiStore.getShowmorelinkTable()
+    const lastShowmorelinkEntry =
+      showmorelinkTable[this.last_showmorelink_id] || {}
+    const firstShowmorelinkEntry =
+      showmorelinkTable[this.first_showmorelink_id] || {}
 
-  checkAndSearchMore() {
-    if (!this.autoReceiveMore) {
-      return
-    }
+    if (this.scrollViewRef.current) {
+      this.scrollViewRef.current.measure(
+        (x, y, width, height, pageX, pageY) => {
+          const scrollViewHeight = height
+          const contentHeight = this.scrollViewRef.current.contentHeight
+          const scrollY = this.lastScrollTop
 
-    const { scrollViewRef } = this
-
-    if (scrollViewRef.current) {
-      if (
-        this.state.lastShowmorelinkIndex >= 0 &&
-        !(
-          this.props.uiData.ucUiStore.getShowmorelinkTable()[
-            this.last_showmorelink_id
-          ] || {}
-        ).errorType
-      ) {
-      } else if (
-        this.state.firstShowmorelinkIndex >= 0 &&
-        !(
-          this.props.uiData.ucUiStore.getShowmorelinkTable()[
-            this.first_showmorelink_id
-          ] || {}
-        ).errorType
-      ) {
-      }
+          if (
+            scrollY > contentHeight - scrollViewHeight - 50 &&
+            !lastShowmorelinkEntry.errorType
+          ) {
+            this.handleShowmorelinkClick(this.last_showmorelink_id)
+          } else if (scrollY < 50 && !firstShowmorelinkEntry.errorType) {
+            this.handleShowmorelinkClick(this.first_showmorelink_id, 0)
+          }
+        },
+      )
     }
   }
 
   handleShowmorelinkClick = (showmorelink_id, index) => {
-    const { props } = this
-
+    const props = this.props
     if (index === 0) {
       const chatList = props.uiData.ucUiStore.getChatList({
         chatType: props.panelType,
         chatCode: props.panelCode,
       })
-
       if (chatList.length >= 2 && chatList[0].type === 'showmorelink') {
         this.secondNodeKey = chatList[1].key
       }
     }
-
     props.uiData.ucUiAction.receiveMore({
       showmorelink_id: showmorelink_id,
     })
   }
 
-  renderShowmorelink = (chat, index) => {
-    const { props } = this
-
-    if (index === 0) {
-      this.firstShowmorelinkNodeKey = chat.key
-      this.first_showmorelink_id = chat.showmorelink_id
-
-      if (this.state.firstShowmorelinkIndex !== index) {
-        this.setState({ firstShowmorelinkIndex: index })
-      }
-    } else {
-      this.lastShowmorelinkNodeKey = chat.key
-      this.last_showmorelink_id = chat.showmorelink_id
-
-      if (this.state.lastShowmorelinkIndex !== index) {
-        this.setState({ lastShowmorelinkIndex: index })
-      }
-    }
-
-    const showmorelinkEntry =
-      props.uiData.ucUiStore.getShowmorelinkTable()[chat.showmorelink_id] || {}
-
-    const isClickable = !this.autoReceiveMore && !showmorelinkEntry.nowReceiving
-    const isError = showmorelinkEntry.errorType
-    const isProgress = !isClickable && !isError
-
-    const errorTitle =
-      (uawMsgs[showmorelinkEntry.errorType] || showmorelinkEntry.errorType) +
-      (showmorelinkEntry.errorDetail
-        ? ' (' + showmorelinkEntry.errorDetail + ')'
-        : '')
-
-    let icon = null
-
-    if (isClickable) {
-      icon = (
-        <View style={styles.showmorelinkIcon}>
-          {index === 0 ? (
-            <ChevronUpIcon color={colors.darkGray} />
-          ) : (
-            <ChevronDownIcon color={colors.darkGray} />
-          )}
-        </View>
-      )
-    } else if (isError) {
-      icon = (
-        <View style={styles.showmorelinkIcon}>
-          <ErrorIcon color={colors.errorColor} />
-        </View>
-      )
-    } else if (isProgress) {
-      icon = (
-        <View style={styles.loadingSpinnerContainer}>
-          <Animated.View
-            style={[
-              styles.loadingSpinner,
-              {
-                transform: [
-                  {
-                    rotate: this.spinnerAnimation.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ['0deg', '360deg'],
-                    }),
-                  },
-                ],
-              },
-            ]}
-          />
-        </View>
-      )
-    }
-
-    return (
-      <TouchableOpacity
-        key={chat.key}
-        style={[
-          styles.historyShowmorelink,
-          isClickable && styles.clickable,
-          isError && styles.error,
-        ]}
-        onPress={() =>
-          isClickable &&
-          this.handleShowmorelinkClick(chat.showmorelink_id, index)
-        }
-        disabled={!isClickable}
-        activeOpacity={isClickable ? 0.7 : 1}
-        accessibilityLabel={errorTitle}
-      >
-        {icon}
-      </TouchableOpacity>
-    )
-  }
-
   render() {
-    const { props } = this
+    const props = this.props
     const chatNodes = []
     let previousParagraph = null
     this.firstShowmorelinkNodeKey = ''
@@ -319,7 +179,6 @@ export default class HistoryDetailArea extends React.Component {
             const lastMessage =
               messageList && messageList[messageList.length - 1]
             const lastSentTimeValue = lastMessage && lastMessage.sentTimeValue
-
             if (
               lastSentTimeValue &&
               lastSentTimeValue >= this.displayPeriodBegin
@@ -327,11 +186,10 @@ export default class HistoryDetailArea extends React.Component {
               this.firstScrollNodeKey = (previousParagraph || chat).key
             }
           }
-
           chatNodes.push(
             <ChatParagraph
               key={chat.key}
-              ref={ref => (this.paragraphRefs[chat.key] = ref)}
+              ref={chat.key}
               uiData={props.uiData}
               panelType={props.panelType}
               panelCode={props.panelCode}
@@ -339,10 +197,80 @@ export default class HistoryDetailArea extends React.Component {
               previousParagraph={previousParagraph}
             />,
           )
-
           previousParagraph = chat
         } else if (chat.type === 'showmorelink') {
-          chatNodes.push(this.renderShowmorelink(chat, index))
+          if (index === 0) {
+            this.firstShowmorelinkNodeKey = chat.key
+            this.first_showmorelink_id = chat.showmorelink_id
+          } else {
+            this.lastShowmorelinkNodeKey = chat.key
+            this.last_showmorelink_id = chat.showmorelink_id
+          }
+          const showmorelinkEntry =
+            props.uiData.ucUiStore.getShowmorelinkTable()[
+              chat.showmorelink_id
+            ] || {}
+          const isClickable =
+            !this.autoReceiveMore && !showmorelinkEntry.nowReceiving
+          const isError = showmorelinkEntry.errorType
+          const isProgress = !isClickable && !isError
+
+          const errorTitle =
+            (uawMsgs[showmorelinkEntry.errorType] ||
+              showmorelinkEntry.errorType) +
+            (showmorelinkEntry.errorDetail
+              ? ' (' + showmorelinkEntry.errorDetail + ')'
+              : '')
+
+          let icon = null
+
+          if (isClickable) {
+            icon = (
+              <View style={styles.showmorelinkIcon}>
+                {index === 0 ? (
+                  <ChevronUpIcon color={colors.darkGray} />
+                ) : (
+                  <ChevronDownIcon color={colors.darkGray} />
+                )}
+              </View>
+            )
+          } else if (isError) {
+            icon = (
+              <View style={styles.showmorelinkIcon}>
+                <ErrorIcon color={colors.errorColor} />
+              </View>
+            )
+          } else if (isProgress) {
+            icon = (
+              <View style={styles.loadingSpinnerContainer}>
+                <ActivityIndicator
+                  size='small'
+                  color={colors.mediumTurquoise}
+                />
+              </View>
+            )
+          }
+
+          chatNodes.push(
+            <TouchableOpacity
+              key={chat.key}
+              ref={chat.key}
+              style={[
+                styles.showMoreLink,
+                !this.autoReceiveMore &&
+                  !showmorelinkEntry.nowReceiving &&
+                  styles.clickable,
+                showmorelinkEntry.errorType && styles.error,
+                showmorelinkEntry.nowReceiving && styles.progress,
+              ]}
+              onPress={() =>
+                this.handleShowmorelinkClick(chat.showmorelink_id, index)
+              }
+              disabled={showmorelinkEntry.nowReceiving}
+            >
+              {icon}
+            </TouchableOpacity>,
+          )
         }
       })
 
@@ -352,13 +280,9 @@ export default class HistoryDetailArea extends React.Component {
         style={[
           styles.historyDetailArea,
           this.autoReceiveMore && styles.autoReceiveMore,
-          props.style,
         ]}
-        contentContainerStyle={styles.contentContainer}
         onScroll={this.handleScroll}
         scrollEventThrottle={16}
-        showsVerticalScrollIndicator={true}
-        indicatorStyle='white'
       >
         {chatNodes}
       </ScrollView>
@@ -366,47 +290,41 @@ export default class HistoryDetailArea extends React.Component {
   }
 }
 
-const colors = {
-  white: '#FFFFFF', // @white
-  platinum: '#E0E0E0', // @platinum
-  isabelline: '#EEEEEE', // @isabelline
-  mediumTurquoise: '#4BC5DE', // @medium_turquoise
-  darkGray: '#9E9E9E', // @dark_gray
-  errorColor: '#FF4526', // Based on portland_orange
-}
-
 const styles = StyleSheet.create({
   historyDetailArea: {
     flex: 1,
   },
-  contentContainer: {
-    paddingBottom: 10,
+  autoReceiveMore: {
+    backgroundColor: '#F5F5F5',
   },
-  autoReceiveMore: {},
-  historyShowmorelink: {
+  showMoreLink: {
     height: 28,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  clickable: {},
-  error: {},
   showmorelinkIcon: {
     width: 24,
     height: 24,
   },
-  errorIcon: {
-    tintColor: colors.errorColor,
+  clickable: {
+    // backgroundColor: '#E5E5E5',
+  },
+  error: {
+    // backgroundColor: '#FFE4E1',
+  },
+  progress: {
+    // backgroundColor: '#F0F0F0',
+  },
+  showMoreLinkInner: {
+    width: 20,
+    height: 20,
+    // borderRadius: 10,
+    // backgroundColor: '#40E0D0',
   },
   loadingSpinnerContainer: {
     width: 24,
     height: 24,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  loadingSpinner: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: colors.mediumTurquoise,
   },
 })

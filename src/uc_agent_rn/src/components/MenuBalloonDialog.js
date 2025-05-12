@@ -16,7 +16,7 @@ import { int, string } from '../utilities/strings.js'
  *
  * props.showing - Whether the dialog is visible
  * props.style - Additional styles for the component
- * props.onClick - Function called when the dialog is pressed
+ * props.onPress - Function called when the dialog is pressed
  */
 export default class MenuBalloonDialog extends React.Component {
   constructor(props) {
@@ -26,11 +26,11 @@ export default class MenuBalloonDialog extends React.Component {
     }
   }
 
-  handleClick = event => {
-    const { onClick } = this.props
+  handlePress = event => {
+    const { onPress } = this.props
 
-    if (typeof onClick === 'function') {
-      onClick(event)
+    if (typeof onPress === 'function') {
+      onPress(event)
     }
   }
 
@@ -86,7 +86,7 @@ export default class MenuBalloonDialog extends React.Component {
             setTimeout(() => this.setState({ isHovered: false }), 1500)
           }}
         >
-          <TouchableWithoutFeedback onPress={this.handleClick}>
+          <TouchableWithoutFeedback onPress={this.handlePress}>
             <View>{children}</View>
           </TouchableWithoutFeedback>
         </ScrollView>

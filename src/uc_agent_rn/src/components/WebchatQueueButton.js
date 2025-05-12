@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 24, // 1.6 * 15
     letterSpacing: 0.3,
     color: colors.mantis,
   },

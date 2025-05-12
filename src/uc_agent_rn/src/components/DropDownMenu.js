@@ -8,6 +8,7 @@ import {
   Dimensions,
   Platform,
   Image,
+  LayoutAnimation,
 } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
@@ -41,6 +42,7 @@ export default class DropDownMenu extends React.Component {
         y: 0,
         width: 0,
       },
+      isVisible: false,
     }
     this.dropdownRef = React.createRef()
   }
@@ -52,21 +54,39 @@ export default class DropDownMenu extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.isDialogShowing() !== this.wasDialogShowing(prevProps)) {
       this.measureDropdownPosition()
+      // Animate the transition
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     }
   }
 
   measureDropdownPosition() {
-    if (this.dropdownRef.current && Platform.OS !== 'web') {
-      const { width: screenWidth, height: screenHeight } =
-        Dimensions.get('window')
-
+    if (this.dropdownRef.current) {
       this.dropdownRef.current.measure((x, y, width, height, pageX, pageY) => {
+        const { width: screenWidth, height: screenHeight } =
+          Dimensions.get('window')
+
+        // Calculate position to ensure dropdown stays within screen bounds
+        let dialogY = pageY + height
+        let dialogX = pageX
+
+        // Check if dropdown would go below screen
+        if (dialogY + 200 > screenHeight) {
+          // Assuming max dropdown height of 200
+          dialogY = pageY - 200 // Show above the button
+        }
+
+        // Check if dropdown would go beyond right edge
+        if (dialogX + width > screenWidth) {
+          dialogX = screenWidth - width - 10 // Add some padding
+        }
+
         this.setState({
           dialogPosition: {
-            x: pageX,
-            y: pageY + height,
+            x: dialogX,
+            y: dialogY,
             width: width,
           },
+          isVisible: this.isDialogShowing(),
         })
       })
     }
@@ -88,7 +108,6 @@ export default class DropDownMenu extends React.Component {
 
   handlePress = () => {
     const { props } = this
-
     if (props.disabled) {
       return
     }
@@ -111,7 +130,9 @@ export default class DropDownMenu extends React.Component {
     } else {
       this.setState({
         showingDialogVersion: null,
+        isVisible: false,
       })
+      props.uiData.window_onclick()
     }
 
     if (typeof props.onClick === 'function') {
@@ -147,12 +168,11 @@ export default class DropDownMenu extends React.Component {
     const { props, state } = this
     const isShowing = this.isDialogShowing()
 
+    console.log('#Duy Phan console isShowing', state)
+
     if (props.hidden) {
       return null
     }
-
-    const iconName = isShowing ? 'triangle_up' : 'triangle_down'
-    // TODO: Add icon component with base64 svg
 
     return (
       <View style={styles.container}>
@@ -179,10 +199,10 @@ export default class DropDownMenu extends React.Component {
 
           <View style={styles.iconContainer}>
             <View style={styles.icon}>
-              {iconName === 'triangle_up' ? (
-                <TriangleUpIcon />
+              {isShowing ? (
+                <TriangleUpIcon width={18} height={18} color='#000000' />
               ) : (
-                <TriangleDownIcon />
+                <TriangleDownIcon width={18} height={18} color='#000000' />
               )}
             </View>
           </View>
@@ -191,16 +211,21 @@ export default class DropDownMenu extends React.Component {
         <MenuBalloonDialog
           showing={isShowing}
           style={[
+            styles.dialog,
             {
               position: 'absolute',
-              left: state.dialogPosition.x,
-              top: state.dialogPosition.y,
+              // left: state.dialogPosition.x,
+              top: 30,
+              left: 0,
               minWidth: state.dialogPosition.width,
               zIndex: isShowing ? 9999 : 0,
+              // zIndex: 0
             },
             props.dialogStyle,
           ]}
-          onClick={() => this.setState({ showingDialogVersion: null })}
+          onClick={() =>
+            this.setState({ showingDialogVersion: null, isVisible: false })
+          }
         >
           {props.children}
         </MenuBalloonDialog>
@@ -214,13 +239,15 @@ const colors = {
   mediumTurquoise: '#4BC5DE', // @medium_turquoise
   white: '#FFFFFF', // @white
   whiteSmoke: '#F5F5F5', // @white_smoke
-  platinum: '#E0E0E0', // @platinum
+  platinum: '#e0e0e0', // @platinum
   darkGray: '#9E9E9E', // @dark_gray
   darkJungleGreen: '#212121', // @dark_jungle_green
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    position: 'relative',
+  },
   dropDownMenu: {
     position: 'relative',
     width: 200,
@@ -264,9 +291,6 @@ const styles = StyleSheet.create({
       android: {
         elevation: 2,
       },
-      web: {
-        boxShadow: `0px 0px 0px 1px ${colors.mediumTurquoise} inset`,
-      },
     }),
   },
   disabled: {
@@ -274,5 +298,20 @@ const styles = StyleSheet.create({
   },
   disabledText: {
     color: colors.darkGray,
+  },
+  dialog: {
+    backgroundColor: colors.white,
+    borderRadius: 4,
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.darkJungleGreen,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
   },
 })

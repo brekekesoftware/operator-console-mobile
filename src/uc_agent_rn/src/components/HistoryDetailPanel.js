@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
   },
   historyDetailArea: {
     maxHeight: '100%',
+    height: '100%',
     padding: 4,
   },
 })

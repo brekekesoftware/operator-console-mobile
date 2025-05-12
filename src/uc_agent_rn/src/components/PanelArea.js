@@ -32,7 +32,8 @@ import WebchatQueuePanel from './WebchatQueuePanel.js'
 import HistorySearchPanel from './HistorySearchPanel.js'
 import HistorySummariesPanel from './HistorySummariesPanel.js'
 import HistoryDetailPanel from './HistoryDetailPanel.js'
-
+import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import ChevronUpIcon from '../icons/ChevronUpIcon.js'
 /**
  * PanelArea
  * props.uiData
@@ -1143,19 +1144,19 @@ export default class extends React.Component {
         }
       })
       headerSearchConditions = (
-        <View>
-          <ButtonIconic
-            style={[
-              styles.brHeaderSearchConditionsDetailButton,
-              this.state.historySummariesWithHeader
-                ? styles.br_bi_icon_chevron_up_svg
-                : styles.br_bi_icon_chevron_down_svg,
-            ]}
-            title={uawMsgs.LBL_PANEL_HEADER_SEARCH_DETAIL_BUTTON_TOOLTIP}
-            onPress={this.handleHeaderSearchConditionsDetailButtonClick.bind(
-              this,
-            )}
-          />
+        <View
+          style={{
+            position: 'relative',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 10,
+            height: '100%',
+            // backgroundColor: 'red',
+            marginLeft: 5,
+            // zIndex: 100
+          }}
+        >
           <View style={styles.brHeaderSearchConditionsContentArea}>
             <TextBox
               ref={this.headerSearchConditionsContentInputRef}
@@ -1244,6 +1245,21 @@ export default class extends React.Component {
                 ))}
             </DropDownMenu>
           </View>
+          <View style={{ flex: 1 }}></View>
+          <ButtonIconic
+            style={[styles.brHeaderSearchConditionsDetailButton]}
+            title={uawMsgs.LBL_PANEL_HEADER_SEARCH_DETAIL_BUTTON_TOOLTIP}
+            onPress={this.handleHeaderSearchConditionsDetailButtonClick.bind(
+              this,
+            )}
+            iconSource={
+              this.state.historySummariesWithHeader ? (
+                <ChevronUpIcon />
+              ) : (
+                <ChevronDownIcon />
+              )
+            }
+          />
         </View>
       )
       contents = (
@@ -1338,7 +1354,6 @@ export default class extends React.Component {
         />
       )
     }
-    console.log('#Duy Phan console headerButtons', headerButtons.length)
 
     return (
       <View
@@ -1367,7 +1382,7 @@ export default class extends React.Component {
               headerTitle ? null : styles.brPanelHeaderTitleHidden,
             ]}
             numberOfLines={1}
-            ellipsizeMode='tail'
+            // ellipsizeMode='tail'
           >
             {headerTitle}
           </Text>
@@ -1465,12 +1480,12 @@ export default class extends React.Component {
               headerSearchConditions
                 ? null
                 : styles.brHeaderSearchConditionsHidden,
-              { width: this.state.headerSearchConditionsWidth },
+              // { width: this.state.headerSearchConditionsWidth },
             ]}
           >
             {headerSearchConditions}
           </View>
-          <DndableSafe
+          {/* <DndableSafe
             uiData={props.uiData}
             style={styles.brPanelHeaderInviteDndable}
             onCheckCanDrop={props.uiData.fire.bind(
@@ -1485,7 +1500,7 @@ export default class extends React.Component {
               props.panelType,
               props.panelCode,
             )}
-          />
+          /> */}
         </View>
       </View>
     )
@@ -1499,17 +1514,19 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
+    // flex: 1
   },
   brPanelHeaderArea: {
     flexDirection: 'row',
     alignItems: 'center',
-    position: 'absolute',
+    position: 'relative',
     left: 0,
     top: 0,
     width: '100%',
     height: 56,
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0', // @platinum
+    borderBottomColor: '#e0e0e0',
+    // zIndex: 0,
   },
   brPanelHeaderTitle: {
     maxHeight: '100%',
@@ -1639,36 +1656,24 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   brHeaderSearchConditions: {
-    position: 'absolute',
-    right: 0,
     maxWidth: 600,
-    top: '50%',
     height: 42,
-    transform: [{ translateY: -21 }], // Half of the height
+    zIndex: 100,
   },
   brHeaderSearchConditionsHidden: {
     display: 'none',
   },
   brHeaderSearchConditionsDetailButton: {
-    position: 'absolute',
-    right: 8,
     width: 32,
-    top: 5,
     height: 32,
   },
   brHeaderSearchConditionsContentArea: {
-    position: 'absolute',
-    left: 200,
-    right: 48,
-    top: 0,
-    height: 42,
+    minWidth: 100,
+    width: 100,
   },
   brHeaderSearchConditionsContentInput: {
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    top: 0,
-    height: '100%',
+    minWidth: 100,
+    width: 100,
   },
   brHeaderSearchConditionsSearchButton: {
     position: 'absolute',
@@ -1679,18 +1684,21 @@ const styles = StyleSheet.create({
     opacity: 0.2,
   },
   brHeaderSearchConditionsUserArea: {
-    position: 'absolute',
-    left: 12,
-    width: 176,
-    top: 5,
+    // position: 'absolute',
+    // left: 12,
+    width: 120,
+    // top: 5,
     height: 32,
+    // zIndex: 20
   },
   brHeaderSearchConditionsUserMenu: {
-    position: 'absolute',
-    left: 0,
-    width: '100%',
-    top: 0,
-    height: '100%',
+    // position: 'absolute',
+    // left: 0,
+    // width: '100%',
+    // top: 0,
+    // height: '100%',
+    width: 120,
+    // zIndex: 20
   },
   brHeaderSearchConditionsUserGroup: {
     position: 'relative',
@@ -1736,8 +1744,12 @@ const styles = StyleSheet.create({
     top: 56,
     bottom: 0,
     width: '100%',
+    // zIndex: 1
   },
   brHidden: {
     display: 'none',
+  },
+  brPanelAreaDialog: {
+    zIndex: 100,
   },
 })

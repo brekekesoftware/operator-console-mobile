@@ -85,16 +85,9 @@ export default class extends React.Component {
     this.resizePanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => false,
       onMoveShouldSetPanResponder: (evt, gestureState) => {
-        return (
-          !this.props.disabled &&
-          (Math.abs(gestureState.dx) > 2 || Math.abs(gestureState.dy) > 2)
-        )
+        return !this.props.disabled
       },
       onPanResponderGrant: () => {
-        this.state.size.setOffset({
-          x: this.state.size.x._value,
-          y: this.state.size.y._value,
-        })
         this.setState({ isResizing: true })
         this.handleResizeStart()
       },
@@ -102,7 +95,7 @@ export default class extends React.Component {
         const { resizableOpts } = this.props
         const { screenWidth, screenHeight } = this.state
 
-        // Calculate new dimensions
+        // Calculate new dimensions directly from gesture movement
         const newWidth = this.state.currentRect.width + gesture.dx
         const newHeight = this.state.currentRect.height + gesture.dy
 
@@ -121,33 +114,13 @@ export default class extends React.Component {
         )
 
         // Apply constraints
-        const width = Math.min(Math.max(newWidth, minWidth), maxWidth)
-        const height = Math.min(Math.max(newHeight, minHeight), maxHeight)
+        const width = Math.max(minWidth, Math.min(newWidth, maxWidth))
+        const height = Math.max(minHeight, Math.min(newHeight, maxHeight))
 
-        // Use Animated.spring for smooth resizing with adjusted parameters
-        Animated.parallel([
-          Animated.spring(this.state.size.x, {
-            toValue: width,
-            useNativeDriver: false,
-            friction: 12, // Increased friction for slower movement
-            tension: 20, // Reduced tension for gentler spring
-            velocity: 0, // Start from rest
-            restDisplacementThreshold: 0.01,
-            restSpeedThreshold: 0.01,
-          }),
-          Animated.spring(this.state.size.y, {
-            toValue: height,
-            useNativeDriver: false,
-            friction: 12, // Increased friction for slower movement
-            tension: 20, // Reduced tension for gentler spring
-            velocity: 0, // Start from rest
-            restDisplacementThreshold: 0.01,
-            restSpeedThreshold: 0.01,
-          }),
-        ]).start()
+        // Update size directly
+        this.state.size.setValue({ x: width, y: height })
       },
       onPanResponderRelease: (e, gesture) => {
-        this.state.size.flattenOffset()
         this.setState({ isResizing: false })
         this.handleResizeStop(e, {
           size: {
@@ -299,16 +272,20 @@ const styles = StyleSheet.create({
 
   resizeHandle: {
     position: 'absolute',
-    width: 13,
-    height: 13,
-    bottom: 2,
-    right: 2,
+    width: 20, // Increased touch target
+    height: 20, // Increased touch target
+    bottom: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
   },
 
   resizeHandleImage: {
     width: 13,
     height: 13,
     resizeMode: 'contain',
+    opacity: 0.7, // Make it slightly transparent
   },
 
   resizeHandleHidden: {

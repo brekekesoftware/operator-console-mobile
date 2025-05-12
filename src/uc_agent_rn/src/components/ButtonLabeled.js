@@ -47,7 +47,11 @@ export default class extends React.Component {
         ]}
         onPress={this.handleClick.bind(this)}
       >
-        {props.children}
+        {typeof props.children === 'string' ? (
+          <Text style={styles.brButtonLabeledText}>{props.children}</Text>
+        ) : (
+          props.children
+        )}
       </TouchableOpacity>
     )
   }
@@ -74,4 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   brProgress: {},
+  brButtonLabeledText: {
+    color: '#fff',
+  },
 })

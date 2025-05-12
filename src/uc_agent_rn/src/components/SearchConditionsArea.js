@@ -200,6 +200,7 @@ export default class SearchConditionsArea extends React.Component {
                           false,
                         )}
                         modal
+                        mode='date'
                         open={this.state.showStartDatePicker}
                         onConfirm={date =>
                           this.handleDatePickerChange(i, false, date)
@@ -216,6 +217,7 @@ export default class SearchConditionsArea extends React.Component {
                             true,
                           )}
                           modal
+                          mode='date'
                           open={this.state.showEndDatePicker}
                           onConfirm={date =>
                             this.handleDatePickerChange(i, true, date)
