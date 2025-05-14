@@ -65,12 +65,14 @@ export default class MenuItem extends React.Component {
       dropDown && styles.dropDown,
       style,
     ]
+    // console.log('#Duy Phan console disabled',disabled)
 
     return (
       <TouchableOpacity
         style={containerStyles}
         onPress={this.handlePress}
-        activeOpacity={disabled ? 1 : 0.7}
+        // activeOpacity={!disabled ? 1 : 0.7}
+        // activeOpacity={0}
         disabled={disabled}
         accessibilityLabel={this.extractTitle()}
       >
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     color: colors.darkGray,
+    opacity: 0.7,
   },
   dropDown: {
     paddingTop: 8,

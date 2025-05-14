@@ -4071,6 +4071,7 @@ uiData.prototype.panelHeaderVideoButton_onClick = function (
   panelCode,
   ev,
 ) {
+  console.log('#Duy Phan console panelHeaderVideoButton_onClick')
   this.makeCall(panelType, panelCode, true, false)
 }
 uiData.prototype.panelHeaderScreenButton_onClick = function (
@@ -6502,12 +6503,12 @@ uiData.prototype.unansweredWebchatLeft = function (ev) {
   }
 }
 uiData.prototype.checkRequiresNotification = function (evObj) {
-  const doc = this.ownerDocument
-  if (doc && evObj) {
+  // const doc = this.ownerDocument
+  // Not use ownerDocument
+  if (evObj) {
     const chatKeys = (evObj && evObj.chatKeys) || []
     const lampTypeOptions = this.getlampTypeOptions()
     if (
-      doc.hasFocus() &&
       this.currentSelectedTabScrolledToBottom &&
       chatKeys.indexOf(this.currentSelectedTab) >= 0 &&
       !(
@@ -6516,8 +6517,7 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
         this.ucUiStore.getLocalStoragePreference({
           keyList: ['callAreaTheater'],
         })[0]
-      ) &&
-      !doc.fullscreenElement
+      )
     ) {
       // no need to notify (document has focus and panel is selected and not fullscreened)
       evObj.notificationFunction = () => {
@@ -6731,6 +6731,7 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
             this.currentSelectedTab !==
               panelToNotify.panelType + '_' + panelToNotify.panelCode
           ) {
+            alert(1)
             // blinking
             if (
               this.blinkingTabs[

@@ -30,6 +30,10 @@ import ConferenceIcon from '../icons/ConferenceForegroundSelectedIcon.js'
 import UserIcon from '../icons/UserIcon.js'
 import ChevronUpIcon from '../icons/ChevronUpIcon.js'
 import ChevronDownIcon from '../icons/ChevronDownIcon.js'
+import UploadIcon from '../icons/UploadIcon.js'
+import DownloadIcon from '../icons/DownloadIcon.js'
+import PhoneIcon from '../icons/PhoneIcon.js'
+import JobIcon from '../icons/JobIcon.js'
 /**
  * HistorySummariesPanel
  * props.uiData
@@ -225,6 +229,63 @@ export default class extends React.Component {
         }),
       ]),
     ).start()
+  }
+
+  convertSummary = (summary, isMe) => {
+    const parts = summary.split(/(<span[^>]*>.*?<\/span>)/g)
+
+    return (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {parts.map((part, index) => {
+          if (!part) return null
+          if (!part.trim()) return null
+          console.log('#Duy Phan console part', part)
+
+          if (part.startsWith('<span')) {
+            const content = part.replace(/<span[^>]*>|<\/span>/g, '')
+
+            const isEmphasized = /class="[^"]*brEmphasized[^"]*"/.test(part)
+            const isFileRequest = /class="[^"]*brFileRequest[^"]*"/.test(part)
+            const isCallResult = /class="[^"]*brCallResult[^"]*"/.test(part)
+            const isObject = /class="[^"]*brObject[^"]*"/.test(part)
+
+            if (isEmphasized) {
+              return (
+                <Text key={index} style={styles.brEmphasized}>
+                  {content}
+                </Text>
+              )
+            }
+            if (isFileRequest) {
+              return (
+                <>
+                  {isMe ? <UploadIcon /> : <DownloadIcon />}
+                  <Text>{content}</Text>
+                </>
+              )
+            }
+            if (isCallResult) {
+              return (
+                <>
+                  <PhoneIcon />
+                  <Text>{content}</Text>
+                </>
+              )
+            }
+            if (isObject) {
+              return (
+                <>
+                  <JobIcon />
+                  <Text>{content}</Text>
+                </>
+              )
+            }
+          } else {
+            return <Text>{part}</Text>
+          }
+        })}
+      </View>
+    )
   }
 
   render() {
@@ -448,7 +509,7 @@ export default class extends React.Component {
                 )}
 
                 <Text style={styles.brHistorySummarySummary}>
-                  {string(searchResult.summary)
+                  {/* {string(searchResult.summary)
                     .replace(
                       /brFileRequest">/g,
                       'brFileRequest ' +
@@ -478,7 +539,18 @@ export default class extends React.Component {
                       'brObject br_bi_icon_job_svg" title="' +
                         uawMsgs.LBL_HISTORY_SUMMARY_OBJECT +
                         '">',
-                    )}
+                    )} */}
+                  {this.convertSummary(
+                    searchResult.summary,
+                    (
+                      (searchResult._topic &&
+                        props.uiData.ucUiStore.getBuddyUserForUi({
+                          tenant: searchResult._topic.content_sender_tenant,
+                          user_id: searchResult._topic.content_sender_user_id,
+                        })) ||
+                      {}
+                    ).isMe,
+                  )}
                 </Text>
               </View>
 
@@ -609,12 +681,14 @@ export default class extends React.Component {
           onScroll={this.handleHistorySummariesAreaScroll}
           onContentSizeChange={this.handleContentSizeChange}
         >
-          <View
-            style={[
-              styles.brHistorySummariesAreaMarker,
-              { height: this.state.areaHeight },
-            ]}
-          />
+          {entries.length > 0 && (
+            <View
+              style={[
+                styles.brHistorySummariesAreaMarker,
+                { height: this.state.areaHeight },
+              ]}
+            />
+          )}
 
           <View style={styles.brHistorySummariesList}>
             {entries}

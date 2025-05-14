@@ -12,6 +12,7 @@ import {
   findNodeHandle,
   UIManager,
   NativeModules,
+  TextInput,
 } from 'react-native'
 import ButtonIconic from './ButtonIconic.js'
 import DndableSafe from './DndableSafe.js'
@@ -34,6 +35,8 @@ import HistorySummariesPanel from './HistorySummariesPanel.js'
 import HistoryDetailPanel from './HistoryDetailPanel.js'
 import ChevronDownIcon from '../icons/ChevronDownIcon.js'
 import ChevronUpIcon from '../icons/ChevronUpIcon.js'
+import SearchIcon from '../icons/SearchIcon.js'
+import CustomTextInput from './CustomTextInput.js'
 /**
  * PanelArea
  * props.uiData
@@ -235,20 +238,17 @@ export default class extends React.Component {
   }
   handleHeaderSearchConditionsContentInputChange(ev) {
     const props = this.props
+    console.log('#Duy Phan console ev', ev)
     // cache value to state not to store (do not render uiData)
     this.setState({
-      headerSearchConditionsContentCache: string(
-        ev && ev.nativeEvent && ev.nativeEvent.text,
-      ),
+      headerSearchConditionsContentCache: string(ev.target.value),
     })
   }
   handleHeaderSearchConditionsContentInputBlur(ev) {
     const props = this.props
     // save value to store
-    this.setSearchCondition(
-      '_any',
-      string(ev && ev.nativeEvent && ev.nativeEvent.text),
-    )
+    console.log('#Duy Phan console  ev.target.value', ev.target.value)
+    this.setSearchCondition('_any', string(ev.target.value))
     // clear cached value in state
     this.setState({ headerSearchConditionsContentCache: null })
   }
@@ -278,6 +278,11 @@ export default class extends React.Component {
   }
   handleHeaderSearchConditionsSearchButtonClick(ev) {
     const props = this.props
+
+    this.setSearchCondition(
+      '_any',
+      string(this.state.headerSearchConditionsContentCache),
+    )
     // do search
     props.uiData.ucUiAction.doSearch({
       chatType: props.panelType,
@@ -372,6 +377,10 @@ export default class extends React.Component {
     })
   }
   render() {
+    console.log(
+      '#Duy Phan console   this.state.headerSearchConditionsContentCache',
+      this.state.headerSearchConditionsContentCache,
+    )
     const props = this.props
     const profile = props.uiData.ucUiStore.getChatClient().getProfile()
     const configProperties = props.uiData.ucUiStore.getConfigProperties()
@@ -1167,19 +1176,17 @@ export default class extends React.Component {
                   : this.state.headerSearchConditionsContentCache
               }
               placeholder={uawMsgs.LBL_PANEL_HEADER_SEARCH_INPUT_PLACEHOLDER}
-              onChangeText={this.handleHeaderSearchConditionsContentInputChange.bind(
+              onChange={this.handleHeaderSearchConditionsContentInputChange.bind(
                 this,
               )}
               onBlur={this.handleHeaderSearchConditionsContentInputBlur.bind(
-                this,
-              )}
-              onSubmitEditing={this.handleHeaderSearchConditionsContentInputKeyDown.bind(
                 this,
               )}
             />
             <ButtonIconic
               style={styles.brHeaderSearchConditionsSearchButton}
               title={uawMsgs.LBL_PANEL_HEADER_SEARCH_BUTTON_TOOLTIP}
+              iconSource={<SearchIcon width={20} height={20} />}
               onPress={this.handleHeaderSearchConditionsSearchButtonClick.bind(
                 this,
               )}
@@ -1668,18 +1675,22 @@ const styles = StyleSheet.create({
     height: 32,
   },
   brHeaderSearchConditionsContentArea: {
-    minWidth: 100,
-    width: 100,
+    minWidth: 120,
+    width: 120,
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
   },
   brHeaderSearchConditionsContentInput: {
-    minWidth: 100,
-    width: 100,
+    // minWidth: 100,
+    // width: 100,
+    flex: 1,
   },
   brHeaderSearchConditionsSearchButton: {
     position: 'absolute',
     right: 5,
     width: 32,
-    top: 5,
+    top: 2,
     height: 32,
     opacity: 0.2,
   },

@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, StyleSheet, Platform } from 'react-native'
+import { TextInput, StyleSheet, Platform, Keyboard } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
@@ -87,6 +87,7 @@ class TextBox extends React.Component {
   }
 
   handleBlur = event => {
+    console.log('TextBox onBlur triggered')
     this.setState({ isFocused: false })
     if (this.props.onBlur) {
       this.props.onBlur(event)
@@ -153,6 +154,11 @@ class TextBox extends React.Component {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onKeyPress={this.handleKeyPress}
+        blurOnSubmit={false}
+        onEndEditing={() => {
+          Keyboard.dismiss()
+          // this.handleBlur()
+        }}
         {...webProps}
       />
     )

@@ -19,6 +19,7 @@ import {
   findNodeHandle,
   UIManager,
   NativeModules,
+  Animated,
 } from 'react-native'
 import TriangleDownIcon from '../icons/TriangleDownIcon.js'
 import CancelIcon from '../icons/CancelIcon.js'
@@ -47,6 +48,11 @@ import DraggableFlatList, {
  * props.uiData.mainTabsDndable_onDrop
  * props.position
  */
+const colors = {
+  whiteSmoke: '#F5F5F5',
+  mediumTurquoise: '#4BC5DE',
+}
+
 export default class extends React.Component {
   constructor(props) {
     super(props)
@@ -67,7 +73,9 @@ export default class extends React.Component {
     this.mainTabLinksRef = React.createRef()
     this.mainTabsRef = React.createRef()
     this.tabRefs = {}
+    this.animationRefs = {}
   }
+
   componentDidUpdate(prevProps) {
     const props = this.props
     console.log(
@@ -153,7 +161,54 @@ export default class extends React.Component {
         )
       }
     }
+
+    const newBlinkingTabs = this.props.uiData.blinkingTabs || {}
+    const prevBlinkingTabs = prevProps?.uiData?.blinkingTabs || {}
+
+    // Stop animations for removed tabs
+    Object.keys(prevBlinkingTabs).forEach(key => {
+      if (!newBlinkingTabs[key] && this.animationRefs[key]) {
+        this.animationRefs[key].stopAnimation()
+        delete this.animationRefs[key]
+      }
+    })
+
+    // Handle new blinking tabs
+
+    console.log(
+      '#Duy Phan console newBlinkingTabs',
+      newBlinkingTabs,
+      prevBlinkingTabs,
+    )
+    Object.keys(newBlinkingTabs).forEach(key => {
+      const animations = { ...this.animationRefs }
+      animations[key] = new Animated.Value(0)
+      this.animationRefs[key] = animations[key]
+      this.startBlinkingAnimation(key)
+    })
   }
+
+  startBlinkingAnimation(key) {
+    const animation = this.animationRefs[key]
+    console.log('#Duy Phan console animation', animation)
+    if (!animation) return
+
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(animation, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: false,
+        }),
+        Animated.timing(animation, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: false,
+        }),
+      ]),
+    ).start()
+  }
+
   handleMainTabLinkSpanContextMenu(panelType, panelCode, ev) {
     const props = this.props
 
@@ -263,27 +318,42 @@ export default class extends React.Component {
 
   renderItem = ({ item, index, drag, isActive }) => {
     const props = this.props
+    const key = item.key
+    const isBlinking = props.uiData.blinkingTabs?.[key]
+    console.log('#Duy Phan console isBlinking', isBlinking)
+
+    const backgroundColor = isBlinking
+      ? this.animationRefs[key]?.interpolate({
+          inputRange: [0, 1],
+          outputRange: [colors.whiteSmoke, colors.mediumTurquoise],
+        })
+      : undefined
+
     return (
       <ScaleDecorator>
         <TouchableOpacity
-          ref={this.tabRefs[item.key]}
-          key={'span_' + item.key}
-          onPress={() => this.handleTabSelect(item.key)}
+          ref={this.tabRefs[key]}
+          key={'span_' + key}
+          onPress={() => this.handleTabSelect(key)}
           onLongPress={drag}
           delayLongPress={150}
           activeOpacity={1}
-          style={[styles.brMainTabLinkSpan]}
+          style={[
+            styles.brMainTabLinkSpan,
+            // this.state.activeTab === key ? styles.brSelected : {},
+            // item.bgColorTable?.[key] && { backgroundColor: item.bgColorTable[key] },
+            // isActive && styles.dragging,
+          ]}
         >
-          <View
+          <Animated.View
             style={[
               styles.tabLink,
-              this.state.activeTab === item.key
-                ? styles.tabLinkActiveSelected
-                : {},
-              item.bgColorTable?.[item.key]
-                ? { backgroundColor: item.bgColorTable[item.key] }
-                : {},
+              this.state.activeTab === key ? styles.tabLinkActiveSelected : {},
+              item.bgColorTable?.[key] && {
+                backgroundColor: item.bgColorTable[key],
+              },
               isActive && styles.dragging,
+              isBlinking && { backgroundColor },
             ]}
           >
             <StatusIcon status={item.status} degree={item.degree} />
@@ -295,7 +365,7 @@ export default class extends React.Component {
               {item.tabTitle || '\u2002'}
             </Text>
             <ButtonIconic
-              className='brTabLinkHideButton'
+              // style={{marginLeft: 2, width: 18, height: 18}}
               title={uawMsgs.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP}
               onPress={props.uiData.fire.bind(
                 props.uiData,
@@ -304,8 +374,8 @@ export default class extends React.Component {
                 item.panel.panelCode,
               )}
               iconSource={<CancelIcon />}
-            ></ButtonIconic>
-          </View>
+            />
+          </Animated.View>
         </TouchableOpacity>
       </ScaleDecorator>
     )
