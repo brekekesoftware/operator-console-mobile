@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="8px" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/status-busy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icon/status-busy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="components/avatar/status-online" stroke="#F5F5F5" fill="#FF1441" fill-rule="nonzero" cx="4" cy="4" r="4"></circle>
+    </g>
+</svg>

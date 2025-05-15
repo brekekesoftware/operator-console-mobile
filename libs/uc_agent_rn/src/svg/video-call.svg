@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/video-call</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M5.99999996,7.3333333 C5.26466662,7.3333333 4.66666662,7.93133331 4.66666662,8.66666665 L4.66666662,15.3333334 C4.66666662,16.0686667 5.26466662,16.6666667 5.99999996,16.6666667 L14.6666667,16.6666667 C15.402,16.6666667 16,16.0686667 16,15.3333334 L16,13.3867187 L19.3333334,16.0533854 L19.3333334,7.94661457 L16,10.6132813 L16,8.66666665 C16,7.93133331 15.402,7.3333333 14.6666667,7.3333333 L5.99999996,7.3333333 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/video-call" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="video-call" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/close-window</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M16.6666667,5.99999996 L7.3333333,5.99999996 C6.59666663,5.99999996 5.99999996,6.59666663 5.99999996,7.3333333 L5.99999996,16.6666667 C5.99999996,17.4033334 6.59666663,18 7.3333333,18 L16.6666667,18 C17.4033334,18 18,17.4033334 18,16.6666667 L18,7.3333333 C18,6.59666663 17.4033334,5.99999996 16.6666667,5.99999996 Z M15.3333334,14.3933333 L14.3933333,15.3333334 L12,12.94 L9.60666665,15.3333334 L8.66666665,14.3933333 L11.06,12 L8.66666665,9.60666665 L9.60666665,8.66666665 L12,11.06 L14.3933333,8.66666665 L15.3333334,9.60666665 L12.94,12 L15.3333334,14.3933333 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/close-window" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="close-window" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

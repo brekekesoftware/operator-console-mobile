@@ -13,7 +13,7 @@ import './brekekejs/phonebook'
 import './brekekejs/webnotification'
 import 'intl'
 import 'intl/locale-data/jsonp/en'
-import './uc_agent_rn/src/index.js'
+import 'uc_agent_rn'
 
 import { AppRegistry } from 'react-native'
 

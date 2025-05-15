@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/upload</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M12,4.49999996 L7.49999998,8.99999998 L10.5,8.99999998 L10.5,15 C10.5,15.414 10.836,15.75 11.25,15.75 L12.75,15.75 C13.164,15.75 13.5,15.414 13.5,15 L13.5,8.99999998 L16.5,8.99999998 L12,4.49999996 Z M4.49999996,18 L4.49999996,19.5 L19.5,19.5 L19.5,18 L4.49999996,18 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/upload" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="upload" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

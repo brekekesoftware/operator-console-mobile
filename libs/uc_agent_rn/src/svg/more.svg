@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/more</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M6.66666663,10.4 C5.78293329,10.4 5.06666662,11.1162667 5.06666662,12 C5.06666662,12.8837333 5.78293329,13.6 6.66666663,13.6 C7.55039997,13.6 8.26666664,12.8837333 8.26666664,12 C8.26666664,11.1162667 7.55039997,10.4 6.66666663,10.4 Z M12,10.4 C11.1162667,10.4 10.4,11.1162667 10.4,12 C10.4,12.8837333 11.1162667,13.6 12,13.6 C12.8837333,13.6 13.6,12.8837333 13.6,12 C13.6,11.1162667 12.8837333,10.4 12,10.4 Z M17.3333334,10.4 C16.4496,10.4 15.7333334,11.1162667 15.7333334,12 C15.7333334,12.8837333 16.4496,13.6 17.3333334,13.6 C18.2170667,13.6 18.9333334,12.8837333 18.9333334,12 C18.9333334,11.1162667 18.2170667,10.4 17.3333334,10.4 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/more" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="more" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

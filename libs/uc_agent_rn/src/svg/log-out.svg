@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/log-out</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M9.33333332,5.33333329 C8.59666665,5.33333329 7.99999997,5.92999996 7.99999997,6.66666663 L7.99999997,17.3333334 C7.99999997,18.07 8.59666665,18.6666667 9.33333332,18.6666667 L14.6666667,18.6666667 C15.4033334,18.6666667 16,18.07 16,17.3333334 L16,12.6666667 L11.3333333,12.6666667 L11.3333333,11.3333333 L16,11.3333333 L16,6.66666663 C16,5.92999996 15.4033334,5.33333329 14.6666667,5.33333329 L9.33333332,5.33333329 Z M16,11.3333333 L16,12.6666667 L17.3333334,12.6666667 L17.3333334,14.6666667 L20.0000001,12 L17.3333334,9.33333332 L17.3333334,11.3333333 L16,11.3333333 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/log-out" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="log-out" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

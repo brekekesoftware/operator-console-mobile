@@ -1,6 +1,6 @@
-import { DynamicView, ViewRegistryProvider } from 'dynamic-renderer'
-import { createRef, useRef } from 'react'
+import { createRef } from 'react'
 import { Dimensions, Modal, Text, TouchableOpacity, View } from 'react-native'
+import { DynamicView } from 'uc_agent_rn'
 
 import { i18n } from '../../../i18n'
 import { BrekekeOperatorConsole } from '../../../OperatorConsole'
@@ -316,6 +316,7 @@ export class LegacyUccacRuntimeWidget extends RuntimeWidget {
                   borderRadius: 5,
                   alignItems: 'center',
                   justifyContent: 'center',
+                  opacity: this.state.isRestartButtonDisabled ? 0.5 : 1,
                 }}
               >
                 <Text>{i18n.t('restart')}</Text>

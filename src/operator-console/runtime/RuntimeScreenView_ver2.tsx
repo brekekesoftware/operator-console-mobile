@@ -1,8 +1,8 @@
-import { DynamicView } from 'dynamic-renderer'
 import React from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { DynamicView } from 'uc_agent_rn'
 
 import logo from '../logo.png'
 

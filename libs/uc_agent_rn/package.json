@@ -1,0 +1,41 @@
+{
+  "name": "uc_agent_rn",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "react-native": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "@react-native-async-storage/async-storage": "*",
+    "react": ">=16.8.0",
+    "react-native": ">=0.60.0",
+    "react-native-clipboard": "*",
+    "react-native-date-picker": "*",
+    "react-native-dimensions": "*",
+    "react-native-document-picker": "*",
+    "react-native-fs": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-image-picker": "*",
+    "react-native-linear-gradient": "*",
+    "react-native-share": "*",
+    "react-native-video": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "mkdir -p dist && cp -r src/* dist/",
+    "build:dev": "babel src --out-dir dist --extensions \".js,.jsx\"",
+    "prepare": "npm run build",
+    "copy-assets": "cpx \"src/**/*.{png,jpg,jpeg,svg,json}\" dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@babel/cli": "^7.27.2",
+    "@babel/preset-env": "^7.27.2",
+    "babel-preset-react-native": "^4.0.1",
+    "cpx": "^1.5.0"
+  }
+}

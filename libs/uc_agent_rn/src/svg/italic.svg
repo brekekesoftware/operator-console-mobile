@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/italic</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="9.99999999 5.99999996 9.99999999 7.99999997 11.5416667 7.99999997 10.375 16 8.66666665 16 8.66666665 18 14 18 14 16 12.375 16 13.5416667 7.99999997 15.3333334 7.99999997 15.3333334 5.99999996"></polygon>
+    </defs>
+    <g id="icon/italic" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="italic" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

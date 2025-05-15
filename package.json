@@ -102,6 +102,7 @@
     "react-native-wifi-reborn": "4.8.3",
     "reanimated-color-picker": "^3.0.6",
     "rn-fetch-blob": "^0.12.0",
+    "uc_agent_rn": "./libs/uc_agent_rn",
     "url-parse": "1.5.10",
     "util": "0.12.5",
     "uuid": "9.0.0",

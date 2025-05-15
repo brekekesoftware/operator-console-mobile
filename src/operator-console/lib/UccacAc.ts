@@ -44,10 +44,16 @@ export class UccacAc {
       acConsoleLogType = null // !default
     }
     let acConfigurations
+
     if (options.acConfigurations) {
       acConfigurations = options.acConfigurations
     } else {
-      options.acConfigurations = { queueLines: 2 } // !default
+      acConfigurations = {
+        queueLines: 2,
+        undockable: true,
+        panelHeader: true,
+        headerButtonsVisible: true,
+      } // !default
     }
 
     const this_ = this
@@ -101,7 +107,7 @@ export class UccacAc {
         this_._onSearchDialogButtonClicked(ev)
       },
     }
-
+    console.log('#Duy Phan console (options.acConfigurations', acConfigurations)
     const acOptions = {
       iconParents: {
         webchatqueue: options['acIconParentsWebchatqueue'],
@@ -113,6 +119,7 @@ export class UccacAc {
       configurations: acConfigurations,
       language: options.acLanguage,
       handler: acHandler,
+      phone: true,
     }
     this._AgentComponent.initComponent(acOptions)
 

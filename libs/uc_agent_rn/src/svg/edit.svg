@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.2 (57519) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/edit</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M16.2760414,5.33333329 C16.1054587,5.33333329 15.9346874,5.39831243 15.8046874,5.52864583 L14.6666667,6.66666663 L17.3333334,9.33333332 L18.471354,8.19531251 C18.7320207,7.93464577 18.7320207,7.51260417 18.471354,7.2526041 L16.747396,5.52864583 C16.6170627,5.39831243 16.4466247,5.33333329 16.2760414,5.33333329 Z M13.6666667,7.66666664 L5.99999996,15.3333334 L5.99999996,18 L8.66666665,18 L16.3333334,10.3333333 L13.6666667,7.66666664 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/edit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <g id="edit" fill-rule="nonzero"></g>
+        <g id="colors/default/black" mask="url(#mask-2)" fill="#212121">
+            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+        </g>
+    </g>
+</svg>

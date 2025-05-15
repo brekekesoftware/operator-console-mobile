@@ -1,0 +1,38 @@
+import React from 'react'
+import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
+
+const NewWindowIcon = ({
+  width = 24,
+  height = 24,
+  color = '#212121',
+  ...props
+}) => (
+  <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
+    <Defs>
+      <Path
+        id='path-1'
+        d='M6.74999997,5.24999996 C5.92124997,5.24999996 5.24999996,5.92124997 5.24999996,6.74999997 L5.24999996,8.24999998 L5.24999996,17.25 C5.24999996,18.0697973 5.93020287,18.75 6.74999997,18.75 L17.25,18.75 C18.0697973,18.75 18.75,18.0697973 18.75,17.25 L18.75,7.49999997 L18.75,6.74999997 C18.75,5.92124997 18.07875,5.24999996 17.25,5.24999996 L6.74999997,5.24999996 Z M6.74999997,8.24999998 L17.25,8.24999998 L17.25,17.25 L6.74999997,17.25 L6.74999997,8.24999998 Z M11.25,9.74999999 L11.25,12 L8.99999998,12 L8.99999998,13.5 L11.25,13.5 L11.25,15.75 L12.75,15.75 L12.75,13.5 L15,13.5 L15,12 L12.75,12 L12.75,9.74999999 L11.25,9.74999999 Z'
+      />
+      <Mask id='mask-2' fill='white'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+      <Use xlinkHref='#path-1' />
+    </Defs>
+    <G
+      id='icon/new-window'
+      fill='none'
+      fillRule='evenodd'
+      stroke='none'
+      strokeWidth='1'
+    >
+      <Mask id='mask-2' fill='white'>
+        <Use xlinkHref='#path-1'></Use>
+      </Mask>
+    </G>
+    <G id='colors/default/black' fill={color} mask='url(#mask-2)'>
+      <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
+    </G>
+  </Svg>
+)
+
+export default NewWindowIcon
