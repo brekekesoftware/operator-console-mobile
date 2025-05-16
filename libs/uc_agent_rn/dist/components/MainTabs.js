@@ -642,6 +642,53 @@ export default class extends React.Component {
         style={[styles.brMainTabs]}
         // pointerEvents='box-none'
       >
+        <TouchableOpacity
+          style={[
+            styles.brMainTabMenu,
+            this.state.showsTabMenu ? {} : styles.brMainTabMenuHidden,
+            this.state.blinksTabMenu ? styles.brMainTabMenuBlinking : {},
+          ]}
+          onPress={
+            this.state.showsTabMenu
+              ? this.handleMainTabMenuClick.bind(this)
+              : () => {}
+          }
+        >
+          <TriangleDownIcon />
+        </TouchableOpacity>
+        {/* <DndableSafe
+          uiData={props.uiData}
+          className='brMainTabLinksLastDndable'
+          style={{ left: Math.max(1, this.state.tabDndableLeft) }}
+          onCheckCanDrop={ev =>
+            ev.dragSourceInfo &&
+            ev.dragSourceInfo.dragSourceInfoType === 'mainTabLinkSpan' &&
+            string(props.position).indexOf(
+              string(ev.dragSourceInfo.dragSourceInfoCode).split('|')[0],
+            ) === -1
+          }
+          onDrop={props.uiData.fire.bind(
+            props.uiData,
+            'mainTabsDndable_onDrop',
+            {
+              dropTargetInfoType: 'mainTabLinksLast',
+              dropTargetInfoCode: string(props.position),
+            },
+          )}
+        /> */}
+        <View
+          style={[
+            styles.brMainTabContent,
+            hasSelectedTab && bgColorTable[frontTab]
+              ? { backgroundColor: bgColorTable[frontTab] }
+              : {},
+          ]}
+          onTouchStart={this.handleMainTabContentTouchStart.bind(this)}
+          onTouchEnd={this.handleMainTabContentTouchEnd.bind(this)}
+          pointerEvents='box-none'
+        >
+          {tabContentList}
+        </View>
         <ScrollView
           ref={this.mainTabLinksRef}
           style={styles.brMainTabLinks}
@@ -665,54 +712,6 @@ export default class extends React.Component {
             dragHitSlop={{ top: 10, bottom: 10, left: 15, right: 15 }}
           />
         </ScrollView>
-
-        <TouchableOpacity
-          style={[
-            styles.brMainTabMenu,
-            this.state.showsTabMenu ? {} : styles.brMainTabMenuHidden,
-            this.state.blinksTabMenu ? styles.brMainTabMenuBlinking : {},
-          ]}
-          onPress={
-            this.state.showsTabMenu
-              ? this.handleMainTabMenuClick.bind(this)
-              : () => {}
-          }
-        >
-          <TriangleDownIcon />
-        </TouchableOpacity>
-        <DndableSafe
-          uiData={props.uiData}
-          className='brMainTabLinksLastDndable'
-          style={{ left: Math.max(1, this.state.tabDndableLeft) }}
-          onCheckCanDrop={ev =>
-            ev.dragSourceInfo &&
-            ev.dragSourceInfo.dragSourceInfoType === 'mainTabLinkSpan' &&
-            string(props.position).indexOf(
-              string(ev.dragSourceInfo.dragSourceInfoCode).split('|')[0],
-            ) === -1
-          }
-          onDrop={props.uiData.fire.bind(
-            props.uiData,
-            'mainTabsDndable_onDrop',
-            {
-              dropTargetInfoType: 'mainTabLinksLast',
-              dropTargetInfoCode: string(props.position),
-            },
-          )}
-        />
-        <View
-          style={[
-            styles.brMainTabContent,
-            hasSelectedTab && bgColorTable[frontTab]
-              ? { backgroundColor: bgColorTable[frontTab] }
-              : {},
-          ]}
-          onTouchStart={this.handleMainTabContentTouchStart.bind(this)}
-          onTouchEnd={this.handleMainTabContentTouchEnd.bind(this)}
-          pointerEvents='box-none'
-        >
-          {tabContentList}
-        </View>
         <MenuBalloonDialog
           showing={
             props.uiData.showingDialogVersion ===
@@ -792,9 +791,10 @@ const styles = StyleSheet.create({
   brMainTabLinks: {
     position: 'absolute',
     left: 0,
-    top: 14,
+    top: 15,
     right: 23,
     height: 25,
+    // backgroundColor: 'red',
   },
   brMainTabLinkSpan: {
     paddingLeft: 5,
@@ -827,6 +827,7 @@ const styles = StyleSheet.create({
   tabLinkActiveSelected: {
     backgroundColor: '#FFFFFF',
     color: '#1A2B2B',
+    borderBottomWidth: 1,
     borderBottomColor: 'transparent',
   },
   tabContent: {

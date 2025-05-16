@@ -83,19 +83,18 @@ export default class MenuItem extends React.Component {
 }
 
 const colors = {
-  white: '#FFFFFF', // @white
-  isabelline: '#EEEEEE', // @isabelline
-  darkGray: '#9E9E9E', // @dark_gray
-  darkJungleGreen: '#212121', // @dark_jungle_green
+  white: '#FFFFFF',
+  isabelline: '#EEEEEE',
+  darkGray: '#9E9E9E',
+  darkJungleGreen: '#212121',
 }
 
 const styles = StyleSheet.create({
   menuItem: {
-    padding: 16,
-    fontSize: 13 * (16 / 16), // 13rem/16 -> 13
+    padding: 10,
+    fontSize: 12,
     fontWeight: '400',
-    lineHeight: 1.6 * (13 * (16 / 16)),
-    letterSpacing: 0.3 * (16 / 16), // 0.3rem/16 -> 0.3
+    letterSpacing: 0.3 * (16 / 16),
     color: colors.darkJungleGreen,
   },
   disabled: {

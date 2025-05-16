@@ -240,7 +240,7 @@ export default class extends React.Component {
                 <ErrorIcon color={colors.errorColor} />
               </View>
             )
-          } else if (isProgress) {
+          } else if (isProgress && this.props.hasMore) {
             icon = (
               <View style={styles.loadingSpinnerContainer}>
                 <ActivityIndicator

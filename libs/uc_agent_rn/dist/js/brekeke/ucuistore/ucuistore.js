@@ -1,7 +1,7 @@
 const {
   default: AsyncStorage,
 } = require('@react-native-async-storage/async-storage')
-
+const RNFS = require('react-native-fs')
 ;(function (root, factory) {
   if (typeof module === 'object' && module.exports) {
     module.exports = factory({
@@ -24,6 +24,50 @@ const {
     SEARCH_PREV_NEXT_TEXTS_MAX: 20,
     DUMMY: null,
   }
+
+  const readChunkFile = (p, pos, data) =>
+    new Promise((resolve, reject) => {
+      const fr = new FileReader()
+      fr.onloadend = async () => {
+        const r = fr.result
+        const b64 = r.replace(/^data:.*base64,/, '')
+        try {
+          if (!pos) {
+            await RNFS.writeFile(p, b64, 'base64')
+          } else {
+            await RNFS.appendFile(p, b64, 'base64')
+          }
+          resolve(p)
+        } catch (err) {
+          console.error('readChunkFile RNFS.writeFile error:', err)
+          reject(err)
+        }
+      }
+      fr.readAsDataURL(data)
+    })
+  const saveBlobFile = (id, topic_id, type, data) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        type = type || 'image'
+        const chunkSize = 1024 * 1024 * 4 // (4 Megabyte)
+        const e = type === 'image' ? 'jpeg' : 'mp4'
+        const p = `${RNFS.DocumentDirectoryPath}/${id}.${e}`
+        const totalChunks = Math.ceil(data.size / chunkSize)
+        let pos = 1
+        while (pos <= totalChunks) {
+          const offset = (pos - 1) * chunkSize
+          const currentChunk = data.slice(
+            offset,
+            pos === totalChunks ? data.size : offset + chunkSize,
+          )
+          await readChunkFile(p, pos - 1, currentChunk)
+          pos++
+        }
+        resolve(p)
+      } catch (err) {
+        reject(err)
+      }
+    })
 
   /**
    * UcUiStore class
@@ -940,7 +984,7 @@ const {
                 )
                 if (index !== -1) {
                   _this.objectURLList.splice(index, 1)
-                  URL.revokeObjectURL(mes.messageFile.inlineImage.url)
+                  // URL.revokeObjectURL(mes.messageFile.inlineImage.url)
                 }
               }
               // destroy key object table entry
@@ -3448,7 +3492,7 @@ const {
     // display message for each file
     var messageFiles = []
     var messages = []
-    Array.prototype.forEach.call(option.files, function (f, i) {
+    Array.prototype.forEach.call(option.files, async function (f, i) {
       var name = string(f && f.name)
       var size = int(f && f.size)
       // create message file info
@@ -3468,6 +3512,7 @@ const {
         },
         messageFileError: '',
       }
+      console.log('#Duy Phan console 3333 files')
       // inline image
       if (size > 0) {
         var ext = name.substr(name.lastIndexOf('.') + 1).toLowerCase()
@@ -3487,9 +3532,7 @@ const {
             typeof URL !== 'undefined'
           ) {
             // create objectURL of inline image
-            _this.objectURLList.push(
-              (messageFiles[i].inlineImage.url = URL.createObjectURL(f)),
-            )
+            _this.objectURLList.push((messageFiles[i].inlineImage.url = f.uri))
           }
         }
       }
@@ -3515,6 +3558,7 @@ const {
       })
     })
 
+    console.log('#Duy Phan console 4444 files')
     // send files
     this.chatClient.sendFiles(
       target,
@@ -6126,19 +6170,25 @@ const {
         typeof URL !== 'undefined' &&
         typeof XMLHttpRequest !== 'undefined'
       ) {
+        console.log('#Duy Phan console fileReceived')
         messageFile.inlineImage.loading = true
         var xhr = new XMLHttpRequest()
-        xhr.onreadystatechange = function () {
+
+        xhr.onreadystatechange = async function () {
+          console.log('#Duy Phan console onreadystatechange')
           if (xhr.readyState === 1) {
             xhr.responseType = 'blob'
           } else if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              // create objectURL of inline image
-              _this.objectURLList.push(
-                (messageFile.inlineImage.url = URL.createObjectURL(
-                  xhr.response,
-                )),
+              console.log('#Duy Phan console 200')
+              const url = await saveBlobFile(
+                file_id,
+                ev.topic_id,
+                'image',
+                xhr.response,
               )
+              console.log('#Duy Phan console purl', url)
+              _this.objectURLList.push((messageFile.inlineImage.url = url))
             } else {
               // error
               _this.logger.log('warn', 'xhr error status=' + xhr.status)

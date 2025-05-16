@@ -639,11 +639,14 @@ export default class extends React.Component {
             />
 
             {searchResult._expanded && (
-              <HistoryDetailArea
-                uiData={props.uiData}
-                panelType='SEARCHRESULTDETAIL'
-                panelCode={searchResult.searchResultId}
-              />
+              <View style={{ flex: 1 }}>
+                <HistoryDetailArea
+                  uiData={props.uiData}
+                  hasMore={searchWorkData.hasMore}
+                  panelType='SEARCHRESULTDETAIL'
+                  panelCode={searchResult.searchResultId}
+                />
+              </View>
             )}
           </View>
         </View>
@@ -657,6 +660,10 @@ export default class extends React.Component {
     const startEnd = string(conditions._datetime.conditionValue).split('-')
     const startMoment = startEnd[0] ? moment(int(startEnd[0])) : null
     const endMoment = startEnd[1] ? moment(int(startEnd[1])) : null
+    console.log(
+      '#Duy Phan console count expands',
+      searchResults.filter(result => result._expanded).length,
+    )
     return (
       <View
         style={[

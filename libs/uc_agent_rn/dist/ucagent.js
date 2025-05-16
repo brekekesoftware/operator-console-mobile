@@ -4016,6 +4016,8 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
     allowMultiSelection: true,
   })
     .then(results => {
+      console.log('#Duy Phan console results', results)
+
       if (results && results.length > 0) {
         // Convert DocumentPicker results to File objects
         const files = results.map(result => {
@@ -4026,21 +4028,22 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
             type: result.type,
             size: result.size,
             // Add a method to get the file content as a blob
-            blob: async () => {
-              try {
-                const RNFS = require('react-native-fs')
-                const fileContent = await RNFS.readFile(result.uri, 'base64')
-                const blob = new Blob([fileContent], { type: result.type })
-                return blob
-              } catch (error) {
-                this.ucUiStore
-                  .getLogger()
-                  .log('error', 'Error reading file: ' + error)
-                return null
-              }
-            },
+            // blob: async () => {
+            //   try {
+            //     const RNFS = require('react-native-fs')
+            //     const fileContent = await RNFS.readFile(result.uri, 'base64')
+            //     const blob = new Blob([fileContent], { type: result.type })
+            //     return blob
+            //   } catch (error) {
+            //     this.ucUiStore
+            //       .getLogger()
+            //       .log('error', 'Error reading file: ' + error)
+            //     return null
+            //   }
+            // },
           }
         })
+        console.log('#Duy Phan console 222222', files)
 
         // Send the files
         this.ucUiAction.sendFiles({
@@ -4048,6 +4051,7 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
           chatCode: panelCode,
           files: files,
         })
+        console.log('#Duy Phan console files done')
       } else {
         this.ucUiStore.getLogger().log('info', 'No files selected')
       }

@@ -21,6 +21,7 @@ import UploadIcon from '../icons/UploadIcon.js'
 import CancelIcon from '../icons/CancelIcon.js'
 import DownloadIcon from '../icons/DownloadIcon.js'
 import ExternallinkIcon from '../icons/ExternallinkIcon.js'
+import { ActivityIndicator } from 'react-native'
 
 const urlRegExp = new RegExp(
   "https?://[\\w!#\\$%&'\\(\\)\\*\\+,\\-\\./:;=\\?@~]+",
@@ -386,7 +387,7 @@ export default class extends React.Component {
       chatMessageInnerElements.push(
         <View
           key='callresultmessage'
-          style={{ flexDirection: 'row', alignItems: 'center' }}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}
         >
           <Text style={styles.brResultMessageText}>
             {string(
