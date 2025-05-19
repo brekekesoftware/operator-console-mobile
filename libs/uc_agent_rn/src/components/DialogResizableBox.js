@@ -10,6 +10,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native'
+import Svg, { Path } from 'react-native-svg'
 
 /**
  * DialogResizableBox
@@ -48,10 +49,12 @@ export default class extends React.Component {
       isDragging: false,
       screenWidth,
       screenHeight,
+      canDrag: false,
     }
 
     this.setupPanResponders()
   }
+  holdTimeout = null
 
   setupPanResponders() {
     // Pan responder for moving
@@ -59,6 +62,9 @@ export default class extends React.Component {
       onMoveShouldSetPanResponder: () =>
         this.props.movable && !this.props.disabled,
       onPanResponderGrant: () => {
+        // this.holdTimeout = setTimeout(() => {
+        //   this.setState({ canDrag: true });
+        // }, 500);
         this.state.pan.setOffset({
           x: this.state.pan.x._value,
           y: this.state.pan.y._value,
@@ -67,17 +73,27 @@ export default class extends React.Component {
         this.setState({ isDragging: true })
         this.handleStartDraggable()
       },
-      onPanResponderMove: Animated.event(
-        [null, { dx: this.state.pan.x, dy: this.state.pan.y }],
-        { useNativeDriver: false },
-      ),
+      onPanResponderMove: (e, gesture) => {
+        // if (this.state.canDrag) {
+        // this.state.pan.setValue({ x: gesture.dx, y: gesture.dy })
+        Animated.event([null, { dx: this.state.pan.x, dy: this.state.pan.y }], {
+          useNativeDriver: false,
+        })(e, gesture)
+        // }
+      },
       onPanResponderRelease: (e, gesture) => {
+        // clearTimeout(this.holdTimeout)
+        // this.setState({ canDrag: false })
         this.state.pan.flattenOffset()
         this.setState({ isDragging: false })
         this.handleStopDraggable(e, {
           x: gesture.dx,
           y: gesture.dy,
         })
+      },
+      onPanResponderTerminate: () => {
+        // clearTimeout(this.holdTimeout)
+        // this.setState({ canDrag: false })
       },
     })
 
@@ -95,15 +111,12 @@ export default class extends React.Component {
         const { resizableOpts } = this.props
         const { screenWidth, screenHeight } = this.state
 
-        // Calculate new dimensions directly from gesture movement
         const newWidth = this.state.currentRect.width + gesture.dx
         const newHeight = this.state.currentRect.height + gesture.dy
 
-        // Get min constraints from props or use defaults
-        const minWidth = resizableOpts?.minConstraints?.[0] ?? 100
-        const minHeight = resizableOpts?.minConstraints?.[1] ?? 100
+        const minWidth = resizableOpts?.minConstraints?.[0] ?? 200
+        const minHeight = resizableOpts?.minConstraints?.[1] ?? 200
 
-        // Calculate max constraints considering screen size
         const maxWidth = Math.min(
           screenWidth - this.state.currentRect.left - 20,
           resizableOpts?.maxConstraints?.[0] ?? screenWidth,
@@ -112,12 +125,19 @@ export default class extends React.Component {
           screenHeight - this.state.currentRect.top - 20,
           resizableOpts?.maxConstraints?.[1] ?? screenHeight,
         )
-
-        // Apply constraints
+        console.log(
+          '#Duy Phan console',
+          minWidth,
+          minHeight,
+          maxWidth,
+          maxHeight,
+          newWidth,
+          newHeight,
+        )
         const width = Math.max(minWidth, Math.min(newWidth, maxWidth))
         const height = Math.max(minHeight, Math.min(newHeight, maxHeight))
+        console.log('#Duy Phan console wh', width, height)
 
-        // Update size directly
         this.state.size.setValue({ x: width, y: height })
       },
       onPanResponderRelease: (e, gesture) => {
@@ -130,6 +150,26 @@ export default class extends React.Component {
         })
       },
     })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.initialWidth !== this.props.initialWidth ||
+      prevProps.initialHeight !== this.props.initialHeight
+    ) {
+      this.setState({
+        size: new Animated.ValueXY({
+          x: int(this.props.initialWidth),
+          y: int(this.props.initialHeight),
+        }),
+        currentRect: {
+          left: int(this.props.initialLeft),
+          top: int(this.props.initialTop),
+          width: int(this.props.initialWidth),
+          height: int(this.props.initialHeight),
+        },
+      })
+    }
   }
 
   handleResizeStart = () => {
@@ -175,6 +215,11 @@ export default class extends React.Component {
   render() {
     const { props } = this
     const { pan, size } = this.state
+    console.log(
+      '#Duy Phan console screenWidth',
+      props.initialWidth,
+      props.initialHeight,
+    )
 
     let contents = (
       <Animated.View
@@ -189,12 +234,22 @@ export default class extends React.Component {
       >
         {props.children}
         {!props.disabled && (
-          <View
-            style={styles.resizeHandle}
-            {...this.resizePanResponder.panHandlers}
-          >
-            <Image source={images.resize} style={styles.resizeHandleImage} />
-          </View>
+          <>
+            <View
+              style={styles.resizeHandle}
+              {...this.resizePanResponder.panHandlers}
+            >
+              <Image source={images.resize} style={styles.resizeHandleImage} />
+            </View>
+            {props.movable && (
+              <View
+                style={styles.dragHandle}
+                {...this.movePanResponder.panHandlers}
+              >
+                <DragIcon />
+              </View>
+            )}
+          </>
         )}
       </Animated.View>
     )
@@ -210,7 +265,6 @@ export default class extends React.Component {
               top: int(props.initialTop),
             },
           ]}
-          {...this.movePanResponder.panHandlers}
         >
           {contents}
         </Animated.View>
@@ -227,6 +281,21 @@ export default class extends React.Component {
   }
 }
 
+const DragIcon = () => {
+  return (
+    <View>
+      <Svg height={24} viewBox={'0 0 24 24'} width={24}>
+        <Path
+          d={
+            'M22.67,12L18.18,16.5L15.67,14L17.65,12L15.67,10.04L18.18,7.53L22.67,12M12,1.33L16.47,5.82L13.96,8.33L12,6.35L10,8.33L7.5,5.82L12,1.33M12,22.67L7.53,18.18L10.04,15.67L12,17.65L14,15.67L16.5,18.18L12,22.67M1.33,12L5.82,7.5L8.33,10L6.35,12L8.33,13.96L5.82,16.47L1.33,12M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10Z'
+          }
+          fill={'#b6b6b6'}
+        />
+      </Svg>
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
@@ -234,8 +303,9 @@ const styles = StyleSheet.create({
   },
 
   brDialogResizableBoxResizable: {
-    position: 'relative',
-    backgroundColor: '#FFFFFF',
+    // position: 'relative',
+    // backgroundColor: '#FFFFFF',
+    backgroundColor: 'blue',
     borderRadius: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -243,8 +313,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     flex: 1,
-    // width: '100%',
-    // height: '100%',
+    // minWidth: 500,
+    // minHeight: 400,
   },
 
   brDisabled: {
@@ -253,9 +323,9 @@ const styles = StyleSheet.create({
 
   brDialogResizableBoxMovable: {
     position: 'absolute',
-    backgroundColor: 'white',
-    width: 500,
-    height: 400,
+    // backgroundColor: 'red',
+    minWidth: 500,
+    minHeight: 400,
     flex: 1,
   },
 
@@ -272,8 +342,8 @@ const styles = StyleSheet.create({
 
   resizeHandle: {
     position: 'absolute',
-    width: 20, // Increased touch target
-    height: 20, // Increased touch target
+    width: 24,
+    height: 24,
     bottom: 0,
     right: 0,
     justifyContent: 'center',
@@ -285,11 +355,29 @@ const styles = StyleSheet.create({
     width: 13,
     height: 13,
     resizeMode: 'contain',
-    opacity: 0.7, // Make it slightly transparent
+    opacity: 0.7,
   },
 
   resizeHandleHidden: {
     display: 'none',
+  },
+
+  dragHandle: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    top: 0,
+    left: -20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+
+  dragHandleImage: {
+    width: 13,
+    height: 13,
+    resizeMode: 'contain',
+    opacity: 0.7,
   },
 })
 

@@ -83,7 +83,7 @@ export default class FileDndable extends React.Component {
         }
       } catch (error) {
         if (!DocumentPicker.isCancel(error)) {
-          console.error('Error picking document:', error)
+          console.error('Error picking document111:', error)
         }
       }
     }

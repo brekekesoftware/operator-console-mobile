@@ -146,16 +146,7 @@ export default class extends React.Component {
 
 const styles = StyleSheet.create({
   brChatArea: {
-    // position: 'absolute',
-    // padding: 4,
-    // left: 0,
-    // top: 0,
-    // right: 0,
-    // bottom: 70,
-    // width: '100%',
-    // height: '100%',
-    // backgroundColor: 'blue',
-    // flex: 1,
+    flex: 1,
   },
   brSelected: {},
   brHidden: {

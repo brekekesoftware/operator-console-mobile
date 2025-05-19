@@ -320,16 +320,9 @@ export default class SearchConditionsArea extends React.Component {
 
 const styles = StyleSheet.create({
   searchConditionsArea: {
-    // position: 'absolute',
-    // left: 0,
-    // top: 0,
-    // right: 0,
-    // bottom: 0,
     borderWidth: 1,
     borderColor: '#dcdcd5',
     backgroundColor: '#FFFFFF',
-    // height: 300,
-    width: 500,
     flex: 1,
   },
   conditionsContainer: {

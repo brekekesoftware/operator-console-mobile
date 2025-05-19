@@ -95,21 +95,7 @@ export default class ChatPanel extends React.Component {
     console.log('#Duy Phan console render ChatPanel')
 
     return (
-      <DndableSafe
-        uiData={props.uiData}
-        dndableClass={isDndEnabled ? 'FileDndable' : ''}
-        style={[
-          styles.brChatPanel,
-          this.state.isOver && this.state.canDrop && styles.brIsOverCanDrop,
-        ]}
-        onDrop={() =>
-          props.uiData.fire(
-            'chatPanel_onDrop',
-            props.panelType,
-            props.panelCode,
-          )
-        }
-      >
+      <View style={[styles.brChatPanel]}>
         <View
           ref={this.chatAreaRef}
           style={[styles.chatArea, { top: this.state.chatAreaTop }]}
@@ -158,7 +144,7 @@ export default class ChatPanel extends React.Component {
           panelCode={props.panelCode}
           onResize={this.handleCallAreaResize}
         />
-      </DndableSafe>
+      </View>
     )
   }
 }
@@ -175,7 +161,6 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    // backgroundColor: 'red',
   },
   brIsOverCanDrop: {
     borderWidth: 3,

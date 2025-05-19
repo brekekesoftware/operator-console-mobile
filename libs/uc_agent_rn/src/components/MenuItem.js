@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 12,
     fontWeight: '400',
-    letterSpacing: 0.3 * (16 / 16),
+    letterSpacing: 0.3,
     color: colors.darkJungleGreen,
   },
   disabled: {

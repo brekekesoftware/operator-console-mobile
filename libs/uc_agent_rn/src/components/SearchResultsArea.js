@@ -2,7 +2,6 @@ import React from 'react'
 import {
   View,
   Text,
-  ScrollView,
   TouchableOpacity,
   Image,
   StyleSheet,
@@ -17,6 +16,7 @@ import ChatList from './ChatList.js'
 import { formatTopicDate } from '../utilities/strings.js'
 import RadioCheckboxCheckedIcon from '../icons/RadioCheckboxCheckedIcon.js'
 import RadioCheckboxUncheckedIcon from '../icons/RadioCheckboxUncheckedIcon.js'
+import { ScrollView } from 'react-native-gesture-handler'
 
 const colors = {
   white: '#FFFFFF',
@@ -494,16 +494,13 @@ export default class extends React.Component {
         </View>
 
         <ScrollView style={scrollableStyles}>
-          <View
-            style={[
-              styles.tableContainer,
-              !searchResults.length && styles.tableHidden,
-            ]}
-          >
-            {searchResults.map((result, index) =>
-              this.renderSearchResult(result, index),
-            )}
-          </View>
+          {searchResults.length > 0 && (
+            <View style={[styles.tableContainer]}>
+              {searchResults.map((result, index) =>
+                this.renderSearchResult(result, index),
+              )}
+            </View>
+          )}
 
           <View
             style={[
@@ -519,26 +516,18 @@ export default class extends React.Component {
             </Text>
           </View>
 
-          <View
-            style={[
-              styles.searchMoreArea,
-              !searchWorkData.hasMore && styles.searchMoreAreaHidden,
-            ]}
-          >
-            {/* <LinearGradient
-              colors={['#FFFFFF', '#FFFFFF', '#FFFFFF']}
-              style={styles.gradientButton}
-            > */}
-            <TouchableOpacity
-              style={styles.searchMoreButton}
-              onPress={this.handleSearchMorePress}
-            >
-              <Text style={styles.searchMoreButtonText}>
-                {uawMsgs.LBL_SEARCH_MORE_BUTTON}
-              </Text>
-            </TouchableOpacity>
-            {/* </LinearGradient> */}
-          </View>
+          {searchWorkData.hasMore && (
+            <View style={[styles.searchMoreArea]}>
+              <TouchableOpacity
+                style={styles.searchMoreButton}
+                onPress={this.handleSearchMorePress}
+              >
+                <Text style={styles.searchMoreButtonText}>
+                  {uawMsgs.LBL_SEARCH_MORE_BUTTON}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
 
           <View
             style={[

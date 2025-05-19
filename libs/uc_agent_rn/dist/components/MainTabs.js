@@ -794,7 +794,6 @@ const styles = StyleSheet.create({
     top: 15,
     right: 23,
     height: 25,
-    // backgroundColor: 'red',
   },
   brMainTabLinkSpan: {
     paddingLeft: 5,
