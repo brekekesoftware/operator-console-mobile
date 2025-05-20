@@ -205,7 +205,14 @@ class LoginC extends React.Component<Props, State> {
     }
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fafafa', }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fafafa',
+        }}
+      >
         <View
           style={{
             justifyContent: 'center',
@@ -313,7 +320,7 @@ class LoginC extends React.Component<Props, State> {
                 backgroundColor: 'white',
                 elevation: 0,
                 borderColor: 'white',
-               borderStyle: 'dashed',
+                borderStyle: 'dashed',
               },
             }}
             style={{

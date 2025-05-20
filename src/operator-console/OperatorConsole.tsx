@@ -2030,11 +2030,10 @@ export class BrekekeOperatorConsole extends React.Component<
         )}
       </View>
     ) : (
-     
-        <Login
-          operatorConsoleAsParent={this}
-          initialValues={this._getLastLoginAccount()}
-        />
+      <Login
+        operatorConsoleAsParent={this}
+        initialValues={this._getLastLoginAccount()}
+      />
     )
   }
 

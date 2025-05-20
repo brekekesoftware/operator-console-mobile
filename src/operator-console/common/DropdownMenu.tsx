@@ -67,7 +67,7 @@ export const Item: FC<DropdownItemProps> = ({
               </RnTouchableOpacity>
             )
           }
-          return <Fragment key={i.toString() + Date.now()}>{c.label}</Fragment> 
+          return <Fragment key={i.toString() + Date.now()}>{c.label}</Fragment>
         })}
       </View>
     )

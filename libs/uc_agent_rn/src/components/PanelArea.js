@@ -1820,6 +1820,6 @@ const styles = StyleSheet.create({
   },
   brPanelAreaDialog: {
     zIndex: 100,
-    top: 32
+    top: 32,
   },
 })

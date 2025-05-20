@@ -566,7 +566,7 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
         borderWidth: 0,
         borderBottomWidth: 0,
       },
-    
+
       BodyBottomLine: {
         backgroundColor: 'white',
         elevation: 0,
@@ -577,7 +577,6 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
         shadowOpacity: 0,
         shadowRadius: 0,
       },
-
     }}
     style={{
       backgroundColor: 'white',
@@ -585,7 +584,7 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
       borderColor: 'white',
       borderWidth: 0,
       borderBottomWidth: 0,
-      borderTopColor: 'white'
+      borderTopColor: 'white',
     }}
   >
     <Form.Item

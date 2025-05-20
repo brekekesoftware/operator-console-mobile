@@ -4146,7 +4146,11 @@ uiData.prototype.panelHeaderChatButton_onClick = function (
   panelCode,
   ev,
 ) {
-  console.log('#Duy Phan console panelHeaderChatButton_onClick', panelType, panelCode)
+  console.log(
+    '#Duy Phan console panelHeaderChatButton_onClick',
+    panelType,
+    panelCode,
+  )
   if (panelType === 'HISTORYDETAIL') {
     if (
       this.historyDetailWorkTable[panelCode] &&

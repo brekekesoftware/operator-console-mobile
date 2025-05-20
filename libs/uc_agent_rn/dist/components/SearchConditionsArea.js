@@ -39,16 +39,16 @@ export default class SearchConditionsArea extends React.Component {
       inputValues: {},
     }
   }
-   debounce(func, delay) {
-    let timeoutId;
-  
+  debounce(func, delay) {
+    let timeoutId
+
     return function (...args) {
-      clearTimeout(timeoutId);
-  
+      clearTimeout(timeoutId)
+
       timeoutId = setTimeout(() => {
-        func.apply(this, args);
-      }, delay);
-    };
+        func.apply(this, args)
+      }, delay)
+    }
   }
 
   handleDatePickerChange(searchConditionIndex, isEnd, selectedDate) {
@@ -117,7 +117,6 @@ export default class SearchConditionsArea extends React.Component {
   }
 
   handleDoSearchPress() {
-
     this.props.uiData.ucUiAction.doSearch({
       chatType: this.props.panelType,
       chatCode: this.props.panelCode,
@@ -367,7 +366,7 @@ const styles = StyleSheet.create({
     borderColor: '#dcdcd5',
     paddingVertical: 1,
     paddingHorizontal: 0,
-    paddingLeft: 8
+    paddingLeft: 8,
   },
   contentInput: {
     width: 200,

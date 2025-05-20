@@ -174,7 +174,7 @@ export default class MultipleAudio extends React.Component {
 
     this.unloadAudioSources()
     this.audioSounds = []
-console.log('#Duy Phan console props.src',props.src)
+    console.log('#Duy Phan console props.src', props.src)
     try {
       for (let i = 0; i < this.state.outputDevices.length; i++) {
         const sound = new Sound(props.src, null, error => {

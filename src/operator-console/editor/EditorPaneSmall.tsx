@@ -70,7 +70,11 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
           cellHeight={props.editingScreenGrid * 10}
           cellHeight2={props.editingScreenGrid}
         >
-          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }} horizontal>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ flex: 1 }}
+            horizontal
+          >
             {props.widgetDataArray.map((widgetData, index) => {
               const widgetJsx =
                 EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(

@@ -143,7 +143,7 @@ export default class ChatFileDownloadLargeButton extends React.Component {
               { transform: [{ translateY: this.state.animationValue }] },
             ]}
           >
-            <View style={styles.downloadIcon} >
+            <View style={styles.downloadIcon}>
               <DownloadIcon />
             </View>
           </Animated.View>

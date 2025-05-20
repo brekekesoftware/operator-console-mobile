@@ -230,7 +230,10 @@ export default class extends React.Component {
 
   handleOptionsLinkClick(ev) {
     const props = this.props
-    console.log('#Duy Phan console onpress1',props.uiData.showingDialogVersion !== this.state.showingDialogVersion)
+    console.log(
+      '#Duy Phan console onpress1',
+      props.uiData.showingDialogVersion !== this.state.showingDialogVersion,
+    )
     if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
       this.setState({
         showingDialogVersion: ++props.uiData.showingDialogVersion,
@@ -648,10 +651,7 @@ export default class extends React.Component {
       className += ' brMenuOptionsLength'
     }
 
-    console.log(
-      '#Duy Phan console check cond',
-      disabled,
-    )
+    console.log('#Duy Phan console check cond', disabled)
     return (
       <View
         style={[
@@ -725,7 +725,7 @@ export default class extends React.Component {
         <ButtonIconic
           style={[styles.brEditorSendButton]}
           title={uawMsgs.LBL_EDITOR_SEND_BUTTON_TOOLTIP}
-          iconSource={isEmail ? <SendIcon /> : <ChatIcon color='#b9b9b9'/>}
+          iconSource={isEmail ? <SendIcon /> : <ChatIcon color='#b9b9b9' />}
           disabled={disabled}
           onPress={this.handleSendButtonClick.bind(this)}
         />
