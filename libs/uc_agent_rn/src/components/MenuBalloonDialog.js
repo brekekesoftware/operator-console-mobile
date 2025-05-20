@@ -62,13 +62,13 @@ export default class MenuBalloonDialog extends React.Component {
     }
 
     const { width, height } = Dimensions.get('window')
-    const maxDimension = Math.min(width, height) * 0.5 // 50vh equivalent
+    const maxDimension = Math.min(width, height) * 0.7
 
     return (
       <View
         style={[
           styles.menuBalloonDialog,
-          { maxWidth: maxDimension, maxHeight: maxDimension },
+          // { maxWidth: maxDimension, maxHeight: maxDimension },
           style,
         ]}
       >
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 4,
     elevation: 4,
+    padding: 10,
   },
   scrollView: {},
   contentContainer: {},

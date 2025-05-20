@@ -196,16 +196,16 @@ class LoginC extends React.Component<Props, State> {
   render() {
     const borderStyles: Partial<FormItemStyle & ValidateStatusStyle> = {
       Line: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         elevation: 0,
-        borderColor: 'transparent',
-        borderWidth: 1,
+        borderColor: 'white',
+        borderWidth: 0,
         borderStyle: 'dashed',
       },
     }
 
     return (
-      <View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fafafa', }}>
         <View
           style={{
             justifyContent: 'center',
@@ -310,16 +310,16 @@ class LoginC extends React.Component<Props, State> {
             onFinishFailed={e => console.log('#Duy Phan console fail ', e)}
             styles={{
               Body: {
-                backgroundColor: 'transparent',
+                backgroundColor: 'white',
                 elevation: 0,
-                borderColor: 'transparent',
-                borderStyle: 'dashed',
+                borderColor: 'white',
+               borderStyle: 'dashed',
               },
             }}
             style={{
-              backgroundColor: 'transparent',
+              backgroundColor: 'white',
               elevation: 0,
-              borderColor: 'transparent',
+              borderColor: 'white',
             }}
           >
             <Form.Item

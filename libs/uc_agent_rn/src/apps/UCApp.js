@@ -74,12 +74,12 @@ class UCApp extends React.Component {
     return (
       <View style={styles.container}>
         <WidgetBody uiData={uiData} modalOverlayStyle={styles.modalOverlay}>
-          <FlyweightAudioFactory srcs={soundFiles} />
+          {/* <FlyweightAudioFactory srcs={soundFiles} />
           <MultipleAudio
             uiData={uiData}
             audioStyle={styles.bellAudio}
             src={sound}
-          />
+          /> */}
           <MainArea style={{ left: this.state.splitterLeft }} uiData={uiData} />
           <Sidebar
             uiData={uiData}

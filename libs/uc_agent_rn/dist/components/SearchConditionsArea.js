@@ -39,6 +39,17 @@ export default class SearchConditionsArea extends React.Component {
       inputValues: {},
     }
   }
+   debounce(func, delay) {
+    let timeoutId;
+  
+    return function (...args) {
+      clearTimeout(timeoutId);
+  
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
 
   handleDatePickerChange(searchConditionIndex, isEnd, selectedDate) {
     const props = this.props
@@ -80,6 +91,7 @@ export default class SearchConditionsArea extends React.Component {
     const inputValues = { ...this.state.inputValues }
     inputValues[searchConditionIndex] = value
     this.setState({ inputValues })
+    this.debounce(this.changeSearchCondition(searchConditionIndex, value), 700)
   }
 
   handleInputBlur(searchConditionIndex) {
@@ -105,6 +117,7 @@ export default class SearchConditionsArea extends React.Component {
   }
 
   handleDoSearchPress() {
+
     this.props.uiData.ucUiAction.doSearch({
       chatType: this.props.panelType,
       chatCode: this.props.panelCode,
@@ -263,8 +276,8 @@ export default class SearchConditionsArea extends React.Component {
                           : searchCondition.conditionValue
                       }
                       onChangeText={text => this.handleInputChange(i, text)}
-                      onBlur={() => this.handleInputBlur(i)}
-                      onSubmitEditing={() => this.handleInputSubmit(i)}
+                      // onBlur={() => this.handleInputBlur(i)}
+                      // onSubmitEditing={() => this.handleInputSubmit(i)}
                     />
                   )}
                 </View>
@@ -354,6 +367,7 @@ const styles = StyleSheet.create({
     borderColor: '#dcdcd5',
     paddingVertical: 1,
     paddingHorizontal: 0,
+    paddingLeft: 8
   },
   contentInput: {
     width: 200,

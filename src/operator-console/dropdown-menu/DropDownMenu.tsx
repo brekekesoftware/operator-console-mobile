@@ -549,39 +549,65 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
     layout='vertical'
     styles={{
       Body: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         elevation: 0,
-        borderColor: 'transparent',
+        borderColor: 'white',
+        borderWidth: 0,
+        borderBottomWidth: 0,
+        shadowColor: 'white',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0,
+        shadowRadius: 0,
       },
+      Header: {
+        backgroundColor: 'white',
+        elevation: 0,
+        borderColor: 'white',
+        borderWidth: 0,
+        borderBottomWidth: 0,
+      },
+    
       BodyBottomLine: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         elevation: 0,
-        borderColor: 'transparent',
+        borderColor: 'white',
+        borderWidth: 0,
+        borderBottomWidth: 0,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0,
+        shadowRadius: 0,
       },
+
     }}
     style={{
-      backgroundColor: 'transparent',
+      backgroundColor: 'white',
       elevation: 0,
-      borderColor: 'transparent',
+      borderColor: 'white',
+      borderWidth: 0,
+      borderBottomWidth: 0,
+      borderTopColor: 'white'
     }}
   >
     <Form.Item
       name='layoutName'
       styles={{
         Line: {
-          backgroundColor: 'transparent',
+          backgroundColor: 'white',
           elevation: 0,
-          borderColor: 'transparent',
-          borderWidth: 0,
+          borderColor: 'white',
+          borderWidth: 1,
+          borderTopWidth: 0,
         },
         Item: {
-          backgroundColor: 'transparent',
+          backgroundColor: 'white',
           elevation: 0,
-          borderColor: 'transparent',
+          borderColor: 'white',
+          borderWidth: 0,
           height: 70,
+          borderTopWidth: 0,
         },
       }}
-      style={{ elevation: 0, borderColor: 'transparent' }}
+      // style={{ elevation: 0, borderColor: 'white', borderWidth: 0, borderBottomWidth: 0 }}
       rules={[
         {
           required: true,
@@ -592,11 +618,12 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
       <Input
         placeholder={i18n.t('layoutName')}
         style={{
+          marginTop: 10,
           borderRadius: 4,
           borderColor: '#e0e0e0',
           borderWidth: 1,
           padding: 10,
-          height: 55,
+          height: 60,
         }}
       />
     </Form.Item>

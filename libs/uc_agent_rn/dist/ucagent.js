@@ -4146,6 +4146,7 @@ uiData.prototype.panelHeaderChatButton_onClick = function (
   panelCode,
   ev,
 ) {
+  console.log('#Duy Phan console panelHeaderChatButton_onClick', panelType, panelCode)
   if (panelType === 'HISTORYDETAIL') {
     if (
       this.historyDetailWorkTable[panelCode] &&
@@ -6568,67 +6569,68 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
         // must notify
         evObj.notificationFunction = () => {
           // ring bell
-          if (
-            this.configurations.ringsBell &&
-            (!lampTypeOptions.silent || lampTypeOptions.bell === true) &&
-            lampTypeOptions.bell !== false
-          ) {
-            const audios = doc.getElementsByClassName(
-              (evObj.notificationProperties &&
-                evObj.notificationProperties.bellAudioClass) ||
-                'brBellAudio',
-            )
-            if (audios && audios.length > 0) {
-              Array.prototype.forEach.call(audios, (audio, index) => {
-                this.ucUiStore
-                  .getLogger()
-                  .log('debug', 'dbg u2384 1 ' + index + ' ' + Date.now())
-                const promise = audio.play && audio.play()
-                if (promise && promise.then) {
-                  promise
-                    .then(value => {
-                      this.ucUiStore
-                        .getLogger()
-                        .log(
-                          'debug',
-                          'dbg u2384 2 ' +
-                            index +
-                            ' ' +
-                            Date.now() +
-                            ' ' +
-                            value,
-                        )
-                    })
-                    .catch(reason => {
-                      this.ucUiStore
-                        .getLogger()
-                        .log(
-                          'debug',
-                          'dbg u2384 3 ' +
-                            index +
-                            ' ' +
-                            Date.now() +
-                            ' ' +
-                            reason,
-                        )
-                    })
-                } else {
-                  this.ucUiStore
-                    .getLogger()
-                    .log('debug', 'dbg u2384 4 ' + index + ' ' + Date.now())
-                }
-              })
-            } else {
-              this.ucUiStore
-                .getLogger()
-                .log(
-                  'info',
-                  'brBellAudio not found: ' +
-                    (evObj.notificationProperties &&
-                      evObj.notificationProperties.bellAudioClass),
-                )
-            }
-          }
+          /* TODO: Implement audios */
+          // if (
+          //   this.configurations.ringsBell &&
+          //   (!lampTypeOptions.silent || lampTypeOptions.bell === true) &&
+          //   lampTypeOptions.bell !== false
+          // ) {
+          //   const audios = doc.getElementsByClassName(
+          //     (evObj.notificationProperties &&
+          //       evObj.notificationProperties.bellAudioClass) ||
+          //       'brBellAudio',
+          //   )
+          //   if (audios && audios.length > 0) {
+          //     Array.prototype.forEach.call(audios, (audio, index) => {
+          //       this.ucUiStore
+          //         .getLogger()
+          //         .log('debug', 'dbg u2384 1 ' + index + ' ' + Date.now())
+          //       const promise = audio.play && audio.play()
+          //       if (promise && promise.then) {
+          //         promise
+          //           .then(value => {
+          //             this.ucUiStore
+          //               .getLogger()
+          //               .log(
+          //                 'debug',
+          //                 'dbg u2384 2 ' +
+          //                   index +
+          //                   ' ' +
+          //                   Date.now() +
+          //                   ' ' +
+          //                   value,
+          //               )
+          //           })
+          //           .catch(reason => {
+          //             this.ucUiStore
+          //               .getLogger()
+          //               .log(
+          //                 'debug',
+          //                 'dbg u2384 3 ' +
+          //                   index +
+          //                   ' ' +
+          //                   Date.now() +
+          //                   ' ' +
+          //                   reason,
+          //               )
+          //           })
+          //       } else {
+          //         this.ucUiStore
+          //           .getLogger()
+          //           .log('debug', 'dbg u2384 4 ' + index + ' ' + Date.now())
+          //       }
+          //     })
+          //   } else {
+          //     this.ucUiStore
+          //       .getLogger()
+          //       .log(
+          //         'info',
+          //         'brBellAudio not found: ' +
+          //           (evObj.notificationProperties &&
+          //             evObj.notificationProperties.bellAudioClass),
+          //       )
+          //   }
+          // }
           if (
             evObj.notificationProperties &&
             (!lampTypeOptions.silent ||
@@ -6659,69 +6661,69 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
                       reason: 'clear_old_notifications',
                     })
                   }
-                  const notificationId =
-                    Brekeke.WebNotification.showNotification({
-                      document: doc,
-                      //timeout: (settings.optional_settings && settings.optional_settings.webnotif_status === "manual" && int(settings.optional_settings.webnotif_timeout)) ||
-                      //    this.ucUiStore.getConfigProperties().webnotif_timeout,
-                      title: string(evObj.notificationProperties.title),
-                      body: truncateWithEllipsis(
-                        evObj.missedCall
-                          ? uawMsgs.MSG_CALL_MISSED_NOTIFICATION
-                          : toPlainText(evObj.notificationProperties.body),
-                        40,
-                      ),
-                      icon:
-                        string(evObj.notificationProperties.icon) ||
-                        string(
-                          (doc.querySelector("link[rel*='icon']") || {}).href,
-                        ),
-                      noisiness: int(
-                        typeof evObj.notificationProperties.noisiness !==
-                          'undefined'
-                          ? evObj.notificationProperties.noisiness
-                          : 1,
-                      ),
-                      onclick: ev => {
-                        if (
-                          !doc.hasFocus() &&
-                          doc.defaultView &&
-                          doc.defaultView.focus
-                        ) {
-                          doc.defaultView.focus()
-                        }
-                        if (panelToNotify) {
-                          this.updateTab({
-                            select: {
-                              panelType: panelToNotify.panelType,
-                              panelCode: panelToNotify.panelCode,
-                            },
-                          })
-                        }
-                        Brekeke.WebNotification.closeNotification({
-                          notificationId: ev.notificationId,
-                          reason: 'notification_onclick',
-                        })
-                        this.render()
-                      },
-                      onclose: ev => {
-                        delete this.showingNotificationTable[ev.notificationId]
-                        this.changeLamp()
-                      },
-                      debug: e => {
-                        if (this.configurations.webNotificationDebug) {
-                          this.ucUiStore
-                            .getLogger()
-                            .log(
-                              this.configurations.webNotificationDebug,
-                              (this.ucUiStore.getChatClient() || {})._user_id +
-                                ' ' +
-                                e,
-                            )
-                        }
-                      },
-                    })
-                  this.showingNotificationTable[notificationId] = true
+                  // const notificationId =
+                  //   Brekeke.WebNotification.showNotification({
+                  //     document: doc,
+                  //     //timeout: (settings.optional_settings && settings.optional_settings.webnotif_status === "manual" && int(settings.optional_settings.webnotif_timeout)) ||
+                  //     //    this.ucUiStore.getConfigProperties().webnotif_timeout,
+                  //     title: string(evObj.notificationProperties.title),
+                  //     body: truncateWithEllipsis(
+                  //       evObj.missedCall
+                  //         ? uawMsgs.MSG_CALL_MISSED_NOTIFICATION
+                  //         : toPlainText(evObj.notificationProperties.body),
+                  //       40,
+                  //     ),
+                  //     icon:
+                  //       string(evObj.notificationProperties.icon) ||
+                  //       string(
+                  //         (doc.querySelector("link[rel*='icon']") || {}).href,
+                  //       ),
+                  //     noisiness: int(
+                  //       typeof evObj.notificationProperties.noisiness !==
+                  //         'undefined'
+                  //         ? evObj.notificationProperties.noisiness
+                  //         : 1,
+                  //     ),
+                  //     onclick: ev => {
+                  //       // if (
+                  //       //   !doc.hasFocus() &&
+                  //       //   doc.defaultView &&
+                  //       //   doc.defaultView.focus
+                  //       // ) {
+                  //       //   doc.defaultView.focus()
+                  //       // }
+                  //       if (panelToNotify) {
+                  //         this.updateTab({
+                  //           select: {
+                  //             panelType: panelToNotify.panelType,
+                  //             panelCode: panelToNotify.panelCode,
+                  //           },
+                  //         })
+                  //       }
+                  //       Brekeke.WebNotification.closeNotification({
+                  //         notificationId: ev.notificationId,
+                  //         reason: 'notification_onclick',
+                  //       })
+                  //       this.render()
+                  //     },
+                  //     onclose: ev => {
+                  //       delete this.showingNotificationTable[ev.notificationId]
+                  //       this.changeLamp()
+                  //     },
+                  //     debug: e => {
+                  //       if (this.configurations.webNotificationDebug) {
+                  //         this.ucUiStore
+                  //           .getLogger()
+                  //           .log(
+                  //             this.configurations.webNotificationDebug,
+                  //             (this.ucUiStore.getChatClient() || {})._user_id +
+                  //               ' ' +
+                  //               e,
+                  //           )
+                  //       }
+                  //     },
+                  //   })
+                  // this.showingNotificationTable[notificationId] = true
                 } catch (ex) {
                   this.ucUiStore.getLogger().log('warn', ex)
                 }
@@ -7661,8 +7663,6 @@ AgentComponent.prototype.initComponent = function (option) {
       'invite',
       'file',
       'leave',
-      'voice',
-      'video',
       'chat',
       'history',
     ]

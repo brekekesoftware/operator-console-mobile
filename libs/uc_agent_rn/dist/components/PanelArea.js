@@ -1770,6 +1770,8 @@ const styles = StyleSheet.create({
   brHeaderSearchConditionsUserGroup: {
     position: 'relative',
     minWidth: 80,
+  },
+  brGroupName: {
     paddingTop: 24,
   },
   brHeaderSearchConditionsUserGroupIcon: {
@@ -1818,5 +1820,6 @@ const styles = StyleSheet.create({
   },
   brPanelAreaDialog: {
     zIndex: 100,
+    top: 32
   },
 })

@@ -2030,21 +2030,11 @@ export class BrekekeOperatorConsole extends React.Component<
         )}
       </View>
     ) : (
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 1,
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#fafafa',
-        }}
-      >
+     
         <Login
           operatorConsoleAsParent={this}
           initialValues={this._getLastLoginAccount()}
         />
-      </View>
     )
   }
 

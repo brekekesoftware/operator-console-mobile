@@ -53,6 +53,7 @@ export class UccacAc {
         undockable: true,
         panelHeader: true,
         headerButtonsVisible: true,
+        queuePanel: true
       } // !default
     }
 

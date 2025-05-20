@@ -45,7 +45,7 @@ export default class extends React.Component {
       >
         <TouchableOpacity
           style={{ flex: 1 }}
-          activeOpacity={props.disabled ? 1 : 0.7}
+          // activeOpacity={props.disabled ? 1 : 0.7}
           onPress={this.handlePress}
           disabled={props.disabled}
           // accessibilityLabel={props.accessibilityLabel}

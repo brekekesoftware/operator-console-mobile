@@ -837,7 +837,7 @@ export default class extends React.Component {
           src={
             (props.uiData.configurations &&
               props.uiData.configurations.alternativeRingTone) ||
-            CURRENT_SCRIPT_URL.DIR + '../../../sounds/ring.mp3'
+            CURRENT_SCRIPT_URL.DIR + '../sounds/ring.mp3'
           }
           loop={true}
           playing={
@@ -854,7 +854,7 @@ export default class extends React.Component {
         <SoundAudio
           uiData={props.uiData}
           className='brRingbackSoundAudio'
-          src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/ringback.mp3'}
+          src={CURRENT_SCRIPT_URL.DIR + '../sounds/ringback.mp3'}
           loop={true}
           playing={
             session &&
@@ -868,7 +868,7 @@ export default class extends React.Component {
         <SoundAudio
           uiData={props.uiData}
           className='brBeginedSoundAudio'
-          src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/tone1.mp3'}
+          src={CURRENT_SCRIPT_URL.DIR + '../sounds/tone1.mp3'}
           playing={
             isSafari && session && +new Date() - this.sessionBeginTime < 5000
           }
@@ -876,7 +876,7 @@ export default class extends React.Component {
         <SoundAudio
           uiData={props.uiData}
           className='brTerminatedSoundAudio'
-          src={CURRENT_SCRIPT_URL.DIR + '../../../sounds/terminated.mp3'}
+          src={CURRENT_SCRIPT_URL.DIR + '../sounds/terminated.mp3'}
           playing={!session && +new Date() - this.sessionEndTime < 5000}
         />
         <CallAudio
@@ -1521,7 +1521,7 @@ export default class extends React.Component {
                   style={styles.brDtmfSoundAudio}
                   src={
                     CURRENT_SCRIPT_URL.DIR +
-                    '../../../sounds/' +
+                    '../sounds/' +
                     (tone === '*'
                       ? 'asterisk'
                       : tone === '#'

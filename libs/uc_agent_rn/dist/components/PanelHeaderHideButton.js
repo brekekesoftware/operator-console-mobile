@@ -18,7 +18,7 @@ export default props => {
     <SimpleButton
       title={uawMsgs.LBL_PANEL_HEADER_HIDE_BUTTON_TOOLTIP}
       disabled={props.disabled}
-      onClick={props.uiData.fire.bind(
+      onPress={props.uiData.fire.bind(
         props.uiData,
         'panelHeaderHideButton_onClick',
         props.panelType,

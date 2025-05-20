@@ -289,18 +289,18 @@ export default class extends React.Component {
 
   handleDragStart = () => {
     this.setState({ isDragging: true })
-    if (this.mainTabLinksRef.current) {
-      this.mainTabLinksRef.current.setNativeProps({ scrollEnabled: false })
-    }
+    // if (this.mainTabLinksRef.current) {
+    //   this.mainTabLinksRef.current.setNativeProps({ scrollEnabled: false })
+    // }
   }
 
   handleDragEnd = ({ data }) => {
     const props = this.props
     this.setState({ isDragging: false })
 
-    if (this.mainTabLinksRef.current) {
-      this.mainTabLinksRef.current.setNativeProps({ scrollEnabled: true })
-    }
+    // if (this.mainTabLinksRef.current) {
+    //   this.mainTabLinksRef.current.setNativeProps({ scrollEnabled: true })
+    // }
 
     const newPanelList = data
       .map(item => {
@@ -336,7 +336,7 @@ export default class extends React.Component {
           key={'span_' + key}
           onPress={() => this.handleTabSelect(key)}
           onLongPress={drag}
-          delayLongPress={150}
+          // delayLongPress={150}
           activeOpacity={1}
           style={[
             styles.brMainTabLinkSpan,
@@ -596,7 +596,7 @@ export default class extends React.Component {
             }}
           >
             <StatusIcon status={status} degree={degree} />
-            <Text style={styles.brMainTabMenuItemTitle}>
+            <Text style={styles.brMainTabMenuItemTitle} numberOfLines={1}>
               {tabTitle || '\u2002'}
             </Text>
           </MenuItem>,
@@ -876,9 +876,9 @@ const styles = StyleSheet.create({
   brMainTabMenuBlinking: {},
   brMainTabMenuBalloonDialog: {
     position: 'absolute',
-    right: 2,
+    right: 15,
     top: 39,
-    maxWidth: '90%',
+    // maxWidth: '90%',
     zIndex: 9999,
   },
   brMainTabMenuItemSelected: {

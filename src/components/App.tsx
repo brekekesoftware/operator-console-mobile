@@ -345,11 +345,11 @@ export const App = observer(() => {
       </View> */}
       {/* {Platform.OS === 'ios' && <KeyboardSpacer />} */}
 
-      {!accountStore.appInitDone && (
+      {/* {!accountStore.appInitDone && (
         <View style={css.LoadingFullscreen}>
           <ActivityIndicator size='large' color='white' />
         </View>
-      )}
+      )} */}
       <View style={css.App_Inner}>
         <AutocompleteDropdownContextProvider>
           <ToastProvider

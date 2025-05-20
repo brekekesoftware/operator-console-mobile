@@ -257,54 +257,53 @@ export default class extends React.Component {
         props.message.messageFile.inlineImage &&
         props.message.messageFile.inlineImage.url
       ) {
-        chatMessageInnerElements.push(
-          <ButtonIconic
-            key='open'
-            style={{ marginLeft: 8, width: 24, height: 24 }}
-            title={uawMsgs.LBL_CHAT_FILE_FILE_OPEN_IN_NEW_WINDOW_BUTTON_TOOLTIP}
-            iconSource={<ExternallinkIcon />}
-            onPress={props.uiData.fire.bind(
-              props.uiData,
-              'chatFileOpenInNewWindowButton_onClick',
-              props.message.messageFile.inlineImage.url,
-            )}
-          ></ButtonIconic>,
-        )
+        // chatMessageInnerElements.push(
+        //   <ButtonIconic
+        //     key='open'
+        //     style={{ marginLeft: 8, width: 24, height: 24 }}
+        //     title={uawMsgs.LBL_CHAT_FILE_FILE_OPEN_IN_NEW_WINDOW_BUTTON_TOOLTIP}
+        //     iconSource={<ExternallinkIcon />}
+        //     onPress={props.uiData.fire.bind(
+        //       props.uiData,
+        //       'chatFileOpenInNewWindowButton_onClick',
+        //       props.message.messageFile.inlineImage.url,
+        //     )}
+        //   ></ButtonIconic>,
+        // )
       }
       // fileSize
       if (
         props.message.messageFile.status !== Constants.FILE_STATUS_UNPREPARED
       ) {
         chatMessageInnerElements.push(
-          <Text key='size' style={styles.fileSize}>
-            {formatFileSize(props.message.messageFile.size)}
-            {(props.message.messageFile.progress < 10 ? '\u2007' : '') + // &numsp; (figure space)
-              ' (' +
-              props.message.messageFile.progress +
-              '%)'}
-          </Text>,
+          <View style={styles.fileSize}>
+            <Text key='size'>
+              {formatFileSize(props.message.messageFile.size)}
+              {(props.message.messageFile.progress < 10 ? '\u2007' : '') + // &numsp; (figure space)
+                ' (' +
+                props.message.messageFile.progress +
+                '%)'}
+            </Text>
+            <ButtonIconic
+              key='cancelbutton'
+              style={{ marginLeft: 8, width: 18, height: 18 }}
+              hidden={
+                props.message.messageFile.status !==
+                  Constants.FILE_STATUS_UNACCEPTED &&
+                props.message.messageFile.status !==
+                  Constants.FILE_STATUS_TRANSFERRING
+              }
+              iconSource={<CancelIcon />}
+              title={uawMsgs.LBL_CHAT_FILE_CANCEL_BUTTON_TOOLTIP}
+              onPress={props.uiData.fire.bind(
+                props.uiData,
+                'chatFileCancelButton_onClick',
+                props.message.messageFile,
+              )}
+            ></ButtonIconic>
+          </View>,
         )
       }
-      // cancelButton
-      chatMessageInnerElements.push(
-        <ButtonIconic
-          key='cancelbutton'
-          style={{ marginLeft: 8, width: 18, height: 18 }}
-          hidden={
-            props.message.messageFile.status !==
-              Constants.FILE_STATUS_UNACCEPTED &&
-            props.message.messageFile.status !==
-              Constants.FILE_STATUS_TRANSFERRING
-          }
-          iconSource={<CancelIcon />}
-          title={uawMsgs.LBL_CHAT_FILE_CANCEL_BUTTON_TOOLTIP}
-          onPress={props.uiData.fire.bind(
-            props.uiData,
-            'chatFileCancelButton_onClick',
-            props.message.messageFile,
-          )}
-        ></ButtonIconic>,
-      )
       // inlineImage
       if (props.message.messageFile.inlineImage) {
         if (props.message.messageFile.inlineImage.url) {
@@ -517,6 +516,9 @@ const styles = StyleSheet.create({
   },
   fileSize: {
     marginTop: 4,
+    flexDirection: 'row',
+    // alignItems: 'center',
+    gap: 6,
   },
   inlineImageArea: {
     minHeight: 64,

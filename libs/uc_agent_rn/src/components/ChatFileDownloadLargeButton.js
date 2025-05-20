@@ -10,6 +10,7 @@ import {
 import uawMsgs from '../utilities/uawmsgs.js'
 import Constants from '../utilities/constants.js'
 import { int, string } from '../utilities/strings.js'
+import DownloadIcon from '../icons/DownloadIcon.js'
 // import Icon from './Icon'
 // TODO: Add icon component
 
@@ -142,7 +143,9 @@ export default class ChatFileDownloadLargeButton extends React.Component {
               { transform: [{ translateY: this.state.animationValue }] },
             ]}
           >
-            <Icon name='download' style={styles.downloadIcon} />
+            <View style={styles.downloadIcon} >
+              <DownloadIcon />
+            </View>
           </Animated.View>
         </View>
       </TouchableOpacity>

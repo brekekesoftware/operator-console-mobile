@@ -59,18 +59,17 @@ export default class extends React.Component {
     this.progressAnimation = new Animated.Value(0)
   }
 
-  componentDidUpdate() {
-    // Use onLayout instead of DOM measurements
-    // if (this.historySummariesAreaRef.current) {
-    //   this.historySummariesAreaRef.current.measure((x, y, width, height) => {
-    //     if (this.state.areaHeight !== height) {
-    //       this.setState({ areaHeight: height })
-    //       return
-    //     }
-    //   })
-    // }
-    this.checkAndSearchMore()
-  }
+  // componentDidUpdate() {
+  //   if (this.historySummariesAreaRef.current) {
+  //     this.historySummariesAreaRef.current.measure((x, y, width, height) => {
+  //       if (this.state.areaHeight !== height) {
+  //         this.setState({ areaHeight: height })
+  //         return
+  //       }
+  //       this.checkAndSearchMore()
+  //     })
+  //   }
+  // }
 
   handleContentSizeChange = (contentWidth, height) => {
     this.setState({ areaHeight: height })
@@ -660,10 +659,7 @@ export default class extends React.Component {
     const startEnd = string(conditions._datetime.conditionValue).split('-')
     const startMoment = startEnd[0] ? moment(int(startEnd[0])) : null
     const endMoment = startEnd[1] ? moment(int(startEnd[1])) : null
-    console.log(
-      '#Duy Phan console count expands',
-      searchResults.filter(result => result._expanded).length,
-    )
+    console.log('#Duy Phan console count expands', entries.length)
     return (
       <View
         style={[
@@ -769,6 +765,8 @@ export default class extends React.Component {
             <DropDownMenu
               uiData={props.uiData}
               style={styles.brSearchConditionsWebchatMenu}
+              dialogStyle={{ minWidth: 160, left: 16, top: 32 }}
+              dia
               text={
                 string(conditions._onlyMe.conditionValue) === '2'
                   ? uawMsgs.LBL_HISTORY_YOUR_CHATS
@@ -1113,6 +1111,7 @@ const styles = StyleSheet.create({
   brHistoryNoResults: {
     textAlign: 'center',
     padding: 16,
+    marginTop: 30,
     color: '#666666',
   },
 

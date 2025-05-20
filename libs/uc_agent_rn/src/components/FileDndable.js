@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   active: {
     borderWidth: 2,
     borderColor: '#4BC5DE', // medium_turquoise
-    borderStyle: 'dashed',
+    // borderStyle: 'dashed',
     backgroundColor: 'rgba(75, 197, 222, 0.1)', // Light version of medium_turquoise
   },
 })

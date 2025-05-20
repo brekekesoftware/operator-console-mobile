@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
@@ -51,7 +51,7 @@ export const Item: FC<DropdownItemProps> = ({
     }
     return (
       <View style={styles.overlayChild}>
-        {child?.map(c => {
+        {child?.map((c, i) => {
           if (typeof c.label === 'string') {
             return (
               <RnTouchableOpacity
@@ -61,13 +61,13 @@ export const Item: FC<DropdownItemProps> = ({
                 }}
                 style={styles.container}
                 disabled={disabled}
-                key={c.key}
+                key={i.toString() + Date.now()}
               >
                 <RnText>{title}</RnText>
               </RnTouchableOpacity>
             )
           }
-          return c.label
+          return <Fragment key={i.toString() + Date.now()}>{c.label}</Fragment> 
         })}
       </View>
     )
@@ -108,9 +108,9 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
       </TouchableOpacity>
       {isOpen && (
         <View style={styles.overlay}>
-          {menu?.items.map(m => {
+          {menu?.items.map((m, i) => {
             if (m.type === 'divider') {
-              return <Divider key={m.key} />
+              return <Divider key={i.toString()} />
             }
             if (typeof m.label === 'string') {
               return (
@@ -123,7 +123,7 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
 
                     menu.onPress?.(m.key)
                   }}
-                  key={m.key}
+                  key={i.toString()}
                   child={m.children}
                 />
               )
@@ -135,7 +135,7 @@ export const DropdownMenu = ({ children, menu, style }: Props) => {
                   setIsOpen(false)
                   menu.onPress?.(m.key)
                 }}
-                key={m.key}
+                key={i.toString()}
               >
                 {m.label}
               </RnTouchableOpacity>

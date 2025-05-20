@@ -230,11 +230,12 @@ export default class extends React.Component {
 
   handleOptionsLinkClick(ev) {
     const props = this.props
+    console.log('#Duy Phan console onpress1',props.uiData.showingDialogVersion !== this.state.showingDialogVersion)
     if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
       this.setState({
         showingDialogVersion: ++props.uiData.showingDialogVersion,
       })
-      ev.stopPropagation()
+      // ev.stopPropagation()
       props.uiData.fire('showingDialog_update')
     } else {
       props.uiData.window_onclick()
@@ -649,7 +650,7 @@ export default class extends React.Component {
 
     console.log(
       '#Duy Phan console check cond',
-      props.uiData.showingDialogVersion === this.state.showingDialogVersion,
+      disabled,
     )
     return (
       <View
@@ -724,7 +725,7 @@ export default class extends React.Component {
         <ButtonIconic
           style={[styles.brEditorSendButton]}
           title={uawMsgs.LBL_EDITOR_SEND_BUTTON_TOOLTIP}
-          iconSource={isEmail ? <SendIcon /> : <ChatIcon />}
+          iconSource={isEmail ? <SendIcon /> : <ChatIcon color='#b9b9b9'/>}
           disabled={disabled}
           onPress={this.handleSendButtonClick.bind(this)}
         />
@@ -916,7 +917,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 16,
     bottom: 18,
-    borderWidth: 0,
+    // borderWidth: 0,
     // opacity: 0.2,
   },
   brWithSendButton: {
