@@ -549,61 +549,48 @@ const NewLayoutForm = ({ newLayoutUseForm }) => (
     layout='vertical'
     styles={{
       Body: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         elevation: 0,
-        borderColor: 'white',
+        borderColor: 'transparent',
         borderWidth: 0,
         borderBottomWidth: 0,
-        shadowColor: 'white',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0,
-        shadowRadius: 0,
-      },
-      Header: {
-        backgroundColor: 'white',
-        elevation: 0,
-        borderColor: 'white',
-        borderWidth: 0,
-        borderBottomWidth: 0,
+        borderStyle: 'dashed',
       },
 
       BodyBottomLine: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         elevation: 0,
-        borderColor: 'white',
+        borderColor: 'transparent',
         borderWidth: 0,
-        borderBottomWidth: 0,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0,
-        shadowRadius: 0,
+        borderStyle: 'dashed',
       },
     }}
     style={{
-      backgroundColor: 'white',
+      backgroundColor: 'transparent',
       elevation: 0,
-      borderColor: 'white',
+      borderColor: 'transparent',
       borderWidth: 0,
-      borderBottomWidth: 0,
-      borderTopColor: 'white',
+      borderStyle: 'dashed',
     }}
   >
     <Form.Item
       name='layoutName'
       styles={{
         Line: {
-          backgroundColor: 'white',
+          backgroundColor: 'transparent',
           elevation: 0,
-          borderColor: 'white',
+          borderColor: 'transparent',
           borderWidth: 1,
           borderTopWidth: 0,
+          borderStyle: 'dashed',
         },
         Item: {
-          backgroundColor: 'white',
+          backgroundColor: 'transparent',
           elevation: 0,
-          borderColor: 'white',
+          borderColor: 'transparent',
           borderWidth: 0,
           height: 70,
-          borderTopWidth: 0,
+          borderStyle: 'dashed',
         },
       }}
       // style={{ elevation: 0, borderColor: 'white', borderWidth: 0, borderBottomWidth: 0 }}

@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useMemo, useRef } from 'react'
 import { ScrollView, TouchableWithoutFeedback, View } from 'react-native'
 
 import { GridLines } from '../common/GridLines'
@@ -31,12 +31,33 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
               { fx, fy, width, height, px, py },
             )
           ) {
+            console.log('#Duy Phan console drop', Date.now())
             props._onDrop({ ...d, px, py })
           }
         })
       }
     })
   }, [])
+
+  const caculateCanvasSize = () => {
+    let maxRight = 0
+    let maxBottom = 0
+    for (const item of props.widgetDataArray) {
+      const relativePositionX = item.getWidgetRelativePositionX()
+      const relativePositionY = item.getWidgetRelativePositionY()
+      const widgetWidth = item.getWidgetWidth()
+      const widgetHeight = item.getWidgetHeight()
+      const right = relativePositionX + widgetWidth
+      const bottom = relativePositionY + widgetHeight
+      if (right > maxRight) {
+        maxRight = right
+      }
+      if (bottom > maxBottom) {
+        maxBottom = bottom
+      }
+    }
+    return { width: maxRight + 100, height: maxBottom + 100 }
+  }
 
   return (
     <View
@@ -51,44 +72,41 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
       // style={}
 
       style={[{ width: '100%', height: '100%' }, props.style, props.css]}
+      // onTouchEnd={() => props.editScreenView.onMouseDownEditorPaneInSettingsMode(
+      //       props.paneData.getPaneNumber(),
+      //     )}
     >
-      <TouchableWithoutFeedback
-        onPress={ev =>
-          props.editScreenView.onMouseDownEditorPaneInSettingsMode(
-            props.paneData.getPaneNumber(),
-          )
-        }
+      <GridLines
+        style={{
+          // width: '100%',
+          // height: '100%',
+          flex: 1,
+          overflow: 'hidden',
+        }}
+        strokeWidth={2}
+        cellWidth={props.editingScreenGrid * 10}
+        cellWidth2={props.editingScreenGrid}
+        cellHeight={props.editingScreenGrid * 10}
+        cellHeight2={props.editingScreenGrid}
       >
-        <GridLines
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-          strokeWidth={2}
-          cellWidth={props.editingScreenGrid * 10}
-          cellWidth2={props.editingScreenGrid}
-          cellHeight={props.editingScreenGrid * 10}
-          cellHeight2={props.editingScreenGrid}
-        >
-          <ScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={{ flex: 1 }}
-            horizontal
-          >
-            {props.widgetDataArray.map((widgetData, index) => {
-              const widgetJsx =
-                EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                  {
-                    editorPane: props.editorPane,
-                    widgetData: props.widgetDataArray[index],
-                    jsxKey: index.toString(),
-                  },
-                )
-              return widgetJsx
-            })}
+        <ScrollView horizontal bounces={false}>
+          <ScrollView bounces={false}>
+            <View style={[caculateCanvasSize()]}>
+              {props.widgetDataArray.map((widgetData, index) => {
+                const widgetJsx =
+                  EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                    {
+                      editorPane: props.editorPane,
+                      widgetData: props.widgetDataArray[index],
+                      jsxKey: index.toString(),
+                    },
+                  )
+                return widgetJsx
+              })}
+            </View>
           </ScrollView>
-        </GridLines>
-      </TouchableWithoutFeedback>
+        </ScrollView>
+      </GridLines>
     </View>
   )
 })
