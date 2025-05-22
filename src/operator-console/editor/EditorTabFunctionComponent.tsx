@@ -235,19 +235,35 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
   useEffect(() => {
     const activeIndex = tabItems.findIndex(item => item.key === activeKey)
     setTimeout(() => {
-      refTabs.current?.tabClickGoToTab(activeIndex)
-      refTabs.current?.goToTab(activeIndex)
+       const tProps =  refTabs.current?.getTabBarBaseProps()
+      // refTabs.current?.tabClickGoToTab(activeIndex)
+      // refTabs.current?.goToTab(activeIndex)
+        if(tProps) {
+      // refTabs.current?.tabClickGoToTab(activeIndex)
+      // refTabs.current?.goToTab(activeIndex)
+      // tProps?.onTabClick?.(tProps.tabs[activeIndex], activeIndex)
+      // tProps?.renderTab?.(tProps.tabs[activeIndex])
+      // tProps.goToTab()
+       console.log('#Duy Phan console tabs', tProps)
+      }
+     
     }, 300)
   }, [])
 
-  useEffect(() => {
-    const activeIndex = tabItems.findIndex(item => item.key === activeKey)
-    // refTabs.current?.getTabBarBaseProps()
-    setTimeout(() => {
-      refTabs.current?.tabClickGoToTab(activeIndex)
-      refTabs.current?.goToTab(activeIndex)
-    }, 0)
-  }, [JSON.stringify(tabsCheck)])
+  // useEffect(() => {
+  //   const activeIndex = tabItems.findIndex(item => item.key === activeKey)
+  //   // refTabs.current?.getTabBarBaseProps()
+  //   setTimeout(() => {
+  //     const tProps =  refTabs.current?.getTabBarBaseProps()
+  //     if(tProps) {
+  //     // refTabs.current?.tabClickGoToTab(activeIndex)
+  //     // refTabs.current?.goToTab(activeIndex)
+  //     tProps?.onTabClick?.(tProps.tabs[activeIndex], activeIndex)
+  //     // tProps.goToTab()
+  //     }
+     
+  //   }, 0)
+  // }, [JSON.stringify(tabsCheck)])
 
   const renderItem = (info, tabBarProps) => {
     const index = info.getIndex()
@@ -267,6 +283,7 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
             const { goToTab, onTabClick } = tabBarProps
             onTabClick && onTabClick(tabBarProps.tabs[index], index)
             goToTab && goToTab(index)
+             console.log('#Duy Phan console tab111s', index)
           }}
         >
           <Text
@@ -301,8 +318,8 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         // }}
         // className={className}
         tabs={tabItems}
-        initialPage={activeKey}
-        page={activeKey}
+        // initialPage={activeKey}
+        // page={activeKey}
         swipeable={false}
         // prerenderingSiblingsNumber={0}
         animated={false}

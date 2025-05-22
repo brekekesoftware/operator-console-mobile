@@ -72,9 +72,9 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
       // style={}
 
       style={[{ width: '100%', height: '100%' }, props.style, props.css]}
-      // onTouchEnd={() => props.editScreenView.onMouseDownEditorPaneInSettingsMode(
-      //       props.paneData.getPaneNumber(),
-      //     )}
+      onTouchEnd={() => props.editScreenView.onMouseDownEditorPaneInSettingsMode(
+              props.paneData.getPaneNumber(),
+            )}
     >
       <GridLines
         style={{
@@ -89,23 +89,31 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
         cellHeight={props.editingScreenGrid * 10}
         cellHeight2={props.editingScreenGrid}
       >
-        <ScrollView horizontal bounces={false}>
-          <ScrollView bounces={false}>
-            <View style={[caculateCanvasSize()]}>
-              {props.widgetDataArray.map((widgetData, index) => {
-                const widgetJsx =
-                  EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                    {
-                      editorPane: props.editorPane,
-                      widgetData: props.widgetDataArray[index],
-                      jsxKey: index.toString(),
-                    },
-                  )
-                return widgetJsx
-              })}
-            </View>
+        {/* <TouchableWithoutFeedback
+          onPress={() =>
+            props.editScreenView.onMouseDownEditorPaneInSettingsMode(
+              props.paneData.getPaneNumber(),
+            )
+          }
+        > */}
+          <ScrollView horizontal bounces={false}>
+            <ScrollView bounces={false}>
+              <View style={[caculateCanvasSize()]}>
+                {props.widgetDataArray.map((widgetData, index) => {
+                  const widgetJsx =
+                    EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                      {
+                        editorPane: props.editorPane,
+                        widgetData: props.widgetDataArray[index],
+                        jsxKey: index.toString(),
+                      },
+                    )
+                  return widgetJsx
+                })}
+              </View>
+            </ScrollView>
           </ScrollView>
-        </ScrollView>
+        {/* </TouchableWithoutFeedback> */}
       </GridLines>
     </View>
   )

@@ -160,6 +160,29 @@ export class RuntimePane extends BasePane {
     this.getRuntimeScreenView().onTabClickByRuntimePane(this, tabKey)
   }
 
+  caculateCanvasSize = () => {
+    let maxRight = 0
+    let maxBottom = 0
+    const paneData = this.props.paneData
+    const widgetDatas = paneData.getWidgetDatasForNoTabs()
+    const widgetDataArray = widgetDatas.getWidgetDataArray()
+    for (const item of widgetDataArray) {
+      const relativePositionX = item.getWidgetRelativePositionX()
+      const relativePositionY = item.getWidgetRelativePositionY()
+      const widgetWidth = item.getWidgetWidth()
+      const widgetHeight = item.getWidgetHeight()
+      const right = relativePositionX + widgetWidth
+      const bottom = relativePositionY + widgetHeight
+      if (right > maxRight) {
+        maxRight = right
+      }
+      if (bottom > maxBottom) {
+        maxBottom = bottom
+      }
+    }
+    return { width: maxRight + 100, height: maxBottom + 100 }
+  }
+
   // !abstract
   _getChildrenJsx(
     dividerDirection,
@@ -259,18 +282,22 @@ export class RuntimePane extends BasePane {
             style={[{ width: '100%', height: '100%' }, this.props.style, css]}
             ref={this._refEditor}
           >
-            <ScrollView contentContainerStyle={{ flex: 1 }}>
-              {widgetDataArray.map((widgetData, index) => {
-                const widgetJsx =
-                  RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(
-                    {
-                      runtimePane: this,
-                      widgetData,
-                      jsxKey: index,
-                    },
-                  )
-                return widgetJsx
-              })}
+            <ScrollView horizontal bounces={false}>
+              <ScrollView bounces={false}>
+                <View style={[this.caculateCanvasSize()]}>
+                  {widgetDataArray.map((widgetData, index) => {
+                    const widgetJsx =
+                      RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(
+                        {
+                          runtimePane: this,
+                          widgetData,
+                          jsxKey: index,
+                        },
+                      )
+                    return widgetJsx
+                  })}
+                </View>
+              </ScrollView>
             </ScrollView>
           </View>
         )
