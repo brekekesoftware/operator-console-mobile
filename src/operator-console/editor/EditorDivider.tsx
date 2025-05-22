@@ -182,7 +182,7 @@ export class EditorDivider extends BaseDivider {
 
         this.props.editorPaneAsParent?.refMain?.measure(
           (fx, fy, mW, mH, x, y) => {
-            const newTopWidth = ((topWidth + (gestureState.dy * 0.2)) * 100) / mH
+            const newTopWidth = ((topWidth + gestureState.dy * 0.2) * 100) / mH
             if (newTopWidth < 0 || newTopWidth > 100) {
               return
             }
@@ -227,7 +227,8 @@ export class EditorDivider extends BaseDivider {
 
         this.props.editorPaneAsParent?.refMain?.measure(
           (fx, fy, mW, h, x, y) => {
-            const newLeftWidth = ((leftWidth + (gestureState.dx * 0.2)) * 100) / mW
+            const newLeftWidth =
+              ((leftWidth + gestureState.dx * 0.2) * 100) / mW
 
             if (newLeftWidth < 0 || newLeftWidth > 100) {
               return

@@ -72,9 +72,11 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
       // style={}
 
       style={[{ width: '100%', height: '100%' }, props.style, props.css]}
-      onTouchEnd={() => props.editScreenView.onMouseDownEditorPaneInSettingsMode(
-              props.paneData.getPaneNumber(),
-            )}
+      onTouchEnd={() =>
+        props.editScreenView.onMouseDownEditorPaneInSettingsMode(
+          props.paneData.getPaneNumber(),
+        )
+      }
     >
       <GridLines
         style={{
@@ -96,23 +98,23 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
             )
           }
         > */}
-          <ScrollView horizontal bounces={false}>
-            <ScrollView bounces={false}>
-              <View style={[caculateCanvasSize()]}>
-                {props.widgetDataArray.map((widgetData, index) => {
-                  const widgetJsx =
-                    EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                      {
-                        editorPane: props.editorPane,
-                        widgetData: props.widgetDataArray[index],
-                        jsxKey: index.toString(),
-                      },
-                    )
-                  return widgetJsx
-                })}
-              </View>
-            </ScrollView>
+        <ScrollView horizontal bounces={false}>
+          <ScrollView bounces={false}>
+            <View style={[caculateCanvasSize()]}>
+              {props.widgetDataArray.map((widgetData, index) => {
+                const widgetJsx =
+                  EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                    {
+                      editorPane: props.editorPane,
+                      widgetData: props.widgetDataArray[index],
+                      jsxKey: index.toString(),
+                    },
+                  )
+                return widgetJsx
+              })}
+            </View>
           </ScrollView>
+        </ScrollView>
         {/* </TouchableWithoutFeedback> */}
       </GridLines>
     </View>
