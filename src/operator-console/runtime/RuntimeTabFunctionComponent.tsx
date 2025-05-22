@@ -1,17 +1,59 @@
 import { Tabs } from '@ant-design/react-native'
 import type { TabData } from '@ant-design/react-native/lib/tabs/PropsType'
 import { forwardRef, useCallback, useEffect, useRef } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist'
 
+import { Util } from '../Util'
 import { RuntimeWidgetFactory } from './widget/runtime/RuntimeWidgetFactory'
 
 const _onTabClick = (tabKey, runtimePaneAsParent) => {
   const pane = runtimePaneAsParent
   const paneId = pane.getPaneId()
   pane.onTabClickByRuntimeTabFunctionComponent(tabKey)
+}
+
+const RuntimeTabChildren = ({ widgetDataArray, runtimePaneAsParent }) => {
+  const refLayout = useRef<View | null>(null)
+  const refScroll = useRef<View | null>(null)
+
+  useEffect(() => {
+    const { width: w, height: h } = Util.caculateCanvasSize(widgetDataArray)
+    refLayout?.current?.measure((fx, fy, width, height, px, py) => {
+      console.log('#Duy Phan console wh12', w, h, width, height)
+      refScroll.current?.setNativeProps({
+        style: {
+          width: w < width ? width : w,
+          height: h < height ? height : h,
+        },
+      })
+    })
+  })
+
+  return (
+    <View style={{ flex: 1 }} ref={refLayout} collapsable={false}>
+      <ScrollView horizontal bounces={false}>
+        <ScrollView bounces={false}>
+          <View ref={refScroll}>
+            {widgetDataArray.map((widgetData, index) => {
+              const options = {
+                runtimePane: runtimePaneAsParent,
+                widgetData,
+                jsxKey: index,
+              }
+              const widgetJsx =
+                RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(
+                  options,
+                )
+              return widgetJsx
+            })}
+          </View>
+        </ScrollView>
+      </ScrollView>
+    </View>
+  )
 }
 
 export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
@@ -30,20 +72,10 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
       runtimePaneAsParent.getPaneId() + '_' + tabData.getTabKeyAsString()
 
     const tabChildren = (
-      <View data-broc-tab-id={tabId}>
-        {widgetDataArray.map((widgetData, index) => {
-          const options = {
-            runtimePane: runtimePaneAsParent,
-            widgetData,
-            jsxKey: index,
-          }
-          const widgetJsx =
-            RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(
-              options,
-            )
-          return widgetJsx
-        })}
-      </View>
+      <RuntimeTabChildren
+        widgetDataArray={widgetDataArray}
+        runtimePaneAsParent={runtimePaneAsParent}
+      />
     )
 
     const tabItem = {
@@ -55,7 +87,6 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
   }
 
   const onDragEnd = ({ from, to }) => {
-    console.log('#Duy Phan console from', from, to)
     tabsData.replaceTabData(from, to)
     tabsData.replaceTabData(to, to)
     runtimePaneAsParent.setState({ rerender: true })
@@ -145,6 +176,7 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
         // onChange={selectedKey => _onChangeByTabs(selectedKey)}
         tabs={tabItems}
         initialPage={activeKey}
+        swipeable={false}
         renderTabBar={tabBarProps => (
           <DraggableFlatList
             data={tabItems.map(item => ({

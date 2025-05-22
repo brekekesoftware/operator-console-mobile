@@ -2,6 +2,7 @@ import { Tabs } from '@ant-design/react-native'
 import { forwardRef, useEffect, useRef } from 'react'
 import type { LayoutRectangle } from 'react-native'
 import {
+  InteractionManager,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -15,6 +16,7 @@ import DraggableFlatList, {
 import { GridLines } from '../common/GridLines'
 import { WidgetData } from '../data/widgetData/WidgetData'
 import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
+import { Util } from '../Util'
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
 
@@ -116,39 +118,59 @@ const EditorTabChildren = ({
   tabId,
   editorPaneAsParent,
 }) => {
-  const refLayout = useRef<LayoutRectangle | null>(null)
+  const refLayout = useRef<View | null>(null)
+  const refScroll = useRef<View | null>(null)
+
+  useEffect(() => {
+    const { width: w, height: h } = Util.caculateCanvasSize(widgetDataArray)
+    InteractionManager.runAfterInteractions(() => {
+      refLayout?.current?.measure((fx, fy, width, height, px, py) => {
+        console.log('#Duy Phan console wh1', w, h, width, height)
+        refScroll.current?.setNativeProps({
+          style: {
+            width: w < width ? width : w,
+            height: h < height ? height : h,
+          },
+        })
+      })
+    })
+  })
 
   return (
     <View
       style={[{ width: '100%', height: '100%', flex: 1 }]}
-      onLayout={e => (refLayout.current = e.nativeEvent.layout)}
+      // onLayout={e => (refLayout.current = e.nativeEvent.layout)}
+      ref={refLayout}
+      collapsable={false}
     >
-      <TouchableWithoutFeedback>
-        <GridLines
-          data-broc-tab-id={tabId}
-          style={{ flex: 1 }}
-          strokeWidth={2}
-          cellWidth={editingScreenGrid * 10}
-          cellWidth2={editingScreenGrid}
-          cellHeight={editingScreenGrid * 10}
-          cellHeight2={editingScreenGrid}
-        >
-          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            {widgetDataArray.map((widgetData, index) => {
-              const options = {
-                editorPane: editorPaneAsParent,
-                widgetData: widgetDataArray[index],
-                jsxKey: index,
-              }
-              const widgetJsx =
-                EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                  options,
-                )
-              return widgetJsx
-            })}
+      <GridLines
+        data-broc-tab-id={tabId}
+        style={{ flex: 1, overflow: 'hidden' }}
+        strokeWidth={2}
+        cellWidth={editingScreenGrid * 10}
+        cellWidth2={editingScreenGrid}
+        cellHeight={editingScreenGrid * 10}
+        cellHeight2={editingScreenGrid}
+      >
+        <ScrollView horizontal bounces={false}>
+          <ScrollView bounces={false}>
+            <View ref={refScroll}>
+              {widgetDataArray.map((widgetData, index) => {
+                const options = {
+                  editorPane: editorPaneAsParent,
+                  widgetData: widgetDataArray[index],
+                  jsxKey: index,
+                }
+                const widgetJsx =
+                  EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                    options,
+                  )
+                return widgetJsx
+              })}
+            </View>
           </ScrollView>
-        </GridLines>
-      </TouchableWithoutFeedback>
+        </ScrollView>
+      </GridLines>
     </View>
   )
 }
@@ -187,6 +209,7 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         }
       })
     })
+    // refTabs.current?.setState({containerHeight: 500, containerWidth: 600, })
   }, [])
 
   for (let i = 0; i < tabItems.length; i++) {
@@ -199,14 +222,16 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
     const tabItem = {
       key: tabData.getTabKeyAsString(),
       title: tabData.getTabLabel(),
-      children: (
-        <EditorTabChildren
-          widgetDataArray={widgetDataArray}
-          editingScreenGrid={editingScreenGrid}
-          tabId={tabId}
-          editorPaneAsParent={editorPaneAsParent}
-        />
-      ),
+      [tabData.getTabKeyAsString()]: {
+        children: (
+          <EditorTabChildren
+            widgetDataArray={widgetDataArray}
+            editingScreenGrid={editingScreenGrid}
+            tabId={tabId}
+            editorPaneAsParent={editorPaneAsParent}
+          />
+        ),
+      },
     }
     tabItems[i] = tabItem
   }
@@ -227,42 +252,28 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
   const css = props['css']
 
   useEffect(() => {
-    refLayout.current?.measure((x, y, w, h, fx, fy) => {
-      refTabs.current?.setState({ containerWidth: w, containerHeight: h })
-    })
-  }, [css])
-
-  useEffect(() => {
     const activeIndex = tabItems.findIndex(item => item.key === activeKey)
     setTimeout(() => {
-      const tProps = refTabs.current?.getTabBarBaseProps()
-      // refTabs.current?.tabClickGoToTab(activeIndex)
-      // refTabs.current?.goToTab(activeIndex)
-      if (tProps) {
-        // refTabs.current?.tabClickGoToTab(activeIndex)
-        // refTabs.current?.goToTab(activeIndex)
-        // tProps?.onTabClick?.(tProps.tabs[activeIndex], activeIndex)
-        // tProps?.renderTab?.(tProps.tabs[activeIndex])
-        // tProps.goToTab()
-        console.log('#Duy Phan console tabs', tProps)
-      }
+      refTabs.current?.tabClickGoToTab(activeIndex)
+      refTabs.current?.goToTab(activeIndex)
     }, 300)
   }, [])
 
-  // useEffect(() => {
-  //   const activeIndex = tabItems.findIndex(item => item.key === activeKey)
-  //   // refTabs.current?.getTabBarBaseProps()
-  //   setTimeout(() => {
-  //     const tProps =  refTabs.current?.getTabBarBaseProps()
-  //     if(tProps) {
-  //     // refTabs.current?.tabClickGoToTab(activeIndex)
-  //     // refTabs.current?.goToTab(activeIndex)
-  //     tProps?.onTabClick?.(tProps.tabs[activeIndex], activeIndex)
-  //     // tProps.goToTab()
-  //     }
+  useEffect(() => {
+    const activeIndex = tabItems.findIndex(item => item.key === activeKey)
 
-  //   }, 0)
-  // }, [JSON.stringify(tabsCheck)])
+    setTimeout(() => {
+      refTabs.current?.tabClickGoToTab(activeIndex)
+      refTabs.current?.goToTab(activeIndex)
+    }, 0)
+  }, [JSON.stringify(tabsCheck)])
+
+  const renderT = data =>
+    data.map((tab, i) => (
+      <View style={{ flex: 1 }} key={tab.key || i}>
+        {tab[tab.key].children}
+      </View>
+    ))
 
   const renderItem = (info, tabBarProps) => {
     const index = info.getIndex()
@@ -305,6 +316,12 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         ref.current = r
       }}
       collapsable={false}
+      onLayout={e =>
+        refTabs.current?.setState({
+          containerWidth: e.nativeEvent.layout.width,
+          containerHeight: e.nativeEvent.layout.height,
+        })
+      }
     >
       <Tabs
         data-br-container-id={paneId}
@@ -337,11 +354,7 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
           />
         )}
       >
-        {tabItems.map(tab => (
-          <View style={{ flex: 1 }} key={tab.key}>
-            {tab.children}
-          </View>
-        ))}
+        {renderT(tabItems)}
       </Tabs>
     </View>
   )

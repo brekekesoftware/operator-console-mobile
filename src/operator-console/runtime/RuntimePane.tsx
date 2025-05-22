@@ -1,8 +1,14 @@
 import { createRef } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, StyleProp, Text, View, ViewStyle } from 'react-native'
 
 import { BasePane } from '../base/BasePane'
 import { BaseDividerData } from '../data/BaseDividerData'
+import { EditorPane } from '../editor/EditorPane'
+import { EditScreenView } from '../editor/EditScreenView'
+import { Util } from '../Util'
+import { RuntimeChildPane } from './RuntimeChildPane'
+import { RuntimeRootPane } from './RuntimeRootPane'
+import { RuntimeScreenView_ver2 } from './RuntimeScreenView_ver2'
 import { RuntimeTabFunctionComponent } from './RuntimeTabFunctionComponent'
 import { RuntimeWidgetFactory } from './widget/runtime/RuntimeWidgetFactory'
 
@@ -12,6 +18,7 @@ const _PANES = new Object()
 export class RuntimePane extends BasePane {
   paneNum
   _refEditor
+  _refScroll
   // !abstract
   getRuntimeScreenView() {
     throw new Error('Not implemented.')
@@ -35,6 +42,7 @@ export class RuntimePane extends BasePane {
     const paneData = props['paneData']
     this.paneNum = paneData.getPaneNumber()
     this._refEditor = createRef()
+    this._refScroll = createRef()
 
     const paneNumber = paneData.getPaneNumber()
     _PANES[paneNumber] = this
@@ -152,35 +160,27 @@ export class RuntimePane extends BasePane {
     this.setState({ rerender: true })
   }
 
+  componentDidUpdate(): void {
+    const widgetDatas = this.props.paneData.getWidgetDatasForNoTabs()
+    const widgetDataArray = widgetDatas.getWidgetDataArray()
+    const { width: w, height: h } = Util.caculateCanvasSize(widgetDataArray)
+    this._refEditor?.current?.measure((fx, fy, width, height, px, py) => {
+      console.log('#Duy Phan console 1122', w, h, width, height)
+      this._refScroll.current?.setNativeProps({
+        style: {
+          width: w < width ? width : w,
+          height: h < height ? height : h,
+        },
+      })
+    })
+  }
+
   getDividerData() {
     return this.props['paneData'].getDividerData()
   }
 
   onTabClickByRuntimeTabFunctionComponent(tabKey) {
     this.getRuntimeScreenView().onTabClickByRuntimePane(this, tabKey)
-  }
-
-  caculateCanvasSize = () => {
-    let maxRight = 0
-    let maxBottom = 0
-    const paneData = this.props.paneData
-    const widgetDatas = paneData.getWidgetDatasForNoTabs()
-    const widgetDataArray = widgetDatas.getWidgetDataArray()
-    for (const item of widgetDataArray) {
-      const relativePositionX = item.getWidgetRelativePositionX()
-      const relativePositionY = item.getWidgetRelativePositionY()
-      const widgetWidth = item.getWidgetWidth()
-      const widgetHeight = item.getWidgetHeight()
-      const right = relativePositionX + widgetWidth
-      const bottom = relativePositionY + widgetHeight
-      if (right > maxRight) {
-        maxRight = right
-      }
-      if (bottom > maxBottom) {
-        maxBottom = bottom
-      }
-    }
-    return { width: maxRight + 100, height: maxBottom + 100 }
   }
 
   // !abstract
@@ -281,10 +281,11 @@ export class RuntimePane extends BasePane {
             // parent-container={this.state.parentContainer}
             style={[{ width: '100%', height: '100%' }, this.props.style, css]}
             ref={this._refEditor}
+            collapsable={false}
           >
             <ScrollView horizontal bounces={false}>
               <ScrollView bounces={false}>
-                <View style={[this.caculateCanvasSize()]}>
+                <View ref={this._refScroll}>
                   {widgetDataArray.map((widgetData, index) => {
                     const widgetJsx =
                       RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(

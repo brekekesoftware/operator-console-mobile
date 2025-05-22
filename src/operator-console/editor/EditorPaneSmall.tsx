@@ -1,12 +1,19 @@
-import { forwardRef, useEffect, useMemo, useRef } from 'react'
-import { ScrollView, TouchableWithoutFeedback, View } from 'react-native'
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  Keyboard,
+  ScrollView,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native'
 
 import { GridLines } from '../common/GridLines'
 import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
+import { Util } from '../Util'
 import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 
 export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
   const refEditor = useRef<View | null>()
+  const refScroll = useRef<View | null>(null)
 
   const isDropZone = (gesture, measure) => {
     if (measure) {
@@ -39,25 +46,20 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
     })
   }, [])
 
-  const caculateCanvasSize = () => {
-    let maxRight = 0
-    let maxBottom = 0
-    for (const item of props.widgetDataArray) {
-      const relativePositionX = item.getWidgetRelativePositionX()
-      const relativePositionY = item.getWidgetRelativePositionY()
-      const widgetWidth = item.getWidgetWidth()
-      const widgetHeight = item.getWidgetHeight()
-      const right = relativePositionX + widgetWidth
-      const bottom = relativePositionY + widgetHeight
-      if (right > maxRight) {
-        maxRight = right
-      }
-      if (bottom > maxBottom) {
-        maxBottom = bottom
-      }
-    }
-    return { width: maxRight + 100, height: maxBottom + 100 }
-  }
+  useEffect(() => {
+    const { width: w, height: h } = Util.caculateCanvasSize(
+      props.widgetDataArray,
+    )
+    refEditor?.current?.measure((fx, fy, width, height, px, py) => {
+      console.log('#Duy Phan console2', width, height)
+      refScroll.current?.setNativeProps({
+        style: {
+          width: w < width ? width : w,
+          height: h < height ? height : h,
+        },
+      })
+    })
+  })
 
   return (
     <View
@@ -67,16 +69,7 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
         ref.current = r
       }}
       collapsable={false}
-      // parent-container={this.state.parentContainer}
-      // className={className}
-      // style={}
-
       style={[{ width: '100%', height: '100%' }, props.style, props.css]}
-      onTouchEnd={() =>
-        props.editScreenView.onMouseDownEditorPaneInSettingsMode(
-          props.paneData.getPaneNumber(),
-        )
-      }
     >
       <GridLines
         style={{
@@ -91,31 +84,37 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
         cellHeight={props.editingScreenGrid * 10}
         cellHeight2={props.editingScreenGrid}
       >
-        {/* <TouchableWithoutFeedback
-          onPress={() =>
-            props.editScreenView.onMouseDownEditorPaneInSettingsMode(
-              props.paneData.getPaneNumber(),
-            )
-          }
-        > */}
-        <ScrollView horizontal bounces={false}>
-          <ScrollView bounces={false}>
-            <View style={[caculateCanvasSize()]}>
-              {props.widgetDataArray.map((widgetData, index) => {
-                const widgetJsx =
-                  EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                    {
-                      editorPane: props.editorPane,
-                      widgetData: props.widgetDataArray[index],
-                      jsxKey: index.toString(),
-                    },
-                  )
-                return widgetJsx
-              })}
-            </View>
+        <ScrollView
+          horizontal
+          bounces={false}
+          keyboardShouldPersistTaps='handled'
+        >
+          <ScrollView bounces={false} keyboardShouldPersistTaps='handled'>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                props.editScreenView.onMouseDownEditorPaneInSettingsMode(
+                  props.paneData.getPaneNumber(),
+                )
+                Keyboard.dismiss()
+              }}
+              accessible={false}
+            >
+              <View ref={refScroll}>
+                {props.widgetDataArray.map((widgetData, index) => {
+                  const widgetJsx =
+                    EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                      {
+                        editorPane: props.editorPane,
+                        widgetData: props.widgetDataArray[index],
+                        jsxKey: index.toString(),
+                      },
+                    )
+                  return widgetJsx
+                })}
+              </View>
+            </TouchableWithoutFeedback>
           </ScrollView>
         </ScrollView>
-        {/* </TouchableWithoutFeedback> */}
       </GridLines>
     </View>
   )

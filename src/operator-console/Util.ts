@@ -249,4 +249,24 @@ export class Util {
           },
     }
   }
+  static caculateCanvasSize = widgetDataArray => {
+    let maxRight = 0
+    let maxBottom = 0
+    for (const item of widgetDataArray) {
+      const relativePositionX = item.getWidgetRelativePositionX()
+      const relativePositionY = item.getWidgetRelativePositionY()
+      const widgetWidth = item.getWidgetWidth()
+      const widgetHeight = item.getWidgetHeight()
+      const right = relativePositionX + widgetWidth
+      const bottom = relativePositionY + widgetHeight
+      if (right > maxRight) {
+        maxRight = right
+      }
+      if (bottom > maxBottom) {
+        maxBottom = bottom
+      }
+    }
+    console.log('#Duy Phan console whc', maxRight, maxBottom)
+    return { width: maxRight + 100, height: maxBottom + 100 }
+  }
 }
