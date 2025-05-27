@@ -58,6 +58,7 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
             borderWidth: 1,
             borderColor: '#efefef',
             borderRadius: 4,
+            padding: 10,
           }}
           value={widgetData.getText()}
           onChange={e => this._onChangeTextArea(e)}

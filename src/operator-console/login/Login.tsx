@@ -7,7 +7,15 @@ import type {
 } from '@ant-design/react-native/lib/form/style'
 import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 
 import Logo from '../logo.png'
 
@@ -205,224 +213,246 @@ class LoginC extends React.Component<Props, State> {
     }
 
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#fafafa',
-        }}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
       >
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: -4,
-            flexDirection: 'row',
-          }}
-        >
-          <Image width={158} height={39} source={Logo as ImageSourcePropType} />
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View
             style={{
-              backgroundColor: '#4bc5de',
-              borderRadius: 3,
-              padding: 4,
-              position: 'relative',
-              top: 3,
-              marginLeft: -24,
-              marginTop: 2,
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#fafafa',
             }}
           >
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 12,
-                textTransform: 'uppercase',
-                color: '#FFFFFF',
-              }}
-            >
-              Operator Console
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            marginTop: 10,
-            marginBottom: 10,
-            width: 352,
-            borderStyle: 'solid',
-            borderWidth: 1,
-            borderColor: '#e0e0e0',
-            paddingTop: 30,
-            paddingRight: 20,
-            paddingBottom: 20,
-            paddingLeft: 20,
-            backgroundColor: '#ffffff',
-            borderRadius: 5,
-          }}
-        >
-          <Text
-            style={{
-              marginBottom: 20,
-              textAlign: 'left',
-              textTransform: 'capitalize',
-              fontSize: 24,
-              fontWeight: 'bold',
-              fontStyle: 'normal',
-              letterSpacing: 0.3,
-              marginLeft: 14,
-              color: '#212121',
-            }}
-          >
-            Sign In
-          </Text>
-          {!!this.state.message && (
             <View
               style={{
-                borderLeftWidth: 2,
-                borderLeftColor: 'rgb(112, 180, 197)',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: -4,
+                flexDirection: 'row',
+              }}
+            >
+              <Image
+                width={158}
+                height={39}
+                source={Logo as ImageSourcePropType}
+              />
+              <View
+                style={{
+                  backgroundColor: '#4bc5de',
+                  borderRadius: 3,
+                  padding: 4,
+                  position: 'relative',
+                  top: 3,
+                  marginLeft: -24,
+                  marginTop: 2,
+                }}
+              >
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 12,
+                    textTransform: 'uppercase',
+                    color: '#FFFFFF',
+                  }}
+                >
+                  Operator Console
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                marginTop: 10,
+                marginBottom: 10,
+                width: 352,
                 borderStyle: 'solid',
-                marginTop: 2,
-                marginBottom: 18,
-                borderRadius: 4,
-                paddingTop: 15,
-                paddingRight: 26,
-                paddingBottom: 15,
-                paddingLeft: 32,
-                borderTopWidth: 1,
-                borderRightWidth: 1,
-                borderBottomWidth: 1,
-                borderTopColor: '#d9d9d9',
-                borderRightColor: '#d9d9d9',
-                borderBottomColor: '#d9d9d9',
+                borderWidth: 1,
+                borderColor: '#e0e0e0',
+                paddingTop: 30,
+                paddingRight: 20,
+                paddingBottom: 20,
+                paddingLeft: 20,
+                backgroundColor: '#ffffff',
+                borderRadius: 5,
               }}
             >
               <Text
                 style={{
-                  fontSize: 13,
+                  marginBottom: 20,
+                  textAlign: 'left',
+                  textTransform: 'capitalize',
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  fontStyle: 'normal',
                   letterSpacing: 0.3,
-                  color: '#000',
+                  marginLeft: 14,
+                  color: '#212121',
                 }}
               >
-                {this.state.message}
+                Sign In
               </Text>
-            </View>
-          )}
-          <Form
-            name='login'
-            initialValues={this.state.initialValues}
-            ref={this.refForm}
-            form={this.props.form}
-            onFinish={this._finish}
-            onFinishFailed={e => console.log('#Duy Phan console fail ', e)}
-            styles={{
-              Body: {
-                backgroundColor: 'white',
-                elevation: 0,
-                borderColor: 'white',
-                borderStyle: 'dashed',
-              },
-            }}
-            style={{
-              backgroundColor: 'white',
-              elevation: 0,
-              borderColor: 'white',
-            }}
-          >
-            <Form.Item
-              name='hostname'
-              style={{ elevation: 0 }}
-              rules={[
-                {
-                  required: true,
-                  message: i18n.t('hostname_is_required'),
-                },
-              ]}
-              styles={borderStyles}
-            >
-              <Input style={styles.input} placeholder={i18n.t('hostname')} />
-            </Form.Item>
-            <Form.Item
-              name='port'
-              rules={[
-                {
-                  required: true,
-                  message: i18n.t('port_is_required'),
-                },
-              ]}
-              styles={borderStyles}
-            >
-              <Input style={styles.input} placeholder={i18n.t('port')} />
-            </Form.Item>
-            <Form.Item
-              name='tenant'
-              rules={[
-                {
-                  required: true,
-                  message: i18n.t('tenant_is_required'),
-                },
-              ]}
-              styles={borderStyles}
-            >
-              <Input style={styles.input} placeholder={i18n.t('tenant')} />
-            </Form.Item>
-            <Form.Item
-              name='username'
-              rules={[
-                {
-                  required: true,
-                  message: i18n.t('username_is_required'),
-                },
-              ]}
-              styles={borderStyles}
-            >
-              <Input style={styles.input} placeholder={i18n.t('username')} />
-            </Form.Item>
-            <Form.Item
-              name='password'
-              rules={[
-                {
-                  required: true,
-                  message: i18n.t('password_is_required'),
-                },
-              ]}
-              styles={borderStyles}
-            >
-              <Input
-                style={styles.input}
-                type='password'
-                placeholder={i18n.t('password')}
-              />
-            </Form.Item>
-            <Form.Item
-              name='pbxDirectoryName'
-              rules={[
-                {
-                  required: true,
-                  message: i18n.t('username_is_required'),
-                },
-              ]}
-              style={{ display: 'none' }}
-            >
-              <Input
-                style={styles.input}
-                placeholder={i18n.t('username')}
-                // type='hidden'
-              />
-            </Form.Item>
-            <Form.Item styles={borderStyles}>
-              <Button
-                type='success'
-                disabled={this.state.isSigningin}
-                onPress={this._login}
-                style={{ height: 40, borderRadius: 5 }}
+              {!!this.state.message && (
+                <View
+                  style={{
+                    borderLeftWidth: 2,
+                    borderLeftColor: 'rgb(112, 180, 197)',
+                    borderStyle: 'solid',
+                    marginTop: 2,
+                    marginBottom: 18,
+                    borderRadius: 4,
+                    paddingTop: 15,
+                    paddingRight: 26,
+                    paddingBottom: 15,
+                    paddingLeft: 32,
+                    borderTopWidth: 1,
+                    borderRightWidth: 1,
+                    borderBottomWidth: 1,
+                    borderTopColor: '#d9d9d9',
+                    borderRightColor: '#d9d9d9',
+                    borderBottomColor: '#d9d9d9',
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      letterSpacing: 0.3,
+                      color: '#000',
+                    }}
+                  >
+                    {this.state.message}
+                  </Text>
+                </View>
+              )}
+              <Form
+                name='login'
+                initialValues={this.state.initialValues}
+                ref={this.refForm}
+                form={this.props.form}
+                onFinish={this._finish}
+                onFinishFailed={e => console.log('#Duy Phan console fail ', e)}
+                styles={{
+                  Body: {
+                    backgroundColor: 'white',
+                    elevation: 0,
+                    borderColor: 'white',
+                    borderStyle: 'dashed',
+                  },
+                }}
+                style={{
+                  backgroundColor: 'white',
+                  elevation: 0,
+                  borderColor: 'white',
+                }}
               >
-                <Text style={styles.button}>{i18n.t('signin')}</Text>
-              </Button>
-            </Form.Item>
-          </Form>
-        </View>
-      </View>
+                <Form.Item
+                  name='hostname'
+                  style={{ elevation: 0 }}
+                  rules={[
+                    {
+                      required: true,
+                      message: i18n.t('hostname_is_required'),
+                    },
+                  ]}
+                  styles={borderStyles}
+                >
+                  <Input
+                    style={styles.input}
+                    placeholder={i18n.t('hostname')}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name='port'
+                  rules={[
+                    {
+                      required: true,
+                      message: i18n.t('port_is_required'),
+                    },
+                  ]}
+                  styles={borderStyles}
+                >
+                  <Input
+                    style={styles.input}
+                    keyboardType='numeric'
+                    placeholder={i18n.t('port')}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name='tenant'
+                  rules={[
+                    {
+                      required: true,
+                      message: i18n.t('tenant_is_required'),
+                    },
+                  ]}
+                  styles={borderStyles}
+                >
+                  <Input style={styles.input} placeholder={i18n.t('tenant')} />
+                </Form.Item>
+                <Form.Item
+                  name='username'
+                  rules={[
+                    {
+                      required: true,
+                      message: i18n.t('username_is_required'),
+                    },
+                  ]}
+                  styles={borderStyles}
+                >
+                  <Input
+                    style={styles.input}
+                    placeholder={i18n.t('username')}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name='password'
+                  rules={[
+                    {
+                      required: true,
+                      message: i18n.t('password_is_required'),
+                    },
+                  ]}
+                  styles={borderStyles}
+                >
+                  <Input
+                    style={styles.input}
+                    type='password'
+                    placeholder={i18n.t('password')}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name='pbxDirectoryName'
+                  rules={[
+                    {
+                      required: true,
+                      message: i18n.t('username_is_required'),
+                    },
+                  ]}
+                  style={{ display: 'none' }}
+                >
+                  <Input
+                    style={styles.input}
+                    placeholder={i18n.t('username')}
+                    // type='hidden'
+                  />
+                </Form.Item>
+                <Form.Item styles={borderStyles}>
+                  <Button
+                    type='success'
+                    disabled={this.state.isSigningin}
+                    onPress={this._login}
+                    style={{ height: 40, borderRadius: 5 }}
+                  >
+                    <Text style={styles.button}>{i18n.t('signin')}</Text>
+                  </Button>
+                </Form.Item>
+              </Form>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     )
   }
 }

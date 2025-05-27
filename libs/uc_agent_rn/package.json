@@ -19,7 +19,11 @@
     "react-native-image-picker": "*",
     "react-native-linear-gradient": "*",
     "react-native-share": "*",
-    "react-native-video": "*"
+    "react-native-video": "*",
+    "react-native-svg": "*",
+    "react-native-sound": "*",
+    "react-native-draggable-flatlist": "*",
+    "react-native-reanimated": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -33,9 +37,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@babel/cli": "^7.27.2",
-    "@babel/preset-env": "^7.27.2",
-    "babel-preset-react-native": "^4.0.1",
     "cpx": "^1.5.0"
   }
 }

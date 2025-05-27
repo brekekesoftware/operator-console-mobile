@@ -192,6 +192,7 @@ export const SystemSettingsForm = props => {
             marginRight: 30,
             borderWidth: 1,
             borderColor: '#e0e0e0',
+            padding: 10,
           }}
         />
       </Form.Item>

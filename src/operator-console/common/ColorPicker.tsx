@@ -1,5 +1,5 @@
 import { View } from 'react-native'
-import type { ColorPickerProps } from 'react-native-wheel-color-picker'
+import type { ColorPickerProps } from 'reanimated-color-picker'
 import ColorPickerRN, {
   colorKit,
   HueSlider,
@@ -43,6 +43,8 @@ export const ColorPicker = ({
       style={{ flex: 1, gap: 20 }}
       value={fColor}
       onComplete={e => changeColor(e.hex)}
+      thumbSize={25}
+      boundedThumb
     >
       <Preview />
       <Panel1 />

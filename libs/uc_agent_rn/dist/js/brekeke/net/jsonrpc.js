@@ -237,7 +237,9 @@
         return this.socket.readyState === 1
       }
       rpc.send = function (msg) {
-        this.socket.send(msg)
+        try {
+          this.socket.send(msg)
+        } catch (error) {}
       }
       rpc.open = function () {
         if (!this._canOpen()) {

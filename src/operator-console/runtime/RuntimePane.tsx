@@ -1,5 +1,12 @@
 import { createRef } from 'react'
-import { ScrollView, StyleProp, Text, View, ViewStyle } from 'react-native'
+import {
+  InteractionManager,
+  ScrollView,
+  StyleProp,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
 
 import { BasePane } from '../base/BasePane'
 import { BaseDividerData } from '../data/BaseDividerData'
@@ -160,19 +167,28 @@ export class RuntimePane extends BasePane {
     this.setState({ rerender: true })
   }
 
-  componentDidUpdate(): void {
+  handleResizeScroll = () => {
     const widgetDatas = this.props.paneData.getWidgetDatasForNoTabs()
     const widgetDataArray = widgetDatas.getWidgetDataArray()
     const { width: w, height: h } = Util.caculateCanvasSize(widgetDataArray)
-    this._refEditor?.current?.measure((fx, fy, width, height, px, py) => {
-      console.log('#Duy Phan console 1122', w, h, width, height)
-      this._refScroll.current?.setNativeProps({
-        style: {
-          width: w < width ? width : w,
-          height: h < height ? height : h,
-        },
+    InteractionManager.runAfterInteractions(() => {
+      this._refEditor?.current?.measure((fx, fy, width, height, px, py) => {
+        console.log('#Duy Phan console 1122', w, h, width, height)
+        this._refScroll.current?.setNativeProps({
+          style: {
+            width: w < width ? width : w,
+            height: h < height ? height : h,
+          },
+        })
       })
     })
+  }
+  componentDidMount(): void {
+    this.handleResizeScroll()
+  }
+
+  componentDidUpdate(): void {
+    this.handleResizeScroll()
   }
 
   getDividerData() {

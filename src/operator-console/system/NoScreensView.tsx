@@ -372,7 +372,9 @@ export const NoScreensView = props => {
           style={{ marginLeft: 6 }}
           onPress={() => {
             setOpen(false)
-            operatorConsoleAsParent.setState({ newLayoutModalOpen: true })
+            setTimeout(() => {
+              operatorConsoleAsParent.setState({ newLayoutModalOpen: true })
+            }, 1000)
           }}
         >
           {i18n.t('newLayout')}

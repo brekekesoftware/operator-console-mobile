@@ -159,12 +159,12 @@ export default class extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      if (this.textInputRef.current) {
-        this.textInputRef.current.focus()
-        // this.textInputRef.current.select()
-      }
-    }, 100)
+    // setTimeout(() => {
+    //   if (this.textInputRef.current) {
+    //     // this.textInputRef.current.focus()
+    //     // this.textInputRef.current.select()
+    //   }
+    // }, 100)
   }
 
   componentDidUpdate(prevProps, prevState) {

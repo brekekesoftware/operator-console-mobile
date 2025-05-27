@@ -61,6 +61,7 @@ export const InputNumber = ({
           borderColor: '#efefef',
           borderWidth: 1,
           backgroundColor: 'white',
+          paddingLeft: 10,
         },
         props.style,
       ]}
