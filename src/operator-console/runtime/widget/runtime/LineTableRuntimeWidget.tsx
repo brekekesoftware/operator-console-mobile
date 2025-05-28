@@ -926,7 +926,7 @@ export class LineTableRuntimeWidget extends RuntimeWidget {
           ></Cell>
         </TableWrapper>
         <View style={{ flex: 1 }}>
-          <ScrollView>
+          <ScrollView nestedScrollEnabled>
             {lineInfos.map((lineInfo, index) => (
               <LineTableRow
                 key={index}

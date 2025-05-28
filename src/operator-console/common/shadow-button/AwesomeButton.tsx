@@ -60,6 +60,7 @@ export type ButtonTypes = {
   progressLoadingTime?: number
   extra?: any
   disabled?: boolean
+  disabledContent?: boolean
   height?: number
   hitSlop?: PressableProps['hitSlop']
   paddingHorizontal?: number
@@ -139,6 +140,7 @@ export const AwesomeButton = ({
   width = DEFAULT_WIDTH,
   extra = null,
   lightClassname,
+  disabledContent,
 }: ButtonTypes) => {
   const loadingOpacity = useRef(new Animated.Value(1)).current
   const textOpacity = useRef(new Animated.Value(1)).current
@@ -713,6 +715,7 @@ export const AwesomeButton = ({
               styles.text,
               dynamicStyles.text,
               animatedValues.animatedText,
+              { opacity: disabledContent ? 0.7 : undefined },
             ]}
             onLayout={onTextLayout}
           >

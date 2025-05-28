@@ -308,7 +308,7 @@ export class RuntimePane extends BasePane {
                         {
                           runtimePane: this,
                           widgetData,
-                          jsxKey: index,
+                          jsxKey: widgetData._widgetUuid,
                         },
                       )
                     return widgetJsx

@@ -141,7 +141,7 @@ export class ExtensionTableRuntimeWidget extends RuntimeWidget {
           ></Cell>
         </TableWrapper>
         <View style={{ flex: 1 }}>
-          <ScrollView>
+          <ScrollView nestedScrollEnabled>
             {extensions.map(ext => (
               <TableWrapper
                 key={key++}

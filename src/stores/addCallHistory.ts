@@ -227,6 +227,7 @@ const presentNotification = async (c: CallHistoryInfo) => {
   if (Platform.OS === 'web') {
     return
   }
+  return
   // if two users answer a call at the same time, the system will automatically end the call for the second user to join
   // the second user will receive a reason: "Call completed by ..."
   // --> c.answered = true, c.reason = "..." -> show notify

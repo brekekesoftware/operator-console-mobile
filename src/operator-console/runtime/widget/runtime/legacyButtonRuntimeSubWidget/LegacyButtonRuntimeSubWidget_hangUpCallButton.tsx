@@ -47,6 +47,7 @@ export class LegacyButtonRuntimeSubWidget_hangUpCallButton extends LegacyButtonR
           oc.hangUpCall()
         }}
         disabled={bDisabled}
+        disabledContent={bDisabled}
       >
         {iconJsx}
       </WidgetButton>

@@ -3260,12 +3260,11 @@ export class BrekekeOperatorConsole extends React.Component<
     if (currentCallInfo) {
       const promise = currentCallInfo.toggleRecordingAsync()
       promise
-        .then(result => {})
+        .then(result => {
+          this.setState({ refresh: true })
+        })
         .catch(errMsg => {
           Notification.error({ message: errMsg, duration: 0 })
-        })
-        .finally(() => {
-          this.setState({ refresh: true })
         })
     }
   }
@@ -3275,12 +3274,11 @@ export class BrekekeOperatorConsole extends React.Component<
     if (currentCallInfo) {
       const promise = currentCallInfo.toggleMutedAsync()
       promise
-        .then(result => {})
+        .then(result => {
+          this.setState({ refresh: true })
+        })
         .catch(errMsg => {
           Notification.error({ message: errMsg, duration: 0 })
-        })
-        .finally(() => {
-          this.setState({ refresh: true })
         })
     }
   }

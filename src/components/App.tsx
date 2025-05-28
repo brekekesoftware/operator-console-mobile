@@ -351,6 +351,7 @@ export const App = observer(() => {
         </View>
       )} */}
       <View style={css.App_Inner}>
+        <RnAlertRoot />
         <AutocompleteDropdownContextProvider>
           <ToastProvider
             placement='top'

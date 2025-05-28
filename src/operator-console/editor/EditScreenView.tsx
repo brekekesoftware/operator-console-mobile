@@ -326,6 +326,7 @@ export class EditScreenView extends React.Component<Props, State> {
             onConfirm={() => this._removeSplitter()}
             okText={i18n.t('yes')}
             cancelText={i18n.t('no')}
+            popStyle={{ width: 260 }}
           >
             <Button disabled>{i18n.t('removeSplitter')}</Button>
           </Popconfirm>

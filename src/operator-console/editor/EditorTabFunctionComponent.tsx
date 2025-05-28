@@ -158,8 +158,8 @@ const EditorTabChildren = ({
               {widgetDataArray.map((widgetData, index) => {
                 const options = {
                   editorPane: editorPaneAsParent,
-                  widgetData: widgetDataArray[index],
-                  jsxKey: index,
+                  widgetData,
+                  jsxKey: widgetData._widgetUuid,
                 }
                 const widgetJsx =
                   EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(

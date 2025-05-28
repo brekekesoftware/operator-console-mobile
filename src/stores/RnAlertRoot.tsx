@@ -15,6 +15,7 @@ const css = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    zIndex: 999,
   },
   RootRnAlert_Backdrop: {
     backgroundColor: v.layerBg,

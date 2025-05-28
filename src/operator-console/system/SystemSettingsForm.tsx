@@ -60,7 +60,7 @@ export const SystemSettingsForm = props => {
         labelStyle={{ marginBottom: 10 }}
         styles={formItemStyle}
       >
-        <InputNumber style={{ width: 100 }} />
+        <InputNumber style={{ width: 150 }} />
       </Form.Item>
       <Text style={tStyle}>{i18n.t('quickBusySettings')}</Text>
       <Form.Item

@@ -105,8 +105,8 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
                     EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
                       {
                         editorPane: props.editorPane,
-                        widgetData: props.widgetDataArray[index],
-                        jsxKey: index.toString(),
+                        widgetData,
+                        jsxKey: widgetData._widgetUuid,
                       },
                     )
                   return widgetJsx

@@ -41,7 +41,7 @@ const RuntimeTabChildren = ({ widgetDataArray, runtimePaneAsParent }) => {
               const options = {
                 runtimePane: runtimePaneAsParent,
                 widgetData,
-                jsxKey: index,
+                jsxKey: widgetData._widgetUuid,
               }
               const widgetJsx =
                 RuntimeWidgetFactory.getStaticRuntimeWidgetFactoryInstance().getRuntimeWidgetJsx(
