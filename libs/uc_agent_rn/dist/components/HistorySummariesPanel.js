@@ -445,7 +445,6 @@ export default class extends React.Component {
                 {
                   flexDirection: 'row',
                   position: 'relative',
-                  // backgroundColor: 'red',
                 },
               ]}
             >
@@ -683,6 +682,7 @@ export default class extends React.Component {
           contentContainerStyle={[entries.length === 0 && styles.brNoEntries]}
           onScroll={this.handleHistorySummariesAreaScroll}
           onContentSizeChange={this.handleContentSizeChange}
+          nestedScrollEnabled
         >
           {entries.length > 0 && (
             <View

@@ -839,7 +839,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
-    // backgroundColor: 'red',
   },
   brHidden: {
     display: 'none',

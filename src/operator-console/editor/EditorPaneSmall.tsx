@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import {
   Keyboard,
   ScrollView,

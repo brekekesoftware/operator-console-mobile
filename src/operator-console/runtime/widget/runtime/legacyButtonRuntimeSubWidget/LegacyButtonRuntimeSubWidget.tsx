@@ -85,7 +85,7 @@ export class LegacyButtonRuntimeSubWidget {
         size = null
       }
       const [prefix, name] = icon.split(' ')
-      const [_, iconName] = name.split('-')
+      const [_, iconName] = name.split('fa-')
       const fIcon = [prefix, iconName] as [IconPrefix, IconName]
       if (size === null) {
         iconJsx = <FontAwesomeIcon style={oStyle} icon={fIcon} />

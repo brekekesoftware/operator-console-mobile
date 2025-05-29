@@ -30,8 +30,6 @@ export const AutoComplete = ({ options, onChangeText, ...rest }: Props) => {
       suggestionsListContainerStyle={{
         height: 300,
         width: '100%',
-
-        position: 'absolute',
       }}
       suggestionsListMaxHeight={300}
       rightButtonsContainerStyle={{ height: 35, marginRight: 0 }}

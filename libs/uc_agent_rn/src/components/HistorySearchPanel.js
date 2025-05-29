@@ -30,7 +30,7 @@ export default class HistorySearchPanel extends React.Component {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onStartShouldSetPanResponderCapture: () => false,
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: () => false,
       onPanResponderGrant: () => {
         this.setState({ isDragging: true })
@@ -137,7 +137,7 @@ export default class HistorySearchPanel extends React.Component {
         </View>
 
         <View
-          style={[styles.brHistorySearchPanelLower, { top: splitterTop + 5 }]}
+          style={[styles.brHistorySearchPanelLower, { top: splitterTop + 10 }]}
         >
           <SearchResultsArea
             uiData={props.uiData}
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    height: 5,
+    height: 10,
     backgroundColor: '#ffffff',
     zIndex: 2,
     justifyContent: 'center',
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     left: '49%',
     width: 19,
     height: 1,
-    top: 2,
+    top: 5,
     backgroundColor: '#dcdcd5',
   },
   brHistorySearchPanelSplitterThumbActive: {

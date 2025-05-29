@@ -340,6 +340,12 @@ class LoginC extends React.Component<Props, State> {
                     borderColor: 'white',
                     borderStyle: 'dashed',
                   },
+                  BodyBottomLine: {
+                    backgroundColor: 'white',
+                    elevation: 0,
+                    borderColor: 'white',
+                    borderStyle: 'dashed',
+                  },
                 }}
                 style={{
                   backgroundColor: 'white',

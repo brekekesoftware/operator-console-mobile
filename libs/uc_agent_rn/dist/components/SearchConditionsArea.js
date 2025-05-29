@@ -143,6 +143,10 @@ export default class SearchConditionsArea extends React.Component {
 
   render() {
     const { props } = this
+    console.log(
+      '#Duy Phan console this.state.showStartDatePicker',
+      this.state.showStartDatePicker,
+    )
     const searchConditions = props.uiData.ucUiStore.getSearchConditions({
       chatType: props.panelType,
       chatCode: props.panelCode,
@@ -222,23 +226,23 @@ export default class SearchConditionsArea extends React.Component {
                         }
                       />
 
-                      {this.state.showEndDatePicker && (
-                        <DatePicker
-                          date={this.getDateValue(
-                            searchCondition.conditionValue,
-                            true,
-                          )}
-                          modal
-                          mode='date'
-                          open={this.state.showEndDatePicker}
-                          onConfirm={date =>
-                            this.handleDatePickerChange(i, true, date)
-                          }
-                          onCancel={() =>
-                            this.setState({ showEndDatePicker: false })
-                          }
-                        />
-                      )}
+                      {/* {this.state.showEndDatePicker && ( */}
+                      <DatePicker
+                        date={this.getDateValue(
+                          searchCondition.conditionValue,
+                          true,
+                        )}
+                        modal
+                        mode='date'
+                        open={this.state.showEndDatePicker}
+                        onConfirm={date =>
+                          this.handleDatePickerChange(i, true, date)
+                        }
+                        onCancel={() =>
+                          this.setState({ showEndDatePicker: false })
+                        }
+                      />
+                      {/* )} */}
                     </View>
                   ) : searchCondition.options?.length ? (
                     <Picker

@@ -257,8 +257,8 @@ export default class extends React.Component {
   handleHeaderSearchConditionsContentInputBlur(ev) {
     const props = this.props
     // save value to store
-    console.log('#Duy Phan console  ev.target.value', ev.target.value)
-    this.setSearchCondition('_any', string(ev.target.value))
+    console.log('#Duy Phan console  ev.target.value', ev)
+    // this.setSearchCondition('_any', string(ev.target.value))
     // clear cached value in state
     this.setState({ headerSearchConditionsContentCache: null })
   }
@@ -1206,9 +1206,9 @@ export default class extends React.Component {
               onChange={this.handleHeaderSearchConditionsContentInputChange.bind(
                 this,
               )}
-              onBlur={this.handleHeaderSearchConditionsContentInputBlur.bind(
-                this,
-              )}
+              // onBlur={this.handleHeaderSearchConditionsContentInputBlur.bind(
+              //   this,
+              // )}
             />
             <ButtonIconic
               style={styles.brHeaderSearchConditionsSearchButton}
@@ -1463,6 +1463,7 @@ export default class extends React.Component {
               // horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.headerMembersScrollContent}
+              nestedScrollEnabled
             >
               {headerMembers}
             </ScrollView>
@@ -1650,7 +1651,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     height: 32,
-    // backgroundColor: 'red',
   },
   brHeaderButtonsVisible: {
     height: 32,
@@ -1738,6 +1738,7 @@ const styles = StyleSheet.create({
     // minWidth: 100,
     // width: 100,
     flex: 1,
+    paddingLeft: 8,
     // height: 32,
     // alignItems: 'center',
     // justifyContent: 'center',

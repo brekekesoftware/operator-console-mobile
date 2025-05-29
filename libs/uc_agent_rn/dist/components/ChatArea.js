@@ -116,6 +116,7 @@ export default class extends React.Component {
         // scrollEventThrottle={16}
         showsVerticalScrollIndicator={true}
         showsHorizontalScrollIndicator={false}
+        nestedScrollEnabled
       >
         <ChatList
           ref={ref => (this.chatListRef = ref)}

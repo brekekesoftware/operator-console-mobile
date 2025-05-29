@@ -328,6 +328,7 @@ export class EditorPane extends BasePane {
       }
 
       if (paneData.getEnableTabs()) {
+        const editScreenView = this.getEditScreenView()
         jsx = (
           <EditorTabFunctionComponent
             data-br-container-id={paneData.getPaneNumber()}
@@ -336,6 +337,8 @@ export class EditorPane extends BasePane {
             css={css}
             style={this.props.style}
             ref={this._refEditor}
+            editScreenView={editScreenView}
+            paneData={paneData}
           />
         )
       } else {

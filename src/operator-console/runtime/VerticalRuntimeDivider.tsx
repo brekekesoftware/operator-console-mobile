@@ -12,7 +12,7 @@ export class VerticalRuntimeDivider extends RuntimeDivider {
   getProps() {
     return {
       cssClass: {
-        width: 6,
+        width: 8,
         height: '100%',
         backgroundColor: 'lightgray',
       } as ViewStyle,

@@ -88,6 +88,7 @@ const Select = ({
         </View>
       )}
       search={showSearch}
+      disableAutoScroll
     />
   )
 }

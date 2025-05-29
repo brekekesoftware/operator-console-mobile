@@ -15,8 +15,6 @@ const styles = StyleSheet.create({
     minHeight: 48,
     height: 48,
     paddingLeft: 4,
-    // backgroundColor: 'red',
-    // zIndex: 1,
   },
   toolbarContent: {
     flexDirection: 'row',

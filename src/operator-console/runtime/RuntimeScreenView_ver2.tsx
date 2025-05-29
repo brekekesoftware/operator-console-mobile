@@ -1,6 +1,6 @@
 import React from 'react'
 import type { ImageSourcePropType } from 'react-native'
-import { Dimensions, Image, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { DynamicView } from 'uc_agent_rn'
 
@@ -43,7 +43,6 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
-          // height: '100%',
           flex: 1,
         }}
       >
@@ -52,7 +51,6 @@ export class RuntimeScreenView_ver2 extends React.Component<Props> {
             display: 'flex',
             alignItems: 'flex-start',
             height: 47,
-            // color: screenData_ver2.getScreenForegroundColor(),
             backgroundColor: screenData_ver2.getScreenBackgroundColor(),
             zIndex: 15,
           }}

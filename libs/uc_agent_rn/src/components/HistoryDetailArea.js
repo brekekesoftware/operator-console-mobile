@@ -283,6 +283,7 @@ export default class extends React.Component {
         ]}
         onScroll={this.handleScroll}
         scrollEventThrottle={16}
+        nestedScrollEnabled
       >
         {chatNodes}
       </ScrollView>

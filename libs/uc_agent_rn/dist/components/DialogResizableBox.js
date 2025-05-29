@@ -62,9 +62,6 @@ export default class extends React.Component {
       onMoveShouldSetPanResponder: () =>
         this.props.movable && !this.props.disabled,
       onPanResponderGrant: () => {
-        // this.holdTimeout = setTimeout(() => {
-        //   this.setState({ canDrag: true });
-        // }, 500);
         this.state.pan.setOffset({
           x: this.state.pan.x._value,
           y: this.state.pan.y._value,
@@ -74,16 +71,11 @@ export default class extends React.Component {
         this.handleStartDraggable()
       },
       onPanResponderMove: (e, gesture) => {
-        // if (this.state.canDrag) {
-        // this.state.pan.setValue({ x: gesture.dx, y: gesture.dy })
         Animated.event([null, { dx: this.state.pan.x, dy: this.state.pan.y }], {
           useNativeDriver: false,
         })(e, gesture)
-        // }
       },
       onPanResponderRelease: (e, gesture) => {
-        // clearTimeout(this.holdTimeout)
-        // this.setState({ canDrag: false })
         this.state.pan.flattenOffset()
         this.setState({ isDragging: false })
         this.handleStopDraggable(e, {
@@ -91,9 +83,13 @@ export default class extends React.Component {
           y: gesture.dy,
         })
       },
-      onPanResponderTerminate: () => {
-        // clearTimeout(this.holdTimeout)
-        // this.setState({ canDrag: false })
+      onPanResponderTerminate: (e, gesture) => {
+        this.state.pan.flattenOffset()
+        this.setState({ isDragging: false })
+        this.handleStopDraggable(e, {
+          x: gesture.dx,
+          y: gesture.dy,
+        })
       },
     })
 
@@ -125,22 +121,22 @@ export default class extends React.Component {
           screenHeight - this.state.currentRect.top - 20,
           resizableOpts?.maxConstraints?.[1] ?? screenHeight,
         )
-        console.log(
-          '#Duy Phan console',
-          minWidth,
-          minHeight,
-          maxWidth,
-          maxHeight,
-          newWidth,
-          newHeight,
-        )
+
         const width = Math.max(minWidth, Math.min(newWidth, maxWidth))
         const height = Math.max(minHeight, Math.min(newHeight, maxHeight))
-        console.log('#Duy Phan console wh', width, height)
 
         this.state.size.setValue({ x: width, y: height })
       },
       onPanResponderRelease: (e, gesture) => {
+        this.setState({ isResizing: false })
+        this.handleResizeStop(e, {
+          size: {
+            width: this.state.size.x._value,
+            height: this.state.size.y._value,
+          },
+        })
+      },
+      onPanResponderTerminate: (e, gesture) => {
         this.setState({ isResizing: false })
         this.handleResizeStop(e, {
           size: {
@@ -215,11 +211,6 @@ export default class extends React.Component {
   render() {
     const { props } = this
     const { pan, size } = this.state
-    console.log(
-      '#Duy Phan console screenWidth',
-      props.initialWidth,
-      props.initialHeight,
-    )
 
     let contents = (
       <Animated.View
@@ -303,9 +294,6 @@ const styles = StyleSheet.create({
   },
 
   brDialogResizableBoxResizable: {
-    // position: 'relative',
-    // backgroundColor: '#FFFFFF',
-    backgroundColor: 'blue',
     borderRadius: 4,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -313,8 +301,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     flex: 1,
-    // minWidth: 500,
-    // minHeight: 400,
   },
 
   brDisabled: {
@@ -323,7 +309,6 @@ const styles = StyleSheet.create({
 
   brDialogResizableBoxMovable: {
     position: 'absolute',
-    // backgroundColor: 'red',
     minWidth: 500,
     minHeight: 400,
     flex: 1,

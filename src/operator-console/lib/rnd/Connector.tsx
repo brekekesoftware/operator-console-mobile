@@ -1,11 +1,6 @@
 import { Component } from 'react'
 import type { GestureResponderEvent, PanResponderInstance } from 'react-native'
-import {
-  PanResponder,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { PanResponder, TouchableOpacity, View } from 'react-native'
 
 import { IconDrag, IconResizeHorizontal, IconResizeVertical } from '../../icons'
 
@@ -49,7 +44,11 @@ export class Connector extends Component<Props> {
       // Ask to be the responder:
       onStartShouldSetPanResponder: (event, gestureState) => true,
       onStartShouldSetPanResponderCapture: (event, gestureState) => false,
-      onMoveShouldSetPanResponder: (event, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        const dx = Math.abs(gestureState.dx)
+        const dy = Math.abs(gestureState.dy)
+        return dx > 5 || dy > 5
+      },
       onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
       onPanResponderGrant: (event, gestureState) => {
@@ -81,7 +80,10 @@ export class Connector extends Component<Props> {
 
         onEnd?.([gestureState.moveX, gestureState.moveY])
       },
-      onPanResponderTerminate: (event, gestureState) => {},
+      onPanResponderTerminate: (event, gestureState) => {
+        const { onEnd } = this.props
+        onEnd?.([gestureState.moveX, gestureState.moveY])
+      },
       onShouldBlockNativeResponder: (event, gestureState) => true,
     })
   }

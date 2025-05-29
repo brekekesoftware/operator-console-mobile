@@ -368,7 +368,7 @@ export default class extends React.Component {
           <View style={styles.tableCellContent}>
             <DropDownMenu
               uiData={props.uiData}
-              disabled={conference}
+              disabled={!!conference}
               text={
                 conference
                   ? ''

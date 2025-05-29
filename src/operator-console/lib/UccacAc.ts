@@ -50,10 +50,6 @@ export class UccacAc {
     } else {
       acConfigurations = {
         queueLines: 2,
-        undockable: true,
-        panelHeader: true,
-        headerButtonsVisible: true,
-        queuePanel: true,
       } // !default
     }
 

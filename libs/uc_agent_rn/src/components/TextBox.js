@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.platinum,
     borderRadius: 4,
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '400',
     letterSpacing: 0.3,
     color: colors.darkJungleGreen,

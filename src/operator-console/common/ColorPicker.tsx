@@ -40,7 +40,7 @@ export const ColorPicker = ({
   }
   return isDefault ? (
     <ColorPickerRN
-      style={{ flex: 1, gap: 20 }}
+      style={{ flex: 1, gap: 15, padding: 10 }}
       value={fColor}
       onComplete={e => changeColor(e.hex)}
       thumbSize={25}
@@ -69,7 +69,7 @@ export const ColorPicker = ({
       }}
     >
       <ColorPickerRN
-        style={{ flex: 1, gap: 20 }}
+        style={{ flex: 1, gap: 15, padding: 10 }}
         value={fColor}
         onComplete={e => changeColor(e.hex)}
         thumbSize={25}

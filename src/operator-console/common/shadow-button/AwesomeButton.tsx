@@ -662,6 +662,7 @@ export const AwesomeButton = ({
           styles.container__view,
           dynamicStyles.container__view,
           animatedStyles,
+          disabledContent && { opacity: 0.3 },
         ]}
       >
         {before}
@@ -669,7 +670,7 @@ export const AwesomeButton = ({
         {after}
       </Animated.View>
     )
-  }, [children, before, after, textColor, textSize])
+  }, [children, before, after, textColor, textSize, disabledContent])
 
   return (
     <Pressable
@@ -715,7 +716,6 @@ export const AwesomeButton = ({
               styles.text,
               dynamicStyles.text,
               animatedValues.animatedText,
-              { opacity: disabledContent ? 0.7 : undefined },
             ]}
             onLayout={onTextLayout}
           >

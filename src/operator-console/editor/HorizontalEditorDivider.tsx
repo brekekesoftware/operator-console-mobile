@@ -13,7 +13,7 @@ export class HorizontalEditorDivider extends EditorDivider {
     return {
       cssClass: {
         width: '100%',
-        height: 6,
+        height: 8,
         backgroundColor: 'lightgray',
       } as ViewStyle,
       dividerDirection: BaseDividerData.DIVIDER_DIRECTIONS.horizontal,

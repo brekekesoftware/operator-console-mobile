@@ -117,6 +117,8 @@ const EditorTabChildren = ({
   editingScreenGrid,
   tabId,
   editorPaneAsParent,
+  editScreenView,
+  paneData,
 }) => {
   const refLayout = useRef<View | null>(null)
   const refScroll = useRef<View | null>(null)
@@ -154,20 +156,29 @@ const EditorTabChildren = ({
       >
         <ScrollView horizontal bounces={false}>
           <ScrollView bounces={false}>
-            <View ref={refScroll}>
-              {widgetDataArray.map((widgetData, index) => {
-                const options = {
-                  editorPane: editorPaneAsParent,
-                  widgetData,
-                  jsxKey: widgetData._widgetUuid,
-                }
-                const widgetJsx =
-                  EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
-                    options,
-                  )
-                return widgetJsx
-              })}
-            </View>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                editScreenView.onMouseDownEditorPaneInSettingsMode(
+                  paneData.getPaneNumber(),
+                )
+              }}
+              accessible={false}
+            >
+              <View ref={refScroll}>
+                {widgetDataArray.map((widgetData, index) => {
+                  const options = {
+                    editorPane: editorPaneAsParent,
+                    widgetData,
+                    jsxKey: widgetData._widgetUuid,
+                  }
+                  const widgetJsx =
+                    EditorWidgetFactory.getStaticEditorWidgetFactoryInstance().getEditorWidgetJsx(
+                      options,
+                    )
+                  return widgetJsx
+                })}
+              </View>
+            </TouchableWithoutFeedback>
           </ScrollView>
         </ScrollView>
       </GridLines>
@@ -229,6 +240,8 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
             editingScreenGrid={editingScreenGrid}
             tabId={tabId}
             editorPaneAsParent={editorPaneAsParent}
+            editScreenView={props['editScreenView']}
+            paneData={props['paneData']}
           />
         ),
       },

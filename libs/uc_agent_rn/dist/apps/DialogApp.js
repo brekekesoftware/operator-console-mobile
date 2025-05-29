@@ -38,6 +38,8 @@ class DialogApp extends React.Component {
       initialTop: null,
       initialWidth: null,
       initialHeight: null,
+      width: 0,
+      height: 0,
     }
   }
 
@@ -70,6 +72,8 @@ class DialogApp extends React.Component {
       initialTop,
       initialWidth,
       initialHeight,
+      width: innerWidth,
+      height: innerHeight,
     })
   }
 
@@ -114,113 +118,116 @@ class DialogApp extends React.Component {
     ]
 
     return (
-      <DialogResizableBox
-        style={[
-          styles.brUCAgentApp,
-          styles.brDialogApp,
-          styles.brDialogAppDialogResizableBox,
-        ]}
-        disabled={!option.resizable}
-        initialLeft={this.state.initialLeft}
-        initialTop={this.state.initialTop}
-        initialWidth={this.state.initialWidth}
-        initialHeight={this.state.initialHeight}
-        resizableOpts={{ minConstraints: [500, 400] }}
-        movable={true}
-        draggableOptsToMove={{ handle: 'brDraggable' }}
-        modal={option.modal}
-        onStop={() =>
-          uiData.fire('dialogResizableBox_onStop', panelType, panelCode)
-        }
-      >
-        <View
-          style={{
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            position: 'relative',
-          }}
+      <>
+        <DialogResizableBox
+          style={[
+            styles.brUCAgentApp,
+            styles.brDialogApp,
+            styles.brDialogAppDialogResizableBox,
+            { width: this.state.width, height: this.state.height },
+          ]}
+          disabled={!option.resizable}
+          initialLeft={this.state.initialLeft}
+          initialTop={this.state.initialTop}
+          initialWidth={this.state.initialWidth}
+          initialHeight={this.state.initialHeight}
+          resizableOpts={{ minConstraints: [500, 400] }}
+          movable={true}
+          draggableOptsToMove={{ handle: 'brDraggable' }}
+          modal={option.modal}
+          onStop={() =>
+            uiData.fire('dialogResizableBox_onStop', panelType, panelCode)
+          }
         >
           <View
-            style={[
-              styles.brDialogTitle,
-              option.draggable && styles.brDraggable,
-            ]}
+            style={{
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+              position: 'relative',
+            }}
           >
-            <Text style={{ flex: 1 }}>{string(option.title)}</Text>
-            <TouchableOpacity
+            <View
               style={[
-                styles.brDialogCloseButton,
-                !option.closeable && styles.brHidden,
+                styles.brDialogTitle,
+                option.draggable && styles.brDraggable,
               ]}
-              onPress={() =>
-                uiData.fire('dialogCloseButton_onClick', panelType, panelCode)
-              }
             >
-              <Image
-                source={dialogCloseIcon}
-                style={{ width: 21, height: 15 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.brDialogHideButton,
-                !option.hideable && styles.brHidden,
-              ]}
-              onPress={() =>
-                uiData.fire('dialogHideButton_onClick', panelType, panelCode)
-              }
-            >
-              <Image
-                source={dialogHideIcon}
-                style={{ width: 21, height: 15 }}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.brDialogButtons}>
-            {option.buttons?.map((button, i) => (
-              <Pressable
-                key={i}
-                onPress={() =>
-                  uiData.fire(
-                    'dialogButton_onClick',
-                    panelType,
-                    panelCode,
-                    button.name,
-                  )
-                }
-                style={({ pressed }) => [
-                  styles.brDialogButtonWrapper,
-                  pressed && styles.brDialogButtonActive,
+              <Text style={{ flex: 1 }}>{string(option.title)}</Text>
+              <TouchableOpacity
+                style={[
+                  styles.brDialogCloseButton,
+                  !option.closeable && styles.brHidden,
                 ]}
+                onPress={() =>
+                  uiData.fire('dialogCloseButton_onClick', panelType, panelCode)
+                }
               >
-                <LinearGradient
-                  colors={
-                    pressed
-                      ? ['#FFFFFF1A', '#FFFFFF73', '#FFFFFFA6']
-                      : ['#FFFFFFA6', '#FFFFFF73', '#FFFFFF1A']
-                  }
-                  style={styles.brDialogButton}
-                >
-                  <Text
-                    style={[
-                      styles.brDialogButtonText,
-                      pressed && styles.brDialogButtonTextActive,
-                    ]}
-                  >
-                    {string(button.caption)}
-                  </Text>
-                </LinearGradient>
-              </Pressable>
-            ))}
-          </View>
+                <Image
+                  source={dialogCloseIcon}
+                  style={{ width: 21, height: 15 }}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.brDialogHideButton,
+                  !option.hideable && styles.brHidden,
+                ]}
+                onPress={() =>
+                  uiData.fire('dialogHideButton_onClick', panelType, panelCode)
+                }
+              >
+                <Image
+                  source={dialogHideIcon}
+                  style={{ width: 21, height: 15 }}
+                />
+              </TouchableOpacity>
+            </View>
 
-          <View style={contentStyle}>{contents}</View>
-        </View>
-      </DialogResizableBox>
+            <View style={styles.brDialogButtons}>
+              {option.buttons?.map((button, i) => (
+                <Pressable
+                  key={i}
+                  onPress={() =>
+                    uiData.fire(
+                      'dialogButton_onClick',
+                      panelType,
+                      panelCode,
+                      button.name,
+                    )
+                  }
+                  style={({ pressed }) => [
+                    styles.brDialogButtonWrapper,
+                    pressed && styles.brDialogButtonActive,
+                  ]}
+                >
+                  <LinearGradient
+                    colors={
+                      pressed
+                        ? ['#FFFFFF1A', '#FFFFFF73', '#FFFFFFA6']
+                        : ['#FFFFFFA6', '#FFFFFF73', '#FFFFFF1A']
+                    }
+                    style={styles.brDialogButton}
+                  >
+                    <Text
+                      style={[
+                        styles.brDialogButtonText,
+                        pressed && styles.brDialogButtonTextActive,
+                      ]}
+                    >
+                      {string(button.caption)}
+                    </Text>
+                  </LinearGradient>
+                </Pressable>
+              ))}
+            </View>
+
+            <View style={contentStyle}>{contents}</View>
+          </View>
+        </DialogResizableBox>
+      </>
     )
   }
 }
@@ -236,8 +243,7 @@ const styles = StyleSheet.create({
   brDialogAppDialogResizableBox: {
     position: 'absolute',
     left: 0,
-    top: 0,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     shadowColor: '#ddd',
     shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 1,
