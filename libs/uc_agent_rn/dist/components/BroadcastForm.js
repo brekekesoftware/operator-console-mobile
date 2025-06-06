@@ -1,19 +1,138 @@
-import React from 'react'
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import DropDownMenu from './DropDownMenu.js'
-import MenuItem from './MenuItem.js'
-import NameEmbeddedSpan from './NameEmbeddedSpan.js'
+'use strict'
 
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _strings = require('../utilities/strings')
+var _DropDownMenu = _interopRequireDefault(require('./DropDownMenu'))
+var _MenuItem = _interopRequireDefault(require('./MenuItem'))
+var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n))
+    throw new TypeError('Cannot call a class as a function')
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t]
+    ;(o.enumerable = o.enumerable || !1),
+      (o.configurable = !0),
+      'value' in o && (o.writable = !0),
+      Object.defineProperty(e, _toPropertyKey(o.key), o)
+  }
+}
+function _createClass(e, r, t) {
+  return (
+    r && _defineProperties(e.prototype, r),
+    t && _defineProperties(e, t),
+    Object.defineProperty(e, 'prototype', { writable: !1 }),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
+function _callSuper(t, o, e) {
+  return (
+    (o = _getPrototypeOf(o)),
+    _possibleConstructorReturn(
+      t,
+      _isNativeReflectConstruct()
+        ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
+        : o.apply(t, e),
+    )
+  )
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ('object' == _typeof(e) || 'function' == typeof e)) return e
+  if (void 0 !== e)
+    throw new TypeError(
+      'Derived constructors may only return object or undefined',
+    )
+  return _assertThisInitialized(t)
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called",
+    )
+  return e
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(
+      Reflect.construct(Boolean, [], function () {}),
+    )
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct() {
+    return !!t
+  })()
+}
+function _getPrototypeOf(t) {
+  return (
+    (_getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf.bind()
+      : function (t) {
+          return t.__proto__ || Object.getPrototypeOf(t)
+        }),
+    _getPrototypeOf(t)
+  )
+}
+function _inherits(t, e) {
+  if ('function' != typeof e && null !== e)
+    throw new TypeError('Super expression must either be null or a function')
+  ;(t.prototype = Object.create(e && e.prototype, {
+    constructor: { value: t, writable: !0, configurable: !0 },
+  })),
+    Object.defineProperty(t, 'prototype', { writable: !1 }),
+    e && _setPrototypeOf(t, e)
+}
+function _setPrototypeOf(t, e) {
+  return (
+    (_setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function (t, e) {
+          return (t.__proto__ = e), t
+        }),
+    _setPrototypeOf(t, e)
+  )
+}
 /**
  * BroadcastForm
  * props.uiData
@@ -21,281 +140,404 @@ import NameEmbeddedSpan from './NameEmbeddedSpan.js'
  * props.uiData.ucUiStore
  * props.params
  */
-export default class extends React.Component {
-  constructor(props) {
-    super(props)
-    this.initialSelectedBuddyTable = {}
-    let mutableSelectedBuddyTable = {}
-    let broadcastMark = true
+var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
+  function _default(props) {
+    var _this
+    _classCallCheck(this, _default)
+    _this = _callSuper(this, _default, [props])
+    _this.initialSelectedBuddyTable = {}
+    var mutableSelectedBuddyTable = {}
+    var broadcastMark = true
     try {
-      const localStoragePreference =
+      var localStoragePreference =
         props.uiData.ucUiStore.getLocalStoragePreference({
           keyList: ['broadcastSelectedBuddyTable', 'broadcastMark'],
         })
       if (localStoragePreference[1] === 'false') {
         broadcastMark = false
       }
-      let stringSelectedBuddyTable = localStoragePreference[0]
-      this.initialSelectedBuddyTable = JSON.parse(stringSelectedBuddyTable)
+      var stringSelectedBuddyTable = localStoragePreference[0]
+      _this.initialSelectedBuddyTable = JSON.parse(stringSelectedBuddyTable)
       mutableSelectedBuddyTable = JSON.parse(stringSelectedBuddyTable)
     } catch (ex) {}
-    this.state = {
+    _this.state = {
       text: '',
       selectedGroupName: '',
       selectedBuddyTable: mutableSelectedBuddyTable,
       broadcastMark: broadcastMark,
     }
-    this.textInputRef = React.createRef()
+    _this.textInputRef = /*#__PURE__*/ _react.default.createRef()
+    return _this
   }
+  _inherits(_default, _React$Component)
+  return _createClass(_default, [
+    {
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var _this2 = this
+        // Focus the text input after a short delay
+        setTimeout(function () {
+          var _this2$textInputRef$c
+          ;(_this2$textInputRef$c = _this2.textInputRef.current) === null ||
+            _this2$textInputRef$c === void 0 ||
+            _this2$textInputRef$c.focus()
+        }, 100)
+      },
+    },
+    {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        var props = this.props
+        props.uiData.ucUiAction.setLocalStoragePreference({
+          keyValueList: [
+            {
+              key: 'broadcastSelectedBuddyTable',
+              value: JSON.stringify(this.state.selectedBuddyTable),
+            },
+            {
+              key: 'broadcastMark',
+              value: (0, _strings.string)(this.state.broadcastMark),
+            },
+          ],
+        })
+      },
+    },
+    {
+      key: 'handleBroadcastGroupItemClick',
+      value: function handleBroadcastGroupItemClick(groupName) {
+        var _this3 = this
+        var props = this.props
+        var profile = props.uiData.ucUiStore.getChatClient().getProfile()
+        var buddyTable =
+          props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
+        var selectedBuddyTable = {}
+        Object.keys(buddyTable).forEach(function (key) {
+          var buddy = buddyTable[key]
+          if (
+            !buddy.isMe &&
+            buddy.isBuddy &&
+            !buddy.isTemporaryBuddy &&
+            buddy.group === groupName &&
+            groupName
+          ) {
+            if (!selectedBuddyTable[buddy.tenant]) {
+              selectedBuddyTable[buddy.tenant] = {}
+            }
+            selectedBuddyTable[buddy.tenant][buddy.user_id] = true
+          }
+        })
+        this.setState({
+          selectedGroupName: groupName,
+          selectedBuddyTable: selectedBuddyTable,
+        })
 
-  componentDidMount() {
-    // Focus the text input after a short delay
-    setTimeout(() => {
-      this.textInputRef.current?.focus()
-    }, 100)
-  }
-
-  componentWillUnmount() {
-    const props = this.props
-    props.uiData.ucUiAction.setLocalStoragePreference({
-      keyValueList: [
-        {
-          key: 'broadcastSelectedBuddyTable',
-          value: JSON.stringify(this.state.selectedBuddyTable),
-        },
-        { key: 'broadcastMark', value: string(this.state.broadcastMark) },
-      ],
-    })
-  }
-
-  handleBroadcastGroupItemClick(groupName) {
-    const props = this.props
-    const profile = props.uiData.ucUiStore.getChatClient().getProfile()
-    const buddyTable =
-      props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
-    const selectedBuddyTable = {}
-
-    Object.keys(buddyTable).forEach(key => {
-      const buddy = buddyTable[key]
-      if (
-        !buddy.isMe &&
-        buddy.isBuddy &&
-        !buddy.isTemporaryBuddy &&
-        buddy.group === groupName &&
-        groupName
-      ) {
+        // Focus the text input
+        setTimeout(function () {
+          var _this3$textInputRef$c
+          ;(_this3$textInputRef$c = _this3.textInputRef.current) === null ||
+            _this3$textInputRef$c === void 0 ||
+            _this3$textInputRef$c.focus()
+        }, 100)
+      },
+    },
+    {
+      key: 'handleBroadcastMarkCheckClick',
+      value: function handleBroadcastMarkCheckClick() {
+        this.setState({
+          broadcastMark: !this.state.broadcastMark,
+        })
+      },
+    },
+    {
+      key: 'handleBroadcastBuddyItemClick',
+      value: function handleBroadcastBuddyItemClick(buddy) {
+        var _this4 = this
+        var selectedBuddyTable = this.state.selectedBuddyTable
         if (!selectedBuddyTable[buddy.tenant]) {
           selectedBuddyTable[buddy.tenant] = {}
         }
-        selectedBuddyTable[buddy.tenant][buddy.user_id] = true
-      }
-    })
-
-    this.setState({
-      selectedGroupName: groupName,
-      selectedBuddyTable: selectedBuddyTable,
-    })
-
-    // Focus the text input
-    setTimeout(() => {
-      this.textInputRef.current?.focus()
-    }, 100)
-  }
-
-  handleBroadcastMarkCheckClick() {
-    this.setState({
-      broadcastMark: !this.state.broadcastMark,
-    })
-  }
-
-  handleBroadcastBuddyItemClick(buddy) {
-    const selectedBuddyTable = this.state.selectedBuddyTable
-    if (!selectedBuddyTable[buddy.tenant]) {
-      selectedBuddyTable[buddy.tenant] = {}
-    }
-    if (!selectedBuddyTable[buddy.tenant][buddy.user_id]) {
-      selectedBuddyTable[buddy.tenant][buddy.user_id] = true
-    } else {
-      delete selectedBuddyTable[buddy.tenant][buddy.user_id]
-    }
-    this.setState({ selectedBuddyTable: selectedBuddyTable })
-
-    // Focus the text input
-    setTimeout(() => {
-      this.textInputRef.current?.focus()
-    }, 100)
-  }
-
-  handleBroadcastTextChange(text) {
-    this.setState({ text })
-  }
-
-  handleBroadcastTextSubmit() {
-    const props = this.props
-    try {
-      // Simulate clicking the OK button in the modal
-      if (props.onSubmit) {
-        props.onSubmit(this.state.text)
-      }
-    } catch (ex) {
-      props.uiData.ucUiStore.getLogger().log('warn', ex)
-    }
-  }
-
-  render() {
-    const props = this.props
-    const profile = props.uiData.ucUiStore.getChatClient().getProfile()
-    const buddyTable =
-      props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
-    const groupTable = {}
-    groupTable[''] = -1
-
-    const buddies = Object.keys(buddyTable)
-      .filter(
-        key =>
-          !buddyTable[key].isMe &&
-          buddyTable[key].isBuddy &&
-          !buddyTable[key].isTemporaryBuddy,
-      )
-      .sort(
-        (key1, key2) =>
-          ((this.initialSelectedBuddyTable[buddyTable[key2].tenant] || {})[key2]
-            ? 1
-            : 0) -
-            ((this.initialSelectedBuddyTable[buddyTable[key1].tenant] || {})[
-              key1
-            ]
-              ? 1
-              : 0) ||
-          (buddyTable[key1].groupIndex >>> 0) -
-            (buddyTable[key2].groupIndex >>> 0) ||
-          int(buddyTable[key1].buddyIndex) - int(buddyTable[key2].buddyIndex),
-      )
-      .map(key => {
-        const buddy = buddyTable[key]
-        const groupName = string(buddy.group)
-        if (groupName && !groupTable[groupName]) {
-          groupTable[groupName] = int(buddy.groupIndex)
+        if (!selectedBuddyTable[buddy.tenant][buddy.user_id]) {
+          selectedBuddyTable[buddy.tenant][buddy.user_id] = true
+        } else {
+          delete selectedBuddyTable[buddy.tenant][buddy.user_id]
         }
-        return {
-          tenant: buddy.tenant,
-          user_id: buddy.user_id,
-          selected:
-            this.state.selectedBuddyTable &&
-            this.state.selectedBuddyTable[buddy.tenant] &&
-            this.state.selectedBuddyTable[buddy.tenant][buddy.user_id],
-        }
-      })
+        this.setState({
+          selectedBuddyTable: selectedBuddyTable,
+        })
 
-    return (
-      <View style={styles.brBroadcastForm}>
-        <View style={styles.brBroadcastTable}>
-          <View style={styles.row}>
-            <Text style={styles.label}>{uawMsgs.LBL_BROADCAST_GROUP}</Text>
-            <View style={styles.dropdownContainer}>
-              <DropDownMenu
-                uiData={props.uiData}
-                style={styles.brBroadcastGroupMenu}
-                text={
-                  this.state.selectedGroupName ||
-                  uawMsgs.LBL_BROADCAST_GROUP_NONE
-                }
-              >
-                {Object.keys(groupTable)
-                  .sort(
-                    (groupName1, groupName2) =>
-                      groupTable[groupName1] - groupTable[groupName2],
+        // Focus the text input
+        setTimeout(function () {
+          var _this4$textInputRef$c
+          ;(_this4$textInputRef$c = _this4.textInputRef.current) === null ||
+            _this4$textInputRef$c === void 0 ||
+            _this4$textInputRef$c.focus()
+        }, 100)
+      },
+    },
+    {
+      key: 'handleBroadcastTextChange',
+      value: function handleBroadcastTextChange(text) {
+        this.setState({
+          text: text,
+        })
+      },
+    },
+    {
+      key: 'handleBroadcastTextSubmit',
+      value: function handleBroadcastTextSubmit() {
+        var props = this.props
+        try {
+          // Simulate clicking the OK button in the modal
+          if (props.onSubmit) {
+            props.onSubmit(this.state.text)
+          }
+        } catch (ex) {
+          props.uiData.ucUiStore.getLogger().log('warn', ex)
+        }
+      },
+    },
+    {
+      key: 'render',
+      value: function render() {
+        var _this5 = this
+        var props = this.props
+        var profile = props.uiData.ucUiStore.getChatClient().getProfile()
+        var buddyTable =
+          props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
+        var groupTable = {}
+        groupTable[''] = -1
+        var buddies = Object.keys(buddyTable)
+          .filter(function (key) {
+            return (
+              !buddyTable[key].isMe &&
+              buddyTable[key].isBuddy &&
+              !buddyTable[key].isTemporaryBuddy
+            )
+          })
+          .sort(function (key1, key2) {
+            return (
+              ((_this5.initialSelectedBuddyTable[buddyTable[key2].tenant] ||
+                {})[key2]
+                ? 1
+                : 0) -
+                ((_this5.initialSelectedBuddyTable[buddyTable[key1].tenant] ||
+                  {})[key1]
+                  ? 1
+                  : 0) ||
+              (buddyTable[key1].groupIndex >>> 0) -
+                (buddyTable[key2].groupIndex >>> 0) ||
+              (0, _strings.int)(buddyTable[key1].buddyIndex) -
+                (0, _strings.int)(buddyTable[key2].buddyIndex)
+            )
+          })
+          .map(function (key) {
+            var buddy = buddyTable[key]
+            var groupName = (0, _strings.string)(buddy.group)
+            if (groupName && !groupTable[groupName]) {
+              groupTable[groupName] = (0, _strings.int)(buddy.groupIndex)
+            }
+            return {
+              tenant: buddy.tenant,
+              user_id: buddy.user_id,
+              selected:
+                _this5.state.selectedBuddyTable &&
+                _this5.state.selectedBuddyTable[buddy.tenant] &&
+                _this5.state.selectedBuddyTable[buddy.tenant][buddy.user_id],
+            }
+          })
+        return /*#__PURE__*/ _react.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.brBroadcastForm,
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.brBroadcastTable,
+            },
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.row,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.label,
+                },
+                _uawmsgs.default.LBL_BROADCAST_GROUP,
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.dropdownContainer,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _DropDownMenu.default,
+                  {
+                    uiData: props.uiData,
+                    style: styles.brBroadcastGroupMenu,
+                    text:
+                      this.state.selectedGroupName ||
+                      _uawmsgs.default.LBL_BROADCAST_GROUP_NONE,
+                  },
+                  Object.keys(groupTable)
+                    .sort(function (groupName1, groupName2) {
+                      return groupTable[groupName1] - groupTable[groupName2]
+                    })
+                    .map(function (groupName) {
+                      return /*#__PURE__*/ _react.default.createElement(
+                        _MenuItem.default,
+                        {
+                          key: groupName,
+                          style: styles.brBroadcastFormMenuItem,
+                          dropDown: true,
+                          onPress: function onPress() {
+                            return _this5.handleBroadcastGroupItemClick(
+                              groupName,
+                            )
+                          },
+                        },
+                        groupName || _uawmsgs.default.LBL_BROADCAST_GROUP_NONE,
+                      )
+                    }),
+                ),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.row,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brBroadcastBuddiesCaptionArea,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.caption,
+                  },
+                  _uawmsgs.default.LBL_BROADCAST_BUDDIES,
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: styles.brBroadcastMarkArea,
+                  onPress: function onPress() {
+                    return _this5.handleBroadcastMarkCheckClick()
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: styles.brBroadcastMarkCheck,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: [
+                        styles.checkIcon,
+                        this.state.broadcastMark && styles.checkIconSelected,
+                      ],
+                    },
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.checkText,
+                    },
+                    _uawmsgs.default.LBL_BROADCAST_MARK_CHECK_CAPTION,
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: styles.broadcastIcon,
+                      accessibilityLabel:
+                        _uawmsgs.default.LBL_BROADCAST_MARK_ICON_TOOLTIP,
+                    },
+                  ),
+                ),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.row,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.ScrollView,
+                {
+                  style: styles.brBroadcastBuddies,
+                },
+                buddies.map(function (buddy) {
+                  return /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.TouchableOpacity,
+                    {
+                      key: JSON.stringify({
+                        tenant: buddy.tenant,
+                        user_id: buddy.user_id,
+                      }),
+                      style: [
+                        styles.brBroadcastBuddyItem,
+                        buddy.selected && styles.brBroadcastBuddyItemSelected,
+                      ],
+                      onPress: function onPress() {
+                        return _this5.handleBroadcastBuddyItemClick(buddy)
+                      },
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _NameEmbeddedSpan.default,
+                      {
+                        ucUiStore: props.uiData.ucUiStore,
+                        format: '{0}',
+                        title: '{0}',
+                        buddy: buddy,
+                      },
+                    ),
                   )
-                  .map(groupName => (
-                    <MenuItem
-                      key={groupName}
-                      style={styles.brBroadcastFormMenuItem}
-                      dropDown={true}
-                      onPress={() =>
-                        this.handleBroadcastGroupItemClick(groupName)
-                      }
-                    >
-                      {groupName || uawMsgs.LBL_BROADCAST_GROUP_NONE}
-                    </MenuItem>
-                  ))}
-              </DropDownMenu>
-            </View>
-          </View>
-
-          <View style={styles.row}>
-            <View style={styles.brBroadcastBuddiesCaptionArea}>
-              <Text style={styles.caption}>
-                {uawMsgs.LBL_BROADCAST_BUDDIES}
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={styles.brBroadcastMarkArea}
-              onPress={() => this.handleBroadcastMarkCheckClick()}
-            >
-              <View style={styles.brBroadcastMarkCheck}>
-                <View
-                  style={[
-                    styles.checkIcon,
-                    this.state.broadcastMark && styles.checkIconSelected,
-                  ]}
-                />
-                <Text style={styles.checkText}>
-                  {uawMsgs.LBL_BROADCAST_MARK_CHECK_CAPTION}
-                </Text>
-                <View
-                  style={styles.broadcastIcon}
-                  accessibilityLabel={uawMsgs.LBL_BROADCAST_MARK_ICON_TOOLTIP}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.row}>
-            <ScrollView style={styles.brBroadcastBuddies}>
-              {buddies.map(buddy => (
-                <TouchableOpacity
-                  key={JSON.stringify({
-                    tenant: buddy.tenant,
-                    user_id: buddy.user_id,
-                  })}
-                  style={[
-                    styles.brBroadcastBuddyItem,
-                    buddy.selected && styles.brBroadcastBuddyItemSelected,
-                  ]}
-                  onPress={() => this.handleBroadcastBuddyItemClick(buddy)}
-                >
-                  <NameEmbeddedSpan
-                    ucUiStore={props.uiData.ucUiStore}
-                    format='{0}'
-                    title='{0}'
-                    buddy={buddy}
-                  />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-
-          <View style={styles.row}>
-            <View style={styles.brBroadcastTextArea}>
-              <TextInput
-                ref={this.textInputRef}
-                style={styles.brBroadcastTextInput}
-                placeholder={uawMsgs.LBL_BROADCAST_TEXT_TEXTAREA_PLACEHOLDER}
-                value={this.state.text}
-                onChangeText={text => this.handleBroadcastTextChange(text)}
-                onSubmitEditing={() => this.handleBroadcastTextSubmit()}
-                multiline
-                textAlignVertical='top'
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-    )
-  }
-}
-
-const styles = StyleSheet.create({
+                }),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.row,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brBroadcastTextArea,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TextInput,
+                  {
+                    ref: this.textInputRef,
+                    style: styles.brBroadcastTextInput,
+                    placeholder:
+                      _uawmsgs.default.LBL_BROADCAST_TEXT_TEXTAREA_PLACEHOLDER,
+                    value: this.state.text,
+                    onChangeText: function onChangeText(text) {
+                      return _this5.handleBroadcastTextChange(text)
+                    },
+                    onSubmitEditing: function onSubmitEditing() {
+                      return _this5.handleBroadcastTextSubmit()
+                    },
+                    multiline: true,
+                    textAlignVertical: 'top',
+                  },
+                ),
+              ),
+            ),
+          ),
+        )
+      },
+    },
+  ])
+})(_react.default.Component))
+var styles = _reactNative.StyleSheet.create({
   brBroadcastForm: {
     padding: 8,
     paddingHorizontal: 32,
@@ -341,16 +583,19 @@ const styles = StyleSheet.create({
   brBroadcastMarkCheck: {
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 24, // 1.6 * 16
+    lineHeight: 24,
+    // 1.6 * 16
     letterSpacing: 0.3,
-    color: '#1A2B2B', // @dark_jungle_green
+    color: '#1A2B2B',
+    // @dark_jungle_green
     flexDirection: 'row',
     alignItems: 'center',
   },
   checkIcon: {
     width: 24,
     height: 24,
-    marginLeft: 40, // padding-left equivalent
+    marginLeft: 40,
+    // padding-left equivalent
     marginRight: 8,
   },
   checkIconSelected: {
@@ -365,7 +610,8 @@ const styles = StyleSheet.create({
     width: 300,
     height: 200,
     borderWidth: 1,
-    borderColor: '#E5E5E5', // @platinum
+    borderColor: '#E5E5E5',
+    // @platinum
     borderRadius: 4,
   },
   brBroadcastBuddyItem: {
@@ -374,7 +620,8 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 24, // 1.6 * 16
+    lineHeight: 24,
+    // 1.6 * 16
     letterSpacing: 0.3,
     color: '#1A2B2B', // @dark_jungle_green
   },
@@ -392,7 +639,8 @@ const styles = StyleSheet.create({
     height: '100%',
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 24, // 1.6 * 16
+    lineHeight: 24,
+    // 1.6 * 16
     letterSpacing: 0.3,
     padding: 8,
     backgroundColor: 'transparent',

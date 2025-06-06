@@ -1,11 +1,36 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory()
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UAWMsgs = root.Brekeke.UAWMsgs_zh = factory()
   }
-})(this, function () {
+})(void 0, function () {
   return {
     CMN_OK: 'OK',
     CMN_CANCEL: '取消',
@@ -61,7 +86,6 @@
     CMN_LANGUAGE_JA: 'Japanese',
     CMN_LANGUAGE_ZH: 'Chinese',
     CMN_MOMENT_LOCALE: 'zh-cn',
-
     MSG_ABOUT_DIALOG_TITLE: '关于 {0} ',
     MSG_CALL_DEVICE_WARNING:
       'Please check for problems of the microphone or the camera.',
@@ -185,12 +209,10 @@
     MSG_USER_LIST_DIALOG_TITLE: 'Edit the user list',
     MSG_WEBRTC_UNAVAILABLE_1: 'You have no Phone ID of WebRTC.',
     MSG_WEBRTC_UNAVAILABLE_2: 'Would you like to add a new Phone ID?',
-
     TAB_HISTORYDETAIL: 'History - ',
     TAB_HISTORYSUMMARIES: 'History',
     TAB_PREFERENCE: '设定',
     TAB_WEBCHATQUEUE: 'Webchat',
-
     LBL_BROADCAST_BUDDIES: 'Members',
     LBL_BROADCAST_GROUP: 'Group',
     LBL_BROADCAST_GROUP_NONE: '(None)',
@@ -544,7 +566,6 @@
     LBL_WEBRTC_UNAVAILABLE_NEVER: 'Do not use WebRTC',
     LBL_WEBRTC_UNAVAILABLE_NO: 'No, for now',
     LBL_WEBRTC_UNAVAILABLE_YES: 'Yes',
-
     DUMMY: '',
   }
 })

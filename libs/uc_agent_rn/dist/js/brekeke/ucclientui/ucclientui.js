@@ -1,3 +1,23 @@
+'use strict'
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 /*
  * require dojo.js
  * require jsonrpc.js
@@ -5,62 +25,40 @@
  * require webrtcclient.js
  * require webnotification.js
  * require ucclient.js
- */
-
-if (!window.Brekeke) {
+ */ if (!window.Brekeke) {
   window.Brekeke = {}
 }
-
 /*
  * Instance Brekeke.UCClientUI
- */
-if (!window.Brekeke.UCClientUI) {
+ */ if (!window.Brekeke.UCClientUI) {
   window.Brekeke.UCClientUI = {}
 }
 ;(function (UCClientUI) {
   /*
    * Variables
-   */
-  // ChatClient
-  var chatClient = null
-  // Phone
-  var phone = null
-  // logger
-  var logger = null
-  // UCMessages
-  var ucMsgs = null
-  // Errors
-  var Errors = null
-  // Constants
-  var Constants = null
-
-  // BrFrame
-  var brFrame = null
-  // BrLogin
-  var brLogin = null
-  // side pane
-  var sidePaneWidget = null
-  // buddylist tree
-  var treeBuddylist = null
-  // buddylist tree store
+   */ // ChatClient
+  var chatClient = null // Phone
+  var phone = null // logger
+  var logger = null // UCMessages
+  var ucMsgs = null // Errors
+  var Errors = null // Constants
+  var Constants = null // BrFrame
+  var brFrame = null // BrLogin
+  var brLogin = null // side pane
+  var sidePaneWidget = null // buddylist tree
+  var treeBuddylist = null // buddylist tree store
   var storeBuddylist = null
-  var storeBuddylistIdCount = 0
-  // buddylist filter
+  var storeBuddylistIdCount = 0 // buddylist filter
   var buddylistFilter = ''
-  var buddylistOnlineOnly = false
-  // menu resizer
-  var menuResizer = null
-  // message bar
-  var messageBar = null
-  // splittable panel
+  var buddylistOnlineOnly = false // menu resizer
+  var menuResizer = null // message bar
+  var messageBar = null // splittable panel
   var panelSplittable = null
   var splitDirection = ''
-  var panelsSplittableChild = []
-  // tab panels
+  var panelsSplittableChild = [] // tab panels
   var PanelTabConstructor = null
   var panelsTab = []
-  var lastAddedPanelTabIndex = 0
-  // tab child panels
+  var lastAddedPanelTabIndex = 0 // tab child panels
   var PanelTabChildConstructor = null
   var PanelChatConstructor = null
   var PanelWebchatQueueConstructor = null
@@ -76,131 +74,73 @@ if (!window.Brekeke.UCClientUI) {
   var PanelAdvancedSettingsConstructor = null
   var PanelSoftwareUpdateConstructor = null
   var PanelActivateLicenseConstructor = null
-  var panelKeyCounter = 0
-  // chat panels
-  var panelsChat = {}
-  // chat message lists
-  var messageListsChat = {}
-  // sent message
-  var sentMessageIdCounter = 0
-  // typing
+  var panelKeyCounter = 0 // chat panels
+  var panelsChat = {} // chat message lists
+  var messageListsChat = {} // sent message
+  var sentMessageIdCounter = 0 // typing
   var lastSentTypingTimeTable = {}
-  var hideTypingTimerTable = {}
-  // active panel
+  var hideTypingTimerTable = {} // active panel
   var activePanelKey = ''
-  var readTextOnReSignInPanelKeys = []
-  // conference panels
-  var panelsConference = {}
-  // conference message lists
-  var messageListsConference = {}
-  // broadcast panels
-  var panelsBroadcast = {}
-  // broadcast users table
-  var broadcastUsersTable = {}
-  // broadcast message lists
-  var messageListsBroadcast = {}
-  // parameters of displaying message
+  var readTextOnReSignInPanelKeys = [] // conference panels
+  var panelsConference = {} // conference message lists
+  var messageListsConference = {} // broadcast panels
+  var panelsBroadcast = {} // broadcast users table
+  var broadcastUsersTable = {} // broadcast message lists
+  var messageListsBroadcast = {} // parameters of displaying message
   var senderKeyToParagraphClass = []
   var smileyAsciiToHtml = []
   var urlRegExp = null
-  var urlRegExpNG = null
-  // file table
-  var fileTable = {}
-  // external call panels
-  var panelsExternalCall = {}
-  // call panel table
+  var urlRegExpNG = null // file table
+  var fileTable = {} // external call panels
+  var panelsExternalCall = {} // call panel table
   var sessionPanelTable = {}
   var outgoingCallPanelTable = {}
-  var outgoingPreScreenSharingPanelTable = {}
-  // broadcast calls table
-  var broadcastCallsTable = {}
-  // video or audio in playing now
-  var playingPlayers = []
-  // initial phone options
-  var phoneDefaultOptions = null
-  // phone options customized by webrtc type
-  var callOptions = null
-  // sound only stream
-  var soundOnlyStream = null
-  // webchat queue panels
-  var panelsWebchatQueue = {}
-  // webchat queue data
-  var webchatQueueWorkData = {}
-  // webchat queue list
-  var webchatQueueList = []
-  // preference panel
-  var panelsPreference = {}
-  // preference data
-  var preferenceWorkData = {}
-  // history panel
-  var panelsHistory = {}
-  // history search condition data
-  var searchConditionHistory = {}
-  // topic lists
-  var topicListsHistory = {}
-  // server settings panel
-  var panelsServerSettings = {}
-  // server settings data
+  var outgoingPreScreenSharingPanelTable = {} // broadcast calls table
+  var broadcastCallsTable = {} // video or audio in playing now
+  var playingPlayers = [] // initial phone options
+  var phoneDefaultOptions = null // phone options customized by webrtc type
+  var callOptions = null // sound only stream
+  var soundOnlyStream = null // webchat queue panels
+  var panelsWebchatQueue = {} // webchat queue data
+  var webchatQueueWorkData = {} // webchat queue list
+  var webchatQueueList = [] // preference panel
+  var panelsPreference = {} // preference data
+  var preferenceWorkData = {} // history panel
+  var panelsHistory = {} // history search condition data
+  var searchConditionHistory = {} // topic lists
+  var topicListsHistory = {} // server settings panel
+  var panelsServerSettings = {} // server settings data
   var serverSettingsWorkData = {}
-  var recordAuthChecked = false
-  // block list settings panel
-  var panelsBlockListSettings = {}
-  // user management panel
-  var panelsUserManagement = {}
-  // user management data
-  var userManagementWorkData = {}
-  // tenant table panel
-  var panelsTenantTable = {}
-  // tenant table data
-  var tenantTableWorkData = {}
-  // tenant property panel
-  var panelsTenantProperty = {}
-  // tenant property data
-  var tenantPropertyWorkData = {}
-  // tenant settings panel
-  var panelsTenantSettings = {}
-  // tenant settings data
-  var tenantSettingsWorkData = {}
-  // advanced settings panel
-  var panelsAdvancedSettings = {}
-  // software update panel
-  var panelsSoftwareUpdate = {}
-  // activate license panel
-  var panelsActivateLicense = {}
-  // twitter settings panel
-  var panelsTwitterSettings = {}
-  // facebook settings panel
-  var panelsFacebookSettings = {}
-  // line settings panel
-  var panelsLineSettings = {}
-  // watson settings panel
-  var panelsWatsonSettings = {}
-  // email settings panel
-  var panelsEmailSettings = {}
-  // guest settings panel
-  var panelsGuestSettings = {}
-  // highlight
-  var highlightObject = null
-  // notification
-  var notificationObjects = []
-  // lamp
-  var lampObject = null
-  // timer
+  var recordAuthChecked = false // block list settings panel
+  var panelsBlockListSettings = {} // user management panel
+  var panelsUserManagement = {} // user management data
+  var userManagementWorkData = {} // tenant table panel
+  var panelsTenantTable = {} // tenant table data
+  var tenantTableWorkData = {} // tenant property panel
+  var panelsTenantProperty = {} // tenant property data
+  var tenantPropertyWorkData = {} // tenant settings panel
+  var panelsTenantSettings = {} // tenant settings data
+  var tenantSettingsWorkData = {} // advanced settings panel
+  var panelsAdvancedSettings = {} // software update panel
+  var panelsSoftwareUpdate = {} // activate license panel
+  var panelsActivateLicense = {} // twitter settings panel
+  var panelsTwitterSettings = {} // facebook settings panel
+  var panelsFacebookSettings = {} // line settings panel
+  var panelsLineSettings = {} // watson settings panel
+  var panelsWatsonSettings = {} // email settings panel
+  var panelsEmailSettings = {} // guest settings panel
+  var panelsGuestSettings = {} // highlight
+  var highlightObject = null // notification
+  var notificationObjects = [] // lamp
+  var lampObject = null // timer
   var securityCheckTimer = null
   var securityOkTime = 0
-  var securityNgCount = 0
-
-  // status
+  var securityNgCount = 0 // status
   var signedIn = false
   var signedInTime = 0
   var phoneRegistered = false
   var phoneReregistering = false
-  var myStatus = {
-    status: 0,
-    display: '',
-  }
-
-  // cookiePreference
+  var myStatus = { status: 0, display: '' } // cookiePreference
   var cookiePreference = {
     webRTCDisabled: '',
     webRTCTypeName: '',
@@ -222,9 +162,7 @@ if (!window.Brekeke.UCClientUI) {
     buddylistOpenList: '',
     mutesMicrophone: '',
     mutesCamera: '',
-  }
-
-  // sign-in parameters
+  } // sign-in parameters
   var mySignInParams = {
     tenant: '',
     user: '',
@@ -234,11 +172,9 @@ if (!window.Brekeke.UCClientUI) {
     forceAjax: false,
     servlet: false,
   }
-
   /*
    * Constants
-   */
-  var CURRENT_SCRIPT_REGEX = /(^|.*\/)(ucclientui\.js)(.*)/
+   */ var CURRENT_SCRIPT_REGEX = /(^|.*\/)(ucclientui\.js)(.*)/
   var CURRENT_SCRIPT_URL = (function (regex) {
     if (document.currentScript) {
       var match = document.currentScript.src.match(regex)
@@ -261,11 +197,7 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
     }
-    return {
-      DIR: '',
-      FILE: '',
-      QUERY: '',
-    }
+    return { DIR: '', FILE: '', QUERY: '' }
   })(CURRENT_SCRIPT_REGEX)
   var REGEX_SPECIAL_CHARS_REGEX = /([.*+?^=!:${}()|\[\]\/\\])/g
   var ROOT_GROUP_ID = ''
@@ -304,11 +236,9 @@ if (!window.Brekeke.UCClientUI) {
   var PASSWORD_PLACEHOLDER = '**********'
   var NOTIFICATION_DURATION_CHROME = 5000
   var NOTIFICATION_DURATION_FIREFOX = 3000
-
   /*
    * Public function initialize
-   */
-  UCClientUI.initialize = function (initializeParams, funcOK) {
+   */ UCClientUI.initialize = function (initializeParams, funcOK) {
     // pre-load all modules
     require([
       'brekeke/frame/BrFrame',
@@ -389,28 +319,18 @@ if (!window.Brekeke.UCClientUI) {
       logger = new Brekeke.UCClient.Logger('all')
       var phoneLogger =
         Brekeke.WebrtcClient &&
-        new Brekeke.WebrtcClient.Logger('debug', null, false)
-
-      // UCMessages
+        new Brekeke.WebrtcClient.Logger('debug', null, false) // UCMessages
       ucMsgs = Brekeke.UCClientUI.UCMessages_en // default language
       for (var key in Brekeke.UCClientUI.UCMessages) {
         // current language
         ucMsgs[key] = Brekeke.UCClientUI.UCMessages[key]
-      }
-
-      // Errors
-      Errors = Brekeke.UCClient.Errors
-
-      // Constants
-      Constants = Brekeke.UCClient.Constants
-
-      // BrLogin
+      } // Errors
+      Errors = Brekeke.UCClient.Errors // Constants
+      Constants = Brekeke.UCClient.Constants // BrLogin
       brLogin = initializeParams.brLogin
       if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
         logger.log('warn', 'pbx server is not ready')
-      }
-
-      // initialize ChatClient
+      } // initialize ChatClient
       chatClient = new Brekeke.UCClient.ChatClient(logger)
       chatClient.setEventListeners({
         forcedSignOut: chatClient_onForcedSignOut,
@@ -427,9 +347,7 @@ if (!window.Brekeke.UCClientUI) {
         notifiedUserSearch: chatClient_onNotifiedUserSearch,
         notifiedUserDelete: chatClient_onNotifiedUserDelete,
         debugLogFilePrepared: chatClient_onDebugLogFilePrepared,
-      })
-
-      // initialize Phone
+      }) // initialize Phone
       phone = new Brekeke.WebrtcClient.Phone({
         logLevel: 'debug',
         logger: phoneLogger,
@@ -453,29 +371,20 @@ if (!window.Brekeke.UCClientUI) {
         'remoteUserOptionsChanged',
         phone_onRemoteUserOptionsChanged,
       )
-      phone.addEventListener('rtcErrorOccurred', phone_onRtcErrorOccurred)
-
-      // initialize BrFrame
+      phone.addEventListener('rtcErrorOccurred', phone_onRtcErrorOccurred) // initialize BrFrame
       initBrFrame(funcOK)
     })
   }
-
   /*
    * Public function signIn
-   */
-  UCClientUI.signIn = function (signInParams) {
+   */ UCClientUI.signIn = function (signInParams) {
     require(['dojo/cookie'], function (cookie) {
       if (!chatClient) {
         return
-      }
-
-      // re-initialize variables
+      } // re-initialize variables
       signedIn = false
       phoneRegistered = false
-      myStatus = {
-        status: Constants.STATUS_OFFLINE,
-        display: '',
-      }
+      myStatus = { status: Constants.STATUS_OFFLINE, display: '' }
       mySignInParams = clone(signInParams)
       switch (getQueryParameters()['websocket_mode']) {
         case '0':
@@ -492,9 +401,7 @@ if (!window.Brekeke.UCClientUI) {
           break
         default:
           break
-      }
-
-      // get device token from local storage
+      } // get device token from local storage
       var device_token = null
       try {
         device_token = JSON.parse(
@@ -507,9 +414,7 @@ if (!window.Brekeke.UCClientUI) {
               string(mySignInParams && mySignInParams.user).split('?')[0],
           ),
         ).token
-      } catch (e) {}
-
-      // sign-in
+      } catch (e) {} // sign-in
       chatClient.signIn(
         location.host,
         location.pathname.split('/')[1],
@@ -531,8 +436,7 @@ if (!window.Brekeke.UCClientUI) {
           // funcOK
           var profile = chatClient.getProfile()
           var settings = chatClient.getSettings()
-          var configProperties = chatClient.getConfigProperties()
-          // check language
+          var configProperties = chatClient.getConfigProperties() // check language
           var language = string(
             configProperties.optional_config &&
               configProperties.optional_config.language_setting,
@@ -579,13 +483,11 @@ if (!window.Brekeke.UCClientUI) {
               window.location.reload()
               return
             }
-          }
-          // initial status
+          } // initial status
           signedIn = true
           signedInTime = new Date().getTime()
           phoneRegistered = false
-          myStatus.status = chatClient.getStatus().status
-          // init senderKeyToParagraphClass
+          myStatus.status = chatClient.getStatus().status // init senderKeyToParagraphClass
           senderKeyToParagraphClass = []
           senderKeyToParagraphClass.push(SENDER_KEY_ME)
           var buddylist = chatClient.getBuddylist()
@@ -599,22 +501,17 @@ if (!window.Brekeke.UCClientUI) {
                 }),
               )
             }
-          }
-          // load cookie preference
+          } // load cookie preference
           loadCookiePreference()
           buddylistOnlineOnly = cookiePreference.onlineOnly === 'true'
-          sidePaneWidget.checkBoxOnlineOnly.set('checked', buddylistOnlineOnly)
-          // hide BrLogin
-          brLogin.setVisible(false)
-          // show BrFrame
+          sidePaneWidget.checkBoxOnlineOnly.set('checked', buddylistOnlineOnly) // hide BrLogin
+          brLogin.setVisible(false) // show BrFrame
           displayUserType()
           brFrame.setVisible(true)
           displayProfiles()
           displaySplittable()
-          brFrame.updateView()
-          // request permission of notification
-          permitNotification()
-          // sa
+          brFrame.updateView() // request permission of notification
+          permitNotification() // sa
           if (profile.user_type === Constants.USER_TYPE_SYSTEM_ADMIN) {
             openServerSettings(null, null, true)
             if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
@@ -627,8 +524,7 @@ if (!window.Brekeke.UCClientUI) {
             if (brLogin.logoPath && brLogin.hideProductComp !== 'true') {
               brFrame.sidemenu.logo.style.backgroundImage = ''
             }
-          }
-          // lamp
+          } // lamp
           if (
             configProperties.optional_config &&
             configProperties.optional_config.change_lamp
@@ -639,13 +535,11 @@ if (!window.Brekeke.UCClientUI) {
               alert: null,
               jingle: null,
               windowFocused: false,
-              panelSelected: false,
-              // changeLamp: eval(configProperties.optional_config.change_lamp),
+              panelSelected: false, // changeLamp: eval(configProperties.optional_config.change_lamp),
               // TODO: check this params
             }
             lampObject.changeLamp(lampObject)
-          }
-          // timer
+          } // timer
           if (
             window.location.protocol.indexOf('https') >= 0 &&
             configProperties.optional_config &&
@@ -658,18 +552,15 @@ if (!window.Brekeke.UCClientUI) {
               configProperties.optional_config.security_check_timer_interval ||
                 60000,
             )
-          }
-          // beforeunload
+          } // beforeunload
           window.addEventListener('beforeunload', window_onbeforeunload)
-          window.addEventListener('unload', window_onunload)
-          // receive unread text
+          window.addEventListener('unload', window_onunload) // receive unread text
           if (
             profile.user_type !== Constants.USER_TYPE_SYSTEM_ADMIN &&
             !mySignInParams.admin_mode
           ) {
             chatClient.receiveUnreadText(showUnreadText, null)
-          }
-          // open webchat conference
+          } // open webchat conference
           if (profile.user_type === Constants.USER_TYPE_TENANT_GUEST) {
             chatClient.enterWebchatRoom(
               {
@@ -684,8 +575,7 @@ if (!window.Brekeke.UCClientUI) {
               },
               function (ev) {},
             )
-          }
-          // start WebRTC
+          } // start WebRTC
           if (phone) {
             startWebRTC(true)
           }
@@ -733,11 +623,9 @@ if (!window.Brekeke.UCClientUI) {
       )
     })
   }
-
   /*
    * Function initBrFrame
-   */
-  var initBrFrame = function (funcOK) {
+   */ var initBrFrame = function initBrFrame(funcOK) {
     require([
       'dojo/dom-construct',
       'dojo/_base/declare',
@@ -795,8 +683,7 @@ if (!window.Brekeke.UCClientUI) {
         'templates/brucpanelsoftwareupdate.html',
       'dojo/text!' +
         CURRENT_SCRIPT_URL.DIR +
-        'templates/brucpanelactivatelicense.html',
-      // pre-load for _WidgetsInTemplateMixin
+        'templates/brucpanelactivatelicense.html', // pre-load for _WidgetsInTemplateMixin
       'dijit/form/DropDownButton',
       'dijit/DropDownMenu',
       'dijit/form/TextBox',
@@ -855,29 +742,18 @@ if (!window.Brekeke.UCClientUI) {
       brFrame.set('statusbar', false)
       brFrame.set('iframe', false)
       brFrame.setVisible(false)
-      brFrame.startup()
-
-      // side menu
-      var sidemenu = brFrame.sidemenu
-
-      // product name
+      brFrame.startup() // side menu
+      var sidemenu = brFrame.sidemenu // product name
       sidemenu.set('productshortname', brLogin.appname)
       sidemenu.set('productname', brLogin.productname.title)
       if (brLogin.logoPath) {
         sidemenu.logo.style.backgroundImage = 'url(' + brLogin.logoPath + ')'
-      }
-
-      // hide handle
-      brFrame.menuhandle.style.visibility = 'hidden'
-      //brFrame.sidemenuhandle.style.zIndex = 99999;
-
+      } // hide handle
+      brFrame.menuhandle.style.visibility = 'hidden' //brFrame.sidemenuhandle.style.zIndex = 99999;
       // create side pane
       var SidePaneWidgetConstructor = declare(
         [ContentPane, _TemplatedMixin, _WidgetsInTemplateMixin],
-        {
-          ucMsgs: ucMsgs,
-          templateString: brUCSidePaneHtml,
-        },
+        { ucMsgs: ucMsgs, templateString: brUCSidePaneHtml },
       )
       sidePaneWidget = new SidePaneWidgetConstructor({
         id: 'sidePaneWidget',
@@ -986,16 +862,13 @@ if (!window.Brekeke.UCClientUI) {
         sidePaneWidget.checkBoxOnlineOnly,
         'onChange',
         checkBoxOnlineOnly_onChange,
-      )
-
-      // create buddylist tree
+      ) // create buddylist tree
       storeBuddylist = new Memory({
         data: [
           { id: ROOT_GROUP_ID }, // root of tree
         ],
         getChildren: storeBuddylist_getChildren,
-      })
-      // Wrap the store in Observable so that updates to the store are reflected to the Tree
+      }) // Wrap the store in Observable so that updates to the store are reflected to the Tree
       storeBuddylist = Observable(storeBuddylist)
       var model = new ObjectStoreModel({
         store: storeBuddylist,
@@ -1023,9 +896,7 @@ if (!window.Brekeke.UCClientUI) {
         onClose: treeBuddylist_onClose,
       })
       treeBuddylist.placeAt(sidePaneWidget.panelBuddylist)
-      treeBuddylist.startup()
-
-      // create buddylist tree context menu
+      treeBuddylist.startup() // create buddylist tree context menu
       var MenuBuddylistConstructor = declare([Menu], {
         _openMyself: menuBuddylist_openMyself,
       })
@@ -1075,9 +946,7 @@ if (!window.Brekeke.UCClientUI) {
           onClick: menuItemBuddylist_onClick,
         }),
       )
-      menuBuddylist.startup()
-
-      // menu resizer
+      menuBuddylist.startup() // menu resizer
       menuResizer = new ContentPane({
         id: 'menuResizer',
         class: 'brUCMenuResizer',
@@ -1099,20 +968,14 @@ if (!window.Brekeke.UCClientUI) {
         menuResizerMoveable,
         'onMoveStop',
         menuResizerMoveable_onMoveStop,
-      )
-
-      // message bar
-      messageBar = messageBar_create(domConstruct)
-
-      // create splittable panel
+      ) // message bar
+      messageBar = messageBar_create(domConstruct) // create splittable panel
       panelSplittable = new BorderContainer({
         id: 'panelSplittable',
         liveSplitters: false,
       })
       panelSplittable.placeAt(brFrame.containerNode)
-      panelSplittable.startup()
-
-      // declare tab panel class
+      panelSplittable.startup() // declare tab panel class
       PanelTabConstructor = declare([TabContainer], {
         dndTarget: null,
         dndSource: null,
@@ -1124,9 +987,7 @@ if (!window.Brekeke.UCClientUI) {
         addChild: panelTab_addChild,
         removeChild: panelTab_removeChild,
         selectChild: panelTab_selectChild,
-      })
-
-      // declare tab child panel class
+      }) // declare tab child panel class
       PanelTabChildConstructor = declare([ContentPane], {
         tabOrder: 0,
         panelType: '',
@@ -1135,8 +996,7 @@ if (!window.Brekeke.UCClientUI) {
         selectedEvents: null,
         onClose: PanelTabChild_onClose,
         registerSelectedEvent: PanelTabChild_registerSelectedEvent,
-      })
-      // declare chat panel class (inherits from PanelTabChildConstructor)
+      }) // declare chat panel class (inherits from PanelTabChildConstructor)
       PanelChatConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1151,8 +1011,7 @@ if (!window.Brekeke.UCClientUI) {
           onAddedToTab: panelChat_onAddedToTab,
           onRemovingFromTab: panelChat_onRemovingFromTab,
         },
-      )
-      // declare webchat queue panel class (inherits from PanelTabChildConstructor)
+      ) // declare webchat queue panel class (inherits from PanelTabChildConstructor)
       PanelWebchatQueueConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1162,8 +1021,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelWebchatQueue_postCreate,
           destroy: panelWebchatQueue_destroy,
         },
-      )
-      // declare preference panel class (inherits from PanelTabChildConstructor)
+      ) // declare preference panel class (inherits from PanelTabChildConstructor)
       PanelPreferenceConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1174,8 +1032,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelPreference_postCreate,
           destroy: panelPreference_destroy,
         },
-      )
-      // declare history panel class (inherits from PanelTabChildConstructor)
+      ) // declare history panel class (inherits from PanelTabChildConstructor)
       PanelHistoryConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1184,8 +1041,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelHistory_postCreate,
           destroy: panelHistory_destroy,
         },
-      )
-      // declare history panel class (inherits from PanelTabChildConstructor)
+      ) // declare history panel class (inherits from PanelTabChildConstructor)
       PanelHistorySearchConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1198,8 +1054,7 @@ if (!window.Brekeke.UCClientUI) {
           onAddedToTab: panelHistorySearch_onAddedToTab,
           onRemovingFromTab: panelHistorySearch_onRemovingFromTab,
         },
-      )
-      // declare server settings panel class (inherits from PanelTabChildConstructor)
+      ) // declare server settings panel class (inherits from PanelTabChildConstructor)
       PanelServerSettingsConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1209,8 +1064,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelServerSettings_postCreate,
           destroy: panelServerSettings_destroy,
         },
-      )
-      // declare block list settings panel class (inherits from PanelTabChildConstructor)
+      ) // declare block list settings panel class (inherits from PanelTabChildConstructor)
       PanelBlockListSettingsConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1220,8 +1074,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelBlockListSettings_postCreate,
           destroy: panelBlockListSettings_destroy,
         },
-      )
-      // declare user management panel class (inherits from PanelTabChildConstructor)
+      ) // declare user management panel class (inherits from PanelTabChildConstructor)
       PanelUserManagementConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1231,8 +1084,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelUserManagement_postCreate,
           destroy: panelUserManagement_destroy,
         },
-      )
-      // declare tenant settings panel class (inherits from PanelTabChildConstructor)
+      ) // declare tenant settings panel class (inherits from PanelTabChildConstructor)
       PanelTenantTableConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1242,8 +1094,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelTenantTable_postCreate,
           destroy: panelTenantTable_destroy,
         },
-      )
-      // declare tenant settings panel class (inherits from PanelTabChildConstructor)
+      ) // declare tenant settings panel class (inherits from PanelTabChildConstructor)
       PanelTenantPropertyConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1254,8 +1105,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelTenantProperty_postCreate,
           destroy: panelTenantProperty_destroy,
         },
-      )
-      // declare tenant settings panel class (inherits from PanelTabChildConstructor)
+      ) // declare tenant settings panel class (inherits from PanelTabChildConstructor)
       PanelTenantSettingsConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1265,8 +1115,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelTenantSettings_postCreate,
           destroy: panelTenantSettings_destroy,
         },
-      )
-      // declare advanced settings panel class (inherits from PanelTabChildConstructor)
+      ) // declare advanced settings panel class (inherits from PanelTabChildConstructor)
       PanelAdvancedSettingsConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1276,8 +1125,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelAdvancedSettings_postCreate,
           destroy: panelAdvancedSettings_destroy,
         },
-      )
-      // declare software update panel class (inherits from PanelTabChildConstructor)
+      ) // declare software update panel class (inherits from PanelTabChildConstructor)
       PanelSoftwareUpdateConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1286,8 +1134,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelSoftwareUpdate_postCreate,
           destroy: panelSoftwareUpdate_destroy,
         },
-      )
-      // declare activate license panel class (inherits from PanelTabChildConstructor)
+      ) // declare activate license panel class (inherits from PanelTabChildConstructor)
       PanelActivateLicenseConstructor = declare(
         [PanelTabChildConstructor, _TemplatedMixin, _WidgetsInTemplateMixin],
         {
@@ -1296,9 +1143,7 @@ if (!window.Brekeke.UCClientUI) {
           postCreate: panelActivateLicense_postCreate,
           destroy: panelActivateLicense_destroy,
         },
-      )
-
-      // audios
+      ) // audios
       domConstruct.place(
         domConstruct.toDom(
           '<audio id="audioBell" src="' +
@@ -1334,22 +1179,16 @@ if (!window.Brekeke.UCClientUI) {
         ),
         brFrame.domNode,
         'after',
-      )
-
-      // canvas
+      ) // canvas
       domConstruct.place(
         domConstruct.toDom(
           '<canvas id="canvasSoundOnly" style="display: none;"></canvas>',
         ),
         brFrame.domNode,
         'after',
-      )
-
-      // window
+      ) // window
       window.onfocus = window_onfocus
-      window.onclick = window_onclickFirst
-
-      // parameters of displaying message
+      window.onclick = window_onclickFirst // parameters of displaying message
       senderKeyToParagraphClass.push(SENDER_KEY_ME)
       for (var n in _SmileyPalette.Emoticon.ascii) {
         smileyAsciiToHtml.push({
@@ -1373,17 +1212,14 @@ if (!window.Brekeke.UCClientUI) {
         '"https?://[\\w!#\\$%&\'\\(\\)\\*\\+,\\-\\./:;=\\?@~]+',
         'g',
       )
-
       if (funcOK) {
         funcOK()
       }
     })
   }
-
   /*
    * Function loadCookiePreference
-   */
-  var loadCookiePreference = function () {
+   */ var loadCookiePreference = function loadCookiePreference() {
     var profile = chatClient.getProfile()
     var userKey = encodeURIComponent(
       JSON.stringify([profile.tenant, profile.user_id]),
@@ -1420,11 +1256,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function saveCookiePreference
-   */
-  var saveCookiePreference = function () {
+   */ var saveCookiePreference = function saveCookiePreference() {
     var profile = chatClient.getProfile()
     var userKey = encodeURIComponent(
       JSON.stringify([profile.tenant, profile.user_id]),
@@ -1486,11 +1320,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function displayUserType
-   */
-  var displayUserType = function () {
+   */ var displayUserType = function displayUserType() {
     var profile = chatClient.getProfile()
     var configProperties = chatClient.getConfigProperties()
     var settingsMenuData = []
@@ -1747,11 +1579,9 @@ if (!window.Brekeke.UCClientUI) {
     }
     brFrame.sidemenu.setSettingsMenuData(settingsMenuData)
   }
-
   /*
    * Function displaySplittable
-   */
-  var displaySplittable = function () {
+   */ var displaySplittable = function displaySplittable() {
     require(['dijit/layout/BorderContainer'], function (BorderContainer) {
       // create new tab panels
       var newPanelsTab = []
@@ -1823,9 +1653,7 @@ if (!window.Brekeke.UCClientUI) {
           region: 'center',
           moveTo: [0, 1, 2, 3],
         })
-      }
-
-      // remove children from old tab panels
+      } // remove children from old tab panels
       var movingChildren = [[], [], [], []]
       var selectedChildren = []
       for (var i = 0; i < panelsTab.length; i++) {
@@ -1850,28 +1678,22 @@ if (!window.Brekeke.UCClientUI) {
           }
           panelsTab[i].removeChild(children[j])
         }
-      }
-
-      // delete old tab panels
+      } // delete old tab panels
       while (panelsTab.length > 0) {
         var p = panelsTab.pop()
         p.getParent().removeChild(p)
         p.destroy()
-      }
-      // delete old splittable panels
+      } // delete old splittable panels
       while (panelsSplittableChild.length > 0) {
         var p = panelsSplittableChild.pop()
         p.getParent().removeChild(p)
         p.destroy()
-      }
-
-      // display new splittable panels
+      } // display new splittable panels
       for (var i = 0; i < newPanelsSplittableChild.length; i++) {
         panelSplittable.addChild(newPanelsSplittableChild[i])
         newPanelsSplittableChild[i].startup()
         panelsSplittableChild[i] = newPanelsSplittableChild[i]
-      }
-      // display new tab panels
+      } // display new tab panels
       for (var i = 0; i < newPanelsTab.length; i++) {
         if (!newPanelsTab[i].domNode.parentNode) {
           panelSplittable.addChild(newPanelsTab[i])
@@ -1879,12 +1701,9 @@ if (!window.Brekeke.UCClientUI) {
         newPanelsTab[i].startup()
         panelsTab[i] = newPanelsTab[i]
       }
-      lastAddedPanelTabIndex = panelsTab.length - 1
-
-      // move children to new tab panels
+      lastAddedPanelTabIndex = panelsTab.length - 1 // move children to new tab panels
       for (var i = 0; i < newPanelsTab.length; i++) {
-        var newChildren = movingChildren[i]
-        // sort by tab order
+        var newChildren = movingChildren[i] // sort by tab order
         newChildren.sort(function (a, b) {
           return a.tabOrder - b.tabOrder
         })
@@ -1892,53 +1711,38 @@ if (!window.Brekeke.UCClientUI) {
           newPanelsTab[i].addChild(newChildren[j])
         }
         newPanelsTab[i].tabOrderInitialized = true
-      }
-      // re-select children
+      } // re-select children
       for (var i = selectedChildren.length - 1; i >= 0; i--) {
         selectedChildren[i].getParent().selectChild(selectedChildren[i])
       }
     })
   }
-
   /*
    * Function displayProfiles
-   */
-  var displayProfiles = function () {
+   */ var displayProfiles = function displayProfiles() {
     // display name
-    displayName()
-
-    // display status
+    displayName() // display status
     displayStatus()
-    displayMenuItemStatusDisplay()
-
-    // display tool bar
-    displayTool()
-
-    // display buddylist
-    displayBuddylist(true)
-
-    // display buddy status on panel (for re-sign-in)
+    displayMenuItemStatusDisplay() // display tool bar
+    displayTool() // display buddylist
+    displayBuddylist(true) // display buddy status on panel (for re-sign-in)
     var buddylist = chatClient.getBuddylist()
     for (var i = 0; i < buddylist.user.length; i++) {
       var buddy = buddylist.user[i]
       displayBuddyStatus(buddy.tenant, buddy.user_id)
     }
   }
-
   /*
    * Function displayName
-   */
-  var displayName = function () {
+   */ var displayName = function displayName() {
     var profile = chatClient.getProfile()
     sidePaneWidget.labelName.innerHTML = mySignInParams.admin_mode
       ? escapeHTML(string(profile.user_id).split('?')[0])
       : escapeHTML(profile.name || profile.user_id)
   }
-
   /*
    * Function displayStatus
-   */
-  var displayStatus = function () {
+   */ var displayStatus = function displayStatus() {
     var iconClass = getStatusIconClass(myStatus.status)
     var statusStr =
       myStatus.status === Constants.STATUS_OFFLINE
@@ -1961,9 +1765,7 @@ if (!window.Brekeke.UCClientUI) {
     sidePaneWidget.dropDownButtonStatus.set('disabled', false)
     sidePaneWidget.textBoxDisplay.set('value', myStatus.display)
     sidePaneWidget.textBoxDisplay.set('disabled', false)
-    sidePaneWidget.dropDownButtonDisplay.set('disabled', false)
-
-    // display on chat panel
+    sidePaneWidget.dropDownButtonDisplay.set('disabled', false) // display on chat panel
     var profile = chatClient.getProfile()
     for (var key in panelsChat) {
       var buddy = {}
@@ -1974,41 +1776,33 @@ if (!window.Brekeke.UCClientUI) {
         continue
       }
       displayStatusWarning(buddy.tenant, buddy.user_id)
-    }
-    // display on conference panel
+    } // display on conference panel
     for (var conf_id in panelsConference) {
       displayBuddyStatusOnConference(profile.tenant, profile.user_id, conf_id)
-    }
-
-    // display lamp
+    } // display lamp
     if (lampObject) {
       lampObject.status = myStatus.status
       lampObject.changeLamp(lampObject)
     }
   }
-
   /*
    * Function displayTool
-   */
-  var displayTool = function () {
+   */ var displayTool = function displayTool() {
     var configProperties = chatClient.getConfigProperties()
     sidePaneWidget.buttonAddBuddy.domNode.style.display =
       configProperties.buddy_mode === Constants.BUDDY_MODE_MANUAL ? '' : 'none'
     sidePaneWidget.buttonAddGroup.domNode.style.display =
       configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO ? 'none' : ''
   }
-
   /*
    * Function displayBuddylist
-   */
-  var displayBuddylist = function (refreshOrder) {
+   */ var displayBuddylist = function displayBuddylist(refreshOrder) {
     var buddylist = chatClient.getBuddylist()
     var configProperties = chatClient.getConfigProperties()
     var groupUserCount = {}
     var updatedIds = {}
     var buddylistShownCountTable = {}
     var buddylistOpenTable = {}
-
     if (refreshOrder) {
       // delete all buddy items from storeBuddylist
       var allItems = storeBuddylist.query(function (object) {
@@ -2032,15 +1826,12 @@ if (!window.Brekeke.UCClientUI) {
       allItems.forEach(function (object) {
         // delete
         storeBuddylist.remove(object.id)
-      })
-
-      // load isExpanded from cookie
+      }) // load isExpanded from cookie
       var buddylistOpenList = cookiePreference.buddylistOpenList.split(',')
       for (var i = 0; i < buddylistOpenList.length; i++) {
         buddylistOpenTable[buddylistOpenList[i]] = true
       }
     }
-
     for (var i = 0; i < buddylist.user.length; i++) {
       var buddy = buddylist.user[i]
       var item = null
@@ -2090,15 +1881,13 @@ if (!window.Brekeke.UCClientUI) {
           }
         }
       }
-
       if (buddy.user_id) {
         // user
         // buddy status
         var buddyStatus = chatClient.getBuddyStatus({
           tenant: buddy.tenant,
           user_id: buddy.user_id,
-        })
-        // filter
+        }) // filter
         var displays = true
         if (buddylistFilter) {
           if (
@@ -2113,9 +1902,7 @@ if (!window.Brekeke.UCClientUI) {
           if (buddyStatus.status === Constants.STATUS_OFFLINE) {
             displays = false
           }
-        }
-
-        // update item of storeBuddylist
+        } // update item of storeBuddylist
         if (item) {
           // update name
           item.name = string(buddy.name || buddy.user_id)
@@ -2126,9 +1913,7 @@ if (!window.Brekeke.UCClientUI) {
           ) {
             // TODO: yano test
             item.name += ' (' + buddy.user_id + ')'
-          }
-
-          // update buddy status
+          } // update buddy status
           var iconClass = getStatusIconClass(buddyStatus.status)
           var iconNode = dojo.query(
             '.brUCTreeIcon',
@@ -2146,14 +1931,10 @@ if (!window.Brekeke.UCClientUI) {
               'error',
               'not found .brUCTreeIcon of user_id==' + buddy.user_id,
             )
-          }
-
-          // update buddy status display
+          } // update buddy status display
           if (buddyStatus.display) {
             item.name += ' - ' + buddyStatus.display
-          }
-
-          // emphasize active (editor-focused) buddy
+          } // emphasize active (editor-focused) buddy
           var labelNode = dojo.query(
             '.dijitTreeLabel',
             treeBuddylist.getNodesByItem(item)[0].domNode,
@@ -2174,9 +1955,7 @@ if (!window.Brekeke.UCClientUI) {
               'error',
               'not found .dijitTreeLabel of user_id==' + buddy.user_id,
             )
-          }
-
-          // update buddy profile image
+          } // update buddy profile image
           var expandoNode = dojo.query(
             '.dijitTreeExpando',
             treeBuddylist.getNodesByItem(item)[0].domNode,
@@ -2194,9 +1973,7 @@ if (!window.Brekeke.UCClientUI) {
               'error',
               'not found .dijitTreeExpando of user_id==' + buddy.user_id,
             )
-          }
-
-          // display or not
+          } // display or not
           var treeNode = treeBuddylist.getNodesByItem(item)
           if (treeNode[0]) {
             treeNode[0].domNode.style.display = displays ? '' : 'none'
@@ -2206,18 +1983,11 @@ if (!window.Brekeke.UCClientUI) {
               'not found treeNode of user_id==' + buddy.user_id,
             )
           }
-
           storeBuddylist.notify(item, item.id)
-
           updatedIds[item.id] = true
-        }
-
-        // group online/total user count
+        } // group online/total user count
         if (!groupUserCount[buddy.group]) {
-          groupUserCount[buddy.group] = {
-            online: 0,
-            total: 0,
-          }
+          groupUserCount[buddy.group] = { online: 0, total: 0 }
         }
         if (displays) {
           groupUserCount[buddy.group].total++
@@ -2231,43 +2001,31 @@ if (!window.Brekeke.UCClientUI) {
         if (item) {
           // update name
           item.name = string(buddy.name)
-
           dojo.addClass(
             treeBuddylist.getNodesByItem(item)[0].domNode,
             'brUCTreeNodeGroup',
           )
-
           storeBuddylist.notify(item, item.id)
-
           updatedIds[item.id] = true
         }
       }
-    }
-
-    // display group online/total user count
+    } // display group online/total user count
     for (var i = 0; i < buddylist.user.length; i++) {
       var buddy = buddylist.user[i]
       if (!buddy.user_id) {
         // group
         var item = storeBuddylist.get(buddy.id)
-
         if (!groupUserCount[buddy.id]) {
-          groupUserCount[buddy.id] = {
-            online: 0,
-            total: 0,
-          }
+          groupUserCount[buddy.id] = { online: 0, total: 0 }
         }
         item.name +=
           ' ' +
           groupUserCount[buddy.id].online +
           '/' +
           groupUserCount[buddy.id].total
-
         storeBuddylist.notify(item, item.id)
       }
-    }
-
-    // delete item from storeBuddylist
+    } // delete item from storeBuddylist
     var itemsToDelete = storeBuddylist.query(function (object) {
       // not updated && not root && not show more
       return (
@@ -2279,7 +2037,6 @@ if (!window.Brekeke.UCClientUI) {
     itemsToDelete.forEach(function (object) {
       storeBuddylist.remove(object.id)
     })
-
     if (refreshOrder) {
       // expand or collapse
       var itemsToExpand = storeBuddylist.query(function (object) {
@@ -2306,15 +2063,15 @@ if (!window.Brekeke.UCClientUI) {
       saveBuddylistOpenList()
     }
   }
-
   /*
    * Function showMoreBuddylist
-   */
-  var showMoreBuddylist = function (showMoreItem, maxCount) {
+   */ var showMoreBuddylist = function showMoreBuddylist(
+    showMoreItem,
+    maxCount,
+  ) {
     var buddylist = chatClient.getBuddylist()
     var insertCount = 0
     var hasMore = false
-
     for (var i = 0; i < buddylist.user.length; i++) {
       var buddy = buddylist.user[i]
       var item = null
@@ -2342,7 +2099,6 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
     }
-
     if (hasMore) {
       storeBuddylist.remove(showMoreItem.id)
       storeBuddylist.add(showMoreItem, { id: showMoreItem.id })
@@ -2355,16 +2111,12 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
     showMoreItem.shown = true
-
     displayBuddylist(false)
-
     saveBuddylistOpenList()
   }
-
   /*
    * Function saveBuddylistOpenList
-   */
-  var saveBuddylistOpenList = function () {
+   */ var saveBuddylistOpenList = function saveBuddylistOpenList() {
     if (signedIn) {
       var buddylistOpenList = []
       var allItems = storeBuddylist.query(function (object) {
@@ -2387,11 +2139,9 @@ if (!window.Brekeke.UCClientUI) {
       saveCookiePreference()
     }
   }
-
   /*
    * Function signOut
-   */
-  var signOut = function () {
+   */ var signOut = function signOut() {
     require(['dojo/cookie'], function (cookie) {
       cookie(brLogin.appname + '.brlogin.signedout', true, { expires: 1 })
       phone.stopWebRTC(true)
@@ -2422,11 +2172,9 @@ if (!window.Brekeke.UCClientUI) {
       window.location.reload()
     })
   }
-
   /*
    * Function disposeOnSignOut
-   */
-  var disposeOnSignOut = function () {
+   */ var disposeOnSignOut = function disposeOnSignOut() {
     // dispose ChatClient
     chatClient.setEventListeners({
       forcedSignOut: null,
@@ -2450,23 +2198,18 @@ if (!window.Brekeke.UCClientUI) {
     })
     chatClient = null
   }
-
   /*
    * Function createGroup
-   */
-  var createGroup = function (group_id) {
+   */ var createGroup = function createGroup(group_id) {
     if (!group_id) {
       return
     }
-
     var buddylist = chatClient.getBuddylist()
     var configProperties = chatClient.getConfigProperties()
-
     if (configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO) {
       logger.log('error', 'invalid buddy_mode==' + configProperties.buddy_mode)
       return
     }
-
     for (var i = 0; i < buddylist.user.length; i++) {
       if (buddylist.user[i].id === group_id) {
         windowAlert(
@@ -2476,13 +2219,7 @@ if (!window.Brekeke.UCClientUI) {
         return
       }
     }
-
-    buddylist.user.push({
-      id: group_id,
-      name: group_id,
-      group: ROOT_GROUP_ID,
-    })
-
+    buddylist.user.push({ id: group_id, name: group_id, group: ROOT_GROUP_ID })
     chatClient.saveProperties(
       null,
       null,
@@ -2510,23 +2247,18 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function removeGroup
-   */
-  var removeGroup = function (group_id) {
+   */ var removeGroup = function removeGroup(group_id) {
     if (!group_id) {
       return
     }
-
     var buddylist = chatClient.getBuddylist()
     var configProperties = chatClient.getConfigProperties()
-
     if (configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO) {
       logger.log('error', 'invalid buddy_mode==' + configProperties.buddy_mode)
       return
     }
-
     var index = -1
     for (var i = 0; i < buddylist.user.length; i++) {
       if (buddylist.user[i].group === group_id) {
@@ -2544,9 +2276,7 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'not found group of group_id==' + group_id)
       return
     }
-
     buddylist.user.splice(index, 1)
-
     chatClient.saveProperties(
       null,
       null,
@@ -2574,19 +2304,15 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function moveBuddy
-   */
-  var moveBuddy = function (target, source, position) {
+   */ var moveBuddy = function moveBuddy(target, source, position) {
     var buddylist = chatClient.getBuddylist()
     var configProperties = chatClient.getConfigProperties()
-
     if (configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO) {
       logger.log('error', 'invalid buddy_mode==' + configProperties.buddy_mode)
       return
     }
-
     var sourceIndex = -1
     for (var i = 0; i < buddylist.user.length; i++) {
       if (
@@ -2607,9 +2333,7 @@ if (!window.Brekeke.UCClientUI) {
       return
     }
     var sourceBuddy = buddylist.user[sourceIndex]
-
     buddylist.user.splice(sourceIndex, 1)
-
     var targetIndex = -1
     for (var i = 0; i < buddylist.user.length; i++) {
       if (
@@ -2630,7 +2354,6 @@ if (!window.Brekeke.UCClientUI) {
       return
     }
     var targetBuddy = buddylist.user[targetIndex]
-
     if (position === 'before') {
       sourceBuddy.group = targetBuddy.group
       buddylist.user.splice(targetIndex, 0, sourceBuddy)
@@ -2648,7 +2371,6 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'invalid position==' + position)
       return
     }
-
     chatClient.saveProperties(
       null,
       null,
@@ -2676,11 +2398,9 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function changeStatus
-   */
-  var changeStatus = function (status, display) {
+   */ var changeStatus = function changeStatus(status, display) {
     // changeStatus
     chatClient.changeStatus(
       status,
@@ -2701,11 +2421,9 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * memoryStatusDisplay
-   */
-  var memoryStatusDisplay = function (display) {
+   */ var memoryStatusDisplay = function memoryStatusDisplay(display) {
     if (!display) {
       return
     }
@@ -2738,33 +2456,36 @@ if (!window.Brekeke.UCClientUI) {
       null,
     )
   }
-
   /*
    * displayMenuItemStatusDisplay
-   */
-  var displayMenuItemStatusDisplay = function () {
-    var settings = chatClient.getSettings()
-    var status_display_history =
-      (settings.optional_settings &&
-        settings.optional_settings.status_display_history) ||
-      []
-    for (var i = 0; i < MENU_ITEM_STATUS_DISPLAY_LENGTH; i++) {
-      if (i < status_display_history.length) {
-        sidePaneWidget['menuItemDisplay' + i].set(
-          'label',
-          escapeHTML(status_display_history[i]),
-        )
-        sidePaneWidget['menuItemDisplay' + i].domNode.style.display = ''
-      } else {
-        sidePaneWidget['menuItemDisplay' + i].domNode.style.display = 'none'
+   */ var displayMenuItemStatusDisplay =
+    function displayMenuItemStatusDisplay() {
+      var settings = chatClient.getSettings()
+      var status_display_history =
+        (settings.optional_settings &&
+          settings.optional_settings.status_display_history) ||
+        []
+      for (var i = 0; i < MENU_ITEM_STATUS_DISPLAY_LENGTH; i++) {
+        if (i < status_display_history.length) {
+          sidePaneWidget['menuItemDisplay' + i].set(
+            'label',
+            escapeHTML(status_display_history[i]),
+          )
+          sidePaneWidget['menuItemDisplay' + i].domNode.style.display = ''
+        } else {
+          sidePaneWidget['menuItemDisplay' + i].domNode.style.display = 'none'
+        }
       }
     }
-  }
-
   /*
    * Function openChat
-   */
-  var openChat = function (tenant, user_id, panelTab, insertIndex, onTop) {
+   */ var openChat = function openChat(
+    tenant,
+    user_id,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var buddy = { tenant: tenant, user_id: user_id }
     var key = JSON.stringify(buddy)
     var panel = null
@@ -2808,14 +2529,16 @@ if (!window.Brekeke.UCClientUI) {
         }
       }, 0)
     }
-
     return panel
   }
-
   /*
    * Function openConference
-   */
-  var openConference = function (conf_id, panelTab, insertIndex, onTop) {
+   */ var openConference = function openConference(
+    conf_id,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = conf_id
     var panel = null
     var conference = chatClient.getConference(conf_id)
@@ -2861,14 +2584,11 @@ if (!window.Brekeke.UCClientUI) {
         }
       }, 0)
     }
-
     return panel
   }
-
   /*
    * Function openBroadcast
-   */
-  var openBroadcast = function (panelTab, insertIndex, onTop) {
+   */ var openBroadcast = function openBroadcast(panelTab, insertIndex, onTop) {
     // create panel
     var panel = new PanelChatConstructor({
       dndTargets: [{ query: '.brUCPanelChatHeaderBuddies' }], // register dnd targets
@@ -2892,14 +2612,11 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openExternalCall
-   */
-  var openExternalCall = function (
+   */ var openExternalCall = function openExternalCall(
     target,
     title,
     panelTab,
@@ -2929,14 +2646,15 @@ if (!window.Brekeke.UCClientUI) {
       panel.getParent().selectChild(panel)
       panel.textBoxHeaderTarget.focus()
     }
-
     return panel
   }
-
   /*
    * Function openWebchatQueue
-   */
-  var openWebchatQueue = function (panelTab, insertIndex, onTop) {
+   */ var openWebchatQueue = function openWebchatQueue(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsWebchatQueue).length === 0) {
       // create panel
@@ -2959,20 +2677,20 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openPreference
-   */
-  var openPreference = function (panelTab, insertIndex, onTop) {
+   */ var openPreference = function openPreference(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsPreference).length === 0) {
       var profile = chatClient.getProfile()
       var settings = chatClient.getSettings()
-      var configProperties = chatClient.getConfigProperties()
-      // create panel
+      var configProperties = chatClient.getConfigProperties() // create panel
       panel = new PanelPreferenceConstructor()
       openNewTab(panel, panelTab, insertIndex, 'PREFERENCE', null)
       if (getBrowser() !== 'Chrome' && getBrowser() !== 'Firefox') {
@@ -3013,8 +2731,7 @@ if (!window.Brekeke.UCClientUI) {
         panel.trDisplayName.style.display = 'none'
         panel.trAutoCloseRequest.style.display = 'none'
       }
-      panel.set('title', ucMsgs.TAB_PREFERENCE)
-      // init preference data
+      panel.set('title', ucMsgs.TAB_PREFERENCE) // init preference data
       preferenceWorkData[panel.panelKey] = {}
       preferenceWorkData[panel.panelKey].initial_status =
         settings.initial_status
@@ -3070,11 +2787,7 @@ if (!window.Brekeke.UCClientUI) {
           panel.tdUserLanguage.appendChild(document.createTextNode(' '))
           panel.tdUserLanguage.appendChild(label)
           var radioButton = new RadioButton(
-            {
-              checked: false,
-              value: input.value,
-              name: input.name,
-            },
+            { checked: false, value: input.value, name: input.name },
             input,
           )
           radioButton.startup()
@@ -3089,8 +2802,7 @@ if (!window.Brekeke.UCClientUI) {
             ),
           )
           panel.radioButtonUserLanguageList[language] = radioButton
-        }
-        // create menu items of webrtc type
+        } // create menu items of webrtc type
         var webrtc_types = []
         try {
           webrtc_types =
@@ -3108,7 +2820,7 @@ if (!window.Brekeke.UCClientUI) {
               i === 0
                 ? ucMsgs.LBL_WEBRTC_TYPE_STANDARD
                 : string(webrtc_types[i].name),
-            onClick: function () {
+            onClick: function onClick() {
               preferenceWorkData[panel.panelKey].webRTCTypeName =
                 this.get('value')
               panel.dropDownButtonWebRTCType.set('label', this.label)
@@ -3116,8 +2828,7 @@ if (!window.Brekeke.UCClientUI) {
           })
           item.set('value', string(webrtc_types[i].name))
           panel.dropDownMenuWebRTCType.addChild(item)
-        }
-        // display preference data
+        } // display preference data
         displayPreference(panel)
         panel.imgProfileImage.style.backgroundImage = 'url(./img/progress.gif)' // cache progress.gif
         panel.imgProfileImage.setAttribute('data-brekeke-uc-url', '')
@@ -3146,14 +2857,11 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openHistory
-   */
-  var openHistory = function (panelTab, insertIndex, onTop) {
+   */ var openHistory = function openHistory(panelTab, insertIndex, onTop) {
     // create panel
     var panel = new PanelHistoryConstructor()
     openNewTab(panel, panelTab, insertIndex, 'HISTORY', null)
@@ -3162,14 +2870,11 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openHistorySearch
-   */
-  var openHistorySearch = function (
+   */ var openHistorySearch = function openHistorySearch(
     panelTab,
     insertIndex,
     onTop,
@@ -3181,8 +2886,7 @@ if (!window.Brekeke.UCClientUI) {
     openNewTab(panel, panelTab, insertIndex, 'HISTORYSEARCH', null)
     panel.panelTopics.style.display = 'none'
     panel.buttonShowMore.domNode.style.display = 'none'
-    panel.set('title', ucMsgs.TAB_HISTORY)
-    // init search condition data
+    panel.set('title', ucMsgs.TAB_HISTORY) // init search condition data
     var user_id = null
     if (user && user.user_id) {
       user_id = user.user_id
@@ -3198,7 +2902,6 @@ if (!window.Brekeke.UCClientUI) {
       panel.getParent().selectChild(panel)
       panel.textBoxConditionSimple.focus()
     }
-
     if (user_id) {
       // default label
       panel.dropDownButtonConditionSimpleUser.set(
@@ -3209,18 +2912,14 @@ if (!window.Brekeke.UCClientUI) {
         'title',
         chatClient.getBuddyUser(user).name || user_id,
       )
-    }
-
-    // init menu items
+    } // init menu items
     require(['dijit/MenuItem'], function (MenuItem) {
       var buddylist = chatClient.getBuddylist()
       var index = 1
       for (var i = 0; i < buddylist.user.length; i++) {
         var buddy = buddylist.user[i]
         if (buddy.user_id) {
-          var item = new MenuItem({
-            label: buddy.name || buddy.user_id,
-          })
+          var item = new MenuItem({ label: buddy.name || buddy.user_id })
           panel.dropDownMenuConditionSimpleUser.addChild(item, index++)
           var thisArg = {
             panelKey: panel.panelKey,
@@ -3238,7 +2937,6 @@ if (!window.Brekeke.UCClientUI) {
               ),
             ),
           )
-
           if (buddy.user_id === searchConditionHistory[panel.panelKey].user) {
             panel.dropDownButtonConditionSimpleUser.set(
               'label',
@@ -3252,22 +2950,21 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
     })
-
     setTimeout(function () {
       searchTopicsSimple(panel)
     }, 0)
-
     return panel
   }
-
   /*
    * Function openServerSettings
-   */
-  var openServerSettings = function (panelTab, insertIndex, onTop) {
+   */ var openServerSettings = function openServerSettings(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsServerSettings).length === 0) {
-      var configProperties = chatClient.getConfigProperties()
-      // create panel
+      var configProperties = chatClient.getConfigProperties() // create panel
       panel = new PanelServerSettingsConstructor()
       openNewTab(panel, panelTab, insertIndex, 'SERVERSETTINGS', null)
       panel.buttonSaveServerSettings.set('disabled', true)
@@ -3326,14 +3023,15 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openBlockListSettings
-   */
-  var openBlockListSettings = function (panelTab, insertIndex, onTop) {
+   */ var openBlockListSettings = function openBlockListSettings(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsBlockListSettings).length === 0) {
       // create panel
@@ -3399,8 +3097,7 @@ if (!window.Brekeke.UCClientUI) {
                 buttonDelete.title = 'Delete'
                 tdDelete.appendChild(buttonDelete)
                 tr.appendChild(tdDelete)
-                panel.tbodyBlockList.appendChild(tr)
-                // register event
+                panel.tbodyBlockList.appendChild(tr) // register event
                 panel.handlers.push(
                   dojo.connect(
                     buttonDelete,
@@ -3442,14 +3139,15 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openUserManagement
-   */
-  var openUserManagement = function (panelTab, insertIndex, onTop) {
+   */ var openUserManagement = function openUserManagement(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsUserManagement).length === 0) {
       // create panel
@@ -3473,14 +3171,15 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openTenantTable
-   */
-  var openTenantTable = function (panelTab, insertIndex, onTop) {
+   */ var openTenantTable = function openTenantTable(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsTenantTable).length === 0) {
       // create panel
@@ -3530,19 +3229,20 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openTenantProperty
-   */
-  var openTenantProperty = function (tenant, panelTab, insertIndex, onTop) {
+   */ var openTenantProperty = function openTenantProperty(
+    tenant,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = tenant
     var panel = null
     if (!panelsTenantProperty[key]) {
-      var configProperties = chatClient.getConfigProperties()
-      // create panel
+      var configProperties = chatClient.getConfigProperties() // create panel
       panel = new PanelTenantPropertyConstructor()
       openNewTab(panel, panelTab, insertIndex, 'TENANTPROPERTY', key)
       panel.set(
@@ -3772,11 +3472,7 @@ if (!window.Brekeke.UCClientUI) {
           panel.tdLanguageSetting.appendChild(document.createTextNode(' '))
           panel.tdLanguageSetting.appendChild(label)
           var radioButton = new RadioButton(
-            {
-              checked: false,
-              value: input.value,
-              name: input.name,
-            },
+            { checked: false, value: input.value, name: input.name },
             input,
           )
           radioButton.startup()
@@ -3851,14 +3547,15 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openTenantSettings
-   */
-  var openTenantSettings = function (panelTab, insertIndex, onTop) {
+   */ var openTenantSettings = function openTenantSettings(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsTenantSettings).length === 0) {
       // create panel
@@ -3902,14 +3599,15 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openAdvancedSettings
-   */
-  var openAdvancedSettings = function (panelTab, insertIndex, onTop) {
+   */ var openAdvancedSettings = function openAdvancedSettings(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsAdvancedSettings).length === 0) {
       // create panel
@@ -3951,14 +3649,15 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openSoftwareUpdate
-   */
-  var openSoftwareUpdate = function (panelTab, insertIndex, onTop) {
+   */ var openSoftwareUpdate = function openSoftwareUpdate(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsSoftwareUpdate).length === 0) {
       // create panel
@@ -3984,14 +3683,15 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openActivateLicense
-   */
-  var openActivateLicense = function (panelTab, insertIndex, onTop) {
+   */ var openActivateLicense = function openActivateLicense(
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var panel = null
     if (Object.keys(panelsActivateLicense).length === 0) {
       // create panel
@@ -4017,14 +3717,16 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openTwitterSettings
-   */
-  var openTwitterSettings = function (tenant, panelTab, insertIndex, onTop) {
+   */ var openTwitterSettings = function openTwitterSettings(
+    tenant,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = string(tenant || '/')
     var panel = null
     if (!panelsTwitterSettings[key]) {
@@ -4042,13 +3744,10 @@ if (!window.Brekeke.UCClientUI) {
       var button = document.createElement('button')
       button.className = 'brUCButtonCancelSocialSettings'
       button.innerHTML = 'Close'
-      button.addEventListener('click', closeTab.bind(this, panel))
+      button.addEventListener('click', _closeTab.bind(this, panel))
       panel.domNode.appendChild(button)
       chatClient.createSocialToken(
-        {
-          social: 'twitter',
-          tenant: tenant,
-        },
+        { social: 'twitter', tenant: tenant },
         function (ev) {
           var sa =
             chatClient.getProfile().user_type ===
@@ -4109,14 +3808,16 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openFacebookSettings
-   */
-  var openFacebookSettings = function (tenant, panelTab, insertIndex, onTop) {
+   */ var openFacebookSettings = function openFacebookSettings(
+    tenant,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = string(tenant || '/')
     var panel = null
     if (!panelsFacebookSettings[key]) {
@@ -4134,13 +3835,10 @@ if (!window.Brekeke.UCClientUI) {
       var button = document.createElement('button')
       button.className = 'brUCButtonCancelSocialSettings'
       button.innerHTML = 'Close'
-      button.addEventListener('click', closeTab.bind(this, panel))
+      button.addEventListener('click', _closeTab.bind(this, panel))
       panel.domNode.appendChild(button)
       chatClient.createSocialToken(
-        {
-          social: 'facebook',
-          tenant: tenant,
-        },
+        { social: 'facebook', tenant: tenant },
         function (ev) {
           var sa =
             chatClient.getProfile().user_type ===
@@ -4201,14 +3899,16 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openLineSettings
-   */
-  var openLineSettings = function (tenant, panelTab, insertIndex, onTop) {
+   */ var openLineSettings = function openLineSettings(
+    tenant,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = string(tenant || '/')
     var panel = null
     if (!panelsLineSettings[key]) {
@@ -4226,13 +3926,10 @@ if (!window.Brekeke.UCClientUI) {
       var button = document.createElement('button')
       button.className = 'brUCButtonCancelSocialSettings'
       button.innerHTML = 'Close'
-      button.addEventListener('click', closeTab.bind(this, panel))
+      button.addEventListener('click', _closeTab.bind(this, panel))
       panel.domNode.appendChild(button)
       chatClient.createSocialToken(
-        {
-          social: 'line',
-          tenant: tenant,
-        },
+        { social: 'line', tenant: tenant },
         function (ev) {
           var sa =
             chatClient.getProfile().user_type ===
@@ -4293,14 +3990,16 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openWatsonSettings
-   */
-  var openWatsonSettings = function (tenant, panelTab, insertIndex, onTop) {
+   */ var openWatsonSettings = function openWatsonSettings(
+    tenant,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = string(tenant || '/')
     var panel = null
     if (!panelsWatsonSettings[key]) {
@@ -4318,13 +4017,10 @@ if (!window.Brekeke.UCClientUI) {
       var button = document.createElement('button')
       button.className = 'brUCButtonCancelSocialSettings'
       button.innerHTML = 'Close'
-      button.addEventListener('click', closeTab.bind(this, panel))
+      button.addEventListener('click', _closeTab.bind(this, panel))
       panel.domNode.appendChild(button)
       chatClient.createSocialToken(
-        {
-          social: 'bot',
-          tenant: tenant,
-        },
+        { social: 'bot', tenant: tenant },
         function (ev) {
           var sa =
             chatClient.getProfile().user_type ===
@@ -4385,14 +4081,16 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openEmailSettings
-   */
-  var openEmailSettings = function (tenant, panelTab, insertIndex, onTop) {
+   */ var openEmailSettings = function openEmailSettings(
+    tenant,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = string(tenant || '/')
     var panel = null
     if (!panelsEmailSettings[key]) {
@@ -4410,13 +4108,10 @@ if (!window.Brekeke.UCClientUI) {
       var button = document.createElement('button')
       button.className = 'brUCButtonCancelSocialSettings'
       button.innerHTML = 'Close'
-      button.addEventListener('click', closeTab.bind(this, panel))
+      button.addEventListener('click', _closeTab.bind(this, panel))
       panel.domNode.appendChild(button)
       chatClient.createSocialToken(
-        {
-          social: 'email',
-          tenant: tenant,
-        },
+        { social: 'email', tenant: tenant },
         function (ev) {
           var sa =
             chatClient.getProfile().user_type ===
@@ -4477,14 +4172,16 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openGuestSettings
-   */
-  var openGuestSettings = function (tenant, panelTab, insertIndex, onTop) {
+   */ var openGuestSettings = function openGuestSettings(
+    tenant,
+    panelTab,
+    insertIndex,
+    onTop,
+  ) {
     var key = string(tenant || '/')
     var panel = null
     if (!panelsGuestSettings[key]) {
@@ -4502,13 +4199,10 @@ if (!window.Brekeke.UCClientUI) {
       var button = document.createElement('button')
       button.className = 'brUCButtonCancelSocialSettings'
       button.innerHTML = 'Close'
-      button.addEventListener('click', closeTab.bind(this, panel))
+      button.addEventListener('click', _closeTab.bind(this, panel))
       panel.domNode.appendChild(button)
       chatClient.createSocialToken(
-        {
-          social: 'guest',
-          tenant: tenant,
-        },
+        { social: 'guest', tenant: tenant },
         function (ev) {
           var sa =
             chatClient.getProfile().user_type ===
@@ -4569,14 +4263,11 @@ if (!window.Brekeke.UCClientUI) {
     if (onTop) {
       panel.getParent().selectChild(panel)
     }
-
     return panel
   }
-
   /*
    * Function openNewTab
-   */
-  var openNewTab = function (
+   */ var openNewTab = function openNewTab(
     panel,
     panelTab,
     insertIndex,
@@ -4592,13 +4283,10 @@ if (!window.Brekeke.UCClientUI) {
     panel.panelKey = panelKey || 'panel' + ++panelKeyCounter
     panel.startup()
   }
-
   /*
    * Function closeTab
-   */
-  var closeTab = function (panel, count) {
+   */ var _closeTab = function closeTab(panel, count) {
     count = int(count)
-
     if (panel.panelType === 'CONFERENCE') {
       if (count === 0) {
         if (
@@ -4608,23 +4296,20 @@ if (!window.Brekeke.UCClientUI) {
           windowConfirm(
             ucMsgs.LBL_LEAVE_CONFERENCE_TITLE,
             ucMsgs.MSG_LEAVE_CONFERENCE_CONFIRM + '<br />',
-            closeTab.bind(window, panel, count + 1),
+            _closeTab.bind(window, panel, count + 1),
           )
           return
         }
       }
     }
-
     if (getSessionFromPanel(panel.panelType, panel.panelKey)) {
       // clear call and wait until closing
       clearCall(panel)
       if (count < 100) {
-        setTimeout(closeTab.bind(window, panel, count + 1), 100)
+        setTimeout(_closeTab.bind(window, panel, count + 1), 100)
       }
       return
-    }
-
-    // TODO: yano broadcast
+    } // TODO: yano broadcast
     if (
       panel.panelType === 'BROADCAST' &&
       broadcastCallsTable[panel.panelKey]
@@ -4632,17 +4317,15 @@ if (!window.Brekeke.UCClientUI) {
       // clear call and wait until closing
       clearCall(panel)
       if (count < 100) {
-        setTimeout(closeTab.bind(window, panel, count + 1), 100)
+        setTimeout(_closeTab.bind(window, panel, count + 1), 100)
       }
       return
     }
-
     if (panel.panelType === 'WEBCHATQUEUE') {
       if (webchatQueueList.length) {
         return
       }
     }
-
     var filesToDelete = []
     if (panel.panelType === 'CHAT') {
       // cancel file transfer and wait
@@ -4662,33 +4345,26 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
       if (uncanceled && count < 101) {
-        setTimeout(closeTab.bind(window, panel, count + 1), 100)
+        setTimeout(_closeTab.bind(window, panel, count + 1), 100)
         return
       }
     }
-
     panel.selectedEvents = null
-
     if (activePanelKey === panel.panelKey) {
       activePanelKey = ''
     }
-
     if (panel.panelType === 'CHAT') {
       if (!panelsChat[panel.panelKey]) {
         // already closed
         return
-      }
-      // remove buddies
-      removeBuddiesOnPanel(panel)
-      // clear message list
+      } // remove buddies
+      removeBuddiesOnPanel(panel) // clear message list
       if (messageListsChat[panel.panelKey]) {
         delete messageListsChat[panel.panelKey]
-      }
-      // clear typing
+      } // clear typing
       if (lastSentTypingTimeTable[panel.panelKey]) {
         delete lastSentTypingTimeTable[panel.panelKey]
-      }
-      // clear file data
+      } // clear file data
       for (var i = 0; i < filesToDelete.length; i++) {
         var file_id = filesToDelete[i]
         var events = fileTable[file_id].events
@@ -4702,19 +4378,15 @@ if (!window.Brekeke.UCClientUI) {
           window.URL.revokeObjectURL(fileTable[file_id].inlineImage.url)
         }
         delete fileTable[file_id]
-      }
-      // delete
-      delete panelsChat[panel.panelKey]
-      // display
+      } // delete
+      delete panelsChat[panel.panelKey] // display
       displayBuddylist(false)
     } else if (panel.panelType === 'CONFERENCE') {
       if (!panelsConference[panel.panelKey]) {
         // already closed
         return
-      }
-      // remove buddies
-      removeBuddiesOnPanel(panel)
-      // clear message list
+      } // remove buddies
+      removeBuddiesOnPanel(panel) // clear message list
       if (messageListsConference[panel.panelKey]) {
         delete messageListsConference[panel.panelKey]
       }
@@ -4726,21 +4398,17 @@ if (!window.Brekeke.UCClientUI) {
       ) {
         // leave conference
         leaveConference(panel.panelKey, false)
-      }
-      // delete
+      } // delete
       delete panelsConference[panel.panelKey]
     } else if (panel.panelType === 'BROADCAST') {
       if (!panelsBroadcast[panel.panelKey]) {
         // already closed
         return
-      }
-      // remove buddies
-      removeBuddiesOnPanel(panel)
-      // clear message list
+      } // remove buddies
+      removeBuddiesOnPanel(panel) // clear message list
       if (messageListsBroadcast[panel.panelKey]) {
         delete messageListsBroadcast[panel.panelKey]
-      }
-      // delete
+      } // delete
       if (broadcastUsersTable[panel.panelKey]) {
         for (var i = 0; i < broadcastUsersTable[panel.panelKey].length; i++) {
           if (broadcastUsersTable[panel.panelKey][i].connection) {
@@ -4754,15 +4422,13 @@ if (!window.Brekeke.UCClientUI) {
       if (!panelsExternalCall[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsExternalCall[panel.panelKey]
     } else if (panel.panelType === 'WEBCHATQUEUE') {
       if (!panelsWebchatQueue[panel.panelKey]) {
         // already closed
         return
-      }
-      // clear work data
+      } // clear work data
       if (webchatQueueWorkData[panel.panelKey]) {
         for (var conf_id in webchatQueueWorkData[panel.panelKey]) {
           for (
@@ -4777,160 +4443,131 @@ if (!window.Brekeke.UCClientUI) {
           }
         }
         delete webchatQueueWorkData[panel.panelKey]
-      }
-      // delete
+      } // delete
       delete panelsWebchatQueue[panel.panelKey]
     } else if (panel.panelType === 'PREFERENCE') {
       if (!panelsPreference[panel.panelKey]) {
         // already closed
         return
-      }
-      // cancel uploaded profile image
-      chatClient.cancelProfileImage()
-      // stop stream
-      stopVideoSourceStream(panel)
-      // clear work data
-      delete preferenceWorkData[panel.panelKey]
-      // delete
+      } // cancel uploaded profile image
+      chatClient.cancelProfileImage() // stop stream
+      stopVideoSourceStream(panel) // clear work data
+      delete preferenceWorkData[panel.panelKey] // delete
       delete panelsPreference[panel.panelKey]
     } else if (panel.panelType === 'HISTORY') {
       if (!panelsHistory[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsHistory[panel.panelKey]
     } else if (panel.panelType === 'HISTORYSEARCH') {
       if (!panelsHistory[panel.panelKey]) {
         // already closed
         return
-      }
-      // clear search condition data
-      delete searchConditionHistory[panel.panelKey]
-      // clear topic list
-      clearTopicList(panel)
-      // delete
+      } // clear search condition data
+      delete searchConditionHistory[panel.panelKey] // clear topic list
+      clearTopicList(panel) // delete
       delete panelsHistory[panel.panelKey]
     } else if (panel.panelType === 'SERVERSETTINGS') {
       if (!panelsServerSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // clear work data
+      } // clear work data
       if (
         serverSettingsWorkData[panel.panelKey] &&
         serverSettingsWorkData[panel.panelKey].timer
       ) {
         clearInterval(serverSettingsWorkData[panel.panelKey].timer)
       }
-      delete serverSettingsWorkData[panel.panelKey]
-      // delete
+      delete serverSettingsWorkData[panel.panelKey] // delete
       delete panelsServerSettings[panel.panelKey]
     } else if (panel.panelType === 'BLOCKLISTSETTINGS') {
       if (!panelsBlockListSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsBlockListSettings[panel.panelKey]
     } else if (panel.panelType === 'USERMANAGEMENT') {
       if (!panelsUserManagement[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsUserManagement[panel.panelKey]
     } else if (panel.panelType === 'TENANTTABLE') {
       if (!panelsTenantTable[panel.panelKey]) {
         // already closed
         return
-      }
-      // clear work data
-      delete tenantTableWorkData[panel.panelKey]
-      // delete
+      } // clear work data
+      delete tenantTableWorkData[panel.panelKey] // delete
       delete panelsTenantTable[panel.panelKey]
     } else if (panel.panelType === 'TENANTPROPERTY') {
       if (!panelsTenantProperty[panel.panelKey]) {
         // already closed
         return
-      }
-      // cancel uploaded profile image
-      chatClient.cancelProfileImage()
-      // clear work data
-      delete tenantPropertyWorkData[panel.panelKey]
-      // delete
+      } // cancel uploaded profile image
+      chatClient.cancelProfileImage() // clear work data
+      delete tenantPropertyWorkData[panel.panelKey] // delete
       delete panelsTenantProperty[panel.panelKey]
     } else if (panel.panelType === 'TENANTSETTINGS') {
       if (!panelsTenantSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // clear work data
-      delete tenantSettingsWorkData[panel.panelKey]
-      // delete
+      } // clear work data
+      delete tenantSettingsWorkData[panel.panelKey] // delete
       delete panelsTenantSettings[panel.panelKey]
     } else if (panel.panelType === 'ADVANCEDSETTINGS') {
       if (!panelsAdvancedSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsAdvancedSettings[panel.panelKey]
     } else if (panel.panelType === 'SOFTWAREUPDATE') {
       if (!panelsSoftwareUpdate[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsSoftwareUpdate[panel.panelKey]
     } else if (panel.panelType === 'ACTIVATELICENSE') {
       if (!panelsActivateLicense[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsActivateLicense[panel.panelKey]
     } else if (panel.panelType === 'TWITTERSETTINGS') {
       if (!panelsTwitterSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsTwitterSettings[panel.panelKey]
     } else if (panel.panelType === 'FACEBOOKSETTINGS') {
       if (!panelsFacebookSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsFacebookSettings[panel.panelKey]
     } else if (panel.panelType === 'LINESETTINGS') {
       if (!panelsLineSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsLineSettings[panel.panelKey]
     } else if (panel.panelType === 'WATSONSETTINGS') {
       if (!panelsWatsonSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsWatsonSettings[panel.panelKey]
     } else if (panel.panelType === 'EMAILSETTINGS') {
       if (!panelsEmailSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsEmailSettings[panel.panelKey]
     } else if (panel.panelType === 'GUESTSETTINGS') {
       if (!panelsGuestSettings[panel.panelKey]) {
         // already closed
         return
-      }
-      // delete
+      } // delete
       delete panelsGuestSettings[panel.panelKey]
     } else {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
@@ -4939,11 +4576,9 @@ if (!window.Brekeke.UCClientUI) {
     panel.getParent().removeChild(panel)
     panel.destroy()
   }
-
   /*
    * Function addBuddiesOnPanel
-   */
-  var addBuddiesOnPanel = function (panel, buddies) {
+   */ var addBuddiesOnPanel = function addBuddiesOnPanel(panel, buddies) {
     var profile = chatClient.getProfile()
     if (!panel.buddies) {
       panel.buddies = {}
@@ -4952,10 +4587,7 @@ if (!window.Brekeke.UCClientUI) {
     if (buddies && buddies.length) {
       for (var i = 0; i < buddies.length; i++) {
         if (buddies[i] && buddies[i].tenant && buddies[i].user_id) {
-          var buddy = {
-            tenant: buddies[i].tenant,
-            user_id: buddies[i].user_id,
-          }
+          var buddy = { tenant: buddies[i].tenant, user_id: buddies[i].user_id }
           if (
             buddy.tenant === profile.tenant &&
             buddy.user_id === profile.user_id
@@ -4981,20 +4613,14 @@ if (!window.Brekeke.UCClientUI) {
       })
     }
   }
-
   /*
    * Function removeBuddiesOnPanel
-   */
-  var removeBuddiesOnPanel = function (panel) {
+   */ var removeBuddiesOnPanel = function removeBuddiesOnPanel(panel) {
     if (!panel.buddies) {
       return
     }
-    var buddies = panel.buddies
-
-    // clear
-    panel.buddies = {}
-
-    // buddies existing on other panels
+    var buddies = panel.buddies // clear
+    panel.buddies = {} // buddies existing on other panels
     var existingBuddies = {}
     var panels = [panelsChat, panelsConference, panelsBroadcast]
     for (var i = 0; i < panels.length; i++) {
@@ -5008,9 +4634,7 @@ if (!window.Brekeke.UCClientUI) {
           }
         }
       }
-    }
-
-    // remove buddies not existing
+    } // remove buddies not existing
     var buddyList = []
     for (var key in buddies) {
       if (!existingBuddies[key]) {
@@ -5036,11 +4660,9 @@ if (!window.Brekeke.UCClientUI) {
       })
     }
   }
-
   /*
    * Function restoreTemporaryBuddies
-   */
-  var restoreTemporaryBuddies = function () {
+   */ var restoreTemporaryBuddies = function restoreTemporaryBuddies() {
     var buddyList = []
     var panels = [panelsChat, panelsConference, panelsBroadcast]
     for (var i = 0; i < panels.length; i++) {
@@ -5072,11 +4694,9 @@ if (!window.Brekeke.UCClientUI) {
       })
     }
   }
-
   /*
    * Function displayBuddyStatus
-   */
-  var displayBuddyStatus = function (tenant, user_id) {
+   */ var displayBuddyStatus = function displayBuddyStatus(tenant, user_id) {
     var b = { tenant: tenant, user_id: user_id }
     var buddy = chatClient.getBuddyUser(b)
     var buddyStatus = chatClient.getBuddyStatus(b)
@@ -5089,8 +4709,7 @@ if (!window.Brekeke.UCClientUI) {
       panel.set(
         'iconClass',
         'brUCChatTabIcon' + ' ' + getStatusIconClass(buddyStatus.status),
-      )
-      // chat header (status, name, display)
+      ) // chat header (status, name, display)
       var displayNodes = dojo.query(
         '.brUCDisplay',
         panel.panelChatHeaderBuddyInfo,
@@ -5110,8 +4729,7 @@ if (!window.Brekeke.UCClientUI) {
           .addClass(iconClass)
       } else {
         logger.log('error', 'not found .brUCDisplay of user_id==' + user_id)
-      }
-      // chat header (profile image)
+      } // chat header (profile image)
       var imageNodes = dojo.query(
         '.brUCProfileImage',
         panel.panelChatHeaderBuddyInfo,
@@ -5127,8 +4745,7 @@ if (!window.Brekeke.UCClientUI) {
           'error',
           'not found .brUCProfileImage of user_id==' + user_id,
         )
-      }
-      // others (name)
+      } // others (name)
       var userNameNodes = dojo.query(
         '.brUCUserName[data-brekeke-uc-tenant=' +
           tenant +
@@ -5142,14 +4759,11 @@ if (!window.Brekeke.UCClientUI) {
       }
     } else {
       // chat panel not opened
-    }
-    // display warning
-    displayStatusWarning(buddy.tenant, buddy.user_id)
-    // display on conference panel
+    } // display warning
+    displayStatusWarning(buddy.tenant, buddy.user_id) // display on conference panel
     for (var conf_id in panelsConference) {
       displayBuddyStatusOnConference(buddy.tenant, buddy.user_id, conf_id)
-    }
-    // display on broadcast panel
+    } // display on broadcast panel
     for (var panelKey in panelsBroadcast) {
       displayBuddyStatusOnBroadcast(
         buddy.tenant,
@@ -5158,11 +4772,12 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-
   /*
    * Function displayStatusWarning
-   */
-  var displayStatusWarning = function (tenant, user_id) {
+   */ var displayStatusWarning = function displayStatusWarning(
+    tenant,
+    user_id,
+  ) {
     var b = { tenant: tenant, user_id: user_id }
     var buddy = chatClient.getBuddyUser(b)
     var buddyStatus = chatClient.getBuddyStatus(b)
@@ -5207,11 +4822,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function displayConference
-   */
-  var displayConference = function (conf_id) {
+   */ var displayConference = function displayConference(conf_id) {
     var conference = chatClient.getConference(conf_id)
     var profile = chatClient.getProfile()
     if (panelsConference[conf_id]) {
@@ -5245,8 +4858,7 @@ if (!window.Brekeke.UCClientUI) {
               '.brUCDisplayMe',
               panelsConference[conf_id].panelChatHeaderBuddies.domNode,
             )
-            .addClass('brUCDisplayLeaved')
-          // freeze
+            .addClass('brUCDisplayLeaved') // freeze
           return
         } else {
           dojo
@@ -5255,9 +4867,7 @@ if (!window.Brekeke.UCClientUI) {
               panelsConference[conf_id].panelChatHeaderBuddies.domNode,
             )
             .removeClass('brUCDisplayLeaved')
-        }
-
-        // subject
+        } // subject
         panelsConference[conf_id].set(
           'title',
           escapeHTML(
@@ -5265,8 +4875,7 @@ if (!window.Brekeke.UCClientUI) {
               ? conference.creator.user_name || conference.creator.user_id
               : conference.subject,
           ),
-        )
-        // remove old buddy list
+        ) // remove old buddy list
         var oldUsers = {}
         var oldInfoNodes = dojo.query(
           '.brUCPanelChatHeaderBuddyInfo',
@@ -5284,8 +4893,7 @@ if (!window.Brekeke.UCClientUI) {
             ] = { displayNode: dojo.query('.brUCDisplay', oldInfoNodes[i])[0] }
             domConstruct.destroy(oldInfoNodes[i])
           }
-        }
-        // add new buddy list
+        } // add new buddy list
         var users = conference.user
         for (var i = 0; i < users.length; i++) {
           // copy from panelChatHeaderBuddyInfo
@@ -5299,8 +4907,7 @@ if (!window.Brekeke.UCClientUI) {
             infoNode,
             panelsConference[conf_id].panelChatHeaderBuddies.domNode,
             'last',
-          )
-          // conf_status
+          ) // conf_status
           var displayNodes = dojo.query('.brUCDisplay', infoNode)
           if (displayNodes && displayNodes[0]) {
             if (users[i].conf_status === Constants.CONF_STATUS_INVITED) {
@@ -5325,8 +4932,7 @@ if (!window.Brekeke.UCClientUI) {
           ]
         }
         for (var oldUserStr in oldUsers) {
-          var oldUser = JSON.parse(oldUserStr)
-          // copy from panelChatHeaderBuddyInfo
+          var oldUser = JSON.parse(oldUserStr) // copy from panelChatHeaderBuddyInfo
           var infoNode =
             panelsConference[conf_id].panelChatHeaderBuddyInfo.cloneNode(true)
           infoNode.style.display = 'block'
@@ -5337,8 +4943,7 @@ if (!window.Brekeke.UCClientUI) {
             infoNode,
             panelsConference[conf_id].panelChatHeaderBuddies.domNode,
             'last',
-          )
-          // conf_status
+          ) // conf_status
           var displayNodes = dojo.query('.brUCDisplay', infoNode)
           if (displayNodes && displayNodes[0]) {
             displayNodes.addClass(
@@ -5362,148 +4967,145 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('info', 'not found panel of conf_id==' + conf_id)
     }
   }
-
   /*
    * displayBuddyStatusOnConference
-   */
-  var displayBuddyStatusOnConference = function (tenant, user_id, conf_id) {
-    var conference = chatClient.getConference(conf_id)
-    var profile = chatClient.getProfile()
-    var settings = chatClient.getSettings()
-    var buddy = null
-    var buddyStatus = null
-    if (tenant === profile.tenant && user_id === profile.user_id) {
-      // me
-      buddy = profile
-      if (
-        conference.conf_type === 'webchat' &&
-        settings.optional_settings &&
-        settings.optional_settings.display_name
-      ) {
-        buddy.name = settings.optional_settings.display_name
+   */ var displayBuddyStatusOnConference =
+    function displayBuddyStatusOnConference(tenant, user_id, conf_id) {
+      var conference = chatClient.getConference(conf_id)
+      var profile = chatClient.getProfile()
+      var settings = chatClient.getSettings()
+      var buddy = null
+      var buddyStatus = null
+      if (tenant === profile.tenant && user_id === profile.user_id) {
+        // me
+        buddy = profile
+        if (
+          conference.conf_type === 'webchat' &&
+          settings.optional_settings &&
+          settings.optional_settings.display_name
+        ) {
+          buddy.name = settings.optional_settings.display_name
+        }
+        buddyStatus = myStatus
+      } else {
+        // buddy
+        var b = { tenant: tenant, user_id: user_id }
+        buddy = chatClient.getBuddyUser(b)
+        buddyStatus = chatClient.getBuddyStatus(b)
       }
-      buddyStatus = myStatus
-    } else {
-      // buddy
-      var b = { tenant: tenant, user_id: user_id }
-      buddy = chatClient.getBuddyUser(b)
-      buddyStatus = chatClient.getBuddyStatus(b)
-    }
-    if (panelsConference[conf_id]) {
-      var infoNodes = dojo.query(
-        '[data-brekeke-uc-tenant=' +
-          tenant +
-          '][data-brekeke-uc-user-id=' +
-          user_id +
-          ']',
-        panelsConference[conf_id].panelChatHeaderBuddies.domNode,
-      )
-      if (infoNodes && infoNodes[0]) {
-        // chat header (status, name, display)
-        var displayNodes = dojo.query('.brUCDisplay', infoNodes[0])
-        if (displayNodes && displayNodes[0]) {
-          Brekeke.UCClientUI.textSelect =
-            Brekeke.UCClientUI.textSelect ||
-            function (obj) {
-              var range, sel
-              if (window.getSelection) {
-                range = document.createRange()
-                range.setStart(obj.firstChild, 0)
-                range.setEnd(obj.firstChild, obj.firstChild.nodeValue.length)
-                sel = getSelection()
-                sel.removeAllRanges()
-                sel.addRange(range)
-              }
-            }
-          if (conference.conf_status === Constants.CONF_STATUS_INACTIVE) {
-            // freezed
-          } else if (
-            conference.conf_type === 'webchat' &&
-            buddy.tenant === conference.creator.tenant &&
-            buddy.user_id === conference.creator.user_id
-          ) {
-            var profinfo = string(conference.webchatinfo.profinfo_formatted)
-            var profinfo_2rows = profinfo.split('\n')
-            if (profinfo_2rows[1]) {
-              displayNodes[0].innerHTML =
-                '<span class="brUCDisplayName brUCDisplayGuest" style="top: -7px;" title="' +
-                escapeHTML(profinfo) +
-                '"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
-                escapeHTML(
-                  profinfo_2rows[0] +
-                    (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
-                ) +
-                '</span><br /><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
-                escapeHTML(profinfo_2rows[1]) +
-                '</span></span>'
-            } else {
-              displayNodes[0].innerHTML =
-                '<span class="brUCDisplayName brUCDisplayGuest" title="' +
-                escapeHTML(profinfo) +
-                '"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
-                escapeHTML(
-                  profinfo_2rows[0] +
-                    (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
-                ) +
-                '</span></span>'
-            }
-          } else if (conference.conf_type === 'webchat') {
-            displayNodes[0].innerHTML =
-              '<span class="brUCDisplayName"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
-              escapeHTML(buddy.name || buddy.user_id) +
-              '</span></span>'
-          } else {
-            displayNodes[0].innerHTML =
-              '<span class="brUCDisplayName"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
-              escapeHTML(
-                (buddy.name || buddy.user_id) +
-                  (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
-              ) +
-              '</span></span>'
-          }
-          var iconClass = getStatusIconClass(buddyStatus.status)
-          displayNodes
-            .removeClass('brUCIconOffline')
-            .removeClass('brUCIconAvailable')
-            .removeClass('brUCIconIdle')
-            .removeClass('brUCIconBusy')
-            .addClass(iconClass)
-        } else {
-          logger.log('error', 'not found .brUCDisplay')
-        }
-        // chat header (profile image)
-        var imageNodes = dojo.query('.brUCProfileImage', infoNodes[0])
-        if (imageNodes && imageNodes[0]) {
-          imageNodes[0].style.backgroundSize = '32px 32px'
-          imageNodes[0].style.backgroundPosition = 'center center'
-          imageNodes[0].style.backgroundRepeat = 'no-repeat'
-          imageNodes[0].style.backgroundImage =
-            'url(' + buddy.profile_image_url + ')'
-        } else {
-          logger.log('error', 'not found .brUCProfileImage')
-        }
-        // others (name)
-        var userNameNodes = dojo.query(
-          '.brUCUserName[data-brekeke-uc-tenant=' +
+      if (panelsConference[conf_id]) {
+        var infoNodes = dojo.query(
+          '[data-brekeke-uc-tenant=' +
             tenant +
             '][data-brekeke-uc-user-id=' +
             user_id +
             ']',
-          panelsConference[conf_id].domNode,
+          panelsConference[conf_id].panelChatHeaderBuddies.domNode,
         )
-        for (var i = 0; i < userNameNodes.length; i++) {
-          userNameNodes[i].innerHTML = escapeHTML(buddy.name || buddy.user_id)
+        if (infoNodes && infoNodes[0]) {
+          // chat header (status, name, display)
+          var displayNodes = dojo.query('.brUCDisplay', infoNodes[0])
+          if (displayNodes && displayNodes[0]) {
+            Brekeke.UCClientUI.textSelect =
+              Brekeke.UCClientUI.textSelect ||
+              function (obj) {
+                var range, sel
+                if (window.getSelection) {
+                  range = document.createRange()
+                  range.setStart(obj.firstChild, 0)
+                  range.setEnd(obj.firstChild, obj.firstChild.nodeValue.length)
+                  sel = getSelection()
+                  sel.removeAllRanges()
+                  sel.addRange(range)
+                }
+              }
+            if (conference.conf_status === Constants.CONF_STATUS_INACTIVE) {
+              // freezed
+            } else if (
+              conference.conf_type === 'webchat' &&
+              buddy.tenant === conference.creator.tenant &&
+              buddy.user_id === conference.creator.user_id
+            ) {
+              var profinfo = string(conference.webchatinfo.profinfo_formatted)
+              var profinfo_2rows = profinfo.split('\n')
+              if (profinfo_2rows[1]) {
+                displayNodes[0].innerHTML =
+                  '<span class="brUCDisplayName brUCDisplayGuest" style="top: -7px;" title="' +
+                  escapeHTML(profinfo) +
+                  '"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
+                  escapeHTML(
+                    profinfo_2rows[0] +
+                      (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
+                  ) +
+                  '</span><br /><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
+                  escapeHTML(profinfo_2rows[1]) +
+                  '</span></span>'
+              } else {
+                displayNodes[0].innerHTML =
+                  '<span class="brUCDisplayName brUCDisplayGuest" title="' +
+                  escapeHTML(profinfo) +
+                  '"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
+                  escapeHTML(
+                    profinfo_2rows[0] +
+                      (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
+                  ) +
+                  '</span></span>'
+              }
+            } else if (conference.conf_type === 'webchat') {
+              displayNodes[0].innerHTML =
+                '<span class="brUCDisplayName"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
+                escapeHTML(buddy.name || buddy.user_id) +
+                '</span></span>'
+            } else {
+              displayNodes[0].innerHTML =
+                '<span class="brUCDisplayName"><span onclick="Brekeke.UCClientUI.textSelect(this);">' +
+                escapeHTML(
+                  (buddy.name || buddy.user_id) +
+                    (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
+                ) +
+                '</span></span>'
+            }
+            var iconClass = getStatusIconClass(buddyStatus.status)
+            displayNodes
+              .removeClass('brUCIconOffline')
+              .removeClass('brUCIconAvailable')
+              .removeClass('brUCIconIdle')
+              .removeClass('brUCIconBusy')
+              .addClass(iconClass)
+          } else {
+            logger.log('error', 'not found .brUCDisplay')
+          } // chat header (profile image)
+          var imageNodes = dojo.query('.brUCProfileImage', infoNodes[0])
+          if (imageNodes && imageNodes[0]) {
+            imageNodes[0].style.backgroundSize = '32px 32px'
+            imageNodes[0].style.backgroundPosition = 'center center'
+            imageNodes[0].style.backgroundRepeat = 'no-repeat'
+            imageNodes[0].style.backgroundImage =
+              'url(' + buddy.profile_image_url + ')'
+          } else {
+            logger.log('error', 'not found .brUCProfileImage')
+          } // others (name)
+          var userNameNodes = dojo.query(
+            '.brUCUserName[data-brekeke-uc-tenant=' +
+              tenant +
+              '][data-brekeke-uc-user-id=' +
+              user_id +
+              ']',
+            panelsConference[conf_id].domNode,
+          )
+          for (var i = 0; i < userNameNodes.length; i++) {
+            userNameNodes[i].innerHTML = escapeHTML(buddy.name || buddy.user_id)
+          }
         }
+      } else {
+        logger.log('error', 'not found panel of conf_id==' + conf_id)
       }
-    } else {
-      logger.log('error', 'not found panel of conf_id==' + conf_id)
     }
-  }
-
   /*
    * displayProfinfoOnConference
-   */
-  var displayProfinfoOnConference = function (conf_id) {
+   */ var displayProfinfoOnConference = function displayProfinfoOnConference(
+    conf_id,
+  ) {
     var conference = chatClient.getConference(conf_id)
     if (panelsConference[conf_id]) {
       var senderKey = JSON.stringify({
@@ -5524,11 +5126,9 @@ if (!window.Brekeke.UCClientUI) {
       panelsConference[conf_id].panelProfinfo.style.display = 'block'
     }
   }
-
   /*
    * Function displayBroadcast
-   */
-  var displayBroadcast = function (panel) {
+   */ var displayBroadcast = function displayBroadcast(panel) {
     if (broadcastUsersTable[panel.panelKey]) {
       addBuddiesOnPanel(panel, broadcastUsersTable[panel.panelKey])
       require([
@@ -5537,8 +5137,7 @@ if (!window.Brekeke.UCClientUI) {
         'dojo/on',
       ], function (domConstruct, CheckBox, on) {
         // enable buttons
-        enableButtons(panel)
-        // remove old buddy list
+        enableButtons(panel) // remove old buddy list
         var oldInfoNodes = dojo.query(
           '.brUCPanelChatHeaderBuddyInfo',
           panel.panelChatHeaderBuddies.domNode,
@@ -5547,8 +5146,7 @@ if (!window.Brekeke.UCClientUI) {
           if (!oldInfoNodes[i].hasAttribute('data-dojo-attach-point')) {
             domConstruct.destroy(oldInfoNodes[i])
           }
-        }
-        // add new buddy list
+        } // add new buddy list
         for (var i = 0; i < broadcastUsersTable[panel.panelKey].length; i++) {
           // copy from panelChatHeaderBuddyInfo
           var infoNode = panel.panelChatHeaderBuddyInfo.cloneNode(true)
@@ -5566,8 +5164,7 @@ if (!window.Brekeke.UCClientUI) {
             infoNode,
             panel.panelChatHeaderBuddies.domNode,
             'last',
-          )
-          // check box
+          ) // check box
           var displayNodes = dojo.query('.brUCDisplay', infoNode)
           if (displayNodes && displayNodes[0]) {
             if (!broadcastUsersTable[panel.panelKey][i].checked) {
@@ -5613,73 +5210,68 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'empty broadcastUsersTable[' + panel.panelKey + ']')
     }
   }
-
   /*
    * displayBuddyStatusOnBroadcast
-   */
-  var displayBuddyStatusOnBroadcast = function (tenant, user_id, panel) {
-    var b = { tenant: tenant, user_id: user_id }
-    var buddy = chatClient.getBuddyUser(b)
-    var buddyStatus = chatClient.getBuddyStatus(b)
-    var infoNodes = dojo.query(
-      '[data-brekeke-uc-tenant=' +
-        tenant +
-        '][data-brekeke-uc-user-id=' +
-        user_id +
-        ']',
-      panel.panelChatHeaderBuddies.domNode,
-    )
-    if (infoNodes && infoNodes[0]) {
-      // chat header (status, name, display)
-      var displayNodes = dojo.query('.brUCDisplay', infoNodes[0])
-      if (displayNodes && displayNodes[0]) {
-        displayNodes[0].innerHTML =
-          '<span class="brUCDisplayName">' +
-          escapeHTML(
-            (buddy.name || buddy.user_id) +
-              (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
-          ) +
-          '</span>'
-        var iconClass = getStatusIconClass(buddyStatus.status)
-        displayNodes
-          .removeClass('brUCIconOffline')
-          .removeClass('brUCIconAvailable')
-          .removeClass('brUCIconIdle')
-          .removeClass('brUCIconBusy')
-          .addClass(iconClass)
-      } else {
-        logger.log('error', 'not found .brUCDisplay')
-      }
-      // chat header (profile image)
-      var imageNodes = dojo.query('.brUCProfileImage', infoNodes[0])
-      if (imageNodes && imageNodes[0]) {
-        imageNodes[0].style.backgroundSize = '32px 32px'
-        imageNodes[0].style.backgroundPosition = 'center center'
-        imageNodes[0].style.backgroundRepeat = 'no-repeat'
-        imageNodes[0].style.backgroundImage =
-          'url(' + buddy.profile_image_url + ')'
-      } else {
-        logger.log('error', 'not found .brUCProfileImage')
-      }
-      // others (name)
-      var userNameNodes = dojo.query(
-        '.brUCUserName[data-brekeke-uc-tenant=' +
+   */ var displayBuddyStatusOnBroadcast =
+    function displayBuddyStatusOnBroadcast(tenant, user_id, panel) {
+      var b = { tenant: tenant, user_id: user_id }
+      var buddy = chatClient.getBuddyUser(b)
+      var buddyStatus = chatClient.getBuddyStatus(b)
+      var infoNodes = dojo.query(
+        '[data-brekeke-uc-tenant=' +
           tenant +
           '][data-brekeke-uc-user-id=' +
           user_id +
           ']',
-        panel.domNode,
+        panel.panelChatHeaderBuddies.domNode,
       )
-      for (var i = 0; i < userNameNodes.length; i++) {
-        userNameNodes[i].innerHTML = escapeHTML(buddy.name || buddy.user_id)
+      if (infoNodes && infoNodes[0]) {
+        // chat header (status, name, display)
+        var displayNodes = dojo.query('.brUCDisplay', infoNodes[0])
+        if (displayNodes && displayNodes[0]) {
+          displayNodes[0].innerHTML =
+            '<span class="brUCDisplayName">' +
+            escapeHTML(
+              (buddy.name || buddy.user_id) +
+                (buddyStatus.display ? ' - ' + buddyStatus.display : ''),
+            ) +
+            '</span>'
+          var iconClass = getStatusIconClass(buddyStatus.status)
+          displayNodes
+            .removeClass('brUCIconOffline')
+            .removeClass('brUCIconAvailable')
+            .removeClass('brUCIconIdle')
+            .removeClass('brUCIconBusy')
+            .addClass(iconClass)
+        } else {
+          logger.log('error', 'not found .brUCDisplay')
+        } // chat header (profile image)
+        var imageNodes = dojo.query('.brUCProfileImage', infoNodes[0])
+        if (imageNodes && imageNodes[0]) {
+          imageNodes[0].style.backgroundSize = '32px 32px'
+          imageNodes[0].style.backgroundPosition = 'center center'
+          imageNodes[0].style.backgroundRepeat = 'no-repeat'
+          imageNodes[0].style.backgroundImage =
+            'url(' + buddy.profile_image_url + ')'
+        } else {
+          logger.log('error', 'not found .brUCProfileImage')
+        } // others (name)
+        var userNameNodes = dojo.query(
+          '.brUCUserName[data-brekeke-uc-tenant=' +
+            tenant +
+            '][data-brekeke-uc-user-id=' +
+            user_id +
+            ']',
+          panel.domNode,
+        )
+        for (var i = 0; i < userNameNodes.length; i++) {
+          userNameNodes[i].innerHTML = escapeHTML(buddy.name || buddy.user_id)
+        }
       }
     }
-  }
-
   /*
    * Function enableButtons
-   */
-  var enableButtons = function (panel) {
+   */ var enableButtons = function enableButtons(panel) {
     var profile = chatClient.getProfile()
     var session = getSessionFromPanel(panel.panelType, panel.panelKey)
     var withVideo = session && session.withVideo
@@ -5785,8 +5377,7 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
       panel.buttonSendText.setDisabled(count < 1)
-      panel.buttonSendFile.setDisabled(true)
-      // TODO: yano broadcast
+      panel.buttonSendFile.setDisabled(true) // TODO: yano broadcast
       //panel.buttonShareScreen.setDisabled(count < 1 || Boolean(broadcastCallsTable[panel.panelKey]) || !phoneRegistered || getCallControlMode() === 1);
       //panel.buttonVoiceCall.setDisabled(count < 1 || Boolean(broadcastCallsTable[panel.panelKey]) || !phoneRegistered || getCallControlMode() === 1);
       //panel.buttonVideoCall.setDisabled(count < 1 || Boolean(broadcastCallsTable[panel.panelKey]) || !phoneRegistered || getCallControlMode() === 1);
@@ -5849,11 +5440,9 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
     }
   }
-
   /*
    * Function sendText
-   */
-  var sendText = function (panel) {
+   */ var sendText = function sendText(panel) {
     var inputText = string(panel.editorSendText.attr('value'))
     var text = removeTag(inputText, false)
     if (!text) {
@@ -5868,11 +5457,9 @@ if (!window.Brekeke.UCClientUI) {
     }
     panel.editorSendText.set('value', '')
     panel.editorSendText.focus()
-
     var sentMessageId = string(sentMessageIdCounter++)
     var displayed = false
     var errored = false
-
     if (panel.panelType === 'CHAT') {
       var target = {}
       try {
@@ -5887,16 +5474,14 @@ if (!window.Brekeke.UCClientUI) {
           'empty user_id of panel.panelKey==' + panel.panelKey,
         )
         return
-      }
-      // send text to buddy
+      } // send text to buddy
       chatClient.sendText(
         text,
         target,
         function (ev) {
           // funcOK
           // display sent time
-          updateSentTimeDisplayMessage(panel, sentMessageId, ev.ltime)
-          // clear typing
+          updateSentTimeDisplayMessage(panel, sentMessageId, ev.ltime) // clear typing
           if (lastSentTypingTimeTable[panel.panelKey]) {
             delete lastSentTypingTimeTable[panel.panelKey]
           }
@@ -5953,16 +5538,14 @@ if (!window.Brekeke.UCClientUI) {
         settings.optional_settings.display_name
       ) {
         senderInfo.name = settings.optional_settings.display_name
-      }
-      // send text to conference
+      } // send text to conference
       chatClient.sendConferenceText(
         text,
         conf_id,
         function (ev) {
           // funcOK
           // display sent time
-          updateSentTimeDisplayMessage(panel, sentMessageId, ev.ltime)
-          // clear typing
+          updateSentTimeDisplayMessage(panel, sentMessageId, ev.ltime) // clear typing
           if (lastSentTypingTimeTable[panel.panelKey]) {
             delete lastSentTypingTimeTable[panel.panelKey]
           }
@@ -6022,8 +5605,7 @@ if (!window.Brekeke.UCClientUI) {
             user_id: broadcastUsersTable[panel.panelKey][i].user_id,
           })
         }
-      }
-      // send broadcast text
+      } // send broadcast text
       chatClient.sendBroadcastText(
         text,
         target,
@@ -6040,8 +5622,7 @@ if (!window.Brekeke.UCClientUI) {
                 ev.ltime,
               )
             }
-          }
-          // clear typing
+          } // clear typing
           if (lastSentTypingTimeTable[panel.panelKey]) {
             delete lastSentTypingTimeTable[panel.panelKey]
           }
@@ -6095,8 +5676,7 @@ if (!window.Brekeke.UCClientUI) {
           sentTimeValue: new Date(),
           sentTimeDisplay: '',
         }
-        addMessageToList(message, panel)
-        // display message also on chat panel
+        addMessageToList(message, panel) // display message also on chat panel
         for (var i = 0; i < target.length; i++) {
           var chatPanelKey = JSON.stringify(target[i])
           if (panelsChat[chatPanelKey]) {
@@ -6109,17 +5689,14 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
     }
   }
-
   /*
    * Function removeTag
-   */
-  var removeTag = function (text, plain) {
+   */ var removeTag = function removeTag(text, plain) {
     var fragment = document.createDocumentFragment()
     var div = document.createElement('div')
     fragment.appendChild(div)
     div.innerHTML = text
-
-    var remove = function (parent) {
+    var _remove = function remove(parent) {
       var child = parent.firstChild
       while (child) {
         if (
@@ -6136,20 +5713,17 @@ if (!window.Brekeke.UCClientUI) {
           parent.removeChild(child)
           child = nextChild
         } else {
-          remove(child)
+          _remove(child)
           child = child.nextSibling
         }
       }
     }
-    remove(div)
-
+    _remove(div)
     return div.innerHTML
   }
-
   /*
    * Function addMessageToList
-   */
-  var addMessageToList = function (message, panel) {
+   */ var addMessageToList = function addMessageToList(message, panel) {
     var messageList = null
     if (panel.panelType === 'CHAT') {
       messageList = messageListsChat[panel.panelKey]
@@ -6170,9 +5744,7 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
       return
     }
-
     messageList.push(message)
-
     displayMessage(
       messageList,
       true,
@@ -6181,26 +5753,19 @@ if (!window.Brekeke.UCClientUI) {
       false,
     )
   }
-
   /*
    * Function showUnreadText
-   */
-  var showUnreadText = function (ev) {
+   */ var showUnreadText = function showUnreadText(ev) {
     require(['dojo/dom-construct'], function (domConstruct) {
       var toRead = []
       var panel = null
-
       for (var i = ev.messages.length - 1; i >= 0; i--) {
-        var m = ev.messages[i]
-
-        // open panel
+        var m = ev.messages[i] // open panel
         panel = openChat(m.sender.tenant, m.sender.user_id, null, null, true)
         if (!panel) {
           logger.log('error', 'not found panel of user_id==' + m.sender.user_id)
           continue
-        }
-
-        // display message
+        } // display message
         var message = {
           senderInfo: m.sender,
           text:
@@ -6225,13 +5790,10 @@ if (!window.Brekeke.UCClientUI) {
           panel.panelChatList.domNode,
           true,
         )
-
         if (m.requires_read) {
           toRead.push(m.received_text_id)
         }
-      }
-
-      // read text
+      } // read text
       if (toRead.length > 0) {
         chatClient.readText(toRead, function (ev) {
           logger.log(
@@ -6242,9 +5804,7 @@ if (!window.Brekeke.UCClientUI) {
               ev.message,
           )
         })
-      }
-
-      // show more
+      } // show more
       if (ev.hasMore) {
         if (panel) {
           var html =
@@ -6261,27 +5821,20 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function showUnreadTextOnReSignIn
-   */
-  var showUnreadTextOnReSignIn = function (ev) {
+   */ var showUnreadTextOnReSignIn = function showUnreadTextOnReSignIn(ev) {
     require(['dojo/dom-construct'], function (domConstruct) {
       var toRead = []
       var panelsToDisplayMessage = {}
       var panel = null
-
       for (var i = 0; i < ev.messages.length; i++) {
-        var m = ev.messages[i]
-
-        // open panel
+        var m = ev.messages[i] // open panel
         panel = openChat(m.sender.tenant, m.sender.user_id, null, null, true)
         if (!panel) {
           logger.log('error', 'not found panel of user_id==' + m.sender.user_id)
           continue
-        }
-
-        // add message to list
+        } // add message to list
         var message = {
           senderInfo: m.sender,
           text:
@@ -6314,13 +5867,10 @@ if (!window.Brekeke.UCClientUI) {
           messageListsChat[panel.panelKey].push(message)
           panelsToDisplayMessage[panel.panelKey] = panel
         }
-
         if (m.requires_read) {
           toRead.push(m.received_text_id)
         }
-      }
-
-      // read text
+      } // read text
       if (toRead.length > 0) {
         chatClient.readText(toRead, function (ev) {
           logger.log(
@@ -6331,20 +5881,15 @@ if (!window.Brekeke.UCClientUI) {
               ev.message,
           )
         })
-      }
-
-      // display message
+      } // display message
       for (var key in panelsToDisplayMessage) {
-        panel = panelsToDisplayMessage[key]
-        // sort messages
+        panel = panelsToDisplayMessage[key] // sort messages
         var messageList = messageListsChat[panel.panelKey]
         messageList.sort(function (a, b) {
           return a.sentTimeValue.getTime() - b.sentTimeValue.getTime()
-        })
-        // clear messages html
+        }) // clear messages html
         panel.panelMessages.innerHTML = ''
-        messageListsChat[panel.panelKey] = []
-        // display
+        messageListsChat[panel.panelKey] = [] // display
         for (var i = 0; i < messageList.length; i++) {
           messageListsChat[panel.panelKey].push(messageList[i])
           displayMessage(
@@ -6355,9 +5900,7 @@ if (!window.Brekeke.UCClientUI) {
             true,
           )
         }
-      }
-
-      // show more
+      } // show more
       if (ev.hasMore) {
         if (panel) {
           var html =
@@ -6370,7 +5913,6 @@ if (!window.Brekeke.UCClientUI) {
           panel.handlers.push(
             dojo.connect(a, 'click', panelChatShowMoreOnReSignIn_click),
           )
-
           panel.getParent().selectChild(panel)
         } else {
           logger.log('error', 'not found panel')
@@ -6378,101 +5920,96 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function showUnreceivedConferenceTextOnJoinWebchatRoom
-   */
-  var showUnreceivedConferenceTextOnJoinWebchatRoom = function (ev) {
-    require(['dojo/dom-construct'], function (domConstruct) {
-      var panel = null
-      var conf_id = null
-
-      for (var i = ev.messages.length - 1; i >= 0; i--) {
-        var m = ev.messages[i]
-        conf_id = m.conf_id
-        if (conf_id) {
-          panel = openConference(conf_id, null, null, true)
-          if (!panel) {
-            logger.log('error', 'not found panel of conf_id==' + conf_id)
-            continue
+   */ var showUnreceivedConferenceTextOnJoinWebchatRoom =
+    function showUnreceivedConferenceTextOnJoinWebchatRoom(ev) {
+      require(['dojo/dom-construct'], function (domConstruct) {
+        var panel = null
+        var conf_id = null
+        for (var i = ev.messages.length - 1; i >= 0; i--) {
+          var m = ev.messages[i]
+          conf_id = m.conf_id
+          if (conf_id) {
+            panel = openConference(conf_id, null, null, true)
+            if (!panel) {
+              logger.log('error', 'not found panel of conf_id==' + conf_id)
+              continue
+            } // display message
+            var message = {
+              senderInfo: m.sender,
+              text:
+                m.ctype === Constants.CTYPE_FILE_REQUEST
+                  ? createStaticFileArea(m.text, m.sender)
+                  : m.text,
+              sentMessageId: '',
+              received_text_id: m.received_text_id,
+              file_id: '',
+              sentTimeValue: parseDate(m.sent_ltime),
+              sentTimeDisplay: m.sent_ltime,
+            }
+            var messageList = messageListsConference[panel.panelKey]
+            if (!messageList) {
+              messageList = messageListsConference[panel.panelKey] = []
+            }
+            messageList.unshift(message)
+            displayMessage(
+              messageList,
+              false,
+              panel.panelMessages,
+              panel.panelChatList.domNode,
+              true,
+            )
           }
-
-          // display message
-          var message = {
-            senderInfo: m.sender,
-            text:
-              m.ctype === Constants.CTYPE_FILE_REQUEST
-                ? createStaticFileArea(m.text, m.sender)
-                : m.text,
-            sentMessageId: '',
-            received_text_id: m.received_text_id,
-            file_id: '',
-            sentTimeValue: parseDate(m.sent_ltime),
-            sentTimeDisplay: m.sent_ltime,
+        } // show more
+        if (ev.hasMore) {
+          if (panel && conf_id) {
+            var html =
+              '<div class="brUCPanelShowMore"><a href="javascript:void(0)" data-brekeke-uc-conf-id="' +
+              conf_id +
+              '">' +
+              ucMsgs.LBL_SHOW_MORE +
+              '</a></div>'
+            var dom = domConstruct.toDom(html)
+            domConstruct.place(dom, panel.panelMessages, 'first')
+            var a = dojo.query('a', dom)[0]
+            panel.handlers.push(
+              dojo.connect(
+                a,
+                'click',
+                panelChatShowMoreOnJoinWebchatRoom_click,
+              ),
+            )
+          } else {
+            logger.log('error', 'not found panel')
           }
-          var messageList = messageListsConference[panel.panelKey]
-          if (!messageList) {
-            messageList = messageListsConference[panel.panelKey] = []
-          }
-          messageList.unshift(message)
-          displayMessage(
-            messageList,
-            false,
-            panel.panelMessages,
-            panel.panelChatList.domNode,
-            true,
-          )
         }
-      }
-
-      // show more
-      if (ev.hasMore) {
-        if (panel && conf_id) {
-          var html =
-            '<div class="brUCPanelShowMore"><a href="javascript:void(0)" data-brekeke-uc-conf-id="' +
-            conf_id +
-            '">' +
-            ucMsgs.LBL_SHOW_MORE +
-            '</a></div>'
-          var dom = domConstruct.toDom(html)
-          domConstruct.place(dom, panel.panelMessages, 'first')
-          var a = dojo.query('a', dom)[0]
-          panel.handlers.push(
-            dojo.connect(a, 'click', panelChatShowMoreOnJoinWebchatRoom_click),
-          )
-        } else {
-          logger.log('error', 'not found panel')
-        }
-      }
-    })
-  }
-
+      })
+    }
   /*
    * Function showUnreceivedConferenceTextOnInvitedToConference
-   */
-  var showUnreceivedConferenceTextOnInvitedToConference = function (ev) {
-    for (var i = 0; i < ev.messages.length; i++) {
-      var m = ev.messages[i]
-      var message = {
-        senderInfo: m.sender,
-        text:
-          m.ctype === Constants.CTYPE_FILE_REQUEST
-            ? createStaticFileArea(m.text, m.sender)
-            : m.text,
-        sentMessageId: '',
-        received_text_id: m.received_text_id,
-        file_id: '',
-        sentTimeValue: parseDate(m.sent_ltime),
-        sentTimeDisplay: m.sent_ltime,
+   */ var showUnreceivedConferenceTextOnInvitedToConference =
+    function showUnreceivedConferenceTextOnInvitedToConference(ev) {
+      for (var i = 0; i < ev.messages.length; i++) {
+        var m = ev.messages[i]
+        var message = {
+          senderInfo: m.sender,
+          text:
+            m.ctype === Constants.CTYPE_FILE_REQUEST
+              ? createStaticFileArea(m.text, m.sender)
+              : m.text,
+          sentMessageId: '',
+          received_text_id: m.received_text_id,
+          file_id: '',
+          sentTimeValue: parseDate(m.sent_ltime),
+          sentTimeDisplay: m.sent_ltime,
+        }
+        addMessageToWebchatQueue(m.conf_id, message)
       }
-      addMessageToWebchatQueue(m.conf_id, message)
     }
-  }
-
   /*
    * Function showDaysMessages
-   */
-  var showDaysMessages = function (panel, days) {
+   */ var showDaysMessages = function showDaysMessages(panel, days) {
     var now = new Date()
     var begin =
       new Date(
@@ -6494,19 +6031,21 @@ if (!window.Brekeke.UCClientUI) {
       59,
       999,
     ).getTime()
-
     showHistoricalMessages(panel, begin, end, true)
   }
-
   /*
    * Function showHistoricalMessages
-   */
-  var showHistoricalMessages = function (panel, begin, end, clears, funcOK) {
+   */ var showHistoricalMessages = function showHistoricalMessages(
+    panel,
+    begin,
+    end,
+    clears,
+    funcOK,
+  ) {
     if (panel.panelType !== 'CHAT') {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
       return
     }
-
     var target = {}
     try {
       target = JSON.parse(panel.panelKey)
@@ -6514,13 +6053,11 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'failed to parse panel.panelKey==' + panel.panelKey)
       return
     }
-
     if (panel.imgShowMessages.style.visibility === 'visible') {
       // now searching
       return
     }
     panel.imgShowMessages.style.visibility = 'visible'
-
     chatClient.searchTexts(
       {
         tenant: target.tenant,
@@ -6538,9 +6075,7 @@ if (!window.Brekeke.UCClientUI) {
         }
         if (!messageListsChat[panel.panelKey]) {
           messageListsChat[panel.panelKey] = []
-        }
-
-        // add messages html
+        } // add messages html
         var messageList = messageListsChat[panel.panelKey]
         for (var i = 0; i < ev.logs.length; i++) {
           var log = ev.logs[i]
@@ -6554,9 +6089,7 @@ if (!window.Brekeke.UCClientUI) {
             true,
           )
         }
-
         panel.imgShowMessages.style.visibility = 'hidden'
-
         if (funcOK) {
           funcOK()
         }
@@ -6577,11 +6110,9 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function displayMessage
-   */
-  var displayMessage = function (
+   */ var displayMessage = function displayMessage(
     messageList,
     displayLast,
     div,
@@ -6622,7 +6153,6 @@ if (!window.Brekeke.UCClientUI) {
           message.senderInfo.user_id
       }
     }
-
     require(['dojo/dom-construct'], function (domConstruct) {
       // get or create paragraph
       var paragraph = null
@@ -6638,7 +6168,6 @@ if (!window.Brekeke.UCClientUI) {
         var paragraphs = dojo.query('> .brUCChatParagraph', div)
         if (paragraphs.length > 0) {
           paragraph = paragraphs[paragraphs.length - 1]
-
           var t =
             messageList[index].sentTimeValue.getTime() -
             messageList[index - 1].sentTimeValue.getTime()
@@ -6656,7 +6185,6 @@ if (!window.Brekeke.UCClientUI) {
         var paragraphs = dojo.query('> .brUCChatParagraph', div)
         if (paragraphs.length > 0) {
           paragraph = paragraphs[0]
-
           var t =
             messageList[1].sentTimeValue.getTime() -
             messageList[0].sentTimeValue.getTime()
@@ -6682,21 +6210,18 @@ if (!window.Brekeke.UCClientUI) {
         paragraph = domConstruct.toDom(paragraphHtml)
         domConstruct.place(paragraph, div, displayLast ? 'last' : 'first')
       }
-
       var messageName = escapeHTML(senderName)
       var messageProfinfo = escapeHTML(senderProfinfo)
       var messageTime = showsDate
         ? formatMessageDateTime(message.sentTimeDisplay)
         : formatTime(message.sentTimeDisplay)
-      var messageText = message.text
-      // smiley ascii to html
+      var messageText = message.text // smiley ascii to html
       for (var i = 0; i < smileyAsciiToHtml.length; i++) {
         messageText = messageText.replace(
           smileyAsciiToHtml[i].regex,
           smileyAsciiToHtml[i].html,
         )
-      }
-      // url to link
+      } // url to link
       if (urlRegExp && urlRegExpNG) {
         if (!messageText.match(urlRegExpNG)) {
           messageText = messageText.replace(
@@ -6704,16 +6229,13 @@ if (!window.Brekeke.UCClientUI) {
             '<a href="$&" target="_blank">$&</a>',
           )
         }
-      }
-      // file area
+      } // file area
       if (message.file_id) {
         messageText =
           '<span data-brekeke-uc-file-id="' +
           message.file_id +
           '" class="brUCChatMessageFileArea"></span>'
-      }
-
-      // create message
+      } // create message
       if (!sameNameSameTime) {
         var messageHtml =
           '<div data-brekeke-uc-sent-message-id="' +
@@ -6776,19 +6298,19 @@ if (!window.Brekeke.UCClientUI) {
       }
       if (message.file_id) {
         displayFile(message.file_id)
-      }
-
-      // scroll
+      } // scroll
       if (scrollDiv) {
         scrollDiv.scrollTop = scrollDiv.scrollHeight
       }
     })
   }
-
   /*
    * Function displayMessageError
-   */
-  var displayMessageError = function (panel, sentMessageId, msg) {
+   */ var displayMessageError = function displayMessageError(
+    panel,
+    sentMessageId,
+    msg,
+  ) {
     require(['dojo/dom-construct'], function (domConstruct) {
       var messageAreas = dojo.query(
         '[data-brekeke-uc-sent-message-id=' + sentMessageId + ']',
@@ -6810,11 +6332,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function updateSentTimeDisplayMessage
-   */
-  var updateSentTimeDisplayMessage = function (
+   */ var updateSentTimeDisplayMessage = function updateSentTimeDisplayMessage(
     panel,
     sentMessageId,
     sentTimeDisplay,
@@ -6843,37 +6363,37 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function displayBroadcastCheckedMessage
-   */
-  var displayBroadcastCheckedMessage = function (panel) {
-    if (broadcastUsersTable[panel.panelKey]) {
-      for (var i = 0; i < broadcastUsersTable[panel.panelKey].length; i++) {
-        var senderKey = JSON.stringify({
-          tenant: broadcastUsersTable[panel.panelKey][i].tenant,
-          user_id: broadcastUsersTable[panel.panelKey][i].user_id,
-        })
-        var paragraphs = dojo.query(
-          '[data-brekeke-uc-sender-key=' + encodeURIComponent(senderKey) + ']',
-          panel.panelMessages,
-        )
-        if (paragraphs && paragraphs.length && paragraphs[0]) {
-          for (var j = 0; j < paragraphs.length; j++) {
-            paragraphs[j].style.display = broadcastUsersTable[panel.panelKey][i]
-              .checked
-              ? 'block'
-              : 'none'
+   */ var displayBroadcastCheckedMessage =
+    function displayBroadcastCheckedMessage(panel) {
+      if (broadcastUsersTable[panel.panelKey]) {
+        for (var i = 0; i < broadcastUsersTable[panel.panelKey].length; i++) {
+          var senderKey = JSON.stringify({
+            tenant: broadcastUsersTable[panel.panelKey][i].tenant,
+            user_id: broadcastUsersTable[panel.panelKey][i].user_id,
+          })
+          var paragraphs = dojo.query(
+            '[data-brekeke-uc-sender-key=' +
+              encodeURIComponent(senderKey) +
+              ']',
+            panel.panelMessages,
+          )
+          if (paragraphs && paragraphs.length && paragraphs[0]) {
+            for (var j = 0; j < paragraphs.length; j++) {
+              paragraphs[j].style.display = broadcastUsersTable[panel.panelKey][
+                i
+              ].checked
+                ? 'block'
+                : 'none'
+            }
           }
         }
       }
     }
-  }
-
   /*
    * Function readText
-   */
-  var readText = function (received_text_id) {
+   */ var readText = function readText(received_text_id) {
     chatClient.readText([received_text_id], function (ev) {
       logger.log(
         'warn',
@@ -6884,18 +6404,15 @@ if (!window.Brekeke.UCClientUI) {
       )
     })
   }
-
   /*
    * Function sendTyping
-   */
-  var sendTyping = function (panel) {
+   */ var sendTyping = function sendTyping(panel) {
     var now = new Date().getTime()
     if (
       !lastSentTypingTimeTable[panel.panelKey] ||
       now >= lastSentTypingTimeTable[panel.panelKey] + SEND_TYPING_INTERVAL
     ) {
       lastSentTypingTimeTable[panel.panelKey] = now
-
       if (panel.panelType === 'CHAT') {
         var target = {}
         try {
@@ -6980,14 +6497,10 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function showTyping
-   */
-  var showTyping = function (buddy) {
-    var key = JSON.stringify({ tenant: buddy.tenant, user_id: buddy.user_id })
-
-    // timer
+   */ var showTyping = function showTyping(buddy) {
+    var key = JSON.stringify({ tenant: buddy.tenant, user_id: buddy.user_id }) // timer
     if (!hideTypingTimerTable[key]) {
       hideTypingTimerTable[key] = []
     }
@@ -7000,9 +6513,7 @@ if (!window.Brekeke.UCClientUI) {
           }
         }
       }, SHOW_TYPING_DURATION),
-    )
-
-    // show
+    ) // show
     require(['dojo/dom-construct'], function (domConstruct) {
       // html
       var html =
@@ -7015,8 +6526,7 @@ if (!window.Brekeke.UCClientUI) {
           ucMsgs.LBL_IS_TYPING,
           chatClient.getBuddyUser(buddy).name || buddy.user_id,
         ) +
-        '<br /></span>'
-      // add to chat panel
+        '<br /></span>' // add to chat panel
       var panel = panelsChat[key]
       if (panel) {
         var existings = dojo.query(
@@ -7031,8 +6541,7 @@ if (!window.Brekeke.UCClientUI) {
           var dom = domConstruct.toDom(html)
           domConstruct.place(dom, panel.panelTyping, 'last')
         }
-      }
-      // add to conference panel
+      } // add to conference panel
       for (var conf_id in panelsConference) {
         var conference = chatClient.getConference(conf_id)
         if (conference.conf_status === Constants.CONF_STATUS_JOINED) {
@@ -7060,8 +6569,7 @@ if (!window.Brekeke.UCClientUI) {
             }
           }
         }
-      }
-      // add to broadcast panel
+      } // add to broadcast panel
       for (var broadcastPanelKey in panelsBroadcast) {
         if (broadcastUsersTable[broadcastPanelKey]) {
           for (
@@ -7097,19 +6605,15 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function hideTyping
-   */
-  var hideTyping = function (buddy) {
+   */ var hideTyping = function hideTyping(buddy) {
     var key = JSON.stringify({ tenant: buddy.tenant, user_id: buddy.user_id })
     if (hideTypingTimerTable[key]) {
       while (hideTypingTimerTable[key].length > 0) {
         clearTimeout(hideTypingTimerTable[key].pop())
       }
-      delete hideTypingTimerTable[key]
-
-      // hide
+      delete hideTypingTimerTable[key] // hide
       require(['dojo/dom-construct'], function (domConstruct) {
         // remove from chat panel
         var panel = panelsChat[key]
@@ -7125,8 +6629,7 @@ if (!window.Brekeke.UCClientUI) {
           for (var i = 0; i < existings.length; i++) {
             domConstruct.destroy(existings[i])
           }
-        }
-        // remove from conference panel
+        } // remove from conference panel
         for (var conf_id in panelsConference) {
           var panel = panelsConference[conf_id]
           if (panel) {
@@ -7142,8 +6645,7 @@ if (!window.Brekeke.UCClientUI) {
               domConstruct.destroy(existings[i])
             }
           }
-        }
-        // remove from broadcast panel
+        } // remove from broadcast panel
         for (var broadcastPanelKey in panelsBroadcast) {
           var panel = panelsBroadcast[broadcastPanelKey]
           if (panel) {
@@ -7163,19 +6665,15 @@ if (!window.Brekeke.UCClientUI) {
       })
     }
   }
-
   /*
    * Function createConference
-   */
-  var createConference = function (subject, invite) {
+   */ var createConference = function createConference(subject, invite) {
     if (!subject) {
       return
     }
     if (!invite) {
       invite = []
-    }
-
-    // create conference
+    } // create conference
     chatClient.createConference(
       subject,
       invite,
@@ -7232,18 +6730,14 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function joinConference
-   */
-  var joinConference = function (conf_id) {
+   */ var joinConference = function joinConference(conf_id) {
     var conference = chatClient.getConference(conf_id)
     if (conference.conf_status !== Constants.CONF_STATUS_INVITED) {
       logger.log('error', 'cannot join conf_status==' + conference.conf_status)
       return
-    }
-
-    // join conference
+    } // join conference
     chatClient.joinConference(
       conf_id,
       { invisible: false, exclusive: false },
@@ -7251,8 +6745,7 @@ if (!window.Brekeke.UCClientUI) {
         // funcOK
         if (conference.conf_type === 'webchat') {
           displayWebchatQueueInfo(conf_id)
-        }
-        // display conference
+        } // display conference
         //displayConference(ev.conference.conf_id); // displayConference in chatClient_onConferenceMemberChanged
       },
       function (ev) {
@@ -7276,22 +6769,16 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function leaveConference
-   */
-  var leaveConference = function (conf_id, refresh) {
+   */ var leaveConference = function leaveConference(conf_id, refresh) {
     var conferenceOrg = chatClient.getConference(conf_id)
     var panel = panelsConference[conf_id]
     if (panel) {
       clearCall(panel)
-    }
-
-    // leave conference
+    } // leave conference
     chatClient.leaveConference(
-      {
-        conf_id: conf_id,
-      },
+      { conf_id: conf_id },
       function (ev) {
         // funcOK
         if (refresh) {
@@ -7325,11 +6812,9 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function inviteToConference
-   */
-  var inviteToConference = function (conf_id, invite) {
+   */ var inviteToConference = function inviteToConference(conf_id, invite) {
     var conference = chatClient.getConference(conf_id)
     if (conference.conf_status !== Constants.CONF_STATUS_JOINED) {
       logger.log(
@@ -7340,9 +6825,7 @@ if (!window.Brekeke.UCClientUI) {
           conference.conf_status,
       )
       return
-    }
-
-    // invite to conference
+    } // invite to conference
     chatClient.inviteToConference(
       conf_id,
       invite,
@@ -7372,14 +6855,13 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function checkInvitationAcceptance
-   */
-  var checkInvitationAcceptance = function (items, conf_id) {
-    var invite = []
-
-    // get buddies from dnd items
+   */ var checkInvitationAcceptance = function checkInvitationAcceptance(
+    items,
+    conf_id,
+  ) {
+    var invite = [] // get buddies from dnd items
     var buddySet = {}
     var buddylist = chatClient.getBuddylist()
     try {
@@ -7410,9 +6892,7 @@ if (!window.Brekeke.UCClientUI) {
     } catch (e) {
       logger.log('error', e.message)
       return invite
-    }
-
-    // check conference status and users
+    } // check conference status and users
     var conference = chatClient.getConference(conf_id)
     if (conference.conf_status !== Constants.CONF_STATUS_JOINED) {
       return invite // i am not joined
@@ -7439,11 +6919,9 @@ if (!window.Brekeke.UCClientUI) {
     }
     return invite
   }
-
   /*
    * Function inputFile
-   */
-  var inputFile = function (panel) {
+   */ var inputFile = function inputFile(panel) {
     if (panel.panelType !== 'CHAT' && panel.panelType !== 'CONFERENCE') {
       return
     }
@@ -7464,9 +6942,7 @@ if (!window.Brekeke.UCClientUI) {
           return
         }
       }
-    }
-
-    // input file
+    } // input file
     panel.formHeaderFileForm.reset()
     if (getBrowser() === 'IE') {
       require(['dijit/Dialog', 'dijit/form/Button'], function (Dialog, Button) {
@@ -7478,7 +6954,7 @@ if (!window.Brekeke.UCClientUI) {
         dia.addChild(
           new Button({
             label: ucMsgs.CMN_CANCEL,
-            onClick: function () {
+            onClick: function onClick() {
               panel.panelChatHeaderFileForm.appendChild(
                 panel.formHeaderFileForm,
               )
@@ -7497,11 +6973,9 @@ if (!window.Brekeke.UCClientUI) {
       panel.inputHeaderFileForm.click()
     }
   }
-
   /*
    * Function sendFile
-   */
-  var sendFile = function (panel) {
+   */ var sendFile = function sendFile(panel) {
     if (getBrowser() === 'IE') {
       require(['dijit/registry'], function (registry) {
         var dia = registry.getEnclosingWidget(
@@ -7511,7 +6985,6 @@ if (!window.Brekeke.UCClientUI) {
         dia.destroy()
       })
     }
-
     var target = {}
     if (panel.panelType === 'CHAT') {
       try {
@@ -7530,9 +7003,7 @@ if (!window.Brekeke.UCClientUI) {
     } else if (panel.panelType === 'CONFERENCE') {
       var conference = chatClient.getConference(panel.panelKey)
       if (conference.conf_status === Constants.CONF_STATUS_JOINED) {
-        target = {
-          conf_id: conference.conf_id,
-        }
+        target = { conf_id: conference.conf_id }
       } else {
         logger.log(
           'error',
@@ -7544,7 +7015,6 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'empty user_id of panel.panelKey==' + panel.panelKey)
       return
     }
-
     var files = panel.inputHeaderFileForm.files
     if (window.File && window.FormData) {
       // File API and FormData enabled
@@ -7567,8 +7037,7 @@ if (!window.Brekeke.UCClientUI) {
                     j === 0
                       ? getInlineImage(info.fileInfos[j], files[i])
                       : null,
-                }
-                // display message
+                } // display message
                 var message = {
                   senderInfo: chatClient.getProfile(),
                   text: '',
@@ -7617,8 +7086,7 @@ if (!window.Brekeke.UCClientUI) {
                 panelKey: panel.panelKey,
                 events: [],
                 inlineImage: null,
-              }
-              // display message
+              } // display message
               var message = {
                 senderInfo: chatClient.getProfile(),
                 text: '',
@@ -7659,15 +7127,12 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function dropFile
-   */
-  var dropFile = function (panel, files) {
+   */ var dropFile = function dropFile(panel, files) {
     if (panel.panelType !== 'CHAT' && panel.panelType !== 'CONFERENCE') {
       return
     }
-
     var target = {}
     if (panel.panelType === 'CHAT') {
       try {
@@ -7686,9 +7151,7 @@ if (!window.Brekeke.UCClientUI) {
     } else if (panel.panelType === 'CONFERENCE') {
       var conference = chatClient.getConference(panel.panelKey)
       if (conference.conf_status === Constants.CONF_STATUS_JOINED) {
-        target = {
-          conf_id: conference.conf_id,
-        }
+        target = { conf_id: conference.conf_id }
       } else {
         logger.log(
           'error',
@@ -7700,7 +7163,6 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'empty user_id of panel.panelKey==' + panel.panelKey)
       return
     }
-
     if (window.File && window.FormData) {
       // File API and FormData enabled
       if (files && files.length) {
@@ -7722,8 +7184,7 @@ if (!window.Brekeke.UCClientUI) {
                     j === 0
                       ? getInlineImage(info.fileInfos[j], files[i])
                       : null,
-                }
-                // display message
+                } // display message
                 var message = {
                   senderInfo: chatClient.getProfile(),
                   text: '',
@@ -7759,11 +7220,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function getInlineImage
-   */
-  var getInlineImage = function (fileInfo, file) {
+   */ var getInlineImage = function getInlineImage(fileInfo, file) {
     var settings = chatClient.getSettings()
     if (
       !(
@@ -7806,19 +7265,16 @@ if (!window.Brekeke.UCClientUI) {
                 ', message: ' +
                 ev.message,
             )
-          })
-          // get url after download (xhr.onload)
+          }) // get url after download (xhr.onload)
           return { url: '' }
         }
       }
     }
     return null
   }
-
   /*
    * Function acceptFile
-   */
-  var acceptFile = function (file_id) {
+   */ var acceptFile = function acceptFile(file_id) {
     var key = fileTable[file_id].panelKey
     var panel = (
       fileTable[file_id].panelType === 'CHAT'
@@ -7838,7 +7294,6 @@ if (!window.Brekeke.UCClientUI) {
           fileArea,
         )[0]
         acceptButton.style.visibility = 'hidden'
-
         var formArea = dojo.query(
           '.brUCChatMessageFileDownloadFormArea',
           fileArea,
@@ -7849,9 +7304,7 @@ if (!window.Brekeke.UCClientUI) {
           '"></form><iframe name="iframe_' +
           file_id +
           '"></iframe>'
-        var form = dojo.query('form', formArea)[0]
-
-        // accept file
+        var form = dojo.query('form', formArea)[0] // accept file
         chatClient.acceptFile(file_id, form, function (ev) {
           logger.log(
             'warn',
@@ -7873,11 +7326,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function cancelFile
-   */
-  var cancelFile = function (file_id, quiet) {
+   */ var cancelFile = function cancelFile(file_id, quiet) {
     var key = fileTable[file_id].panelKey
     var panel = (
       fileTable[file_id].panelType === 'CHAT'
@@ -7898,9 +7349,7 @@ if (!window.Brekeke.UCClientUI) {
         )[0]
         cancelButton.style.visibility = 'hidden'
       }
-    }
-
-    // cancel file
+    } // cancel file
     chatClient.cancelFile(file_id, function (ev) {
       logger.log(
         'warn',
@@ -7922,11 +7371,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function displayFile
-   */
-  var displayFile = function (file_id) {
+   */ var displayFile = function displayFile(file_id) {
     require(['dojo/on'], function (on) {
       var fileInfo = fileTable[file_id].fileInfo
       var key = fileTable[file_id].panelKey
@@ -7940,7 +7387,6 @@ if (!window.Brekeke.UCClientUI) {
       if (!panel) {
         return
       }
-
       var fileArea = dojo.query(
         '[data-brekeke-uc-file-id=' + file_id + ']',
         panel.panelMessages,
@@ -7996,8 +7442,7 @@ if (!window.Brekeke.UCClientUI) {
                             </td>\n\
                         </tr>\n\
                     </table>\n\
-                '
-        // button event
+                ' // button event
         fileTable[file_id].events.push(
           on(
             dojo.query('[data-brekeke-uc-accept-file-id]', fileArea)[0],
@@ -8012,9 +7457,7 @@ if (!window.Brekeke.UCClientUI) {
             panelChatCancelFile_click,
           ),
         )
-      }
-
-      // display values
+      } // display values
       dojo
         .query('.brUCChatMessageFileImage', fileArea)
         .removeClass('brUCIconFileUpload')
@@ -8092,9 +7535,7 @@ if (!window.Brekeke.UCClientUI) {
         fileInfo.status === Constants.FILE_STATUS_TRANSFERRING ||
         fileInfo.status === Constants.FILE_STATUS_COMPLETED
           ? fileInfo.progress
-          : 0
-
-      // display buttons
+          : 0 // display buttons
       var iconTd = dojo.query('.brUCChatMessageFileTd1', fileArea)[0]
       var progressTr = dojo.query('.brUCChatMessageFileTrProgress', fileArea)[0]
       var buttonsTr = dojo.query('.brUCChatMessageFileTrButtons', fileArea)[0]
@@ -8181,11 +7622,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function createStaticFileArea
-   */
-  var createStaticFileArea = function (text, sender) {
+   */ var createStaticFileArea = function createStaticFileArea(text, sender) {
     var profile = chatClient.getProfile()
     var fileProps = {}
     try {
@@ -8248,11 +7687,9 @@ if (!window.Brekeke.UCClientUI) {
         </span>'
     )
   }
-
   /*
    * Function startWebRTC
-   */
-  var startWebRTC = function (first) {
+   */ var startWebRTC = function startWebRTC(first) {
     var profile = chatClient.getProfile()
     var configProperties = chatClient.getConfigProperties()
     if (
@@ -8294,7 +7731,7 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
     }
-    var loadPhoneProperties_funcOK = function (ev) {
+    var loadPhoneProperties_funcOK = function loadPhoneProperties_funcOK(ev) {
       if (cookiePreference.webRTCDisabled) {
         logger.log('info', 'cookiePreference.webRTCDisabled turned false')
         return
@@ -8334,9 +7771,7 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
     chatClient.loadPhoneProperties(
-      {
-        force: false,
-      },
+      { force: false },
       loadPhoneProperties_funcOK,
       function (ev) {
         logger.log(
@@ -8360,12 +7795,10 @@ if (!window.Brekeke.UCClientUI) {
                 '<br />',
               closable: false,
             })
-            var dia_ok = function (e) {
+            var dia_ok = function dia_ok(e) {
               dia.destroy()
               chatClient.loadPhoneProperties(
-                {
-                  force: true,
-                },
+                { force: true },
                 loadPhoneProperties_funcOK,
                 function (ev) {
                   logger.log(
@@ -8378,12 +7811,10 @@ if (!window.Brekeke.UCClientUI) {
                 },
               )
             }
-            var dia_cancel = function (e) {
+            var dia_cancel = function dia_cancel(e) {
               dia.destroy()
               chatClient.loadPhoneProperties(
-                {
-                  force: false,
-                },
+                { force: false },
                 loadPhoneProperties_funcOK,
                 function (ev) {
                   logger.log(
@@ -8396,7 +7827,7 @@ if (!window.Brekeke.UCClientUI) {
                 },
               )
             }
-            var dia_never = function (e) {
+            var dia_never = function dia_never(e) {
               dia.destroy()
               cookiePreference.webRTCDisabled = 'true'
               saveCookiePreference()
@@ -8406,7 +7837,7 @@ if (!window.Brekeke.UCClientUI) {
                 )
               }
             }
-            var keyUp = function (e) {
+            var keyUp = function keyUp(e) {
               if (e.keyCode === 13) {
                 dia_ok()
               } else if (e.keyCode === 27) {
@@ -8424,7 +7855,7 @@ if (!window.Brekeke.UCClientUI) {
               new Button({
                 label: ucMsgs.BTN_ADD_PHONE_ID_NO,
                 onClick: dia_cancel,
-                onKeyDown: function (e) {
+                onKeyDown: function onKeyDown(e) {
                   if (e.keyCode === 13) {
                     e.cancelBubble = true
                   }
@@ -8436,7 +7867,7 @@ if (!window.Brekeke.UCClientUI) {
               new Button({
                 label: ucMsgs.BTN_ADD_PHONE_ID_NEVER,
                 onClick: dia_never,
-                onKeyDown: function (e) {
+                onKeyDown: function onKeyDown(e) {
                   if (e.keyCode === 13) {
                     e.cancelBubble = true
                   }
@@ -8447,14 +7878,11 @@ if (!window.Brekeke.UCClientUI) {
             dia.show()
           })
         } else {
-          logger.log('info', 'retrying chatClient.loadPhoneProperties')
-          // retry once after 10 sec
+          logger.log('info', 'retrying chatClient.loadPhoneProperties') // retry once after 10 sec
           setTimeout(
             chatClient.loadPhoneProperties.bind(
               chatClient,
-              {
-                force: false,
-              },
+              { force: false },
               loadPhoneProperties_funcOK,
               function (ev) {
                 logger.log(
@@ -8472,25 +7900,23 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function displayExternalCallTarget
-   */
-  var displayExternalCallTarget = function (panel, title) {
+   */ var displayExternalCallTarget = function displayExternalCallTarget(
+    panel,
+    title,
+  ) {
     // subject
     if (!title) {
       title =
         panel.textBoxHeaderTarget.attr('value') || ucMsgs.TAB_TARGET_NOT_ENTERED
     }
     panel.set('title', escapeHTML(title))
-
     enableButtons(panel)
   }
-
   /*
    * Function makeShareScreenCall
-   */
-  var makeShareScreenCall = function (panel) {
+   */ var makeShareScreenCall = function makeShareScreenCall(panel) {
     if (!cookiePreference.shareScreenEnabled) {
       return
     }
@@ -8563,14 +7989,12 @@ if (!window.Brekeke.UCClientUI) {
     } else {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
       return
-    }
-    // memorize
+    } // memorize
     outgoingCallPanelTable[target] = {
       panelType: panel.panelType,
       panelKey: panel.panelKey,
       timestamp: +new Date(),
-    }
-    // make call
+    } // make call
     phone.makeCall(
       target,
       getDefaultOptions(false, false),
@@ -8579,11 +8003,11 @@ if (!window.Brekeke.UCClientUI) {
       editExInfo(phone.defaultOptions.exInfo, 'put', 'sharescreen', 'true'),
     )
   }
-
   /*
    * Function makeShareScreenCallChrome
-   */
-  var makeShareScreenCallChrome = function (panel) {
+   */ var makeShareScreenCallChrome = function makeShareScreenCallChrome(
+    panel,
+  ) {
     if (!cookiePreference.shareScreenEnabled) {
       return
     }
@@ -8629,8 +8053,7 @@ if (!window.Brekeke.UCClientUI) {
           outgoingPreScreenSharingPanelTable[target] = {
             panelType: panel.panelType,
             panelKey: panel.panelKey,
-          }
-          // add pre-screen-sharing video session to existing audio call
+          } // add pre-screen-sharing video session to existing audio call
           phone.setWithVideo(
             session.sessionId,
             true,
@@ -8657,8 +8080,7 @@ if (!window.Brekeke.UCClientUI) {
     } else {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
       return
-    }
-    // memorize
+    } // memorize
     outgoingCallPanelTable[target] = {
       panelType: panel.panelType,
       panelKey: panel.panelKey,
@@ -8667,8 +8089,7 @@ if (!window.Brekeke.UCClientUI) {
     outgoingPreScreenSharingPanelTable[target] = {
       panelType: panel.panelType,
       panelKey: panel.panelKey,
-    }
-    // make pre-screen-sharing call
+    } // make pre-screen-sharing call
     phone.makeCall(
       target,
       getDefaultOptions(false, false),
@@ -8677,11 +8098,9 @@ if (!window.Brekeke.UCClientUI) {
       editExInfo(phone.defaultOptions.exInfo, 'put', 'sharescreen', 'true'),
     )
   }
-
   /*
    * Function createShareScreenSession
-   */
-  var createShareScreenSession = function (
+   */ var createShareScreenSession = function createShareScreenSession(
     panel,
     session,
     preScreenSharingVideoClientSession,
@@ -8694,13 +8113,11 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'unsupported browser')
       return
     }
-    var user_id = preScreenSharingVideoClientSession.user
-    // terminate pre-screen-sharing video session
+    var user_id = preScreenSharingVideoClientSession.user // terminate pre-screen-sharing video session
     delete outgoingPreScreenSharingPanelTable[
       session.rtcSession.remote_identity.uri.user
     ]
-    preScreenSharingVideoClientSession.rtcSession.terminate()
-    // get screen media
+    preScreenSharingVideoClientSession.rtcSession.terminate() // get screen media
     try {
       chrome.runtime.sendMessage(
         cookiePreference.shareScreenExtensionId,
@@ -8735,11 +8152,9 @@ if (!window.Brekeke.UCClientUI) {
       session.rtcSession.terminate()
     }
   }
-
   /*
    * Function makeCall
-   */
-  var makeCall = function (panel, video) {
+   */ var makeCall = function makeCall(panel, video) {
     var session = getSessionFromPanel(panel.panelType, panel.panelKey)
     var target = null
     var videoOptions = null
@@ -8836,8 +8251,7 @@ if (!window.Brekeke.UCClientUI) {
       if (!broadcastUsersTable[panel.panelKey]) {
         logger.log('error', 'empty broadcastUsersTable[' + panel.panelKey + ']')
         return
-      }
-      // TODO: yano broadcast call
+      } // TODO: yano broadcast call
       return
     } else if (panel.panelType === 'EXTERNALCALL') {
       if (session) {
@@ -8859,7 +8273,6 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('error', 'unknown panel.panelType==' + panel.panelType)
       return
     }
-
     if (getCallControlMode() === 1) {
       // make call by 3pcc
       // TODO: yano delete test
@@ -8886,8 +8299,7 @@ if (!window.Brekeke.UCClientUI) {
         panelType: panel.panelType,
         panelKey: panel.panelKey,
         timestamp: +new Date(),
-      }
-      // make call
+      } // make call
       phone.makeCall(
         target,
         getDefaultOptions(false, false),
@@ -8897,18 +8309,14 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-
   /*
    * Function answerCall
-   */
-  var answerCall = function (panel, withVideo) {
+   */ var answerCall = function answerCall(panel, withVideo) {
     var session = getSessionFromPanel(panel.panelType, panel.panelKey)
     if (!session) {
       logger.log('error', 'not found call of panel.panelKey==' + panel.panelKey)
       return
-    }
-
-    // answer call
+    } // answer call
     if (withVideo) {
       if (session.sessionStatus === 'progress') {
         phone.answer(
@@ -8937,23 +8345,17 @@ if (!window.Brekeke.UCClientUI) {
         logger.log('warn', 'already answered')
         return
       }
-    }
-
-    // stop ring
-    document.getElementById('audioRing').pause()
-    // stop lamp
+    } // stop ring
+    document.getElementById('audioRing').pause() // stop lamp
     if (lampObject) {
       lampObject.alert = null
       lampObject.changeLamp(lampObject)
-    }
-    // stop blinking
+    } // stop blinking
     dojo.removeClass(panel.controlButton.titleNode, 'brUCBackgroundBlinking')
   }
-
   /*
    * Function clearCall
-   */
-  var clearCall = function (panel) {
+   */ var clearCall = function clearCall(panel) {
     if (panel.panelType === 'BROADCAST') {
       // TODO: yano broadcast
       //if (!broadcastCallsTable[panel.panelKey]) {
@@ -8967,17 +8369,13 @@ if (!window.Brekeke.UCClientUI) {
       var session = getSessionFromPanel(panel.panelType, panel.panelKey)
       if (!session || !session.rtcSession) {
         return
-      }
-
-      // clear call
+      } // clear call
       session.rtcSession.terminate()
     }
   }
-
   /*
    * Function muteMicrophone
-   */
-  var muteMicrophone = function (panel) {
+   */ var muteMicrophone = function muteMicrophone(panel) {
     if (panel.panelType === 'BROADCAST') {
       // TODO: yano broadcast
       //if (!broadcastCallsTable[panel.panelKey] || !broadcastCallsTable[panel.panelKey].calls[0]) {
@@ -8997,22 +8395,17 @@ if (!window.Brekeke.UCClientUI) {
       if (!session || !session.rtcSession) {
         return
       }
-
       var muted = !session.muted.main
       cookiePreference.mutesMicrophone = muted ? 'true' : ''
       saveCookiePreference()
       phone.setMuted({ main: muted }, session.sessionId)
-
       displayCall(session.sessionId)
     }
   }
-
   /*
    * Function muteCamera
-   */
-  var muteCamera = function (panel) {
+   */ var muteCamera = function muteCamera(panel) {
     var profile = chatClient.getProfile()
-
     if (panel.panelType === 'BROADCAST') {
       // TODO: yano broadcast
       //if (!broadcastCallsTable[panel.panelKey] || !broadcastCallsTable[panel.panelKey].calls[0]) {
@@ -9032,7 +8425,6 @@ if (!window.Brekeke.UCClientUI) {
       if (!session || !session.rtcSession) {
         return
       }
-
       var muted = !session.muted.videoClient
       cookiePreference.mutesCamera = muted ? 'true' : ''
       saveCookiePreference()
@@ -9054,15 +8446,12 @@ if (!window.Brekeke.UCClientUI) {
           }
         }
       }
-
       displayCall(session.sessionId)
     }
   }
-
   /*
    * Function enumerateDevices
-   */
-  var enumerateDevices = function (panel, kind) {
+   */ var enumerateDevices = function enumerateDevices(panel, kind) {
     var kinds = kind ? [kind] : ['audioinput', 'videoinput', 'audiooutput']
     var dropDownMenuKeys = {
       audioinput: 'dropDownMenuChangeDevAI',
@@ -9079,21 +8468,16 @@ if (!window.Brekeke.UCClientUI) {
       videoinput: 'videoSource',
       audiooutput: 'audioTarget',
     }
-
     require(['dijit/MenuItem'], function (MenuItem) {
       kinds.forEach(function (kind) {
         var dropDownMenu = panel[dropDownMenuKeys[kind]]
         var dropDownButton = panel[dropDownButtonKeys[kind]]
-        var currentValue = cookiePreference[cookieKeys[kind]]
-
-        // remove old items
+        var currentValue = cookiePreference[cookieKeys[kind]] // remove old items
         var children = dropDownMenu.getChildren()
         for (var i = 0; i < children.length; i++) {
           panel.removeChild(children[i])
           children[i].destroy()
-        }
-
-        // add menu item of "auto"
+        } // add menu item of "auto"
         var item = new MenuItem({
           label: ucMsgs.LBL_DEVICE_AUTO,
           onClick: selectDevice.bind(
@@ -9127,9 +8511,7 @@ if (!window.Brekeke.UCClientUI) {
             dropDownButton.set('title', item.label)
           }
         }
-      })
-
-      // get devices
+      }) // get devices
       if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
         navigator.mediaDevices
           .enumerateDevices()
@@ -9138,9 +8520,7 @@ if (!window.Brekeke.UCClientUI) {
               if (kinds.indexOf(device.kind) !== -1) {
                 var dropDownMenu = panel[dropDownMenuKeys[device.kind]]
                 var dropDownButton = panel[dropDownButtonKeys[device.kind]]
-                var currentValue = cookiePreference[cookieKeys[device.kind]]
-
-                // add menu item
+                var currentValue = cookiePreference[cookieKeys[device.kind]] // add menu item
                 var label =
                   device.label ||
                   device.kind + ' #' + dropDownMenu.getChildren().length
@@ -9173,23 +8553,19 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function selectDevice
-   */
-  var selectDevice = function (panel, kind, deviceId, label) {
+   */ var selectDevice = function selectDevice(panel, kind, deviceId, label) {
     deviceId = string(deviceId)
     if (kind === 'audioinput') {
       if (label) {
         panel.dropDownButtonChangeDevAI.set('label', string(label))
         panel.dropDownButtonChangeDevAI.set('title', string(label))
       }
-
       if (cookiePreference.audioSource !== deviceId) {
         cookiePreference.audioSource = deviceId
         saveCookiePreference()
       }
-
       var session = getSessionFromPanel(panel.panelType, panel.panelKey)
       if (session) {
         phone.reconnectMicrophone(
@@ -9205,12 +8581,10 @@ if (!window.Brekeke.UCClientUI) {
         panel.dropDownButtonChangeDevVI.set('label', string(label))
         panel.dropDownButtonChangeDevVI.set('title', string(label))
       }
-
       if (cookiePreference.videoSource !== deviceId) {
         cookiePreference.videoSource = deviceId
         saveCookiePreference()
       }
-
       var session = getSessionFromPanel(panel.panelType, panel.panelKey)
       if (session && session.withVideo) {
         phone.setWithVideo(session.sessionId, false)
@@ -9236,23 +8610,19 @@ if (!window.Brekeke.UCClientUI) {
       } else {
         logger.log('warn', 'setSinkId() not supported.')
       }
-
       if (label) {
         panel.dropDownButtonChangeDevAO.set('label', string(label))
         panel.dropDownButtonChangeDevAO.set('title', string(label))
       }
-
       if (cookiePreference.audioTarget !== deviceId) {
         cookiePreference.audioTarget = deviceId
         saveCookiePreference()
       }
     }
   }
-
   /*
    * Function fullscreen
-   */
-  var fullscreen = function (panel) {
+   */ var fullscreen = function fullscreen(panel) {
     // full screen
     var v = panel.videoRemote
     ;(
@@ -9263,11 +8633,9 @@ if (!window.Brekeke.UCClientUI) {
       function () {}
     ).call(v)
   }
-
   /*
    * Function holdCall
-   */
-  var holdCall = function (panel) {
+   */ var holdCall = function holdCall(panel) {
     var session = getSessionFromPanel(panel.panelType, panel.panelKey)
     if (session && sessionPanelTable[session.sessionId]) {
       if (!sessionPanelTable[session.sessionId].holded) {
@@ -9282,11 +8650,9 @@ if (!window.Brekeke.UCClientUI) {
       displayCall(session.sessionId)
     }
   }
-
   /*
    * Function transferCall
-   */
-  var transferCall = function (panel, target) {
+   */ var transferCall = function transferCall(panel, target) {
     var session = getSessionFromPanel(panel.panelType, panel.panelKey)
     if (session && sessionPanelTable[session.sessionId]) {
       if (
@@ -9301,11 +8667,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function conferenceTransfer
-   */
-  var conferenceTransfer = function (panel) {
+   */ var conferenceTransfer = function conferenceTransfer(panel) {
     var session = getSessionFromPanel(panel.panelType, panel.panelKey)
     if (session && sessionPanelTable[session.sessionId]) {
       if (sessionPanelTable[session.sessionId].transferring) {
@@ -9316,11 +8680,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function enumerateTransferUsers
-   */
-  var enumerateTransferUsers = function (panel) {
+   */ var enumerateTransferUsers = function enumerateTransferUsers(panel) {
     var configProperties = chatClient.getConfigProperties()
     require(['dijit/MenuItem'], function (MenuItem) {
       // remove old items
@@ -9328,8 +8690,7 @@ if (!window.Brekeke.UCClientUI) {
       for (var i = 0; i < children.length; i++) {
         panel.removeChild(children[i])
         children[i].destroy()
-      }
-      // add menu items
+      } // add menu items
       var buddylist = chatClient.getBuddylist()
       for (var i = 0; i < buddylist.user.length; i++) {
         var buddy = buddylist.user[i]
@@ -9357,40 +8718,37 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function selectTransferUser
-   */
-  var selectTransferUser = function (panel, target, label) {
+   */ var selectTransferUser = function selectTransferUser(
+    panel,
+    target,
+    label,
+  ) {
     panel.dropDownButtonTransferUser.set('value', target)
     panel.dropDownButtonTransferUser.set('label', label)
     panel.dropDownButtonTransferUser.set('title', label)
   }
-
   /*
    * Function showCall
-   */
-  var showCall = function (sessionId, panel, count) {
+   */ var _showCall = function showCall(sessionId, panel, count) {
     count = int(count)
     if (getSessionFromPanel(panel.panelType, panel.panelKey)) {
       if (count < 100) {
         // wait until closing previous call
         setTimeout(function () {
-          showCall(sessionId, panel, count + 1)
+          _showCall(sessionId, panel, count + 1)
         }, 100)
       } else {
         logger.log('warn', 'previous call not closed')
       }
       return
     }
-
     var session = phone.getSession(sessionId)
     if (!session) {
       // already terminated
       return
-    }
-
-    // register sessionId panel relation
+    } // register sessionId panel relation
     sessionPanelTable[sessionId] = {
       panelType: panel.panelType,
       panelKey: panel.panelKey,
@@ -9403,51 +8761,46 @@ if (!window.Brekeke.UCClientUI) {
         100,
       ),
     }
-
     showCallInit(sessionId, panel, sessionPanelTable[sessionId].connections)
-
     if (session.rtcSession && session.rtcSession.direction !== 'outgoing') {
       showCallIncomingMessage(sessionId, panel)
     }
   }
-
   /*
    * Function showCallBroadcast
-   */
-  var showCallBroadcast = function (call_id, panel, withVideo, withAudio) {
+   */ var _showCallBroadcast = function showCallBroadcast(
+    call_id,
+    panel,
+    withVideo,
+    withAudio,
+  ) {
     if (broadcastCallsTable[panel.panelKey]) {
       // wait until closing previous call
       setTimeout(function () {
-        showCallBroadcast(call_id, panel, withVideo, withAudio)
+        _showCallBroadcast(call_id, panel, withVideo, withAudio)
       }, 100)
       return
     }
-
     var callInfo = chatClient.getCallInfo(call_id)
     if (callInfo.status === Constants.CALL_STATUS_TERMINATED) {
       // already terminated
       return
-    }
-
-    // register call_id panel relation
+    } // register call_id panel relation
     broadcastCallsTable[panel.panelKey] = {
       calls: [call_id],
       withVideo: withVideo,
       withAudio: withAudio,
       connections: [],
     }
-
     showCallInit(
       call_id,
       panel,
       broadcastCallsTable[panel.panelKey].connections,
     )
   }
-
   /*
    * Function showCallInit
-   */
-  var showCallInit = function (sessionId, panel, connections) {
+   */ var showCallInit = function showCallInit(sessionId, panel, connections) {
     require(['dojo/dom-geometry', 'dojo/on', 'dojo/aspect'], function (
       domGeometry,
       on,
@@ -9481,12 +8834,8 @@ if (!window.Brekeke.UCClientUI) {
           '_startDrag',
           getFuncApply(panelChat_panelChatCallSplitterWidgetStartDrag, panel),
         ),
-      )
-
-      // enable buttons
-      enableButtons(panel)
-
-      // move panel chat call
+      ) // enable buttons
+      enableButtons(panel) // move panel chat call
       if (cookiePreference.headerDisplayOnCall === 'none') {
         panel.panelChatHeader.domNode.style.display = 'none'
         dojo.removeClass(panel.buttonMovePanelChatCall, 'brUCIconMoveUp')
@@ -9495,11 +8844,9 @@ if (!window.Brekeke.UCClientUI) {
         panel.panelChatHeader.domNode.style.display = 'block'
         dojo.removeClass(panel.buttonMovePanelChatCall, 'brUCIconMoveDown')
         dojo.addClass(panel.buttonMovePanelChatCall, 'brUCIconMoveUp')
-      }
-
-      // initial video size
+      } // initial video size
       var resizeTryCount = 0
-      var resizeFunc = function () {
+      var _resizeFunc = function resizeFunc() {
         if (!phone.getSession(sessionId)) {
           // terminated
           return
@@ -9535,35 +8882,25 @@ if (!window.Brekeke.UCClientUI) {
           }
           if (resizeTryCount < 600) {
             resizeTryCount++
-            setTimeout(resizeFunc, 100)
+            setTimeout(_resizeFunc, 100)
           }
         }
       }
-      resizeFunc()
-
-      // devices
+      _resizeFunc() // devices
       enumerateDevices(panel, null)
-      selectDevice(panel, 'audiooutput', cookiePreference.audioTarget, null)
-
-      // text
+      selectDevice(panel, 'audiooutput', cookiePreference.audioTarget, null) // text
       panel.textBoxTransferTarget.attr('value', '')
       panel.dropDownButtonTransferUser.attr('value', '')
       panel.dropDownButtonTransferUser.attr('label', '')
       panel.dropDownButtonTransferUser.attr('title', '')
-      panel.areaDialPadLog.innerHTML = ''
-
-      // display call
-      displayCall(sessionId)
-
-      // animation
+      panel.areaDialPadLog.innerHTML = '' // display call
+      displayCall(sessionId) // animation
       showCallAnimation(panel)
     })
   }
-
   /*
    * Function showCallAnimation
-   */
-  var showCallAnimation = function (panel) {
+   */ var showCallAnimation = function showCallAnimation(panel) {
     require(['dojo/dom-geometry', 'dojo/_base/fx'], function (domGeometry, fx) {
       panel.panelChatCall.domNode.style.display = 'block'
       var panelChatHeaderHeight = domGeometry.position(
@@ -9579,16 +8916,12 @@ if (!window.Brekeke.UCClientUI) {
         fx.animateProperty({
           node: panel.panelChatHeader.domNode,
           duration: brFrame.durationAnime,
-          properties: {
-            top: { start: 0, end: -panelChatHeaderHeight },
-          },
+          properties: { top: { start: 0, end: -panelChatHeaderHeight } },
         }).play()
         fx.animateProperty({
           node: panel.panelChatCall.domNode,
           duration: brFrame.durationAnime,
-          properties: {
-            top: { start: -panelChatCallHeight, end: 0 },
-          },
+          properties: { top: { start: -panelChatCallHeight, end: 0 } },
         }).play()
         fx.animateProperty({
           node: panel.panelChatList.domNode,
@@ -9603,7 +8936,7 @@ if (!window.Brekeke.UCClientUI) {
                 panelChatCallHeight,
             },
           },
-          onEnd: function () {
+          onEnd: function onEnd() {
             panel.panelChatHeader.domNode.style.display = 'none'
             panel.resize()
           },
@@ -9632,18 +8965,19 @@ if (!window.Brekeke.UCClientUI) {
               end: panelChatListHeight - panelChatCallHeight,
             },
           },
-          onEnd: function () {
+          onEnd: function onEnd() {
             panel.resize()
           },
         }).play()
       }
     })
   }
-
   /*
    * Function showCallIncomingMessage
-   */
-  var showCallIncomingMessage = function (sessionId, panel) {
+   */ var showCallIncomingMessage = function showCallIncomingMessage(
+    sessionId,
+    panel,
+  ) {
     var session = phone.getSession(sessionId)
     if (
       !session ||
@@ -9658,7 +8992,6 @@ if (!window.Brekeke.UCClientUI) {
       session.remoteUserOptionsTable[
         session.rtcSession && session.rtcSession.remote_identity.uri.user
       ]
-
     var target = {}
     if (panel.panelType === 'CHAT') {
       try {
@@ -9668,12 +9001,8 @@ if (!window.Brekeke.UCClientUI) {
       }
     } else if (panel.panelType === 'EXTERNALCALL') {
       target.address = session.rtcSession.remote_identity.uri.user
-    }
-
-    // ring
-    document.getElementById('audioRing').play()
-
-    // lamp
+    } // ring
+    document.getElementById('audioRing').play() // lamp
     if (lampObject) {
       lampObject.alert = {
         panelKey: panel.panelKey,
@@ -9681,12 +9010,8 @@ if (!window.Brekeke.UCClientUI) {
         buddy: target,
       }
       lampObject.changeLamp(lampObject)
-    }
-
-    // start blinking
-    dojo.addClass(panel.controlButton.titleNode, 'brUCBackgroundBlinking')
-
-    // highlight
+    } // start blinking
+    dojo.addClass(panel.controlButton.titleNode, 'brUCBackgroundBlinking') // highlight
     var title = ''
     if (target.user_id) {
       title = chatClient.getBuddyUser(target).name || target.user_id
@@ -9700,9 +9025,7 @@ if (!window.Brekeke.UCClientUI) {
         : ucMsgs.LBL_INCOMING_CALL_HIGHLIGHT
     if (!document.hasFocus()) {
       startHighlight(title + ': ' + message)
-    }
-
-    // notification
+    } // notification
     if (!document.hasFocus()) {
       startNotification(
         title,
@@ -9717,11 +9040,9 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-
   /*
    * Function hideCall
-   */
-  var hideCall = function (panel, session) {
+   */ var hideCall = function hideCall(panel, session) {
     require([
       'dojo/dom-construct',
       'dojo/dom-geometry',
@@ -9730,18 +9051,14 @@ if (!window.Brekeke.UCClientUI) {
       var sessionId = null
       if (session) {
         sessionId = session.sessionId
-      }
-
-      // exit full screen
+      } // exit full screen
       ;(
         document.exitFullscreen ||
         document.webkitExitFullscreen ||
         document.mozCancelFullScreen ||
         document.msExitFullscreen ||
         function () {}
-      ).call(document)
-
-      // stop video
+      ).call(document) // stop video
       var existings = dojo.query(
         '[data-brekeke-uc-stream-user-id]',
         panel.panelChatCall.domNode,
@@ -9753,35 +9070,24 @@ if (!window.Brekeke.UCClientUI) {
       }
       stopPlayer(panel.audioRemote)
       stopPlayer(panel.videoRemote)
-      stopPlayer(panel.videoLocal)
-
-      // stop ring
+      stopPlayer(panel.videoLocal) // stop ring
       document.getElementById('audioRing').pause()
-      document.getElementById('audioRingback').pause()
-      // stop lamp
+      document.getElementById('audioRingback').pause() // stop lamp
       if (lampObject) {
         lampObject.alert = null
         lampObject.changeLamp(lampObject)
-      }
-      // stop blinking
-      dojo.removeClass(panel.controlButton.titleNode, 'brUCBackgroundBlinking')
-      // stop highlight
-      stopHighlight()
-      // stop notification
-      stopNotification()
-      // ring
-      document.getElementById('audioTerminated').play()
-
-      // close dropdown menu
+      } // stop blinking
+      dojo.removeClass(panel.controlButton.titleNode, 'brUCBackgroundBlinking') // stop highlight
+      stopHighlight() // stop notification
+      stopNotification() // ring
+      document.getElementById('audioTerminated').play() // close dropdown menu
       panel.dropDownButtonChangeDevAI.closeDropDown(false)
       panel.dropDownButtonChangeDevVI.closeDropDown(false)
       panel.dropDownButtonChangeDevAO.closeDropDown(false)
       panel.dropDownButtonShowMicrophoneMenu.closeDropDown(false)
       panel.dropDownButtonShowCameraMenu.closeDropDown(false)
       panel.dropDownButtonShowTransferMenu.closeDropDown(false)
-      panel.dropDownButtonShowDialPad.closeDropDown(false)
-
-      // unregister events
+      panel.dropDownButtonShowDialPad.closeDropDown(false) // unregister events
       if (panel.panelType === 'BROADCAST') {
         // TODO: yano broadcast
         //for (var i = 0; i < broadcastCallsTable[panel.panelKey].connections.length; i++) {
@@ -9796,16 +9102,11 @@ if (!window.Brekeke.UCClientUI) {
           sessionPanelTable[sessionId].connections[i].remove()
         }
         clearInterval(sessionPanelTable[sessionId].analyserTimer)
-      }
-
-      // hide splitter
-      panel.panelChatCall._splitterWidget.domNode.style.visibility = 'hidden'
-
-      // show terminated message
+      } // hide splitter
+      panel.panelChatCall._splitterWidget.domNode.style.visibility = 'hidden' // show terminated message
       panel.trChatCallTerminatedMessage.style.display = 'table-row'
       panel.trChatCallIncomingButtons.style.display = 'none'
       panel.trChatCallTalkingButtons.style.display = 'none'
-
       setTimeout(function () {
         // animation
         var panelChatHeaderHeight = domGeometry.position(
@@ -9840,33 +9141,27 @@ if (!window.Brekeke.UCClientUI) {
               end: panelChatListHeight + panelChatCallHeight,
             },
           },
-          onEnd: function () {
+          onEnd: function onEnd() {
             dojo.removeClass(panel.buttonMovePanelChatCall, 'brUCIconMoveDown')
             dojo.addClass(panel.buttonMovePanelChatCall, 'brUCIconMoveUp')
             panel.panelChatCall.domNode.style.display = 'none'
             panel.panelChatHeader.domNode.style.display = 'block'
-            panel.resize()
-
-            // unregister sessionId panel relation
+            panel.resize() // unregister sessionId panel relation
             if (panel.panelType === 'BROADCAST') {
               // TODO: yano broadcast
               //delete broadcastCallsTable[panel.panelKey];
             } else if (sessionId) {
               delete sessionPanelTable[sessionId]
-            }
-
-            // enable buttons
+            } // enable buttons
             enableButtons(panel)
           },
         }).play()
       }, 1000)
     })
   }
-
   /*
    * Function getPanelFromSession
-   */
-  var getPanelFromSession = function (sessionId) {
+   */ var getPanelFromSession = function getPanelFromSession(sessionId) {
     if (sessionPanelTable[sessionId]) {
       if (sessionPanelTable[sessionId].panelType === 'CHAT') {
         return panelsChat[sessionPanelTable[sessionId].panelKey]
@@ -9882,11 +9177,12 @@ if (!window.Brekeke.UCClientUI) {
       return null
     }
   }
-
   /*
    * Function getSessionFromPanel
-   */
-  var getSessionFromPanel = function (panelType, panelKey) {
+   */ var getSessionFromPanel = function getSessionFromPanel(
+    panelType,
+    panelKey,
+  ) {
     for (var sessionId in sessionPanelTable) {
       if (
         sessionPanelTable[sessionId].panelType === panelType &&
@@ -9897,16 +9193,13 @@ if (!window.Brekeke.UCClientUI) {
     }
     return null
   }
-
   /*
    * Function movePanelChatCall
-   */
-  var movePanelChatCall = function (panel) {
+   */ var movePanelChatCall = function movePanelChatCall(panel) {
     require(['dojo/dom-geometry', 'dojo/_base/fx'], function (domGeometry, fx) {
       if (panel.panelChatHeader.domNode.style.display === 'none') {
         cookiePreference.headerDisplayOnCall = ''
-        saveCookiePreference()
-        // animation
+        saveCookiePreference() // animation
         panel.panelChatHeader.domNode.style.display = 'block'
         var panelChatHeaderHeight = domGeometry.position(
           panel.panelChatHeader.domNode,
@@ -9920,16 +9213,12 @@ if (!window.Brekeke.UCClientUI) {
         fx.animateProperty({
           node: panel.panelChatHeader.domNode,
           duration: brFrame.durationAnime,
-          properties: {
-            top: { start: -panelChatHeaderHeight, end: 0 },
-          },
+          properties: { top: { start: -panelChatHeaderHeight, end: 0 } },
         }).play()
         fx.animateProperty({
           node: panel.panelChatCall.domNode,
           duration: brFrame.durationAnime,
-          properties: {
-            top: { start: 0, end: panelChatHeaderHeight },
-          },
+          properties: { top: { start: 0, end: panelChatHeaderHeight } },
         }).play()
         fx.animateProperty({
           node: panel.panelChatList.domNode,
@@ -9944,7 +9233,7 @@ if (!window.Brekeke.UCClientUI) {
               end: panelChatListHeight - panelChatHeaderHeight,
             },
           },
-          onEnd: function () {
+          onEnd: function onEnd() {
             dojo.removeClass(panel.buttonMovePanelChatCall, 'brUCIconMoveDown')
             dojo.addClass(panel.buttonMovePanelChatCall, 'brUCIconMoveUp')
             panel.resize()
@@ -9952,8 +9241,7 @@ if (!window.Brekeke.UCClientUI) {
         }).play()
       } else {
         cookiePreference.headerDisplayOnCall = 'none'
-        saveCookiePreference()
-        // animation
+        saveCookiePreference() // animation
         var panelChatHeaderHeight = domGeometry.position(
           panel.panelChatHeader.domNode,
         ).h
@@ -9966,16 +9254,12 @@ if (!window.Brekeke.UCClientUI) {
         fx.animateProperty({
           node: panel.panelChatHeader.domNode,
           duration: brFrame.durationAnime,
-          properties: {
-            top: { start: 0, end: -panelChatHeaderHeight },
-          },
+          properties: { top: { start: 0, end: -panelChatHeaderHeight } },
         }).play()
         fx.animateProperty({
           node: panel.panelChatCall.domNode,
           duration: brFrame.durationAnime,
-          properties: {
-            top: { start: panelChatHeaderHeight, end: 0 },
-          },
+          properties: { top: { start: panelChatHeaderHeight, end: 0 } },
         }).play()
         fx.animateProperty({
           node: panel.panelChatList.domNode,
@@ -9990,7 +9274,7 @@ if (!window.Brekeke.UCClientUI) {
               end: panelChatListHeight + panelChatHeaderHeight,
             },
           },
-          onEnd: function () {
+          onEnd: function onEnd() {
             panel.panelChatHeader.domNode.style.display = 'none'
             dojo.removeClass(panel.buttonMovePanelChatCall, 'brUCIconMoveUp')
             dojo.addClass(panel.buttonMovePanelChatCall, 'brUCIconMoveDown')
@@ -10000,11 +9284,12 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function resizePanelChatCall
-   */
-  var resizePanelChatCall = function (panel, diffHeight) {
+   */ var resizePanelChatCall = function resizePanelChatCall(
+    panel,
+    diffHeight,
+  ) {
     require(['dojo/dom-geometry'], function (domGeometry) {
       var oldVideoHeight = domGeometry.position(panel.videoRemote).h
       var newVideoHeight = oldVideoHeight + diffHeight
@@ -10013,11 +9298,13 @@ if (!window.Brekeke.UCClientUI) {
       panel.resize()
     })
   }
-
   /*
    * Function resizeVideoRemote
-   */
-  var resizeVideoRemote = function (panel, videoHeight, saves) {
+   */ var resizeVideoRemote = function resizeVideoRemote(
+    panel,
+    videoHeight,
+    saves,
+  ) {
     require(['dojo/dom-geometry'], function (domGeometry) {
       var ratio = DEFAULT_VIDEO_RATIO
       var mainVideoWidth = int(cookiePreference.mainVideoWidth)
@@ -10047,11 +9334,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function displayCall
-   */
-  var displayCall = function (sessionId) {
+   */ var displayCall = function displayCall(sessionId) {
     var profile = chatClient.getProfile()
     var configProperties = chatClient.getConfigProperties()
     var session = phone.getSession(sessionId) || {}
@@ -10064,9 +9349,7 @@ if (!window.Brekeke.UCClientUI) {
       session.remoteUserOptionsTable &&
       session.remoteUserOptionsTable[
         session.rtcSession && session.rtcSession.remote_identity.uri.user
-      ]
-
-    // tr visible / invisible
+      ] // tr visible / invisible
     panel.trChatCallIncomingMessage.style.display =
       session.rtcSession &&
       session.rtcSession.direction !== 'outgoing' &&
@@ -10112,22 +9395,17 @@ if (!window.Brekeke.UCClientUI) {
         (session.sessionStatus === 'dialing' ||
           session.sessionStatus === 'progress'))
         ? 'table-row'
-        : 'none'
-
-    // visibilities
+        : 'none' // visibilities
     panel.panelChatCall._splitterWidget.domNode.style.visibility =
       session.withVideo ? 'visible' : 'hidden'
     panel.videoLocal.style.visibility =
       panel.panelType === 'BROADCAST' ? 'hidden' : 'visible' // TODO: yano broadcast incoming
-
     // text
     panel.tdChatCallIncomingMessage.innerHTML =
       remoteUserOptions &&
       editExInfo(remoteUserOptions.exInfo, 'get', 'sharescreen') === 'true'
         ? ucMsgs.LBL_INCOMING_SCREEN
-        : ucMsgs.LBL_INCOMING_CALL
-
-    // size
+        : ucMsgs.LBL_INCOMING_CALL // size
     var thumbnailVideoWidth = int(cookiePreference.thumbnailVideoWidth)
     var thumbnailVideoHeight = int(cookiePreference.thumbnailVideoHeight)
     if (thumbnailVideoWidth > 0 && thumbnailVideoHeight > 0) {
@@ -10137,9 +9415,7 @@ if (!window.Brekeke.UCClientUI) {
       panel.videoLocal.style.width =
         int(DEFAULT_THUMBNAIL_VIDEO_HEIGHT * DEFAULT_VIDEO_RATIO) + 'px'
       panel.videoLocal.style.height = DEFAULT_THUMBNAIL_VIDEO_HEIGHT + 'px'
-    }
-
-    // button enable / disable
+    } // button enable / disable
     panel.buttonAnswerAudio.setDisabled(
       !(
         session.rtcSession &&
@@ -10202,7 +9478,6 @@ if (!window.Brekeke.UCClientUI) {
         session.sessionStatus === 'progress',
     )
     panel.dropDownButtonShowDialPad.setDisabled(!true) // TODO: yano broadcast incoming
-
     // hold
     if (
       configProperties.optional_config &&
@@ -10238,9 +9513,7 @@ if (!window.Brekeke.UCClientUI) {
         panel.areaTransferMenu,
         'brUCWithConferenceTransferButton',
       )
-    }
-
-    // muted
+    } // muted
     if (true) {
       // ver 1.1.6.8
       dojo.addClass(panel.trChatCallTalkingButtons, 'brUCWithDeviceMenu')
@@ -10289,9 +9562,7 @@ if (!window.Brekeke.UCClientUI) {
         panel.buttonMuteCameraInMenu.iconNode,
         'brUCCallButtonPushed',
       )
-    }
-
-    // display streams on video, audio
+    } // display streams on video, audio
     if (panel.panelType === 'CHAT' || panel.panelType === 'EXTERNALCALL') {
       if (session.remoteStreamObject) {
         document.getElementById('audioRingback').pause()
@@ -10336,8 +9607,7 @@ if (!window.Brekeke.UCClientUI) {
           thumbnailClass = 'brUCPanelThumbnail'
           placePos = 'first'
           nameDelimiter = ''
-        }
-        // check video sessions
+        } // check video sessions
         if (session.videoClientSessionTable) {
           for (var videoClientSessionId in session.videoClientSessionTable) {
             var videoClientSession =
@@ -10416,8 +9686,7 @@ if (!window.Brekeke.UCClientUI) {
                     int(DEFAULT_THUMBNAIL_VIDEO_HEIGHT * DEFAULT_VIDEO_RATIO) +
                     'px'
                   video.style.height = DEFAULT_THUMBNAIL_VIDEO_HEIGHT + 'px'
-                }
-                // register thumbnail click event
+                } // register thumbnail click event
                 var thisArg = {
                   panelKey: panel.panelKey,
                   tenant: buddy.tenant,
@@ -10437,13 +9706,11 @@ if (!window.Brekeke.UCClientUI) {
               }
             }
           }
-        }
-        // check audio session
+        } // check audio session
         if (session.remoteStreamObject) {
           // play audio
           startPlayer(panel.audioRemote, session.remoteStreamObject)
-        }
-        // check existing thumbnails
+        } // check existing thumbnails
         var existings = dojo.query(
           '[data-brekeke-uc-stream-tenant][data-brekeke-uc-stream-user-id]',
           panel.panelChatCall.domNode,
@@ -10469,8 +9736,7 @@ if (!window.Brekeke.UCClientUI) {
             stopPlayer(video)
             domConstruct.destroy(existings[i])
           }
-        }
-        // check local video session
+        } // check local video session
         if (session.localVideoStreamObject) {
           startPlayer(panel.videoLocal, session.localVideoStreamObject)
         } else {
@@ -10480,14 +9746,11 @@ if (!window.Brekeke.UCClientUI) {
     } else if (panel.panelType === 'BROADCAST') {
       // TODO: yano broadcast
     }
-
     panel.resize()
   }
-
   /*
    * Function displayMicrophoneLevel
-   */
-  var displayMicrophoneLevel = function (sessionId) {
+   */ var displayMicrophoneLevel = function displayMicrophoneLevel(sessionId) {
     var session = phone.getSession(sessionId) || {}
     var panel = getPanelFromSession(sessionId)
     if (!panel) {
@@ -10506,12 +9769,10 @@ if (!window.Brekeke.UCClientUI) {
     }
     panel.progressMicrophoneLevel.value = Math.min(100, val * 2)
   }
-
   /*
    * Function startPlayer
-   */
-  var startPlayer = function (player, src) {
-    if (typeof src === 'object') {
+   */ var startPlayer = function startPlayer(player, src) {
+    if (_typeof(src) === 'object') {
       player.srcObject = src
     } else {
       player.src = src
@@ -10555,11 +9816,9 @@ if (!window.Brekeke.UCClientUI) {
     }
     playingPlayers.push(player)
   }
-
   /*
    * Function stopPlayer
-   */
-  var stopPlayer = function (player) {
+   */ var stopPlayer = function stopPlayer(player) {
     player.pause()
     player.removeAttribute('src')
     player.srcObject = null
@@ -10570,11 +9829,13 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function requestMainVideoCall
-   */
-  var requestMainVideoCall = function (panel, tenant, user_id) {
+   */ var requestMainVideoCall = function requestMainVideoCall(
+    panel,
+    tenant,
+    user_id,
+  ) {
     var profile = chatClient.getProfile()
     var session = getSessionFromPanel(panel.panelType, panel.panelKey)
     if (!session) {
@@ -10590,9 +9851,7 @@ if (!window.Brekeke.UCClientUI) {
         'get',
         'economythumbnail',
       ) === 'true'
-    var thumbnailStream = null
-
-    // clear old main video call
+    var thumbnailStream = null // clear old main video call
     if (session.videoClientSessionTable) {
       for (var videoClientSessionId in session.videoClientSessionTable) {
         var videoClientSession =
@@ -10612,7 +9871,6 @@ if (!window.Brekeke.UCClientUI) {
     stopPlayer(panel.videoRemote)
     exInfo = editExInfo(exInfo, 'remove', 'requestmainvideo')
     exInfo = editExInfo(exInfo, 'remove', 'ucctime')
-
     if (economyThumbnail) {
       // request high quality main video call
       exInfo = editExInfo(exInfo, 'put', 'requestmainvideo', user_id)
@@ -10621,23 +9879,21 @@ if (!window.Brekeke.UCClientUI) {
       // copy thumbnail stream to main video
       startPlayer(panel.videoRemote, thumbnailStream)
     }
-
     if (exInfo !== session.exInfo) {
       phone.setWithVideo(session.sessionId, null, null, exInfo)
     }
   }
-
   /*
    * Function makeMainVideoSession
-   */
-  var makeMainVideoSession = function (sessionId, user_id) {
+   */ var makeMainVideoSession = function makeMainVideoSession(
+    sessionId,
+    user_id,
+  ) {
     var session = phone.getSession(sessionId)
     if (!session) {
       logger.log('warn', 'already terminated')
       return
-    }
-
-    // check main video session exists
+    } // check main video session exists
     if (session.videoClientSessionTable) {
       for (var videoClientSessionId in session.videoClientSessionTable) {
         var videoClientSession =
@@ -10651,9 +9907,7 @@ if (!window.Brekeke.UCClientUI) {
           return
         }
       }
-    }
-
-    // make main video session
+    } // make main video session
     phone.makeAdditionalVideoCall(
       sessionId,
       editExInfo(session.exInfo, 'get', 'sharescreen') === 'true'
@@ -10662,11 +9916,12 @@ if (!window.Brekeke.UCClientUI) {
       [user_id],
     )
   }
-
   /*
    * displayWebchatQueue
-   */
-  var displayWebchatQueue = function (panel, updated_conf_id) {
+   */ var displayWebchatQueue = function displayWebchatQueue(
+    panel,
+    updated_conf_id,
+  ) {
     require(['dojo/dom-construct', 'dojo/on'], function (domConstruct, on) {
       for (var i = 0; i < webchatQueueList.length; i++) {
         var webchatQueue = webchatQueueList[i]
@@ -10678,7 +9933,6 @@ if (!window.Brekeke.UCClientUI) {
           .split('\n')
           .slice(0, WEBCHAT_QUEUE_LINES)
           .join('\n')
-
         if (
           !dojo.query(
             '[data-brekeke-uc-conf-id=' + conf_id + ']',
@@ -10731,13 +9985,9 @@ if (!window.Brekeke.UCClientUI) {
           webchatRoomHtml += '</div>'
           var webchatRoomDom = domConstruct.toDom(webchatRoomHtml)
           panel.panelWebchatRooms.style.display = 'block'
-          domConstruct.place(webchatRoomDom, panel.panelWebchatRooms, 'last')
-
-          // scroll
+          domConstruct.place(webchatRoomDom, panel.panelWebchatRooms, 'last') // scroll
           panel.panelChatList.domNode.scrollTop =
-            panel.panelChatList.domNode.scrollHeight
-
-          // register event listeners
+            panel.panelChatList.domNode.scrollHeight // register event listeners
           var chatButton = dojo.query(
             '.brUCChatWebchatRoomChatButton',
             webchatRoomDom,
@@ -10796,22 +10046,18 @@ if (!window.Brekeke.UCClientUI) {
         } else if (conf_id !== updated_conf_id) {
           continue
         }
-
-        webchatQueue.panelKeySet[panel.panelKey] = true
-
-        // display info
-        displayWebchatQueueInfo(conf_id, i)
-
-        // display message
+        webchatQueue.panelKeySet[panel.panelKey] = true // display info
+        displayWebchatQueueInfo(conf_id, i) // display message
         displayWebchatQueueMessage(conf_id, i)
       }
     })
   }
-
   /*
    * displayWebchatQueueInfo
-   */
-  var displayWebchatQueueInfo = function (conf_id, index) {
+   */ var displayWebchatQueueInfo = function displayWebchatQueueInfo(
+    conf_id,
+    index,
+  ) {
     if (!index && index !== 0) {
       for (var i = 0; i < webchatQueueList.length; i++) {
         if (webchatQueueList[i].conf_id === conf_id) {
@@ -10825,19 +10071,15 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
     var webchatQueue = webchatQueueList[index]
-
     var conference = chatClient.getConference(conf_id)
     var profile = chatClient.getProfile()
-
     var agent = escapeHTML(
       (conference.assigned.tenant === profile.tenant &&
       conference.assigned.user_id === profile.user_id
         ? profile.name
         : chatClient.getBuddyUser(conference.assigned).name) ||
         conference.assigned.user_id,
-    )
-
-    // display
+    ) // display
     for (var panelKey in webchatQueue.panelKeySet) {
       var agentDom = dojo.query(
         '[data-brekeke-uc-conf-id=' + conf_id + '] .brUCChatWebchatRoomAgent',
@@ -10922,11 +10164,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * removeWebchatQueue
-   */
-  var removeWebchatQueue = function (conf_id) {
+   */ var removeWebchatQueue = function removeWebchatQueue(conf_id) {
     var settings = chatClient.getSettings()
     var index = -1
     for (var i = 0; i < webchatQueueList.length; i++) {
@@ -10940,7 +10180,6 @@ if (!window.Brekeke.UCClientUI) {
       return false
     }
     var webchatQueue = webchatQueueList[index]
-
     for (var panelKey in webchatQueue.panelKeySet) {
       if (
         settings.optional_settings &&
@@ -11039,11 +10278,12 @@ if (!window.Brekeke.UCClientUI) {
     }
     return webchatQueueList.splice(index, 1)
   }
-
   /*
    * removeWebchatQueueAnimation
-   */
-  var removeWebchatQueueAnimation = function (conf_id, panelKey) {
+   */ var removeWebchatQueueAnimation = function removeWebchatQueueAnimation(
+    conf_id,
+    panelKey,
+  ) {
     require(['dojo/dom-geometry', 'dojo/_base/fx'], function (domGeometry, fx) {
       if (!panelsWebchatQueue[panelKey]) {
         return
@@ -11057,10 +10297,8 @@ if (!window.Brekeke.UCClientUI) {
         fx.animateProperty({
           node: webchatRoomDom,
           duration: brFrame.durationAnime,
-          properties: {
-            height: { start: h, end: 0 },
-          },
-          onEnd: function (node) {
+          properties: { height: { start: h, end: 0 } },
+          onEnd: function onEnd(node) {
             if (!panelsWebchatQueue[panelKey]) {
               return
             }
@@ -11071,11 +10309,12 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * addMessageToWebchatQueue
-   */
-  var addMessageToWebchatQueue = function (conf_id, message) {
+   */ var addMessageToWebchatQueue = function addMessageToWebchatQueue(
+    conf_id,
+    message,
+  ) {
     var index = -1
     for (var i = 0; i < webchatQueueList.length; i++) {
       if (webchatQueueList[i].conf_id === conf_id) {
@@ -11087,24 +10326,18 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('info', 'not found webchat room of conf_id==' + conf_id)
       return false
     }
-    var webchatQueue = webchatQueueList[index]
-
-    // add to message list
-    webchatQueue.messageList.push(message)
-
-    // display message
+    var webchatQueue = webchatQueueList[index] // add to message list
+    webchatQueue.messageList.push(message) // display message
     displayWebchatQueueMessage(conf_id, index)
-
     return true
   }
-
   /*
    * displayWebchatQueueMessage
-   */
-  var displayWebchatQueueMessage = function (conf_id, index) {
-    var webchatQueue = webchatQueueList[index]
-
-    // message text
+   */ var displayWebchatQueueMessage = function displayWebchatQueueMessage(
+    conf_id,
+    index,
+  ) {
+    var webchatQueue = webchatQueueList[index] // message text
     var messageText = ''
     var messageFullText = ''
     if (webchatQueue.messageList.length > 0) {
@@ -11117,17 +10350,14 @@ if (!window.Brekeke.UCClientUI) {
           return previousValue + currentValue.text + ' \n'
         }, ''),
         true,
-      )
-      // smiley ascii to html
+      ) // smiley ascii to html
       for (var i = 0; i < smileyAsciiToHtml.length; i++) {
         messageText = messageText.replace(
           smileyAsciiToHtml[i].regex,
           smileyAsciiToHtml[i].html,
         )
       }
-    }
-
-    // display message
+    } // display message
     for (var panelKey in webchatQueue.panelKeySet) {
       var dom = dojo.query(
         '[data-brekeke-uc-conf-id=' + conf_id + '] .brUCChatWebchatRoomContent',
@@ -11139,22 +10369,17 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function showProfileImage
-   */
-  var showProfileImage = function (url) {
+   */ var showProfileImage = function showProfileImage(url) {
     if (typeof url !== 'string') {
       return
     }
-
     var up = url.split('?')
-
     var form = document.createElement('form')
     form.action = up[0]
     form.target = '_blank'
     form.method = 'post'
-
     if (up[1]) {
       var pairs = up[1].split('&')
       for (var i = 0; i < pairs.length; i++) {
@@ -11165,22 +10390,17 @@ if (!window.Brekeke.UCClientUI) {
         form.appendChild(input)
       }
     }
-
     var body = document.getElementsByTagName('body')[0]
     body.appendChild(form)
     form.submit()
     body.removeChild(form)
   }
-
   /*
    * Function inputProfileImage
-   */
-  var inputProfileImage = function (panel) {
+   */ var inputProfileImage = function inputProfileImage(panel) {
     if (preferenceWorkData[panel.panelKey].profileImageUploading) {
       return
-    }
-
-    // input file
+    } // input file
     panel.formProfileImageForm.reset()
     if (getBrowser() === 'IE') {
       require(['dijit/Dialog', 'dijit/form/Button'], function (Dialog, Button) {
@@ -11193,7 +10413,7 @@ if (!window.Brekeke.UCClientUI) {
         dia.addChild(
           new Button({
             label: ucMsgs.CMN_CANCEL,
-            onClick: function () {
+            onClick: function onClick() {
               panel.panelPreferenceProfileImageForm.appendChild(
                 panel.formProfileImageForm,
               )
@@ -11212,11 +10432,9 @@ if (!window.Brekeke.UCClientUI) {
       panel.inputProfileImageForm.click()
     }
   }
-
   /*
    * Function uploadProfileImage
-   */
-  var uploadProfileImage = function (panel) {
+   */ var uploadProfileImage = function uploadProfileImage(panel) {
     if (getBrowser() === 'IE') {
       require(['dijit/registry'], function (registry) {
         var dia = registry.getEnclosingWidget(
@@ -11228,12 +10446,10 @@ if (!window.Brekeke.UCClientUI) {
         dia.destroy()
       })
     }
-
     if (panel.inputProfileImageForm.value) {
       preferenceWorkData[panel.panelKey].profileImageUploading = true
       panel.imgProfileImage.style.backgroundImage = 'url(./img/progress.gif)'
-      panel.imgProfileImage.setAttribute('data-brekeke-uc-url', '')
-      // upload profile image
+      panel.imgProfileImage.setAttribute('data-brekeke-uc-url', '') // upload profile image
       chatClient.uploadProfileImage(
         panel.inputProfileImageForm,
         function (ev) {
@@ -11276,17 +10492,13 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-
   /*
    * Function savePreference
-   */
-  var savePreference = function (panel) {
+   */ var savePreference = function savePreference(panel) {
     if (preferenceWorkData[panel.panelKey].profileImageUploading) {
       windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_SAVE_PREFERENCE_TRANSFERRING)
       return
-    }
-
-    // get and check values
+    } // get and check values
     var webRTCDisabled = panel.checkBoxWebRTCEnabled.checked ? '' : 'true'
     var mainVideoWidth = ''
     var mainVideoHeight = ''
@@ -11340,9 +10552,7 @@ if (!window.Brekeke.UCClientUI) {
     var shareScreenMute = panel.checkBoxShareScreenMute.checked ? '' : 'true'
     var shareScreenExtensionId =
       panel.textBoxShareScreenExtensionId.attr('value')
-
     panel.buttonSavePreference.setDisabled(true)
-
     var settings = chatClient.getSettings()
     settings.initial_status = preferenceWorkData[panel.panelKey].initial_status
     if (!settings.optional_settings) {
@@ -11367,10 +10577,7 @@ if (!window.Brekeke.UCClientUI) {
     settings.optional_settings.user_language = string(
       preferenceWorkData[panel.panelKey].user_language,
     )
-
-    panel.spanMessage.style.display = 'none'
-
-    // save properties
+    panel.spanMessage.style.display = 'none' // save properties
     chatClient.saveProperties(
       null,
       settings,
@@ -11394,9 +10601,7 @@ if (!window.Brekeke.UCClientUI) {
         cookiePreference.shareScreenMediaSource = shareScreenMediaSource
         cookiePreference.shareScreenMute = shareScreenMute
         cookiePreference.shareScreenExtensionId = shareScreenExtensionId
-        saveCookiePreference()
-
-        // save auto sign-in
+        saveCookiePreference() // save auto sign-in
         var autoSignIn = panel.checkBoxAutoSignIn.checked
         require(['dojo/cookie'], function (cookie) {
           if (autoSignIn) {
@@ -11436,9 +10641,7 @@ if (!window.Brekeke.UCClientUI) {
               cookie(brLogin.appname + '.brlogin.tenant', null, { expires: -1 })
             }
           }
-        })
-
-        // save profile image
+        }) // save profile image
         if (preferenceWorkData[panel.panelKey].profileImageTo === 'SAVE') {
           chatClient.saveProfileImage(function () {
             var url = chatClient.getProfile().profile_image_url
@@ -11456,25 +10659,18 @@ if (!window.Brekeke.UCClientUI) {
         } else {
           displayStatus()
         }
-
-        preferenceWorkData[panel.panelKey].profileImageTo = ''
-
-        // stop video
+        preferenceWorkData[panel.panelKey].profileImageTo = '' // stop video
         stopVideoSourceStream(panel)
-
         panel.spanMessage.innerHTML =
           ucMsgs.MSG_SAVE_PREFERENCE_SUCCESSFUL +
           ' ' +
           formatTimeNowWithSecond()
         panel.spanMessage.style.display = 'inline-block'
         panel.panelPreferenceTable.domNode.scrollTop = 0
-
         panel.buttonSavePreference.setDisabled(false)
-
         if (phoneRegistered) {
           phoneReregistering = true
-          phone.stopWebRTC(false)
-          // startWebRTC in phone_onPhoneStatusChanged
+          phone.stopWebRTC(false) // startWebRTC in phone_onPhoneStatusChanged
         } else {
           startWebRTC(true)
         }
@@ -11497,22 +10693,15 @@ if (!window.Brekeke.UCClientUI) {
           ')'
         panel.spanMessage.style.display = 'inline-block'
         panel.panelPreferenceTable.domNode.scrollTop = 0
-
         panel.buttonSavePreference.setDisabled(false)
       },
     )
   }
-
   /*
    * Function displayPreference
-   */
-  var displayPreference = function (panel) {
-    var settings = chatClient.getSettings()
-
-    // initial status
-    displayInitialStatus(panel)
-
-    // main video height
+   */ var displayPreference = function displayPreference(panel) {
+    var settings = chatClient.getSettings() // initial status
+    displayInitialStatus(panel) // main video height
     var mainVideoWidth = int(cookiePreference.mainVideoWidth)
     var mainVideoHeight = int(cookiePreference.mainVideoHeight)
     if (mainVideoWidth > 0 && mainVideoHeight > 0) {
@@ -11523,9 +10712,7 @@ if (!window.Brekeke.UCClientUI) {
       panel.radioButtonMainVideoDisplaySizeAuto.setChecked(true)
       panel.textBoxMainVideoWidth.setDisabled(true)
       panel.textBoxMainVideoHeight.setDisabled(true)
-    }
-
-    // thumbnail video height
+    } // thumbnail video height
     var thumbnailVideoWidth = int(cookiePreference.thumbnailVideoWidth)
     var thumbnailVideoHeight = int(cookiePreference.thumbnailVideoHeight)
     if (thumbnailVideoWidth > 0 && thumbnailVideoHeight > 0) {
@@ -11539,23 +10726,17 @@ if (!window.Brekeke.UCClientUI) {
       panel.radioButtonThumbnailVideoDisplaySizeAuto.setChecked(true)
       panel.textBoxThumbnailVideoWidth.setDisabled(true)
       panel.textBoxThumbnailVideoHeight.setDisabled(true)
-    }
-
-    // thumbnail position
+    } // thumbnail position
     if (preferenceWorkData[panel.panelKey].thumbnailPosition === 'bottom') {
       panel.radioButtonThumbnailPositionBottom.setChecked(true)
     } else {
       panel.radioButtonThumbnailPositionRight.setChecked(true)
-    }
-
-    // imageFile transfer
+    } // imageFile transfer
     if (preferenceWorkData[panel.panelKey].imageFileTransfer === 'file') {
       panel.radioButtonImageFileTransferFile.setChecked(true)
     } else {
       panel.radioButtonImageFileTransferInline.setChecked(true)
-    }
-
-    // webnotif
+    } // webnotif
     if (preferenceWorkData[panel.panelKey].webnotif_status === 'off') {
       panel.radioButtonWebnotifTimeoutOff.setChecked(true)
       panel.textBoxWebnotifTimeoutSec.setDisabled(true)
@@ -11573,12 +10754,10 @@ if (!window.Brekeke.UCClientUI) {
       panel.radioButtonWebnotifTimeoutAuto.setChecked(true)
       panel.textBoxWebnotifTimeoutSec.setDisabled(true)
     }
-
     panel.checkBoxSendingConfirmation.set(
       'checked',
       Boolean(preferenceWorkData[panel.panelKey].sending_confirmation),
     )
-
     panel.textBoxDisplayName.set(
       'value',
       string(
@@ -11591,9 +10770,7 @@ if (!window.Brekeke.UCClientUI) {
         settings.optional_settings &&
           settings.optional_settings.auto_close_request,
       ),
-    )
-
-    // auto sign-in
+    ) // auto sign-in
     require(['dojo/cookie'], function (cookie) {
       if (
         cookie(brLogin.appname + '.brlogin.autosignin') &&
@@ -11603,9 +10780,7 @@ if (!window.Brekeke.UCClientUI) {
       } else {
         panel.checkBoxAutoSignIn.set('checked', false)
       }
-    })
-
-    // auto start
+    }) // auto start
     if (getQueryParameters()['mode'] === 'autostart') {
       panel.spanAutoStartEnabled.innerHTML = ucMsgs.LBL_AUTO_START_ENABLED
     } else {
@@ -11616,15 +10791,11 @@ if (!window.Brekeke.UCClientUI) {
         '/css?UC=1" target="_blank">' +
         ucMsgs.LBL_AUTO_START_DOWNLOAD +
         '</a>'
-    }
-
-    // webrtc
+    } // webrtc
     panel.checkBoxWebRTCEnabled.set(
       'checked',
       !Boolean(cookiePreference.webRTCDisabled),
-    )
-
-    // webrtc type
+    ) // webrtc type
     panel.dropDownMenuWebRTCType.getChildren().forEach(function (item, i) {
       if (
         i === 0 ||
@@ -11632,15 +10803,11 @@ if (!window.Brekeke.UCClientUI) {
       ) {
         panel.dropDownButtonWebRTCType.set('label', item.label)
       }
-    })
-
-    // thumbnail frame rate
+    }) // thumbnail frame rate
     panel.textBoxThumbnailFrameRate.set(
       'value',
       string(cookiePreference.thumbnailFrameRate),
-    )
-
-    // video source
+    ) // video source
     if (getBrowser() === 'Chrome' || getBrowser() === 'Firefox') {
       // remove old items
       var children = panel.dropDownMenuVideoSource.getChildren()
@@ -11652,23 +10819,20 @@ if (!window.Brekeke.UCClientUI) {
         // add menu item of "auto"
         var item = new MenuItem({
           label: ucMsgs.LBL_VIDEO_SOURCE_AUTO,
-          onClick: function () {
+          onClick: function onClick() {
             preferenceWorkData[panel.panelKey].videoSource = this.get('value')
-            panel.dropDownButtonVideoSource.set('label', this.label)
-            // stop video
+            panel.dropDownButtonVideoSource.set('label', this.label) // stop video
             stopVideoSourceStream(panel)
           },
         })
         item.set('value', '')
         panel.dropDownMenuVideoSource.addChild(item)
-        panel.dropDownButtonVideoSource.set('label', item.label)
-        // add menu item of "sound only"
+        panel.dropDownButtonVideoSource.set('label', item.label) // add menu item of "sound only"
         item = new MenuItem({
           label: ucMsgs.LBL_VIDEO_SOURCE_SOUND_ONLY,
-          onClick: function () {
+          onClick: function onClick() {
             preferenceWorkData[panel.panelKey].videoSource = this.get('value')
-            panel.dropDownButtonVideoSource.set('label', this.label)
-            // stop video
+            panel.dropDownButtonVideoSource.set('label', this.label) // stop video
             stopVideoSourceStream(panel)
           },
         })
@@ -11678,8 +10842,7 @@ if (!window.Brekeke.UCClientUI) {
           preferenceWorkData[panel.panelKey].videoSource === item.get('value')
         ) {
           panel.dropDownButtonVideoSource.set('label', item.label)
-        }
-        // try getUserMedia
+        } // try getUserMedia
         var getUserMedia =
           navigator.getUserMedia ||
           navigator.webkitGetUserMedia ||
@@ -11688,13 +10851,9 @@ if (!window.Brekeke.UCClientUI) {
         if (getUserMedia) {
           getUserMedia.call(
             navigator,
-            {
-              audio: false,
-              video: true,
-            },
+            { audio: false, video: true },
             function (stream) {
-              stream.getTracks()[0].stop()
-              // get cameras
+              stream.getTracks()[0].stop() // get cameras
               if (
                 navigator.mediaDevices &&
                 navigator.mediaDevices.enumerateDevices
@@ -11714,7 +10873,7 @@ if (!window.Brekeke.UCClientUI) {
                               panel.dropDownMenuVideoSource.getChildren()
                                 .length,
                             ),
-                          onClick: function () {
+                          onClick: function onClick() {
                             preferenceWorkData[panel.panelKey].videoSource =
                               this.get('value')
                             panel.dropDownButtonVideoSource.set(
@@ -11724,8 +10883,7 @@ if (!window.Brekeke.UCClientUI) {
                             panel.dropDownButtonVideoSource.set(
                               'disabled',
                               true,
-                            )
-                            // start video
+                            ) // start video
                             stopVideoSourceStream(panel)
                             setTimeout(function () {
                               getUserMedia.call(
@@ -11815,9 +10973,7 @@ if (!window.Brekeke.UCClientUI) {
           )
         }
       })
-    }
-
-    // share screen enabled
+    } // share screen enabled
     panel.checkBoxShareScreenEnabled.set(
       'checked',
       Boolean(cookiePreference.shareScreenEnabled),
@@ -11841,9 +10997,7 @@ if (!window.Brekeke.UCClientUI) {
       cookiePreference.shareScreenExtensionId,
     )
     panel.aShareScreenDownload.href =
-      '/' + location.pathname.split('/')[1] + '/eps'
-
-    // user language
+      '/' + location.pathname.split('/')[1] + '/eps' // user language
     var language = string(preferenceWorkData[panel.panelKey].user_language)
     if (!panel.radioButtonUserLanguageList[language]) {
       language = ''
@@ -11853,11 +11007,9 @@ if (!window.Brekeke.UCClientUI) {
       panel.radioButtonUserLanguageList[l].setChecked(language === l)
     }
   }
-
   /*
    * Function displayInitialStatus
-   */
-  var displayInitialStatus = function (panel) {
+   */ var displayInitialStatus = function displayInitialStatus(panel) {
     var iconClass = getStatusIconClass(
       preferenceWorkData[panel.panelKey].initial_status,
     )
@@ -11884,11 +11036,9 @@ if (!window.Brekeke.UCClientUI) {
     iconNode.addClass(iconClass)
     panel.dropDownButtonInitialStatus.iconClass = iconClass
   }
-
   /*
    * Function stopVideoSourceStream
-   */
-  var stopVideoSourceStream = function (panel) {
+   */ var stopVideoSourceStream = function stopVideoSourceStream(panel) {
     // stop video
     if (preferenceWorkData[panel.panelKey].videoSourceStream) {
       preferenceWorkData[panel.panelKey].videoSourceStream.getTracks()[0].stop()
@@ -11911,22 +11061,16 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('warn', e)
     }
   }
-
   /*
    * Function searchTopics
-   */
-  var searchTopics = function (panel) {
+   */ var searchTopics = function searchTopics(panel) {
     var date = panel.dateTextBoxSearchTopics.attr('value')
     if (!date || !date.getTime || !date.getTime()) {
       logger.log('info', 'Invalid date')
       return
-    }
-
-    // disable date text box
+    } // disable date text box
     panel.dateTextBoxSearchTopics.attr('disabled', true)
-    panel.imgSearchTopics.style.visibility = 'visible'
-
-    // search topics
+    panel.imgSearchTopics.style.visibility = 'visible' // search topics
     chatClient.searchTopicsByDate(
       date,
       function (ev) {
@@ -11940,8 +11084,7 @@ if (!window.Brekeke.UCClientUI) {
           panel.tableHistoryHeaderTopics.appendChild(tr)
         }
         for (var i = 0; i < ev.topics.length; i++) {
-          var topic = ev.topics[i]
-          // add topics html
+          var topic = ev.topics[i] // add topics html
           var tr = document.createElement('tr')
           var td = document.createElement('td')
           var button = document.createElement('button')
@@ -11957,8 +11100,7 @@ if (!window.Brekeke.UCClientUI) {
           button.innerHTML = 'Show logs'
           td.appendChild(button)
           tr.appendChild(td)
-          panel.tableHistoryHeaderTopics.appendChild(tr)
-          // register event
+          panel.tableHistoryHeaderTopics.appendChild(tr) // register event
           panel.handlers.push(
             dojo.connect(
               button,
@@ -11969,8 +11111,7 @@ if (!window.Brekeke.UCClientUI) {
               }),
             ),
           )
-        }
-        // enable date text box
+        } // enable date text box
         panel.dateTextBoxSearchTopics.attr('disabled', false)
         panel.imgSearchTopics.style.visibility = 'hidden'
       },
@@ -11986,34 +11127,28 @@ if (!window.Brekeke.UCClientUI) {
         windowAlert(
           ucMsgs.CMN_ALERT,
           'Failed to search.' + ' (' + ev.code + ' ' + ev.message + ')',
-        )
-        // enable date text box
+        ) // enable date text box
         panel.dateTextBoxSearchTopics.attr('disabled', false)
         panel.imgSearchTopics.style.visibility = 'hidden'
       },
     )
   }
-
   /*
    * Function searchLogs
-   */
-  var searchLogs = function (panel, topic_id) {
+   */ var searchLogs = function searchLogs(panel, topic_id) {
     // disable buttons
     dojo
       .query('button', panel.tableHistoryHeaderTopics)
       .forEach(function (button) {
         button.disabled = true
       })
-    panel.imgSearchTopics.style.visibility = 'visible'
-
-    // search logs
+    panel.imgSearchTopics.style.visibility = 'visible' // search logs
     chatClient.searchLogsByTopic(
       topic_id,
       function (ev) {
         // funcOK
         // clear messages html
-        panel.panelMessages.innerHTML = ''
-        // create messages html
+        panel.panelMessages.innerHTML = '' // create messages html
         var messageList = []
         var profile = chatClient.getProfile()
         for (var i = 0; i < ev.logs.length; i++) {
@@ -12028,8 +11163,7 @@ if (!window.Brekeke.UCClientUI) {
             sentTimeDisplay: log.ltime,
           })
           displayMessage(messageList, true, panel.panelMessages, null, false)
-        }
-        // enable buttons
+        } // enable buttons
         dojo
           .query('button', panel.tableHistoryHeaderTopics)
           .forEach(function (button) {
@@ -12049,8 +11183,7 @@ if (!window.Brekeke.UCClientUI) {
         windowAlert(
           ucMsgs.CMN_ALERT,
           'Failed to search.' + ' (' + ev.code + ' ' + ev.message + ')',
-        )
-        // enable buttons
+        ) // enable buttons
         dojo
           .query('button', panel.tableHistoryHeaderTopics)
           .forEach(function (button) {
@@ -12060,20 +11193,16 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function searchTopicsSimple
-   */
-  var searchTopicsSimple = function (panel) {
+   */ var searchTopicsSimple = function searchTopicsSimple(panel) {
     // check now searching
     if (
       !searchConditionHistory[panel.panelKey] ||
       searchConditionHistory[panel.panelKey].searching
     ) {
       return
-    }
-
-    // construct condition
+    } // construct condition
     var name = searchConditionHistory[panel.panelKey].user
       ? [searchConditionHistory[panel.panelKey].user]
       : []
@@ -12085,28 +11214,19 @@ if (!window.Brekeke.UCClientUI) {
         any.push(conditionSimpleArray[i])
       }
     }
-    var condition = {
-      any: any,
-      name: name,
-      max: SEARCH_TOPICS_MAX,
-    }
-
+    var condition = { any: any, name: name, max: SEARCH_TOPICS_MAX }
     searchTopicsByCondition(panel, condition)
   }
-
   /*
    * Function searchTopicsAdvanced
-   */
-  var searchTopicsAdvanced = function (panel) {
+   */ var searchTopicsAdvanced = function searchTopicsAdvanced(panel) {
     // check now searching
     if (
       !searchConditionHistory[panel.panelKey] ||
       searchConditionHistory[panel.panelKey].searching
     ) {
       return
-    }
-
-    // construct condition
+    } // construct condition
     var content = []
     var ary = panel.textBoxAdvancedContent.attr('value').split(' ')
     for (var i = 0; i < ary.length; i++) {
@@ -12146,25 +11266,23 @@ if (!window.Brekeke.UCClientUI) {
       end: end,
       max: SEARCH_TOPICS_MAX,
     }
-
     searchTopicsByCondition(panel, condition)
   }
-
   /*
    * Function searchTopicsByCondition
-   */
-  var searchTopicsByCondition = function (panel, condition) {
+   */ var searchTopicsByCondition = function searchTopicsByCondition(
+    panel,
+    condition,
+  ) {
     if (
       !searchConditionHistory[panel.panelKey] ||
       searchConditionHistory[panel.panelKey].searching
     ) {
       return
     }
-
     searchConditionHistory[panel.panelKey].searching = true
     panel.panelNowSearchingTopics.style.display = 'block'
     panel.panelChatList.domNode.scrollTop = 0
-
     chatClient.searchTopicsByCondition(
       condition,
       function (ev) {
@@ -12215,11 +11333,9 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function searchTopicsShowMore
-   */
-  var searchTopicsShowMore = function (panel) {
+   */ var searchTopicsShowMore = function searchTopicsShowMore(panel) {
     // check now searching
     if (
       !searchConditionHistory[panel.panelKey] ||
@@ -12227,14 +11343,10 @@ if (!window.Brekeke.UCClientUI) {
       !searchConditionHistory[panel.panelKey].condition
     ) {
       return
-    }
-
-    // get last condition
+    } // get last condition
     var condition = searchConditionHistory[panel.panelKey].condition
-
     searchConditionHistory[panel.panelKey].searching = true
     panel.panelNowSearchingTopicsMore.style.display = 'block'
-
     chatClient.searchTopicsByCondition(
       condition,
       function (ev) {
@@ -12280,11 +11392,13 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function displayTopicList
-   */
-  var displayTopicList = function (topicList, panel, condition) {
+   */ var displayTopicList = function displayTopicList(
+    topicList,
+    panel,
+    condition,
+  ) {
     require(['dojo/dom-construct', 'dojo/on'], function (domConstruct, on) {
       var keyword = (condition.content || []).concat(condition.any || [])
       keyword.sort(function (a, b) {
@@ -12308,10 +11422,8 @@ if (!window.Brekeke.UCClientUI) {
           ),
         )
       }
-
       for (var i = 0; i < topicList.length; i++) {
         var topic = topicList[i]
-
         if (
           dojo.query(
             '[data-brekeke-uc-topic-id=' + topic.topic_id + ']',
@@ -12320,7 +11432,6 @@ if (!window.Brekeke.UCClientUI) {
         ) {
           continue
         }
-
         var topicPeer
         if (topic.peer.conf_id) {
           topicPeer = escapeHTML(
@@ -12343,23 +11454,19 @@ if (!window.Brekeke.UCClientUI) {
         } else {
           topicContent = removeTag(topic.content, true)
           topicContentTitle = escapeHTML(topicContent)
-        }
-        // smiley ascii to html
+        } // smiley ascii to html
         for (var j = 0; j < smileyAsciiToHtml.length; j++) {
           topicContent = topicContent.replace(
             smileyAsciiToHtml[j].regex,
             smileyAsciiToHtml[j].html,
           )
-        }
-        // emphasize keywords
+        } // emphasize keywords
         for (var j = 0; j < keywordRegex.length; j++) {
           topicContent = topicContent.replace(
             keywordRegex[j],
             '<span class="brUCEmphasized">$1</span>',
           )
-        }
-
-        // create topic html
+        } // create topic html
         var topicHtml =
           '<div data-brekeke-uc-topic-id="' +
           topic.topic_id +
@@ -12380,21 +11487,15 @@ if (!window.Brekeke.UCClientUI) {
         topicHtml += '</div>'
         var topicDom = domConstruct.toDom(topicHtml)
         panel.panelTopics.style.display = 'block'
-        domConstruct.place(topicDom, panel.panelTopics, 'last')
-
-        // set attribute
+        domConstruct.place(topicDom, panel.panelTopics, 'last') // set attribute
         if (topic.peer.conf_id) {
           topicDom.setAttribute('data-brekeke-uc-conf-id', topic.peer.conf_id)
         } else {
           topicDom.setAttribute('data-brekeke-uc-tenant', topic.peer.tenant)
           topicDom.setAttribute('data-brekeke-uc-user-id', topic.peer.user_id)
-        }
-
-        // scroll
+        } // scroll
         panel.panelChatList.domNode.scrollTop =
-          panel.panelChatList.domNode.scrollHeight
-
-        // add to topic list
+          panel.panelChatList.domNode.scrollHeight // add to topic list
         if (!topicListsHistory[panel.panelKey]) {
           topicListsHistory[panel.panelKey] = {}
         }
@@ -12414,11 +11515,9 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function openTopic
-   */
-  var openTopic = function (panel, topic_id) {
+   */ var openTopic = function openTopic(panel, topic_id) {
     require([
       'dojo/dom-construct',
       'dojo/on',
@@ -12462,10 +11561,7 @@ if (!window.Brekeke.UCClientUI) {
         ) {
           return
         }
-
-        searchConditionHistory[panel.panelKey].searching = true
-
-        // open
+        searchConditionHistory[panel.panelKey].searching = true // open
         var topicTextsDiv = domConstruct.toDom(
           '<div data-brekeke-uc-texts-topic-id="' +
             topic_id +
@@ -12475,9 +11571,7 @@ if (!window.Brekeke.UCClientUI) {
         var nowSearchingDiv = domConstruct.toDom(
           '<div class="brUCPanelNowSearchingTopicTexts"></div>',
         )
-        domConstruct.place(nowSearchingDiv, topicTextsDiv, 'first')
-
-        // get texts
+        domConstruct.place(nowSearchingDiv, topicTextsDiv, 'first') // get texts
         var fun = chatClient.searchTopicTexts
         var arg1 = topic_id
         var conf_id = topicNodes[0].getAttribute('data-brekeke-uc-conf-id')
@@ -12495,18 +11589,14 @@ if (!window.Brekeke.UCClientUI) {
               return
             }
             searchConditionHistory[panel.panelKey].searching = false
-            domConstruct.destroy(nowSearchingDiv)
-
-            // create messages html
+            domConstruct.destroy(nowSearchingDiv) // create messages html
             var messageList = []
             for (var i = 0; i < ev.logs.length; i++) {
               var log = ev.logs[i]
               var message = createMessageInTopic(log)
               messageList.push(message)
               displayMessage(messageList, true, topicTextsDiv, null, true)
-            }
-
-            // create previous/next messages link
+            } // create previous/next messages link
             if (ev.logs.length > 0) {
               var prevLink = domConstruct.toDom(
                 '<div class="brUCLinkPrevTopic" title="' +
@@ -12529,7 +11619,6 @@ if (!window.Brekeke.UCClientUI) {
               topicListsHistory[panel.panelKey][topic_id].connections.push(
                 prevConnection,
               )
-
               var nextLink = domConstruct.toDom(
                 '<div class="brUCLinkNextTopic" title="' +
                   ucMsgs.BTN_SEARCH_NEXT_TOPIC_TOOLTIP +
@@ -12582,11 +11671,13 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-
   /*
    * Function searchPrevNextTopic
-   */
-  var searchPrevNextTopic = function (panel, topic_id, next) {
+   */ var searchPrevNextTopic = function searchPrevNextTopic(
+    panel,
+    topic_id,
+    next,
+  ) {
     require([
       'dojo/dom-construct',
       'dojo/on',
@@ -12599,7 +11690,6 @@ if (!window.Brekeke.UCClientUI) {
       ) {
         return
       }
-
       var topicNodes = dojo.query(
         '[data-brekeke-uc-topic-id=' + topic_id + ']',
         panel.panelTopics,
@@ -12607,7 +11697,6 @@ if (!window.Brekeke.UCClientUI) {
       if (!topicNodes[0]) {
         return
       }
-
       var topicTextsDiv = dojo.query(
         '[data-brekeke-uc-texts-topic-id=' + topic_id + ']',
         panel.panelTopics,
@@ -12615,7 +11704,6 @@ if (!window.Brekeke.UCClientUI) {
       if (!topicTextsDiv) {
         return
       }
-
       var condition = {
         tenant: topicNodes[0].getAttribute('data-brekeke-uc-tenant'),
         user_id: topicNodes[0].getAttribute('data-brekeke-uc-user-id'),
@@ -12629,9 +11717,7 @@ if (!window.Brekeke.UCClientUI) {
         asc: next,
         max: SEARCH_PREV_NEXT_TEXTS_MAX + 1,
       }
-
       searchConditionHistory[panel.panelKey].searching = true
-
       var nowSearchingDiv = domConstruct.toDom(
         '<div class="brUCPanelNowSearchingTopicTexts"></div>',
       )
@@ -12640,7 +11726,6 @@ if (!window.Brekeke.UCClientUI) {
         topicTextsDiv,
         next ? 'last' : 'first',
       )
-
       chatClient.searchTexts(
         condition,
         function (ev) {
@@ -12650,9 +11735,7 @@ if (!window.Brekeke.UCClientUI) {
             return
           }
           searchConditionHistory[panel.panelKey].searching = false
-          domConstruct.destroy(nowSearchingDiv)
-
-          // create messages html
+          domConstruct.destroy(nowSearchingDiv) // create messages html
           var messageList = []
           for (var i = 0; i < ev.logs.length; i++) {
             var log = ev.logs[i]
@@ -12672,9 +11755,7 @@ if (!window.Brekeke.UCClientUI) {
               messageList.unshift(message)
               displayMessage(messageList, false, topicTextsDiv, null, true)
             }
-          }
-
-          // update previous/next messages link condition
+          } // update previous/next messages link condition
           if (ev.logs.length > 0) {
             if (next) {
               topicNodes[0].setAttribute(
@@ -12717,11 +11798,9 @@ if (!window.Brekeke.UCClientUI) {
       )
     })
   }
-
   /*
    * Function createMessageInTopic
-   */
-  var createMessageInTopic = function (log) {
+   */ var createMessageInTopic = function createMessageInTopic(log) {
     var profile = chatClient.getProfile()
     var logContent
     if (log.ctype === Constants.CTYPE_FILE_REQUEST) {
@@ -12729,13 +11808,11 @@ if (!window.Brekeke.UCClientUI) {
     } else {
       logContent = log.content
     }
-
     var text =
       logContent +
       '<input type="hidden" data-brekeke-uc-log-id="' +
       log.log_id +
       '" />'
-
     var message = {
       senderInfo: log.sender,
       text: text,
@@ -12745,14 +11822,11 @@ if (!window.Brekeke.UCClientUI) {
       sentTimeValue: parseDate(log.ltime),
       sentTimeDisplay: log.ltime,
     }
-
     return message
   }
-
   /*
    * Function clearTopicList
-   */
-  var clearTopicList = function (panel) {
+   */ var clearTopicList = function clearTopicList(panel) {
     // clear topic list
     if (topicListsHistory[panel.panelKey]) {
       var topicList = topicListsHistory[panel.panelKey]
@@ -12767,11 +11841,9 @@ if (!window.Brekeke.UCClientUI) {
     panel.panelTopics.style.display = 'none'
     panel.buttonShowMore.domNode.style.display = 'none'
   }
-
   /*
    * Function saveServerSettings
-   */
-  var saveServerSettings = function (panel) {
+   */ var saveServerSettings = function saveServerSettings(panel) {
     var systemProperties =
       serverSettingsWorkData[panel.panelKey] &&
       serverSettingsWorkData[panel.panelKey].systemProperties
@@ -12782,7 +11854,6 @@ if (!window.Brekeke.UCClientUI) {
       (serverSettingsWorkData[panel.panelKey] &&
         serverSettingsWorkData[panel.panelKey].systemPropertiesOrg) ||
       {}
-
     if (
       int(panel.db_port.value) <= 0 ||
       int(panel.pbx_port.value) <= 0 ||
@@ -12795,7 +11866,6 @@ if (!window.Brekeke.UCClientUI) {
       panel.buttonDummy.focus()
       return
     }
-
     if (panel.sa_password.value !== panel.sa_password_confirm.value) {
       panel.spanMessage.innerHTML = ucMsgs.MSG_SAVE_SERVER_PASSWORD
       panel.spanMessage.style.display = 'inline-block'
@@ -12803,9 +11873,7 @@ if (!window.Brekeke.UCClientUI) {
       panel.buttonDummy.focus()
       return
     }
-
     panel.buttonSaveServerSettings.set('disabled', true)
-
     systemProperties.misc.ip_allowed = panel.ip_allowed.value
     systemProperties.misc.buddy_mode = panel.buddy_mode.value
     systemProperties.misc.send_report_mail = panel.send_report_mail.value
@@ -12864,10 +11932,8 @@ if (!window.Brekeke.UCClientUI) {
     systemProperties.log.log_category_guest = Boolean(
       panel.log_category_guest.checked,
     )
-
     panel.spanMessage.style.display = 'none'
     panel.progressServerSettings.style.display = 'block'
-
     chatClient.saveSystemProperties(
       systemProperties,
       function (ev) {
@@ -12939,11 +12005,9 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function displayServerSettings
-   */
-  var displayServerSettings = function (panel) {
+   */ var displayServerSettings = function displayServerSettings(panel) {
     var configProperties = chatClient.getConfigProperties()
     var signedInInfo = chatClient.getSignedInInfo()
     var systemProperties =
@@ -12952,7 +12016,6 @@ if (!window.Brekeke.UCClientUI) {
     if (!systemProperties) {
       return
     }
-
     panel.ip_allowed.value = systemProperties.misc.ip_allowed
     panel.buddy_mode.value = systemProperties.misc.buddy_mode
     panel.send_report_mail.value = systemProperties.misc.send_report_mail
@@ -13013,7 +12076,6 @@ if (!window.Brekeke.UCClientUI) {
       'checked',
       Boolean(systemProperties.log.log_category_guest),
     )
-
     if (panel.db_product.value === '1') {
       panel.db_schema.disabled = true
       panel.db_user.disabled = true
@@ -13070,7 +12132,6 @@ if (!window.Brekeke.UCClientUI) {
         panel.db_product.disabled = false
       }
     }
-
     if (!recordAuthChecked) {
       if (
         signedInInfo &&
@@ -13082,87 +12143,80 @@ if (!window.Brekeke.UCClientUI) {
       }
       recordAuthChecked = true
     }
-
     displayServerSettingsLogdownload(panel)
   }
-
   /*
    * Function displayServerSettingsLogdownload
-   */
-  var displayServerSettingsLogdownload = function (panel) {
-    if (!serverSettingsWorkData[panel.panelKey]) {
-      return
-    }
-    if (!serverSettingsWorkData[panel.panelKey].debug_log_id) {
-      panel.buttonLogdownloadPrepare.set('disabled', false)
-      panel.buttonLogdownloadCancel.set('disabled', true)
-      panel.spanLogdownloadFiles.innerHTML = ''
-      panel.spanLogdownloadDownloading.style.display = 'none'
-    } else {
-      panel.buttonLogdownloadPrepare.set('disabled', true)
-      panel.buttonLogdownloadCancel.set('disabled', false)
-      panel.spanLogdownloadFiles.innerHTML = ''
-      panel.spanLogdownloadDownloading.style.display = 'inline-block'
-      panel.spanLogdownloadDownloading.style.visibility = 'visible'
-      if (serverSettingsWorkData[panel.panelKey].debug_log_files) {
-        for (
-          var i = 0;
-          i < serverSettingsWorkData[panel.panelKey].debug_log_files.length;
-          i++
-        ) {
-          var debug_log_file =
-            serverSettingsWorkData[panel.panelKey].debug_log_files[i]
-          if (debug_log_file.error === null) {
-            panel.spanLogdownloadFiles.innerHTML +=
-              '<form method="post" action="/' +
-              location.pathname.split('/')[1] +
-              '/lcs" target="_blank" class="brUCFormLogdownloadFiles">' +
-              '<a href="javascript:void(0)" onclick="this.parentNode.submit();" class="brUCLinkLogdownloadFiles">' +
-              formatStr(
-                ucMsgs.BTN_LOGDOWNLOAD_FILE_TOOLTIP,
-                debug_log_file.index,
-              ) +
-              '</a>' +
-              '<input type="hidden" name="debug_log_id" value="' +
-              debug_log_file.debug_log_id +
-              '" />' +
-              '<input type="hidden" name="debug_log_file_id" value="' +
-              debug_log_file.debug_log_file_id +
-              '" />' +
-              '<input type="hidden" name="chat_session_token" value="' +
-              encodeURIComponent(chatClient.getChatSessionToken()) +
-              '" />' +
-              '</form>'
-          } else {
-            panel.spanLogdownloadFiles.innerHTML +=
-              '<a href="javascript:alert(\'download error: ' +
-              debug_log_file.error +
-              '\')">' +
-              formatStr(ucMsgs.BTN_LOGDOWNLOAD_FILE_TOOLTIP, i + 1) +
-              '</a> '
-          }
-          if (!debug_log_file.has_more) {
-            panel.spanLogdownloadDownloading.style.visibility = 'hidden'
+   */ var displayServerSettingsLogdownload =
+    function displayServerSettingsLogdownload(panel) {
+      if (!serverSettingsWorkData[panel.panelKey]) {
+        return
+      }
+      if (!serverSettingsWorkData[panel.panelKey].debug_log_id) {
+        panel.buttonLogdownloadPrepare.set('disabled', false)
+        panel.buttonLogdownloadCancel.set('disabled', true)
+        panel.spanLogdownloadFiles.innerHTML = ''
+        panel.spanLogdownloadDownloading.style.display = 'none'
+      } else {
+        panel.buttonLogdownloadPrepare.set('disabled', true)
+        panel.buttonLogdownloadCancel.set('disabled', false)
+        panel.spanLogdownloadFiles.innerHTML = ''
+        panel.spanLogdownloadDownloading.style.display = 'inline-block'
+        panel.spanLogdownloadDownloading.style.visibility = 'visible'
+        if (serverSettingsWorkData[panel.panelKey].debug_log_files) {
+          for (
+            var i = 0;
+            i < serverSettingsWorkData[panel.panelKey].debug_log_files.length;
+            i++
+          ) {
+            var debug_log_file =
+              serverSettingsWorkData[panel.panelKey].debug_log_files[i]
+            if (debug_log_file.error === null) {
+              panel.spanLogdownloadFiles.innerHTML +=
+                '<form method="post" action="/' +
+                location.pathname.split('/')[1] +
+                '/lcs" target="_blank" class="brUCFormLogdownloadFiles">' +
+                '<a href="javascript:void(0)" onclick="this.parentNode.submit();" class="brUCLinkLogdownloadFiles">' +
+                formatStr(
+                  ucMsgs.BTN_LOGDOWNLOAD_FILE_TOOLTIP,
+                  debug_log_file.index,
+                ) +
+                '</a>' +
+                '<input type="hidden" name="debug_log_id" value="' +
+                debug_log_file.debug_log_id +
+                '" />' +
+                '<input type="hidden" name="debug_log_file_id" value="' +
+                debug_log_file.debug_log_file_id +
+                '" />' +
+                '<input type="hidden" name="chat_session_token" value="' +
+                encodeURIComponent(chatClient.getChatSessionToken()) +
+                '" />' +
+                '</form>'
+            } else {
+              panel.spanLogdownloadFiles.innerHTML +=
+                '<a href="javascript:alert(\'download error: ' +
+                debug_log_file.error +
+                '\')">' +
+                formatStr(ucMsgs.BTN_LOGDOWNLOAD_FILE_TOOLTIP, i + 1) +
+                '</a> '
+            }
+            if (!debug_log_file.has_more) {
+              panel.spanLogdownloadDownloading.style.visibility = 'hidden'
+            }
           }
         }
       }
     }
-  }
-
   /*
    * Function prepareDebugLog
-   */
-  var prepareDebugLog = function (panel) {
+   */ var prepareDebugLog = function prepareDebugLog(panel) {
     if (!serverSettingsWorkData[panel.panelKey]) {
       return
     }
     if (serverSettingsWorkData[panel.panelKey].debug_log_id) {
       return
     }
-
-    panel.buttonLogdownloadPrepare.set('disabled', true)
-
-    //var xhr = new XMLHttpRequest();
+    panel.buttonLogdownloadPrepare.set('disabled', true) //var xhr = new XMLHttpRequest();
     //xhr.open("POST", location.protocol + "//" + location.host + "/" + location.pathname.split("/")[1] + "/lcs?keep_session=" + chatClient.getProfile().user_id);
     //xhr.onreadystatechange = function() {
     //    if (xhr.readyState === 4) {
@@ -13175,8 +12229,7 @@ if (!window.Brekeke.UCClientUI) {
         serverSettingsWorkData[panel.panelKey] =
           serverSettingsWorkData[panel.panelKey] || {}
         serverSettingsWorkData[panel.panelKey].debug_log_id = ev.debug_log_id
-        serverSettingsWorkData[panel.panelKey].debug_log_files = []
-        //                    if (serverSettingsWorkData[panel.panelKey].timer) {
+        serverSettingsWorkData[panel.panelKey].debug_log_files = [] //                    if (serverSettingsWorkData[panel.panelKey].timer) {
         //                        clearInterval(serverSettingsWorkData[panel.panelKey].timer);
         //                    }
         //                    serverSettingsWorkData[panel.panelKey].timer = setInterval(function() {
@@ -13202,8 +12255,7 @@ if (!window.Brekeke.UCClientUI) {
         )
         displayServerSettingsLogdownload(panel)
       },
-    )
-    //        } else {
+    ) //        } else {
     //            logger.log("warn", "lcs?keep_session error status: " + xhr.status);
     //            windowAlert(ucMsgs.CMN_ALERT, "Session expired. Please re-login.");
     //            displayServerSettingsLogdownload(panel);
@@ -13212,18 +12264,15 @@ if (!window.Brekeke.UCClientUI) {
     //};
     //xhr.send();
   }
-
   /*
    * Function cancelDebugLog
-   */
-  var cancelDebugLog = function (panel) {
+   */ var cancelDebugLog = function cancelDebugLog(panel) {
     if (!serverSettingsWorkData[panel.panelKey]) {
       return
     }
     if (!serverSettingsWorkData[panel.panelKey].debug_log_id) {
       return
     }
-
     chatClient.cancelDebugLog(
       { debug_log_id: serverSettingsWorkData[panel.panelKey].debug_log_id },
       function (ev) {
@@ -13252,15 +12301,11 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function saveBlockListSettings
-   */
-  var saveBlockListSettings = function (panel) {
+   */ var saveBlockListSettings = function saveBlockListSettings(panel) {
     panel.buttonSaveBlockListSettings.set('disabled', true)
-
     panel.spanMessage.style.display = 'none'
-
     chatClient.saveBlockListSettings(
       {
         ip_reverse_proxy: panel.ip_reverse_proxy.value,
@@ -13342,16 +12387,13 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function saveTenantSettings
-   */
-  var saveTenantSettings = function (panel) {
+   */ var saveTenantSettings = function saveTenantSettings(panel) {
     var tenantSettings = tenantSettingsWorkData[panel.panelKey]
     if (!tenantSettings) {
       return
     }
-
     var total = 0
     for (var tenant in tenantSettings) {
       if (tenantSettings[tenant].enabled) {
@@ -13370,15 +12412,11 @@ if (!window.Brekeke.UCClientUI) {
       windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_SAVE_TENANT_MAX_LOGIN)
       return
     }
-
     panel.buttonSaveTenantSettings.set('disabled', true)
-
     for (var tenant in tenantSettings) {
       tenantSettings[tenant].limit = int(tenantSettings[tenant].limit)
     }
-
     panel.spanMessage.style.display = 'none'
-
     chatClient.saveTenantSettings(
       tenantSettings,
       function (ev) {
@@ -13428,18 +12466,13 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function displayTenantTable
-   */
-  var displayTenantTable = function (panel) {
+   */ var displayTenantTable = function displayTenantTable(panel) {
     var configProperties = chatClient.getConfigProperties()
     var tenantProperties = tenantTableWorkData[panel.panelKey]
-
     panel.tbodyTenantList.innerHTML = ''
-
     var total = 0
-
     var keys = Object.keys(tenantProperties)
     keys.sort()
     for (var i = 0; i < keys.length; i++) {
@@ -13449,25 +12482,20 @@ if (!window.Brekeke.UCClientUI) {
         continue
       }
       var limit = int(properties.limit)
-
       var tr = document.createElement('tr')
       if (tenant === brLogin.stDefaultTenant) {
         tr.style.display = 'none'
       }
-
       var td1 = document.createElement('td')
       var linkTenant = document.createElement('a')
       linkTenant.href = 'javascript:void(0)'
       linkTenant.innerHTML = escapeHTML(tenant)
       td1.appendChild(linkTenant)
       tr.appendChild(td1)
-
       var tdMaxLoginUsers = document.createElement('td')
       tdMaxLoginUsers.innerHTML = escapeHTML(limit)
       tr.appendChild(tdMaxLoginUsers)
-
       var tdSocial = document.createElement('td')
-
       var linkTwitter = null
       if (
         configProperties.optional_config &&
@@ -13479,7 +12507,6 @@ if (!window.Brekeke.UCClientUI) {
         linkTwitter.innerHTML = escapeHTML('Twitter')
         tdSocial.appendChild(linkTwitter)
       }
-
       var linkFacebook = null
       if (
         configProperties.optional_config &&
@@ -13491,7 +12518,6 @@ if (!window.Brekeke.UCClientUI) {
         linkFacebook.innerHTML = escapeHTML('Facebook')
         tdSocial.appendChild(linkFacebook)
       }
-
       var linkLine = null
       if (
         configProperties.optional_config &&
@@ -13503,7 +12529,6 @@ if (!window.Brekeke.UCClientUI) {
         linkLine.innerHTML = escapeHTML('LINE')
         tdSocial.appendChild(linkLine)
       }
-
       var linkWatson = null
       if (
         configProperties.optional_config &&
@@ -13515,7 +12540,6 @@ if (!window.Brekeke.UCClientUI) {
         linkWatson.innerHTML = escapeHTML('Chatbot')
         tdSocial.appendChild(linkWatson)
       }
-
       var linkEmail = null
       if (
         configProperties.optional_config &&
@@ -13527,7 +12551,6 @@ if (!window.Brekeke.UCClientUI) {
         linkEmail.innerHTML = escapeHTML('Email')
         tdSocial.appendChild(linkEmail)
       }
-
       var linkGuest = null
       if (
         configProperties.optional_config &&
@@ -13539,9 +12562,7 @@ if (!window.Brekeke.UCClientUI) {
         linkGuest.innerHTML = escapeHTML('Guest channel')
         tdSocial.appendChild(linkGuest)
       }
-
       tr.appendChild(tdSocial)
-
       var tdDelete = document.createElement('td')
       var buttonDelete = document.createElement('input')
       buttonDelete.type = 'image'
@@ -13550,10 +12571,7 @@ if (!window.Brekeke.UCClientUI) {
       buttonDelete.title = 'Delete'
       tdDelete.appendChild(buttonDelete)
       tr.appendChild(tdDelete)
-
-      panel.tbodyTenantList.appendChild(tr)
-
-      // register event
+      panel.tbodyTenantList.appendChild(tr) // register event
       panel.handlers.push(
         dojo.connect(
           linkTenant,
@@ -13646,23 +12664,19 @@ if (!window.Brekeke.UCClientUI) {
           }),
         ),
       )
-
       total += limit
     }
     panel.spanTotalMaxLoginUsers.innerHTML = total
   }
-
   /*
    * Function saveTenantProperty
-   */
-  var saveTenantProperty = function (panel) {
+   */ var saveTenantProperty = function saveTenantProperty(panel) {
     var configProperties = chatClient.getConfigProperties()
     var tenant = panel.panelKey
     var tenantProperty = tenantPropertyWorkData[panel.panelKey]
     if (!tenantProperty) {
       return
     }
-
     if (tenantProperty.imageUploading) {
       windowAlert(
         ucMsgs.CMN_ALERT,
@@ -13670,10 +12684,7 @@ if (!window.Brekeke.UCClientUI) {
       )
       return
     }
-
-    panel.buttonSaveTenantProperty.set('disabled', true)
-
-    // set values to tenantProperty
+    panel.buttonSaveTenantProperty.set('disabled', true) // set values to tenantProperty
     tenantProperty.limit = panel.max_login.value
     tenantProperty.limit_guest = panel.limit_guest.value
     if (
@@ -14072,13 +13083,9 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
     }
-
     var imageTo = tenantProperty.imageTo
     delete tenantProperty.imageTo
-
-    panel.spanMessage.style.display = 'none'
-
-    // save
+    panel.spanMessage.style.display = 'none' // save
     var tenantProperties = {}
     tenantProperties[tenant] = tenantProperty
     chatClient.saveTenantProperties(
@@ -14137,13 +13144,11 @@ if (!window.Brekeke.UCClientUI) {
         panel.buttonDummy.focus()
         panel.buttonSaveTenantProperty.set('disabled', false)
       },
-    )
-
-    // save profile images
+    ) // save profile images
     if (imageTo) {
       var user_ids = Object.keys(imageTo)
       var finishedCount = 0
-      var funcFinished = function () {
+      var funcFinished = function funcFinished() {
         finishedCount++
         if (finishedCount === user_ids.length) {
           displayAutoMessageImages(panel)
@@ -14160,19 +13165,13 @@ if (!window.Brekeke.UCClientUI) {
         var user_id = user_ids[i]
         if (imageTo[user_id] === 'SAVE') {
           chatClient.saveProfileImage(
-            {
-              tenant: tenant,
-              user_id: user_id,
-            },
+            { tenant: tenant, user_id: user_id },
             funcFinished,
             funcFinished,
           )
         } else if (imageTo[user_id] === 'DELETE') {
           chatClient.deleteProfileImage(
-            {
-              tenant: tenant,
-              user_id: user_id,
-            },
+            { tenant: tenant, user_id: user_id },
             funcFinished,
             funcFinished,
           )
@@ -14182,17 +13181,13 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function displayTenantProperty
-   */
-  var displayTenantProperty = function (panel) {
+   */ var displayTenantProperty = function displayTenantProperty(panel) {
     var configProperties = chatClient.getConfigProperties()
     var tenantProperty = tenantPropertyWorkData[panel.panelKey] || {}
-
     panel.max_login.value = int(tenantProperty.limit)
     panel.limit_guest.value = string(tenantProperty.limit_guest)
-
     var language = string(tenantProperty.language_setting)
     if (
       language !== 'user' &&
@@ -14211,7 +13206,6 @@ if (!window.Brekeke.UCClientUI) {
             configProperties.optional_config.buddy_max
         : tenantProperty.buddy_max,
     )
-
     var webRTCTypes = tenantProperty.webrtc_types || []
     var webRTCTypeTrNodes = dojo.query('tr', panel.tbodyWebRTCTypes)
     for (var i = 0; i < webRTCTypes.length; i++) {
@@ -14224,7 +13218,6 @@ if (!window.Brekeke.UCClientUI) {
       }
       inputs[1].value = string(webRTCType.description)
       inputs[2].value = string(webRTCType.options)
-
       var optionElement = document.createElement('option')
       optionElement.innerHTML = escapeHTML(webRTCType.name)
       optionElement.value = string(webRTCType.name)
@@ -14240,7 +13233,6 @@ if (!window.Brekeke.UCClientUI) {
       'checked',
       !Boolean(tenantProperty.webrtc_type_name_locked),
     )
-
     if (string(tenantProperty.webchat_enabled).toLowerCase() === 'true') {
       panel.radioButtonWebchatEnabledOff.setChecked(false)
       panel.radioButtonWebchatEnabledOn.setChecked(true)
@@ -14256,7 +13248,6 @@ if (!window.Brekeke.UCClientUI) {
       panel.trAutoMessages.style.display = 'none'
       panel.trAutoMessageDefaultImage.style.display = 'none'
     }
-
     var webchatServices = tenantProperty.webchat_services || {}
     var keys = Object.keys(webchatServices)
     keys.sort(function (a, b) {
@@ -14295,7 +13286,6 @@ if (!window.Brekeke.UCClientUI) {
       }
       inputs[4].value = JSON.stringify(options)
     }
-
     var autoMessages = tenantProperty.auto_messages || {}
     var autoMessageKeys = Object.keys(autoMessages)
     autoMessageKeys.sort(function (a, b) {
@@ -14317,7 +13307,6 @@ if (!window.Brekeke.UCClientUI) {
       inputs[0].value = string(autoMessage.name)
       inputs[1].value = string(autoMessage.message)
     }
-
     var webchatWidgets = tenantProperty.webchat_widgets || []
     var widgetTrNodes = dojo.query('tr', panel.tbodyWebchatWidgets)
     for (var i = 0; i < webchatWidgets.length; i++) {
@@ -14340,7 +13329,6 @@ if (!window.Brekeke.UCClientUI) {
         )[i] || {}
       ).innerHTML = widget.widget_type === '1' ? 'URL' : 'HTML'
     }
-
     var lampTypes = tenantProperty.lamp_types || []
     var lampTypeTrNodes = dojo.query('tr', panel.tbodyLampTypes)
     for (var i = 0; i < lampTypes.length; i++) {
@@ -14354,7 +13342,6 @@ if (!window.Brekeke.UCClientUI) {
       inputs[1].value = string(lampType.description)
       inputs[2].value = string(lampType.options)
     }
-
     if (string(tenantProperty.pn_enabled).toLowerCase() === 'true') {
       panel.radioButtonPNEnabledOff.setChecked(false)
       panel.radioButtonPNEnabledOn.setChecked(true)
@@ -14364,12 +13351,10 @@ if (!window.Brekeke.UCClientUI) {
       panel.radioButtonPNEnabledOff.setChecked(true)
       panel.trPNOptions.style.display = 'none'
     }
-
     panel.textAreaPNOptions.set(
       'value',
       string(JSON.stringify(tenantProperty.pn_options, null, 2)),
     )
-
     var optional_config =
       typeof tenantProperty.status_options === 'undefined'
         ? configProperties.optional_config &&
@@ -14533,7 +13518,6 @@ if (!window.Brekeke.UCClientUI) {
       'value',
       string(tenantProperty.client_script),
     )
-
     var customizeTs = tenantProperty.customize_ts || []
     var customizeTTrNodes = dojo.query('tr', panel.tbodyCustomizeTs)
     for (var i = 0; i < customizeTs.length; i++) {
@@ -14551,14 +13535,11 @@ if (!window.Brekeke.UCClientUI) {
       inputs[4].value = string(customizeT.message2)
     }
   }
-
   /*
    * Function createWebRTCTypeTr
-   */
-  var createWebRTCTypeTr = function (panel, name) {
+   */ var createWebRTCTypeTr = function createWebRTCTypeTr(panel, name) {
     var inputs = []
     var tr = document.createElement('tr')
-
     var tdName = document.createElement('td')
     tdName.className = 'brUCWebRTCTypeName'
     inputs[0] = document.createElement('span')
@@ -14566,7 +13547,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[0].innerHTML = escapeHTML(name)
     tdName.appendChild(inputs[0])
     tr.appendChild(tdName)
-
     var tdDescription = document.createElement('td')
     tdDescription.className = 'brUCWebRTCTypeDescription'
     inputs[1] = document.createElement('input')
@@ -14574,7 +13554,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[1].type = 'text'
     tdDescription.appendChild(inputs[1])
     tr.appendChild(tdDescription)
-
     var tdOptions = document.createElement('td')
     tdOptions.className = 'brUCWebRTCTypeOptions'
     inputs[2] = document.createElement('textarea')
@@ -14582,7 +13561,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[2].rows = '3'
     tdOptions.appendChild(inputs[2])
     tr.appendChild(tdOptions)
-
     var tdDelete = document.createElement('td')
     tdDelete.className = 'brUCDeleteWebRTCType'
     var inputDelete = document.createElement('input')
@@ -14593,9 +13571,7 @@ if (!window.Brekeke.UCClientUI) {
     inputDelete.title = 'Delete'
     tdDelete.appendChild(inputDelete)
     tr.appendChild(tdDelete)
-
-    panel.tbodyWebRTCTypes.appendChild(tr)
-    // register event
+    panel.tbodyWebRTCTypes.appendChild(tr) // register event
     panel.handlers.push(
       dojo.connect(
         inputDelete,
@@ -14605,14 +13581,11 @@ if (!window.Brekeke.UCClientUI) {
         }),
       ),
     )
-
     return inputs
   }
-
   /*
    * Function displayAutoMessageImages
-   */
-  var displayAutoMessageImages = function (panel) {
+   */ var displayAutoMessageImages = function displayAutoMessageImages(panel) {
     var tenant = panel.panelKey
     var tenantProperty = tenantPropertyWorkData[tenant] || {}
     var autoMessages = tenantProperty.auto_messages || {}
@@ -14651,11 +13624,12 @@ if (!window.Brekeke.UCClientUI) {
       null,
     )
   }
-
   /*
    * Function createWebchatServiceTr
-   */
-  var createWebchatServiceTr = function (panel, service_id) {
+   */ var createWebchatServiceTr = function createWebchatServiceTr(
+    panel,
+    service_id,
+  ) {
     var tr = document.createElement('tr')
     tr.setAttribute('data-brekeke-uc-service-id', service_id)
     var inputs = [
@@ -14691,8 +13665,7 @@ if (!window.Brekeke.UCClientUI) {
       tr.appendChild(td)
       return td
     })
-    panel.tbodyWebchatServices.appendChild(tr)
-    // register event
+    panel.tbodyWebchatServices.appendChild(tr) // register event
     panel.handlers.push(
       dojo.connect(
         inputs[5],
@@ -14703,25 +13676,22 @@ if (!window.Brekeke.UCClientUI) {
         }),
       ),
     )
-
     return inputs
   }
-
   /*
    * Function createAutoMessageTr
-   */
-  var createAutoMessageTr = function (panel, auto_message_id) {
+   */ var createAutoMessageTr = function createAutoMessageTr(
+    panel,
+    auto_message_id,
+  ) {
     var tenant = panel.panelKey
-
     var inputs = []
     var tr = document.createElement('tr')
     tr.setAttribute('data-brekeke-uc-auto-message-id', auto_message_id)
-
     var tdAutoMessageId = document.createElement('td')
     tdAutoMessageId.className = 'brUCAutoMessageId'
     tdAutoMessageId.innerHTML = escapeHTML(auto_message_id)
     tr.appendChild(tdAutoMessageId)
-
     var tdAutoMessageName = document.createElement('td')
     tdAutoMessageName.className = 'brUCAutoMessageName'
     inputs[0] = document.createElement('input')
@@ -14729,7 +13699,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[0].type = 'text'
     tdAutoMessageName.appendChild(inputs[0])
     tr.appendChild(tdAutoMessageName)
-
     var tdAutoMessageMessage = document.createElement('td')
     tdAutoMessageMessage.className = 'brUCAutoMessageMessage'
     inputs[1] = document.createElement('textarea')
@@ -14737,7 +13706,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[1].rows = '2'
     tdAutoMessageMessage.appendChild(inputs[1])
     tr.appendChild(tdAutoMessageMessage)
-
     var tdAutoMessageImage = document.createElement('td')
     tdAutoMessageImage.className = 'brUCAutoMessageImage'
     var selectAutoMessageImage = document.createElement('select')
@@ -14756,7 +13724,6 @@ if (!window.Brekeke.UCClientUI) {
     selectAutoMessageImage.appendChild(optionSelect)
     tdAutoMessageImage.appendChild(selectAutoMessageImage)
     tr.appendChild(tdAutoMessageImage)
-
     var tdAutoMessageImageImage = document.createElement('td')
     tdAutoMessageImageImage.className = 'brUCAutoMessageImageImage'
     var spanAutoMessageImageImage = document.createElement('span')
@@ -14773,7 +13740,6 @@ if (!window.Brekeke.UCClientUI) {
     )
     tdAutoMessageImageImage.appendChild(spanAutoMessageImageImage)
     tr.appendChild(tdAutoMessageImageImage)
-
     var tdDelete = document.createElement('td')
     tdDelete.className = 'brUCDeleteAutoMessage'
     var inputDelete = document.createElement('input')
@@ -14784,9 +13750,7 @@ if (!window.Brekeke.UCClientUI) {
     inputDelete.title = 'Delete'
     tdDelete.appendChild(inputDelete)
     tr.appendChild(tdDelete)
-
-    panel.tbodyAutoMessages.appendChild(tr)
-    // register event
+    panel.tbodyAutoMessages.appendChild(tr) // register event
     panel.handlers.push(
       dojo.connect(
         inputDelete,
@@ -14817,30 +13781,25 @@ if (!window.Brekeke.UCClientUI) {
         }),
       ),
     )
-
     return inputs
   }
-
   /*
    * Function inputAutoMessageImage
-   */
-  var inputAutoMessageImage = function (panel, auto_message_id) {
+   */ var inputAutoMessageImage = function inputAutoMessageImage(
+    panel,
+    auto_message_id,
+  ) {
     var tenant = panel.panelKey
-
     if (!tenantPropertyWorkData[tenant]) {
       return
     }
-
     if (tenantPropertyWorkData[tenant].imageUploading) {
       return
     }
-
     panel.inputAutoMessageImageForm.setAttribute(
       'data-brekeke-uc-auto-message-id',
       auto_message_id,
-    )
-
-    // input file
+    ) // input file
     panel.formAutoMessageImageForm.reset()
     if (getBrowser() === 'IE') {
       windowAlert(
@@ -14851,21 +13810,16 @@ if (!window.Brekeke.UCClientUI) {
       panel.inputAutoMessageImageForm.click()
     }
   }
-
   /*
    * Function uploadAutoMessageImage
-   */
-  var uploadAutoMessageImage = function (panel) {
+   */ var uploadAutoMessageImage = function uploadAutoMessageImage(panel) {
     var tenant = panel.panelKey
-
     if (!tenantPropertyWorkData[tenant]) {
       return
     }
-
     if (!panel.inputAutoMessageImageForm.value) {
       return
     }
-
     var auto_message_id = panel.inputAutoMessageImageForm.getAttribute(
       'data-brekeke-uc-auto-message-id',
     )
@@ -14874,7 +13828,6 @@ if (!window.Brekeke.UCClientUI) {
     }
     var user_id = '##m#' + auto_message_id
     tenantPropertyWorkData[tenant].imageUploading = user_id
-
     var img = null
     if (auto_message_id) {
       var trNodes = dojo.query(
@@ -14890,8 +13843,7 @@ if (!window.Brekeke.UCClientUI) {
     if (img) {
       img.style.backgroundImage = 'url(./img/progress.gif)'
       img.setAttribute('data-brekeke-uc-url', '')
-    }
-    // upload profile image
+    } // upload profile image
     chatClient.uploadProfileImage(
       {
         tenant: tenant,
@@ -14950,14 +13902,11 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function createWebchatWidgetTr
-   */
-  var createWebchatWidgetTr = function (panel) {
+   */ var createWebchatWidgetTr = function createWebchatWidgetTr(panel) {
     var inputs = []
     var tr = document.createElement('tr')
-
     var tdUrls = document.createElement('td')
     tdUrls.className = 'brUCWebchatWidgetUrls'
     inputs[0] = document.createElement('input')
@@ -14970,7 +13919,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[1].type = 'text'
     tdUrls.appendChild(inputs[1])
     tr.appendChild(tdUrls)
-
     var tdService = document.createElement('td')
     tdService.className = 'brUCWebchatWidgetService'
     inputs[2] = document.createElement('input')
@@ -15006,7 +13954,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[3].appendChild(optionPopUp)
     tdService.appendChild(inputs[3])
     tr.appendChild(tdService)
-
     var tdOptions = document.createElement('td')
     tdOptions.className = 'brUCWebchatWidgetOptions'
     inputs[4] = document.createElement('textarea')
@@ -15014,7 +13961,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[4].rows = '3'
     tdOptions.appendChild(inputs[4])
     tr.appendChild(tdOptions)
-
     var tdPublish = document.createElement('td')
     tdPublish.className = 'brUCPublishWebchatWidget'
     var inputPublish = document.createElement('button')
@@ -15022,7 +13968,6 @@ if (!window.Brekeke.UCClientUI) {
     inputPublish.innerHTML = 'HTML'
     tdPublish.appendChild(inputPublish)
     tr.appendChild(tdPublish)
-
     var tdDelete = document.createElement('td')
     tdDelete.className = 'brUCDeleteWebchatWidget'
     var inputDelete = document.createElement('input')
@@ -15033,9 +13978,7 @@ if (!window.Brekeke.UCClientUI) {
     inputDelete.title = 'Delete'
     tdDelete.appendChild(inputDelete)
     tr.appendChild(tdDelete)
-
-    panel.tbodyWebchatWidgets.appendChild(tr)
-    // register event
+    panel.tbodyWebchatWidgets.appendChild(tr) // register event
     panel.handlers.push(
       dojo.connect(
         inputPublish,
@@ -15072,14 +14015,11 @@ if (!window.Brekeke.UCClientUI) {
         }),
       ),
     )
-
     return inputs
   }
-
   /*
    * Function publishWebchatWidget
-   */
-  var publishWebchatWidget = function (panel, index) {
+   */ var publishWebchatWidget = function publishWebchatWidget(panel, index) {
     var tenant = panel.panelKey
     var widget =
       tenantPropertyWorkData[panel.panelKey] &&
@@ -15102,13 +14042,10 @@ if (!window.Brekeke.UCClientUI) {
       windowAlert(ucMsgs.CMN_ALERT, 'Widget node not found.')
       return
     }
-
-    var esc = function (str) {
+    var esc = function esc(str) {
       return string(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'")
     }
-
     var cacheBust = +new Date()
-
     var code = ''
     if (widget.webchat_widget_id && widget.widget_type === '1') {
       code +=
@@ -15139,9 +14076,7 @@ if (!window.Brekeke.UCClientUI) {
         '},initOption:{configurations:{},signInParams:{url:u,tenant:t}}};'
       if (widget.service_id) {
         var valueJson = JSON.stringify({
-          properties: {
-            webchat_service_id: widget.service_id,
-          },
+          properties: { webchat_service_id: widget.service_id },
         })
         code +=
           "option.initOption.configurations.webchatOptions=[{label:' ',value:'" +
@@ -15152,14 +14087,11 @@ if (!window.Brekeke.UCClientUI) {
       code +=
         "var a=document.createElement('script');var m=document.getElementsByTagName('script')[0];a.async=1;a.setAttribute('charset','utf-8');a.src=w+'js/brekeke/ucclientsidetab/ucclientsidetab.js?'+option.widgetProps.cacheBust;a.type='text/javascript';m.parentNode.insertBefore(a,m);})();</script>"
     }
-
     require(['dijit/Dialog', 'dijit/form/SimpleTextarea'], function (
       Dialog,
       SimpleTextarea,
     ) {
-      var dia = new Dialog({
-        closable: true,
-      })
+      var dia = new Dialog({ closable: true })
       dia.addChild(
         new SimpleTextarea({
           value: code,
@@ -15170,7 +14102,7 @@ if (!window.Brekeke.UCClientUI) {
             'px;height:' +
             window.innerHeight / 2 +
             'px;',
-          onClick: function () {
+          onClick: function onClick() {
             this && this.textbox && this.textbox.select && this.textbox.select()
           },
         }),
@@ -15178,14 +14110,11 @@ if (!window.Brekeke.UCClientUI) {
       dia.show()
     })
   }
-
   /*
    * Function createLampTypeTr
-   */
-  var createLampTypeTr = function (panel, name) {
+   */ var createLampTypeTr = function createLampTypeTr(panel, name) {
     var inputs = []
     var tr = document.createElement('tr')
-
     var tdName = document.createElement('td')
     tdName.className = 'brUCLampTypeName'
     inputs[0] = document.createElement('span')
@@ -15193,7 +14122,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[0].innerHTML = escapeHTML(name)
     tdName.appendChild(inputs[0])
     tr.appendChild(tdName)
-
     var tdDescription = document.createElement('td')
     tdDescription.className = 'brUCLampTypeDescription'
     inputs[1] = document.createElement('input')
@@ -15201,7 +14129,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[1].type = 'text'
     tdDescription.appendChild(inputs[1])
     tr.appendChild(tdDescription)
-
     var tdOptions = document.createElement('td')
     tdOptions.className = 'brUCLampTypeOptions'
     inputs[2] = document.createElement('textarea')
@@ -15209,7 +14136,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[2].rows = '3'
     tdOptions.appendChild(inputs[2])
     tr.appendChild(tdOptions)
-
     var tdDelete = document.createElement('td')
     tdDelete.className = 'brUCDeleteLampType'
     var inputDelete = document.createElement('input')
@@ -15220,9 +14146,7 @@ if (!window.Brekeke.UCClientUI) {
     inputDelete.title = 'Delete'
     tdDelete.appendChild(inputDelete)
     tr.appendChild(tdDelete)
-
-    panel.tbodyLampTypes.appendChild(tr)
-    // register event
+    panel.tbodyLampTypes.appendChild(tr) // register event
     panel.handlers.push(
       dojo.connect(
         inputDelete,
@@ -15232,23 +14156,18 @@ if (!window.Brekeke.UCClientUI) {
         }),
       ),
     )
-
     return inputs
   }
-
   /*
    * Function createCustomizeTTr
-   */
-  var createCustomizeTTr = function (panel) {
+   */ var createCustomizeTTr = function createCustomizeTTr(panel) {
     var configProperties = chatClient.getConfigProperties()
     var schedules = string(
       configProperties.optional_config &&
         configProperties.optional_config.customize_t_schedules,
     ).split('\n')
-
     var inputs = []
     var tr = document.createElement('tr')
-
     var tdIdx = document.createElement('td')
     tdIdx.className = 'brUCCustomizeTIdx'
     var olIdx = document.createElement('ol')
@@ -15257,7 +14176,6 @@ if (!window.Brekeke.UCClientUI) {
     olIdx.appendChild(inputs[0])
     tdIdx.appendChild(olIdx)
     tr.appendChild(tdIdx)
-
     var tdSchedule = document.createElement('td')
     tdSchedule.className = 'brUCCustomizeTSchedule'
     inputs[1] = document.createElement('select')
@@ -15270,7 +14188,6 @@ if (!window.Brekeke.UCClientUI) {
       inputs[1].appendChild(option)
     }
     tr.appendChild(tdSchedule)
-
     var tdService = document.createElement('td')
     tdService.className = 'brUCCustomizeService'
     inputs[2] = document.createElement('select')
@@ -15285,7 +14202,6 @@ if (!window.Brekeke.UCClientUI) {
     optionOn.value = '1'
     inputs[2].appendChild(optionOn)
     tr.appendChild(tdService)
-
     var tdMessage = document.createElement('td')
     tdMessage.className = 'brUCCustomizeTMessage'
     inputs[3] = document.createElement('textarea')
@@ -15300,7 +14216,6 @@ if (!window.Brekeke.UCClientUI) {
     inputs[4].cols = '70'
     tdMessage.appendChild(inputs[4])
     tr.appendChild(tdMessage)
-
     var tdDelete = document.createElement('td')
     tdDelete.className = 'brUCDeleteCustomizeT'
     var inputDelete = document.createElement('input')
@@ -15311,9 +14226,7 @@ if (!window.Brekeke.UCClientUI) {
     inputDelete.title = 'Delete'
     tdDelete.appendChild(inputDelete)
     tr.appendChild(tdDelete)
-
-    panel.tbodyCustomizeTs.appendChild(tr)
-    // register event
+    panel.tbodyCustomizeTs.appendChild(tr) // register event
     panel.handlers.push(
       dojo.connect(
         inputDelete,
@@ -15323,18 +14236,13 @@ if (!window.Brekeke.UCClientUI) {
         }),
       ),
     )
-
     return inputs
   }
-
   /*
    * Function displayTenantSettings
-   */
-  var displayTenantSettings = function (panel) {
+   */ var displayTenantSettings = function displayTenantSettings(panel) {
     var tenantSettings = tenantSettingsWorkData[panel.panelKey]
-
     panel.tbodyTenantList.innerHTML = ''
-
     var keys = Object.keys(tenantSettings)
     keys.sort()
     for (var i = 0; i < keys.length; i++) {
@@ -15361,8 +14269,7 @@ if (!window.Brekeke.UCClientUI) {
       buttonDelete.title = 'Delete'
       tdDelete.appendChild(buttonDelete)
       tr.appendChild(tdDelete)
-      panel.tbodyTenantList.appendChild(tr)
-      // register event
+      panel.tbodyTenantList.appendChild(tr) // register event
       panel.handlers.push(
         dojo.connect(
           textBoxMaxLoginUsers,
@@ -15378,14 +14285,13 @@ if (!window.Brekeke.UCClientUI) {
         ),
       )
     }
-
     displayTotalMaxLoginUsers(panel)
   }
-
   /*
    * Function displayTotalMaxLoginUsers
-   */
-  var displayTotalMaxLoginUsers = function (panel) {
+   */ var displayTotalMaxLoginUsers = function displayTotalMaxLoginUsers(
+    panel,
+  ) {
     var tenantSettings = tenantSettingsWorkData[panel.panelKey]
     var total = 0
     for (var tenant in tenantSettings) {
@@ -15403,15 +14309,11 @@ if (!window.Brekeke.UCClientUI) {
     }
     panel.spanTotalMaxLoginUsers.innerHTML = total
   }
-
   /*
    * Function saveAdvancedSettings
-   */
-  var saveAdvancedSettings = function (panel) {
+   */ var saveAdvancedSettings = function saveAdvancedSettings(panel) {
     panel.buttonSaveAdvancedSettings.set('disabled', true)
-
     panel.spanMessage.style.display = 'none'
-
     chatClient.saveAdvancedSettings(
       panel.advanced_settings.value,
       function (ev) {
@@ -15460,13 +14362,13 @@ if (!window.Brekeke.UCClientUI) {
       },
     )
   }
-
   /*
    * Function blinkingUntilSelecting
-   */
-  var blinkingUntilSelecting = function (panel, onSelect) {
+   */ var blinkingUntilSelecting = function blinkingUntilSelecting(
+    panel,
+    onSelect,
+  ) {
     // blink tab until selecting
-
     if (panel.attr('selected')) {
       // panel selected
       if (onSelect) {
@@ -15476,8 +14378,7 @@ if (!window.Brekeke.UCClientUI) {
     } else {
       // panel not selected
       // start blinking
-      dojo.addClass(panel.controlButton.titleNode, 'brUCBackgroundBlinking')
-      // stop blinking on selected
+      dojo.addClass(panel.controlButton.titleNode, 'brUCBackgroundBlinking') // stop blinking on selected
       panel.registerSelectedEvent(function () {
         // stop blinking
         dojo.removeClass(
@@ -15493,60 +14394,47 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * Function startHighlight
-   */
-  var startHighlight = function (message) {
+   */ var startHighlight = function startHighlight(message) {
     // scroll message on browser title bar
-
     if (highlightObject !== null) {
       stopHighlight()
     }
-
     var body = message.length <= 40 ? message : message.substr(0, 37) + '...'
-
     var orgTitle = document.title
-
     var index = 0
-    var funcHighlight = function () {
+    var funcHighlight = function funcHighlight() {
       if (highlightObject === null) {
         return
       }
-
-      document.title = body.substr(index)
-      //index++;
+      document.title = body.substr(index) //index++;
       //if (index > body.length - 5) {
       //    index = 0;
       //}
       //
       //highlightObject.timer = setTimeout(funcHighlight, 200);
     }
-
     highlightObject = {
       orgTitle: orgTitle,
       timer: setTimeout(funcHighlight, 200),
     }
   }
-
   /*
    * Function stopHighlight
-   */
-  var stopHighlight = function () {
+   */ var stopHighlight = function stopHighlight() {
     if (highlightObject !== null) {
       clearTimeout(highlightObject.timer)
       document.title = highlightObject.orgTitle
       highlightObject = null
     }
   }
-
   /*
    * Function permitNotification
-   */
-  var permitNotification = function () {
+   */ var permitNotification = function permitNotification() {
     if (Brekeke.WebNotification) {
       Brekeke.WebNotification.requestPermission({
-        callback: function (result) {
+        callback: function callback(result) {
           logger.log(
             'info',
             'WebNotification.requestPermission result=' + result,
@@ -15557,11 +14445,9 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('info', 'not found Brekeke.WebNotification')
     }
   }
-
   /*
    * Function startNotification
-   */
-  var startNotification = function (
+   */ var startNotification = function startNotification(
     title,
     message,
     icon,
@@ -15570,11 +14456,8 @@ if (!window.Brekeke.UCClientUI) {
   ) {
     if (Brekeke.WebNotification) {
       // show notification popup on desktop (near task bar)
-
       stopNotification()
-
       var body = message.length <= 40 ? message : message.substr(0, 37) + '...'
-
       var settings = chatClient.getSettings()
       if (
         settings.optional_settings &&
@@ -15588,9 +14471,7 @@ if (!window.Brekeke.UCClientUI) {
           int(settings.optional_settings.webnotif_timeout)) ||
         chatClient.getConfigProperties().webnotif_timeout ||
         86400000
-
       var browser = getBrowser()
-
       notificationObjects.push(
         Brekeke.WebNotification.showNotification({
           timeout: webnotif_timeout,
@@ -15602,7 +14483,7 @@ if (!window.Brekeke.UCClientUI) {
           body: body,
           icon: icon,
           noisiness: 1,
-          onclick: function () {
+          onclick: function onclick() {
             if (!document.hasFocus()) {
               window.focus()
             }
@@ -15618,11 +14499,9 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('info', 'not found Brekeke.WebNotification')
     }
   }
-
   /*
    * Function stopNotification
-   */
-  var stopNotification = function () {
+   */ var stopNotification = function stopNotification() {
     if (Brekeke.WebNotification) {
       var notificationObject
       while ((notificationObject = notificationObjects.pop())) {
@@ -15634,122 +14513,121 @@ if (!window.Brekeke.UCClientUI) {
       logger.log('info', 'not found Brekeke.WebNotification')
     }
   }
-
   /*
    * GUI event listeners
-   */
-  var brFrame_sidemenuSettingsMenuSelected = function (id) {
-    var profile = chatClient.getProfile()
-    if (id === 'menuItemPreference') {
-      openPreference(null, null, true)
-    } else if (id === 'menuItemHistory') {
-      openHistory(null, null, true)
-    } else if (id === 'menuItemHistorySearch') {
-      openHistorySearch(null, null, true, null, true)
-    } else if (id === 'menuItemWebchatQueue') {
-      displayWebchatQueue(openWebchatQueue(null, null, true), null)
-    } else if (id === 'menuItemServerSettings') {
-      openServerSettings(null, null, true)
-    } else if (id === 'menuItemTenantSettings') {
-      openTenantTable(null, null, true)
-    } else if (id === 'menuItemTenantProperty') {
-      if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
-        windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+   */ var brFrame_sidemenuSettingsMenuSelected =
+    function brFrame_sidemenuSettingsMenuSelected(id) {
+      var profile = chatClient.getProfile()
+      if (id === 'menuItemPreference') {
+        openPreference(null, null, true)
+      } else if (id === 'menuItemHistory') {
+        openHistory(null, null, true)
+      } else if (id === 'menuItemHistorySearch') {
+        openHistorySearch(null, null, true, null, true)
+      } else if (id === 'menuItemWebchatQueue') {
+        displayWebchatQueue(openWebchatQueue(null, null, true), null)
+      } else if (id === 'menuItemServerSettings') {
+        openServerSettings(null, null, true)
+      } else if (id === 'menuItemTenantSettings') {
+        openTenantTable(null, null, true)
+      } else if (id === 'menuItemTenantProperty') {
+        if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
+          windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+        } else {
+          openTenantProperty(
+            chatClient.getProfile().tenant || brLogin.stDefaultTenant,
+            null,
+            null,
+            true,
+          )
+        }
+      } else if (id === 'menuItemAdvancedSettings') {
+        openAdvancedSettings(null, null, true)
+      } else if (id === 'menuItemSoftwareUpdate') {
+        openSoftwareUpdate(null, null, true)
+      } else if (id === 'menuItemActivateLicense') {
+        openActivateLicense(null, null, true)
+      } else if (id === 'menuItemTwitterSettings') {
+        if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
+          windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+        } else {
+          openTwitterSettings(
+            (brLogin.multitenant && profile.tenant) || null,
+            null,
+            null,
+            true,
+          )
+        }
+      } else if (id === 'menuItemFacebookSettings') {
+        if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
+          windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+        } else {
+          openFacebookSettings(
+            (brLogin.multitenant && profile.tenant) || null,
+            null,
+            null,
+            true,
+          )
+        }
+      } else if (id === 'menuItemLineSettings') {
+        if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
+          windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+        } else {
+          openLineSettings(
+            (brLogin.multitenant && profile.tenant) || null,
+            null,
+            null,
+            true,
+          )
+        }
+      } else if (id === 'menuItemWatsonSettings') {
+        if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
+          windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+        } else {
+          openWatsonSettings(
+            (brLogin.multitenant && profile.tenant) || null,
+            null,
+            null,
+            true,
+          )
+        }
+      } else if (id === 'menuItemEmailSettings') {
+        if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
+          windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+        } else {
+          openEmailSettings(
+            (brLogin.multitenant && profile.tenant) || null,
+            null,
+            null,
+            true,
+          )
+        }
+      } else if (id === 'menuItemGuestSettings') {
+        if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
+          windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
+        } else {
+          openGuestSettings(
+            (brLogin.multitenant && profile.tenant) || null,
+            null,
+            null,
+            true,
+          )
+        }
+      } else if (id === 'menuItemAbout') {
+        windowAlert(
+          formatStr(ucMsgs.LBL_ABOUT_TITLE, brLogin.productname.title),
+          brLogin.about,
+        )
+      } else if (id === 'menuItemSignOut') {
+        signOut()
       } else {
-        openTenantProperty(
-          chatClient.getProfile().tenant || brLogin.stDefaultTenant,
-          null,
-          null,
-          true,
+        logger.log(
+          'error',
+          'brFrame_sidemenuSettingsMenuSelected called by id==' + id,
         )
       }
-    } else if (id === 'menuItemAdvancedSettings') {
-      openAdvancedSettings(null, null, true)
-    } else if (id === 'menuItemSoftwareUpdate') {
-      openSoftwareUpdate(null, null, true)
-    } else if (id === 'menuItemActivateLicense') {
-      openActivateLicense(null, null, true)
-    } else if (id === 'menuItemTwitterSettings') {
-      if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
-        windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
-      } else {
-        openTwitterSettings(
-          (brLogin.multitenant && profile.tenant) || null,
-          null,
-          null,
-          true,
-        )
-      }
-    } else if (id === 'menuItemFacebookSettings') {
-      if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
-        windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
-      } else {
-        openFacebookSettings(
-          (brLogin.multitenant && profile.tenant) || null,
-          null,
-          null,
-          true,
-        )
-      }
-    } else if (id === 'menuItemLineSettings') {
-      if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
-        windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
-      } else {
-        openLineSettings(
-          (brLogin.multitenant && profile.tenant) || null,
-          null,
-          null,
-          true,
-        )
-      }
-    } else if (id === 'menuItemWatsonSettings') {
-      if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
-        windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
-      } else {
-        openWatsonSettings(
-          (brLogin.multitenant && profile.tenant) || null,
-          null,
-          null,
-          true,
-        )
-      }
-    } else if (id === 'menuItemEmailSettings') {
-      if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
-        windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
-      } else {
-        openEmailSettings(
-          (brLogin.multitenant && profile.tenant) || null,
-          null,
-          null,
-          true,
-        )
-      }
-    } else if (id === 'menuItemGuestSettings') {
-      if (brLogin.bcAuthPBX && brLogin.mustGetMT) {
-        windowAlert(ucMsgs.CMN_ALERT, 'pbx server is not ready')
-      } else {
-        openGuestSettings(
-          (brLogin.multitenant && profile.tenant) || null,
-          null,
-          null,
-          true,
-        )
-      }
-    } else if (id === 'menuItemAbout') {
-      windowAlert(
-        formatStr(ucMsgs.LBL_ABOUT_TITLE, brLogin.productname.title),
-        brLogin.about,
-      )
-    } else if (id === 'menuItemSignOut') {
-      signOut()
-    } else {
-      logger.log(
-        'error',
-        'brFrame_sidemenuSettingsMenuSelected called by id==' + id,
-      )
     }
-  }
-  var brFrame_afterUpdateView = function () {
+  var brFrame_afterUpdateView = function brFrame_afterUpdateView() {
     if (panelSplittable) {
       panelSplittable.domNode.style.width =
         document.body.offsetWidth -
@@ -15774,14 +14652,14 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-  var brFrame_onSideMenuHandleClick = function () {
+  var brFrame_onSideMenuHandleClick = function brFrame_onSideMenuHandleClick() {
     menuResizer.domNode.style.display = 'none'
     this.toggle()
   }
-  var sidePaneWidget_onMouseEnter = function () {
+  var sidePaneWidget_onMouseEnter = function sidePaneWidget_onMouseEnter() {
     sidePaneWidget.domNode.style.overflowY = 'auto'
   }
-  var sidePaneWidget_onMouseLeave = function () {
+  var sidePaneWidget_onMouseLeave = function sidePaneWidget_onMouseLeave() {
     sidePaneWidget.domNode.style.overflowY = 'hidden'
     var sidemenuwidth = menuResizer.domNode.offsetLeft
     brFrame.set('sidemenuwidth', sidemenuwidth + 1)
@@ -15789,7 +14667,7 @@ if (!window.Brekeke.UCClientUI) {
     brFrame.set('sidemenuwidth', sidemenuwidth)
     brFrame.updateView()
   }
-  var menuItemStatus_onClick = function () {
+  var menuItemStatus_onClick = function menuItemStatus_onClick() {
     var status
     if (this === sidePaneWidget.menuItemStatusOffline) {
       status = Constants.STATUS_OFFLINE
@@ -15817,14 +14695,14 @@ if (!window.Brekeke.UCClientUI) {
       changeStatus(status, '')
     }
   }
-  var textBoxDisplay_onBlur = function () {
+  var textBoxDisplay_onBlur = function textBoxDisplay_onBlur() {
     if (this.attr('value') !== myStatus.display) {
       var display = this.attr('value')
       changeStatus(myStatus.status, display)
       memoryStatusDisplay(display)
     }
   }
-  var textBoxDisplay_onKeyUp = function (e) {
+  var textBoxDisplay_onKeyUp = function textBoxDisplay_onKeyUp(e) {
     var downedKey = keyDownUtil.getKey()
     if (e.keyCode === 13 && downedKey === 13) {
       if (this.attr('value') !== myStatus.display) {
@@ -15834,7 +14712,7 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-  var textBoxDisplay_onInput = function (e) {
+  var textBoxDisplay_onInput = function textBoxDisplay_onInput(e) {
     this.brLastInputTime = +new Date()
     setTimeout(
       getFuncApply(function () {
@@ -15845,12 +14723,12 @@ if (!window.Brekeke.UCClientUI) {
       5000,
     )
   }
-  var menuItemDisplayEmpty_onClick = function () {
+  var menuItemDisplayEmpty_onClick = function menuItemDisplayEmpty_onClick() {
     if (myStatus.display !== '') {
       changeStatus(myStatus.status, '')
     }
   }
-  var menuItemDisplay_onClick = function (e) {
+  var menuItemDisplay_onClick = function menuItemDisplay_onClick(e) {
     var settings = chatClient.getSettings()
     var index = int(
       this.dojoAttachPoint &&
@@ -15887,10 +14765,10 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-  var buttonAddBuddy_onClick = function () {
+  var buttonAddBuddy_onClick = function buttonAddBuddy_onClick() {
     sidePaneWidget.buttonDummy.focus()
   }
-  var buttonAddGroup_onClick = function () {
+  var buttonAddGroup_onClick = function buttonAddGroup_onClick() {
     sidePaneWidget.buttonDummy.focus()
     windowPrompt(
       ucMsgs.LBL_ADD_GROUP_TITLE,
@@ -15903,7 +14781,7 @@ if (!window.Brekeke.UCClientUI) {
       null,
     )
   }
-  var buttonConference_onClick = function () {
+  var buttonConference_onClick = function buttonConference_onClick() {
     sidePaneWidget.buttonDummy.focus()
     windowPrompt(
       ucMsgs.LBL_CREATE_CONFERENCE_TITLE,
@@ -15917,15 +14795,15 @@ if (!window.Brekeke.UCClientUI) {
       null,
     )
   }
-  var buttonBroadcast_onClick = function () {
+  var buttonBroadcast_onClick = function buttonBroadcast_onClick() {
     sidePaneWidget.buttonDummy.focus()
     openBroadcast(null, null, true)
   }
-  var buttonMakeCall_onClick = function () {
+  var buttonMakeCall_onClick = function buttonMakeCall_onClick() {
     sidePaneWidget.buttonDummy.focus()
     openExternalCall('', null, null, null, true)
   }
-  var buttonSplitUpDown_onClick = function () {
+  var buttonSplitUpDown_onClick = function buttonSplitUpDown_onClick() {
     sidePaneWidget.buttonDummy.focus()
     var icon = dojo.query(
       '.brUCButtonIconTool',
@@ -15944,10 +14822,9 @@ if (!window.Brekeke.UCClientUI) {
       splitDirection = 'updown'
       icon.addClass('brUCButtonIconToolPushed')
     }
-
     displaySplittable()
   }
-  var buttonSplitLeftRight_onClick = function () {
+  var buttonSplitLeftRight_onClick = function buttonSplitLeftRight_onClick() {
     sidePaneWidget.buttonDummy.focus()
     var icon = dojo.query(
       '.brUCButtonIconTool',
@@ -15968,19 +14845,19 @@ if (!window.Brekeke.UCClientUI) {
     }
     displaySplittable()
   }
-  var textBoxFilter_onBlur = function () {
+  var textBoxFilter_onBlur = function textBoxFilter_onBlur() {
     if (this.attr('value') !== buddylistFilter) {
       buddylistFilter = this.attr('value')
       displayBuddylist(false)
     }
   }
-  var textBoxFilter_onKeyUp = function (e) {
+  var textBoxFilter_onKeyUp = function textBoxFilter_onKeyUp(e) {
     if (this.attr('value') !== buddylistFilter) {
       buddylistFilter = this.attr('value')
       displayBuddylist(false)
     }
   }
-  var checkBoxOnlineOnly_onChange = function (e) {
+  var checkBoxOnlineOnly_onChange = function checkBoxOnlineOnly_onChange(e) {
     if (e !== buddylistOnlineOnly) {
       buddylistOnlineOnly = e
       cookiePreference.onlineOnly = e ? 'true' : ''
@@ -15988,98 +14865,101 @@ if (!window.Brekeke.UCClientUI) {
       displayBuddylist(false)
     }
   }
-  var storeBuddylist_getChildren = function (object) {
+  var storeBuddylist_getChildren = function storeBuddylist_getChildren(object) {
     return this.query({ group: object.id })
   }
-  var dndSourceBuddylist_copyState = function (keyPressed) {
+  var dndSourceBuddylist_copyState = function dndSourceBuddylist_copyState(
+    keyPressed,
+  ) {
     // ignore control key
     return false
   }
-  var dndSourceBuddylist_checkItemAcceptance = function (
-    target,
+  var dndSourceBuddylist_checkItemAcceptance =
+    function dndSourceBuddylist_checkItemAcceptance(target, source, position) {
+      if (source.panelTab) {
+        // dragged from tab panel
+        return false // do not drop to buddylist tree
+      }
+      if (
+        chatClient.getConfigProperties().buddy_mode ===
+        Constants.BUDDY_MODE_AUTO
+      ) {
+        return false
+      }
+      var targetItem = null
+      var sourceIsUser = false
+      var sourceIsGroup = false
+      try {
+        targetItem = require('dijit/registry').getEnclosingWidget(target).item
+        for (var id in source.selection) {
+          if (source.selection[id].item && source.selection[id].item.user_id) {
+            // user
+            sourceIsUser = true
+          } else if (
+            source.selection[id].item &&
+            !source.selection[id].item.showMore
+          ) {
+            // group
+            sourceIsGroup = true
+          }
+        }
+      } catch (e) {
+        logger.log('error', e.message)
+        return false
+      }
+      if (!sourceIsUser && !sourceIsGroup) {
+        // source is not including user or group
+        return false // do not drop
+      }
+      if (sourceIsUser && sourceIsGroup) {
+        // source is including both user and group
+        return false // do not drop
+      }
+      if (targetItem) {
+        if (position === 'before' || position === 'after') {
+          if (sourceIsUser) {
+            // source is user
+            if (targetItem.user_id) {
+              // target is user
+              return true
+            } else if (!targetItem.showMore) {
+              // target is group
+              return true
+            }
+          } else {
+            // source is group
+            if (targetItem.user_id) {
+              // target is user
+              if (targetItem.group === ROOT_GROUP_ID) {
+                // directly under root
+                return true
+              }
+            } else if (!targetItem.showMore) {
+              // target is group
+              if (targetItem.group === ROOT_GROUP_ID) {
+                // directly under root
+                return true
+              }
+            }
+          }
+        } else if (position === 'over') {
+          if (sourceIsUser) {
+            // source is user
+            if (!targetItem.user_id && !targetItem.showMore) {
+              // target is group
+              return true
+            }
+          }
+        }
+      }
+      return false
+    }
+  var dndSourceBuddylist_onDndDrop = function dndSourceBuddylist_onDndDrop(
     source,
-    position,
+    nodes,
+    copy,
+    target,
   ) {
-    if (source.panelTab) {
-      // dragged from tab panel
-      return false // do not drop to buddylist tree
-    }
-
-    if (
-      chatClient.getConfigProperties().buddy_mode === Constants.BUDDY_MODE_AUTO
-    ) {
-      return false
-    }
-
-    var targetItem = null
-    var sourceIsUser = false
-    var sourceIsGroup = false
-    try {
-      targetItem = require('dijit/registry').getEnclosingWidget(target).item
-      for (var id in source.selection) {
-        if (source.selection[id].item && source.selection[id].item.user_id) {
-          // user
-          sourceIsUser = true
-        } else if (
-          source.selection[id].item &&
-          !source.selection[id].item.showMore
-        ) {
-          // group
-          sourceIsGroup = true
-        }
-      }
-    } catch (e) {
-      logger.log('error', e.message)
-      return false
-    }
-    if (!sourceIsUser && !sourceIsGroup) {
-      // source is not including user or group
-      return false // do not drop
-    }
-    if (sourceIsUser && sourceIsGroup) {
-      // source is including both user and group
-      return false // do not drop
-    }
-    if (targetItem) {
-      if (position === 'before' || position === 'after') {
-        if (sourceIsUser) {
-          // source is user
-          if (targetItem.user_id) {
-            // target is user
-            return true
-          } else if (!targetItem.showMore) {
-            // target is group
-            return true
-          }
-        } else {
-          // source is group
-          if (targetItem.user_id) {
-            // target is user
-            if (targetItem.group === ROOT_GROUP_ID) {
-              // directly under root
-              return true
-            }
-          } else if (!targetItem.showMore) {
-            // target is group
-            if (targetItem.group === ROOT_GROUP_ID) {
-              // directly under root
-              return true
-            }
-          }
-        }
-      } else if (position === 'over') {
-        if (sourceIsUser) {
-          // source is user
-          if (!targetItem.user_id && !targetItem.showMore) {
-            // target is group
-            return true
-          }
-        }
-      }
-    }
-    return false
-  }
-  var dndSourceBuddylist_onDndDrop = function (source, nodes, copy, target) {
     var targetItem = null
     var position = null
     if (source.targetAnchor) {
@@ -16088,13 +14968,10 @@ if (!window.Brekeke.UCClientUI) {
     if (source.dropPosition) {
       position = source.dropPosition.toLowerCase()
     }
-
     this.onDndCancel()
-
     if (this !== target) {
       return
     }
-
     if (targetItem && position) {
       require(['dijit/registry'], function (registry) {
         var iBegin = 0
@@ -16117,7 +14994,10 @@ if (!window.Brekeke.UCClientUI) {
       })
     }
   }
-  var treeBuddylist_getIconClass = function (item, opened) {
+  var treeBuddylist_getIconClass = function treeBuddylist_getIconClass(
+    item,
+    opened,
+  ) {
     var iconClass = 'brUCTreeIcon'
     if (!item.user_id && !item.showMore) {
       // group
@@ -16133,10 +15013,10 @@ if (!window.Brekeke.UCClientUI) {
     }
     return iconClass
   }
-  var treeBuddylist_getTooltip = function (item) {
+  var treeBuddylist_getTooltip = function treeBuddylist_getTooltip(item) {
     return string(item && item.name)
   }
-  var treeBuddylist_onClick = function (item, node, evt) {
+  var treeBuddylist_onClick = function treeBuddylist_onClick(item, node, evt) {
     if (item.user_id) {
       // user
       openChat(item.tenant, item.user_id, null, null, true)
@@ -16145,20 +15025,18 @@ if (!window.Brekeke.UCClientUI) {
       showMoreBuddylist(item, SHOW_MORE_BUDDYLIST)
     }
   }
-  var treeBuddylist_onOpen = function (item, node) {
+  var treeBuddylist_onOpen = function treeBuddylist_onOpen(item, node) {
     saveBuddylistOpenList()
   }
-  var treeBuddylist_onClose = function (item, node) {
+  var treeBuddylist_onClose = function treeBuddylist_onClose(item, node) {
     saveBuddylistOpenList()
   }
-  var menuBuddylist_openMyself = function () {
+  var menuBuddylist_openMyself = function menuBuddylist_openMyself() {
     this.inherited(arguments)
-
     var self = this
     require(['dijit/registry'], function (registry) {
       var configProperties = chatClient.getConfigProperties()
       var item = registry.byNode(self.currentTarget).item
-
       var children = self.getChildren()
       for (var i = 0; i < children.length; i++) {
         var child = children[i]
@@ -16169,8 +15047,7 @@ if (!window.Brekeke.UCClientUI) {
           enabled = true
         } else if (child.id === 'menuBuddylistInviteToConference') {
           visible = true
-          enabled = false
-          // check if the item can be invited to any conferences
+          enabled = false // check if the item can be invited to any conferences
           for (var conf_id in panelsConference) {
             var invite = checkInvitationAcceptance([item], conf_id)
             if (invite.length > 0) {
@@ -16202,11 +15079,10 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-  var menuItemBuddylist_onClick = function () {
+  var menuItemBuddylist_onClick = function menuItemBuddylist_onClick() {
     var child = this
     require(['dijit/registry'], function (registry) {
       var item = registry.byNode(child.getParent().currentTarget).item
-
       if (child.id === 'menuBuddylistOpenChat') {
         if (item.user_id) {
           // user
@@ -16284,7 +15160,7 @@ if (!window.Brekeke.UCClientUI) {
       }
     })
   }
-  var menuResizerMover_onMouseMove = function (e) {
+  var menuResizerMover_onMouseMove = function menuResizerMover_onMouseMove(e) {
     var m = this.marginBox
     var l = m.l + e.pageX
     if (150 <= l && l <= document.body.offsetWidth - 150) {
@@ -16294,11 +15170,13 @@ if (!window.Brekeke.UCClientUI) {
       event.stop(e)
     })
   }
-  var menuResizerMoveable_onMoveStop = function (e) {
+  var menuResizerMoveable_onMoveStop = function menuResizerMoveable_onMoveStop(
+    e,
+  ) {
     brFrame.set('sidemenuwidth', menuResizer.domNode.offsetLeft)
     brFrame.updateView()
   }
-  var messageBar_create = function (domConstruct) {
+  var messageBar_create = function messageBar_create(domConstruct) {
     // message bar gui
     var dom = domConstruct.toDom(
       '<div class="brUCMessageBar"><img class="brUCMessageBarError" /><span></span><br /><a href="javascript:void(0)"></a><span></span> <a href="javascript:void(0)">' +
@@ -16315,35 +15193,26 @@ if (!window.Brekeke.UCClientUI) {
     var linkStop = dojo.query('a', dom)[1]
     var linkHide = dojo.query('a', dom)[2]
     var btnShow = dojo.query('img', dom)[0]
-
     var auto1 = false
     var timeStart = 1
     var timeCur = 1
-    var timer = null
-
-    // cache image
+    var timer = null // cache image
     var dummyDom = domConstruct.toDom(
       '<div class="brUCMessageBar brUCMessageBarMinimized" style="height: 1px;"><img class="brUCMessageBarError" /><img src="img/disconnected.png" /></div>',
     )
     domConstruct.place(dummyDom, brLogin.domNode, 'last')
     setTimeout(function () {
       domConstruct.destroy(dummyDom)
-    }, 100)
-
-    // callback stub
-    var callback = function (funcOK, funcError) {
+    }, 100) // callback stub
+    var callback = function callback(funcOK, funcError) {
       funcOK()
-    }
-
-    // click event
-    var funcClick = function () {
+    } // click event
+    var funcClick = function funcClick() {
       if (timer) {
         clearTimeout(timer)
       }
-
       linkGo.style.display = 'none'
       msg2.innerHTML = ucMsgs.LBL_MESSAGE_BAR_CONNECTING
-
       callback(
         function () {
           // funcOK
@@ -16362,7 +15231,7 @@ if (!window.Brekeke.UCClientUI) {
             msg2.innerHTML =
               ' ' + formatStr(ucMsgs.LBL_MESSAGE_BAR_TIME, timeCur)
             linkStop.style.display = 'inline'
-            timer = setTimeout(funcTimer, 1000)
+            timer = setTimeout(_funcTimer, 1000)
           }
         },
       )
@@ -16387,23 +15256,19 @@ if (!window.Brekeke.UCClientUI) {
       linkHide.style.display = 'inline'
       btnShow.style.display = 'none'
       dojo.removeClass(dom, 'brUCMessageBarMinimized')
-    })
-
-    // timer event
-    var funcTimer = function () {
+    }) // timer event
+    var _funcTimer = function funcTimer() {
       timeCur--
       if (timeCur <= 0) {
         timeStart = Math.min(timeStart * 2, 300)
         funcClick()
       } else {
         msg2.innerHTML = ' ' + formatStr(ucMsgs.LBL_MESSAGE_BAR_TIME, timeCur)
-        timer = setTimeout(funcTimer, 1000)
+        timer = setTimeout(_funcTimer, 1000)
       }
-    }
-
-    // messageBar object
+    } // messageBar object
     return {
-      show: function (msg, go, auto, func) {
+      show: function show(msg, go, auto, func) {
         if (timer) {
           clearTimeout(timer)
         }
@@ -16422,11 +15287,11 @@ if (!window.Brekeke.UCClientUI) {
           timeCur = timeStart
           msg2.innerHTML = ' ' + formatStr(ucMsgs.LBL_MESSAGE_BAR_TIME, timeCur)
           linkStop.style.display = 'inline'
-          timer = setTimeout(funcTimer, 1000)
+          timer = setTimeout(_funcTimer, 1000)
         }
         dom.style.display = 'block'
       },
-      hide: function () {
+      hide: function hide() {
         if (timer) {
           clearTimeout(timer)
         }
@@ -16440,7 +15305,7 @@ if (!window.Brekeke.UCClientUI) {
           timeCur = timeStart
           msg2.innerHTML = ' ' + formatStr(ucMsgs.LBL_MESSAGE_BAR_TIME, timeCur)
           linkStop.style.display = 'inline'
-          timer = setTimeout(funcTimer, 1000)
+          timer = setTimeout(_funcTimer, 1000)
           auto1 = true
         } else if (!value && auto1) {
           if (timer) {
@@ -16453,7 +15318,7 @@ if (!window.Brekeke.UCClientUI) {
       },
     }
   }
-  var panelTab_postCreate = function () {
+  var panelTab_postCreate = function panelTab_postCreate() {
     this.inherited(arguments)
     var self = this
     require([
@@ -16470,8 +15335,7 @@ if (!window.Brekeke.UCClientUI) {
         panelTab: self,
         checkAcceptance: panelTabDndTarget_checkAcceptance,
         onDndDrop: panelTabDndTarget_onDndDrop,
-      })
-      // dnd source (tablist)
+      }) // dnd source (tablist)
       self.dndSource = new Source(self.tablist.containerNode, {
         panelTab: self,
         withHandles: false,
@@ -16484,20 +15348,17 @@ if (!window.Brekeke.UCClientUI) {
       })
     })
   }
-  var panelTab_destroy = function () {
+  var panelTab_destroy = function panelTab_destroy() {
     this.dndSource.destroy()
     this.dndTarget.destroy()
     this.inherited(arguments)
   }
-  var panelTab_addChild = function (child, insertIndex) {
+  var panelTab_addChild = function panelTab_addChild(child, insertIndex) {
     this.dndTarget.node.style.display = 'none'
-
     this.inherited(arguments)
-
     if (child.onAddedToTab) {
       child.onAddedToTab()
     }
-
     if (child.controlButton.domNode) {
       this.dndIdentifierCount++
       child.dndIdentifier = this.dndIdentifierCount
@@ -16538,27 +15399,23 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-  var panelTab_removeChild = function (page) {
+  var panelTab_removeChild = function panelTab_removeChild(page) {
     if (page.mouseEnterHandler) {
       dojo.disconnect(page.mouseEnterHandler)
     }
     if (page.mouseLeaveHandler) {
       dojo.disconnect(page.mouseLeaveHandler)
     }
-
     if (page.onRemovingFromTab) {
       page.onRemovingFromTab()
     }
-
     this.inherited(arguments)
-
     if (this.getChildren().length === 0) {
       this.dndTarget.node.style.display = 'block'
     }
   }
-  var panelTab_selectChild = function (page, animate) {
-    this.inherited(arguments)
-    // stop lamp
+  var panelTab_selectChild = function panelTab_selectChild(page, animate) {
+    this.inherited(arguments) // stop lamp
     if (
       lampObject &&
       lampObject.jingle &&
@@ -16569,50 +15426,57 @@ if (!window.Brekeke.UCClientUI) {
         lampObject.jingle = null
         lampObject.changeLamp(lampObject)
       }
-    }
-    // fire selectedEvents
+    } // fire selectedEvents
     if (page.selectedEvents && page.selectedEvents.length) {
       while (page.selectedEvents.length) {
         page.selectedEvents.pop()()
       }
     }
   }
-  var panelTabDndTarget_checkAcceptance = function (source, nodes) {
-    if (!source.panelTab) {
-      // dragged from buddylist tree
-      var sourceIsUser = false
-      var sourceIsGroup = false
-      try {
-        for (var id in source.selection) {
-          if (source.selection[id].item && source.selection[id].item.user_id) {
-            // user
-            sourceIsUser = true
-          } else if (
-            source.selection[id].item &&
-            !source.selection[id].item.showMore
-          ) {
-            // group
-            sourceIsGroup = true
+  var panelTabDndTarget_checkAcceptance =
+    function panelTabDndTarget_checkAcceptance(source, nodes) {
+      if (!source.panelTab) {
+        // dragged from buddylist tree
+        var sourceIsUser = false
+        var sourceIsGroup = false
+        try {
+          for (var id in source.selection) {
+            if (
+              source.selection[id].item &&
+              source.selection[id].item.user_id
+            ) {
+              // user
+              sourceIsUser = true
+            } else if (
+              source.selection[id].item &&
+              !source.selection[id].item.showMore
+            ) {
+              // group
+              sourceIsGroup = true
+            }
           }
+        } catch (e) {
+          logger.log('error', e.message)
+          return false
         }
-      } catch (e) {
-        logger.log('error', e.message)
-        return false
+        if (!sourceIsUser || sourceIsGroup) {
+          // source must be only user
+          return false
+        }
       }
-      if (!sourceIsUser || sourceIsGroup) {
-        // source must be only user
+      if (this.panelTab.getChildren().length === 0) {
+        // tab panel is empty
+        return true
+      } else {
         return false
       }
     }
-
-    if (this.panelTab.getChildren().length === 0) {
-      // tab panel is empty
-      return true
-    } else {
-      return false
-    }
-  }
-  var panelTabDndTarget_onDndDrop = function (source, nodes, copy, target) {
+  var panelTabDndTarget_onDndDrop = function panelTabDndTarget_onDndDrop(
+    source,
+    nodes,
+    copy,
+    target,
+  ) {
     this.onDndCancel()
     if (this === target) {
       if (source.panelTab) {
@@ -16655,7 +15519,11 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-  var panelTabDndSource_onDndStart = function (source, nodes, copy) {
+  var panelTabDndSource_onDndStart = function panelTabDndSource_onDndStart(
+    source,
+    nodes,
+    copy,
+  ) {
     if (this.autoSync) {
       this.sync()
     }
@@ -16672,44 +15540,53 @@ if (!window.Brekeke.UCClientUI) {
     }
     this.isDragging = true
   }
-  var panelTabDndSource_checkAcceptance = function (source, nodes) {
-    if (
-      chatClient.getProfile().user_type === Constants.USER_TYPE_SYSTEM_ADMIN ||
-      mySignInParams.admin_mode
-    ) {
-      // sa
-      return false
-    }
-    if (!source.panelTab) {
-      // dragged from buddylist tree
-      var sourceIsUser = false
-      var sourceIsGroup = false
-      try {
-        for (var id in source.selection) {
-          if (source.selection[id].item && source.selection[id].item.user_id) {
-            // user
-            sourceIsUser = true
-          } else if (
-            source.selection[id].item &&
-            !source.selection[id].item.showMore
-          ) {
-            // group
-            sourceIsGroup = true
+  var panelTabDndSource_checkAcceptance =
+    function panelTabDndSource_checkAcceptance(source, nodes) {
+      if (
+        chatClient.getProfile().user_type ===
+          Constants.USER_TYPE_SYSTEM_ADMIN ||
+        mySignInParams.admin_mode
+      ) {
+        // sa
+        return false
+      }
+      if (!source.panelTab) {
+        // dragged from buddylist tree
+        var sourceIsUser = false
+        var sourceIsGroup = false
+        try {
+          for (var id in source.selection) {
+            if (
+              source.selection[id].item &&
+              source.selection[id].item.user_id
+            ) {
+              // user
+              sourceIsUser = true
+            } else if (
+              source.selection[id].item &&
+              !source.selection[id].item.showMore
+            ) {
+              // group
+              sourceIsGroup = true
+            }
           }
+        } catch (e) {
+          logger.log('error', e.message)
+          return false
         }
-      } catch (e) {
-        logger.log('error', e.message)
-        return false
+        if (!sourceIsUser || sourceIsGroup) {
+          // source must be only user
+          return false
+        }
       }
-      if (!sourceIsUser || sourceIsGroup) {
-        // source must be only user
-        return false
-      }
+      return true
     }
-
-    return true
-  }
-  var panelTabDndSource_onDndDrop = function (source, nodes, copy, target) {
+  var panelTabDndSource_onDndDrop = function panelTabDndSource_onDndDrop(
+    source,
+    nodes,
+    copy,
+    target,
+  ) {
     this.onDndCancel()
     if (this === target) {
       var targetIndex = null
@@ -16725,7 +15602,6 @@ if (!window.Brekeke.UCClientUI) {
           }
         }
       }
-
       if (source.panelTab) {
         // dragged from tab panel
         for (var i = 0; i < nodes.length; i++) {
@@ -16766,28 +15642,28 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-  var PanelTabChild_onClose = function () {
-    closeTab(this)
+  var PanelTabChild_onClose = function PanelTabChild_onClose() {
+    _closeTab(this)
     return false
   }
-  var PanelTabChild_registerSelectedEvent = function (event) {
-    if (!this.selectedEvents) {
-      this.selectedEvents = []
+  var PanelTabChild_registerSelectedEvent =
+    function PanelTabChild_registerSelectedEvent(event) {
+      if (!this.selectedEvents) {
+        this.selectedEvents = []
+      }
+      this.selectedEvents.push(event)
     }
-    this.selectedEvents.push(event)
-  }
-  var panelTabChildControlButton_onMouseEnter = function () {
-    this.page.getParent().dndTargetIdentifier = this.domNode.dndIdentifier
-  }
-  var panelTabChildControlButton_onMouseLeave = function () {
-    this.page.getParent().dndTargetIdentifier = null
-  }
-  var panelChat_postCreate = function () {
+  var panelTabChildControlButton_onMouseEnter =
+    function panelTabChildControlButton_onMouseEnter() {
+      this.page.getParent().dndTargetIdentifier = this.domNode.dndIdentifier
+    }
+  var panelTabChildControlButton_onMouseLeave =
+    function panelTabChildControlButton_onMouseLeave() {
+      this.page.getParent().dndTargetIdentifier = null
+    }
+  var panelChat_postCreate = function panelChat_postCreate() {
     var self = this
-
-    this.inherited(arguments)
-
-    // register event listeners
+    this.inherited(arguments) // register event listeners
     this.handlers = [
       dojo.connect(this, 'resize', panelChat_resize),
       dojo.connect(
@@ -17027,7 +15903,7 @@ if (!window.Brekeke.UCClientUI) {
         ),
       )
     }
-    var initFooterSplitter = function () {
+    var _initFooterSplitter = function initFooterSplitter() {
       if (self.panelChatFooter._splitterWidget) {
         require(['dojo/aspect'], function (aspect) {
           self.handlers.push(
@@ -17043,12 +15919,10 @@ if (!window.Brekeke.UCClientUI) {
         })
       } else {
         // wait until _splitterWidget is created
-        setTimeout(initFooterSplitter, 100)
+        setTimeout(_initFooterSplitter, 100)
       }
     }
-    initFooterSplitter()
-
-    // register dnd targets
+    _initFooterSplitter() // register dnd targets
     if (this.dndTargets.length > 0) {
       require(['dojo/dnd/Target'], function (Target) {
         for (var i = 0; i < self.dndTargets.length; i++) {
@@ -17064,7 +15938,7 @@ if (!window.Brekeke.UCClientUI) {
       })
     }
   }
-  var panelChat_destroy = function () {
+  var panelChat_destroy = function panelChat_destroy() {
     for (var i = 0; i < this.dndTargets.length; i++) {
       if (this.dndTargets[i].target) {
         this.dndTargets[i].target.destroy()
@@ -17079,23 +15953,21 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelChat_onAddedToTab = function () {
+  var panelChat_onAddedToTab = function panelChat_onAddedToTab() {
     // restore properties
     if (this.temporaryProperties) {
       this.getParent().selectChild(this)
       this.panelChatList.domNode.scrollTop = this.temporaryProperties.scrollTop
       this.editorSendText.attr('value', this.temporaryProperties.text)
     }
-    this.temporaryProperties = null
-
-    // replay players
+    this.temporaryProperties = null // replay players
     for (var i = 0; i < playingPlayers.length; i++) {
       if (this.domNode.contains(playingPlayers[i])) {
         playingPlayers[i].play()
       }
     }
   }
-  var panelChat_onRemovingFromTab = function () {
+  var panelChat_onRemovingFromTab = function panelChat_onRemovingFromTab() {
     // save properties temporarily
     this.getParent().selectChild(this)
     this.temporaryProperties = {
@@ -17103,7 +15975,7 @@ if (!window.Brekeke.UCClientUI) {
       text: this.editorSendText.attr('value'),
     }
   }
-  var panelChat_resize = function () {
+  var panelChat_resize = function panelChat_resize() {
     // resize chat header height
     var buddyCount = dojo.query(
       '.brUCPanelChatHeaderBuddyInfo',
@@ -17118,17 +15990,14 @@ if (!window.Brekeke.UCClientUI) {
     }
     if (this.panelType === 'EXTERNALCALL') {
       this.panelChatHeader.resize({ h: 144 })
-    }
-    // resize chat editor height
+    } // resize chat editor height
     this.panelChatFooter.resize({
       h:
         this.editorSendText.getHeaderHeight() +
         72 +
         int(this.editorSendText.myHeight),
-    })
-    // resize container
-    this.panelChatContainer.resize()
-    // show send text button
+    }) // resize container
+    this.panelChatContainer.resize() // show send text button
     if (this.areaSendText.parentNode === this.panelChatFooter.domNode) {
       this.editorSendText.domNode.insertBefore(
         this.areaSendText,
@@ -17137,10 +16006,10 @@ if (!window.Brekeke.UCClientUI) {
       this.areaSendText.style.display = 'block'
     }
   }
-  var panelChat_buttonSendTextClick = function () {
+  var panelChat_buttonSendTextClick = function panelChat_buttonSendTextClick() {
     sendText(this)
   }
-  var panelChat_editorSendTextFocus = function () {
+  var panelChat_editorSendTextFocus = function panelChat_editorSendTextFocus() {
     // stop lamp
     if (lampObject && lampObject.jingle) {
       lampObject.windowFocused = true
@@ -17151,61 +16020,61 @@ if (!window.Brekeke.UCClientUI) {
         lampObject.jingle = null
         lampObject.changeLamp(lampObject)
       }
-    }
-    // stop highlight
+    } // stop highlight
     if (highlightObject !== null) {
       stopHighlight()
-    }
-    // stop notification
+    } // stop notification
     stopNotification()
-
     activePanelKey = this.panelKey
     displayBuddylist(false)
   }
-  var panelChat_editorSendTextBlur = function () {
+  var panelChat_editorSendTextBlur = function panelChat_editorSendTextBlur() {
     if (activePanelKey === this.panelKey) {
       activePanelKey = ''
       displayBuddylist(false)
     }
   }
-  var panelChat_editorSendTextKeyDown = function (e) {
-    var panel = this
-    if (e.keyCode === 13 && !e.shiftKey) {
-      if (!this.buttonSendText.disabled) {
-        var settings = chatClient.getSettings()
-        if (
-          settings.optional_settings &&
-          settings.optional_settings.sending_confirmation
-        ) {
-          if (string(panel.editorSendText.attr('value'))) {
-            sidePaneWidget.buttonDummy.focus()
-            setTimeout(
-              windowConfirm.bind(
-                window,
-                ucMsgs.LBL_SEND_TEXT_TITLE,
-                ucMsgs.MSG_SEND_TEXT_CONFIRM + '<br />',
-                sendText.bind(window, this),
-                panel.editorSendText.focus.bind(panel.editorSendText),
-              ),
-              100,
-            )
+  var panelChat_editorSendTextKeyDown =
+    function panelChat_editorSendTextKeyDown(e) {
+      var panel = this
+      if (e.keyCode === 13 && !e.shiftKey) {
+        if (!this.buttonSendText.disabled) {
+          var settings = chatClient.getSettings()
+          if (
+            settings.optional_settings &&
+            settings.optional_settings.sending_confirmation
+          ) {
+            if (string(panel.editorSendText.attr('value'))) {
+              sidePaneWidget.buttonDummy.focus()
+              setTimeout(
+                windowConfirm.bind(
+                  window,
+                  ucMsgs.LBL_SEND_TEXT_TITLE,
+                  ucMsgs.MSG_SEND_TEXT_CONFIRM + '<br />',
+                  sendText.bind(window, this),
+                  panel.editorSendText.focus.bind(panel.editorSendText),
+                ),
+                100,
+              )
+            }
+          } else {
+            sendText(this)
           }
-        } else {
-          sendText(this)
         }
+        e.preventDefault()
       }
-      e.preventDefault()
+      if (e.keyCode === 38 && e.ctrlKey && !e.shiftKey) {
+        this.panelChatList.domNode.scrollTop -= 40
+        e.preventDefault()
+      }
+      if (e.keyCode === 40 && e.ctrlKey && !e.shiftKey) {
+        this.panelChatList.domNode.scrollTop += 40
+        e.preventDefault()
+      }
     }
-    if (e.keyCode === 38 && e.ctrlKey && !e.shiftKey) {
-      this.panelChatList.domNode.scrollTop -= 40
-      e.preventDefault()
-    }
-    if (e.keyCode === 40 && e.ctrlKey && !e.shiftKey) {
-      this.panelChatList.domNode.scrollTop += 40
-      e.preventDefault()
-    }
-  }
-  var panelChat_editorSendTextKeyUp = function (e) {
+  var panelChat_editorSendTextKeyUp = function panelChat_editorSendTextKeyUp(
+    e,
+  ) {
     if (e.keyCode === 13 && !e.shiftKey) {
       // occured also on ime enter
       // do not sendText here
@@ -17218,196 +16087,229 @@ if (!window.Brekeke.UCClientUI) {
       sendTyping(this)
     }
   }
-  var panelChat_textBoxHeaderTargetKeyUp = function () {
-    displayExternalCallTarget(this, null)
-  }
-  var panelChat_buttonHeaderTargetBackSpaceClick = function () {
-    var target = this.textBoxHeaderTarget.attr('value')
-    if (target.length > 0) {
-      this.textBoxHeaderTarget.attr(
-        'value',
-        target.substr(0, target.length - 1),
-      )
+  var panelChat_textBoxHeaderTargetKeyUp =
+    function panelChat_textBoxHeaderTargetKeyUp() {
+      displayExternalCallTarget(this, null)
     }
-    this.textBoxHeaderTarget.focus()
-    displayExternalCallTarget(this, null)
-  }
-  var panelChat_buttonJoinConferenceClick = function () {
-    if (this.panelType === 'CONFERENCE') {
-      joinConference(this.panelKey)
+  var panelChat_buttonHeaderTargetBackSpaceClick =
+    function panelChat_buttonHeaderTargetBackSpaceClick() {
+      var target = this.textBoxHeaderTarget.attr('value')
+      if (target.length > 0) {
+        this.textBoxHeaderTarget.attr(
+          'value',
+          target.substr(0, target.length - 1),
+        )
+      }
+      this.textBoxHeaderTarget.focus()
+      displayExternalCallTarget(this, null)
     }
-  }
-  var panelChat_buttonRejectConferenceClick = function () {
-    if (this.panelType === 'CONFERENCE') {
-      leaveConference(this.panelKey, true)
+  var panelChat_buttonJoinConferenceClick =
+    function panelChat_buttonJoinConferenceClick() {
+      if (this.panelType === 'CONFERENCE') {
+        joinConference(this.panelKey)
+      }
     }
-  }
-  var panelChat_buttonLeaveConferenceClick = function () {
-    if (this.panelType === 'CONFERENCE') {
-      windowConfirm(
-        ucMsgs.LBL_LEAVE_CONFERENCE_TITLE,
-        ucMsgs.MSG_LEAVE_CONFERENCE_CONFIRM + '<br />',
-        leaveConference.bind(window, this.panelKey, true),
-      )
+  var panelChat_buttonRejectConferenceClick =
+    function panelChat_buttonRejectConferenceClick() {
+      if (this.panelType === 'CONFERENCE') {
+        leaveConference(this.panelKey, true)
+      }
     }
-  }
-  var panelChatBroadcastCheckBox_change = function () {
-    var value = null
-    try {
-      value = JSON.parse(this.value)
-    } catch (e) {
-      logger.log('error', 'failed to parse value==' + this.value)
-      return
+  var panelChat_buttonLeaveConferenceClick =
+    function panelChat_buttonLeaveConferenceClick() {
+      if (this.panelType === 'CONFERENCE') {
+        windowConfirm(
+          ucMsgs.LBL_LEAVE_CONFERENCE_TITLE,
+          ucMsgs.MSG_LEAVE_CONFERENCE_CONFIRM + '<br />',
+          leaveConference.bind(window, this.panelKey, true),
+        )
+      }
     }
-    if (broadcastUsersTable[value.panelKey]) {
-      for (var i = 0; i < broadcastUsersTable[value.panelKey].length; i++) {
-        if (
-          broadcastUsersTable[value.panelKey][i].tenant === value.tenant &&
-          broadcastUsersTable[value.panelKey][i].user_id === value.user_id
-        ) {
-          // change checked
-          broadcastUsersTable[value.panelKey][i].checked = this.checked
-          var displayNodes = dojo.query('.brUCDisplay', this.domNode.parentNode)
-          if (displayNodes && displayNodes[0]) {
-            if (this.checked) {
-              displayNodes.removeClass('brUCDisplayUnchecked')
-            } else {
-              displayNodes.addClass('brUCDisplayUnchecked')
-            }
-          } else {
-            logger.log('error', 'not found .brUCDisplay')
-          }
-          // make / clear call
+  var panelChatBroadcastCheckBox_change =
+    function panelChatBroadcastCheckBox_change() {
+      var value = null
+      try {
+        value = JSON.parse(this.value)
+      } catch (e) {
+        logger.log('error', 'failed to parse value==' + this.value)
+        return
+      }
+      if (broadcastUsersTable[value.panelKey]) {
+        for (var i = 0; i < broadcastUsersTable[value.panelKey].length; i++) {
           if (
-            broadcastCallsTable[value.panelKey] &&
-            broadcastCallsTable[value.panelKey].calls.length > 0
+            broadcastUsersTable[value.panelKey][i].tenant === value.tenant &&
+            broadcastUsersTable[value.panelKey][i].user_id === value.user_id
           ) {
-            if (this.checked) {
-              makeCall(
-                panelsBroadcast[value.panelKey],
-                broadcastCallsTable[value.panelKey].withVideo,
-              )
+            // change checked
+            broadcastUsersTable[value.panelKey][i].checked = this.checked
+            var displayNodes = dojo.query(
+              '.brUCDisplay',
+              this.domNode.parentNode,
+            )
+            if (displayNodes && displayNodes[0]) {
+              if (this.checked) {
+                displayNodes.removeClass('brUCDisplayUnchecked')
+              } else {
+                displayNodes.addClass('brUCDisplayUnchecked')
+              }
             } else {
-              for (
-                var j = 0;
-                j < broadcastCallsTable[value.panelKey].calls.length;
-                j++
-              ) {
-                var callInfo = chatClient.getCallInfo(
-                  broadcastCallsTable[value.panelKey].calls[j],
+              logger.log('error', 'not found .brUCDisplay')
+            } // make / clear call
+            if (
+              broadcastCallsTable[value.panelKey] &&
+              broadcastCallsTable[value.panelKey].calls.length > 0
+            ) {
+              if (this.checked) {
+                makeCall(
+                  panelsBroadcast[value.panelKey],
+                  broadcastCallsTable[value.panelKey].withVideo,
                 )
-                if (
-                  callInfo.target.tenant === value.tenant &&
-                  callInfo.target.user_id === value.user_id
+              } else {
+                for (
+                  var j = 0;
+                  j < broadcastCallsTable[value.panelKey].calls.length;
+                  j++
                 ) {
-                  chatClient.clearCall(
+                  var callInfo = chatClient.getCallInfo(
                     broadcastCallsTable[value.panelKey].calls[j],
                   )
+                  if (
+                    callInfo.target.tenant === value.tenant &&
+                    callInfo.target.user_id === value.user_id
+                  ) {
+                    chatClient.clearCall(
+                      broadcastCallsTable[value.panelKey].calls[j],
+                    )
+                  }
                 }
               }
             }
           }
         }
+      } else {
+        logger.log('error', 'empty broadcastUsersTable[' + value.panelKey + ']')
+        return
       }
-    } else {
-      logger.log('error', 'empty broadcastUsersTable[' + value.panelKey + ']')
-      return
+      displayBroadcastCheckedMessage(panelsBroadcast[value.panelKey])
+      enableButtons(panelsBroadcast[value.panelKey])
     }
-    displayBroadcastCheckedMessage(panelsBroadcast[value.panelKey])
-    enableButtons(panelsBroadcast[value.panelKey])
-  }
-  var panelChat_buttonSendFileClick = function () {
+  var panelChat_buttonSendFileClick = function panelChat_buttonSendFileClick() {
     inputFile(this)
   }
-  var panelChat_inputHeaderFileFormChange = function () {
-    sendFile(this)
-  }
-  var panelChatAcceptFile_click = function () {
+  var panelChat_inputHeaderFileFormChange =
+    function panelChat_inputHeaderFileFormChange() {
+      sendFile(this)
+    }
+  var panelChatAcceptFile_click = function panelChatAcceptFile_click() {
     acceptFile(this.getAttribute('data-brekeke-uc-accept-file-id'))
   }
-  var panelChatCancelFile_click = function () {
+  var panelChatCancelFile_click = function panelChatCancelFile_click() {
     cancelFile(this.getAttribute('data-brekeke-uc-cancel-file-id'))
   }
-  var panelChatInlineImageXhr_onload = function () {
-    var file_id = this.file_id
-    fileTable[file_id].inlineImage.url = window.URL.createObjectURL(
-      this.response,
-    )
-    displayFile(file_id)
-  }
-  var panelChat_buttonShareScreenClick = function () {
-    if (getBrowser() === 'Chrome' && cookiePreference.shareScreenExtensionId) {
-      makeShareScreenCallChrome(this)
-    } else {
-      makeShareScreenCall(this)
+  var panelChatInlineImageXhr_onload =
+    function panelChatInlineImageXhr_onload() {
+      var file_id = this.file_id
+      fileTable[file_id].inlineImage.url = window.URL.createObjectURL(
+        this.response,
+      )
+      displayFile(file_id)
     }
-  }
-  var panelChat_buttonVoiceCallClick = function () {
-    makeCall(this, false)
-  }
-  var panelChat_buttonVideoCallClick = function () {
-    makeCall(this, true)
-  }
-  var panelChat_buttonAnswerAudioClick = function () {
-    answerCall(this, false)
-  }
-  var panelChat_buttonAnswerVideoClick = function () {
-    answerCall(this, true)
-  }
-  var panelChat_buttonDeclineCallClick = function () {
-    clearCall(this)
-  }
-  var panelChat_buttonMuteMicrophoneClick = function () {
-    muteMicrophone(this)
-  }
-  var panelChat_dropDownButtonChangeDevAIClick = function () {
-    enumerateDevices(this, 'audioinput')
-  }
-  var panelChat_dropDownButtonChangeDevAOClick = function () {
-    enumerateDevices(this, 'audiooutput')
-  }
-  var panelChat_buttonMuteCameraClick = function () {
-    muteCamera(this)
-  }
-  var panelChat_buttonFullscreenClick = function () {
-    fullscreen(this)
-  }
-  var panelChat_dropDownButtonShowTransferMenuClick = function () {
-    this.textBoxTransferTarget.focus()
-  }
-  var panelChat_textBoxTransferTargetKeyDown = function (e) {
-    if (e.keyCode === 13) {
+  var panelChat_buttonShareScreenClick =
+    function panelChat_buttonShareScreenClick() {
+      if (
+        getBrowser() === 'Chrome' &&
+        cookiePreference.shareScreenExtensionId
+      ) {
+        makeShareScreenCallChrome(this)
+      } else {
+        makeShareScreenCall(this)
+      }
+    }
+  var panelChat_buttonVoiceCallClick =
+    function panelChat_buttonVoiceCallClick() {
+      makeCall(this, false)
+    }
+  var panelChat_buttonVideoCallClick =
+    function panelChat_buttonVideoCallClick() {
+      makeCall(this, true)
+    }
+  var panelChat_buttonAnswerAudioClick =
+    function panelChat_buttonAnswerAudioClick() {
+      answerCall(this, false)
+    }
+  var panelChat_buttonAnswerVideoClick =
+    function panelChat_buttonAnswerVideoClick() {
+      answerCall(this, true)
+    }
+  var panelChat_buttonDeclineCallClick =
+    function panelChat_buttonDeclineCallClick() {
+      clearCall(this)
+    }
+  var panelChat_buttonMuteMicrophoneClick =
+    function panelChat_buttonMuteMicrophoneClick() {
+      muteMicrophone(this)
+    }
+  var panelChat_dropDownButtonChangeDevAIClick =
+    function panelChat_dropDownButtonChangeDevAIClick() {
+      enumerateDevices(this, 'audioinput')
+    }
+  var panelChat_dropDownButtonChangeDevAOClick =
+    function panelChat_dropDownButtonChangeDevAOClick() {
+      enumerateDevices(this, 'audiooutput')
+    }
+  var panelChat_buttonMuteCameraClick =
+    function panelChat_buttonMuteCameraClick() {
+      muteCamera(this)
+    }
+  var panelChat_buttonFullscreenClick =
+    function panelChat_buttonFullscreenClick() {
+      fullscreen(this)
+    }
+  var panelChat_dropDownButtonShowTransferMenuClick =
+    function panelChat_dropDownButtonShowTransferMenuClick() {
+      this.textBoxTransferTarget.focus()
+    }
+  var panelChat_textBoxTransferTargetKeyDown =
+    function panelChat_textBoxTransferTargetKeyDown(e) {
+      if (e.keyCode === 13) {
+        transferCall(this, this.textBoxTransferTarget.attr('value'))
+      }
+    }
+  var panelChat_buttonTransferTargetClick =
+    function panelChat_buttonTransferTargetClick() {
       transferCall(this, this.textBoxTransferTarget.attr('value'))
     }
-  }
-  var panelChat_buttonTransferTargetClick = function () {
-    transferCall(this, this.textBoxTransferTarget.attr('value'))
-  }
-  var panelChat_dropDownButtonTransferUserClick = function () {
-    enumerateTransferUsers(this)
-  }
-  var panelChat_buttonTransferUserClick = function () {
-    transferCall(this, this.dropDownButtonTransferUser.attr('value'))
-  }
-  var panelChat_buttonCompleteTransferClick = function () {
-    clearCall(this)
-  }
-  var panelChat_buttonConferenceTransferClick = function () {
-    conferenceTransfer(this)
-  }
-  var panelChat_buttonCancelTransferClick = function () {
+  var panelChat_dropDownButtonTransferUserClick =
+    function panelChat_dropDownButtonTransferUserClick() {
+      enumerateTransferUsers(this)
+    }
+  var panelChat_buttonTransferUserClick =
+    function panelChat_buttonTransferUserClick() {
+      transferCall(this, this.dropDownButtonTransferUser.attr('value'))
+    }
+  var panelChat_buttonCompleteTransferClick =
+    function panelChat_buttonCompleteTransferClick() {
+      clearCall(this)
+    }
+  var panelChat_buttonConferenceTransferClick =
+    function panelChat_buttonConferenceTransferClick() {
+      conferenceTransfer(this)
+    }
+  var panelChat_buttonCancelTransferClick =
+    function panelChat_buttonCancelTransferClick() {
+      holdCall(this)
+    }
+  var panelChat_buttonHoldCallClick = function panelChat_buttonHoldCallClick() {
     holdCall(this)
   }
-  var panelChat_buttonHoldCallClick = function () {
-    holdCall(this)
-  }
-  var panelChat_buttonClearCallClick = function () {
-    clearCall(this)
-  }
-  var panelChat_videoRemoteDblclick = function () {
+  var panelChat_buttonClearCallClick =
+    function panelChat_buttonClearCallClick() {
+      clearCall(this)
+    }
+  var panelChat_videoRemoteDblclick = function panelChat_videoRemoteDblclick() {
     fullscreen(this)
   }
-  var panelChatHeaderDialPad_click = function () {
+  var panelChatHeaderDialPad_click = function panelChatHeaderDialPad_click() {
     this.panel.textBoxHeaderTarget.attr(
       'value',
       this.panel.textBoxHeaderTarget.attr('value') + this.tone,
@@ -17415,7 +16317,7 @@ if (!window.Brekeke.UCClientUI) {
     this.panel.textBoxHeaderTarget.focus()
     displayExternalCallTarget(this.panel, null)
   }
-  var panelChatDialPad_click = function () {
+  var panelChatDialPad_click = function panelChatDialPad_click() {
     if (this.panel.panelType === 'BROADCAST') {
       // TODO: yano broadcast
       //if (broadcastCallsTable[this.panel.panelKey]) {
@@ -17435,211 +16337,223 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-  var panelChat_buttonMovePanelChatCallClick = function () {
-    movePanelChatCall(this)
-  }
-  var panelChat_panelChatCallSplitterWidgetStartDrag = function () {
-    var panel = this
-    require(['dojo/dom-geometry', 'dojo/aspect'], function (
-      domGeometry,
-      aspect,
-    ) {
-      var startHeight = domGeometry.position(panel.panelChatCall.domNode).h
-      var connection = aspect.after(
-        panel.panelChatCall._splitterWidget,
-        '_stopDrag',
-        function () {
-          connection.remove()
-          var stopHeight = domGeometry.position(panel.panelChatCall.domNode).h
-          resizePanelChatCall(panel, stopHeight - startHeight)
-        },
-      )
-    })
-  }
-  var panelChatThumbnail_click = function () {
+  var panelChat_buttonMovePanelChatCallClick =
+    function panelChat_buttonMovePanelChatCallClick() {
+      movePanelChatCall(this)
+    }
+  var panelChat_panelChatCallSplitterWidgetStartDrag =
+    function panelChat_panelChatCallSplitterWidgetStartDrag() {
+      var panel = this
+      require(['dojo/dom-geometry', 'dojo/aspect'], function (
+        domGeometry,
+        aspect,
+      ) {
+        var startHeight = domGeometry.position(panel.panelChatCall.domNode).h
+        var connection = aspect.after(
+          panel.panelChatCall._splitterWidget,
+          '_stopDrag',
+          function () {
+            connection.remove()
+            var stopHeight = domGeometry.position(panel.panelChatCall.domNode).h
+            resizePanelChatCall(panel, stopHeight - startHeight)
+          },
+        )
+      })
+    }
+  var panelChatThumbnail_click = function panelChatThumbnail_click() {
     requestMainVideoCall(
       panelsConference[this.panelKey],
       this.tenant,
       this.user_id,
     )
   }
-  var panelChat_buttonShowTodayMessagesClick = function () {
-    showDaysMessages(this, 1)
-  }
-  var panelChat_buttonShowYesterdayMessagesClick = function () {
-    showDaysMessages(this, 2)
-  }
-  var panelChat_buttonOpenHistoryClick = function () {
-    try {
-      target = JSON.parse(this.panelKey)
-    } catch (e) {
-      logger.log('error', 'failed to parse this.panelKey==' + this.panelKey)
-      return
+  var panelChat_buttonShowTodayMessagesClick =
+    function panelChat_buttonShowTodayMessagesClick() {
+      showDaysMessages(this, 1)
     }
-    openHistorySearch(this.getParent(), null, true, target, true)
-  }
-  var panelChatShowMore_click = function () {
+  var panelChat_buttonShowYesterdayMessagesClick =
+    function panelChat_buttonShowYesterdayMessagesClick() {
+      showDaysMessages(this, 2)
+    }
+  var panelChat_buttonOpenHistoryClick =
+    function panelChat_buttonOpenHistoryClick() {
+      try {
+        target = JSON.parse(this.panelKey)
+      } catch (e) {
+        logger.log('error', 'failed to parse this.panelKey==' + this.panelKey)
+        return
+      }
+      openHistorySearch(this.getParent(), null, true, target, true)
+    }
+  var panelChatShowMore_click = function panelChatShowMore_click() {
     this.style.display = 'none'
     chatClient.receiveUnreadText(showUnreadText, null)
   }
-  var panelChatShowMoreOnReSignIn_click = function () {
-    this.style.display = 'none'
-    chatClient.receiveUnreadText(showUnreadTextOnReSignIn, null)
-  }
-  var panelChatShowMoreOnJoinWebchatRoom_click = function () {
-    this.style.display = 'none'
-    chatClient.receiveUnreceivedConferenceText(
-      { conf_id: this.getAttribute('data-brekeke-uc-conf-id') },
-      showUnreceivedConferenceTextOnJoinWebchatRoom,
-      null,
-    )
-  }
-  var panelChat_panelChatContainerMouseMove = function (e) {
-    if (this.panelType === 'CHAT' || this.panelType === 'CONFERENCE') {
-      if (
-        this.editorSendText &&
-        this.editorSendText.iframe &&
-        this.editorSendText.iframe.style &&
-        this.editorSendText.iframe.style.pointerEvents === 'none'
-      ) {
-        this.editorSendText.iframe.style.pointerEvents = 'auto'
-      }
+  var panelChatShowMoreOnReSignIn_click =
+    function panelChatShowMoreOnReSignIn_click() {
+      this.style.display = 'none'
+      chatClient.receiveUnreadText(showUnreadTextOnReSignIn, null)
     }
-  }
-  var panelChat_panelChatContainerDragOver = function (e) {
-    if (this.panelType === 'CHAT' || this.panelType === 'CONFERENCE') {
-      if (
-        this.editorSendText &&
-        this.editorSendText.iframe &&
-        this.editorSendText.iframe.style &&
-        this.editorSendText.iframe.style.pointerEvents !== 'none'
-      ) {
-        this.editorSendText.iframe.style.pointerEvents = 'none'
-      }
-      e.preventDefault()
-    }
-  }
-  var panelChat_panelChatContainerDrop = function (e) {
-    if (this.panelType === 'CHAT' || this.panelType === 'CONFERENCE') {
-      dropFile(this, e.dataTransfer.files)
-      if (
-        this.editorSendText &&
-        this.editorSendText.iframe &&
-        this.editorSendText.iframe.style &&
-        this.editorSendText.iframe.style.pointerEvents === 'none'
-      ) {
-        this.editorSendText.iframe.style.pointerEvents = 'auto'
-      }
-      e.preventDefault()
-    }
-  }
-  var panelChat_panelChatFooterSplitterWidgetStartDrag = function () {
-    var panel = this
-    require(['dojo/dom-geometry', 'dojo/aspect'], function (
-      domGeometry,
-      aspect,
-    ) {
-      panel.editorSendText.editorObject.style.visibility = 'hidden'
-      var startHeight = domGeometry.position(panel.panelChatFooter.domNode).h
-      var connection = aspect.after(
-        panel.panelChatFooter._splitterWidget,
-        '_stopDrag',
-        function () {
-          connection.remove()
-          panel.editorSendText.editorObject.style.visibility = 'visible'
-          var stopHeight = domGeometry.position(panel.panelChatFooter.domNode).h
-          panel.editorSendText.myHeight =
-            int(panel.editorSendText.myHeight) + stopHeight - startHeight
-        },
+  var panelChatShowMoreOnJoinWebchatRoom_click =
+    function panelChatShowMoreOnJoinWebchatRoom_click() {
+      this.style.display = 'none'
+      chatClient.receiveUnreceivedConferenceText(
+        { conf_id: this.getAttribute('data-brekeke-uc-conf-id') },
+        showUnreceivedConferenceTextOnJoinWebchatRoom,
+        null,
       )
-    })
-  }
-  var panelChatDndTarget_checkAcceptance = function (source, nodes) {
-    if (
-      this.panelChat.panelType === 'CONFERENCE' &&
-      dojo.hasClass(this.node, 'brUCPanelChatHeaderBuddies')
-    ) {
-      if (source.panelTab) {
-        // dragged from tab panel
-        return false
+    }
+  var panelChat_panelChatContainerMouseMove =
+    function panelChat_panelChatContainerMouseMove(e) {
+      if (this.panelType === 'CHAT' || this.panelType === 'CONFERENCE') {
+        if (
+          this.editorSendText &&
+          this.editorSendText.iframe &&
+          this.editorSendText.iframe.style &&
+          this.editorSendText.iframe.style.pointerEvents === 'none'
+        ) {
+          this.editorSendText.iframe.style.pointerEvents = 'auto'
+        }
       }
-      // only items dragged from buddylist tree can be dropped
-
-      // check if any items can be invited to the conference
-      var items = []
-      for (var id in source.selection) {
-        items.push(source.selection[id].item)
+    }
+  var panelChat_panelChatContainerDragOver =
+    function panelChat_panelChatContainerDragOver(e) {
+      if (this.panelType === 'CHAT' || this.panelType === 'CONFERENCE') {
+        if (
+          this.editorSendText &&
+          this.editorSendText.iframe &&
+          this.editorSendText.iframe.style &&
+          this.editorSendText.iframe.style.pointerEvents !== 'none'
+        ) {
+          this.editorSendText.iframe.style.pointerEvents = 'none'
+        }
+        e.preventDefault()
       }
-      var invite = checkInvitationAcceptance(items, this.panelChat.panelKey)
-      return invite.length > 0
-    } else if (
-      this.panelChat.panelType === 'BROADCAST' &&
-      dojo.hasClass(this.node, 'brUCPanelChatHeaderBuddies')
-    ) {
-      if (source.panelTab) {
-        // dragged from tab panel
-        return false
+    }
+  var panelChat_panelChatContainerDrop =
+    function panelChat_panelChatContainerDrop(e) {
+      if (this.panelType === 'CHAT' || this.panelType === 'CONFERENCE') {
+        dropFile(this, e.dataTransfer.files)
+        if (
+          this.editorSendText &&
+          this.editorSendText.iframe &&
+          this.editorSendText.iframe.style &&
+          this.editorSendText.iframe.style.pointerEvents === 'none'
+        ) {
+          this.editorSendText.iframe.style.pointerEvents = 'auto'
+        }
+        e.preventDefault()
       }
-      // only items dragged from buddylist tree can be dropped
-      var sourceUsers = []
-      var buddylist = chatClient.getBuddylist()
-      try {
+    }
+  var panelChat_panelChatFooterSplitterWidgetStartDrag =
+    function panelChat_panelChatFooterSplitterWidgetStartDrag() {
+      var panel = this
+      require(['dojo/dom-geometry', 'dojo/aspect'], function (
+        domGeometry,
+        aspect,
+      ) {
+        panel.editorSendText.editorObject.style.visibility = 'hidden'
+        var startHeight = domGeometry.position(panel.panelChatFooter.domNode).h
+        var connection = aspect.after(
+          panel.panelChatFooter._splitterWidget,
+          '_stopDrag',
+          function () {
+            connection.remove()
+            panel.editorSendText.editorObject.style.visibility = 'visible'
+            var stopHeight = domGeometry.position(
+              panel.panelChatFooter.domNode,
+            ).h
+            panel.editorSendText.myHeight =
+              int(panel.editorSendText.myHeight) + stopHeight - startHeight
+          },
+        )
+      })
+    }
+  var panelChatDndTarget_checkAcceptance =
+    function panelChatDndTarget_checkAcceptance(source, nodes) {
+      if (
+        this.panelChat.panelType === 'CONFERENCE' &&
+        dojo.hasClass(this.node, 'brUCPanelChatHeaderBuddies')
+      ) {
+        if (source.panelTab) {
+          // dragged from tab panel
+          return false
+        } // only items dragged from buddylist tree can be dropped
+        // check if any items can be invited to the conference
+        var items = []
         for (var id in source.selection) {
-          var item = source.selection[id].item
-          if (item) {
-            if (item.user_id) {
-              // user
-              sourceUsers.push({ tenant: item.tenant, user_id: item.user_id })
-            } else if (!item.showMore) {
-              // group
-              for (var i = 0; i < buddylist.user.length; i++) {
-                var buddy = buddylist.user[i]
-                if (buddy.group === item.id && buddy.user_id) {
-                  sourceUsers.push({
-                    tenant: buddy.tenant,
-                    user_id: buddy.user_id,
-                  })
+          items.push(source.selection[id].item)
+        }
+        var invite = checkInvitationAcceptance(items, this.panelChat.panelKey)
+        return invite.length > 0
+      } else if (
+        this.panelChat.panelType === 'BROADCAST' &&
+        dojo.hasClass(this.node, 'brUCPanelChatHeaderBuddies')
+      ) {
+        if (source.panelTab) {
+          // dragged from tab panel
+          return false
+        } // only items dragged from buddylist tree can be dropped
+        var sourceUsers = []
+        var buddylist = chatClient.getBuddylist()
+        try {
+          for (var id in source.selection) {
+            var item = source.selection[id].item
+            if (item) {
+              if (item.user_id) {
+                // user
+                sourceUsers.push({ tenant: item.tenant, user_id: item.user_id })
+              } else if (!item.showMore) {
+                // group
+                for (var i = 0; i < buddylist.user.length; i++) {
+                  var buddy = buddylist.user[i]
+                  if (buddy.group === item.id && buddy.user_id) {
+                    sourceUsers.push({
+                      tenant: buddy.tenant,
+                      user_id: buddy.user_id,
+                    })
+                  }
                 }
               }
             }
           }
-        }
-      } catch (e) {
-        logger.log('error', e.message)
-        return false
-      }
-
-      // check added users
-      var addedCount = 0
-      for (var i = 0; i < sourceUsers.length; i++) {
-        if (broadcastUsersTable[this.panelChat.panelKey]) {
-          for (
-            var j = 0;
-            j < broadcastUsersTable[this.panelChat.panelKey].length;
-            j++
-          ) {
-            if (
-              sourceUsers[i].tenant ===
-                broadcastUsersTable[this.panelChat.panelKey][j].tenant &&
-              sourceUsers[i].user_id ===
-                broadcastUsersTable[this.panelChat.panelKey][j].user_id
+        } catch (e) {
+          logger.log('error', e.message)
+          return false
+        } // check added users
+        var addedCount = 0
+        for (var i = 0; i < sourceUsers.length; i++) {
+          if (broadcastUsersTable[this.panelChat.panelKey]) {
+            for (
+              var j = 0;
+              j < broadcastUsersTable[this.panelChat.panelKey].length;
+              j++
             ) {
-              addedCount++ // already added
-              break
+              if (
+                sourceUsers[i].tenant ===
+                  broadcastUsersTable[this.panelChat.panelKey][j].tenant &&
+                sourceUsers[i].user_id ===
+                  broadcastUsersTable[this.panelChat.panelKey][j].user_id
+              ) {
+                addedCount++ // already added
+                break
+              }
             }
           }
         }
+        if (addedCount === sourceUsers.length) {
+          return false
+        } // drop (add) OK
+        return true
       }
-      if (addedCount === sourceUsers.length) {
-        return false
-      }
-      // drop (add) OK
-      return true
+      return false
     }
-
-    return false
-  }
-  var panelChatDndTarget_onDndDrop = function (source, nodes, copy, target) {
+  var panelChatDndTarget_onDndDrop = function panelChatDndTarget_onDndDrop(
+    source,
+    nodes,
+    copy,
+    target,
+  ) {
     this.onDndCancel()
     if (this !== target) {
       return
@@ -17708,8 +16622,7 @@ if (!window.Brekeke.UCClientUI) {
               user_id: sourceUsers[i].user_id,
               checked: true,
               connection: null,
-            })
-            // make call
+            }) // make call
             if (
               broadcastCallsTable[this.panelChat.panelKey] &&
               broadcastCallsTable[this.panelChat.panelKey].calls.length > 0
@@ -17725,13 +16638,11 @@ if (!window.Brekeke.UCClientUI) {
       displayBroadcast(this.panelChat)
     }
   }
-  var panelWebchatQueue_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
+  var panelWebchatQueue_postCreate = function panelWebchatQueue_postCreate() {
+    this.inherited(arguments) // register event listeners
     this.handlers = []
   }
-  var panelWebchatQueue_destroy = function () {
+  var panelWebchatQueue_destroy = function panelWebchatQueue_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -17740,116 +16651,118 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelWebchatQueueWebchatRoomChat_click = function () {
-    var conf_id = this.conf_id
-    chatClient.joinConference(
-      conf_id,
-      { invisible: false, exclusive: true },
-      function (ev) {
-        // funcOK
-        var panel = openConference(conf_id, null, null, true)
-        displayWebchatQueueInfo(conf_id)
-        displayConference(ev.conference.conf_id)
-        displayProfinfoOnConference(ev.conference.conf_id)
-        chatClient.receiveUnreceivedConferenceText(
-          { conf_id: conf_id },
-          showUnreceivedConferenceTextOnJoinWebchatRoom,
-          null,
-        )
-      },
-      function (ev) {
-        // funcError
-        logger.log(
-          'warn',
-          'chatClient.joinConference error code: ' +
-            ev.code +
-            ', message: ' +
-            ev.message,
-        )
-        windowAlert(
-          ucMsgs.CMN_ALERT,
-          ucMsgs.MSG_JOIN_CONFERENCE_FAILED +
-            ' (' +
-            ev.code +
-            ' ' +
-            ev.message +
-            ')',
-        )
-      },
-    )
-  }
-  var panelWebchatQueueWebchatRoomJoin_click = function () {
-    var conf_id = this.conf_id
-    chatClient.joinConference(
-      conf_id,
-      { invisible: false, exclusive: false },
-      function (ev) {
-        // funcOK
-        var panel = openConference(conf_id, null, null, true)
-        displayWebchatQueueInfo(conf_id)
-        displayConference(ev.conference.conf_id)
-        displayProfinfoOnConference(ev.conference.conf_id)
-        chatClient.receiveUnreceivedConferenceText(
-          { conf_id: conf_id },
-          showUnreceivedConferenceTextOnJoinWebchatRoom,
-          null,
-        )
-      },
-      function (ev) {
-        // funcError
-        logger.log(
-          'warn',
-          'chatClient.joinConference error code: ' +
-            ev.code +
-            ', message: ' +
-            ev.message,
-        )
-        windowAlert(
-          ucMsgs.CMN_ALERT,
-          ucMsgs.MSG_JOIN_CONFERENCE_FAILED +
-            ' (' +
-            ev.code +
-            ' ' +
-            ev.message +
-            ')',
-        )
-      },
-    )
-  }
-  var panelWebchatQueueWebchatRoomReject_click = function () {
-    leaveConference(this.conf_id)
-    removeWebchatQueue(this.conf_id)
-  }
-  var panelWebchatQueueWebchatRoomHide_click = function () {
-    if (
-      webchatQueueWorkData[this.panelKey] &&
-      webchatQueueWorkData[this.panelKey][this.conf_id]
-    ) {
-      for (
-        var i = 0;
-        i <
-        webchatQueueWorkData[this.panelKey][this.conf_id].connections.length;
-        i++
-      ) {
-        webchatQueueWorkData[this.panelKey][this.conf_id].connections[
-          i
-        ].remove()
-      }
-    }
-    if (panelsWebchatQueue[this.panelKey]) {
-      var webchatRoomDom = dojo.query(
-        '[data-brekeke-uc-conf-id=' + this.conf_id + ']',
-        panelsWebchatQueue[this.panelKey].panelWebchatRooms,
-      )[0]
-      panelsWebchatQueue[this.panelKey].panelWebchatRooms.removeChild(
-        webchatRoomDom,
+  var panelWebchatQueueWebchatRoomChat_click =
+    function panelWebchatQueueWebchatRoomChat_click() {
+      var conf_id = this.conf_id
+      chatClient.joinConference(
+        conf_id,
+        { invisible: false, exclusive: true },
+        function (ev) {
+          // funcOK
+          var panel = openConference(conf_id, null, null, true)
+          displayWebchatQueueInfo(conf_id)
+          displayConference(ev.conference.conf_id)
+          displayProfinfoOnConference(ev.conference.conf_id)
+          chatClient.receiveUnreceivedConferenceText(
+            { conf_id: conf_id },
+            showUnreceivedConferenceTextOnJoinWebchatRoom,
+            null,
+          )
+        },
+        function (ev) {
+          // funcError
+          logger.log(
+            'warn',
+            'chatClient.joinConference error code: ' +
+              ev.code +
+              ', message: ' +
+              ev.message,
+          )
+          windowAlert(
+            ucMsgs.CMN_ALERT,
+            ucMsgs.MSG_JOIN_CONFERENCE_FAILED +
+              ' (' +
+              ev.code +
+              ' ' +
+              ev.message +
+              ')',
+          )
+        },
       )
     }
-  }
-  var panelPreference_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
+  var panelWebchatQueueWebchatRoomJoin_click =
+    function panelWebchatQueueWebchatRoomJoin_click() {
+      var conf_id = this.conf_id
+      chatClient.joinConference(
+        conf_id,
+        { invisible: false, exclusive: false },
+        function (ev) {
+          // funcOK
+          var panel = openConference(conf_id, null, null, true)
+          displayWebchatQueueInfo(conf_id)
+          displayConference(ev.conference.conf_id)
+          displayProfinfoOnConference(ev.conference.conf_id)
+          chatClient.receiveUnreceivedConferenceText(
+            { conf_id: conf_id },
+            showUnreceivedConferenceTextOnJoinWebchatRoom,
+            null,
+          )
+        },
+        function (ev) {
+          // funcError
+          logger.log(
+            'warn',
+            'chatClient.joinConference error code: ' +
+              ev.code +
+              ', message: ' +
+              ev.message,
+          )
+          windowAlert(
+            ucMsgs.CMN_ALERT,
+            ucMsgs.MSG_JOIN_CONFERENCE_FAILED +
+              ' (' +
+              ev.code +
+              ' ' +
+              ev.message +
+              ')',
+          )
+        },
+      )
+    }
+  var panelWebchatQueueWebchatRoomReject_click =
+    function panelWebchatQueueWebchatRoomReject_click() {
+      leaveConference(this.conf_id)
+      removeWebchatQueue(this.conf_id)
+    }
+  var panelWebchatQueueWebchatRoomHide_click =
+    function panelWebchatQueueWebchatRoomHide_click() {
+      if (
+        webchatQueueWorkData[this.panelKey] &&
+        webchatQueueWorkData[this.panelKey][this.conf_id]
+      ) {
+        for (
+          var i = 0;
+          i <
+          webchatQueueWorkData[this.panelKey][this.conf_id].connections.length;
+          i++
+        ) {
+          webchatQueueWorkData[this.panelKey][this.conf_id].connections[
+            i
+          ].remove()
+        }
+      }
+      if (panelsWebchatQueue[this.panelKey]) {
+        var webchatRoomDom = dojo.query(
+          '[data-brekeke-uc-conf-id=' + this.conf_id + ']',
+          panelsWebchatQueue[this.panelKey].panelWebchatRooms,
+        )[0]
+        panelsWebchatQueue[this.panelKey].panelWebchatRooms.removeChild(
+          webchatRoomDom,
+        )
+      }
+    }
+  var panelPreference_postCreate = function panelPreference_postCreate() {
+    this.inherited(arguments) // register event listeners
     this.handlers = [
       dojo.connect(
         this.menuItemStatusOffline,
@@ -17964,7 +16877,7 @@ if (!window.Brekeke.UCClientUI) {
       ),
     ]
   }
-  var panelPreference_destroy = function () {
+  var panelPreference_destroy = function panelPreference_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -17973,42 +16886,50 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelPreference_menuItemStatusOfflineClick = function () {
-    preferenceWorkData[this.panelKey].initial_status = Constants.STATUS_OFFLINE
-    displayInitialStatus(this)
-  }
-  var panelPreference_menuItemStatusAvailableClick = function () {
-    preferenceWorkData[this.panelKey].initial_status =
-      Constants.STATUS_AVAILABLE
-    displayInitialStatus(this)
-  }
-  var panelPreference_menuItemStatusBusyClick = function () {
-    preferenceWorkData[this.panelKey].initial_status = Constants.STATUS_BUSY
-    displayInitialStatus(this)
-  }
-  var panelPreference_radioButtonMainVideoDisplaySizeAutoChange = function () {
-    if (this.radioButtonMainVideoDisplaySizeAuto.checked) {
-      this.textBoxMainVideoWidth.setDisabled(true)
-      this.textBoxMainVideoHeight.setDisabled(true)
-    } else {
-      this.textBoxMainVideoWidth.setDisabled(false)
-      this.textBoxMainVideoHeight.setDisabled(false)
-      if (
-        !this.textBoxMainVideoWidth.attr('value') &&
-        !this.textBoxMainVideoHeight.attr('value')
-      ) {
-        var panel = this
-        require(['dojo/dom-geometry'], function (domGeometry) {
-          var panelHeight = domGeometry.position(panel.domNode).h
-          var h = int(panelHeight * DEFAULT_MAIN_VIDEO_HEIGHT_FACTOR)
-          panel.textBoxMainVideoWidth.set('value', int(h * DEFAULT_VIDEO_RATIO))
-          panel.textBoxMainVideoHeight.set('value', h)
-        })
+  var panelPreference_menuItemStatusOfflineClick =
+    function panelPreference_menuItemStatusOfflineClick() {
+      preferenceWorkData[this.panelKey].initial_status =
+        Constants.STATUS_OFFLINE
+      displayInitialStatus(this)
+    }
+  var panelPreference_menuItemStatusAvailableClick =
+    function panelPreference_menuItemStatusAvailableClick() {
+      preferenceWorkData[this.panelKey].initial_status =
+        Constants.STATUS_AVAILABLE
+      displayInitialStatus(this)
+    }
+  var panelPreference_menuItemStatusBusyClick =
+    function panelPreference_menuItemStatusBusyClick() {
+      preferenceWorkData[this.panelKey].initial_status = Constants.STATUS_BUSY
+      displayInitialStatus(this)
+    }
+  var panelPreference_radioButtonMainVideoDisplaySizeAutoChange =
+    function panelPreference_radioButtonMainVideoDisplaySizeAutoChange() {
+      if (this.radioButtonMainVideoDisplaySizeAuto.checked) {
+        this.textBoxMainVideoWidth.setDisabled(true)
+        this.textBoxMainVideoHeight.setDisabled(true)
+      } else {
+        this.textBoxMainVideoWidth.setDisabled(false)
+        this.textBoxMainVideoHeight.setDisabled(false)
+        if (
+          !this.textBoxMainVideoWidth.attr('value') &&
+          !this.textBoxMainVideoHeight.attr('value')
+        ) {
+          var panel = this
+          require(['dojo/dom-geometry'], function (domGeometry) {
+            var panelHeight = domGeometry.position(panel.domNode).h
+            var h = int(panelHeight * DEFAULT_MAIN_VIDEO_HEIGHT_FACTOR)
+            panel.textBoxMainVideoWidth.set(
+              'value',
+              int(h * DEFAULT_VIDEO_RATIO),
+            )
+            panel.textBoxMainVideoHeight.set('value', h)
+          })
+        }
       }
     }
-  }
   var panelPreference_radioButtonThumbnailVideoDisplaySizeAutoChange =
-    function () {
+    function panelPreference_radioButtonThumbnailVideoDisplaySizeAutoChange() {
       if (this.radioButtonThumbnailVideoDisplaySizeAuto.checked) {
         this.textBoxThumbnailVideoWidth.setDisabled(true)
         this.textBoxThumbnailVideoHeight.setDisabled(true)
@@ -18030,95 +16951,106 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
     }
-  var panelPreference_radioButtonThumbnailPositionChange = function () {
-    if (this.radioButtonThumbnailPositionRight.checked) {
-      preferenceWorkData[this.panelKey].thumbnailPosition = ''
-    } else {
-      preferenceWorkData[this.panelKey].thumbnailPosition = 'bottom'
-    }
-  }
-  var panelPreference_radioButtonImageFileTransferChange = function () {
-    if (this.radioButtonImageFileTransferInline.checked) {
-      preferenceWorkData[this.panelKey].imageFileTransfer = ''
-    } else {
-      preferenceWorkData[this.panelKey].imageFileTransfer = 'file'
-    }
-  }
-  var panelPreference_radioButtonWebnotifTimeoutChange = function () {
-    if (this.radioButtonWebnotifTimeoutOff.checked) {
-      preferenceWorkData[this.panelKey].webnotif_status = 'off'
-      this.textBoxWebnotifTimeoutSec.setDisabled(true)
-    } else if (this.radioButtonWebnotifTimeoutManual.checked) {
-      preferenceWorkData[this.panelKey].webnotif_status = 'manual'
-      this.textBoxWebnotifTimeoutSec.setDisabled(false)
-      if (!preferenceWorkData[this.panelKey].webnotif_timeout) {
-        preferenceWorkData[this.panelKey].webnotif_timeout =
-          chatClient.getConfigProperties().webnotif_timeout
+  var panelPreference_radioButtonThumbnailPositionChange =
+    function panelPreference_radioButtonThumbnailPositionChange() {
+      if (this.radioButtonThumbnailPositionRight.checked) {
+        preferenceWorkData[this.panelKey].thumbnailPosition = ''
+      } else {
+        preferenceWorkData[this.panelKey].thumbnailPosition = 'bottom'
       }
-      this.textBoxWebnotifTimeoutSec.set(
-        'value',
-        string(
-          int(preferenceWorkData[this.panelKey].webnotif_timeout) / 1000 || '',
-        ),
-      )
-    } else {
-      preferenceWorkData[this.panelKey].webnotif_status = ''
-      this.textBoxWebnotifTimeoutSec.setDisabled(true)
     }
-  }
-  var panelPreference_textBoxWebnotifTimeoutSecChange = function () {
-    preferenceWorkData[this.panelKey].webnotif_timeout =
-      int(this.textBoxWebnotifTimeoutSec.attr('value')) * 1000
-  }
-  var panelPreference_imgProfileImageClick = function () {
-    showProfileImage(this.imgProfileImage.getAttribute('data-brekeke-uc-url'))
-  }
-  var panelPreference_buttonUploadProfileImageClick = function () {
-    inputProfileImage(this)
-  }
-  var panelPreference_inputProfileImageFormChange = function () {
-    uploadProfileImage(this)
-  }
-  var panelPreference_buttonDeleteProfileImageClick = function () {
-    preferenceWorkData[this.panelKey].profileImageTo = 'DELETE'
-    this.imgProfileImage.style.backgroundImage = 'url(./img/noimage.png)'
-    this.imgProfileImage.setAttribute(
-      'data-brekeke-uc-url',
-      './img/noimage.png',
-    )
-  }
-  var panelPreference_radioButtonUserLanguageChange = function () {
-    var panel = this
-    if (this.radioButtonUserLanguageAuto.checked) {
-      preferenceWorkData[this.panelKey].user_language = ''
-    } else {
-      for (var language in panel.radioButtonUserLanguageList) {
-        if (panel.radioButtonUserLanguageList[language].checked) {
-          preferenceWorkData[this.panelKey].user_language = language
-          break
+  var panelPreference_radioButtonImageFileTransferChange =
+    function panelPreference_radioButtonImageFileTransferChange() {
+      if (this.radioButtonImageFileTransferInline.checked) {
+        preferenceWorkData[this.panelKey].imageFileTransfer = ''
+      } else {
+        preferenceWorkData[this.panelKey].imageFileTransfer = 'file'
+      }
+    }
+  var panelPreference_radioButtonWebnotifTimeoutChange =
+    function panelPreference_radioButtonWebnotifTimeoutChange() {
+      if (this.radioButtonWebnotifTimeoutOff.checked) {
+        preferenceWorkData[this.panelKey].webnotif_status = 'off'
+        this.textBoxWebnotifTimeoutSec.setDisabled(true)
+      } else if (this.radioButtonWebnotifTimeoutManual.checked) {
+        preferenceWorkData[this.panelKey].webnotif_status = 'manual'
+        this.textBoxWebnotifTimeoutSec.setDisabled(false)
+        if (!preferenceWorkData[this.panelKey].webnotif_timeout) {
+          preferenceWorkData[this.panelKey].webnotif_timeout =
+            chatClient.getConfigProperties().webnotif_timeout
+        }
+        this.textBoxWebnotifTimeoutSec.set(
+          'value',
+          string(
+            int(preferenceWorkData[this.panelKey].webnotif_timeout) / 1000 ||
+              '',
+          ),
+        )
+      } else {
+        preferenceWorkData[this.panelKey].webnotif_status = ''
+        this.textBoxWebnotifTimeoutSec.setDisabled(true)
+      }
+    }
+  var panelPreference_textBoxWebnotifTimeoutSecChange =
+    function panelPreference_textBoxWebnotifTimeoutSecChange() {
+      preferenceWorkData[this.panelKey].webnotif_timeout =
+        int(this.textBoxWebnotifTimeoutSec.attr('value')) * 1000
+    }
+  var panelPreference_imgProfileImageClick =
+    function panelPreference_imgProfileImageClick() {
+      showProfileImage(this.imgProfileImage.getAttribute('data-brekeke-uc-url'))
+    }
+  var panelPreference_buttonUploadProfileImageClick =
+    function panelPreference_buttonUploadProfileImageClick() {
+      inputProfileImage(this)
+    }
+  var panelPreference_inputProfileImageFormChange =
+    function panelPreference_inputProfileImageFormChange() {
+      uploadProfileImage(this)
+    }
+  var panelPreference_buttonDeleteProfileImageClick =
+    function panelPreference_buttonDeleteProfileImageClick() {
+      preferenceWorkData[this.panelKey].profileImageTo = 'DELETE'
+      this.imgProfileImage.style.backgroundImage = 'url(./img/noimage.png)'
+      this.imgProfileImage.setAttribute(
+        'data-brekeke-uc-url',
+        './img/noimage.png',
+      )
+    }
+  var panelPreference_radioButtonUserLanguageChange =
+    function panelPreference_radioButtonUserLanguageChange() {
+      var panel = this
+      if (this.radioButtonUserLanguageAuto.checked) {
+        preferenceWorkData[this.panelKey].user_language = ''
+      } else {
+        for (var language in panel.radioButtonUserLanguageList) {
+          if (panel.radioButtonUserLanguageList[language].checked) {
+            preferenceWorkData[this.panelKey].user_language = language
+            break
+          }
         }
       }
     }
-  }
-  var panelPreference_checkBoxShareScreenEnabledChange = function () {
-    if (this.checkBoxShareScreenEnabled.checked) {
-      this.checkBoxShareScreenMediaSource.setDisabled(false)
-      this.checkBoxShareScreenMute.setDisabled(false)
-    } else {
-      this.checkBoxShareScreenMediaSource.setDisabled(true)
-      this.checkBoxShareScreenMute.setDisabled(true)
+  var panelPreference_checkBoxShareScreenEnabledChange =
+    function panelPreference_checkBoxShareScreenEnabledChange() {
+      if (this.checkBoxShareScreenEnabled.checked) {
+        this.checkBoxShareScreenMediaSource.setDisabled(false)
+        this.checkBoxShareScreenMute.setDisabled(false)
+      } else {
+        this.checkBoxShareScreenMediaSource.setDisabled(true)
+        this.checkBoxShareScreenMute.setDisabled(true)
+      }
     }
-  }
-  var panelPreference_buttonSavePreferenceClick = function () {
-    savePreference(this)
-  }
-  var panelPreference_buttonCancelPreferenceClick = function () {
-    closeTab(this)
-  }
-  var panelHistory_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
+  var panelPreference_buttonSavePreferenceClick =
+    function panelPreference_buttonSavePreferenceClick() {
+      savePreference(this)
+    }
+  var panelPreference_buttonCancelPreferenceClick =
+    function panelPreference_buttonCancelPreferenceClick() {
+      _closeTab(this)
+    }
+  var panelHistory_postCreate = function panelHistory_postCreate() {
+    this.inherited(arguments) // register event listeners
     this.handlers = [
       dojo.connect(
         this.dateTextBoxSearchTopics,
@@ -18127,7 +17059,7 @@ if (!window.Brekeke.UCClientUI) {
       ),
     ]
   }
-  var panelHistory_destroy = function () {
+  var panelHistory_destroy = function panelHistory_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -18136,16 +17068,16 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelHistory_dateTextBoxSearchTopicsChange = function () {
-    searchTopics(this)
-  }
-  var panelHistoryButtonSearchLogs_click = function () {
-    searchLogs(this.panel, this.topic_id)
-  }
-  var panelHistorySearch_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
+  var panelHistory_dateTextBoxSearchTopicsChange =
+    function panelHistory_dateTextBoxSearchTopicsChange() {
+      searchTopics(this)
+    }
+  var panelHistoryButtonSearchLogs_click =
+    function panelHistoryButtonSearchLogs_click() {
+      searchLogs(this.panel, this.topic_id)
+    }
+  var panelHistorySearch_postCreate = function panelHistorySearch_postCreate() {
+    this.inherited(arguments) // register event listeners
     this.handlers = [
       dojo.connect(this, 'resize', panelHistorySearch_resize),
       dojo.connect(
@@ -18220,7 +17152,7 @@ if (!window.Brekeke.UCClientUI) {
       ),
     ]
   }
-  var panelHistorySearch_destroy = function () {
+  var panelHistorySearch_destroy = function panelHistorySearch_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -18229,24 +17161,26 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelHistorySearch_onAddedToTab = function () {
-    // restore properties
-    if (this.temporaryProperties) {
+  var panelHistorySearch_onAddedToTab =
+    function panelHistorySearch_onAddedToTab() {
+      // restore properties
+      if (this.temporaryProperties) {
+        this.getParent().selectChild(this)
+        this.panelChatList.domNode.scrollTop =
+          this.temporaryProperties.scrollTop
+      }
+      this.temporaryProperties = null
+    }
+  var panelHistorySearch_onRemovingFromTab =
+    function panelHistorySearch_onRemovingFromTab() {
+      // save properties temporarily
       this.getParent().selectChild(this)
-      this.panelChatList.domNode.scrollTop = this.temporaryProperties.scrollTop
+      this.temporaryProperties = {
+        scrollTop: this.panelChatList.domNode.scrollTop,
+      }
     }
-    this.temporaryProperties = null
-  }
-  var panelHistorySearch_onRemovingFromTab = function () {
-    // save properties temporarily
-    this.getParent().selectChild(this)
-    this.temporaryProperties = {
-      scrollTop: this.panelChatList.domNode.scrollTop,
-    }
-  }
-  var panelHistorySearch_resize = function () {
-    var panel = this
-    // resize header height
+  var panelHistorySearch_resize = function panelHistorySearch_resize() {
+    var panel = this // resize header height
     if (
       searchConditionHistory[panel.panelKey] &&
       searchConditionHistory[panel.panelKey].advanced
@@ -18259,143 +17193,156 @@ if (!window.Brekeke.UCClientUI) {
     }
     panel.panelHistorySearchContainer.resize()
   }
-  var panelHistorySearch_menuItemConditionSimpleAllClick = function () {
-    var panel = this
-    if (
-      !searchConditionHistory[panel.panelKey] ||
-      searchConditionHistory[panel.panelKey].searching
-    ) {
-      return
+  var panelHistorySearch_menuItemConditionSimpleAllClick =
+    function panelHistorySearch_menuItemConditionSimpleAllClick() {
+      var panel = this
+      if (
+        !searchConditionHistory[panel.panelKey] ||
+        searchConditionHistory[panel.panelKey].searching
+      ) {
+        return
+      }
+      panel.dropDownButtonConditionSimpleUser.set(
+        'label',
+        ucMsgs.LBL_SEARCH_ALL_USERS,
+      )
+      panel.dropDownButtonConditionSimpleUser.set(
+        'title',
+        ucMsgs.LBL_SEARCH_ALL_USERS,
+      )
+      searchConditionHistory[panel.panelKey].user = null
+      searchTopicsSimple(panel)
     }
-    panel.dropDownButtonConditionSimpleUser.set(
-      'label',
-      ucMsgs.LBL_SEARCH_ALL_USERS,
-    )
-    panel.dropDownButtonConditionSimpleUser.set(
-      'title',
-      ucMsgs.LBL_SEARCH_ALL_USERS,
-    )
-    searchConditionHistory[panel.panelKey].user = null
-    searchTopicsSimple(panel)
-  }
-  var panelHistorySearchMenuItemConditionSimpleUser_click = function () {
-    var panel = panelsHistory[this.panelKey]
-    if (
-      !searchConditionHistory[panel.panelKey] ||
-      searchConditionHistory[panel.panelKey].searching
-    ) {
-      return
+  var panelHistorySearchMenuItemConditionSimpleUser_click =
+    function panelHistorySearchMenuItemConditionSimpleUser_click() {
+      var panel = panelsHistory[this.panelKey]
+      if (
+        !searchConditionHistory[panel.panelKey] ||
+        searchConditionHistory[panel.panelKey].searching
+      ) {
+        return
+      }
+      panel.dropDownButtonConditionSimpleUser.set('label', this.name)
+      panel.dropDownButtonConditionSimpleUser.set('title', this.name)
+      searchConditionHistory[panel.panelKey].user = this.user_id
+      searchTopicsSimple(panel)
     }
-    panel.dropDownButtonConditionSimpleUser.set('label', this.name)
-    panel.dropDownButtonConditionSimpleUser.set('title', this.name)
-    searchConditionHistory[panel.panelKey].user = this.user_id
-    searchTopicsSimple(panel)
-  }
-  var panelHistorySearch_menuItemShowAdvancedClick = function () {
-    var panel = this
-    searchConditionHistory[panel.panelKey].advanced = true
-    panel.resize()
-    panel.textBoxAdvancedContent.focus()
-  }
-  var panelHistorySearch_buttonSearchSimpleClick = function () {
-    searchTopicsSimple(this)
-  }
-  var panelHistorySearch_textBoxConditionSimpleKeyUp = function (e) {
-    var downedKey = keyDownUtil.getKey()
-    if (e.keyCode === 13 && downedKey === 13) {
+  var panelHistorySearch_menuItemShowAdvancedClick =
+    function panelHistorySearch_menuItemShowAdvancedClick() {
+      var panel = this
+      searchConditionHistory[panel.panelKey].advanced = true
+      panel.resize()
+      panel.textBoxAdvancedContent.focus()
+    }
+  var panelHistorySearch_buttonSearchSimpleClick =
+    function panelHistorySearch_buttonSearchSimpleClick() {
       searchTopicsSimple(this)
     }
-  }
-  var panelHistorySearch_buttonSearchAdvancedClick = function () {
-    searchTopicsAdvanced(this)
-  }
-  var panelHistorySearch_textBoxAdvancedKeyUp = function (e) {
-    var downedKey = keyDownUtil.getKey()
-    if (e.keyCode === 13 && downedKey === 13) {
+  var panelHistorySearch_textBoxConditionSimpleKeyUp =
+    function panelHistorySearch_textBoxConditionSimpleKeyUp(e) {
+      var downedKey = keyDownUtil.getKey()
+      if (e.keyCode === 13 && downedKey === 13) {
+        searchTopicsSimple(this)
+      }
+    }
+  var panelHistorySearch_buttonSearchAdvancedClick =
+    function panelHistorySearch_buttonSearchAdvancedClick() {
       searchTopicsAdvanced(this)
     }
-  }
-  var panelHistorySearch_buttonCloseAdvancedClick = function () {
-    var panel = this
-    searchConditionHistory[panel.panelKey].advanced = false
-    panel.resize()
-    panel.textBoxConditionSimple.focus()
-  }
-  var panelHistorySearch_buttonShowMoreClick = function () {
-    searchTopicsShowMore(this)
-  }
-  var panelHistorySearchTopic_click = function () {
+  var panelHistorySearch_textBoxAdvancedKeyUp =
+    function panelHistorySearch_textBoxAdvancedKeyUp(e) {
+      var downedKey = keyDownUtil.getKey()
+      if (e.keyCode === 13 && downedKey === 13) {
+        searchTopicsAdvanced(this)
+      }
+    }
+  var panelHistorySearch_buttonCloseAdvancedClick =
+    function panelHistorySearch_buttonCloseAdvancedClick() {
+      var panel = this
+      searchConditionHistory[panel.panelKey].advanced = false
+      panel.resize()
+      panel.textBoxConditionSimple.focus()
+    }
+  var panelHistorySearch_buttonShowMoreClick =
+    function panelHistorySearch_buttonShowMoreClick() {
+      searchTopicsShowMore(this)
+    }
+  var panelHistorySearchTopic_click = function panelHistorySearchTopic_click() {
     openTopic(panelsHistory[this.panelKey], this.topic_id)
   }
-  var panelHistorySearchPrevLink_click = function () {
-    searchPrevNextTopic(panelsHistory[this.panelKey], this.topic_id, false)
-  }
-  var panelHistorySearchNextLink_click = function () {
-    searchPrevNextTopic(panelsHistory[this.panelKey], this.topic_id, true)
-  }
-  var panelServerSettings_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.admin_mode_enabled,
-        'change',
-        getFuncApply(panelServerSettings_adminModeEnabledChange, this),
-      ),
-      dojo.connect(
-        this.block_list_settings,
-        'click',
-        getFuncApply(panelServerSettings_blockListSettingsClick, this),
-      ),
-      dojo.connect(
-        this.user_management,
-        'click',
-        getFuncApply(panelServerSettings_userManagementClick, this),
-      ),
-      dojo.connect(
-        this.db_product,
-        'change',
-        getFuncApply(panelServerSettings_dbProductChange, this),
-      ),
-      dojo.connect(
-        this.db_initialize_mysql,
-        'click',
-        getFuncApply(panelServerSettings_dbInitializeMysqlClick, this),
-      ),
-      dojo.connect(
-        this.db_hsqldb_stopped,
-        'change',
-        getFuncApply(panelServerSettings_dbHsqldbStoppedChange, this),
-      ),
-      dojo.connect(
-        this.db_config_db,
-        'change',
-        getFuncApply(panelServerSettings_dbConfigDbChange, this),
-      ),
-      dojo.connect(
-        this.buttonLogdownloadPrepare,
-        'onClick',
-        getFuncApply(panelServerSettings_buttonLogdownloadPrepareClick, this),
-      ),
-      dojo.connect(
-        this.buttonLogdownloadCancel,
-        'onClick',
-        getFuncApply(panelServerSettings_buttonLogdownloadCancelClick, this),
-      ),
-      dojo.connect(
-        this.buttonSaveServerSettings,
-        'onClick',
-        getFuncApply(panelServerSettings_buttonSaveServerSettingsClick, this),
-      ),
-      dojo.connect(
-        this.buttonCancelServerSettings,
-        'onClick',
-        getFuncApply(panelServerSettings_buttonCancelServerSettingsClick, this),
-      ),
-    ]
-  }
-  var panelServerSettings_destroy = function () {
+  var panelHistorySearchPrevLink_click =
+    function panelHistorySearchPrevLink_click() {
+      searchPrevNextTopic(panelsHistory[this.panelKey], this.topic_id, false)
+    }
+  var panelHistorySearchNextLink_click =
+    function panelHistorySearchNextLink_click() {
+      searchPrevNextTopic(panelsHistory[this.panelKey], this.topic_id, true)
+    }
+  var panelServerSettings_postCreate =
+    function panelServerSettings_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.admin_mode_enabled,
+          'change',
+          getFuncApply(panelServerSettings_adminModeEnabledChange, this),
+        ),
+        dojo.connect(
+          this.block_list_settings,
+          'click',
+          getFuncApply(panelServerSettings_blockListSettingsClick, this),
+        ),
+        dojo.connect(
+          this.user_management,
+          'click',
+          getFuncApply(panelServerSettings_userManagementClick, this),
+        ),
+        dojo.connect(
+          this.db_product,
+          'change',
+          getFuncApply(panelServerSettings_dbProductChange, this),
+        ),
+        dojo.connect(
+          this.db_initialize_mysql,
+          'click',
+          getFuncApply(panelServerSettings_dbInitializeMysqlClick, this),
+        ),
+        dojo.connect(
+          this.db_hsqldb_stopped,
+          'change',
+          getFuncApply(panelServerSettings_dbHsqldbStoppedChange, this),
+        ),
+        dojo.connect(
+          this.db_config_db,
+          'change',
+          getFuncApply(panelServerSettings_dbConfigDbChange, this),
+        ),
+        dojo.connect(
+          this.buttonLogdownloadPrepare,
+          'onClick',
+          getFuncApply(panelServerSettings_buttonLogdownloadPrepareClick, this),
+        ),
+        dojo.connect(
+          this.buttonLogdownloadCancel,
+          'onClick',
+          getFuncApply(panelServerSettings_buttonLogdownloadCancelClick, this),
+        ),
+        dojo.connect(
+          this.buttonSaveServerSettings,
+          'onClick',
+          getFuncApply(panelServerSettings_buttonSaveServerSettingsClick, this),
+        ),
+        dojo.connect(
+          this.buttonCancelServerSettings,
+          'onClick',
+          getFuncApply(
+            panelServerSettings_buttonCancelServerSettingsClick,
+            this,
+          ),
+        ),
+      ]
+    }
+  var panelServerSettings_destroy = function panelServerSettings_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -18404,858 +17351,872 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelServerSettings_adminModeEnabledChange = function () {
-    var panel = this
-    panel.admin_mode_id_enabled.disabled =
-      panel.admin_mode_enabled.value !== 'true'
-  }
-  var panelServerSettings_blockListSettingsClick = function () {
-    openBlockListSettings(null, null, true)
-  }
-  var panelServerSettings_userManagementClick = function () {
-    openUserManagement(null, null, true)
-  }
-  var panelServerSettings_dbProductChange = function () {
-    var panel = this
-    if (panel.db_product.value === '1') {
-      panel.db_schema_org.value = panel.db_schema.value
-      panel.db_user_org.value = panel.db_user.value
-      panel.db_password_org.value = panel.db_password.value
-      panel.db_schema.value = 'chat'
-      panel.db_user.value = 'sa'
-      panel.db_password.value = ''
-      panel.db_schema.disabled = true
-      panel.db_user.disabled = true
-      panel.db_password.disabled = true
-      if (
-        string(
-          serverSettingsWorkData[panel.panelKey] &&
-            serverSettingsWorkData[panel.panelKey].systemProperties &&
-            serverSettingsWorkData[panel.panelKey].systemProperties.db.product,
-        ) === '1' &&
-        string(
-          serverSettingsWorkData[panel.panelKey].systemProperties.db
-            .hsqldb_stopped,
-        )
-      ) {
-        panel.db_hsqldb_stopped.disabled = false
-        if (panel.db_hsqldb_stopped.value === 'true') {
-          panel.db_hsqldb_stopped.style.color = 'red'
+  var panelServerSettings_adminModeEnabledChange =
+    function panelServerSettings_adminModeEnabledChange() {
+      var panel = this
+      panel.admin_mode_id_enabled.disabled =
+        panel.admin_mode_enabled.value !== 'true'
+    }
+  var panelServerSettings_blockListSettingsClick =
+    function panelServerSettings_blockListSettingsClick() {
+      openBlockListSettings(null, null, true)
+    }
+  var panelServerSettings_userManagementClick =
+    function panelServerSettings_userManagementClick() {
+      openUserManagement(null, null, true)
+    }
+  var panelServerSettings_dbProductChange =
+    function panelServerSettings_dbProductChange() {
+      var panel = this
+      if (panel.db_product.value === '1') {
+        panel.db_schema_org.value = panel.db_schema.value
+        panel.db_user_org.value = panel.db_user.value
+        panel.db_password_org.value = panel.db_password.value
+        panel.db_schema.value = 'chat'
+        panel.db_user.value = 'sa'
+        panel.db_password.value = ''
+        panel.db_schema.disabled = true
+        panel.db_user.disabled = true
+        panel.db_password.disabled = true
+        if (
+          string(
+            serverSettingsWorkData[panel.panelKey] &&
+              serverSettingsWorkData[panel.panelKey].systemProperties &&
+              serverSettingsWorkData[panel.panelKey].systemProperties.db
+                .product,
+          ) === '1' &&
+          string(
+            serverSettingsWorkData[panel.panelKey].systemProperties.db
+              .hsqldb_stopped,
+          )
+        ) {
+          panel.db_hsqldb_stopped.disabled = false
+          if (panel.db_hsqldb_stopped.value === 'true') {
+            panel.db_hsqldb_stopped.style.color = 'red'
+          } else {
+            panel.db_hsqldb_stopped.style.color = ''
+          }
         } else {
+          panel.db_hsqldb_stopped.disabled = true
           panel.db_hsqldb_stopped.style.color = ''
         }
       } else {
+        panel.db_schema.value = panel.db_schema_org.value
+        panel.db_user.value = panel.db_user_org.value
+        panel.db_password.value = panel.db_password_org.value
+        panel.db_schema.disabled = false
+        panel.db_user.disabled = false
+        panel.db_password.disabled = false
         panel.db_hsqldb_stopped.disabled = true
         panel.db_hsqldb_stopped.style.color = ''
       }
-    } else {
-      panel.db_schema.value = panel.db_schema_org.value
-      panel.db_user.value = panel.db_user_org.value
-      panel.db_password.value = panel.db_password_org.value
-      panel.db_schema.disabled = false
-      panel.db_user.disabled = false
-      panel.db_password.disabled = false
-      panel.db_hsqldb_stopped.disabled = true
-      panel.db_hsqldb_stopped.style.color = ''
     }
-  }
-  var panelServerSettings_dbInitializeMysqlClick = function () {
-    var panel = this
-    require([
-      'dijit/Dialog',
-      'dijit/layout/ContentPane',
-      'dijit/form/Button',
-    ], function (Dialog, ContentPane, Button) {
-      var keys = [
-        'host',
-        'port',
-        'schema',
-        'user',
-        'password',
-        'admin_user',
-        'admin_password',
-        'additional_options',
-      ]
-      var defaults = {
-        host: 'localhost',
-        port: '3306',
-        schema: 'chat',
-        user: 'chat',
-      }
-      var inputs = {}
-      var checkboxSave = null
-      var progress = null
-      var options = {}
-      var next_ignore_warnings = false
-      var finalResult = null
-      var task_id = null
-      var dia = new Dialog({
-        title: ucMsgs.LBL_DB_INITIALIZE_DIALOG,
-        closable: false,
-        onShow: function (e) {
-          dia.containerNode.style.textAlign = 'right'
-          pane.domNode.style.textAlign = 'left'
-          keys.forEach(function (key) {
+  var panelServerSettings_dbInitializeMysqlClick =
+    function panelServerSettings_dbInitializeMysqlClick() {
+      var panel = this
+      require([
+        'dijit/Dialog',
+        'dijit/layout/ContentPane',
+        'dijit/form/Button',
+      ], function (Dialog, ContentPane, Button) {
+        var keys = [
+          'host',
+          'port',
+          'schema',
+          'user',
+          'password',
+          'admin_user',
+          'admin_password',
+          'additional_options',
+        ]
+        var defaults = {
+          host: 'localhost',
+          port: '3306',
+          schema: 'chat',
+          user: 'chat',
+        }
+        var inputs = {}
+        var checkboxSave = null
+        var progress = null
+        var options = {}
+        var next_ignore_warnings = false
+        var finalResult = null
+        var task_id = null
+        var dia = new Dialog({
+          title: ucMsgs.LBL_DB_INITIALIZE_DIALOG,
+          closable: false,
+          onShow: function onShow(e) {
+            dia.containerNode.style.textAlign = 'right'
+            pane.domNode.style.textAlign = 'left'
+            keys.forEach(function (key) {
+              var div = document.createElement('div')
+              div.style.whiteSpace = 'nowrap'
+              div.style.lineHeight = '30px'
+              pane.domNode.appendChild(div)
+              var span = document.createElement('span')
+              span.textContent =
+                ucMsgs['LBL_DB_INITIALIZE_INPUT_' + key.toUpperCase()] || key
+              span.style.display = 'inline-block'
+              span.style.width = '200px'
+              div.appendChild(span)
+              var input = document.createElement('input')
+              if (key.indexOf('password') !== -1) {
+                input.type = 'password'
+                input.value = ''
+              } else {
+                input.type = 'text'
+                if (panel.db_product.value === '1' || !panel.db_schema.value) {
+                  // hsqldb or uninitialized mysql
+                  input.value = string(defaults[key])
+                } else {
+                  // mysql already initialized
+                  input.value = string((panel['db_' + key] || {}).value)
+                }
+              }
+              input.style.width =
+                key === 'additional_options' ? '350px' : '150px'
+              div.appendChild(input)
+              inputs[key] = input
+            })
             var div = document.createElement('div')
             div.style.whiteSpace = 'nowrap'
             div.style.lineHeight = '30px'
             pane.domNode.appendChild(div)
-            var span = document.createElement('span')
-            span.textContent =
-              ucMsgs['LBL_DB_INITIALIZE_INPUT_' + key.toUpperCase()] || key
-            span.style.display = 'inline-block'
-            span.style.width = '200px'
-            div.appendChild(span)
-            var input = document.createElement('input')
-            if (key.indexOf('password') !== -1) {
-              input.type = 'password'
-              input.value = ''
-            } else {
-              input.type = 'text'
-              if (panel.db_product.value === '1' || !panel.db_schema.value) {
-                // hsqldb or uninitialized mysql
-                input.value = string(defaults[key])
-              } else {
-                // mysql already initialized
-                input.value = string((panel['db_' + key] || {}).value)
-              }
-            }
-            input.style.width = key === 'additional_options' ? '350px' : '150px'
-            div.appendChild(input)
-            inputs[key] = input
-          })
-          var div = document.createElement('div')
-          div.style.whiteSpace = 'nowrap'
-          div.style.lineHeight = '30px'
-          pane.domNode.appendChild(div)
-          checkboxSave = document.createElement('input')
-          checkboxSave.id = 'checkbox_save_' + +new Date()
-          checkboxSave.type = 'checkbox'
-          checkboxSave.checked = true
-          checkboxSave.style.display = 'none'
-          div.appendChild(checkboxSave)
-          var label = document.createElement('label')
-          label.htmlFor = checkboxSave.id
-          label.className = 'brUCLabelDbInitializeMysql'
-          label.textContent = ucMsgs.LBL_DB_INITIALIZE_CHECKBOX_SAVE
-          div.appendChild(label)
-          var dummyCheckbox = document.createElement('span')
-          dummyCheckbox.className = 'dijitCheckBox'
-          label.insertBefore(dummyCheckbox, label.firstChild)
-        },
-      })
-      var pane = new ContentPane({
-        style:
-          'width:' +
-          Math.min(600, window.innerWidth / 2) +
-          'px;height:' +
-          window.innerHeight / 2 +
-          'px;',
-      })
-      var okButton = new Button({
-        label: ucMsgs.CMN_OK,
-        onClick: function (e) {
-          if (!finalResult) {
-            okButton.setDisabled(true)
-            cancelButton.setDisabled(true)
-            options = {}
-            keys.forEach(function (key) {
-              options[key] = inputs[key].value
-              inputs[key].disabled = true
-            })
-            options['ignore_warnings'] = next_ignore_warnings
-            next_ignore_warnings = false
-            chatClient.createDatabase(
-              options,
-              function (ev) {
-                if (ev.status === 0) {
-                  task_id = ev.task_id
-                  progress = document.createElement('div')
-                  progress.className = 'brUCPanelNowSearchingTopics'
-                  progress.style.backgroundPosition = 'center'
-                  progress.style.display = 'block'
-                  pane.domNode.appendChild(progress)
-                  pane.domNode.scrollTop = pane.domNode.scrollHeight
-                } else {
-                  next_ignore_warnings = true
+            checkboxSave = document.createElement('input')
+            checkboxSave.id = 'checkbox_save_' + +new Date()
+            checkboxSave.type = 'checkbox'
+            checkboxSave.checked = true
+            checkboxSave.style.display = 'none'
+            div.appendChild(checkboxSave)
+            var label = document.createElement('label')
+            label.htmlFor = checkboxSave.id
+            label.className = 'brUCLabelDbInitializeMysql'
+            label.textContent = ucMsgs.LBL_DB_INITIALIZE_CHECKBOX_SAVE
+            div.appendChild(label)
+            var dummyCheckbox = document.createElement('span')
+            dummyCheckbox.className = 'dijitCheckBox'
+            label.insertBefore(dummyCheckbox, label.firstChild)
+          },
+        })
+        var pane = new ContentPane({
+          style:
+            'width:' +
+            Math.min(600, window.innerWidth / 2) +
+            'px;height:' +
+            window.innerHeight / 2 +
+            'px;',
+        })
+        var okButton = new Button({
+          label: ucMsgs.CMN_OK,
+          onClick: function onClick(e) {
+            if (!finalResult) {
+              okButton.setDisabled(true)
+              cancelButton.setDisabled(true)
+              options = {}
+              keys.forEach(function (key) {
+                options[key] = inputs[key].value
+                inputs[key].disabled = true
+              })
+              options['ignore_warnings'] = next_ignore_warnings
+              next_ignore_warnings = false
+              chatClient.createDatabase(
+                options,
+                function (ev) {
+                  if (ev.status === 0) {
+                    task_id = ev.task_id
+                    progress = document.createElement('div')
+                    progress.className = 'brUCPanelNowSearchingTopics'
+                    progress.style.backgroundPosition = 'center'
+                    progress.style.display = 'block'
+                    pane.domNode.appendChild(progress)
+                    pane.domNode.scrollTop = pane.domNode.scrollHeight
+                  } else {
+                    next_ignore_warnings = true
+                    var div = document.createElement('div')
+                    div.className = 'brUCSpanMessage'
+                    div.style.display = 'block'
+                    div.textContent =
+                      ev.schema_count > 0
+                        ? formatStr(
+                            ucMsgs.MSG_DB_INITIALIZE_SCHEMA_EXISTS,
+                            inputs['schema'].value,
+                          )
+                        : ev.user_count > 0
+                          ? formatStr(
+                              ucMsgs.MSG_DB_INITIALIZE_USER_EXISTS,
+                              inputs['user'].value,
+                            )
+                          : formatStr(
+                              ucMsgs.MSG_DB_INITIALIZE_WARNING,
+                              JSON.stringify(ev),
+                            )
+                    pane.domNode.appendChild(div)
+                    pane.domNode.scrollTop = pane.domNode.scrollHeight
+                    okButton.setDisabled(false)
+                    cancelButton.setDisabled(false)
+                  }
+                },
+                function (ev) {
                   var div = document.createElement('div')
                   div.className = 'brUCSpanMessage'
                   div.style.display = 'block'
-                  div.textContent =
-                    ev.schema_count > 0
-                      ? formatStr(
-                          ucMsgs.MSG_DB_INITIALIZE_SCHEMA_EXISTS,
-                          inputs['schema'].value,
-                        )
-                      : ev.user_count > 0
-                        ? formatStr(
-                            ucMsgs.MSG_DB_INITIALIZE_USER_EXISTS,
-                            inputs['user'].value,
-                          )
-                        : formatStr(
-                            ucMsgs.MSG_DB_INITIALIZE_WARNING,
-                            JSON.stringify(ev),
-                          )
+                  div.textContent = ev.message + ' (' + ev.code + ')'
                   pane.domNode.appendChild(div)
                   pane.domNode.scrollTop = pane.domNode.scrollHeight
                   okButton.setDisabled(false)
                   cancelButton.setDisabled(false)
-                }
-              },
-              function (ev) {
-                var div = document.createElement('div')
-                div.className = 'brUCSpanMessage'
-                div.style.display = 'block'
-                div.textContent = ev.message + ' (' + ev.code + ')'
-                pane.domNode.appendChild(div)
-                pane.domNode.scrollTop = pane.domNode.scrollHeight
-                okButton.setDisabled(false)
-                cancelButton.setDisabled(false)
-                keys.forEach(function (key) {
-                  inputs[key].disabled = false
-                })
-              },
-            )
-          } else {
-            panel.db_product.value = '2'
-            keys.forEach(function (key) {
-              ;(panel['db_' + key] || {}).value = options[key]
-            })
-            panel.db_table_definition_ver.innerHTML = ''
-            ;(string(finalResult.table_definitions) || '0.0.0')
-              .split(',')
-              .forEach(function (table_definition) {
-                var option = document.createElement('option')
-                option.value = table_definition
-                option.innerHTML = escapeHTML(table_definition)
-                option.selected =
-                  finalResult.table_definition_ver === table_definition
-                panel.db_table_definition_ver.appendChild(option)
-              })
-            panel.db_schema.disabled = false
-            panel.db_user.disabled = false
-            panel.db_password.disabled = false
-            panel.db_hsqldb_stopped.disabled = true
-            panel.db_hsqldb_stopped.style.color = ''
-            if (checkboxSave.checked) {
-              // save
-              panel.buttonSaveServerSettings.set('disabled', true)
-              panel.spanMessage.style.display = 'none'
-              panel.progressServerSettings.style.display = 'block'
-              var db = {
-                product: 2,
-                host: options.host,
-                port: int(options.port),
-                schema: options.schema,
-                user: options.user,
-                password: options.password,
-                additional_options: options.additional_options,
-              }
-              chatClient.saveSystemProperties(
-                { type: 'db', db: db },
-                function (ev) {
-                  // funcOK
-                  var result = (ev && ev.result) || {}
-                  serverSettingsWorkData[panel.panelKey] =
-                    serverSettingsWorkData[panel.panelKey] || {}
-                  serverSettingsWorkData[panel.panelKey].systemPropertiesOrg =
-                    serverSettingsWorkData[panel.panelKey]
-                      .systemPropertiesOrg || {}
-                  serverSettingsWorkData[
-                    panel.panelKey
-                  ].systemPropertiesOrg.db =
-                    serverSettingsWorkData[panel.panelKey].systemPropertiesOrg
-                      .db || {}
-                  Object.assign(
-                    serverSettingsWorkData[panel.panelKey].systemPropertiesOrg
-                      .db,
-                    db,
-                  )
-                  var messageHTML =
-                    ucMsgs.MSG_SAVE_SERVER_SUCCESSFUL_DB +
-                    ' ' +
-                    formatTimeNowWithSecond()
-                  if (result.ecode_db !== 1) {
-                    messageHTML +=
-                      '<br />Database connection is not established.'
-                  }
-                  if (result.saved !== 1) {
-                    messageHTML +=
-                      '<br />Warning: ' + escapeHTML(JSON.stringify(result))
-                  }
-                  panel.spanMessage.innerHTML = messageHTML
-                  panel.spanMessage.style.display = 'inline-block'
-                  panel.progressServerSettings.style.display = 'none'
-                  panel.panelServerSettingsTable.domNode.scrollTop = 0
-                  panel.buttonDummy.focus()
-                  panel.buttonSaveServerSettings.set('disabled', false)
-                },
-                function (ev) {
-                  // funcError
-                  logger.log(
-                    'warn',
-                    'saveSystemProperties error code: ' +
-                      ev.code +
-                      ', message: ' +
-                      ev.message,
-                  )
-                  panel.spanMessage.innerHTML =
-                    ucMsgs.MSG_SAVE_SERVER_FAILED +
-                    ' (' +
-                    ev.code +
-                    ' ' +
-                    ev.message +
-                    ')'
-                  panel.spanMessage.style.display = 'inline-block'
-                  panel.progressServerSettings.style.display = 'none'
-                  panel.panelServerSettingsTable.domNode.scrollTop = 0
-                  panel.buttonDummy.focus()
-                  panel.buttonSaveServerSettings.set('disabled', false)
+                  keys.forEach(function (key) {
+                    inputs[key].disabled = false
+                  })
                 },
               )
+            } else {
+              panel.db_product.value = '2'
+              keys.forEach(function (key) {
+                ;(panel['db_' + key] || {}).value = options[key]
+              })
+              panel.db_table_definition_ver.innerHTML = ''
+              ;(string(finalResult.table_definitions) || '0.0.0')
+                .split(',')
+                .forEach(function (table_definition) {
+                  var option = document.createElement('option')
+                  option.value = table_definition
+                  option.innerHTML = escapeHTML(table_definition)
+                  option.selected =
+                    finalResult.table_definition_ver === table_definition
+                  panel.db_table_definition_ver.appendChild(option)
+                })
+              panel.db_schema.disabled = false
+              panel.db_user.disabled = false
+              panel.db_password.disabled = false
+              panel.db_hsqldb_stopped.disabled = true
+              panel.db_hsqldb_stopped.style.color = ''
+              if (checkboxSave.checked) {
+                // save
+                panel.buttonSaveServerSettings.set('disabled', true)
+                panel.spanMessage.style.display = 'none'
+                panel.progressServerSettings.style.display = 'block'
+                var db = {
+                  product: 2,
+                  host: options.host,
+                  port: int(options.port),
+                  schema: options.schema,
+                  user: options.user,
+                  password: options.password,
+                  additional_options: options.additional_options,
+                }
+                chatClient.saveSystemProperties(
+                  { type: 'db', db: db },
+                  function (ev) {
+                    // funcOK
+                    var result = (ev && ev.result) || {}
+                    serverSettingsWorkData[panel.panelKey] =
+                      serverSettingsWorkData[panel.panelKey] || {}
+                    serverSettingsWorkData[panel.panelKey].systemPropertiesOrg =
+                      serverSettingsWorkData[panel.panelKey]
+                        .systemPropertiesOrg || {}
+                    serverSettingsWorkData[
+                      panel.panelKey
+                    ].systemPropertiesOrg.db =
+                      serverSettingsWorkData[panel.panelKey].systemPropertiesOrg
+                        .db || {}
+                    Object.assign(
+                      serverSettingsWorkData[panel.panelKey].systemPropertiesOrg
+                        .db,
+                      db,
+                    )
+                    var messageHTML =
+                      ucMsgs.MSG_SAVE_SERVER_SUCCESSFUL_DB +
+                      ' ' +
+                      formatTimeNowWithSecond()
+                    if (result.ecode_db !== 1) {
+                      messageHTML +=
+                        '<br />Database connection is not established.'
+                    }
+                    if (result.saved !== 1) {
+                      messageHTML +=
+                        '<br />Warning: ' + escapeHTML(JSON.stringify(result))
+                    }
+                    panel.spanMessage.innerHTML = messageHTML
+                    panel.spanMessage.style.display = 'inline-block'
+                    panel.progressServerSettings.style.display = 'none'
+                    panel.panelServerSettingsTable.domNode.scrollTop = 0
+                    panel.buttonDummy.focus()
+                    panel.buttonSaveServerSettings.set('disabled', false)
+                  },
+                  function (ev) {
+                    // funcError
+                    logger.log(
+                      'warn',
+                      'saveSystemProperties error code: ' +
+                        ev.code +
+                        ', message: ' +
+                        ev.message,
+                    )
+                    panel.spanMessage.innerHTML =
+                      ucMsgs.MSG_SAVE_SERVER_FAILED +
+                      ' (' +
+                      ev.code +
+                      ' ' +
+                      ev.message +
+                      ')'
+                    panel.spanMessage.style.display = 'inline-block'
+                    panel.progressServerSettings.style.display = 'none'
+                    panel.panelServerSettingsTable.domNode.scrollTop = 0
+                    panel.buttonDummy.focus()
+                    panel.buttonSaveServerSettings.set('disabled', false)
+                  },
+                )
+              }
+              chatClient.removeHandler(handler)
+              dia.destroy()
             }
+          },
+        })
+        var cancelButton = new Button({
+          label: ucMsgs.CMN_CANCEL,
+          onClick: function onClick(e) {
             chatClient.removeHandler(handler)
             dia.destroy()
-          }
-        },
-      })
-      var cancelButton = new Button({
-        label: ucMsgs.CMN_CANCEL,
-        onClick: function (e) {
-          chatClient.removeHandler(handler)
-          dia.destroy()
-        },
-      })
-      var handler = {
-        createDatabaseEnded: function (ev) {
-          if (ev && ev.task_id === task_id) {
-            finalResult = ev
-            if (progress) {
-              progress.style.display = 'none'
-            }
-            var div = document.createElement('div')
-            div.className = 'brUCSpanMessage'
-            div.style.display = 'block'
-            div.textContent = ev.error
-              ? formatStr(ucMsgs.MSG_DB_INITIALIZE_ERROR, ev.error)
-              : ucMsgs.MSG_DB_INITIALIZE_SUCCESSFUL
-            pane.domNode.appendChild(div)
-            pane.domNode.scrollTop = pane.domNode.scrollHeight
-            okButton.setDisabled(false)
-          }
-        },
-      }
-      dia.addChild(pane)
-      dia.addChild(okButton)
-      dia.addChild(cancelButton)
-      dia.show()
-      chatClient.addHandler(handler)
-    })
-  }
-  var panelServerSettings_dbHsqldbStoppedChange = function () {
-    var panel = this
-    if (panel.db_hsqldb_stopped.value === 'true') {
-      panel.db_hsqldb_stopped.style.color = 'red'
-      windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_CHANGE_DB_HSQLDB_STOPPED_TRUE)
-    } else {
-      panel.db_hsqldb_stopped.style.color = ''
-    }
-  }
-  var panelServerSettings_dbConfigDbChange = function () {
-    var panel = this
-    if (panel.db_config_db.value === 'true') {
-      windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_CHANGE_DB_CONFIG_DB_TRUE)
-    }
-  }
-  var panelServerSettings_buttonLogdownloadPrepareClick = function () {
-    prepareDebugLog(this)
-  }
-  var panelServerSettings_buttonLogdownloadCancelClick = function () {
-    cancelDebugLog(this)
-  }
-  var panelServerSettings_buttonSaveServerSettingsClick = function () {
-    saveServerSettings(this)
-  }
-  var panelServerSettings_buttonCancelServerSettingsClick = function () {
-    cancelDebugLog(this)
-    closeTab(this)
-  }
-  var panelBlockListSettings_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.refresh_block_list,
-        'click',
-        getFuncApply(panelBlockListSettings_refreshBlockListClick, this),
-      ),
-      dojo.connect(
-        this.buttonSaveBlockListSettings,
-        'onClick',
-        getFuncApply(
-          panelBlockListSettings_buttonSaveBlockListSettingsClick,
-          this,
-        ),
-      ),
-      dojo.connect(
-        this.buttonCancelBlockListSettings,
-        'onClick',
-        getFuncApply(
-          panelBlockListSettings_buttonCancelBlockListSettingsClick,
-          this,
-        ),
-      ),
-    ]
-  }
-  var panelBlockListSettings_destroy = function () {
-    if (this.handlers && this.handlers.length) {
-      for (var i = 0; i < this.handlers.length; i++) {
-        dojo.disconnect(this.handlers[i])
-      }
-    }
-    this.handlers = null
-    this.inherited(arguments)
-  }
-  var panelBlockListSettingsButtonDelete_click = function () {
-    var panel = this.panel
-    var ip = this.ip
-    var index = this.index
-    windowConfirm(
-      'Delete',
-      'Are you sure you want to delete "' +
-        ip +
-        '" from the block list?' +
-        '<br />',
-      function () {
-        var tr = dojo.query(
-          'tr[data-brekeke-uc-index=' + index + ']',
-          panel.tbodyBlockList,
-        )[0]
-        var buttonDelete = dojo.query(
-          'input[data-brekeke-uc-index=' + index + ']',
-          panel.tbodyBlockList,
-        )[0]
-        buttonDelete &&
-          buttonDelete.style &&
-          (buttonDelete.style.pointerEvents = 'none')
-        chatClient.removeBlockedAddress(
-          { ip: ip },
-          function (ev) {
-            // funcOK
-            panel.spanMessage.innerHTML =
-              'Successfully deleted "' +
-              ip +
-              '" from the block list. ' +
-              formatTimeNowWithSecond()
-            panel.spanMessage.style.display = 'inline-block'
-            panel.panelBlockListSettingsTable.domNode.scrollTop = 0
-            tr && tr.style && (tr.style.display = 'none')
           },
-          function (ev) {
-            // funcError
-            logger.log(
-              'warn',
-              'removeBlockedAddress error code: ' +
+        })
+        var handler = {
+          createDatabaseEnded: function createDatabaseEnded(ev) {
+            if (ev && ev.task_id === task_id) {
+              finalResult = ev
+              if (progress) {
+                progress.style.display = 'none'
+              }
+              var div = document.createElement('div')
+              div.className = 'brUCSpanMessage'
+              div.style.display = 'block'
+              div.textContent = ev.error
+                ? formatStr(ucMsgs.MSG_DB_INITIALIZE_ERROR, ev.error)
+                : ucMsgs.MSG_DB_INITIALIZE_SUCCESSFUL
+              pane.domNode.appendChild(div)
+              pane.domNode.scrollTop = pane.domNode.scrollHeight
+              okButton.setDisabled(false)
+            }
+          },
+        }
+        dia.addChild(pane)
+        dia.addChild(okButton)
+        dia.addChild(cancelButton)
+        dia.show()
+        chatClient.addHandler(handler)
+      })
+    }
+  var panelServerSettings_dbHsqldbStoppedChange =
+    function panelServerSettings_dbHsqldbStoppedChange() {
+      var panel = this
+      if (panel.db_hsqldb_stopped.value === 'true') {
+        panel.db_hsqldb_stopped.style.color = 'red'
+        windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_CHANGE_DB_HSQLDB_STOPPED_TRUE)
+      } else {
+        panel.db_hsqldb_stopped.style.color = ''
+      }
+    }
+  var panelServerSettings_dbConfigDbChange =
+    function panelServerSettings_dbConfigDbChange() {
+      var panel = this
+      if (panel.db_config_db.value === 'true') {
+        windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_CHANGE_DB_CONFIG_DB_TRUE)
+      }
+    }
+  var panelServerSettings_buttonLogdownloadPrepareClick =
+    function panelServerSettings_buttonLogdownloadPrepareClick() {
+      prepareDebugLog(this)
+    }
+  var panelServerSettings_buttonLogdownloadCancelClick =
+    function panelServerSettings_buttonLogdownloadCancelClick() {
+      cancelDebugLog(this)
+    }
+  var panelServerSettings_buttonSaveServerSettingsClick =
+    function panelServerSettings_buttonSaveServerSettingsClick() {
+      saveServerSettings(this)
+    }
+  var panelServerSettings_buttonCancelServerSettingsClick =
+    function panelServerSettings_buttonCancelServerSettingsClick() {
+      cancelDebugLog(this)
+      _closeTab(this)
+    }
+  var panelBlockListSettings_postCreate =
+    function panelBlockListSettings_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.refresh_block_list,
+          'click',
+          getFuncApply(panelBlockListSettings_refreshBlockListClick, this),
+        ),
+        dojo.connect(
+          this.buttonSaveBlockListSettings,
+          'onClick',
+          getFuncApply(
+            panelBlockListSettings_buttonSaveBlockListSettingsClick,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.buttonCancelBlockListSettings,
+          'onClick',
+          getFuncApply(
+            panelBlockListSettings_buttonCancelBlockListSettingsClick,
+            this,
+          ),
+        ),
+      ]
+    }
+  var panelBlockListSettings_destroy =
+    function panelBlockListSettings_destroy() {
+      if (this.handlers && this.handlers.length) {
+        for (var i = 0; i < this.handlers.length; i++) {
+          dojo.disconnect(this.handlers[i])
+        }
+      }
+      this.handlers = null
+      this.inherited(arguments)
+    }
+  var panelBlockListSettingsButtonDelete_click =
+    function panelBlockListSettingsButtonDelete_click() {
+      var panel = this.panel
+      var ip = this.ip
+      var index = this.index
+      windowConfirm(
+        'Delete',
+        'Are you sure you want to delete "' +
+          ip +
+          '" from the block list?' +
+          '<br />',
+        function () {
+          var tr = dojo.query(
+            'tr[data-brekeke-uc-index=' + index + ']',
+            panel.tbodyBlockList,
+          )[0]
+          var buttonDelete = dojo.query(
+            'input[data-brekeke-uc-index=' + index + ']',
+            panel.tbodyBlockList,
+          )[0]
+          buttonDelete &&
+            buttonDelete.style &&
+            (buttonDelete.style.pointerEvents = 'none')
+          chatClient.removeBlockedAddress(
+            { ip: ip },
+            function (ev) {
+              // funcOK
+              panel.spanMessage.innerHTML =
+                'Successfully deleted "' +
+                ip +
+                '" from the block list. ' +
+                formatTimeNowWithSecond()
+              panel.spanMessage.style.display = 'inline-block'
+              panel.panelBlockListSettingsTable.domNode.scrollTop = 0
+              tr && tr.style && (tr.style.display = 'none')
+            },
+            function (ev) {
+              // funcError
+              logger.log(
+                'warn',
+                'removeBlockedAddress error code: ' +
+                  ev.code +
+                  ', message: ' +
+                  ev.message,
+              )
+              panel.spanMessage.innerHTML =
+                'Failed to delete "' +
+                ip +
+                '". (' +
                 ev.code +
-                ', message: ' +
-                ev.message,
-            )
-            panel.spanMessage.innerHTML =
-              'Failed to delete "' +
-              ip +
-              '". (' +
-              ev.code +
-              ' ' +
-              ev.message +
-              ')'
-            panel.spanMessage.style.display = 'inline-block'
-            panel.panelBlockListSettingsTable.domNode.scrollTop = 0
-            buttonDelete &&
-              buttonDelete.style &&
-              (buttonDelete.style.pointerEvents = '')
-          },
-        )
-      },
-    )
-  }
-  var panelBlockListSettings_refreshBlockListClick = function () {
-    var panel = this
-
-    panel &&
-      panel.refresh_block_list &&
-      panel.refresh_block_list.style &&
-      (panel.refresh_block_list.style.pointerEvents = 'none')
-    chatClient.loadBlockListSettings(
-      function (ev) {
-        // funcOK
-        var oldTrs = dojo.query('tr', panel.tbodyBlockList)
-        for (var i = oldTrs.length - 1; i >= 0; i--) {
-          panel.tbodyBlockList.removeChild(oldTrs[i])
-        }
-        ;(ev.blocklist.blocked || [])
-          .sort(function (a, b) {
-            return int(a.time) - int(b.time)
-          })
-          .forEach(function (entry, index) {
-            if (entry.ip) {
-              var tr = document.createElement('tr')
-              tr.setAttribute('data-brekeke-uc-index', string(index))
-              var td1 = document.createElement('td')
-              td1.innerHTML = escapeHTML(string(entry.ip))
-              tr.appendChild(td1)
-              var td2 = document.createElement('td')
-              td2.innerHTML = escapeHTML(
-                stringifyDate(new Date(int(entry.time))),
-              )
-              tr.appendChild(td2)
-              var tdDelete = document.createElement('td')
-              var buttonDelete = document.createElement('input')
-              buttonDelete.setAttribute('data-brekeke-uc-index', string(index))
-              buttonDelete.type = 'image'
-              buttonDelete.src = 'img/delete.png'
-              buttonDelete.alt = 'Delete'
-              buttonDelete.title = 'Delete'
-              tdDelete.appendChild(buttonDelete)
-              tr.appendChild(tdDelete)
-              panel.tbodyBlockList.appendChild(tr)
-              // register event
-              panel.handlers.push(
-                dojo.connect(
-                  buttonDelete,
-                  'click',
-                  getFuncApply(panelBlockListSettingsButtonDelete_click, {
-                    panel: panel,
-                    ip: string(entry.ip),
-                    index: index,
-                  }),
-                ),
-              )
-            }
-          })
-        panel &&
-          panel.refresh_block_list &&
-          panel.refresh_block_list.style &&
-          (panel.refresh_block_list.style.pointerEvents = '')
-      },
-      function (ev) {
-        // funcError
-        logger.log(
-          'warn',
-          'loadBlockListSettings error code: ' +
-            ev.code +
-            ', message: ' +
-            ev.message,
-        )
-        panel &&
-          panel.refresh_block_list &&
-          panel.refresh_block_list.style &&
-          (panel.refresh_block_list.style.pointerEvents = '')
-      },
-    )
-  }
-  var panelBlockListSettings_buttonSaveBlockListSettingsClick = function () {
-    saveBlockListSettings(this)
-  }
-  var panelBlockListSettings_buttonCancelBlockListSettingsClick = function () {
-    closeTab(this)
-  }
-  var panelUserManagement_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.buttonStartUserSearch,
-        'onClick',
-        getFuncApply(panelUserManagement_buttonStartUserSearchClick, this),
-      ),
-      dojo.connect(
-        this.buttonCancelUserSearch,
-        'onClick',
-        getFuncApply(panelUserManagement_buttonCancelUserSearchClick, this),
-      ),
-      dojo.connect(
-        this.buttonMoveRightDeleteUserData,
-        'onClick',
-        getFuncApply(
-          panelUserManagement_buttonMoveRightDeleteUserDataClick,
-          this,
-        ),
-      ),
-      dojo.connect(
-        this.buttonMoveLeftDeleteUserData,
-        'onClick',
-        getFuncApply(
-          panelUserManagement_buttonMoveLeftDeleteUserDataClick,
-          this,
-        ),
-      ),
-      dojo.connect(
-        this.checkBoxAutoSelectDeleteUserData,
-        'onChange',
-        getFuncApply(
-          panelUserManagement_checkBoxAutoSelectDeleteUserDataChange,
-          this,
-        ),
-      ),
-      dojo.connect(
-        this.buttonStartUserDelete,
-        'onClick',
-        getFuncApply(panelUserManagement_buttonStartUserDeleteClick, this),
-      ),
-      dojo.connect(
-        this.buttonCancelUserManagement,
-        'onClick',
-        getFuncApply(panelUserManagement_buttonCancelUserManagementClick, this),
-      ),
-    ]
-  }
-  var panelUserManagement_destroy = function () {
-    if (this.handlers && this.handlers.length) {
-      for (var i = 0; i < this.handlers.length; i++) {
-        dojo.disconnect(this.handlers[i])
-      }
-    }
-    this.handlers = null
-    this.inherited(arguments)
-  }
-  var panelUserManagement_buttonStartUserSearchClick = function () {
-    var panel = this
-
-    if (
-      userManagementWorkData[panel.panelKey] &&
-      userManagementWorkData[panel.panelKey].user_search_id
-    ) {
-      logger.log('warn', 'UserSearch already started')
-      return
-    }
-
-    panel.buttonStartUserSearch.set('disabled', true)
-    panel.buttonStartUserDelete.set('disabled', true)
-    panel.buttonCancelUserSearch.set('disabled', false)
-    while (panel.selectUsersNotToDelete.firstChild) {
-      panel.selectUsersNotToDelete.removeChild(
-        panel.selectUsersNotToDelete.lastChild,
-      )
-    }
-    while (panel.selectUsersToDelete.firstChild) {
-      panel.selectUsersToDelete.removeChild(panel.selectUsersToDelete.lastChild)
-    }
-    panel.spanProgressUserSearch.innerHTML = '0%'
-    panel.areaProgressUserSearch.style.display = 'block'
-
-    chatClient.startUserSearch(
-      {
-        tenant: panel.inputStartUserSearchTenant.value || null,
-        user_id: panel.inputStartUserSearchUserId.value
-          ? string(panel.inputStartUserSearchUserId.value) + '%'
-          : null,
-      },
-      function (ev) {
-        // funcOK
-        userManagementWorkData[panel.panelKey] =
-          userManagementWorkData[panel.panelKey] || {}
-        userManagementWorkData[panel.panelKey].user_search_id =
-          ev.user_search_id
-      },
-      function (ev) {
-        // funcError
-        logger.log(
-          'warn',
-          'startUserSearch error code: ' + ev.code + ', message: ' + ev.message,
-        )
-        windowAlert(
-          ucMsgs.CMN_ALERT,
-          'startUserSearch error (' + ev.code + ' ' + ev.message + ')',
-        )
-        panel.buttonStartUserSearch.set('disabled', false)
-        panel.areaProgressUserSearch.style.display = 'none'
-      },
-    )
-  }
-  var panelUserManagement_buttonCancelUserSearchClick = function () {
-    var panel = this
-
-    if (
-      !userManagementWorkData[panel.panelKey] ||
-      !userManagementWorkData[panel.panelKey].user_search_id
-    ) {
-      logger.log('warn', 'UserSearch already stopped')
-      return
-    }
-
-    panel.buttonCancelUserSearch.set('disabled', true)
-
-    chatClient.cancelUserSearch({
-      user_search_id: userManagementWorkData[panel.panelKey].user_search_id,
-    })
-  }
-  var panelUserManagement_buttonMoveRightDeleteUserDataClick = function () {
-    var panel = this
-
-    var selectedOptions = Array.prototype.slice.call(
-      panel.selectUsersNotToDelete.selectedOptions,
-    )
-    for (var i = 0; i < selectedOptions.length; i++) {
-      panelUserManagementSelectUsers_appendChild(
-        panel.selectUsersToDelete,
-        panel.selectUsersNotToDelete.removeChild(selectedOptions[i]),
-      )
-      panel.buttonStartUserDelete.set('disabled', false)
-    }
-  }
-  var panelUserManagement_buttonMoveLeftDeleteUserDataClick = function () {
-    var panel = this
-
-    var selectedOptions = Array.prototype.slice.call(
-      panel.selectUsersToDelete.selectedOptions,
-    )
-    for (var i = 0; i < selectedOptions.length; i++) {
-      panelUserManagementSelectUsers_appendChild(
-        panel.selectUsersNotToDelete,
-        panel.selectUsersToDelete.removeChild(selectedOptions[i]),
-      )
-    }
-  }
-  var panelUserManagementSelectUsers_appendChild = function (
-    selectUsers,
-    newNode,
-  ) {
-    // sort automatically
-    for (var i = 0; i < selectUsers.childNodes.length; i++) {
-      if (newNode.value < selectUsers.childNodes[i].value) {
-        selectUsers.insertBefore(newNode, selectUsers.childNodes[i])
-        return
-      }
-    }
-    selectUsers.appendChild(newNode)
-  }
-  var panelUserManagement_checkBoxAutoSelectDeleteUserDataChange = function (
-    checked,
-  ) {
-    var panel = this
-
-    if (checked) {
-      for (var i = 0; i < panel.selectUsersNotToDelete.childNodes.length; i++) {
-        panel.selectUsersNotToDelete.childNodes[i].selected =
-          panel.selectUsersNotToDelete.childNodes[i].getAttribute(
-            'data-brekeke-uc-pbx',
-          ) === 'false'
-      }
-    }
-  }
-  var panelUserManagement_buttonStartUserDeleteClick = function () {
-    var panel = this
-
-    if (
-      userManagementWorkData[panel.panelKey] &&
-      userManagementWorkData[panel.panelKey].user_delete_id
-    ) {
-      logger.log('warn', 'UserDelete already started')
-      return
-    }
-
-    var users = []
-    var tenants = []
-    for (var i = 0; i < panel.selectUsersToDelete.childNodes.length; i++) {
-      var value = string(panel.selectUsersToDelete.childNodes[i].value)
-      if (value) {
-        var index = value.indexOf('.')
-        if (index === -1) {
-          users.push({
-            tenant: value,
-          })
-          tenants.push(value)
-        } else {
-          users.push({
-            tenant: value.substring(0, index),
-            user_id: value.substring(index + 1),
-          })
-        }
-      }
-    }
-
-    if (users.length === 0) {
-      windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_START_USER_DELETE_EMPTY)
-      return
-    }
-
-    var startUserDeleteFunc = function () {
-      panel.buttonStartUserDelete.set('disabled', true)
-      panel.buttonStartUserSearch.set('disabled', true)
-      panel.spanProgressUserDelete.style.display = 'inline-block'
-
-      chatClient.startUserDelete(
-        {
-          users: users,
+                ' ' +
+                ev.message +
+                ')'
+              panel.spanMessage.style.display = 'inline-block'
+              panel.panelBlockListSettingsTable.domNode.scrollTop = 0
+              buttonDelete &&
+                buttonDelete.style &&
+                (buttonDelete.style.pointerEvents = '')
+            },
+          )
         },
+      )
+    }
+  var panelBlockListSettings_refreshBlockListClick =
+    function panelBlockListSettings_refreshBlockListClick() {
+      var panel = this
+      panel &&
+        panel.refresh_block_list &&
+        panel.refresh_block_list.style &&
+        (panel.refresh_block_list.style.pointerEvents = 'none')
+      chatClient.loadBlockListSettings(
         function (ev) {
           // funcOK
-          userManagementWorkData[panel.panelKey] =
-            userManagementWorkData[panel.panelKey] || {}
-          userManagementWorkData[panel.panelKey].user_delete_id =
-            ev.user_delete_id
+          var oldTrs = dojo.query('tr', panel.tbodyBlockList)
+          for (var i = oldTrs.length - 1; i >= 0; i--) {
+            panel.tbodyBlockList.removeChild(oldTrs[i])
+          }
+          ;(ev.blocklist.blocked || [])
+            .sort(function (a, b) {
+              return int(a.time) - int(b.time)
+            })
+            .forEach(function (entry, index) {
+              if (entry.ip) {
+                var tr = document.createElement('tr')
+                tr.setAttribute('data-brekeke-uc-index', string(index))
+                var td1 = document.createElement('td')
+                td1.innerHTML = escapeHTML(string(entry.ip))
+                tr.appendChild(td1)
+                var td2 = document.createElement('td')
+                td2.innerHTML = escapeHTML(
+                  stringifyDate(new Date(int(entry.time))),
+                )
+                tr.appendChild(td2)
+                var tdDelete = document.createElement('td')
+                var buttonDelete = document.createElement('input')
+                buttonDelete.setAttribute(
+                  'data-brekeke-uc-index',
+                  string(index),
+                )
+                buttonDelete.type = 'image'
+                buttonDelete.src = 'img/delete.png'
+                buttonDelete.alt = 'Delete'
+                buttonDelete.title = 'Delete'
+                tdDelete.appendChild(buttonDelete)
+                tr.appendChild(tdDelete)
+                panel.tbodyBlockList.appendChild(tr) // register event
+                panel.handlers.push(
+                  dojo.connect(
+                    buttonDelete,
+                    'click',
+                    getFuncApply(panelBlockListSettingsButtonDelete_click, {
+                      panel: panel,
+                      ip: string(entry.ip),
+                      index: index,
+                    }),
+                  ),
+                )
+              }
+            })
+          panel &&
+            panel.refresh_block_list &&
+            panel.refresh_block_list.style &&
+            (panel.refresh_block_list.style.pointerEvents = '')
         },
         function (ev) {
           // funcError
           logger.log(
             'warn',
-            'startUserDelete error code: ' +
+            'loadBlockListSettings error code: ' +
+              ev.code +
+              ', message: ' +
+              ev.message,
+          )
+          panel &&
+            panel.refresh_block_list &&
+            panel.refresh_block_list.style &&
+            (panel.refresh_block_list.style.pointerEvents = '')
+        },
+      )
+    }
+  var panelBlockListSettings_buttonSaveBlockListSettingsClick =
+    function panelBlockListSettings_buttonSaveBlockListSettingsClick() {
+      saveBlockListSettings(this)
+    }
+  var panelBlockListSettings_buttonCancelBlockListSettingsClick =
+    function panelBlockListSettings_buttonCancelBlockListSettingsClick() {
+      _closeTab(this)
+    }
+  var panelUserManagement_postCreate =
+    function panelUserManagement_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.buttonStartUserSearch,
+          'onClick',
+          getFuncApply(panelUserManagement_buttonStartUserSearchClick, this),
+        ),
+        dojo.connect(
+          this.buttonCancelUserSearch,
+          'onClick',
+          getFuncApply(panelUserManagement_buttonCancelUserSearchClick, this),
+        ),
+        dojo.connect(
+          this.buttonMoveRightDeleteUserData,
+          'onClick',
+          getFuncApply(
+            panelUserManagement_buttonMoveRightDeleteUserDataClick,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.buttonMoveLeftDeleteUserData,
+          'onClick',
+          getFuncApply(
+            panelUserManagement_buttonMoveLeftDeleteUserDataClick,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.checkBoxAutoSelectDeleteUserData,
+          'onChange',
+          getFuncApply(
+            panelUserManagement_checkBoxAutoSelectDeleteUserDataChange,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.buttonStartUserDelete,
+          'onClick',
+          getFuncApply(panelUserManagement_buttonStartUserDeleteClick, this),
+        ),
+        dojo.connect(
+          this.buttonCancelUserManagement,
+          'onClick',
+          getFuncApply(
+            panelUserManagement_buttonCancelUserManagementClick,
+            this,
+          ),
+        ),
+      ]
+    }
+  var panelUserManagement_destroy = function panelUserManagement_destroy() {
+    if (this.handlers && this.handlers.length) {
+      for (var i = 0; i < this.handlers.length; i++) {
+        dojo.disconnect(this.handlers[i])
+      }
+    }
+    this.handlers = null
+    this.inherited(arguments)
+  }
+  var panelUserManagement_buttonStartUserSearchClick =
+    function panelUserManagement_buttonStartUserSearchClick() {
+      var panel = this
+      if (
+        userManagementWorkData[panel.panelKey] &&
+        userManagementWorkData[panel.panelKey].user_search_id
+      ) {
+        logger.log('warn', 'UserSearch already started')
+        return
+      }
+      panel.buttonStartUserSearch.set('disabled', true)
+      panel.buttonStartUserDelete.set('disabled', true)
+      panel.buttonCancelUserSearch.set('disabled', false)
+      while (panel.selectUsersNotToDelete.firstChild) {
+        panel.selectUsersNotToDelete.removeChild(
+          panel.selectUsersNotToDelete.lastChild,
+        )
+      }
+      while (panel.selectUsersToDelete.firstChild) {
+        panel.selectUsersToDelete.removeChild(
+          panel.selectUsersToDelete.lastChild,
+        )
+      }
+      panel.spanProgressUserSearch.innerHTML = '0%'
+      panel.areaProgressUserSearch.style.display = 'block'
+      chatClient.startUserSearch(
+        {
+          tenant: panel.inputStartUserSearchTenant.value || null,
+          user_id: panel.inputStartUserSearchUserId.value
+            ? string(panel.inputStartUserSearchUserId.value) + '%'
+            : null,
+        },
+        function (ev) {
+          // funcOK
+          userManagementWorkData[panel.panelKey] =
+            userManagementWorkData[panel.panelKey] || {}
+          userManagementWorkData[panel.panelKey].user_search_id =
+            ev.user_search_id
+        },
+        function (ev) {
+          // funcError
+          logger.log(
+            'warn',
+            'startUserSearch error code: ' +
               ev.code +
               ', message: ' +
               ev.message,
           )
           windowAlert(
             ucMsgs.CMN_ALERT,
-            'startUserDelete error (' + ev.code + ' ' + ev.message + ')',
+            'startUserSearch error (' + ev.code + ' ' + ev.message + ')',
           )
           panel.buttonStartUserSearch.set('disabled', false)
-          panel.spanProgressUserDelete.style.display = 'none'
+          panel.areaProgressUserSearch.style.display = 'none'
         },
       )
     }
-    var usersList = users
-      .map(function (u) {
-        return u.tenant + '.' + (u.user_id || '*')
+  var panelUserManagement_buttonCancelUserSearchClick =
+    function panelUserManagement_buttonCancelUserSearchClick() {
+      var panel = this
+      if (
+        !userManagementWorkData[panel.panelKey] ||
+        !userManagementWorkData[panel.panelKey].user_search_id
+      ) {
+        logger.log('warn', 'UserSearch already stopped')
+        return
+      }
+      panel.buttonCancelUserSearch.set('disabled', true)
+      chatClient.cancelUserSearch({
+        user_search_id: userManagementWorkData[panel.panelKey].user_search_id,
       })
-      .join('<br />')
-    if (tenants.length >= 1) {
-      windowConfirm(
-        ucMsgs.LBL_START_USER_DELETE_TITLE,
-        ucMsgs.MSG_START_USER_DELETE_CONFIRM +
-          '<br /><br />' +
-          usersList +
-          '<br /><br />',
-        function () {
-          windowConfirm(
-            ucMsgs.LBL_START_USER_DELETE_TITLE,
-            ucMsgs.MSG_START_USER_DELETE_TENANT_CONFIRM +
-              '<br /><br />' +
-              tenants.join('<br />') +
-              '<br /><br />',
-            startUserDeleteFunc,
-          )
-        },
-      )
-    } else {
-      windowConfirm(
-        ucMsgs.LBL_START_USER_DELETE_TITLE,
-        ucMsgs.MSG_START_USER_DELETE_CONFIRM +
-          '<br /><br />' +
-          usersList +
-          '<br /><br />',
-        startUserDeleteFunc,
-      )
     }
-  }
-  var panelUserManagement_buttonCancelUserManagementClick = function () {
-    closeTab(this)
-  }
-  var panelTenantTable_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
+  var panelUserManagement_buttonMoveRightDeleteUserDataClick =
+    function panelUserManagement_buttonMoveRightDeleteUserDataClick() {
+      var panel = this
+      var selectedOptions = Array.prototype.slice.call(
+        panel.selectUsersNotToDelete.selectedOptions,
+      )
+      for (var i = 0; i < selectedOptions.length; i++) {
+        panelUserManagementSelectUsers_appendChild(
+          panel.selectUsersToDelete,
+          panel.selectUsersNotToDelete.removeChild(selectedOptions[i]),
+        )
+        panel.buttonStartUserDelete.set('disabled', false)
+      }
+    }
+  var panelUserManagement_buttonMoveLeftDeleteUserDataClick =
+    function panelUserManagement_buttonMoveLeftDeleteUserDataClick() {
+      var panel = this
+      var selectedOptions = Array.prototype.slice.call(
+        panel.selectUsersToDelete.selectedOptions,
+      )
+      for (var i = 0; i < selectedOptions.length; i++) {
+        panelUserManagementSelectUsers_appendChild(
+          panel.selectUsersNotToDelete,
+          panel.selectUsersToDelete.removeChild(selectedOptions[i]),
+        )
+      }
+    }
+  var panelUserManagementSelectUsers_appendChild =
+    function panelUserManagementSelectUsers_appendChild(selectUsers, newNode) {
+      // sort automatically
+      for (var i = 0; i < selectUsers.childNodes.length; i++) {
+        if (newNode.value < selectUsers.childNodes[i].value) {
+          selectUsers.insertBefore(newNode, selectUsers.childNodes[i])
+          return
+        }
+      }
+      selectUsers.appendChild(newNode)
+    }
+  var panelUserManagement_checkBoxAutoSelectDeleteUserDataChange =
+    function panelUserManagement_checkBoxAutoSelectDeleteUserDataChange(
+      checked,
+    ) {
+      var panel = this
+      if (checked) {
+        for (
+          var i = 0;
+          i < panel.selectUsersNotToDelete.childNodes.length;
+          i++
+        ) {
+          panel.selectUsersNotToDelete.childNodes[i].selected =
+            panel.selectUsersNotToDelete.childNodes[i].getAttribute(
+              'data-brekeke-uc-pbx',
+            ) === 'false'
+        }
+      }
+    }
+  var panelUserManagement_buttonStartUserDeleteClick =
+    function panelUserManagement_buttonStartUserDeleteClick() {
+      var panel = this
+      if (
+        userManagementWorkData[panel.panelKey] &&
+        userManagementWorkData[panel.panelKey].user_delete_id
+      ) {
+        logger.log('warn', 'UserDelete already started')
+        return
+      }
+      var users = []
+      var tenants = []
+      for (var i = 0; i < panel.selectUsersToDelete.childNodes.length; i++) {
+        var value = string(panel.selectUsersToDelete.childNodes[i].value)
+        if (value) {
+          var index = value.indexOf('.')
+          if (index === -1) {
+            users.push({ tenant: value })
+            tenants.push(value)
+          } else {
+            users.push({
+              tenant: value.substring(0, index),
+              user_id: value.substring(index + 1),
+            })
+          }
+        }
+      }
+      if (users.length === 0) {
+        windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_START_USER_DELETE_EMPTY)
+        return
+      }
+      var startUserDeleteFunc = function startUserDeleteFunc() {
+        panel.buttonStartUserDelete.set('disabled', true)
+        panel.buttonStartUserSearch.set('disabled', true)
+        panel.spanProgressUserDelete.style.display = 'inline-block'
+        chatClient.startUserDelete(
+          { users: users },
+          function (ev) {
+            // funcOK
+            userManagementWorkData[panel.panelKey] =
+              userManagementWorkData[panel.panelKey] || {}
+            userManagementWorkData[panel.panelKey].user_delete_id =
+              ev.user_delete_id
+          },
+          function (ev) {
+            // funcError
+            logger.log(
+              'warn',
+              'startUserDelete error code: ' +
+                ev.code +
+                ', message: ' +
+                ev.message,
+            )
+            windowAlert(
+              ucMsgs.CMN_ALERT,
+              'startUserDelete error (' + ev.code + ' ' + ev.message + ')',
+            )
+            panel.buttonStartUserSearch.set('disabled', false)
+            panel.spanProgressUserDelete.style.display = 'none'
+          },
+        )
+      }
+      var usersList = users
+        .map(function (u) {
+          return u.tenant + '.' + (u.user_id || '*')
+        })
+        .join('<br />')
+      if (tenants.length >= 1) {
+        windowConfirm(
+          ucMsgs.LBL_START_USER_DELETE_TITLE,
+          ucMsgs.MSG_START_USER_DELETE_CONFIRM +
+            '<br /><br />' +
+            usersList +
+            '<br /><br />',
+          function () {
+            windowConfirm(
+              ucMsgs.LBL_START_USER_DELETE_TITLE,
+              ucMsgs.MSG_START_USER_DELETE_TENANT_CONFIRM +
+                '<br /><br />' +
+                tenants.join('<br />') +
+                '<br /><br />',
+              startUserDeleteFunc,
+            )
+          },
+        )
+      } else {
+        windowConfirm(
+          ucMsgs.LBL_START_USER_DELETE_TITLE,
+          ucMsgs.MSG_START_USER_DELETE_CONFIRM +
+            '<br /><br />' +
+            usersList +
+            '<br /><br />',
+          startUserDeleteFunc,
+        )
+      }
+    }
+  var panelUserManagement_buttonCancelUserManagementClick =
+    function panelUserManagement_buttonCancelUserManagementClick() {
+      _closeTab(this)
+    }
+  var panelTenantTable_postCreate = function panelTenantTable_postCreate() {
+    this.inherited(arguments) // register event listeners
     this.handlers = [
       dojo.connect(
         this.buttonNewTenant,
@@ -19274,7 +18235,7 @@ if (!window.Brekeke.UCClientUI) {
       ),
     ]
   }
-  var panelTenantTable_destroy = function () {
+  var panelTenantTable_destroy = function panelTenantTable_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -19283,176 +18244,94 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelTenantTable_buttonNewTenantClick = function () {
-    var panel = this
-    windowPrompt(
-      ucMsgs.LBL_NEW_TENANT_TITLE,
-      '',
-      ucMsgs.LBL_NEW_TENANT_NAME,
-      '',
-      function (tenant) {
-        if (tenant !== '') {
-          if (
-            tenantTableWorkData[panel.panelKey][tenant] &&
-            tenantTableWorkData[panel.panelKey][tenant].tenantDeleted !== '1'
-          ) {
-            // already exists
-            panel.spanMessage.innerHTML =
-              ucMsgs.MSG_SAVE_TENANT_FAILED + ' (Already exists)'
-            panel.spanMessage.style.display = 'inline-block'
-            panel.panelTenantTableTable.domNode.scrollTop = 0
-          } else {
-            panel.spanMessage.style.display = 'none'
-            chatClient.createTenantProperties(
-              tenant,
-              function (ev) {
-                // funcOK
-                chatClient.loadTenantProperties(
-                  function (ev) {
-                    // funcOK
-                    tenantTableWorkData[panel.panelKey] = ev.tenantProperties
-                    displayTenantTable(panel)
-                  },
-                  function (ev) {
-                    // funcError
-                    logger.log(
-                      'warn',
-                      'loadTenantProperties error code: ' +
-                        ev.code +
-                        ', message: ' +
-                        ev.message,
-                    )
-                  },
-                )
-                openTenantProperty(tenant, null, null, true)
-              },
-              function (ev) {
-                // funcError
-                logger.log(
-                  'warn',
-                  'createTenantProperties error code: ' +
-                    ev.code +
-                    ', message: ' +
-                    ev.message,
-                )
-                panel.spanMessage.innerHTML =
-                  ucMsgs.MSG_SAVE_TENANT_FAILED +
-                  ' (' +
-                  ev.code +
-                  ' ' +
-                  ev.message +
-                  ')'
-                panel.spanMessage.style.display = 'inline-block'
-                panel.panelTenantTableTable.domNode.scrollTop = 0
-              },
-            )
-          }
-        }
-      },
-    )
-  }
-  var panelTenantTable_buttonPbxTenantClick = function () {
-    var panel = this
-    windowConfirm(
-      ucMsgs.LBL_LOAD_TENANT_TITLE,
-      ucMsgs.MSG_LOAD_TENANT_CONFIRM + '<br />',
-      function () {
-        panel.spanMessage.style.display = 'none'
-        chatClient.createTenantListFromPbx(
-          function (ev) {
-            // funcOK
-            tenantTableWorkData[panel.panelKey] = ev.tenantProperties
-            displayTenantTable(panel)
-          },
-          function (ev) {
-            // funcError
-            logger.log(
-              'warn',
-              'createTenantListFromPbx error code: ' +
-                ev.code +
-                ', message: ' +
-                ev.message,
-            )
-            panel.spanMessage.innerHTML =
-              ucMsgs.MSG_SAVE_TENANT_FAILED +
-              ' (' +
-              ev.code +
-              ' ' +
-              ev.message +
-              ')'
-            panel.spanMessage.style.display = 'inline-block'
-            panel.panelTenantTableTable.domNode.scrollTop = 0
-          },
-        )
-      },
-    )
-  }
-  var panelTenantTable_buttonCancelTenantTableClick = function () {
-    closeTab(this)
-  }
-  var panelTenantTableLinkTenant_click = function () {
-    openTenantProperty(this.tenant, null, null, true)
-  }
-  var panelTenantTableLinkTwitter_click = function () {
-    openTwitterSettings(this.tenant, null, null, true)
-  }
-  var panelTenantTableLinkFacebook_click = function () {
-    openFacebookSettings(this.tenant, null, null, true)
-  }
-  var panelTenantTableLinkLine_click = function () {
-    openLineSettings(this.tenant, null, null, true)
-  }
-  var panelTenantTableLinkWatson_click = function () {
-    openWatsonSettings(this.tenant, null, null, true)
-  }
-  var panelTenantTableLinkEmail_click = function () {
-    openEmailSettings(this.tenant, null, null, true)
-  }
-  var panelTenantTableLinkGuest_click = function () {
-    openGuestSettings(this.tenant, null, null, true)
-  }
-  var panelTenantTableButtonDelete_click = function () {
-    var panel = this.panel
-    var tenant = this.tenant
-    windowConfirm(
-      ucMsgs.LBL_DELETE_TENANT_TITLE,
-      ucMsgs.MSG_DELETE_TENANT_CONFIRM + '<br />',
-      function () {
-        if (tenantTableWorkData[panel.panelKey][tenant]) {
-          tenantTableWorkData[panel.panelKey][tenant].tenantDeleted = '1'
-          panel.spanMessage.style.display = 'none'
-          var tenantProperties = {}
-          tenantProperties[tenant] = tenantTableWorkData[panel.panelKey][tenant]
-          chatClient.saveTenantProperties(
-            tenantProperties,
-            function (ev) {
-              // funcOK
-              chatClient.loadTenantProperties(
+  var panelTenantTable_buttonNewTenantClick =
+    function panelTenantTable_buttonNewTenantClick() {
+      var panel = this
+      windowPrompt(
+        ucMsgs.LBL_NEW_TENANT_TITLE,
+        '',
+        ucMsgs.LBL_NEW_TENANT_NAME,
+        '',
+        function (tenant) {
+          if (tenant !== '') {
+            if (
+              tenantTableWorkData[panel.panelKey][tenant] &&
+              tenantTableWorkData[panel.panelKey][tenant].tenantDeleted !== '1'
+            ) {
+              // already exists
+              panel.spanMessage.innerHTML =
+                ucMsgs.MSG_SAVE_TENANT_FAILED + ' (Already exists)'
+              panel.spanMessage.style.display = 'inline-block'
+              panel.panelTenantTableTable.domNode.scrollTop = 0
+            } else {
+              panel.spanMessage.style.display = 'none'
+              chatClient.createTenantProperties(
+                tenant,
                 function (ev) {
                   // funcOK
-                  tenantTableWorkData[panel.panelKey] = ev.tenantProperties
-                  displayTenantTable(panel)
-                  if (panelsTenantProperty[tenant]) {
-                    closeTab(panelsTenantProperty[tenant])
-                  }
+                  chatClient.loadTenantProperties(
+                    function (ev) {
+                      // funcOK
+                      tenantTableWorkData[panel.panelKey] = ev.tenantProperties
+                      displayTenantTable(panel)
+                    },
+                    function (ev) {
+                      // funcError
+                      logger.log(
+                        'warn',
+                        'loadTenantProperties error code: ' +
+                          ev.code +
+                          ', message: ' +
+                          ev.message,
+                      )
+                    },
+                  )
+                  openTenantProperty(tenant, null, null, true)
                 },
                 function (ev) {
                   // funcError
                   logger.log(
                     'warn',
-                    'loadTenantProperties error code: ' +
+                    'createTenantProperties error code: ' +
                       ev.code +
                       ', message: ' +
                       ev.message,
                   )
+                  panel.spanMessage.innerHTML =
+                    ucMsgs.MSG_SAVE_TENANT_FAILED +
+                    ' (' +
+                    ev.code +
+                    ' ' +
+                    ev.message +
+                    ')'
+                  panel.spanMessage.style.display = 'inline-block'
+                  panel.panelTenantTableTable.domNode.scrollTop = 0
                 },
               )
+            }
+          }
+        },
+      )
+    }
+  var panelTenantTable_buttonPbxTenantClick =
+    function panelTenantTable_buttonPbxTenantClick() {
+      var panel = this
+      windowConfirm(
+        ucMsgs.LBL_LOAD_TENANT_TITLE,
+        ucMsgs.MSG_LOAD_TENANT_CONFIRM + '<br />',
+        function () {
+          panel.spanMessage.style.display = 'none'
+          chatClient.createTenantListFromPbx(
+            function (ev) {
+              // funcOK
+              tenantTableWorkData[panel.panelKey] = ev.tenantProperties
+              displayTenantTable(panel)
             },
             function (ev) {
               // funcError
               logger.log(
                 'warn',
-                'saveTenantProperties error code: ' +
+                'createTenantListFromPbx error code: ' +
                   ev.code +
                   ', message: ' +
                   ev.message,
@@ -19468,130 +18347,238 @@ if (!window.Brekeke.UCClientUI) {
               panel.panelTenantTableTable.domNode.scrollTop = 0
             },
           )
-        } else {
-          logger.log(
-            'error',
-            'not found tenantTableWorkData of tenant==' + tenant,
-          )
-        }
-      },
-    )
-  }
-  var panelTenantProperty_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.radioButtonLanguageSettingAuto,
-        'onChange',
-        getFuncApply(
-          panelTenantProperty_radioButtonLanguageSettingChange,
-          this,
+        },
+      )
+    }
+  var panelTenantTable_buttonCancelTenantTableClick =
+    function panelTenantTable_buttonCancelTenantTableClick() {
+      _closeTab(this)
+    }
+  var panelTenantTableLinkTenant_click =
+    function panelTenantTableLinkTenant_click() {
+      openTenantProperty(this.tenant, null, null, true)
+    }
+  var panelTenantTableLinkTwitter_click =
+    function panelTenantTableLinkTwitter_click() {
+      openTwitterSettings(this.tenant, null, null, true)
+    }
+  var panelTenantTableLinkFacebook_click =
+    function panelTenantTableLinkFacebook_click() {
+      openFacebookSettings(this.tenant, null, null, true)
+    }
+  var panelTenantTableLinkLine_click =
+    function panelTenantTableLinkLine_click() {
+      openLineSettings(this.tenant, null, null, true)
+    }
+  var panelTenantTableLinkWatson_click =
+    function panelTenantTableLinkWatson_click() {
+      openWatsonSettings(this.tenant, null, null, true)
+    }
+  var panelTenantTableLinkEmail_click =
+    function panelTenantTableLinkEmail_click() {
+      openEmailSettings(this.tenant, null, null, true)
+    }
+  var panelTenantTableLinkGuest_click =
+    function panelTenantTableLinkGuest_click() {
+      openGuestSettings(this.tenant, null, null, true)
+    }
+  var panelTenantTableButtonDelete_click =
+    function panelTenantTableButtonDelete_click() {
+      var panel = this.panel
+      var tenant = this.tenant
+      windowConfirm(
+        ucMsgs.LBL_DELETE_TENANT_TITLE,
+        ucMsgs.MSG_DELETE_TENANT_CONFIRM + '<br />',
+        function () {
+          if (tenantTableWorkData[panel.panelKey][tenant]) {
+            tenantTableWorkData[panel.panelKey][tenant].tenantDeleted = '1'
+            panel.spanMessage.style.display = 'none'
+            var tenantProperties = {}
+            tenantProperties[tenant] =
+              tenantTableWorkData[panel.panelKey][tenant]
+            chatClient.saveTenantProperties(
+              tenantProperties,
+              function (ev) {
+                // funcOK
+                chatClient.loadTenantProperties(
+                  function (ev) {
+                    // funcOK
+                    tenantTableWorkData[panel.panelKey] = ev.tenantProperties
+                    displayTenantTable(panel)
+                    if (panelsTenantProperty[tenant]) {
+                      _closeTab(panelsTenantProperty[tenant])
+                    }
+                  },
+                  function (ev) {
+                    // funcError
+                    logger.log(
+                      'warn',
+                      'loadTenantProperties error code: ' +
+                        ev.code +
+                        ', message: ' +
+                        ev.message,
+                    )
+                  },
+                )
+              },
+              function (ev) {
+                // funcError
+                logger.log(
+                  'warn',
+                  'saveTenantProperties error code: ' +
+                    ev.code +
+                    ', message: ' +
+                    ev.message,
+                )
+                panel.spanMessage.innerHTML =
+                  ucMsgs.MSG_SAVE_TENANT_FAILED +
+                  ' (' +
+                  ev.code +
+                  ' ' +
+                  ev.message +
+                  ')'
+                panel.spanMessage.style.display = 'inline-block'
+                panel.panelTenantTableTable.domNode.scrollTop = 0
+              },
+            )
+          } else {
+            logger.log(
+              'error',
+              'not found tenantTableWorkData of tenant==' + tenant,
+            )
+          }
+        },
+      )
+    }
+  var panelTenantProperty_postCreate =
+    function panelTenantProperty_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.radioButtonLanguageSettingAuto,
+          'onChange',
+          getFuncApply(
+            panelTenantProperty_radioButtonLanguageSettingChange,
+            this,
+          ),
         ),
-      ),
-      dojo.connect(
-        this.radioButtonLanguageSettingUser,
-        'onChange',
-        getFuncApply(
-          panelTenantProperty_radioButtonLanguageSettingChange,
-          this,
+        dojo.connect(
+          this.radioButtonLanguageSettingUser,
+          'onChange',
+          getFuncApply(
+            panelTenantProperty_radioButtonLanguageSettingChange,
+            this,
+          ),
         ),
-      ),
-      dojo.connect(
-        this.buttonNewWebRTCType,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonNewWebRTCTypeClick, this),
-      ),
-      dojo.connect(
-        this.selectWebRTCTypeName,
-        'change',
-        getFuncApply(panelTenantProperty_selectWebRTCTypeNameChange, this),
-      ),
-      dojo.connect(
-        this.radioButtonWebchatEnabledOn,
-        'onChange',
-        getFuncApply(panelTenantProperty_radioButtonWebchatEnabledChange, this),
-      ),
-      dojo.connect(
-        this.radioButtonWebchatEnabledOff,
-        'onChange',
-        getFuncApply(panelTenantProperty_radioButtonWebchatEnabledChange, this),
-      ),
-      dojo.connect(
-        this.buttonNewWebchatService,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonNewWebchatServiceClick, this),
-      ),
-      dojo.connect(
-        this.buttonNewAutoMessage,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonNewAutoMessageClick, this),
-      ),
-      dojo.connect(
-        this.imgAutoMessageDefaultImage,
-        'click',
-        getFuncApply(panelTenantProperty_imgAutoMessageDefaultImageClick, this),
-      ),
-      dojo.connect(
-        this.buttonUploadAutoMessageDefaultImage,
-        'onClick',
-        getFuncApply(
-          panelTenantProperty_buttonUploadAutoMessageDefaultImageClick,
-          this,
+        dojo.connect(
+          this.buttonNewWebRTCType,
+          'onClick',
+          getFuncApply(panelTenantProperty_buttonNewWebRTCTypeClick, this),
         ),
-      ),
-      dojo.connect(
-        this.inputAutoMessageImageForm,
-        'change',
-        getFuncApply(panelTenantProperty_inputAutoMessageImageFormChange, this),
-      ),
-      dojo.connect(
-        this.buttonDeleteAutoMessageDefaultImage,
-        'onClick',
-        getFuncApply(
-          panelTenantProperty_buttonDeleteAutoMessageDefaultImageClick,
-          this,
+        dojo.connect(
+          this.selectWebRTCTypeName,
+          'change',
+          getFuncApply(panelTenantProperty_selectWebRTCTypeNameChange, this),
         ),
-      ),
-      dojo.connect(
-        this.buttonNewWebchatWidget,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonNewWebchatWidgetClick, this),
-      ),
-      dojo.connect(
-        this.buttonNewLampType,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonNewLampTypeClick, this),
-      ),
-      dojo.connect(
-        this.radioButtonPNEnabledOn,
-        'onChange',
-        getFuncApply(panelTenantProperty_radioButtonPNEnabledChange, this),
-      ),
-      dojo.connect(
-        this.radioButtonPNEnabledOff,
-        'onChange',
-        getFuncApply(panelTenantProperty_radioButtonPNEnabledChange, this),
-      ),
-      dojo.connect(
-        this.buttonNewCustomizeT,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonNewCustomizeTClick, this),
-      ),
-      dojo.connect(
-        this.buttonSaveTenantProperty,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonSaveTenantPropertyClick, this),
-      ),
-      dojo.connect(
-        this.buttonCancelTenantProperty,
-        'onClick',
-        getFuncApply(panelTenantProperty_buttonCancelTenantPropertyClick, this),
-      ),
-    ]
-  }
-  var panelTenantProperty_destroy = function () {
+        dojo.connect(
+          this.radioButtonWebchatEnabledOn,
+          'onChange',
+          getFuncApply(
+            panelTenantProperty_radioButtonWebchatEnabledChange,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.radioButtonWebchatEnabledOff,
+          'onChange',
+          getFuncApply(
+            panelTenantProperty_radioButtonWebchatEnabledChange,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.buttonNewWebchatService,
+          'onClick',
+          getFuncApply(panelTenantProperty_buttonNewWebchatServiceClick, this),
+        ),
+        dojo.connect(
+          this.buttonNewAutoMessage,
+          'onClick',
+          getFuncApply(panelTenantProperty_buttonNewAutoMessageClick, this),
+        ),
+        dojo.connect(
+          this.imgAutoMessageDefaultImage,
+          'click',
+          getFuncApply(
+            panelTenantProperty_imgAutoMessageDefaultImageClick,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.buttonUploadAutoMessageDefaultImage,
+          'onClick',
+          getFuncApply(
+            panelTenantProperty_buttonUploadAutoMessageDefaultImageClick,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.inputAutoMessageImageForm,
+          'change',
+          getFuncApply(
+            panelTenantProperty_inputAutoMessageImageFormChange,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.buttonDeleteAutoMessageDefaultImage,
+          'onClick',
+          getFuncApply(
+            panelTenantProperty_buttonDeleteAutoMessageDefaultImageClick,
+            this,
+          ),
+        ),
+        dojo.connect(
+          this.buttonNewWebchatWidget,
+          'onClick',
+          getFuncApply(panelTenantProperty_buttonNewWebchatWidgetClick, this),
+        ),
+        dojo.connect(
+          this.buttonNewLampType,
+          'onClick',
+          getFuncApply(panelTenantProperty_buttonNewLampTypeClick, this),
+        ),
+        dojo.connect(
+          this.radioButtonPNEnabledOn,
+          'onChange',
+          getFuncApply(panelTenantProperty_radioButtonPNEnabledChange, this),
+        ),
+        dojo.connect(
+          this.radioButtonPNEnabledOff,
+          'onChange',
+          getFuncApply(panelTenantProperty_radioButtonPNEnabledChange, this),
+        ),
+        dojo.connect(
+          this.buttonNewCustomizeT,
+          'onClick',
+          getFuncApply(panelTenantProperty_buttonNewCustomizeTClick, this),
+        ),
+        dojo.connect(
+          this.buttonSaveTenantProperty,
+          'onClick',
+          getFuncApply(panelTenantProperty_buttonSaveTenantPropertyClick, this),
+        ),
+        dojo.connect(
+          this.buttonCancelTenantProperty,
+          'onClick',
+          getFuncApply(
+            panelTenantProperty_buttonCancelTenantPropertyClick,
+            this,
+          ),
+        ),
+      ]
+    }
+  var panelTenantProperty_destroy = function panelTenantProperty_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -19600,164 +18587,175 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelTenantProperty_radioButtonLanguageSettingChange = function () {
-    var panel = this
-    if (panel.radioButtonLanguageSettingAuto.checked) {
-      tenantPropertyWorkData[panel.panelKey].language_setting = ''
-    } else if (panel.radioButtonLanguageSettingUser.checked) {
-      tenantPropertyWorkData[panel.panelKey].language_setting = 'user'
-    } else {
-      for (var language in panel.radioButtonLanguageSettingList) {
-        if (panel.radioButtonLanguageSettingList[language].checked) {
-          tenantPropertyWorkData[panel.panelKey].language_setting = language
-          break
+  var panelTenantProperty_radioButtonLanguageSettingChange =
+    function panelTenantProperty_radioButtonLanguageSettingChange() {
+      var panel = this
+      if (panel.radioButtonLanguageSettingAuto.checked) {
+        tenantPropertyWorkData[panel.panelKey].language_setting = ''
+      } else if (panel.radioButtonLanguageSettingUser.checked) {
+        tenantPropertyWorkData[panel.panelKey].language_setting = 'user'
+      } else {
+        for (var language in panel.radioButtonLanguageSettingList) {
+          if (panel.radioButtonLanguageSettingList[language].checked) {
+            tenantPropertyWorkData[panel.panelKey].language_setting = language
+            break
+          }
         }
       }
     }
-  }
-  var panelTenantProperty_buttonNewWebRTCTypeClick = function () {
-    var panel = this
-    windowPrompt(
-      ucMsgs.LBL_NEW_WEBRTC_TYPE_TITLE,
-      '',
-      ucMsgs.LBL_NEW_WEBRTC_TYPE_PLACEHOLDER,
-      '',
-      function (type_name) {
-        if (type_name !== '') {
-          if (!tenantPropertyWorkData[panel.panelKey].webrtc_types) {
-            tenantPropertyWorkData[panel.panelKey].webrtc_types = []
-          }
-          var webrtc_type = {
-            name: type_name,
-            description: '',
-            options: '',
-            created: +new Date(),
-          }
-          tenantPropertyWorkData[panel.panelKey].webrtc_types.push(webrtc_type)
-          var inputs = createWebRTCTypeTr(panel, webrtc_type.name)
-          inputs[1].value = string(webrtc_type.description)
-          inputs[2].value = string(webrtc_type.options)
-
-          var optionElement = document.createElement('option')
-          optionElement.innerHTML = escapeHTML(webrtc_type.name)
-          optionElement.value = string(webrtc_type.name)
-          panel.selectWebRTCTypeName.appendChild(optionElement)
-        }
-      },
-    )
-  }
-  var panelTenantProperty_selectWebRTCTypeNameChange = function (e) {
-    if (!e.target.value) {
-      return
-    }
-    e.target.previousSibling.value = e.target.value.trim()
-    e.target.value = ''
-  }
-  var panelTenantProperty_radioButtonWebchatEnabledChange = function () {
-    var panel = this
-    if (panel.radioButtonWebchatEnabledOn.checked) {
-      tenantPropertyWorkData[panel.panelKey].webchat_enabled = 'true'
-      panel.trWebchatServices.style.display = ''
-      panel.trWebchatWidgets.style.display = ''
-      panel.trAutoMessages.style.display = ''
-      panel.trAutoMessageDefaultImage.style.display = ''
-    } else {
-      tenantPropertyWorkData[panel.panelKey].webchat_enabled = 'false'
-      panel.trWebchatServices.style.display = 'none'
-      panel.trWebchatWidgets.style.display = 'none'
-      panel.trAutoMessages.style.display = 'none'
-      panel.trAutoMessageDefaultImage.style.display = 'none'
-    }
-  }
-  var panelTenantProperty_buttonNewWebchatServiceClick = function () {
-    var panel = this
-    windowPrompt(
-      ucMsgs.LBL_NEW_WEBCHAT_SERVICE_TITLE,
-      '',
-      ucMsgs.LBL_NEW_WEBCHAT_SERVICE_PLACEHOLDER,
-      '',
-      function (service_id) {
-        if (service_id !== '') {
-          if (!tenantPropertyWorkData[panel.panelKey].webchat_services) {
-            tenantPropertyWorkData[panel.panelKey].webchat_services = {}
-          }
-          if (
-            !tenantPropertyWorkData[panel.panelKey].webchat_services[service_id]
-          ) {
-            var service = (tenantPropertyWorkData[
-              panel.panelKey
-            ].webchat_services[service_id] = {
+  var panelTenantProperty_buttonNewWebRTCTypeClick =
+    function panelTenantProperty_buttonNewWebRTCTypeClick() {
+      var panel = this
+      windowPrompt(
+        ucMsgs.LBL_NEW_WEBRTC_TYPE_TITLE,
+        '',
+        ucMsgs.LBL_NEW_WEBRTC_TYPE_PLACEHOLDER,
+        '',
+        function (type_name) {
+          if (type_name !== '') {
+            if (!tenantPropertyWorkData[panel.panelKey].webrtc_types) {
+              tenantPropertyWorkData[panel.panelKey].webrtc_types = []
+            }
+            var webrtc_type = {
+              name: type_name,
               description: '',
-              distribution_type: '0',
-              distribution_target: '',
+              options: '',
               created: +new Date(),
-            })
-            var inputs = createWebchatServiceTr(panel, service_id)
-            inputs[1].value = string(service.description)
-            inputs[2].value = string(service.distribution_type)
-            inputs[3].value = string(service.distribution_target)
-            inputs[4].value = JSON.stringify({})
-            var selectNodes = dojo.query(
-              '.brUCWebchatWidgetSelectService',
-              panel.tbodyWebchatWidgets,
+            }
+            tenantPropertyWorkData[panel.panelKey].webrtc_types.push(
+              webrtc_type,
             )
-            for (var i = 0; i < selectNodes.length; i++) {
-              var option = document.createElement('option')
-              option.innerHTML = escapeHTML(service_id)
-              option.value = service_id
-              selectNodes[i].appendChild(option)
+            var inputs = createWebRTCTypeTr(panel, webrtc_type.name)
+            inputs[1].value = string(webrtc_type.description)
+            inputs[2].value = string(webrtc_type.options)
+            var optionElement = document.createElement('option')
+            optionElement.innerHTML = escapeHTML(webrtc_type.name)
+            optionElement.value = string(webrtc_type.name)
+            panel.selectWebRTCTypeName.appendChild(optionElement)
+          }
+        },
+      )
+    }
+  var panelTenantProperty_selectWebRTCTypeNameChange =
+    function panelTenantProperty_selectWebRTCTypeNameChange(e) {
+      if (!e.target.value) {
+        return
+      }
+      e.target.previousSibling.value = e.target.value.trim()
+      e.target.value = ''
+    }
+  var panelTenantProperty_radioButtonWebchatEnabledChange =
+    function panelTenantProperty_radioButtonWebchatEnabledChange() {
+      var panel = this
+      if (panel.radioButtonWebchatEnabledOn.checked) {
+        tenantPropertyWorkData[panel.panelKey].webchat_enabled = 'true'
+        panel.trWebchatServices.style.display = ''
+        panel.trWebchatWidgets.style.display = ''
+        panel.trAutoMessages.style.display = ''
+        panel.trAutoMessageDefaultImage.style.display = ''
+      } else {
+        tenantPropertyWorkData[panel.panelKey].webchat_enabled = 'false'
+        panel.trWebchatServices.style.display = 'none'
+        panel.trWebchatWidgets.style.display = 'none'
+        panel.trAutoMessages.style.display = 'none'
+        panel.trAutoMessageDefaultImage.style.display = 'none'
+      }
+    }
+  var panelTenantProperty_buttonNewWebchatServiceClick =
+    function panelTenantProperty_buttonNewWebchatServiceClick() {
+      var panel = this
+      windowPrompt(
+        ucMsgs.LBL_NEW_WEBCHAT_SERVICE_TITLE,
+        '',
+        ucMsgs.LBL_NEW_WEBCHAT_SERVICE_PLACEHOLDER,
+        '',
+        function (service_id) {
+          if (service_id !== '') {
+            if (!tenantPropertyWorkData[panel.panelKey].webchat_services) {
+              tenantPropertyWorkData[panel.panelKey].webchat_services = {}
+            }
+            if (
+              !tenantPropertyWorkData[panel.panelKey].webchat_services[
+                service_id
+              ]
+            ) {
+              var service = (tenantPropertyWorkData[
+                panel.panelKey
+              ].webchat_services[service_id] = {
+                description: '',
+                distribution_type: '0',
+                distribution_target: '',
+                created: +new Date(),
+              })
+              var inputs = createWebchatServiceTr(panel, service_id)
+              inputs[1].value = string(service.description)
+              inputs[2].value = string(service.distribution_type)
+              inputs[3].value = string(service.distribution_target)
+              inputs[4].value = JSON.stringify({})
+              var selectNodes = dojo.query(
+                '.brUCWebchatWidgetSelectService',
+                panel.tbodyWebchatWidgets,
+              )
+              for (var i = 0; i < selectNodes.length; i++) {
+                var option = document.createElement('option')
+                option.innerHTML = escapeHTML(service_id)
+                option.value = service_id
+                selectNodes[i].appendChild(option)
+              }
             }
           }
-        }
-      },
-    )
-  }
-  var panelTenantProperty_buttonNewAutoMessageClick = function () {
-    var panel = this
-    windowPrompt(
-      ucMsgs.LBL_NEW_AUTO_MESSAGE_TITLE,
-      '',
-      ucMsgs.LBL_NEW_AUTO_MESSAGE_PLACEHOLDER,
-      '',
-      function (auto_message_id) {
-        if (auto_message_id !== '') {
-          if (!tenantPropertyWorkData[panel.panelKey].auto_messages) {
-            tenantPropertyWorkData[panel.panelKey].auto_messages = {}
+        },
+      )
+    }
+  var panelTenantProperty_buttonNewAutoMessageClick =
+    function panelTenantProperty_buttonNewAutoMessageClick() {
+      var panel = this
+      windowPrompt(
+        ucMsgs.LBL_NEW_AUTO_MESSAGE_TITLE,
+        '',
+        ucMsgs.LBL_NEW_AUTO_MESSAGE_PLACEHOLDER,
+        '',
+        function (auto_message_id) {
+          if (auto_message_id !== '') {
+            if (!tenantPropertyWorkData[panel.panelKey].auto_messages) {
+              tenantPropertyWorkData[panel.panelKey].auto_messages = {}
+            }
+            if (
+              !tenantPropertyWorkData[panel.panelKey].auto_messages[
+                auto_message_id
+              ]
+            ) {
+              var autoMessage = (tenantPropertyWorkData[
+                panel.panelKey
+              ].auto_messages[auto_message_id] = {
+                name: '',
+                message: '',
+                created: +new Date(),
+              })
+              var inputs = createAutoMessageTr(panel, auto_message_id)
+              inputs[0].value = string(autoMessage.name)
+              inputs[1].value = string(autoMessage.message)
+            }
           }
-          if (
-            !tenantPropertyWorkData[panel.panelKey].auto_messages[
-              auto_message_id
-            ]
-          ) {
-            var autoMessage = (tenantPropertyWorkData[
-              panel.panelKey
-            ].auto_messages[auto_message_id] = {
-              name: '',
-              message: '',
-              created: +new Date(),
-            })
-            var inputs = createAutoMessageTr(panel, auto_message_id)
-            inputs[0].value = string(autoMessage.name)
-            inputs[1].value = string(autoMessage.message)
-          }
-        }
-      },
-    )
-  }
-  var panelTenantProperty_imgAutoMessageDefaultImageClick = function () {
-    showProfileImage(
-      this.imgAutoMessageDefaultImage.getAttribute('data-brekeke-uc-url'),
-    )
-  }
+        },
+      )
+    }
+  var panelTenantProperty_imgAutoMessageDefaultImageClick =
+    function panelTenantProperty_imgAutoMessageDefaultImageClick() {
+      showProfileImage(
+        this.imgAutoMessageDefaultImage.getAttribute('data-brekeke-uc-url'),
+      )
+    }
   var panelTenantProperty_buttonUploadAutoMessageDefaultImageClick =
-    function () {
+    function panelTenantProperty_buttonUploadAutoMessageDefaultImageClick() {
       inputAutoMessageImage(this, '')
     }
-  var panelTenantProperty_inputAutoMessageImageFormChange = function () {
-    uploadAutoMessageImage(this)
-  }
+  var panelTenantProperty_inputAutoMessageImageFormChange =
+    function panelTenantProperty_inputAutoMessageImageFormChange() {
+      uploadAutoMessageImage(this)
+    }
   var panelTenantProperty_buttonDeleteAutoMessageDefaultImageClick =
-    function () {
+    function panelTenantProperty_buttonDeleteAutoMessageDefaultImageClick() {
       if (!tenantPropertyWorkData[this.panelKey]) {
         return
       }
@@ -19772,430 +18770,442 @@ if (!window.Brekeke.UCClientUI) {
         './img/noimage.png',
       )
     }
-  var panelTenantProperty_buttonNewWebchatWidgetClick = function () {
-    var panel = this
-    chatClient.getServerTime(
-      function (ev) {
-        if (!tenantPropertyWorkData[panel.panelKey].webchat_widgets) {
-          tenantPropertyWorkData[panel.panelKey].webchat_widgets = []
-        }
-        var widget = {
-          webchat_widget_id: Brekeke.UCClient.CryptoJS.MD5(
-            ev.tstamp + ':' + new Date().getTime(),
-          ).toString(),
-          chatServerUrl:
-            location.protocol +
-            '//' +
-            location.host +
-            '/' +
-            location.pathname.split('/')[1] +
-            '/',
-          widgetServerUrl:
-            location.protocol +
-            '//' +
-            location.host +
-            '/' +
-            location.pathname.split('/')[1] +
-            '/',
-          description: '',
-          service_id: '',
-          widget_type: '2',
-          options: '',
-        }
-        tenantPropertyWorkData[panel.panelKey].webchat_widgets.push(widget)
-        var inputs = createWebchatWidgetTr(panel)
-        inputs[0].value = string(widget.chatServerUrl)
-        inputs[1].value = string(widget.description)
-        inputs[2].value = string(widget.service_id)
-        inputs[3].value = string(widget.widget_type)
-        inputs[4].value = string(widget.options)
-      },
-      function (ev) {
-        logger.log(
-          'warn',
-          'getServerTime error code: ' + ev.code + ', message: ' + ev.message,
-        )
-      },
-    )
-  }
-  var panelTenantProperty_buttonNewLampTypeClick = function () {
-    var panel = this
-    windowPrompt(
-      ucMsgs.LBL_NEW_LAMP_TYPE_TITLE,
-      '',
-      ucMsgs.LBL_NEW_LAMP_TYPE_PLACEHOLDER,
-      '',
-      function (type_name) {
-        if (type_name !== '') {
-          if (!tenantPropertyWorkData[panel.panelKey].lamp_types) {
-            tenantPropertyWorkData[panel.panelKey].lamp_types = []
+  var panelTenantProperty_buttonNewWebchatWidgetClick =
+    function panelTenantProperty_buttonNewWebchatWidgetClick() {
+      var panel = this
+      chatClient.getServerTime(
+        function (ev) {
+          if (!tenantPropertyWorkData[panel.panelKey].webchat_widgets) {
+            tenantPropertyWorkData[panel.panelKey].webchat_widgets = []
           }
-          var lamp_type = {
-            name: type_name,
+          var widget = {
+            webchat_widget_id: Brekeke.UCClient.CryptoJS.MD5(
+              ev.tstamp + ':' + new Date().getTime(),
+            ).toString(),
+            chatServerUrl:
+              location.protocol +
+              '//' +
+              location.host +
+              '/' +
+              location.pathname.split('/')[1] +
+              '/',
+            widgetServerUrl:
+              location.protocol +
+              '//' +
+              location.host +
+              '/' +
+              location.pathname.split('/')[1] +
+              '/',
             description: '',
+            service_id: '',
+            widget_type: '2',
             options: '',
-            created: +new Date(),
           }
-          tenantPropertyWorkData[panel.panelKey].lamp_types.push(lamp_type)
-          var inputs = createLampTypeTr(panel, lamp_type.name)
-          inputs[1].value = string(lamp_type.description)
-          inputs[2].value = string(lamp_type.options)
-        }
-      },
-    )
-  }
-  var panelTenantProperty_radioButtonPNEnabledChange = function () {
-    var panel = this
-    if (panel.radioButtonPNEnabledOn.checked) {
-      tenantPropertyWorkData[panel.panelKey].pn_enabled = 'true'
-      panel.trPNOptions.style.display = ''
-      if (!panel.textAreaPNOptions.attr('value')) {
-        // set default value
-        panel.textAreaPNOptions.set(
-          'value',
-          JSON.stringify(
-            [
-              {
-                condition: {
-                  connected: false,
-                  ctype: 1,
-                },
-                notify: {
-                  message: 'Message from %7$s: %1$.20s',
-                },
-              },
-            ],
-            null,
-            2,
-          ),
-        )
-      }
-    } else {
-      tenantPropertyWorkData[panel.panelKey].pn_enabled = 'false'
-      panel.trPNOptions.style.display = 'none'
-    }
-  }
-  var panelTenantProperty_buttonNewCustomizeTClick = function () {
-    var panel = this
-    var configProperties = chatClient.getConfigProperties()
-    var schedules = string(
-      configProperties.optional_config &&
-        configProperties.optional_config.customize_t_schedules,
-    ).split('\n')
-    if (!tenantPropertyWorkData[panel.panelKey].customize_ts) {
-      tenantPropertyWorkData[panel.panelKey].customize_ts = []
-    }
-    var customizeT = {
-      schedule: schedules[0],
-      service: '0',
-      message: '',
-    }
-    tenantPropertyWorkData[panel.panelKey].customize_ts.push(customizeT)
-    var inputs = createCustomizeTTr(panel)
-    inputs[0].value = string(
-      tenantPropertyWorkData[panel.panelKey].customize_ts.length,
-    )
-    inputs[1].value = string(customizeT.schedule)
-    inputs[2].value = string(customizeT.service)
-    inputs[3].value = string(customizeT.message)
-  }
-  var panelTenantProperty_buttonSaveTenantPropertyClick = function () {
-    saveTenantProperty(this)
-  }
-  var panelTenantProperty_buttonCancelTenantPropertyClick = function () {
-    closeTab(this)
-  }
-  var panelTenantPropertyButtonDeleteWebRTCType_click = function (e) {
-    var panel = this.panel
-    var deleteNodes = dojo.query(
-      'input.brUCDeleteWebRTCType',
-      panel.tbodyWebRTCTypes,
-    )
-    var index = deleteNodes.indexOf(e.target)
-    if (index !== -1) {
-      if (
-        tenantPropertyWorkData[panel.panelKey] &&
-        tenantPropertyWorkData[panel.panelKey].webrtc_types
-      ) {
-        tenantPropertyWorkData[panel.panelKey].webrtc_types.splice(index, 1)
-      }
-      var trNodes = dojo.query('tr', panel.tbodyWebRTCTypes)
-      if (trNodes[index]) {
-        panel.tbodyWebRTCTypes.removeChild(trNodes[index])
-      }
-    }
-  }
-  var panelTenantPropertyButtonDeleteWebchatService_click = function () {
-    var panel = this.panel
-    var service_id = this.service_id
-
-    if (
-      tenantPropertyWorkData[panel.panelKey] &&
-      tenantPropertyWorkData[panel.panelKey].webchat_services
-    ) {
-      delete tenantPropertyWorkData[panel.panelKey].webchat_services[service_id]
-    }
-
-    var trNodes = dojo.query(
-      '[data-brekeke-uc-service-id=' + service_id + ']',
-      panel.tbodyWebchatServices,
-    )
-    if (trNodes[0]) {
-      panel.tbodyWebchatServices.removeChild(trNodes[0])
-    }
-  }
-  var panelTenantPropertyButtonDeleteAutoMessage_click = function () {
-    var panel = this.panel
-    var auto_message_id = this.auto_message_id
-
-    if (
-      tenantPropertyWorkData[panel.panelKey] &&
-      tenantPropertyWorkData[panel.panelKey].auto_messages
-    ) {
-      delete tenantPropertyWorkData[panel.panelKey].auto_messages[
-        auto_message_id
-      ]
-    }
-
-    if (tenantPropertyWorkData[panel.panelKey]) {
-      if (!tenantPropertyWorkData[panel.panelKey].imageTo) {
-        tenantPropertyWorkData[panel.panelKey].imageTo = {}
-      }
-      tenantPropertyWorkData[panel.panelKey].imageTo['##m#' + auto_message_id] =
-        'DELETE'
-    }
-
-    var trNodes = dojo.query(
-      '[data-brekeke-uc-auto-message-id=' + auto_message_id + ']',
-      panel.tbodyAutoMessages,
-    )
-    if (trNodes[0]) {
-      panel.tbodyAutoMessages.removeChild(trNodes[0])
-    }
-  }
-  var panelTenantPropertySelectAutoMessageImage_change = function (e) {
-    var panel = this.panel
-    var auto_message_id = this.auto_message_id
-
-    var tenant = panel.panelKey
-    var user_id = '##m#' + auto_message_id
-
-    if (!tenantPropertyWorkData[tenant]) {
-      return
-    }
-
-    if (e && e.target && e.target.value === 'SELECT') {
-      inputAutoMessageImage(panel, auto_message_id)
-    } else if (e && e.target && e.target.value === 'DEFAULT') {
-      if (!tenantPropertyWorkData[panel.panelKey].imageTo) {
-        tenantPropertyWorkData[panel.panelKey].imageTo = {}
-      }
-      tenantPropertyWorkData[panel.panelKey].imageTo[user_id] = 'DELETE'
-      var trNodes = dojo.query(
-        '[data-brekeke-uc-auto-message-id=' + auto_message_id + ']',
-        panel.tbodyAutoMessages,
+          tenantPropertyWorkData[panel.panelKey].webchat_widgets.push(widget)
+          var inputs = createWebchatWidgetTr(panel)
+          inputs[0].value = string(widget.chatServerUrl)
+          inputs[1].value = string(widget.description)
+          inputs[2].value = string(widget.service_id)
+          inputs[3].value = string(widget.widget_type)
+          inputs[4].value = string(widget.options)
+        },
+        function (ev) {
+          logger.log(
+            'warn',
+            'getServerTime error code: ' + ev.code + ', message: ' + ev.message,
+          )
+        },
       )
-      if (trNodes[0]) {
-        var img = dojo.query('span.brUCAutoMessageImageImage', trNodes[0])[0]
-        if (img) {
-          var url =
-            chatClient.getBuddyUser({ tenant: tenant, user_id: '##m#' })
-              .profile_image_url +
-            '&cachebust=' +
-            +new Date()
-          img.style.backgroundImage = 'url(' + url + ')'
-          img.setAttribute('data-brekeke-uc-url', url + '&SIZE=ORIGINAL')
-        }
-      }
-    } else {
-      if (
-        tenantPropertyWorkData[tenant] &&
-        tenantPropertyWorkData[tenant].imageTo
-      ) {
-        delete tenantPropertyWorkData[tenant].imageTo[user_id]
-      }
-      var trNodes = dojo.query(
-        '[data-brekeke-uc-auto-message-id=' + auto_message_id + ']',
-        panel.tbodyAutoMessages,
+    }
+  var panelTenantProperty_buttonNewLampTypeClick =
+    function panelTenantProperty_buttonNewLampTypeClick() {
+      var panel = this
+      windowPrompt(
+        ucMsgs.LBL_NEW_LAMP_TYPE_TITLE,
+        '',
+        ucMsgs.LBL_NEW_LAMP_TYPE_PLACEHOLDER,
+        '',
+        function (type_name) {
+          if (type_name !== '') {
+            if (!tenantPropertyWorkData[panel.panelKey].lamp_types) {
+              tenantPropertyWorkData[panel.panelKey].lamp_types = []
+            }
+            var lamp_type = {
+              name: type_name,
+              description: '',
+              options: '',
+              created: +new Date(),
+            }
+            tenantPropertyWorkData[panel.panelKey].lamp_types.push(lamp_type)
+            var inputs = createLampTypeTr(panel, lamp_type.name)
+            inputs[1].value = string(lamp_type.description)
+            inputs[2].value = string(lamp_type.options)
+          }
+        },
       )
-      if (trNodes[0]) {
-        var img = dojo.query('span.brUCAutoMessageImageImage', trNodes[0])[0]
-        if (img) {
-          var url =
-            chatClient.getBuddyUser({ tenant: tenant, user_id: user_id })
-              .profile_image_url +
-            '&cachebust=' +
-            +new Date()
-          img.style.backgroundImage = 'url(' + url + ')'
-          img.setAttribute('data-brekeke-uc-url', url + '&SIZE=ORIGINAL')
-        }
-      }
     }
-  }
-  var panelTenantPropertySpanAutoMessageImageImage_click = function (e) {
-    showProfileImage(
-      e &&
-        e.target &&
-        e.target.getAttribute &&
-        e.target.getAttribute('data-brekeke-uc-url'),
-    )
-  }
-  var panelTenantPropertyButtonPublishWebchatWidget_click = function (e) {
-    var panel = this.panel
-    var publishNodes = dojo.query(
-      'button.brUCPublishWebchatWidget',
-      panel.tbodyWebchatWidgets,
-    )
-    var index = publishNodes.indexOf(e.target)
-    if (index !== -1) {
-      publishWebchatWidget(panel, index)
-    }
-  }
-  var panelTenantPropertyButtonDeleteWebchatWidget_click = function (e) {
-    var panel = this.panel
-    var deleteNodes = dojo.query(
-      'input.brUCDeleteWebchatWidget',
-      panel.tbodyWebchatWidgets,
-    )
-    var index = deleteNodes.indexOf(e.target)
-    if (index !== -1) {
-      if (
-        tenantPropertyWorkData[panel.panelKey] &&
-        tenantPropertyWorkData[panel.panelKey].webchat_widgets
-      ) {
-        tenantPropertyWorkData[panel.panelKey].webchat_widgets.splice(index, 1)
-      }
-      var trNodes = dojo.query('tr', panel.tbodyWebchatWidgets)
-      if (trNodes[index]) {
-        panel.tbodyWebchatWidgets.removeChild(trNodes[index])
-      }
-    }
-  }
-  var panelTenantPropertyWebchatWidgetSelectService_change = function (e) {
-    if (!e.target.value) {
-      return
-    }
-    e.target.previousSibling.value = e.target.value
-    e.target.value = ''
-  }
-  var panelTenantPropertyWebchatWidgetSelectType_change = function (e) {
-    var panel = this.panel
-    var typeNodes = dojo.query(
-      '.brUCWebchatWidgetSelectType',
-      panel.tbodyWebchatWidgets,
-    )
-    var index = typeNodes.indexOf(e.target)
-    if (index !== -1) {
-      if (
-        tenantPropertyWorkData[panel.panelKey] &&
-        tenantPropertyWorkData[panel.panelKey].webchat_widgets
-      ) {
-        if (
-          !tenantPropertyWorkData[panel.panelKey].webchat_widgets[index]
-            .webchat_widget_id &&
-          e.target.value === '1'
-        ) {
-          chatClient.getServerTime(
-            function (ev) {
-              tenantPropertyWorkData[panel.panelKey].webchat_widgets[
-                index
-              ].webchat_widget_id = Brekeke.UCClient.CryptoJS.MD5(
-                ev.tstamp + ':' + new Date().getTime(),
-              ).toString()
-            },
-            function (ev) {
-              logger.log(
-                'warn',
-                'getServerTime error code: ' +
-                  ev.code +
-                  ', message: ' +
-                  ev.message,
-              )
-            },
+  var panelTenantProperty_radioButtonPNEnabledChange =
+    function panelTenantProperty_radioButtonPNEnabledChange() {
+      var panel = this
+      if (panel.radioButtonPNEnabledOn.checked) {
+        tenantPropertyWorkData[panel.panelKey].pn_enabled = 'true'
+        panel.trPNOptions.style.display = ''
+        if (!panel.textAreaPNOptions.attr('value')) {
+          // set default value
+          panel.textAreaPNOptions.set(
+            'value',
+            JSON.stringify(
+              [
+                {
+                  condition: { connected: false, ctype: 1 },
+                  notify: { message: 'Message from %7$s: %1$.20s' },
+                },
+              ],
+              null,
+              2,
+            ),
           )
         }
+      } else {
+        tenantPropertyWorkData[panel.panelKey].pn_enabled = 'false'
+        panel.trPNOptions.style.display = 'none'
       }
+    }
+  var panelTenantProperty_buttonNewCustomizeTClick =
+    function panelTenantProperty_buttonNewCustomizeTClick() {
+      var panel = this
+      var configProperties = chatClient.getConfigProperties()
+      var schedules = string(
+        configProperties.optional_config &&
+          configProperties.optional_config.customize_t_schedules,
+      ).split('\n')
+      if (!tenantPropertyWorkData[panel.panelKey].customize_ts) {
+        tenantPropertyWorkData[panel.panelKey].customize_ts = []
+      }
+      var customizeT = { schedule: schedules[0], service: '0', message: '' }
+      tenantPropertyWorkData[panel.panelKey].customize_ts.push(customizeT)
+      var inputs = createCustomizeTTr(panel)
+      inputs[0].value = string(
+        tenantPropertyWorkData[panel.panelKey].customize_ts.length,
+      )
+      inputs[1].value = string(customizeT.schedule)
+      inputs[2].value = string(customizeT.service)
+      inputs[3].value = string(customizeT.message)
+    }
+  var panelTenantProperty_buttonSaveTenantPropertyClick =
+    function panelTenantProperty_buttonSaveTenantPropertyClick() {
+      saveTenantProperty(this)
+    }
+  var panelTenantProperty_buttonCancelTenantPropertyClick =
+    function panelTenantProperty_buttonCancelTenantPropertyClick() {
+      _closeTab(this)
+    }
+  var panelTenantPropertyButtonDeleteWebRTCType_click =
+    function panelTenantPropertyButtonDeleteWebRTCType_click(e) {
+      var panel = this.panel
+      var deleteNodes = dojo.query(
+        'input.brUCDeleteWebRTCType',
+        panel.tbodyWebRTCTypes,
+      )
+      var index = deleteNodes.indexOf(e.target)
+      if (index !== -1) {
+        if (
+          tenantPropertyWorkData[panel.panelKey] &&
+          tenantPropertyWorkData[panel.panelKey].webrtc_types
+        ) {
+          tenantPropertyWorkData[panel.panelKey].webrtc_types.splice(index, 1)
+        }
+        var trNodes = dojo.query('tr', panel.tbodyWebRTCTypes)
+        if (trNodes[index]) {
+          panel.tbodyWebRTCTypes.removeChild(trNodes[index])
+        }
+      }
+    }
+  var panelTenantPropertyButtonDeleteWebchatService_click =
+    function panelTenantPropertyButtonDeleteWebchatService_click() {
+      var panel = this.panel
+      var service_id = this.service_id
+      if (
+        tenantPropertyWorkData[panel.panelKey] &&
+        tenantPropertyWorkData[panel.panelKey].webchat_services
+      ) {
+        delete tenantPropertyWorkData[panel.panelKey].webchat_services[
+          service_id
+        ]
+      }
+      var trNodes = dojo.query(
+        '[data-brekeke-uc-service-id=' + service_id + ']',
+        panel.tbodyWebchatServices,
+      )
+      if (trNodes[0]) {
+        panel.tbodyWebchatServices.removeChild(trNodes[0])
+      }
+    }
+  var panelTenantPropertyButtonDeleteAutoMessage_click =
+    function panelTenantPropertyButtonDeleteAutoMessage_click() {
+      var panel = this.panel
+      var auto_message_id = this.auto_message_id
+      if (
+        tenantPropertyWorkData[panel.panelKey] &&
+        tenantPropertyWorkData[panel.panelKey].auto_messages
+      ) {
+        delete tenantPropertyWorkData[panel.panelKey].auto_messages[
+          auto_message_id
+        ]
+      }
+      if (tenantPropertyWorkData[panel.panelKey]) {
+        if (!tenantPropertyWorkData[panel.panelKey].imageTo) {
+          tenantPropertyWorkData[panel.panelKey].imageTo = {}
+        }
+        tenantPropertyWorkData[panel.panelKey].imageTo[
+          '##m#' + auto_message_id
+        ] = 'DELETE'
+      }
+      var trNodes = dojo.query(
+        '[data-brekeke-uc-auto-message-id=' + auto_message_id + ']',
+        panel.tbodyAutoMessages,
+      )
+      if (trNodes[0]) {
+        panel.tbodyAutoMessages.removeChild(trNodes[0])
+      }
+    }
+  var panelTenantPropertySelectAutoMessageImage_change =
+    function panelTenantPropertySelectAutoMessageImage_change(e) {
+      var panel = this.panel
+      var auto_message_id = this.auto_message_id
+      var tenant = panel.panelKey
+      var user_id = '##m#' + auto_message_id
+      if (!tenantPropertyWorkData[tenant]) {
+        return
+      }
+      if (e && e.target && e.target.value === 'SELECT') {
+        inputAutoMessageImage(panel, auto_message_id)
+      } else if (e && e.target && e.target.value === 'DEFAULT') {
+        if (!tenantPropertyWorkData[panel.panelKey].imageTo) {
+          tenantPropertyWorkData[panel.panelKey].imageTo = {}
+        }
+        tenantPropertyWorkData[panel.panelKey].imageTo[user_id] = 'DELETE'
+        var trNodes = dojo.query(
+          '[data-brekeke-uc-auto-message-id=' + auto_message_id + ']',
+          panel.tbodyAutoMessages,
+        )
+        if (trNodes[0]) {
+          var img = dojo.query('span.brUCAutoMessageImageImage', trNodes[0])[0]
+          if (img) {
+            var url =
+              chatClient.getBuddyUser({ tenant: tenant, user_id: '##m#' })
+                .profile_image_url +
+              '&cachebust=' +
+              +new Date()
+            img.style.backgroundImage = 'url(' + url + ')'
+            img.setAttribute('data-brekeke-uc-url', url + '&SIZE=ORIGINAL')
+          }
+        }
+      } else {
+        if (
+          tenantPropertyWorkData[tenant] &&
+          tenantPropertyWorkData[tenant].imageTo
+        ) {
+          delete tenantPropertyWorkData[tenant].imageTo[user_id]
+        }
+        var trNodes = dojo.query(
+          '[data-brekeke-uc-auto-message-id=' + auto_message_id + ']',
+          panel.tbodyAutoMessages,
+        )
+        if (trNodes[0]) {
+          var img = dojo.query('span.brUCAutoMessageImageImage', trNodes[0])[0]
+          if (img) {
+            var url =
+              chatClient.getBuddyUser({ tenant: tenant, user_id: user_id })
+                .profile_image_url +
+              '&cachebust=' +
+              +new Date()
+            img.style.backgroundImage = 'url(' + url + ')'
+            img.setAttribute('data-brekeke-uc-url', url + '&SIZE=ORIGINAL')
+          }
+        }
+      }
+    }
+  var panelTenantPropertySpanAutoMessageImageImage_click =
+    function panelTenantPropertySpanAutoMessageImageImage_click(e) {
+      showProfileImage(
+        e &&
+          e.target &&
+          e.target.getAttribute &&
+          e.target.getAttribute('data-brekeke-uc-url'),
+      )
+    }
+  var panelTenantPropertyButtonPublishWebchatWidget_click =
+    function panelTenantPropertyButtonPublishWebchatWidget_click(e) {
+      var panel = this.panel
       var publishNodes = dojo.query(
         'button.brUCPublishWebchatWidget',
         panel.tbodyWebchatWidgets,
       )
-      if (publishNodes[index]) {
-        publishNodes[index].innerHTML = e.target.value === '1' ? 'URL' : 'HTML'
+      var index = publishNodes.indexOf(e.target)
+      if (index !== -1) {
+        publishWebchatWidget(panel, index)
       }
     }
-  }
-  var panelTenantPropertyButtonDeleteLampType_click = function (e) {
-    var panel = this.panel
-    var deleteNodes = dojo.query(
-      'input.brUCDeleteLampType',
-      panel.tbodyLampTypes,
-    )
-    var index = deleteNodes.indexOf(e.target)
-    if (index !== -1) {
-      if (
-        tenantPropertyWorkData[panel.panelKey] &&
-        tenantPropertyWorkData[panel.panelKey].lamp_types
-      ) {
-        tenantPropertyWorkData[panel.panelKey].lamp_types.splice(index, 1)
-      }
-      var trNodes = dojo.query('tr', panel.tbodyLampTypes)
-      if (trNodes[index]) {
-        panel.tbodyLampTypes.removeChild(trNodes[index])
-      }
-    }
-  }
-  var panelTenantPropertyButtonDeleteCustomizeT_click = function (e) {
-    var panel = this.panel
-    var deleteNodes = dojo.query(
-      'input.brUCDeleteCustomizeT',
-      panel.tbodyCustomizeTs,
-    )
-    var index = deleteNodes.indexOf(e.target)
-    if (index !== -1) {
-      if (
-        tenantPropertyWorkData[panel.panelKey] &&
-        tenantPropertyWorkData[panel.panelKey].customize_ts
-      ) {
-        tenantPropertyWorkData[panel.panelKey].customize_ts.splice(index, 1)
-      }
-      var trNodes = dojo.query('tr', panel.tbodyCustomizeTs)
-      if (trNodes[index]) {
-        panel.tbodyCustomizeTs.removeChild(trNodes[index])
+  var panelTenantPropertyButtonDeleteWebchatWidget_click =
+    function panelTenantPropertyButtonDeleteWebchatWidget_click(e) {
+      var panel = this.panel
+      var deleteNodes = dojo.query(
+        'input.brUCDeleteWebchatWidget',
+        panel.tbodyWebchatWidgets,
+      )
+      var index = deleteNodes.indexOf(e.target)
+      if (index !== -1) {
+        if (
+          tenantPropertyWorkData[panel.panelKey] &&
+          tenantPropertyWorkData[panel.panelKey].webchat_widgets
+        ) {
+          tenantPropertyWorkData[panel.panelKey].webchat_widgets.splice(
+            index,
+            1,
+          )
+        }
+        var trNodes = dojo.query('tr', panel.tbodyWebchatWidgets)
+        if (trNodes[index]) {
+          panel.tbodyWebchatWidgets.removeChild(trNodes[index])
+        }
       }
     }
-    var idxNodes = dojo.query('li.brUCCustomizeTInput', panel.tbodyCustomizeTs)
-    for (var i = 0; i < idxNodes.length; i++) {
-      idxNodes[i].value = string(i + 1)
+  var panelTenantPropertyWebchatWidgetSelectService_change =
+    function panelTenantPropertyWebchatWidgetSelectService_change(e) {
+      if (!e.target.value) {
+        return
+      }
+      e.target.previousSibling.value = e.target.value
+      e.target.value = ''
     }
-  }
-  var panelTenantSettings_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.buttonNewTenant,
-        'onClick',
-        getFuncApply(panelTenantSettings_buttonNewTenantClick, this),
-      ),
-      dojo.connect(
-        this.buttonPbxTenant,
-        'onClick',
-        getFuncApply(panelTenantSettings_buttonPbxTenantClick, this),
-      ),
-      dojo.connect(
-        this.buttonSaveTenantSettings,
-        'onClick',
-        getFuncApply(panelTenantSettings_buttonSaveTenantSettingsClick, this),
-      ),
-      dojo.connect(
-        this.buttonCancelTenantSettings,
-        'onClick',
-        getFuncApply(panelTenantSettings_buttonCancelTenantSettingsClick, this),
-      ),
-    ]
-  }
-  var panelTenantSettings_destroy = function () {
+  var panelTenantPropertyWebchatWidgetSelectType_change =
+    function panelTenantPropertyWebchatWidgetSelectType_change(e) {
+      var panel = this.panel
+      var typeNodes = dojo.query(
+        '.brUCWebchatWidgetSelectType',
+        panel.tbodyWebchatWidgets,
+      )
+      var index = typeNodes.indexOf(e.target)
+      if (index !== -1) {
+        if (
+          tenantPropertyWorkData[panel.panelKey] &&
+          tenantPropertyWorkData[panel.panelKey].webchat_widgets
+        ) {
+          if (
+            !tenantPropertyWorkData[panel.panelKey].webchat_widgets[index]
+              .webchat_widget_id &&
+            e.target.value === '1'
+          ) {
+            chatClient.getServerTime(
+              function (ev) {
+                tenantPropertyWorkData[panel.panelKey].webchat_widgets[
+                  index
+                ].webchat_widget_id = Brekeke.UCClient.CryptoJS.MD5(
+                  ev.tstamp + ':' + new Date().getTime(),
+                ).toString()
+              },
+              function (ev) {
+                logger.log(
+                  'warn',
+                  'getServerTime error code: ' +
+                    ev.code +
+                    ', message: ' +
+                    ev.message,
+                )
+              },
+            )
+          }
+        }
+        var publishNodes = dojo.query(
+          'button.brUCPublishWebchatWidget',
+          panel.tbodyWebchatWidgets,
+        )
+        if (publishNodes[index]) {
+          publishNodes[index].innerHTML =
+            e.target.value === '1' ? 'URL' : 'HTML'
+        }
+      }
+    }
+  var panelTenantPropertyButtonDeleteLampType_click =
+    function panelTenantPropertyButtonDeleteLampType_click(e) {
+      var panel = this.panel
+      var deleteNodes = dojo.query(
+        'input.brUCDeleteLampType',
+        panel.tbodyLampTypes,
+      )
+      var index = deleteNodes.indexOf(e.target)
+      if (index !== -1) {
+        if (
+          tenantPropertyWorkData[panel.panelKey] &&
+          tenantPropertyWorkData[panel.panelKey].lamp_types
+        ) {
+          tenantPropertyWorkData[panel.panelKey].lamp_types.splice(index, 1)
+        }
+        var trNodes = dojo.query('tr', panel.tbodyLampTypes)
+        if (trNodes[index]) {
+          panel.tbodyLampTypes.removeChild(trNodes[index])
+        }
+      }
+    }
+  var panelTenantPropertyButtonDeleteCustomizeT_click =
+    function panelTenantPropertyButtonDeleteCustomizeT_click(e) {
+      var panel = this.panel
+      var deleteNodes = dojo.query(
+        'input.brUCDeleteCustomizeT',
+        panel.tbodyCustomizeTs,
+      )
+      var index = deleteNodes.indexOf(e.target)
+      if (index !== -1) {
+        if (
+          tenantPropertyWorkData[panel.panelKey] &&
+          tenantPropertyWorkData[panel.panelKey].customize_ts
+        ) {
+          tenantPropertyWorkData[panel.panelKey].customize_ts.splice(index, 1)
+        }
+        var trNodes = dojo.query('tr', panel.tbodyCustomizeTs)
+        if (trNodes[index]) {
+          panel.tbodyCustomizeTs.removeChild(trNodes[index])
+        }
+      }
+      var idxNodes = dojo.query(
+        'li.brUCCustomizeTInput',
+        panel.tbodyCustomizeTs,
+      )
+      for (var i = 0; i < idxNodes.length; i++) {
+        idxNodes[i].value = string(i + 1)
+      }
+    }
+  var panelTenantSettings_postCreate =
+    function panelTenantSettings_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.buttonNewTenant,
+          'onClick',
+          getFuncApply(panelTenantSettings_buttonNewTenantClick, this),
+        ),
+        dojo.connect(
+          this.buttonPbxTenant,
+          'onClick',
+          getFuncApply(panelTenantSettings_buttonPbxTenantClick, this),
+        ),
+        dojo.connect(
+          this.buttonSaveTenantSettings,
+          'onClick',
+          getFuncApply(panelTenantSettings_buttonSaveTenantSettingsClick, this),
+        ),
+        dojo.connect(
+          this.buttonCancelTenantSettings,
+          'onClick',
+          getFuncApply(
+            panelTenantSettings_buttonCancelTenantSettingsClick,
+            this,
+          ),
+        ),
+      ]
+    }
+  var panelTenantSettings_destroy = function panelTenantSettings_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -20204,130 +19214,135 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelTenantSettings_buttonNewTenantClick = function () {
-    var panel = this
-    windowPrompt(
-      ucMsgs.LBL_NEW_TENANT_TITLE,
-      '',
-      ucMsgs.LBL_NEW_TENANT_NAME,
-      '',
-      function (tenant) {
-        if (tenant !== '') {
-          tenantSettingsWorkData[panel.panelKey][tenant] = {
-            limit: 0,
-            enabled: true,
-          }
-          displayTenantSettings(panel)
-        }
-      },
-    )
-  }
-  var panelTenantSettings_buttonPbxTenantClick = function () {
-    var panel = this
-    windowConfirm(
-      ucMsgs.LBL_LOAD_TENANT_TITLE,
-      ucMsgs.MSG_LOAD_TENANT_CONFIRM + '<br />',
-      function () {
-        panel.buttonSaveTenantSettings.set('disabled', true)
-        chatClient.loadTenantListFromPbx(
-          function (ev) {
-            // funcOK
-            var tenantList = ev.tenantList
-            var tenantSettings = tenantSettingsWorkData[panel.panelKey]
-            for (var i = 0; i < tenantList.length; i++) {
-              var tenant = tenantList[i]
-              if (!tenantSettings[tenant] || !tenantSettings[tenant].enabled) {
-                tenantSettings[tenant] = {
-                  limit: 0,
-                  enabled: true,
-                }
-              }
-            }
-            for (var tenant in tenantSettings) {
-              if (tenantList.indexOf(tenant) < 0) {
-                tenantSettings[tenant].enabled = false
-              }
+  var panelTenantSettings_buttonNewTenantClick =
+    function panelTenantSettings_buttonNewTenantClick() {
+      var panel = this
+      windowPrompt(
+        ucMsgs.LBL_NEW_TENANT_TITLE,
+        '',
+        ucMsgs.LBL_NEW_TENANT_NAME,
+        '',
+        function (tenant) {
+          if (tenant !== '') {
+            tenantSettingsWorkData[panel.panelKey][tenant] = {
+              limit: 0,
+              enabled: true,
             }
             displayTenantSettings(panel)
-            panel.buttonSaveTenantSettings.set('disabled', false)
-          },
-          function (ev) {
-            // funcError
-            logger.log(
-              'warn',
-              'loadTenantList error code: ' +
-                ev.code +
-                ', message: ' +
-                ev.message,
-            )
-            windowAlert(
-              ucMsgs.CMN_ALERT,
-              ucMsgs.MSG_LOAD_TENANT_FAILED +
-                ' (' +
-                ev.code +
-                ' ' +
-                ev.message +
-                ')',
-            )
-            panel.buttonSaveTenantSettings.set('disabled', false)
-          },
-        )
-      },
-    )
-  }
-  var panelTenantSettings_buttonSaveTenantSettingsClick = function () {
-    saveTenantSettings(this)
-  }
-  var panelTenantSettings_buttonCancelTenantSettingsClick = function () {
-    closeTab(this)
-  }
-  var panelTenantSettingsTextBoxMaxLoginUsers_blur_getFunc = function (
-    panel,
-    tenant,
-  ) {
-    return function () {
-      tenantSettingsWorkData[panel.panelKey][tenant].limit = this.value
-      displayTotalMaxLoginUsers(panel)
-    }
-  }
-  var panelTenantSettingsButtonDelete_click_getFunc = function (panel, tenant) {
-    return function () {
-      var self = this
-      windowConfirm(
-        ucMsgs.LBL_DELETE_TENANT_TITLE,
-        ucMsgs.MSG_DELETE_TENANT_CONFIRM + '<br />',
-        function () {
-          tenantSettingsWorkData[panel.panelKey][tenant].enabled = false
-          panel.tbodyTenantList.removeChild(self.parentNode.parentNode)
-          displayTotalMaxLoginUsers(panel)
+          }
         },
       )
     }
-  }
-  var panelAdvancedSettings_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.buttonSaveAdvancedSettings,
-        'onClick',
-        getFuncApply(
-          panelAdvancedSettings_buttonSaveAdvancedSettingsClick,
-          this,
+  var panelTenantSettings_buttonPbxTenantClick =
+    function panelTenantSettings_buttonPbxTenantClick() {
+      var panel = this
+      windowConfirm(
+        ucMsgs.LBL_LOAD_TENANT_TITLE,
+        ucMsgs.MSG_LOAD_TENANT_CONFIRM + '<br />',
+        function () {
+          panel.buttonSaveTenantSettings.set('disabled', true)
+          chatClient.loadTenantListFromPbx(
+            function (ev) {
+              // funcOK
+              var tenantList = ev.tenantList
+              var tenantSettings = tenantSettingsWorkData[panel.panelKey]
+              for (var i = 0; i < tenantList.length; i++) {
+                var tenant = tenantList[i]
+                if (
+                  !tenantSettings[tenant] ||
+                  !tenantSettings[tenant].enabled
+                ) {
+                  tenantSettings[tenant] = { limit: 0, enabled: true }
+                }
+              }
+              for (var tenant in tenantSettings) {
+                if (tenantList.indexOf(tenant) < 0) {
+                  tenantSettings[tenant].enabled = false
+                }
+              }
+              displayTenantSettings(panel)
+              panel.buttonSaveTenantSettings.set('disabled', false)
+            },
+            function (ev) {
+              // funcError
+              logger.log(
+                'warn',
+                'loadTenantList error code: ' +
+                  ev.code +
+                  ', message: ' +
+                  ev.message,
+              )
+              windowAlert(
+                ucMsgs.CMN_ALERT,
+                ucMsgs.MSG_LOAD_TENANT_FAILED +
+                  ' (' +
+                  ev.code +
+                  ' ' +
+                  ev.message +
+                  ')',
+              )
+              panel.buttonSaveTenantSettings.set('disabled', false)
+            },
+          )
+        },
+      )
+    }
+  var panelTenantSettings_buttonSaveTenantSettingsClick =
+    function panelTenantSettings_buttonSaveTenantSettingsClick() {
+      saveTenantSettings(this)
+    }
+  var panelTenantSettings_buttonCancelTenantSettingsClick =
+    function panelTenantSettings_buttonCancelTenantSettingsClick() {
+      _closeTab(this)
+    }
+  var panelTenantSettingsTextBoxMaxLoginUsers_blur_getFunc =
+    function panelTenantSettingsTextBoxMaxLoginUsers_blur_getFunc(
+      panel,
+      tenant,
+    ) {
+      return function () {
+        tenantSettingsWorkData[panel.panelKey][tenant].limit = this.value
+        displayTotalMaxLoginUsers(panel)
+      }
+    }
+  var panelTenantSettingsButtonDelete_click_getFunc =
+    function panelTenantSettingsButtonDelete_click_getFunc(panel, tenant) {
+      return function () {
+        var self = this
+        windowConfirm(
+          ucMsgs.LBL_DELETE_TENANT_TITLE,
+          ucMsgs.MSG_DELETE_TENANT_CONFIRM + '<br />',
+          function () {
+            tenantSettingsWorkData[panel.panelKey][tenant].enabled = false
+            panel.tbodyTenantList.removeChild(self.parentNode.parentNode)
+            displayTotalMaxLoginUsers(panel)
+          },
+        )
+      }
+    }
+  var panelAdvancedSettings_postCreate =
+    function panelAdvancedSettings_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.buttonSaveAdvancedSettings,
+          'onClick',
+          getFuncApply(
+            panelAdvancedSettings_buttonSaveAdvancedSettingsClick,
+            this,
+          ),
         ),
-      ),
-      dojo.connect(
-        this.buttonCancelAdvancedSettings,
-        'onClick',
-        getFuncApply(
-          panelAdvancedSettings_buttonCancelAdvancedSettingsClick,
-          this,
+        dojo.connect(
+          this.buttonCancelAdvancedSettings,
+          'onClick',
+          getFuncApply(
+            panelAdvancedSettings_buttonCancelAdvancedSettingsClick,
+            this,
+          ),
         ),
-      ),
-    ]
-  }
-  var panelAdvancedSettings_destroy = function () {
+      ]
+    }
+  var panelAdvancedSettings_destroy = function panelAdvancedSettings_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -20336,25 +19351,26 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelAdvancedSettings_buttonSaveAdvancedSettingsClick = function () {
-    saveAdvancedSettings(this)
-  }
-  var panelAdvancedSettings_buttonCancelAdvancedSettingsClick = function () {
-    closeTab(this)
-  }
-  var panelSoftwareUpdate_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.buttonSoftwareUpdate,
-        'click',
-        getFuncApply(panelSoftwareUpdate_buttonSoftwareUpdateClick, this),
-      ),
-    ]
-  }
-  var panelSoftwareUpdate_destroy = function () {
+  var panelAdvancedSettings_buttonSaveAdvancedSettingsClick =
+    function panelAdvancedSettings_buttonSaveAdvancedSettingsClick() {
+      saveAdvancedSettings(this)
+    }
+  var panelAdvancedSettings_buttonCancelAdvancedSettingsClick =
+    function panelAdvancedSettings_buttonCancelAdvancedSettingsClick() {
+      _closeTab(this)
+    }
+  var panelSoftwareUpdate_postCreate =
+    function panelSoftwareUpdate_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.buttonSoftwareUpdate,
+          'click',
+          getFuncApply(panelSoftwareUpdate_buttonSoftwareUpdateClick, this),
+        ),
+      ]
+    }
+  var panelSoftwareUpdate_destroy = function panelSoftwareUpdate_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -20363,22 +19379,22 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelSoftwareUpdate_buttonSoftwareUpdateClick = function () {
-    closeTab(this)
-  }
-  var panelActivateLicense_postCreate = function () {
-    this.inherited(arguments)
-
-    // register event listeners
-    this.handlers = [
-      dojo.connect(
-        this.buttonActivateLicense,
-        'click',
-        getFuncApply(panelActivateLicense_buttonActivateLicenseClick, this),
-      ),
-    ]
-  }
-  var panelActivateLicense_destroy = function () {
+  var panelSoftwareUpdate_buttonSoftwareUpdateClick =
+    function panelSoftwareUpdate_buttonSoftwareUpdateClick() {
+      _closeTab(this)
+    }
+  var panelActivateLicense_postCreate =
+    function panelActivateLicense_postCreate() {
+      this.inherited(arguments) // register event listeners
+      this.handlers = [
+        dojo.connect(
+          this.buttonActivateLicense,
+          'click',
+          getFuncApply(panelActivateLicense_buttonActivateLicenseClick, this),
+        ),
+      ]
+    }
+  var panelActivateLicense_destroy = function panelActivateLicense_destroy() {
     if (this.handlers && this.handlers.length) {
       for (var i = 0; i < this.handlers.length; i++) {
         dojo.disconnect(this.handlers[i])
@@ -20387,15 +19403,16 @@ if (!window.Brekeke.UCClientUI) {
     this.handlers = null
     this.inherited(arguments)
   }
-  var panelActivateLicense_buttonActivateLicenseClick = function () {
-    var activated = this.buttonActivateLicense.value === true.toString()
-    if (activated) {
-      signOut()
-    } else {
-      closeTab(this)
+  var panelActivateLicense_buttonActivateLicenseClick =
+    function panelActivateLicense_buttonActivateLicenseClick() {
+      var activated = this.buttonActivateLicense.value === true.toString()
+      if (activated) {
+        signOut()
+      } else {
+        _closeTab(this)
+      }
     }
-  }
-  var window_onfocus = function () {
+  var window_onfocus = function window_onfocus() {
     // stop lamp
     if (lampObject && lampObject.jingle) {
       lampObject.windowFocused = true
@@ -20403,33 +19420,31 @@ if (!window.Brekeke.UCClientUI) {
         lampObject.jingle = null
         lampObject.changeLamp(lampObject)
       }
-    }
-    // stop highlight
+    } // stop highlight
     if (highlightObject !== null) {
       stopHighlight()
-    }
-    // stop notification
+    } // stop notification
     stopNotification()
   }
-  var window_onclickFirst = function () {
+  var window_onclickFirst = function window_onclickFirst() {
     document.getElementById('audioBell').load()
     document.getElementById('audioRing').load()
     document.getElementById('audioRingback').load()
     document.getElementById('audioTerminated').load()
     window.onclick = window_onclick
   }
-  var window_onclick = function () {}
-  var window_onbeforeunload = function (e) {
+  var window_onclick = function window_onclick() {}
+  var window_onbeforeunload = function window_onbeforeunload(e) {
     e.returnValue = ' '
   }
-  var window_onunload = function (e) {
+  var window_onunload = function window_onunload(e) {
     if (lampObject) {
       lampObject.status = Constants.STATUS_OFFLINE
       lampObject.changeLamp(lampObject)
     }
     chatClient.signOut()
   }
-  var securityCheckTimerTick = function () {
+  var securityCheckTimerTick = function securityCheckTimerTick() {
     var configProperties = chatClient.getConfigProperties()
     if (
       +new Date() -
@@ -20478,25 +19493,18 @@ if (!window.Brekeke.UCClientUI) {
       securityNgCount++
     }
   }
-
   /*
    * ChatClient event listeners
-   */
-  var chatClient_onForcedSignOut = function (ev) {
+   */ var chatClient_onForcedSignOut = function chatClient_onForcedSignOut(ev) {
     logger.log(
       'warn',
       'forcedSignOut code: ' + ev.code + ', message: ' + ev.message,
     )
     require(['dojo/dom-construct', 'dojo/on'], function (domConstruct, on) {
       var signOutTime = new Date().getTime()
-
-      phone.stopWebRTC(false)
-
-      // org status
+      phone.stopWebRTC(false) // org status
       var statusOrg = myStatus.status
-      var displayOrg = myStatus.display
-
-      // status
+      var displayOrg = myStatus.display // status
       signedIn = false
       phoneRegistered = false
       myStatus.status = Constants.STATUS_OFFLINE
@@ -20507,9 +19515,7 @@ if (!window.Brekeke.UCClientUI) {
       )
       sidePaneWidget.dropDownButtonStatus.set('disabled', true)
       sidePaneWidget.textBoxDisplay.set('disabled', true)
-      sidePaneWidget.dropDownButtonDisplay.set('disabled', true)
-
-      // conferences
+      sidePaneWidget.dropDownButtonDisplay.set('disabled', true) // conferences
       for (var conf_id in panelsConference) {
         enableButtons(panelsConference[conf_id])
         if (
@@ -20527,22 +19533,17 @@ if (!window.Brekeke.UCClientUI) {
             panelsConference[conf_id].panelChatHeaderBuddies.domNode,
           )
           .addClass('brUCDisplayLeaved')
-      }
-
-      // webchat
+      } // webchat
       while (
         webchatQueueList.length > 0 &&
         removeWebchatQueue(webchatQueueList[0].conf_id)
       ) {}
-
       window.removeEventListener('beforeunload', window_onbeforeunload)
       window.removeEventListener('unload', window_onunload)
       if (securityCheckTimer) {
         clearInterval(securityCheckTimer)
         securityCheckTimer = null
-      }
-
-      // message bar
+      } // message bar
       if (ev.code === Errors.UPDATE_STARTED) {
         // update started
         if (Object.keys(panelsSoftwareUpdate).length === 0) {
@@ -20573,17 +19574,10 @@ if (!window.Brekeke.UCClientUI) {
           ucMsgs.LBL_MESSAGE_BAR_RETRY,
           auto,
           function (funcOK, funcError) {
-            chatClient.signOut()
-
-            // re-initialize variables
+            chatClient.signOut() // re-initialize variables
             signedIn = false
             phoneRegistered = false
-            myStatus = {
-              status: Constants.STATUS_OFFLINE,
-              display: '',
-            }
-
-            // get device token from local storage
+            myStatus = { status: Constants.STATUS_OFFLINE, display: '' } // get device token from local storage
             var device_token = null
             try {
               device_token = JSON.parse(
@@ -20596,9 +19590,7 @@ if (!window.Brekeke.UCClientUI) {
                     string(mySignInParams && mySignInParams.user).split('?')[0],
                 ),
               ).token
-            } catch (e) {}
-
-            // sign-in
+            } catch (e) {} // sign-in
             chatClient.signIn(
               location.host,
               location.pathname.split('/')[1],
@@ -20622,20 +19614,17 @@ if (!window.Brekeke.UCClientUI) {
                 // funcOK
                 var reSignInTime = new Date().getTime()
                 var profile = chatClient.getProfile()
-                var configProperties = chatClient.getConfigProperties()
-                // initial status
+                var configProperties = chatClient.getConfigProperties() // initial status
                 signedIn = true
                 signedInTime = new Date().getTime()
                 phoneRegistered = false
                 myStatus.status = statusOrg
-                myStatus.display = displayOrg
-                // show BrFrame
+                myStatus.display = displayOrg // show BrFrame
                 displayUserType()
                 brFrame.setVisible(true)
                 displayProfiles()
                 displaySplittable()
-                brFrame.updateView()
-                // TODO: yano lamp
+                brFrame.updateView() // TODO: yano lamp
                 // timer
                 if (
                   window.location.protocol.indexOf('https') >= 0 &&
@@ -20649,20 +19638,17 @@ if (!window.Brekeke.UCClientUI) {
                     configProperties.optional_config
                       .security_check_timer_interval || 60000,
                   )
-                }
-                // beforeunload
+                } // beforeunload
                 window.addEventListener('beforeunload', window_onbeforeunload)
-                window.addEventListener('unload', window_onunload)
-                // restore temporary buddies
-                restoreTemporaryBuddies()
-                // receive unread text
+                window.addEventListener('unload', window_onunload) // restore temporary buddies
+                restoreTemporaryBuddies() // receive unread text
                 if (
                   profile.user_type !== Constants.USER_TYPE_SYSTEM_ADMIN &&
                   !mySignInParams.admin_mode
                 ) {
                   var unreadTextOnReSignInPanelKeys = Object.keys(panelsChat)
                   readTextOnReSignInPanelKeys = []
-                  var receiveFunc = function () {
+                  var _receiveFunc = function receiveFunc() {
                     var panelKey = unreadTextOnReSignInPanelKeys.pop()
                     if (panelKey) {
                       readTextOnReSignInPanelKeys.push(panelKey)
@@ -20671,7 +19657,7 @@ if (!window.Brekeke.UCClientUI) {
                         signOutTime,
                         reSignInTime,
                         false,
-                        receiveFunc,
+                        _receiveFunc,
                       )
                     } else {
                       chatClient.receiveUnreadText(
@@ -20680,9 +19666,8 @@ if (!window.Brekeke.UCClientUI) {
                       )
                     }
                   }
-                  receiveFunc()
-                }
-                // open webchat conference
+                  _receiveFunc()
+                } // open webchat conference
                 if (profile.user_type === Constants.USER_TYPE_TENANT_GUEST) {
                   chatClient.enterWebchatRoom(
                     {
@@ -20697,14 +19682,11 @@ if (!window.Brekeke.UCClientUI) {
                     },
                     function (ev) {},
                   )
-                }
-                // start WebRTC
+                } // start WebRTC
                 if (phone) {
                   startWebRTC(false)
-                }
-                // destroy message bar
-                funcOK()
-                // stop notification
+                } // destroy message bar
+                funcOK() // stop notification
                 stopNotification()
               },
               function (ev) {
@@ -20721,8 +19703,7 @@ if (!window.Brekeke.UCClientUI) {
                   funcError(ucMsgs.MSG_SIGNED_OUT_PLEONASTIC)
                 } else if (ev.code === Errors.VERSION_INVALID) {
                   // destroy message bar
-                  funcOK()
-                  // reshow message bar
+                  funcOK() // reshow message bar
                   messageBar.show(
                     ucMsgs.MSG_SIGNED_OUT_MAINTENANCE,
                     ucMsgs.LBL_MESSAGE_BAR_SIGN_IN,
@@ -20734,8 +19715,7 @@ if (!window.Brekeke.UCClientUI) {
                   )
                 } else if (ev.code === Errors.CANNOT_START_MFA) {
                   // destroy message bar
-                  funcOK()
-                  // reshow message bar
+                  funcOK() // reshow message bar
                   messageBar.show(
                     ucMsgs.MSG_SIGNED_OUT_DISCONNECTED +
                       Errors.CANNOT_START_MFA,
@@ -20753,9 +19733,7 @@ if (!window.Brekeke.UCClientUI) {
             )
           },
         )
-      }
-
-      // notification
+      } // notification
       if (!document.hasFocus()) {
         startNotification(
           brLogin.productname.title,
@@ -20771,7 +19749,7 @@ if (!window.Brekeke.UCClientUI) {
     var buddyStatusDisplayQueue = []
     var lastDisplayTime = 0
     var displayTimer = null
-    var displayFunc = function () {
+    var displayFunc = function displayFunc() {
       lastDisplayTime = +new Date()
       displayTimer = null
       if (buddyStatusDisplayQueue.length > 0) {
@@ -20799,7 +19777,7 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   })()
-  var chatClient_onReceivedText = function (ev) {
+  var chatClient_onReceivedText = function chatClient_onReceivedText(ev) {
     // message
     var message = {
       senderInfo: ev.sender,
@@ -20812,9 +19790,7 @@ if (!window.Brekeke.UCClientUI) {
       file_id: '',
       sentTimeValue: parseDate(ev.sent_ltime),
       sentTimeDisplay: ev.sent_ltime,
-    }
-
-    // open panel
+    } // open panel
     var panel = null
     var conference = {}
     if (ev.conf_id === null) {
@@ -20834,8 +19810,7 @@ if (!window.Brekeke.UCClientUI) {
       ) {
         // webchat
         // add to webchat queue
-        addMessageToWebchatQueue(ev.conf_id, message)
-        // do not display to chat panel
+        addMessageToWebchatQueue(ev.conf_id, message) // do not display to chat panel
         return
       } else {
         panel = panelsConference[ev.conf_id]
@@ -20844,9 +19819,7 @@ if (!window.Brekeke.UCClientUI) {
           return
         }
       }
-    }
-
-    // display message
+    } // display message
     addMessageToList(message, panel)
     var broadcastPanelSelected = false
     if (ev.conf_id === null) {
@@ -20874,17 +19847,11 @@ if (!window.Brekeke.UCClientUI) {
           }
         }
       }
-    }
-
-    // hide typing
-    hideTyping({ tenant: ev.sender.tenant, user_id: ev.sender.user_id })
-
-    // ring bell
+    } // hide typing
+    hideTyping({ tenant: ev.sender.tenant, user_id: ev.sender.user_id }) // ring bell
     if (!panel.attr('selected') || !document.hasFocus()) {
       document.getElementById('audioBell').play()
-    }
-
-    // lamp
+    } // lamp
     if (lampObject) {
       if (!panel.attr('selected') || !document.hasFocus()) {
         lampObject.jingle = {
@@ -20896,9 +19863,7 @@ if (!window.Brekeke.UCClientUI) {
         lampObject.panelSelected = Boolean(panel.attr('selected'))
         lampObject.changeLamp(lampObject)
       }
-    }
-
-    // blinking
+    } // blinking
     if (!broadcastPanelSelected) {
       blinkingUntilSelecting(panel, function (ev2) {
         // start read timer on selected
@@ -20929,18 +19894,14 @@ if (!window.Brekeke.UCClientUI) {
           readText(ev.received_text_id)
         }, chatClient.getSettings().text_open_sec * 1000)
       }
-    }
-
-    // highlight
+    } // highlight
     var buddyName = chatClient.getBuddyUser(ev.sender).name || ev.sender.user_id
     var plainText =
       ev.ctype === Constants.CTYPE_FILE_REQUEST ? '' : toPlainText(ev.text)
     var highlightMessage = buddyName + ': ' + plainText
     if (!document.hasFocus()) {
       startHighlight(highlightMessage)
-    }
-
-    // notification
+    } // notification
     if (!document.hasFocus()) {
       startNotification(
         buddyName,
@@ -20960,127 +19921,124 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-  var chatClient_onReceivedTyping = function (ev) {
+  var chatClient_onReceivedTyping = function chatClient_onReceivedTyping(ev) {
     showTyping({ tenant: ev.tenant, user_id: ev.user_id })
   }
-  var chatClient_onInvitedToConference = function (ev) {
-    var panel
-    var panelAlt = null
-    if (ev.conference.invite_properties.webchatfromguest) {
-      panel = openWebchatQueue(null, null, false)
-      var existing = false
-      for (var i = 0; i < webchatQueueList.length; i++) {
-        if (webchatQueueList[i].conf_id === ev.conference.conf_id) {
-          existing = true
-          break
+  var chatClient_onInvitedToConference =
+    function chatClient_onInvitedToConference(ev) {
+      var panel
+      var panelAlt = null
+      if (ev.conference.invite_properties.webchatfromguest) {
+        panel = openWebchatQueue(null, null, false)
+        var existing = false
+        for (var i = 0; i < webchatQueueList.length; i++) {
+          if (webchatQueueList[i].conf_id === ev.conference.conf_id) {
+            existing = true
+            break
+          }
         }
-      }
-      if (!existing) {
-        webchatQueueList.push({
-          conf_id: ev.conference.conf_id,
-          panelKeySet: {},
-          messageList: [],
-        })
-      }
-      displayWebchatQueue(panel, ev.conference.conf_id)
-      chatClient.receiveUnreceivedConferenceText(
-        {
-          conf_id: ev.conference.conf_id,
-          conf_status: Constants.CONF_STATUS_INVITED_WEBCHAT,
-        },
-        showUnreceivedConferenceTextOnInvitedToConference,
-        null,
-      )
-      panelAlt = panelsConference[ev.conference.conf_id]
-    } else {
-      if (myStatus.status === Constants.STATUS_OFFLINE) {
-        leaveConference(ev.conference.conf_id, false)
-        return
-      }
-      panel = openConference(ev.conference.conf_id, null, null, false)
-    }
-
-    // ring bell
-    if (
-      !(panel.attr('selected') || (panelAlt && panelAlt.attr('selected'))) ||
-      !document.hasFocus()
-    ) {
-      document.getElementById('audioBell').play()
-    }
-
-    // lamp
-    if (lampObject) {
+        if (!existing) {
+          webchatQueueList.push({
+            conf_id: ev.conference.conf_id,
+            panelKeySet: {},
+            messageList: [],
+          })
+        }
+        displayWebchatQueue(panel, ev.conference.conf_id)
+        chatClient.receiveUnreceivedConferenceText(
+          {
+            conf_id: ev.conference.conf_id,
+            conf_status: Constants.CONF_STATUS_INVITED_WEBCHAT,
+          },
+          showUnreceivedConferenceTextOnInvitedToConference,
+          null,
+        )
+        panelAlt = panelsConference[ev.conference.conf_id]
+      } else {
+        if (myStatus.status === Constants.STATUS_OFFLINE) {
+          leaveConference(ev.conference.conf_id, false)
+          return
+        }
+        panel = openConference(ev.conference.conf_id, null, null, false)
+      } // ring bell
       if (
         !(panel.attr('selected') || (panelAlt && panelAlt.attr('selected'))) ||
         !document.hasFocus()
       ) {
-        lampObject.jingle = {
-          panelKey: panel.panelKey,
-          reason: 'conference',
-          buddy: ev.conference.from,
-        }
-        lampObject.windowFocused = Boolean(document.hasFocus())
-        lampObject.panelSelected = Boolean(
-          panel.attr('selected') || (panelAlt && panelAlt.attr('selected')),
-        )
-        lampObject.changeLamp(lampObject)
-      }
-    }
-
-    // blinking
-    if (!(panelAlt && panelAlt.attr('selected'))) {
-      blinkingUntilSelecting(panel, null)
-    }
-
-    // highlight
-    if (!document.hasFocus()) {
-      startHighlight(ev.conference.subject)
-    }
-
-    // notification
-    var buddyName = ''
-    if (ev.conference.invite_properties.webchatfromguest) {
-      buddyName = string(ev.conference.webchatinfo.description)
-    } else {
-      buddyName =
-        chatClient.getBuddyUser(ev.conference.from).name ||
-        ev.conference.from.user_id
-    }
-    if (!document.hasFocus()) {
-      startNotification(
-        buddyName,
-        ev.conference.subject,
-        chatClient.getBuddyUser(ev.conference.from).profile_image_url,
-        function () {
-          if (panel && panel.getParent) {
-            panel.getParent().selectChild(panel)
+        document.getElementById('audioBell').play()
+      } // lamp
+      if (lampObject) {
+        if (
+          !(
+            panel.attr('selected') ||
+            (panelAlt && panelAlt.attr('selected'))
+          ) ||
+          !document.hasFocus()
+        ) {
+          lampObject.jingle = {
+            panelKey: panel.panelKey,
+            reason: 'conference',
+            buddy: ev.conference.from,
           }
-        },
-        null,
-      )
-    }
-  }
-  var chatClient_onConferenceMemberChanged = function (ev) {
-    if (ev.conference.conf_status === Constants.CONF_STATUS_INACTIVE) {
-      var panel = panelsConference[ev.conference.conf_id]
-      if (panel) {
-        clearCall(panel)
+          lampObject.windowFocused = Boolean(document.hasFocus())
+          lampObject.panelSelected = Boolean(
+            panel.attr('selected') || (panelAlt && panelAlt.attr('selected')),
+          )
+          lampObject.changeLamp(lampObject)
+        }
+      } // blinking
+      if (!(panelAlt && panelAlt.attr('selected'))) {
+        blinkingUntilSelecting(panel, null)
+      } // highlight
+      if (!document.hasFocus()) {
+        startHighlight(ev.conference.subject)
+      } // notification
+      var buddyName = ''
+      if (ev.conference.invite_properties.webchatfromguest) {
+        buddyName = string(ev.conference.webchatinfo.description)
+      } else {
+        buddyName =
+          chatClient.getBuddyUser(ev.conference.from).name ||
+          ev.conference.from.user_id
+      }
+      if (!document.hasFocus()) {
+        startNotification(
+          buddyName,
+          ev.conference.subject,
+          chatClient.getBuddyUser(ev.conference.from).profile_image_url,
+          function () {
+            if (panel && panel.getParent) {
+              panel.getParent().selectChild(panel)
+            }
+          },
+          null,
+        )
       }
     }
-    if (ev.conference.conf_type === 'webchat') {
-      if (
-        ev.conference.conf_status === Constants.CONF_STATUS_INACTIVE ||
-        ev.conference.creator.conf_status !== Constants.CONF_STATUS_JOINED
-      ) {
-        removeWebchatQueue(ev.conference.conf_id)
-      } else if (ev.conference.conf_status === Constants.CONF_STATUS_INVITED) {
-        var panel = openWebchatQueue(null, null, false)
-        displayWebchatQueue(panel, ev.conference.conf_id)
+  var chatClient_onConferenceMemberChanged =
+    function chatClient_onConferenceMemberChanged(ev) {
+      if (ev.conference.conf_status === Constants.CONF_STATUS_INACTIVE) {
+        var panel = panelsConference[ev.conference.conf_id]
+        if (panel) {
+          clearCall(panel)
+        }
       }
+      if (ev.conference.conf_type === 'webchat') {
+        if (
+          ev.conference.conf_status === Constants.CONF_STATUS_INACTIVE ||
+          ev.conference.creator.conf_status !== Constants.CONF_STATUS_JOINED
+        ) {
+          removeWebchatQueue(ev.conference.conf_id)
+        } else if (
+          ev.conference.conf_status === Constants.CONF_STATUS_INVITED
+        ) {
+          var panel = openWebchatQueue(null, null, false)
+          displayWebchatQueue(panel, ev.conference.conf_id)
+        }
+      }
+      displayConference(ev.conference.conf_id)
     }
-    displayConference(ev.conference.conf_id)
-  }
-  var chatClient_onFileReceived = function (ev) {
+  var chatClient_onFileReceived = function chatClient_onFileReceived(ev) {
     // open panel
     var panel = null
     if (ev.conf_id === null) {
@@ -21107,7 +20065,6 @@ if (!window.Brekeke.UCClientUI) {
         return
       }
     }
-
     var file_id = ev.fileInfo.file_id
     fileTable[file_id] = {
       fileInfo: ev.fileInfo,
@@ -21115,9 +20072,7 @@ if (!window.Brekeke.UCClientUI) {
       panelKey: panel.panelKey,
       events: [],
       inlineImage: getInlineImage(ev.fileInfo, null),
-    }
-
-    // display message
+    } // display message
     var message = {
       senderInfo: ev.fileInfo.target,
       text: '',
@@ -21127,14 +20082,10 @@ if (!window.Brekeke.UCClientUI) {
       sentTimeValue: parseDate(ev.sent_ltime),
       sentTimeDisplay: ev.sent_ltime,
     }
-    addMessageToList(message, panel)
-
-    // ring bell
+    addMessageToList(message, panel) // ring bell
     if (!panel.attr('selected') || !document.hasFocus()) {
       document.getElementById('audioBell').play()
-    }
-
-    // lamp
+    } // lamp
     if (lampObject) {
       if (!panel.attr('selected') || !document.hasFocus()) {
         lampObject.jingle = {
@@ -21146,9 +20097,7 @@ if (!window.Brekeke.UCClientUI) {
         lampObject.panelSelected = Boolean(panel.attr('selected'))
         lampObject.changeLamp(lampObject)
       }
-    }
-
-    // blinking
+    } // blinking
     blinkingUntilSelecting(panel, function (ev2) {
       if (!ev2.alreadySelected) {
         setTimeout(function () {
@@ -21161,9 +20110,7 @@ if (!window.Brekeke.UCClientUI) {
         panel.panelChatList.domNode.scrollTop =
           panel.panelChatList.domNode.scrollHeight
       }
-    })
-
-    // highlight
+    }) // highlight
     var buddyName =
       chatClient.getBuddyUser(ev.fileInfo.target).name ||
       ev.fileInfo.target.user_id
@@ -21171,9 +20118,7 @@ if (!window.Brekeke.UCClientUI) {
     var highlightMessage = buddyName + ': ' + plainText
     if (!document.hasFocus()) {
       startHighlight(highlightMessage)
-    }
-
-    // notification
+    } // notification
     if (!document.hasFocus()) {
       startNotification(
         buddyName,
@@ -21193,116 +20138,118 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-  var chatClient_onFileInfoChanged = function (ev) {
+  var chatClient_onFileInfoChanged = function chatClient_onFileInfoChanged(ev) {
     var file_id = ev.fileInfo.file_id
     fileTable[file_id].fileInfo = ev.fileInfo
     displayFile(file_id)
   }
-  var chatClient_onFileTerminated = function (ev) {
+  var chatClient_onFileTerminated = function chatClient_onFileTerminated(ev) {
     var file_id = ev.fileInfo.file_id
     fileTable[file_id].fileInfo = ev.fileInfo
     displayFile(file_id)
   }
-  var chatClient_onReceivedCustomClientEvent = function (ev) {}
-  var chatClient_onNotifiedUserSearch = function (ev) {
-    for (var panelKey in userManagementWorkData) {
-      var panel = panelsUserManagement[panelKey]
-      if (
-        panel &&
-        userManagementWorkData[panelKey].user_search_id === ev.user_search_id
-      ) {
-        if (ev.new_users) {
-          for (var i = 0; i < ev.new_users.length; i++) {
-            var user = ev.new_users[i] || {}
-            var option = document.createElement('option')
-            option.value =
-              user.tenant + (user.user_id ? '.' + user.user_id : '')
-            option.innerHTML = escapeHTML(
-              (brLogin.multitenant || user.tenant ? user.tenant + '.' : '') +
-                (user.user_id || '*'),
-            )
-            option.title =
-              (user.pbx ? '' : '[!] ') +
-              (brLogin.multitenant || user.tenant ? user.tenant + '.' : '') +
-              (user.user_id || '*')
-            option.className = 'brUCPbx' + user.pbx
-            option.selected =
-              panel.checkBoxAutoSelectDeleteUserData.checked && !user.pbx
-            option.setAttribute('data-brekeke-uc-pbx', user.pbx)
-            panelUserManagementSelectUsers_appendChild(
-              panel.selectUsersNotToDelete,
-              option,
-            )
+  var chatClient_onReceivedCustomClientEvent =
+    function chatClient_onReceivedCustomClientEvent(ev) {}
+  var chatClient_onNotifiedUserSearch =
+    function chatClient_onNotifiedUserSearch(ev) {
+      for (var panelKey in userManagementWorkData) {
+        var panel = panelsUserManagement[panelKey]
+        if (
+          panel &&
+          userManagementWorkData[panelKey].user_search_id === ev.user_search_id
+        ) {
+          if (ev.new_users) {
+            for (var i = 0; i < ev.new_users.length; i++) {
+              var user = ev.new_users[i] || {}
+              var option = document.createElement('option')
+              option.value =
+                user.tenant + (user.user_id ? '.' + user.user_id : '')
+              option.innerHTML = escapeHTML(
+                (brLogin.multitenant || user.tenant ? user.tenant + '.' : '') +
+                  (user.user_id || '*'),
+              )
+              option.title =
+                (user.pbx ? '' : '[!] ') +
+                (brLogin.multitenant || user.tenant ? user.tenant + '.' : '') +
+                (user.user_id || '*')
+              option.className = 'brUCPbx' + user.pbx
+              option.selected =
+                panel.checkBoxAutoSelectDeleteUserData.checked && !user.pbx
+              option.setAttribute('data-brekeke-uc-pbx', user.pbx)
+              panelUserManagementSelectUsers_appendChild(
+                panel.selectUsersNotToDelete,
+                option,
+              )
+            }
+          }
+          panel.spanProgressUserSearch.innerHTML = ev.progress + '%'
+          if (ev.finished) {
+            panel.buttonStartUserSearch.set('disabled', false)
+            panel.areaProgressUserSearch.style.display = 'none'
+            delete userManagementWorkData[panelKey].user_search_id
           }
         }
-        panel.spanProgressUserSearch.innerHTML = ev.progress + '%'
-        if (ev.finished) {
-          panel.buttonStartUserSearch.set('disabled', false)
-          panel.areaProgressUserSearch.style.display = 'none'
-          delete userManagementWorkData[panelKey].user_search_id
+      }
+      if (ev.error) {
+        logger.log('warn', 'notifiedUserSearch error (' + ev.error + ')')
+      }
+      if (ev.finished && ev.error) {
+        windowAlert(
+          ucMsgs.CMN_ALERT,
+          'notifiedUserSearch error (' + ev.error + ')',
+        )
+      } else if (ev.finished && ev.canceled) {
+        windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_NOTIFIED_USER_SEARCH_CANCELED)
+      }
+    }
+  var chatClient_onNotifiedUserDelete =
+    function chatClient_onNotifiedUserDelete(ev) {
+      for (var panelKey in userManagementWorkData) {
+        var panel = panelsUserManagement[panelKey]
+        if (
+          panel &&
+          userManagementWorkData[panelKey].user_delete_id === ev.user_delete_id
+        ) {
+          panel.spanProgressUserDelete.innerHTML = ev.progress + '%'
+          if (ev.finished) {
+            panel.buttonStartUserSearch.set('disabled', false)
+            panel.spanProgressUserDelete.style.display = 'none'
+            delete userManagementWorkData[panelKey].user_delete_id
+          }
+        }
+      }
+      if (ev.error) {
+        logger.log('warn', 'notifiedUserDelete error (' + ev.error + ')')
+      }
+      if (ev.finished) {
+        windowAlert(
+          ucMsgs.LBL_NOTIFIED_USER_DELETE_TITLE,
+          ucMsgs.MSG_NOTIFIED_USER_DELETE_FINISHED +
+            (ev.error
+              ? '<br /><br /><br />' +
+                ucMsgs.MSG_NOTIFIED_USER_DELETE_ERROR +
+                '<br /><br /><pre>' +
+                ev.error +
+                '</pre><br />'
+              : ''),
+        )
+      }
+    }
+  var chatClient_onDebugLogFilePrepared =
+    function chatClient_onDebugLogFilePrepared(ev) {
+      for (var panelKey in serverSettingsWorkData) {
+        if (serverSettingsWorkData[panelKey].debug_log_id === ev.debug_log_id) {
+          ;(serverSettingsWorkData[panelKey].debug_log_files =
+            serverSettingsWorkData[panelKey].debug_log_files || []).push(ev)
+          if (panelsServerSettings[panelKey]) {
+            displayServerSettingsLogdownload(panelsServerSettings[panelKey])
+          }
         }
       }
     }
-    if (ev.error) {
-      logger.log('warn', 'notifiedUserSearch error (' + ev.error + ')')
-    }
-    if (ev.finished && ev.error) {
-      windowAlert(
-        ucMsgs.CMN_ALERT,
-        'notifiedUserSearch error (' + ev.error + ')',
-      )
-    } else if (ev.finished && ev.canceled) {
-      windowAlert(ucMsgs.CMN_ALERT, ucMsgs.MSG_NOTIFIED_USER_SEARCH_CANCELED)
-    }
-  }
-  var chatClient_onNotifiedUserDelete = function (ev) {
-    for (var panelKey in userManagementWorkData) {
-      var panel = panelsUserManagement[panelKey]
-      if (
-        panel &&
-        userManagementWorkData[panelKey].user_delete_id === ev.user_delete_id
-      ) {
-        panel.spanProgressUserDelete.innerHTML = ev.progress + '%'
-        if (ev.finished) {
-          panel.buttonStartUserSearch.set('disabled', false)
-          panel.spanProgressUserDelete.style.display = 'none'
-          delete userManagementWorkData[panelKey].user_delete_id
-        }
-      }
-    }
-    if (ev.error) {
-      logger.log('warn', 'notifiedUserDelete error (' + ev.error + ')')
-    }
-    if (ev.finished) {
-      windowAlert(
-        ucMsgs.LBL_NOTIFIED_USER_DELETE_TITLE,
-        ucMsgs.MSG_NOTIFIED_USER_DELETE_FINISHED +
-          (ev.error
-            ? '<br /><br /><br />' +
-              ucMsgs.MSG_NOTIFIED_USER_DELETE_ERROR +
-              '<br /><br /><pre>' +
-              ev.error +
-              '</pre><br />'
-            : ''),
-      )
-    }
-  }
-  var chatClient_onDebugLogFilePrepared = function (ev) {
-    for (var panelKey in serverSettingsWorkData) {
-      if (serverSettingsWorkData[panelKey].debug_log_id === ev.debug_log_id) {
-        ;(serverSettingsWorkData[panelKey].debug_log_files =
-          serverSettingsWorkData[panelKey].debug_log_files || []).push(ev)
-        if (panelsServerSettings[panelKey]) {
-          displayServerSettingsLogdownload(panelsServerSettings[panelKey])
-        }
-      }
-    }
-  }
-
   /*
    * Phone event listeners
-   */
-  var phone_onPhoneStatusChanged = (function () {
+   */ var phone_onPhoneStatusChanged = (function () {
     var onError = null
     return function (ev) {
       if (!signedIn) {
@@ -21320,23 +20267,22 @@ if (!window.Brekeke.UCClientUI) {
         } else if (phoneRegisteredOrg || !onError) {
           // re-register timer
           var time = 8000
-          var reregisterFunc = function () {
+          var _reregisterFunc = function reregisterFunc() {
             setTimeout(
               function () {
-                onError = reregisterFunc
+                onError = _reregisterFunc
                 startWebRTC(false)
               },
               time + Math.floor(Math.random() * 4000),
             )
             time *= 2
           }
-          reregisterFunc()
+          _reregisterFunc()
         } else {
           onError()
           onError = null
         }
-      }
-      // enableButtons
+      } // enableButtons
       var panels = [
         panelsChat,
         panelsConference,
@@ -21351,9 +20297,8 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   })()
-  var phone_onSessionCreated = function (ev) {
+  var phone_onSessionCreated = function phone_onSessionCreated(ev) {
     var address = ev.rtcSession.remote_identity.uri.user
-
     if (ev.rtcSession.direction === 'outgoing') {
       var p = outgoingCallPanelTable[address]
       if (!p) {
@@ -21388,15 +20333,13 @@ if (!window.Brekeke.UCClientUI) {
         ev.rtcSession.terminate()
         return
       }
-
       if (editExInfo(ev.exInfo, 'get', 'sharescreen') === 'true') {
         if (cookiePreference.shareScreenMute) {
           // mute outgoing screen-sharing
           phone.setMuted({ main: true }, ev.sessionId)
         }
       }
-
-      showCall(ev.sessionId, panel)
+      _showCall(ev.sessionId, panel)
     } else {
       var tenant = null
       var user_id = null
@@ -21445,7 +20388,6 @@ if (!window.Brekeke.UCClientUI) {
           return
         }
       }
-
       if (
         ev.remoteUserOptionsTable[address] &&
         editExInfo(
@@ -21458,19 +20400,13 @@ if (!window.Brekeke.UCClientUI) {
           // mute incoming screen-sharing
           phone.setMuted({ main: true, videoClient: true }, ev.sessionId)
         }
-      }
-
-      // show call panel
-      showCall(ev.sessionId, panel)
+      } // show call panel
+      _showCall(ev.sessionId, panel)
     }
   }
-  var phone_onSessionStatusChanged = function (ev) {
-    var address = ev.rtcSession.remote_identity.uri.user
-
-    // display call
-    displayCall(ev.sessionId)
-
-    // hide call panel
+  var phone_onSessionStatusChanged = function phone_onSessionStatusChanged(ev) {
+    var address = ev.rtcSession.remote_identity.uri.user // display call
+    displayCall(ev.sessionId) // hide call panel
     if (ev.sessionStatus === 'terminated') {
       delete outgoingPreScreenSharingPanelTable[address]
       var panel = getPanelFromSession(ev.sessionId)
@@ -21481,60 +20417,54 @@ if (!window.Brekeke.UCClientUI) {
       hideCall(panel, ev)
     }
   }
-  var phone_onVideoClientSessionCreated = function (ev) {
-    var profile = chatClient.getProfile()
-    var session = phone.getSession(ev.sessionId)
-    var videoClientSession =
-      session && session.videoClientSessionTable[ev.videoClientSessionId]
-
-    // mute viewing main video call
-    var viewer =
-      videoClientSession &&
-      videoClientSession.rtcSession &&
-      videoClientSession.rtcSession.request &&
-      videoClientSession.rtcSession.request.getHeader &&
-      videoClientSession.rtcSession.request.getHeader('X-UC-VIEWER')
-    if (viewer === profile.user_id && !session.shareStream) {
-      videoClientSession.rtcSession.mute({ video: true })
+  var phone_onVideoClientSessionCreated =
+    function phone_onVideoClientSessionCreated(ev) {
+      var profile = chatClient.getProfile()
+      var session = phone.getSession(ev.sessionId)
+      var videoClientSession =
+        session && session.videoClientSessionTable[ev.videoClientSessionId] // mute viewing main video call
+      var viewer =
+        videoClientSession &&
+        videoClientSession.rtcSession &&
+        videoClientSession.rtcSession.request &&
+        videoClientSession.rtcSession.request.getHeader &&
+        videoClientSession.rtcSession.request.getHeader('X-UC-VIEWER')
+      if (viewer === profile.user_id && !session.shareStream) {
+        videoClientSession.rtcSession.mute({ video: true })
+      } // create screen-sharing video session instead of pre-screen-sharing video session
+      if (session && session.rtcSession) {
+        var p =
+          outgoingPreScreenSharingPanelTable[
+            session.rtcSession.remote_identity.uri.user
+          ]
+        if (p) {
+          createShareScreenSession(p, session, videoClientSession)
+        }
+      } // display call
+      displayCall(ev.sessionId)
     }
-
-    // create screen-sharing video session instead of pre-screen-sharing video session
-    if (session && session.rtcSession) {
-      var p =
-        outgoingPreScreenSharingPanelTable[
-          session.rtcSession.remote_identity.uri.user
-        ]
-      if (p) {
-        createShareScreenSession(p, session, videoClientSession)
-      }
+  var phone_onVideoClientSessionEnded =
+    function phone_onVideoClientSessionEnded(ev) {
+      // display call
+      displayCall(ev.sessionId)
     }
-
-    // display call
-    displayCall(ev.sessionId)
-  }
-  var phone_onVideoClientSessionEnded = function (ev) {
-    // display call
-    displayCall(ev.sessionId)
-  }
-  var phone_onRemoteUserOptionsChanged = function (ev) {
-    var profile = chatClient.getProfile()
-
-    for (var u in ev.remoteUserOptionsTable) {
-      if (
-        editExInfo(
-          ev.remoteUserOptionsTable[u].exInfo,
-          'get',
-          'requestmainvideo',
-        ) === profile.user_id
-      ) {
-        makeMainVideoSession(ev.sessionId, u)
-      }
+  var phone_onRemoteUserOptionsChanged =
+    function phone_onRemoteUserOptionsChanged(ev) {
+      var profile = chatClient.getProfile()
+      for (var u in ev.remoteUserOptionsTable) {
+        if (
+          editExInfo(
+            ev.remoteUserOptionsTable[u].exInfo,
+            'get',
+            'requestmainvideo',
+          ) === profile.user_id
+        ) {
+          makeMainVideoSession(ev.sessionId, u)
+        }
+      } // display call
+      displayCall(ev.sessionId)
     }
-
-    // display call
-    displayCall(ev.sessionId)
-  }
-  var phone_onRtcErrorOccurred = function (ev) {
+  var phone_onRtcErrorOccurred = function phone_onRtcErrorOccurred(ev) {
     if (ev.target) {
       // makeCall error
       delete outgoingCallPanelTable[ev.target]
@@ -21580,21 +20510,15 @@ if (!window.Brekeke.UCClientUI) {
       }
     }
   }
-
   /*
    * GUI utility functions
-   */
-  var windowAlert = function (title, msg, funcOK) {
+   */ var windowAlert = function windowAlert(title, msg, funcOK) {
     require(['dijit/Dialog', 'dijit/form/Button'], function (Dialog, Button) {
-      var dia = new Dialog({
-        title: title,
-        content: msg,
-        closable: false,
-      })
+      var dia = new Dialog({ title: title, content: msg, closable: false })
       dia.addChild(
         new Button({
           label: ucMsgs.CMN_OK,
-          onClick: function (e) {
+          onClick: function onClick(e) {
             dia.destroy()
             if (funcOK) {
               funcOK()
@@ -21605,26 +20529,22 @@ if (!window.Brekeke.UCClientUI) {
       dia.show()
     })
   }
-  var windowConfirm = function (title, msg, funcOK, funcCancel) {
+  var windowConfirm = function windowConfirm(title, msg, funcOK, funcCancel) {
     require(['dijit/Dialog', 'dijit/form/Button'], function (Dialog, Button) {
-      var dia = new Dialog({
-        title: title,
-        content: msg,
-        closable: false,
-      })
-      var dia_ok = function (e) {
+      var dia = new Dialog({ title: title, content: msg, closable: false })
+      var dia_ok = function dia_ok(e) {
         dia.destroy()
         if (funcOK) {
           funcOK()
         }
       }
-      var dia_cancel = function (e) {
+      var dia_cancel = function dia_cancel(e) {
         dia.destroy()
         if (funcCancel) {
           funcCancel()
         }
       }
-      var keyUp = function (e) {
+      var keyUp = function keyUp(e) {
         if (e.keyCode === 13) {
           dia_ok()
         } else if (e.keyCode === 27) {
@@ -21632,17 +20552,13 @@ if (!window.Brekeke.UCClientUI) {
         }
       }
       dia.addChild(
-        new Button({
-          label: ucMsgs.CMN_OK,
-          onClick: dia_ok,
-          onKeyUp: keyUp,
-        }),
+        new Button({ label: ucMsgs.CMN_OK, onClick: dia_ok, onKeyUp: keyUp }),
       )
       dia.addChild(
         new Button({
           label: ucMsgs.CMN_CANCEL,
           onClick: dia_cancel,
-          onKeyDown: function (e) {
+          onKeyDown: function onKeyDown(e) {
             if (e.keyCode === 13) {
               e.cancelBubble = true
             }
@@ -21653,7 +20569,7 @@ if (!window.Brekeke.UCClientUI) {
       dia.show()
     })
   }
-  var windowPrompt = function (
+  var windowPrompt = function windowPrompt(
     title,
     msg,
     placeHolder,
@@ -21666,19 +20582,15 @@ if (!window.Brekeke.UCClientUI) {
       'dijit/form/TextBox',
       'dijit/form/Button',
     ], function (Dialog, TextBox, Button) {
-      var dia = new Dialog({
-        title: title,
-        content: msg,
-        closable: false,
-      })
-      var dia_ok = function (e) {
+      var dia = new Dialog({ title: title, content: msg, closable: false })
+      var dia_ok = function dia_ok(e) {
         var val = sbj.attr('value')
         dia.destroy()
         if (funcOK) {
           funcOK(val)
         }
       }
-      var dia_cancel = function (e) {
+      var dia_cancel = function dia_cancel(e) {
         dia.destroy()
         if (funcCancel) {
           funcCancel()
@@ -21687,7 +20599,7 @@ if (!window.Brekeke.UCClientUI) {
       var sbj = new TextBox({
         placeHolder: placeHolder,
         onKeyDown: keyDownUtil.save,
-        onKeyUp: function (e) {
+        onKeyUp: function onKeyUp(e) {
           var downedKey = keyDownUtil.getKey()
           if (e.keyCode === 13 && downedKey === 13) {
             dia_ok()
@@ -21697,22 +20609,14 @@ if (!window.Brekeke.UCClientUI) {
         },
       })
       dia.addChild(sbj)
+      dia.addChild(new Button({ label: ucMsgs.CMN_OK, onClick: dia_ok }))
       dia.addChild(
-        new Button({
-          label: ucMsgs.CMN_OK,
-          onClick: dia_ok,
-        }),
-      )
-      dia.addChild(
-        new Button({
-          label: ucMsgs.CMN_CANCEL,
-          onClick: dia_cancel,
-        }),
+        new Button({ label: ucMsgs.CMN_CANCEL, onClick: dia_cancel }),
       )
       dia.show()
     })
   }
-  var getEmptiestPanelTabIndex = function () {
+  var getEmptiestPanelTabIndex = function getEmptiestPanelTabIndex() {
     var panelTabIndex = 0
     var minChildrenCount = -1
     for (var i = 0; i < panelsTab.length; i++) {
@@ -21725,7 +20629,7 @@ if (!window.Brekeke.UCClientUI) {
     }
     return panelTabIndex
   }
-  var getStatusIconClass = function (status) {
+  var getStatusIconClass = function getStatusIconClass(status) {
     var iconClass = ''
     if (status === Constants.STATUS_OFFLINE) {
       iconClass = 'brUCIconOffline'
@@ -21740,7 +20644,7 @@ if (!window.Brekeke.UCClientUI) {
     }
     return iconClass
   }
-  var getDefaultOptions = function (isVideo, isAnswer) {
+  var getDefaultOptions = function getDefaultOptions(isVideo, isAnswer) {
     if (!phoneDefaultOptions) {
       try {
         phoneDefaultOptions = JSON.parse(JSON.stringify(phone.defaultOptions))
@@ -21794,26 +20698,26 @@ if (!window.Brekeke.UCClientUI) {
       var videoOptions = JSON.parse(
         JSON.stringify(phoneDefaultOptions.videoOptions),
       )
-      deepAssign(videoOptions.call, callOptions)
-      deepAssign(videoOptions.answer, callOptions)
+      _deepAssign(videoOptions.call, callOptions)
+      _deepAssign(videoOptions.answer, callOptions)
       return videoOptions
     } else if (isAnswer) {
       var answer = JSON.parse(JSON.stringify(phoneDefaultOptions.main.answer))
-      deepAssign(answer, callOptions)
+      _deepAssign(answer, callOptions)
       answer.mediaConstraints.audio = cookiePreference.audioSource
         ? { deviceId: cookiePreference.audioSource }
         : true
       return answer
     } else {
       var call = JSON.parse(JSON.stringify(phoneDefaultOptions.main.call))
-      deepAssign(call, callOptions)
+      _deepAssign(call, callOptions)
       call.mediaConstraints.audio = cookiePreference.audioSource
         ? { deviceId: cookiePreference.audioSource }
         : true
       return call
     }
   }
-  var getNormalVideoOptions = function (
+  var getNormalVideoOptions = function getNormalVideoOptions(
     mainVideoViewerUser,
     thumbnailFrameRate,
   ) {
@@ -21853,7 +20757,9 @@ if (!window.Brekeke.UCClientUI) {
     }
     return videoOptions
   }
-  var getScreenVideoOptions = function (mainVideoViewerUser) {
+  var getScreenVideoOptions = function getScreenVideoOptions(
+    mainVideoViewerUser,
+  ) {
     var videoOptions = getDefaultOptions(true)
     if (getBrowser() === 'Firefox') {
       videoOptions.call.mediaConstraints.video =
@@ -21869,7 +20775,9 @@ if (!window.Brekeke.UCClientUI) {
     }
     return videoOptions
   }
-  var getScreenVideoOptionsChrome = function (chromeMediaSourceId) {
+  var getScreenVideoOptionsChrome = function getScreenVideoOptionsChrome(
+    chromeMediaSourceId,
+  ) {
     var videoOptions = getDefaultOptions(true)
     videoOptions.call.mediaConstraints.video =
       videoOptions.answer.mediaConstraints.video = {
@@ -21883,7 +20791,7 @@ if (!window.Brekeke.UCClientUI) {
       }
     return videoOptions
   }
-  var getCallControlMode = function () {
+  var getCallControlMode = function getCallControlMode() {
     var controlMode
     controlMode = getQueryParameters()['test12']
     if (controlMode) {
@@ -21896,20 +20804,17 @@ if (!window.Brekeke.UCClientUI) {
     )
     return controlMode
   }
-
   /*
    * Utility functions
-   */
-  var int = function (value) {
+   */ var int = function int(value) {
     return parseInt(value, 10) || 0
   }
-  var string = function (value) {
+  var string = function string(value) {
     return String(value || value === 0 || value === false ? value : '')
   }
-  var stringify = function (object) {
+  var stringify = function stringify(object) {
     var key, returnString
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       returnString = ''
       for (key in object) {
         returnString += string(key) + ': ' + string(object[key]) + ', '
@@ -21922,10 +20827,9 @@ if (!window.Brekeke.UCClientUI) {
       return string(object)
     }
   }
-  var stringifyError = function (object) {
+  var stringifyError = function stringifyError(object) {
     var key, returnString
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       if (typeof object.toString === 'function') {
         return object.toString()
       }
@@ -21941,7 +20845,7 @@ if (!window.Brekeke.UCClientUI) {
       return string(object)
     }
   }
-  var toUtf16HexStr = function (str) {
+  var toUtf16HexStr = function toUtf16HexStr(str) {
     var s = string(str)
     var r = ''
     for (var i = 0; i < s.length; i++) {
@@ -21949,7 +20853,7 @@ if (!window.Brekeke.UCClientUI) {
     }
     return r
   }
-  var escapeHTML = function (str) {
+  var escapeHTML = function escapeHTML(str) {
     return string(str)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -21957,7 +20861,7 @@ if (!window.Brekeke.UCClientUI) {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;')
   }
-  var unescapeHTML = function (str) {
+  var unescapeHTML = function unescapeHTML(str) {
     return string(str)
       .replace(/&amp;/g, '&')
       .replace(/&lt;/g, '<')
@@ -21965,21 +20869,21 @@ if (!window.Brekeke.UCClientUI) {
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'")
   }
-  var formatStr = function (fmt, a) {
+  var formatStr = function formatStr(fmt, a) {
     var rep_fn = undefined
-    if (typeof a === 'object') {
-      rep_fn = function (m, k) {
+    if (_typeof(a) === 'object') {
+      rep_fn = function rep_fn(m, k) {
         return a[k]
       }
     } else {
       var args = arguments
-      rep_fn = function (m, k) {
+      rep_fn = function rep_fn(m, k) {
         return args[parseInt(k) + 1]
       }
     }
     return fmt.replace(/\{(\w+)\}/g, rep_fn)
   }
-  var formatFileSize = function (value) {
+  var formatFileSize = function formatFileSize(value) {
     value = int(value)
     var valueString
     try {
@@ -22011,7 +20915,7 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-  var formatTime = function (time) {
+  var formatTime = function formatTime(time) {
     var hour = parseInt(time.substr(11, 2), 10)
     var minute = parseInt(time.substr(14, 2), 10)
     if (isNaN(hour) || isNaN(minute)) {
@@ -22027,7 +20931,7 @@ if (!window.Brekeke.UCClientUI) {
       ampm,
     )
   }
-  var formatTimeNowWithSecond = function (now) {
+  var formatTimeNowWithSecond = function formatTimeNowWithSecond(now) {
     now = now || new Date()
     var hour = now.getHours()
     var minute = now.getMinutes()
@@ -22043,7 +20947,7 @@ if (!window.Brekeke.UCClientUI) {
       ('0' + second).slice(-2),
     )
   }
-  var formatMessageDateTime = function (time) {
+  var formatMessageDateTime = function formatMessageDateTime(time) {
     var now = new Date()
     var yesterday = new Date(
       now.getFullYear(),
@@ -22119,7 +21023,7 @@ if (!window.Brekeke.UCClientUI) {
       )
     }
   }
-  var formatTopicDate = function (time) {
+  var formatTopicDate = function formatTopicDate(time) {
     var now = new Date()
     var year = int(time.substr(0, 4))
     var month = int(time.substr(5, 2)) - 1
@@ -22165,7 +21069,7 @@ if (!window.Brekeke.UCClientUI) {
       return string(year)
     }
   }
-  var stringifyDate = function (date) {
+  var stringifyDate = function stringifyDate(date) {
     // for api
     return (
       date.getFullYear() +
@@ -22181,7 +21085,7 @@ if (!window.Brekeke.UCClientUI) {
       ('0' + date.getSeconds()).slice(-2)
     )
   }
-  var parseDate = function (str) {
+  var parseDate = function parseDate(str) {
     var d = new Date(
       int(str.substr(0, 4)),
       int(str.substr(5, 2)) - 1,
@@ -22192,15 +21096,14 @@ if (!window.Brekeke.UCClientUI) {
     )
     return d
   }
-  var getFuncApply = function (func, thisArg) {
+  var getFuncApply = function getFuncApply(func, thisArg) {
     return function () {
       func.apply(thisArg, arguments)
     }
   }
-  var clone = function (object) {
+  var clone = function clone(object) {
     var key, returnObject
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       // memberwise clone (shallow copy)
       returnObject = {}
       for (key in object) {
@@ -22211,27 +21114,26 @@ if (!window.Brekeke.UCClientUI) {
       return object
     }
   }
-  var deepAssign = function (target, object) {
+  var _deepAssign = function deepAssign(target, object) {
     var key
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       for (key in object) {
         if (Array.isArray(object[key])) {
           target[key] = []
-          deepAssign(target[key], object[key])
-        } else if (typeof object[key] === 'object') {
+          _deepAssign(target[key], object[key])
+        } else if (_typeof(object[key]) === 'object') {
           target[key] = {}
-          deepAssign(target[key], object[key])
+          _deepAssign(target[key], object[key])
         } else {
           target[key] = object[key]
         }
       }
     }
   }
-  var toPlainText = function (html) {
+  var toPlainText = function toPlainText(html) {
     return unescapeHTML(html.replace(/<[^>]*>/g, ''))
   }
-  var editExInfo = function (exInfo, operation, param1, param2) {
+  var editExInfo = function editExInfo(exInfo, operation, param1, param2) {
     var exInfoMap = {}
     string(exInfo)
       .split(';')
@@ -22273,10 +21175,10 @@ if (!window.Brekeke.UCClientUI) {
   var keyDownUtil = (function () {
     var downedKey = null
     return {
-      save: function (e) {
+      save: function save(e) {
         downedKey = e.keyCode
       },
-      getKey: function () {
+      getKey: function getKey() {
         var key = downedKey
         downedKey = null
         return key

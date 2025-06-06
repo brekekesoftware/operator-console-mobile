@@ -1,51 +1,290 @@
-import React from 'react'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import ButtonIconic from './ButtonIconic.js'
-import DndableSafe from './DndableSafe.js'
-import MenuBalloonDialog from './MenuBalloonDialog.js'
-import MenuItem from './MenuItem.js'
-import NameEmbeddedSpan from './NameEmbeddedSpan.js'
-import StatusIcon from './StatusIcon.js'
-import TextBox from './TextBox.js'
-import {
-  formatStr,
-  formatMessageDateTime,
-  toPlainText,
-} from '../utilities/strings.js'
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-} from 'react-native'
-import AboutIcon from '../icons/AboutIcon.js'
-import PhoneIcon from '../icons/PhoneIcon.js'
-import ConferenceForegroundSelectedIcon from '../icons/ConferenceForegroundSelectedIcon.js'
-import BroadcastingIcon from '../icons/BroadcastingIcon.js'
-import SendIcon from '../icons/SendIcon.js'
-import AddFolderIcon from '../icons/AddFolderIcon.js'
-import ListIcon from '../icons/ListIcon.js'
-import FiltrationIcon from '../icons/FiltrationIcon.js'
-import BinIcon from '../icons/BinIcon.js'
-import EditIcon from '../icons/EditIcon.js'
-import UserIcon from '../icons/UserIcon.js'
-import HistoryIcon from '../icons/HistoryIcon.js'
-import SettingsIcon from '../icons/SettingsIcon.js'
-import MoreIcon from '../icons/MoreIcon.js'
-import LogOutIcon from '../icons/LogOutIcon.js'
-import CheckIcon from '../icons/CheckIcon.js'
-import SquareIcon from '../icons/SquareIcon.js'
-import ChevronUpIcon from '../icons/ChevronUpIcon.js'
-import ChevronDownIcon from '../icons/ChevronDownIcon.js'
-import ChannelMosaic4Icon from '../icons/ChannelMosaic4Icon.js'
-import ChannelMosaic12Icon from '../icons/ChannelMosaic12Icon.js'
-import InternetIcon from '../icons/InternetIcon.js'
-import ChannelMosaic1Icon from '../icons/ChannelMosaic1Icon.js'
+'use strict'
 
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _constants = _interopRequireDefault(require('../utilities/constants'))
+var _strings = require('../utilities/strings')
+var _ButtonIconic = _interopRequireDefault(require('./ButtonIconic'))
+var _DndableSafe = _interopRequireDefault(require('./DndableSafe'))
+var _MenuBalloonDialog = _interopRequireDefault(require('./MenuBalloonDialog'))
+var _MenuItem = _interopRequireDefault(require('./MenuItem'))
+var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+var _StatusIcon = _interopRequireDefault(require('./StatusIcon'))
+var _TextBox = _interopRequireDefault(require('./TextBox'))
+var _reactNative = require('react-native')
+var _AboutIcon = _interopRequireDefault(require('../icons/AboutIcon'))
+var _PhoneIcon = _interopRequireDefault(require('../icons/PhoneIcon'))
+var _ConferenceForegroundSelectedIcon = _interopRequireDefault(
+  require('../icons/ConferenceForegroundSelectedIcon'),
+)
+var _BroadcastingIcon = _interopRequireDefault(
+  require('../icons/BroadcastingIcon'),
+)
+var _SendIcon = _interopRequireDefault(require('../icons/SendIcon'))
+var _AddFolderIcon = _interopRequireDefault(require('../icons/AddFolderIcon'))
+var _ListIcon = _interopRequireDefault(require('../icons/ListIcon'))
+var _FiltrationIcon = _interopRequireDefault(require('../icons/FiltrationIcon'))
+var _BinIcon = _interopRequireDefault(require('../icons/BinIcon'))
+var _EditIcon = _interopRequireDefault(require('../icons/EditIcon'))
+var _UserIcon = _interopRequireDefault(require('../icons/UserIcon'))
+var _HistoryIcon = _interopRequireDefault(require('../icons/HistoryIcon'))
+var _SettingsIcon = _interopRequireDefault(require('../icons/SettingsIcon'))
+var _MoreIcon = _interopRequireDefault(require('../icons/MoreIcon'))
+var _LogOutIcon = _interopRequireDefault(require('../icons/LogOutIcon'))
+var _CheckIcon = _interopRequireDefault(require('../icons/CheckIcon'))
+var _SquareIcon = _interopRequireDefault(require('../icons/SquareIcon'))
+var _ChevronUpIcon = _interopRequireDefault(require('../icons/ChevronUpIcon'))
+var _ChevronDownIcon = _interopRequireDefault(
+  require('../icons/ChevronDownIcon'),
+)
+var _ChannelMosaic4Icon = _interopRequireDefault(
+  require('../icons/ChannelMosaic4Icon'),
+)
+var _ChannelMosaic12Icon = _interopRequireDefault(
+  require('../icons/ChannelMosaic12Icon'),
+)
+var _InternetIcon = _interopRequireDefault(require('../icons/InternetIcon'))
+var _ChannelMosaic1Icon = _interopRequireDefault(
+  require('../icons/ChannelMosaic1Icon'),
+)
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
+}
+function _defineProperty(e, r, t) {
+  return (
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
+  )
+}
+function _slicedToArray(r, e) {
+  return (
+    _arrayWithHoles(r) ||
+    _iterableToArrayLimit(r, e) ||
+    _unsupportedIterableToArray(r, e) ||
+    _nonIterableRest()
+  )
+}
+function _nonIterableRest() {
+  throw new TypeError(
+    'Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.',
+  )
+}
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ('string' == typeof r) return _arrayLikeToArray(r, a)
+    var t = {}.toString.call(r).slice(8, -1)
+    return (
+      'Object' === t && r.constructor && (t = r.constructor.name),
+      'Map' === t || 'Set' === t
+        ? Array.from(r)
+        : 'Arguments' === t ||
+            /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)
+          ? _arrayLikeToArray(r, a)
+          : void 0
+    )
+  }
+}
+function _arrayLikeToArray(r, a) {
+  ;(null == a || a > r.length) && (a = r.length)
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]
+  return n
+}
+function _iterableToArrayLimit(r, l) {
+  var t =
+    null == r
+      ? null
+      : ('undefined' != typeof Symbol && r[Symbol.iterator]) || r['@@iterator']
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = !0,
+      o = !1
+    try {
+      if (((i = (t = t.call(r)).next), 0 === l)) {
+        if (Object(t) !== t) return
+        f = !1
+      } else
+        for (
+          ;
+          !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l);
+          f = !0
+        );
+    } catch (r) {
+      ;(o = !0), (n = r)
+    } finally {
+      try {
+        if (!f && null != t.return && ((u = t.return()), Object(u) !== u))
+          return
+      } finally {
+        if (o) throw n
+      }
+    }
+    return a
+  }
+}
+function _arrayWithHoles(r) {
+  if (Array.isArray(r)) return r
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n))
+    throw new TypeError('Cannot call a class as a function')
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t]
+    ;(o.enumerable = o.enumerable || !1),
+      (o.configurable = !0),
+      'value' in o && (o.writable = !0),
+      Object.defineProperty(e, _toPropertyKey(o.key), o)
+  }
+}
+function _createClass(e, r, t) {
+  return (
+    r && _defineProperties(e.prototype, r),
+    t && _defineProperties(e, t),
+    Object.defineProperty(e, 'prototype', { writable: !1 }),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
+function _callSuper(t, o, e) {
+  return (
+    (o = _getPrototypeOf(o)),
+    _possibleConstructorReturn(
+      t,
+      _isNativeReflectConstruct()
+        ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
+        : o.apply(t, e),
+    )
+  )
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ('object' == _typeof(e) || 'function' == typeof e)) return e
+  if (void 0 !== e)
+    throw new TypeError(
+      'Derived constructors may only return object or undefined',
+    )
+  return _assertThisInitialized(t)
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called",
+    )
+  return e
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(
+      Reflect.construct(Boolean, [], function () {}),
+    )
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct() {
+    return !!t
+  })()
+}
+function _getPrototypeOf(t) {
+  return (
+    (_getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf.bind()
+      : function (t) {
+          return t.__proto__ || Object.getPrototypeOf(t)
+        }),
+    _getPrototypeOf(t)
+  )
+}
+function _inherits(t, e) {
+  if ('function' != typeof e && null !== e)
+    throw new TypeError('Super expression must either be null or a function')
+  ;(t.prototype = Object.create(e && e.prototype, {
+    constructor: { value: t, writable: !0, configurable: !0 },
+  })),
+    Object.defineProperty(t, 'prototype', { writable: !1 }),
+    e && _setPrototypeOf(t, e)
+}
+function _setPrototypeOf(t, e) {
+  return (
+    (_setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function (t, e) {
+          return (t.__proto__ = e), t
+        }),
+    _setPrototypeOf(t, e)
+  )
+}
 /**
  * Sidebar
  * props.uiData
@@ -79,19 +318,20 @@ import ChannelMosaic1Icon from '../icons/ChannelMosaic1Icon.js'
  * props.uiData.sidebarSignOutButton_onClick
  * props.style
  */
-export default class extends React.Component {
-  constructor(props) {
-    super(props)
-    this.interval = null
-    this.delay = 0
-    this.collapsibleControlButtonsCount = 0
+var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
+  function _default(props) {
+    var _this
+    _classCallCheck(this, _default)
+    _this = _callSuper(this, _default, [props])
+    _this.interval = null
+    _this.delay = 0
+    _this.collapsibleControlButtonsCount = 0
 
     // Add refs
-    this.controlProfileRef = React.createRef()
-    this.areaSplitterButtonRef = React.createRef()
-    this.signOutButtonRef = React.createRef()
-
-    this.state = {
+    _this.controlProfileRef = /*#__PURE__*/ _react.default.createRef()
+    _this.areaSplitterButtonRef = /*#__PURE__*/ _react.default.createRef()
+    _this.signOutButtonRef = /*#__PURE__*/ _react.default.createRef()
+    _this.state = {
       buddylistFilterShowingDialogVersion: null,
       controlProfileShowingDialogVersion: null,
       areaSplitterShowingDialogVersion: null,
@@ -99,1057 +339,1590 @@ export default class extends React.Component {
       buddylistFilterInputValue: '',
       controlButtonsCollapsedCount: 0,
     }
-
-    this.statusDisplayAnim = new Animated.Value(0)
+    _this.statusDisplayAnim = new _reactNative.Animated.Value(0)
+    return _this
   }
-  componentDidUpdate() {
-    const props = this.props
-    const newState = {}
+  _inherits(_default, _React$Component)
+  return _createClass(_default, [
+    {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+        var _this2 = this
+        var props = this.props
+        var newState = {}
 
-    // Get measurements using onLayout
-    Promise.all([
-      new Promise(resolve => {
-        if (this.controlProfileRef.current) {
-          this.controlProfileRef.current.measure(
-            (x, y, width, height, pageX, pageY) => {
-              resolve(pageY) // This is equivalent to offsetTop
-            },
+        // Get measurements using onLayout
+        Promise.all([
+          new Promise(function (resolve) {
+            if (_this2.controlProfileRef.current) {
+              _this2.controlProfileRef.current.measure(
+                function (x, y, width, height, pageX, pageY) {
+                  resolve(pageY) // This is equivalent to offsetTop
+                },
+              )
+            } else {
+              resolve(0)
+            }
+          }),
+          new Promise(function (resolve) {
+            if (_this2.areaSplitterButtonRef.current) {
+              _this2.areaSplitterButtonRef.current.measure(
+                function (x, y, width, height, pageX, pageY) {
+                  resolve(pageY + height) // This is equivalent to offsetTop + offsetHeight
+                },
+              )
+            } else {
+              resolve(0)
+            }
+          }),
+          new Promise(function (resolve) {
+            if (_this2.signOutButtonRef.current) {
+              _this2.signOutButtonRef.current.measure(
+                function (x, y, width, height, pageX, pageY) {
+                  resolve(pageY + height) // This is equivalent to offsetTop + offsetHeight
+                },
+              )
+            } else {
+              resolve(0)
+            }
+          }),
+        ]).then(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 3),
+            controlProfileY1 = _ref2[0],
+            areaSplitterButtonY2 = _ref2[1],
+            signOutButtonY2 = _ref2[2]
+          if (
+            controlProfileY1 - signOutButtonY2 < 0 &&
+            _this2.state.controlButtonsCollapsedCount <
+              _this2.collapsibleControlButtonsCount - 1
+          ) {
+            newState.controlButtonsCollapsedCount =
+              _this2.state.controlButtonsCollapsedCount + 1
+          } else if (
+            controlProfileY1 - signOutButtonY2 >=
+              signOutButtonY2 - areaSplitterButtonY2 &&
+            _this2.state.controlButtonsCollapsedCount > 0
+          ) {
+            newState.controlButtonsCollapsedCount =
+              _this2.state.controlButtonsCollapsedCount - 1
+          }
+          if (Object.keys(newState).length) {
+            _this2.setState(newState)
+          }
+        })
+        if (this.interval) {
+          clearInterval(this.interval)
+          this.interval = null
+        }
+        if (this.delay) {
+          this.interval = setInterval(this.setState.bind(this, {}), this.delay)
+        }
+      },
+    },
+    {
+      key: 'componentWillUnmount',
+      value: function componentWillUnmount() {
+        if (this.interval) {
+          clearInterval(this.interval)
+          this.interval = null
+        }
+      },
+    },
+    {
+      key: 'handleBuddylistFilterInputTextBoxChange',
+      value: function handleBuddylistFilterInputTextBoxChange(ev) {
+        var props = this.props
+        this.setState({
+          buddylistFilterInputValue: (0, _strings.string)(ev.target.value),
+        })
+      },
+    },
+    {
+      key: 'handleBuddylistFilterButtonClick',
+      value: function handleBuddylistFilterButtonClick(ev) {
+        var props = this.props
+        if (
+          props.uiData.showingDialogVersion !==
+          this.state.buddylistFilterShowingDialogVersion
+        ) {
+          this.setState({
+            buddylistFilterShowingDialogVersion: ++props.uiData
+              .showingDialogVersion,
+          })
+          ev.stopPropagation()
+          props.uiData.fire('showingDialog_update')
+        }
+      },
+    },
+    {
+      key: 'handleControlProfileClick',
+      value: function handleControlProfileClick(ev) {
+        var props = this.props
+        if (
+          props.uiData.showingDialogVersion !==
+          this.state.controlProfileShowingDialogVersion
+        ) {
+          this.setState({
+            controlProfileShowingDialogVersion: ++props.uiData
+              .showingDialogVersion,
+          })
+          ev.stopPropagation()
+          props.uiData.fire('showingDialog_update')
+        }
+        props.uiData.ucUiAction.uncacheProfileImageUrl({
+          minSignInOKCount: 2,
+        })
+      },
+    },
+    {
+      key: 'handleControlProfileBalloonDialogClick',
+      value: function handleControlProfileBalloonDialogClick(ev) {
+        var props = this.props
+        if (
+          ev &&
+          ev.target &&
+          ev.target.matches &&
+          ev.target.matches(
+            '.brControlProfileStatusItem,.brControlProfileStatusItem *',
           )
-        } else {
-          resolve(0)
+        ) {
+          ev.stopPropagation()
         }
-      }),
-      new Promise(resolve => {
-        if (this.areaSplitterButtonRef.current) {
-          this.areaSplitterButtonRef.current.measure(
-            (x, y, width, height, pageX, pageY) => {
-              resolve(pageY + height) // This is equivalent to offsetTop + offsetHeight
-            },
-          )
-        } else {
-          resolve(0)
+      },
+    },
+    {
+      key: 'handleControlButtonsCollapsedMenuButtonClick',
+      value: function handleControlButtonsCollapsedMenuButtonClick(ev) {
+        var props = this.props
+        if (
+          props.uiData.showingDialogVersion !==
+          this.state.controlButtonsCollapsedMenuShowingDialogVersion
+        ) {
+          this.setState({
+            controlButtonsCollapsedMenuShowingDialogVersion: ++props.uiData
+              .showingDialogVersion,
+          })
+          ev.stopPropagation()
+          props.uiData.fire('showingDialog_update')
         }
-      }),
-      new Promise(resolve => {
-        if (this.signOutButtonRef.current) {
-          this.signOutButtonRef.current.measure(
-            (x, y, width, height, pageX, pageY) => {
-              resolve(pageY + height) // This is equivalent to offsetTop + offsetHeight
-            },
-          )
-        } else {
-          resolve(0)
+      },
+    },
+    {
+      key: 'handleAreaSplitterButtonClick',
+      value: function handleAreaSplitterButtonClick(ev) {
+        var props = this.props
+        if (
+          props.uiData.showingDialogVersion !==
+          this.state.areaSplitterShowingDialogVersion
+        ) {
+          this.setState({
+            areaSplitterShowingDialogVersion: ++props.uiData
+              .showingDialogVersion,
+          })
+          ev.stopPropagation()
+          props.uiData.fire('showingDialog_update')
         }
-      }),
-    ]).then(([controlProfileY1, areaSplitterButtonY2, signOutButtonY2]) => {
-      if (
-        controlProfileY1 - signOutButtonY2 < 0 &&
-        this.state.controlButtonsCollapsedCount <
-          this.collapsibleControlButtonsCount - 1
-      ) {
-        newState.controlButtonsCollapsedCount =
-          this.state.controlButtonsCollapsedCount + 1
-      } else if (
-        controlProfileY1 - signOutButtonY2 >=
-          signOutButtonY2 - areaSplitterButtonY2 &&
-        this.state.controlButtonsCollapsedCount > 0
-      ) {
-        newState.controlButtonsCollapsedCount =
-          this.state.controlButtonsCollapsedCount - 1
-      }
-
-      if (Object.keys(newState).length) {
-        this.setState(newState)
-      }
-    })
-
-    if (this.interval) {
-      clearInterval(this.interval)
-      this.interval = null
-    }
-    if (this.delay) {
-      this.interval = setInterval(this.setState.bind(this, {}), this.delay)
-    }
-  }
-  componentWillUnmount() {
-    if (this.interval) {
-      clearInterval(this.interval)
-      this.interval = null
-    }
-  }
-  handleBuddylistFilterInputTextBoxChange(ev) {
-    const props = this.props
-    this.setState({ buddylistFilterInputValue: string(ev.target.value) })
-  }
-  handleBuddylistFilterButtonClick(ev) {
-    const props = this.props
-    if (
-      props.uiData.showingDialogVersion !==
-      this.state.buddylistFilterShowingDialogVersion
-    ) {
-      this.setState({
-        buddylistFilterShowingDialogVersion: ++props.uiData
-          .showingDialogVersion,
-      })
-      ev.stopPropagation()
-      props.uiData.fire('showingDialog_update')
-    }
-  }
-  handleControlProfileClick(ev) {
-    const props = this.props
-    if (
-      props.uiData.showingDialogVersion !==
-      this.state.controlProfileShowingDialogVersion
-    ) {
-      this.setState({
-        controlProfileShowingDialogVersion: ++props.uiData.showingDialogVersion,
-      })
-      ev.stopPropagation()
-      props.uiData.fire('showingDialog_update')
-    }
-    props.uiData.ucUiAction.uncacheProfileImageUrl({ minSignInOKCount: 2 })
-  }
-  handleControlProfileBalloonDialogClick(ev) {
-    const props = this.props
-    if (
-      ev &&
-      ev.target &&
-      ev.target.matches &&
-      ev.target.matches(
-        '.brControlProfileStatusItem,.brControlProfileStatusItem *',
-      )
-    ) {
-      ev.stopPropagation()
-    }
-  }
-  handleControlButtonsCollapsedMenuButtonClick(ev) {
-    const props = this.props
-    if (
-      props.uiData.showingDialogVersion !==
-      this.state.controlButtonsCollapsedMenuShowingDialogVersion
-    ) {
-      this.setState({
-        controlButtonsCollapsedMenuShowingDialogVersion: ++props.uiData
-          .showingDialogVersion,
-      })
-      ev.stopPropagation()
-      props.uiData.fire('showingDialog_update')
-    }
-  }
-  handleAreaSplitterButtonClick(ev) {
-    const props = this.props
-    if (
-      props.uiData.showingDialogVersion !==
-      this.state.areaSplitterShowingDialogVersion
-    ) {
-      this.setState({
-        areaSplitterShowingDialogVersion: ++props.uiData.showingDialogVersion,
-      })
-      ev.stopPropagation()
-      props.uiData.fire('showingDialog_update')
-    }
-  }
-  animateStatusDisplay() {
-    Animated.sequence([
-      Animated.timing(this.statusDisplayAnim, {
-        toValue: -30,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      Animated.delay(1000),
-      Animated.timing(this.statusDisplayAnim, {
-        toValue: -60,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-    ]).start()
-  }
-  render() {
-    const props = this.props
-    const profile = props.uiData.ucUiStore.getChatClient().getProfile()
-    const buddylist = props.uiData.ucUiStore.getChatClient().getBuddylist()
-    const configProperties = props.uiData.ucUiStore.getConfigProperties()
-    const userMe = props.uiData.ucUiStore.getBuddyUserForUi(profile)
-    const statusMe = props.uiData.ucUiStore.getChatClient().getStatus()
-    const statusList =
-      props.uiData.ucUiStore.getSignInStatus() === 3
-        ? [
-            {
-              status: Constants.STATUS_AVAILABLE,
-              label: uawMsgs.CMN_OWN_STATUS_STRING_AVAILABLE,
-            },
-            {
-              status: Constants.STATUS_OFFLINE,
-              label: uawMsgs.CMN_OWN_STATUS_STRING_INVISIBLE,
-            },
-            {
-              status: Constants.STATUS_BUSY,
-              label: uawMsgs.CMN_OWN_STATUS_STRING_BUSY,
-            },
-          ]
-        : [
-            {
-              status: Constants.STATUS_OFFLINE,
-              label: uawMsgs.CMN_OWN_STATUS_STRING_OFFLINE,
-            },
-          ]
-    const BUDDYLIST_ITEM_HEIGHT = 58
-    const nameDisplayMode = int(
-      props.uiData.ucUiStore.getOptionalSetting({ key: ['name_display_mode'] }),
-    )
-    const displayCallStatus = int(
-      props.uiData.ucUiStore.getOptionalSetting({
-        key: ['display_call_status'],
-      }),
-    )
-    const onlineOnly = props.uiData.ucUiStore.getLocalStoragePreference({
-      keyList: ['onlineOnly'],
-    })[0]
-    const buddylistOpenList = props.uiData.ucUiStore
-      .getLocalStoragePreference({ keyList: ['buddylistOpenList'] })[0]
-      .split(',')
-    const buddyTable =
-      props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
-    const buddies = Object.keys(buddyTable)
-      .map(key => buddyTable[key])
-      .filter(buddy => !buddy.isMe && buddy.isBuddy && !buddy.isTemporaryBuddy)
-      .sort((buddy1, buddy2) => int(buddy1.buddyIndex) - int(buddy2.buddyIndex))
-    const groupTable = {}
-    this.delay = 0
-    buddies.forEach(buddy => {
-      const groupName = string(buddy.group)
-      if (!groupTable[groupName]) {
-        groupTable[groupName] = {
-          groupIndex: int(buddy.groupIndex),
-          buddyNodes: [],
-          height: 0,
-          onlines: 0,
-        }
-      }
-      const panelCode = JSON.stringify({
-        tenant: buddy.tenant,
-        user_id: buddy.user_id,
-      })
-      const selected =
-        props.uiData.currentSelectedTab === 'CHAT' + '_' + panelCode
-      const user = props.uiData.ucUiStore.getBuddyUserForUi(buddy) || {}
-      const status = props.uiData.getCurrentBuddyStatus(buddy) || {}
-      let height = BUDDYLIST_ITEM_HEIGHT
-      if (onlineOnly && status.status === Constants.STATUS_OFFLINE) {
-        height = 0
-      }
-      if (
-        this.state.buddylistFilterInputValue &&
-        string(user.name)
-          .toLowerCase()
-          .indexOf(
-            string(this.state.buddylistFilterInputValue).toLowerCase(),
-          ) === -1
-      ) {
-        height = 0
-      }
-      const messageObject =
-        (
-          (
-            props.uiData.ucUiStore
-              .getChatList({ chatType: 'CHAT', chatCode: panelCode })
-              .filter(chat => chat.type === 'paragraph')
-              .pop() || {}
-          ).messageList || []
-        ).pop() || {} // TODO: yano
-      let message = ''
-      if (messageObject.ctype === Constants.CTYPE_FILE_REQUEST) {
-        message = string(
-          messageObject.messageFile && messageObject.messageFile.name,
+      },
+    },
+    {
+      key: 'animateStatusDisplay',
+      value: function animateStatusDisplay() {
+        _reactNative.Animated.sequence([
+          _reactNative.Animated.timing(this.statusDisplayAnim, {
+            toValue: -30,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          _reactNative.Animated.delay(1000),
+          _reactNative.Animated.timing(this.statusDisplayAnim, {
+            toValue: -60,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]).start()
+      },
+    },
+    {
+      key: 'render',
+      value: function render() {
+        var _this3 = this,
+          _configProperties$opt
+        var props = this.props
+        var profile = props.uiData.ucUiStore.getChatClient().getProfile()
+        var buddylist = props.uiData.ucUiStore.getChatClient().getBuddylist()
+        var configProperties = props.uiData.ucUiStore.getConfigProperties()
+        var userMe = props.uiData.ucUiStore.getBuddyUserForUi(profile)
+        var statusMe = props.uiData.ucUiStore.getChatClient().getStatus()
+        var statusList =
+          props.uiData.ucUiStore.getSignInStatus() === 3
+            ? [
+                {
+                  status: _constants.default.STATUS_AVAILABLE,
+                  label: _uawmsgs.default.CMN_OWN_STATUS_STRING_AVAILABLE,
+                },
+                {
+                  status: _constants.default.STATUS_OFFLINE,
+                  label: _uawmsgs.default.CMN_OWN_STATUS_STRING_INVISIBLE,
+                },
+                {
+                  status: _constants.default.STATUS_BUSY,
+                  label: _uawmsgs.default.CMN_OWN_STATUS_STRING_BUSY,
+                },
+              ]
+            : [
+                {
+                  status: _constants.default.STATUS_OFFLINE,
+                  label: _uawmsgs.default.CMN_OWN_STATUS_STRING_OFFLINE,
+                },
+              ]
+        var BUDDYLIST_ITEM_HEIGHT = 58
+        var nameDisplayMode = (0, _strings.int)(
+          props.uiData.ucUiStore.getOptionalSetting({
+            key: ['name_display_mode'],
+          }),
         )
-      } else if (messageObject.ctype === Constants.CTYPE_CALL_RESULT) {
-        try {
-          const callResult = JSON.parse(messageObject.messageText) || {}
-          const senderUser =
-            (!callResult.externalincoming &&
-              props.uiData.ucUiStore.getBuddyUserForUi(
-                messageObject.senderInfo,
-              )) ||
-            {}
-          const min = Math.floor(int(callResult.talklen) / 60000)
-          const sec =
-            0 < callResult.talklen && callResult.talklen < 1000
-              ? 1
-              : Math.floor((int(callResult.talklen) % 60000) / 1000)
-          if (senderUser.isMe || callResult.talklen) {
-            message = uawMsgs.LBL_SIDEBAR_BUDDYLIST_ITEM_CALL + ' \u00A0 '
-            message +=
-              min > 0
-                ? formatStr(
-                    uawMsgs.LBL_SIDEBAR_BUDDYLIST_ITEM_CALL_RESULT_LENGTH_MIN,
-                    min,
-                    sec,
-                  )
-                : formatStr(
-                    uawMsgs.LBL_SIDEBAR_BUDDYLIST_ITEM_CALL_RESULT_LENGTH_SEC,
-                    sec,
-                  )
+        var displayCallStatus = (0, _strings.int)(
+          props.uiData.ucUiStore.getOptionalSetting({
+            key: ['display_call_status'],
+          }),
+        )
+        var onlineOnly = props.uiData.ucUiStore.getLocalStoragePreference({
+          keyList: ['onlineOnly'],
+        })[0]
+        var buddylistOpenList = props.uiData.ucUiStore
+          .getLocalStoragePreference({
+            keyList: ['buddylistOpenList'],
+          })[0]
+          .split(',')
+        var buddyTable =
+          props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
+        var buddies = Object.keys(buddyTable)
+          .map(function (key) {
+            return buddyTable[key]
+          })
+          .filter(function (buddy) {
+            return !buddy.isMe && buddy.isBuddy && !buddy.isTemporaryBuddy
+          })
+          .sort(function (buddy1, buddy2) {
+            return (
+              (0, _strings.int)(buddy1.buddyIndex) -
+              (0, _strings.int)(buddy2.buddyIndex)
+            )
+          })
+        var groupTable = {}
+        this.delay = 0
+        buddies.forEach(function (buddy) {
+          var _status$ui_customized,
+            _status$ui_customized2,
+            _status$ui_customized3,
+            _status$ui_customized4
+          var groupName = (0, _strings.string)(buddy.group)
+          if (!groupTable[groupName]) {
+            groupTable[groupName] = {
+              groupIndex: (0, _strings.int)(buddy.groupIndex),
+              buddyNodes: [],
+              height: 0,
+              onlines: 0,
+            }
+          }
+          var panelCode = JSON.stringify({
+            tenant: buddy.tenant,
+            user_id: buddy.user_id,
+          })
+          var selected =
+            props.uiData.currentSelectedTab === 'CHAT' + '_' + panelCode
+          var user = props.uiData.ucUiStore.getBuddyUserForUi(buddy) || {}
+          var status = props.uiData.getCurrentBuddyStatus(buddy) || {}
+          var height = BUDDYLIST_ITEM_HEIGHT
+          if (
+            onlineOnly &&
+            status.status === _constants.default.STATUS_OFFLINE
+          ) {
+            height = 0
+          }
+          if (
+            _this3.state.buddylistFilterInputValue &&
+            (0, _strings.string)(user.name)
+              .toLowerCase()
+              .indexOf(
+                (0, _strings.string)(
+                  _this3.state.buddylistFilterInputValue,
+                ).toLowerCase(),
+              ) === -1
+          ) {
+            height = 0
+          }
+          var messageObject =
+            (
+              (
+                props.uiData.ucUiStore
+                  .getChatList({
+                    chatType: 'CHAT',
+                    chatCode: panelCode,
+                  })
+                  .filter(function (chat) {
+                    return chat.type === 'paragraph'
+                  })
+                  .pop() || {}
+              ).messageList || []
+            ).pop() || {} // TODO: yano
+          var message = ''
+          if (messageObject.ctype === _constants.default.CTYPE_FILE_REQUEST) {
+            message = (0, _strings.string)(
+              messageObject.messageFile && messageObject.messageFile.name,
+            )
+          } else if (
+            messageObject.ctype === _constants.default.CTYPE_CALL_RESULT
+          ) {
+            try {
+              var callResult = JSON.parse(messageObject.messageText) || {}
+              var senderUser =
+                (!callResult.externalincoming &&
+                  props.uiData.ucUiStore.getBuddyUserForUi(
+                    messageObject.senderInfo,
+                  )) ||
+                {}
+              var min = Math.floor(
+                (0, _strings.int)(callResult.talklen) / 60000,
+              )
+              var sec =
+                0 < callResult.talklen && callResult.talklen < 1000
+                  ? 1
+                  : Math.floor(
+                      ((0, _strings.int)(callResult.talklen) % 60000) / 1000,
+                    )
+              if (senderUser.isMe || callResult.talklen) {
+                message =
+                  _uawmsgs.default.LBL_SIDEBAR_BUDDYLIST_ITEM_CALL + ' \xA0 '
+                message +=
+                  min > 0
+                    ? (0, _strings.formatStr)(
+                        _uawmsgs.default
+                          .LBL_SIDEBAR_BUDDYLIST_ITEM_CALL_RESULT_LENGTH_MIN,
+                        min,
+                        sec,
+                      )
+                    : (0, _strings.formatStr)(
+                        _uawmsgs.default
+                          .LBL_SIDEBAR_BUDDYLIST_ITEM_CALL_RESULT_LENGTH_SEC,
+                        sec,
+                      )
+              } else {
+                message =
+                  _uawmsgs.default
+                    .LBL_SIDEBAR_BUDDYLIST_ITEM_CALL_RESULT_DIRECTION_INCOMING_MISSED
+              }
+            } catch (ex) {}
+          } else if (messageObject.ctype === _constants.default.CTYPE_OBJECT) {
           } else {
-            message =
-              uawMsgs.LBL_SIDEBAR_BUDDYLIST_ITEM_CALL_RESULT_DIRECTION_INCOMING_MISSED
+            message = (0, _strings.toPlainText)(messageObject.messageText)
           }
-        } catch (ex) {}
-      } else if (messageObject.ctype === Constants.CTYPE_OBJECT) {
-      } else {
-        message = toPlainText(messageObject.messageText)
-      }
-      let time = ''
-      if (messageObject.sentTimeValue) {
-        const timeValue = +new Date() - messageObject.sentTimeValue
-        if (timeValue < 60000) {
-          time = ''
-          if (!this.delay || this.delay > 60000) {
-            this.delay = 60000
+          var time = ''
+          if (messageObject.sentTimeValue) {
+            var timeValue = +new Date() - messageObject.sentTimeValue
+            if (timeValue < 60000) {
+              time = ''
+              if (!_this3.delay || _this3.delay > 60000) {
+                _this3.delay = 60000
+              }
+            } else if (timeValue < 3600000) {
+              time = (0, _strings.formatStr)(
+                _uawmsgs.default.CMN_FORMAT_MINUTES_AGO,
+                (0, _strings.int)(timeValue / 60000),
+              )
+              if (!_this3.delay || _this3.delay > 60000) {
+                _this3.delay = 60000
+              }
+            } else if (timeValue < 86400000) {
+              time = (0, _strings.formatStr)(
+                _uawmsgs.default.CMN_FORMAT_HOURS_AGO,
+                (0, _strings.int)(timeValue / 3600000),
+              )
+              if (!_this3.delay || _this3.delay > 3600000) {
+                _this3.delay = 3600000
+              }
+            } else {
+              var sentTimeDate = new Date(messageObject.sentTimeValue)
+              var year = sentTimeDate.getFullYear()
+              var monthNum = sentTimeDate.getMonth() + 1
+              var day = sentTimeDate.getDate()
+              time = (0, _strings.formatStr)(
+                _uawmsgs.default.CMN_FORMAT_DATE,
+                year,
+                monthNum,
+                day,
+                _uawmsgs.default['CMN_MONTH_STR_' + ('0' + monthNum).slice(-2)],
+              )
+            }
           }
-        } else if (timeValue < 3600000) {
-          time = formatStr(
-            uawMsgs.CMN_FORMAT_MINUTES_AGO,
-            int(timeValue / 60000),
+          var unread =
+            (0, _strings.int)(
+              props.uiData.blinkingTabs['CHAT' + '_' + panelCode],
+            ) +
+            (0, _strings.int)(
+              props.uiData.unscrolledTabs['CHAT' + '_' + panelCode],
+            )
+          if (!groupName || buddylistOpenList.indexOf(groupName) !== -1) {
+            groupTable[groupName].height += height
+          }
+          if (status.status !== _constants.default.STATUS_OFFLINE) {
+            groupTable[groupName].onlines++
+          }
+          groupTable[groupName].buddyNodes.push(
+            /*#__PURE__*/ _react.default.createElement(
+              _DndableSafe.default,
+              {
+                key: panelCode,
+                uiData: props.uiData,
+                style: [
+                  styles.brBuddylistItem,
+                  displayCallStatus & 1 && styles.brWithColor,
+                  displayCallStatus & 2 && styles.brWithIcon,
+                  ((_status$ui_customized = status.ui_customized_status) ===
+                    null || _status$ui_customized === void 0
+                    ? void 0
+                    : _status$ui_customized.callStatus) > 0 &&
+                    styles.brCallStatus,
+                  ((_status$ui_customized2 = status.ui_customized_status) ===
+                    null || _status$ui_customized2 === void 0
+                    ? void 0
+                    : _status$ui_customized2.conferenceStatus) >= 1 &&
+                    ((_status$ui_customized3 = status.ui_customized_status) ===
+                      null || _status$ui_customized3 === void 0
+                      ? void 0
+                      : _status$ui_customized3.conferenceStatus) < 100 &&
+                    styles.brConferenceStatus,
+                  ((_status$ui_customized4 = status.ui_customized_status) ===
+                    null || _status$ui_customized4 === void 0
+                    ? void 0
+                    : _status$ui_customized4.conferenceStatus) >= 100 &&
+                    styles.brConferenceStatusWebchat,
+                  selected && styles.brSelected,
+                  status.status === _constants.default.STATUS_OFFLINE &&
+                    styles.brOffline,
+                  {
+                    height: height,
+                  },
+                ],
+                dragSourceInfo: {
+                  dragSourceInfoType: 'buddylistItem',
+                  dragSourceInfoCode: panelCode,
+                },
+                onCheckCanDrop: function onCheckCanDrop(ev) {
+                  return (
+                    configProperties.buddy_mode !==
+                      _constants.default.BUDDY_MODE_AUTO &&
+                    ev.dragSourceInfo &&
+                    ev.dragSourceInfo.dragSourceInfoType === 'buddylistItem' &&
+                    ev.dragSourceInfo.dragSourceInfoCode !== panelCode
+                  )
+                },
+                onDrop: function onDrop() {
+                  return props.uiData.fire('sidebarBuddylistDndable_onDrop', {
+                    dropTargetInfoType: 'buddylistItem',
+                    dropTargetInfoCode: panelCode,
+                  })
+                },
+                onPress: function onPress() {
+                  return props.uiData.fire('sidebarBuddylistItem_onClick', {
+                    tenant: buddy.tenant,
+                    user_id: buddy.user_id,
+                  })
+                },
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brBuddylistItemHeader,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _NameEmbeddedSpan.default,
+                  {
+                    ucUiStore: props.uiData.ucUiStore,
+                    format: '{0}'.concat(
+                      nameDisplayMode === 1
+                        ? ' ('.concat(buddy.user_id, ')')
+                        : '',
+                    ),
+                    title: '{0}'
+                      .concat(
+                        nameDisplayMode === 1
+                          ? ' ('.concat(buddy.user_id, ') ')
+                          : ' ',
+                      )
+                      .concat((0, _strings.string)(status.display)),
+                    buddy: buddy,
+                  },
+                ),
+                /*#__PURE__*/ _react.default.createElement(_PhoneIcon.default, {
+                  width: 16,
+                  height: 16,
+                }),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: {
+                      marginHorizontal: 4,
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _ConferenceForegroundSelectedIcon.default,
+                    {
+                      width: 16,
+                      height: 16,
+                    },
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: {
+                      marginHorizontal: 4,
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _InternetIcon.default,
+                    {
+                      width: 16,
+                      height: 16,
+                    },
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brBuddylistItemInfo,
+                    accessibilityLabel: (0, _strings.string)(status.display),
+                  },
+                  (0, _strings.string)(status.display),
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brBuddylistItemMessage,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brBuddylistItemInfo,
+                    accessibilityLabel: message,
+                    numberOfLines: 1,
+                  },
+                  message,
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brBuddylistItemTime,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brBuddylistItemInfo,
+                    accessibilityLabel: (0, _strings.formatMessageDateTime)(
+                      messageObject.sentTimeValue,
+                    ),
+                  },
+                  time,
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+                style: styles.brBuddylistItemMarker,
+              }),
+              unread
+                ? /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: styles.brBuddylistItemUnread,
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.Text,
+                      {
+                        style: styles.brBuddylistItemInfo,
+                      },
+                      unread,
+                    ),
+                  )
+                : null,
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [
+                    styles.brBuddylistItemImage,
+                    !buddy.profile_image_url && styles.brNoImage,
+                    buddy.profile_image_url &&
+                      (0, _strings.string)(buddy.profile_image_url).indexOf(
+                        _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
+                      ) === -1 &&
+                      styles.brMyProfileImageUrl,
+                    status.status === _constants.default.STATUS_OFFLINE &&
+                      styles.brOffline,
+                  ],
+                  accessibilityLabel: (0, _strings.string)(user.name),
+                  onPress: function onPress() {
+                    return props.uiData.ucUiAction.uncacheProfileImageUrl({
+                      minSignInOKCount: 1,
+                      uncacheParam2: (0, _strings.int)(Date.now() / 3600000),
+                    })
+                  },
+                },
+                buddy.profile_image_url &&
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Image,
+                    {
+                      source: {
+                        uri: buddy.profile_image_url,
+                      },
+                      style: styles.profileImage,
+                    },
+                  ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(_StatusIcon.default, {
+                style: styles.brBuddylistItemStatusIcon,
+                status: status.status,
+                degree: status.degree,
+              }),
+            ),
           )
-          if (!this.delay || this.delay > 60000) {
-            this.delay = 60000
-          }
-        } else if (timeValue < 86400000) {
-          time = formatStr(
-            uawMsgs.CMN_FORMAT_HOURS_AGO,
-            int(timeValue / 3600000),
-          )
-          if (!this.delay || this.delay > 3600000) {
-            this.delay = 3600000
-          }
-        } else {
-          const sentTimeDate = new Date(messageObject.sentTimeValue)
-          const year = sentTimeDate.getFullYear()
-          const monthNum = sentTimeDate.getMonth() + 1
-          const day = sentTimeDate.getDate()
-          time = formatStr(
-            uawMsgs.CMN_FORMAT_DATE,
-            year,
-            monthNum,
-            day,
-            uawMsgs['CMN_MONTH_STR_' + ('0' + monthNum).slice(-2)],
-          )
-        }
-      }
-      const unread =
-        int(props.uiData.blinkingTabs['CHAT' + '_' + panelCode]) +
-        int(props.uiData.unscrolledTabs['CHAT' + '_' + panelCode])
-      if (!groupName || buddylistOpenList.indexOf(groupName) !== -1) {
-        groupTable[groupName].height += height
-      }
-      if (status.status !== Constants.STATUS_OFFLINE) {
-        groupTable[groupName].onlines++
-      }
-      groupTable[groupName].buddyNodes.push(
-        <DndableSafe
-          key={panelCode}
-          uiData={props.uiData}
-          style={[
-            styles.brBuddylistItem,
-            displayCallStatus & 1 && styles.brWithColor,
-            displayCallStatus & 2 && styles.brWithIcon,
-            status.ui_customized_status?.callStatus > 0 && styles.brCallStatus,
-            status.ui_customized_status?.conferenceStatus >= 1 &&
-              status.ui_customized_status?.conferenceStatus < 100 &&
-              styles.brConferenceStatus,
-            status.ui_customized_status?.conferenceStatus >= 100 &&
-              styles.brConferenceStatusWebchat,
-            selected && styles.brSelected,
-            status.status === Constants.STATUS_OFFLINE && styles.brOffline,
-            { height },
-          ]}
-          dragSourceInfo={{
-            dragSourceInfoType: 'buddylistItem',
-            dragSourceInfoCode: panelCode,
-          }}
-          onCheckCanDrop={ev =>
-            configProperties.buddy_mode !== Constants.BUDDY_MODE_AUTO &&
-            ev.dragSourceInfo &&
-            ev.dragSourceInfo.dragSourceInfoType === 'buddylistItem' &&
-            ev.dragSourceInfo.dragSourceInfoCode !== panelCode
-          }
-          onDrop={() =>
-            props.uiData.fire('sidebarBuddylistDndable_onDrop', {
-              dropTargetInfoType: 'buddylistItem',
-              dropTargetInfoCode: panelCode,
-            })
-          }
-          onPress={() =>
-            props.uiData.fire('sidebarBuddylistItem_onClick', {
-              tenant: buddy.tenant,
-              user_id: buddy.user_id,
-            })
-          }
-        >
-          <View style={styles.brBuddylistItemHeader}>
-            <NameEmbeddedSpan
-              ucUiStore={props.uiData.ucUiStore}
-              format={`{0}${nameDisplayMode === 1 ? ` (${buddy.user_id})` : ''}`}
-              title={`{0}${nameDisplayMode === 1 ? ` (${buddy.user_id}) ` : ' '}${string(status.display)}`}
-              buddy={buddy}
-            />
-            <PhoneIcon width={16} height={16} />
-            <View style={{ marginHorizontal: 4 }}>
-              <ConferenceForegroundSelectedIcon width={16} height={16} />
-            </View>
-            <View style={{ marginHorizontal: 4 }}>
-              <InternetIcon width={16} height={16} />
-            </View>
-            <Text
-              style={styles.brBuddylistItemInfo}
-              accessibilityLabel={string(status.display)}
-            >
-              {string(status.display)}
-            </Text>
-          </View>
-
-          <View style={styles.brBuddylistItemMessage}>
-            <Text
-              style={styles.brBuddylistItemInfo}
-              accessibilityLabel={message}
-              numberOfLines={1}
-            >
-              {message}
-            </Text>
-          </View>
-
-          <View style={styles.brBuddylistItemTime}>
-            <Text
-              style={styles.brBuddylistItemInfo}
-              accessibilityLabel={formatMessageDateTime(
-                messageObject.sentTimeValue,
-              )}
-            >
-              {time}
-            </Text>
-          </View>
-
-          <View style={styles.brBuddylistItemMarker} />
-
-          {unread ? (
-            <View style={styles.brBuddylistItemUnread}>
-              <Text style={styles.brBuddylistItemInfo}>{unread}</Text>
-            </View>
-          ) : null}
-
-          <TouchableOpacity
-            style={[
-              styles.brBuddylistItemImage,
-              !buddy.profile_image_url && styles.brNoImage,
-              buddy.profile_image_url &&
-                string(buddy.profile_image_url).indexOf(
-                  Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-                ) === -1 &&
-                styles.brMyProfileImageUrl,
-              status.status === Constants.STATUS_OFFLINE && styles.brOffline,
-            ]}
-            accessibilityLabel={string(user.name)}
-            onPress={() =>
-              props.uiData.ucUiAction.uncacheProfileImageUrl({
-                minSignInOKCount: 1,
-                uncacheParam2: int(Date.now() / 3600000),
-              })
-            }
-          >
-            {buddy.profile_image_url && (
-              <Image
-                source={{ uri: buddy.profile_image_url }}
-                style={styles.profileImage}
-              />
-            )}
-          </TouchableOpacity>
-
-          <StatusIcon
-            style={styles.brBuddylistItemStatusIcon}
-            status={status.status}
-            degree={status.degree}
-          />
-        </DndableSafe>,
-      )
-    })
-    ;[{ id: '' }].concat(buddylist.user).forEach((buddy, index) => {
-      if (buddy && typeof buddy.id === 'string' && !groupTable[buddy.id]) {
-        // add empty group
-        groupTable[buddy.id] = {
-          groupIndex: index - 1,
-          buddyNodes: [],
-          height: 0,
-          onlines: 0,
-        }
-      }
-    })
-    const groupNodes = Object.keys(groupTable)
-      .sort(
-        (groupName1, groupName2) =>
-          (groupTable[groupName1].groupIndex >>> 0) -
-          (groupTable[groupName2].groupIndex >>> 0),
-      )
-      .map(groupName => (
-        <View key={groupName} style={styles.brBuddylistGroup}>
-          <DndableSafe
-            uiData={props.uiData}
-            style={[
-              styles.brBuddylistGroupTitle,
-              groupName && styles.brGroupName,
-            ]}
-            dragSourceInfo={{
-              dragSourceInfoType: 'buddylistGroupTitle',
-              dragSourceInfoCode: groupName,
-            }}
-            onCheckCanDrop={ev =>
-              configProperties.buddy_mode !== Constants.BUDDY_MODE_AUTO &&
-              ev.dragSourceInfo &&
-              (ev.dragSourceInfo.dragSourceInfoType === 'buddylistItem' ||
-                (ev.dragSourceInfo.dragSourceInfoType ===
-                  'buddylistGroupTitle' &&
-                  ev.dragSourceInfo.dragSourceInfoCode !== groupName &&
-                  ev.dragSourceInfo.dragSourceInfoCode &&
-                  groupName))
-            }
-            onDrop={() =>
-              props.uiData.fire('sidebarBuddylistDndable_onDrop', {
-                dropTargetInfoType: 'buddylistGroupTitle',
-                dropTargetInfoCode: groupName,
-              })
-            }
-            onPress={() =>
-              props.uiData.fire('sidebarBuddylistGroupTitle_onClick', groupName)
-            }
-          >
-            <View style={styles.brBuddylistGroupLabel}>
-              <Text style={styles.brBuddylistGroupName}>{groupName}</Text>
-              <Text style={styles.brBuddylistGroupOnlines}>
-                {groupTable[groupName].buddyNodes.length
-                  ? ` ${groupTable[groupName].onlines}/${groupTable[groupName].buddyNodes.length}`
-                  : ''}
-              </Text>
-            </View>
-            <View style={{ marginLeft: 4 }}>
-              {buddylistOpenList.indexOf(groupName) !== -1 ? (
-                <ChevronUpIcon width={16} height={16} />
-              ) : (
-                <ChevronDownIcon width={16} height={16} />
-              )}
-            </View>
-          </DndableSafe>
-
-          <View
-            style={[
-              styles.brBuddylistItems,
-              { height: groupTable[groupName].height },
-            ]}
-          >
-            {groupTable[groupName].buddyNodes}
-          </View>
-        </View>
-      ))
-    const collapsibleControlButtons = [
-      <ButtonIconic
-        key='createConferenceButton'
-        style={[styles.brControlButton, styles.brCreateConferenceButton]}
-        iconSource={<ConferenceForegroundSelectedIcon />}
-        accessibilityLabel={
-          uawMsgs.LBL_SIDEBAR_CREATE_CONFERENCE_BUTTON_TOOLTIP
-        }
-        onPress={() =>
-          props.uiData.fire('sidebarCreateConferenceButton_onClick')
-        }
-      />,
-      <ButtonIconic
-        key='sendBroadcastTextButton'
-        style={[styles.brControlButton, styles.brSendBroadcastTextButton]}
-        iconSource={<BroadcastingIcon />}
-        accessibilityLabel={
-          uawMsgs.LBL_SIDEBAR_SEND_BROADCAST_TEXT_BUTTON_TOOLTIP
-        }
-        onPress={() =>
-          props.uiData.fire('sidebarSendBroadcastTextButton_onClick')
-        }
-      />,
-      <ButtonIconic
-        key='externalCallButton'
-        style={[styles.brControlButton, styles.brExternalCallButton]}
-        iconSource={<PhoneIcon width={16} height={16} />}
-        accessibilityLabel={uawMsgs.LBL_SIDEBAR_EXTERNAL_CALL_BUTTON_TOOLTIP}
-        onPress={() => props.uiData.fire('sidebarExternalCallButton_onClick')}
-      />,
-    ]
-    if (
-      (configProperties?.optional_config?.awsl || []).some(
-        aws =>
-          aws.og &&
-          !aws.og.disabled &&
-          aws.og.reply_types?.length &&
-          aws.senders,
-      )
-    ) {
-      collapsibleControlButtons.push(
-        <ButtonIconic
-          key='outgoingWebchatButton'
-          style={[styles.brControlButton, styles.brOutgoingWebchatButton]}
-          iconSource={<SendIcon />}
-          accessibilityLabel={
-            uawMsgs.LBL_SIDEBAR_OUTGOING_WEBCHAT_BUTTON_TOOLTIP
-          }
-          onPress={() =>
-            props.uiData.fire('sidebarOutgoingWebchatButton_onClick')
-          }
-        />,
-      )
-    }
-    if (configProperties.buddy_mode !== Constants.BUDDY_MODE_AUTO) {
-      collapsibleControlButtons.push(
-        <ButtonIconic
-          key='createGroupButton'
-          style={[styles.brControlButton, styles.brCreateGroupButton]}
-          iconSource={<AddFolderIcon />}
-          accessibilityLabel={uawMsgs.LBL_SIDEBAR_CREATE_GROUP_BUTTON_TOOLTIP}
-          onPress={() => props.uiData.fire('sidebarCreateGroupButton_onClick')}
-        />,
-      )
-    }
-    const userListButtonType = int(
-      props.uiData.configurations.userListButtonType,
-    )
-    const allUsersCount = (
-      (props.uiData.ucUiStore.getChatClient().getAllUsers() || {}).user || []
-    ).filter(u => !u.disabledBuddy && u.user_id !== profile.user_id).length
-    const buddy_max = int(
-      props.uiData.ucUiStore.getOptionalSetting({ key: 'buddy_max' }),
-    )
-
-    if (
-      !(
-        userListButtonType === 2 ||
-        (userListButtonType === 1 &&
-          configProperties.buddy_mode !== Constants.BUDDY_MODE_MANUAL &&
-          !buddylist.screened &&
-          allUsersCount <= buddy_max)
-      )
-    ) {
-      collapsibleControlButtons.push(
-        <ButtonIconic
-          key='userListButton'
-          style={[
-            styles.brControlButton,
-            styles.brUserListButton,
-            statusMe.status !== Constants.STATUS_OFFLINE &&
-              !buddylist.screened &&
-              allUsersCount > buddy_max &&
-              styles.brOver,
-          ]}
-          iconSource={<ListIcon />}
-          accessibilityLabel={uawMsgs.LBL_SIDEBAR_USER_LIST_BUTTON_TOOLTIP}
-          onPress={() => props.uiData.fire('sidebarUserListButton_onClick')}
-        />,
-      )
-    }
-    this.collapsibleControlButtonsCount = collapsibleControlButtons.length
-    return (
-      <View
-        style={[
-          styles.brSidebar,
-          this.state.controlButtonsCollapsedCount &&
-            styles.brControlButtonsCollapsible,
-          this.state.controlButtonsCollapsedCount && {
-            ...styles[
-              `brControlButtonsCollapsedCount${this.state.controlButtonsCollapsedCount}`
-            ],
+        })
+        ;[
+          {
+            id: '',
           },
-          props.style,
-        ]}
-      >
-        <View style={styles.brBuddylistbar}>
-          <View style={styles.brBuddylist}>{groupNodes}</View>
-
-          <View style={styles.brBuddylistFilterArea}>
-            <TextBox
-              style={styles.brBuddylistFilterInput}
-              value={this.state.buddylistFilterInputValue}
-              placeholder={
-                uawMsgs.LBL_SIDEBAR_BUDDYLIST_FILTER_INPUT_PLACEHOLDER
+        ]
+          .concat(buddylist.user)
+          .forEach(function (buddy, index) {
+            if (
+              buddy &&
+              typeof buddy.id === 'string' &&
+              !groupTable[buddy.id]
+            ) {
+              // add empty group
+              groupTable[buddy.id] = {
+                groupIndex: index - 1,
+                buddyNodes: [],
+                height: 0,
+                onlines: 0,
               }
-              onChangeText={text =>
-                this.setState({ buddylistFilterInputValue: string(text) })
-              }
-            />
-          </View>
-
-          <ButtonIconic
-            style={styles.brBuddylistFilterButton}
-            iconSource={<FiltrationIcon />}
-            accessibilityLabel={
-              uawMsgs.LBL_SIDEBAR_BUDDYLIST_FILTER_BUTTON_TOOLTIP
             }
-            onPress={this.handleBuddylistFilterButtonClick.bind(this)}
-          >
-            <MenuBalloonDialog
-              showing={
-                props.uiData.showingDialogVersion ===
-                this.state.buddylistFilterShowingDialogVersion
-              }
-              style={styles.brBuddylistFilterBalloonDialog}
-            >
-              <TouchableOpacity
-                style={[
-                  styles.brBuddylistFilterOnlineOnlyCheckBox,
-                  onlineOnly ? styles.brChecked : styles.brUnchecked,
-                ]}
-                onPress={() =>
-                  props.uiData.fire(
-                    'sidebarBuddylistFilterOnlineOnlyCheckBox_onClick',
-                  )
-                }
-              >
-                <View style={{ marginRight: 8 }}>
-                  {onlineOnly ? <CheckIcon /> : <SquareIcon />}
-                </View>
-                <Text style={styles.checkboxLabel}>
-                  {uawMsgs.LBL_SIDEBAR_ONLINE_ONLY_ITEM}
-                </Text>
-              </TouchableOpacity>
-            </MenuBalloonDialog>
-          </ButtonIconic>
-
-          <DndableSafe
-            uiData={props.uiData}
-            style={styles.brBuddylistGroupRemoveDndable}
-            iconSource={<BinIcon />}
-            onCheckCanDrop={ev =>
-              configProperties.buddy_mode !== Constants.BUDDY_MODE_AUTO &&
-              ev.dragSourceInfo &&
-              ev.dragSourceInfo.dragSourceInfoType === 'buddylistGroupTitle' &&
-              ev.dragSourceInfo.dragSourceInfoCode
-            }
-            onDrop={() =>
-              props.uiData.fire('sidebarBuddylistGroupRemoveDndable_onDrop')
-            }
-          />
-        </View>
-        <View style={styles.brControlbar}>
-          <Image
-            source={
-              (profile.user_type !== Constants.USER_TYPE_SYSTEM_ADMIN ||
-                props.uiData.configurations.hideProductComp === 'true') &&
-              props.uiData.configurations.logoPath
-                ? { uri: props.uiData.configurations.logoPath }
-                : require('../images/logo.png')
-            }
-            style={styles.brControlLogo}
-            accessibilityLabel={
-              props.uiData.configurations.productShortName || 'UC'
-            }
-          />
-
-          <TouchableOpacity
-            ref={this.controlProfileRef}
-            style={[
-              styles.brControlProfile,
-              !userMe.profile_image_url && styles.brNoImage,
-              userMe.profile_image_url &&
-                string(userMe.profile_image_url).indexOf(
-                  Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-                ) === -1 &&
-                styles.brMyProfileImageUrl,
-            ]}
-            accessibilityLabel={userMe.name + ' ' + statusMe.display}
-            onPress={this.handleControlProfileClick.bind(this)}
-            onPressIn={() =>
-              props.uiData.fire('sidebarControlProfile_onMouseEnter')
-            }
-          >
-            {userMe.profile_image_url && (
-              <Image
-                source={{ uri: userMe.profile_image_url }}
-                style={styles.profileImage}
-              />
-            )}
-            <StatusIcon
-              style={styles.brControlProfileStatusIcon}
-              status={statusMe.status}
-            />
-          </TouchableOpacity>
-
-          <MenuBalloonDialog
-            showing={
-              props.uiData.showingDialogVersion ===
-              this.state.controlProfileShowingDialogVersion
-            }
-            style={styles.brControlProfileBalloonDialog}
-            onPress={this.handleControlProfileBalloonDialogClick.bind(this)}
-          >
-            <View style={styles.brControlProfileHeader}>
-              <Text style={styles.brControlProfileName}>
-                {userMe.name +
-                  (nameDisplayMode === 1 ? ` (${profile.user_id}) ` : ' ')}
-              </Text>
-              <Text style={styles.brControlProfileDisplay}>
-                {statusMe.display + ' '}
-              </Text>
-              <ButtonIconic
-                style={[
-                  styles.brEditStatusDisplay,
-                  statusMe.status === Constants.STATUS_OFFLINE &&
-                    styles.brHidden,
-                ]}
-                iconSource={<EditIcon />}
-                accessibilityLabel={
-                  uawMsgs.LBL_SIDEBAR_EDIT_STATUS_DISPLAY_BUTTON_TOOLTIP
-                }
-                onPress={() =>
-                  props.uiData.fire('sidebarEditStatusDisplayButton_onClick')
-                }
-              />
-            </View>
-            {statusList.map(s => (
-              <TouchableOpacity
-                key={s.status}
-                style={styles.brControlProfileStatusItem}
-                onPress={() =>
-                  props.uiData.fire(
-                    'sidebarControlProfileStatusItem_onClick',
-                    s.status,
-                  )
-                }
-              >
-                <StatusIcon
-                  style={styles.brControlProfileStatusItemStatusIcon}
-                  status={s.status}
-                />
-                <View
-                  style={[
-                    styles.brControlProfileStatusItemChecked,
-                    s.status === statusMe.status
-                      ? styles.brIconOok
-                      : styles.brHidden,
-                  ]}
-                >
-                  <CheckIcon />
-                </View>
-                <Text>{s.label}</Text>
-              </TouchableOpacity>
-            ))}
-            <View style={styles.brSeparator} />
-
-            <TouchableOpacity
-              style={[styles.brControlProfileItem, styles.brPreferenceButton]}
-              onPress={() =>
-                props.uiData.fire('sidebarPreferenceButton_onClick')
-              }
-            >
-              <UserIcon width={20} height={20} />
-              <Text>{uawMsgs.LBL_SIDEBAR_PREFERENCE_ITEM}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.brControlProfileItem, styles.brHistoryButton]}
-              onPress={() => props.uiData.fire('sidebarHistoryButton_onClick')}
-            >
-              <View style={styles.menuIcon}>
-                <HistoryIcon width={20} height={20} />
-              </View>
-              <Text>{uawMsgs.LBL_SIDEBAR_HISTORY_ITEM}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.brControlProfileItem,
-                styles.brWebchatRequestsButton,
-              ]}
-              onPress={() =>
-                props.uiData.fire('sidebarWebchatRequestsButton_onClick')
-              }
-              disabled={configProperties.webchat_enabled !== 'true'}
-            >
-              <View style={{ marginHorizontal: 4 }}>
-                <InternetIcon width={20} height={20} />
-              </View>
-              <Text>{uawMsgs.LBL_SIDEBAR_WEBCHAT_REQUESTS_ITEM}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.brControlProfileItem,
-                styles.brServerPropertiesButton,
-              ]}
-              onPress={() =>
-                props.uiData.fire('sidebarServerPropertiesButton_onClick')
-              }
-              disabled={
-                true /* profile.user_type !== Constants.USER_TYPE_TENANT_ADMIN */
-              }
-            >
-              <View style={styles.menuIcon}>
-                <SettingsIcon width={20} height={20} />
-              </View>
-              <Text>{uawMsgs.LBL_SIDEBAR_SERVER_PROPERTIES_ITEM}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.brControlProfileItem, styles.brAboutButton]}
-              onPress={() => props.uiData.fire('sidebarAboutButton_onClick')}
-              disabled={
-                props.uiData.configurations.hideProduct === 'true' &&
-                (profile.user_type !== Constants.USER_TYPE_SYSTEM_ADMIN ||
-                  props.uiData.configurations.hideProductComp === 'true')
-              }
-            >
-              <AboutIcon width={20} height={20} />
-              <Text>
-                {formatStr(
-                  uawMsgs.LBL_SIDEBAR_ABOUT_ITEM,
-                  props.uiData.configurations.productName || 'UC',
-                )}
-              </Text>
-            </TouchableOpacity>
-          </MenuBalloonDialog>
-          <View style={styles.brControlStatusDisplayArea}>
-            <Animated.Text
-              style={[
-                styles.brControlStatusDisplayLabel,
-                props.uiData.runningAnimationTable['controlstatusdisplay'] && {
-                  transform: [
-                    { rotate: '-90deg' },
-                    { translateX: this.statusDisplayAnim },
+          })
+        var groupNodes = Object.keys(groupTable)
+          .sort(function (groupName1, groupName2) {
+            return (
+              (groupTable[groupName1].groupIndex >>> 0) -
+              (groupTable[groupName2].groupIndex >>> 0)
+            )
+          })
+          .map(function (groupName) {
+            return /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                key: groupName,
+                style: styles.brBuddylistGroup,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _DndableSafe.default,
+                {
+                  uiData: props.uiData,
+                  style: [
+                    styles.brBuddylistGroupTitle,
+                    groupName && styles.brGroupName,
+                  ],
+                  dragSourceInfo: {
+                    dragSourceInfoType: 'buddylistGroupTitle',
+                    dragSourceInfoCode: groupName,
+                  },
+                  onCheckCanDrop: function onCheckCanDrop(ev) {
+                    return (
+                      configProperties.buddy_mode !==
+                        _constants.default.BUDDY_MODE_AUTO &&
+                      ev.dragSourceInfo &&
+                      (ev.dragSourceInfo.dragSourceInfoType ===
+                        'buddylistItem' ||
+                        (ev.dragSourceInfo.dragSourceInfoType ===
+                          'buddylistGroupTitle' &&
+                          ev.dragSourceInfo.dragSourceInfoCode !== groupName &&
+                          ev.dragSourceInfo.dragSourceInfoCode &&
+                          groupName))
+                    )
+                  },
+                  onDrop: function onDrop() {
+                    return props.uiData.fire('sidebarBuddylistDndable_onDrop', {
+                      dropTargetInfoType: 'buddylistGroupTitle',
+                      dropTargetInfoCode: groupName,
+                    })
+                  },
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'sidebarBuddylistGroupTitle_onClick',
+                      groupName,
+                    )
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: styles.brBuddylistGroupLabel,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.brBuddylistGroupName,
+                    },
+                    groupName,
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.brBuddylistGroupOnlines,
+                    },
+                    groupTable[groupName].buddyNodes.length
+                      ? ' '
+                          .concat(groupTable[groupName].onlines, '/')
+                          .concat(groupTable[groupName].buddyNodes.length)
+                      : '',
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: {
+                      marginLeft: 4,
+                    },
+                  },
+                  buddylistOpenList.indexOf(groupName) !== -1
+                    ? /*#__PURE__*/ _react.default.createElement(
+                        _ChevronUpIcon.default,
+                        {
+                          width: 16,
+                          height: 16,
+                        },
+                      )
+                    : /*#__PURE__*/ _react.default.createElement(
+                        _ChevronDownIcon.default,
+                        {
+                          width: 16,
+                          height: 16,
+                        },
+                      ),
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: [
+                    styles.brBuddylistItems,
+                    {
+                      height: groupTable[groupName].height,
+                    },
                   ],
                 },
-              ]}
-            >
-              {statusMe.display}
-            </Animated.Text>
-          </View>
-          {this.state.controlButtonsCollapsedCount
-            ? collapsibleControlButtons.slice(
-                0,
-                -this.state.controlButtonsCollapsedCount - 1,
-              )
-            : collapsibleControlButtons}
-          <ButtonIconic
-            style={[
-              styles.brControlButton,
-              styles.brControlButtonsCollapsedMenuButton,
-              this.state.controlButtonsCollapsedCount === 0 && styles.brHidden,
-            ]}
-            iconSource={<MoreIcon />}
-            accessibilityLabel={
-              uawMsgs.LBL_SIDEBAR_CONTROL_BUTTONS_COLLAPSED_MENU_BUTTON_TOOLTIP
-            }
-            onPress={this.handleControlButtonsCollapsedMenuButtonClick.bind(
-              this,
-            )}
-          >
-            <MenuBalloonDialog
-              showing={
-                props.uiData.showingDialogVersion ===
-                this.state.controlButtonsCollapsedMenuShowingDialogVersion
-              }
-              style={styles.brControlButtonsCollapsedMenuBalloonDialog}
-            >
-              {this.state.controlButtonsCollapsedCount
-                ? collapsibleControlButtons.slice(
-                    -this.state.controlButtonsCollapsedCount - 1,
-                  )
-                : []}
-            </MenuBalloonDialog>
-          </ButtonIconic>
-          <ButtonIconic
-            ref={this.areaSplitterButtonRef}
-            style={[
-              styles.brControlButton,
-              styles.brAreaSplitterButton,
-              props.uiData.mainAreaSplitters === 2 &&
-                styles.brIconChannelMosaic4,
-              props.uiData.mainAreaSplitters === 1 &&
-                styles.brIconChannelMosaic12,
-              props.uiData.mainAreaSplitters === 0 &&
-                styles.brIconChannelMosaic1,
-            ]}
-            iconSource={
-              props.uiData.mainAreaSplitters === 2 ? (
-                <ChannelMosaic4Icon />
-              ) : props.uiData.mainAreaSplitters === 1 ? (
-                <ChannelMosaic12Icon />
-              ) : (
-                <ChannelMosaic1Icon />
-              )
-            }
-            accessibilityLabel={
-              uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_BUTTON_TOOLTIP
-            }
-            onPress={this.handleAreaSplitterButtonClick.bind(this)}
-          >
-            <MenuBalloonDialog
-              showing={
-                props.uiData.showingDialogVersion ===
-                this.state.areaSplitterShowingDialogVersion
-              }
-              style={styles.brAreaSplitterBalloonDialog}
-            >
-              <TouchableOpacity
-                style={[styles.brAreaSplitterItem, styles.brIconChannelMosaic1]}
-                onPress={() =>
-                  props.uiData.fire('sidebarAreaSplitterItem_onClick', 0)
-                }
-              >
-                <View style={styles.menuIcon}>
-                  <ChannelMosaic1Icon />
-                </View>
-                <Text style={styles.menuItemText}>
-                  {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_0}
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  styles.brAreaSplitterItem,
-                  styles.brIconChannelMosaic12,
-                ]}
-                onPress={() =>
-                  props.uiData.fire('sidebarAreaSplitterItem_onClick', 1)
-                }
-              >
-                <View style={styles.menuIcon}>
-                  <ChannelMosaic12Icon />
-                </View>
-                <Text style={styles.menuItemText}>
-                  {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_1}
-                </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.brAreaSplitterItem, styles.brIconChannelMosaic4]}
-                onPress={() =>
-                  props.uiData.fire('sidebarAreaSplitterItem_onClick', 2)
-                }
-              >
-                <View style={styles.menuIcon}>
-                  <ChannelMosaic4Icon />
-                </View>
-                <Text style={styles.menuItemText}>
-                  {uawMsgs.LBL_SIDEBAR_AREA_SPLITTER_ITEM_2}
-                </Text>
-              </TouchableOpacity>
-            </MenuBalloonDialog>
-          </ButtonIconic>
-          <ButtonIconic
-            ref={this.signOutButtonRef}
-            style={[styles.brControlButton, styles.brSignOutButton]}
-            iconSource={<LogOutIcon />}
-            accessibilityLabel={uawMsgs.LBL_SIDEBAR_SIGN_OUT_BUTTON_TOOLTIP}
-            onPress={() => props.uiData.fire('sidebarSignOutButton_onClick')}
-          />
-        </View>
-      </View>
-    )
-  }
-}
-
-const styles = StyleSheet.create({
+                groupTable[groupName].buddyNodes,
+              ),
+            )
+          })
+        var collapsibleControlButtons = [
+          /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
+            key: 'createConferenceButton',
+            style: [styles.brControlButton, styles.brCreateConferenceButton],
+            iconSource: /*#__PURE__*/ _react.default.createElement(
+              _ConferenceForegroundSelectedIcon.default,
+              null,
+            ),
+            accessibilityLabel:
+              _uawmsgs.default.LBL_SIDEBAR_CREATE_CONFERENCE_BUTTON_TOOLTIP,
+            onPress: function onPress() {
+              return props.uiData.fire('sidebarCreateConferenceButton_onClick')
+            },
+          }),
+          /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
+            key: 'sendBroadcastTextButton',
+            style: [styles.brControlButton, styles.brSendBroadcastTextButton],
+            iconSource: /*#__PURE__*/ _react.default.createElement(
+              _BroadcastingIcon.default,
+              null,
+            ),
+            accessibilityLabel:
+              _uawmsgs.default.LBL_SIDEBAR_SEND_BROADCAST_TEXT_BUTTON_TOOLTIP,
+            onPress: function onPress() {
+              return props.uiData.fire('sidebarSendBroadcastTextButton_onClick')
+            },
+          }),
+          /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
+            key: 'externalCallButton',
+            style: [styles.brControlButton, styles.brExternalCallButton],
+            iconSource: /*#__PURE__*/ _react.default.createElement(
+              _PhoneIcon.default,
+              {
+                width: 16,
+                height: 16,
+              },
+            ),
+            accessibilityLabel:
+              _uawmsgs.default.LBL_SIDEBAR_EXTERNAL_CALL_BUTTON_TOOLTIP,
+            onPress: function onPress() {
+              return props.uiData.fire('sidebarExternalCallButton_onClick')
+            },
+          }),
+        ]
+        if (
+          (
+            (configProperties === null ||
+            configProperties === void 0 ||
+            (_configProperties$opt = configProperties.optional_config) ===
+              null ||
+            _configProperties$opt === void 0
+              ? void 0
+              : _configProperties$opt.awsl) || []
+          ).some(function (aws) {
+            var _aws$og$reply_types
+            return (
+              aws.og &&
+              !aws.og.disabled &&
+              ((_aws$og$reply_types = aws.og.reply_types) === null ||
+              _aws$og$reply_types === void 0
+                ? void 0
+                : _aws$og$reply_types.length) &&
+              aws.senders
+            )
+          })
+        ) {
+          collapsibleControlButtons.push(
+            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
+              key: 'outgoingWebchatButton',
+              style: [styles.brControlButton, styles.brOutgoingWebchatButton],
+              iconSource: /*#__PURE__*/ _react.default.createElement(
+                _SendIcon.default,
+                null,
+              ),
+              accessibilityLabel:
+                _uawmsgs.default.LBL_SIDEBAR_OUTGOING_WEBCHAT_BUTTON_TOOLTIP,
+              onPress: function onPress() {
+                return props.uiData.fire('sidebarOutgoingWebchatButton_onClick')
+              },
+            }),
+          )
+        }
+        if (
+          configProperties.buddy_mode !== _constants.default.BUDDY_MODE_AUTO
+        ) {
+          collapsibleControlButtons.push(
+            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
+              key: 'createGroupButton',
+              style: [styles.brControlButton, styles.brCreateGroupButton],
+              iconSource: /*#__PURE__*/ _react.default.createElement(
+                _AddFolderIcon.default,
+                null,
+              ),
+              accessibilityLabel:
+                _uawmsgs.default.LBL_SIDEBAR_CREATE_GROUP_BUTTON_TOOLTIP,
+              onPress: function onPress() {
+                return props.uiData.fire('sidebarCreateGroupButton_onClick')
+              },
+            }),
+          )
+        }
+        var userListButtonType = (0, _strings.int)(
+          props.uiData.configurations.userListButtonType,
+        )
+        var allUsersCount = (
+          (props.uiData.ucUiStore.getChatClient().getAllUsers() || {}).user ||
+          []
+        ).filter(function (u) {
+          return !u.disabledBuddy && u.user_id !== profile.user_id
+        }).length
+        var buddy_max = (0, _strings.int)(
+          props.uiData.ucUiStore.getOptionalSetting({
+            key: 'buddy_max',
+          }),
+        )
+        if (
+          !(
+            userListButtonType === 2 ||
+            (userListButtonType === 1 &&
+              configProperties.buddy_mode !==
+                _constants.default.BUDDY_MODE_MANUAL &&
+              !buddylist.screened &&
+              allUsersCount <= buddy_max)
+          )
+        ) {
+          collapsibleControlButtons.push(
+            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
+              key: 'userListButton',
+              style: [
+                styles.brControlButton,
+                styles.brUserListButton,
+                statusMe.status !== _constants.default.STATUS_OFFLINE &&
+                  !buddylist.screened &&
+                  allUsersCount > buddy_max &&
+                  styles.brOver,
+              ],
+              iconSource: /*#__PURE__*/ _react.default.createElement(
+                _ListIcon.default,
+                null,
+              ),
+              accessibilityLabel:
+                _uawmsgs.default.LBL_SIDEBAR_USER_LIST_BUTTON_TOOLTIP,
+              onPress: function onPress() {
+                return props.uiData.fire('sidebarUserListButton_onClick')
+              },
+            }),
+          )
+        }
+        this.collapsibleControlButtonsCount = collapsibleControlButtons.length
+        return /*#__PURE__*/ _react.default.createElement(
+          _reactNative.View,
+          {
+            style: [
+              styles.brSidebar,
+              this.state.controlButtonsCollapsedCount &&
+                styles.brControlButtonsCollapsible,
+              this.state.controlButtonsCollapsedCount &&
+                _objectSpread(
+                  {},
+                  styles[
+                    'brControlButtonsCollapsedCount'.concat(
+                      this.state.controlButtonsCollapsedCount,
+                    )
+                  ],
+                ),
+              props.style,
+            ],
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.brBuddylistbar,
+            },
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brBuddylist,
+              },
+              groupNodes,
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brBuddylistFilterArea,
+              },
+              /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
+                style: styles.brBuddylistFilterInput,
+                value: this.state.buddylistFilterInputValue,
+                placeholder:
+                  _uawmsgs.default
+                    .LBL_SIDEBAR_BUDDYLIST_FILTER_INPUT_PLACEHOLDER,
+                onChangeText: function onChangeText(text) {
+                  return _this3.setState({
+                    buddylistFilterInputValue: (0, _strings.string)(text),
+                  })
+                },
+              }),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _ButtonIconic.default,
+              {
+                style: styles.brBuddylistFilterButton,
+                iconSource: /*#__PURE__*/ _react.default.createElement(
+                  _FiltrationIcon.default,
+                  null,
+                ),
+                accessibilityLabel:
+                  _uawmsgs.default.LBL_SIDEBAR_BUDDYLIST_FILTER_BUTTON_TOOLTIP,
+                onPress: this.handleBuddylistFilterButtonClick.bind(this),
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _MenuBalloonDialog.default,
+                {
+                  showing:
+                    props.uiData.showingDialogVersion ===
+                    this.state.buddylistFilterShowingDialogVersion,
+                  style: styles.brBuddylistFilterBalloonDialog,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [
+                      styles.brBuddylistFilterOnlineOnlyCheckBox,
+                      onlineOnly ? styles.brChecked : styles.brUnchecked,
+                    ],
+                    onPress: function onPress() {
+                      return props.uiData.fire(
+                        'sidebarBuddylistFilterOnlineOnlyCheckBox_onClick',
+                      )
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: {
+                        marginRight: 8,
+                      },
+                    },
+                    onlineOnly
+                      ? /*#__PURE__*/ _react.default.createElement(
+                          _CheckIcon.default,
+                          null,
+                        )
+                      : /*#__PURE__*/ _react.default.createElement(
+                          _SquareIcon.default,
+                          null,
+                        ),
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.checkboxLabel,
+                    },
+                    _uawmsgs.default.LBL_SIDEBAR_ONLINE_ONLY_ITEM,
+                  ),
+                ),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(_DndableSafe.default, {
+              uiData: props.uiData,
+              style: styles.brBuddylistGroupRemoveDndable,
+              iconSource: /*#__PURE__*/ _react.default.createElement(
+                _BinIcon.default,
+                null,
+              ),
+              onCheckCanDrop: function onCheckCanDrop(ev) {
+                return (
+                  configProperties.buddy_mode !==
+                    _constants.default.BUDDY_MODE_AUTO &&
+                  ev.dragSourceInfo &&
+                  ev.dragSourceInfo.dragSourceInfoType ===
+                    'buddylistGroupTitle' &&
+                  ev.dragSourceInfo.dragSourceInfoCode
+                )
+              },
+              onDrop: function onDrop() {
+                return props.uiData.fire(
+                  'sidebarBuddylistGroupRemoveDndable_onDrop',
+                )
+              },
+            }),
+          ),
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.brControlbar,
+            },
+            /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
+              source:
+                (profile.user_type !==
+                  _constants.default.USER_TYPE_SYSTEM_ADMIN ||
+                  props.uiData.configurations.hideProductComp === 'true') &&
+                props.uiData.configurations.logoPath
+                  ? {
+                      uri: props.uiData.configurations.logoPath,
+                    }
+                  : require('../images/logo.png'),
+              style: styles.brControlLogo,
+              accessibilityLabel:
+                props.uiData.configurations.productShortName || 'UC',
+            }),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                ref: this.controlProfileRef,
+                style: [
+                  styles.brControlProfile,
+                  !userMe.profile_image_url && styles.brNoImage,
+                  userMe.profile_image_url &&
+                    (0, _strings.string)(userMe.profile_image_url).indexOf(
+                      _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
+                    ) === -1 &&
+                    styles.brMyProfileImageUrl,
+                ],
+                accessibilityLabel: userMe.name + ' ' + statusMe.display,
+                onPress: this.handleControlProfileClick.bind(this),
+                onPressIn: function onPressIn() {
+                  return props.uiData.fire('sidebarControlProfile_onMouseEnter')
+                },
+              },
+              userMe.profile_image_url &&
+                /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
+                  source: {
+                    uri: userMe.profile_image_url,
+                  },
+                  style: styles.profileImage,
+                }),
+              /*#__PURE__*/ _react.default.createElement(_StatusIcon.default, {
+                style: styles.brControlProfileStatusIcon,
+                status: statusMe.status,
+              }),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _MenuBalloonDialog.default,
+              {
+                showing:
+                  props.uiData.showingDialogVersion ===
+                  this.state.controlProfileShowingDialogVersion,
+                style: styles.brControlProfileBalloonDialog,
+                onPress: this.handleControlProfileBalloonDialogClick.bind(this),
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brControlProfileHeader,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brControlProfileName,
+                  },
+                  userMe.name +
+                    (nameDisplayMode === 1
+                      ? ' ('.concat(profile.user_id, ') ')
+                      : ' '),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brControlProfileDisplay,
+                  },
+                  statusMe.display + ' ',
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _ButtonIconic.default,
+                  {
+                    style: [
+                      styles.brEditStatusDisplay,
+                      statusMe.status === _constants.default.STATUS_OFFLINE &&
+                        styles.brHidden,
+                    ],
+                    iconSource: /*#__PURE__*/ _react.default.createElement(
+                      _EditIcon.default,
+                      null,
+                    ),
+                    accessibilityLabel:
+                      _uawmsgs.default
+                        .LBL_SIDEBAR_EDIT_STATUS_DISPLAY_BUTTON_TOOLTIP,
+                    onPress: function onPress() {
+                      return props.uiData.fire(
+                        'sidebarEditStatusDisplayButton_onClick',
+                      )
+                    },
+                  },
+                ),
+              ),
+              statusList.map(function (s) {
+                return /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    key: s.status,
+                    style: styles.brControlProfileStatusItem,
+                    onPress: function onPress() {
+                      return props.uiData.fire(
+                        'sidebarControlProfileStatusItem_onClick',
+                        s.status,
+                      )
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _StatusIcon.default,
+                    {
+                      style: styles.brControlProfileStatusItemStatusIcon,
+                      status: s.status,
+                    },
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: [
+                        styles.brControlProfileStatusItemChecked,
+                        s.status === statusMe.status
+                          ? styles.brIconOok
+                          : styles.brHidden,
+                      ],
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _CheckIcon.default,
+                      null,
+                    ),
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    null,
+                    s.label,
+                  ),
+                )
+              }),
+              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+                style: styles.brSeparator,
+              }),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [
+                    styles.brControlProfileItem,
+                    styles.brPreferenceButton,
+                  ],
+                  onPress: function onPress() {
+                    return props.uiData.fire('sidebarPreferenceButton_onClick')
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(_UserIcon.default, {
+                  width: 20,
+                  height: 20,
+                }),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  _uawmsgs.default.LBL_SIDEBAR_PREFERENCE_ITEM,
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [styles.brControlProfileItem, styles.brHistoryButton],
+                  onPress: function onPress() {
+                    return props.uiData.fire('sidebarHistoryButton_onClick')
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: styles.menuIcon,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _HistoryIcon.default,
+                    {
+                      width: 20,
+                      height: 20,
+                    },
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  _uawmsgs.default.LBL_SIDEBAR_HISTORY_ITEM,
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [
+                    styles.brControlProfileItem,
+                    styles.brWebchatRequestsButton,
+                  ],
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'sidebarWebchatRequestsButton_onClick',
+                    )
+                  },
+                  disabled: configProperties.webchat_enabled !== 'true',
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: {
+                      marginHorizontal: 4,
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _InternetIcon.default,
+                    {
+                      width: 20,
+                      height: 20,
+                    },
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  _uawmsgs.default.LBL_SIDEBAR_WEBCHAT_REQUESTS_ITEM,
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [
+                    styles.brControlProfileItem,
+                    styles.brServerPropertiesButton,
+                  ],
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'sidebarServerPropertiesButton_onClick',
+                    )
+                  },
+                  disabled: true /* profile.user_type !== Constants.USER_TYPE_TENANT_ADMIN */,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: styles.menuIcon,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _SettingsIcon.default,
+                    {
+                      width: 20,
+                      height: 20,
+                    },
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  _uawmsgs.default.LBL_SIDEBAR_SERVER_PROPERTIES_ITEM,
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [styles.brControlProfileItem, styles.brAboutButton],
+                  onPress: function onPress() {
+                    return props.uiData.fire('sidebarAboutButton_onClick')
+                  },
+                  disabled:
+                    props.uiData.configurations.hideProduct === 'true' &&
+                    (profile.user_type !==
+                      _constants.default.USER_TYPE_SYSTEM_ADMIN ||
+                      props.uiData.configurations.hideProductComp === 'true'),
+                },
+                /*#__PURE__*/ _react.default.createElement(_AboutIcon.default, {
+                  width: 20,
+                  height: 20,
+                }),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  (0, _strings.formatStr)(
+                    _uawmsgs.default.LBL_SIDEBAR_ABOUT_ITEM,
+                    props.uiData.configurations.productName || 'UC',
+                  ),
+                ),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brControlStatusDisplayArea,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Animated.Text,
+                {
+                  style: [
+                    styles.brControlStatusDisplayLabel,
+                    props.uiData.runningAnimationTable[
+                      'controlstatusdisplay'
+                    ] && {
+                      transform: [
+                        {
+                          rotate: '-90deg',
+                        },
+                        {
+                          translateX: this.statusDisplayAnim,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                statusMe.display,
+              ),
+            ),
+            this.state.controlButtonsCollapsedCount
+              ? collapsibleControlButtons.slice(
+                  0,
+                  -this.state.controlButtonsCollapsedCount - 1,
+                )
+              : collapsibleControlButtons,
+            /*#__PURE__*/ _react.default.createElement(
+              _ButtonIconic.default,
+              {
+                style: [
+                  styles.brControlButton,
+                  styles.brControlButtonsCollapsedMenuButton,
+                  this.state.controlButtonsCollapsedCount === 0 &&
+                    styles.brHidden,
+                ],
+                iconSource: /*#__PURE__*/ _react.default.createElement(
+                  _MoreIcon.default,
+                  null,
+                ),
+                accessibilityLabel:
+                  _uawmsgs.default
+                    .LBL_SIDEBAR_CONTROL_BUTTONS_COLLAPSED_MENU_BUTTON_TOOLTIP,
+                onPress:
+                  this.handleControlButtonsCollapsedMenuButtonClick.bind(this),
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _MenuBalloonDialog.default,
+                {
+                  showing:
+                    props.uiData.showingDialogVersion ===
+                    this.state.controlButtonsCollapsedMenuShowingDialogVersion,
+                  style: styles.brControlButtonsCollapsedMenuBalloonDialog,
+                },
+                this.state.controlButtonsCollapsedCount
+                  ? collapsibleControlButtons.slice(
+                      -this.state.controlButtonsCollapsedCount - 1,
+                    )
+                  : [],
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _ButtonIconic.default,
+              {
+                ref: this.areaSplitterButtonRef,
+                style: [
+                  styles.brControlButton,
+                  styles.brAreaSplitterButton,
+                  props.uiData.mainAreaSplitters === 2 &&
+                    styles.brIconChannelMosaic4,
+                  props.uiData.mainAreaSplitters === 1 &&
+                    styles.brIconChannelMosaic12,
+                  props.uiData.mainAreaSplitters === 0 &&
+                    styles.brIconChannelMosaic1,
+                ],
+                iconSource:
+                  props.uiData.mainAreaSplitters === 2
+                    ? /*#__PURE__*/ _react.default.createElement(
+                        _ChannelMosaic4Icon.default,
+                        null,
+                      )
+                    : props.uiData.mainAreaSplitters === 1
+                      ? /*#__PURE__*/ _react.default.createElement(
+                          _ChannelMosaic12Icon.default,
+                          null,
+                        )
+                      : /*#__PURE__*/ _react.default.createElement(
+                          _ChannelMosaic1Icon.default,
+                          null,
+                        ),
+                accessibilityLabel:
+                  _uawmsgs.default.LBL_SIDEBAR_AREA_SPLITTER_BUTTON_TOOLTIP,
+                onPress: this.handleAreaSplitterButtonClick.bind(this),
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _MenuBalloonDialog.default,
+                {
+                  showing:
+                    props.uiData.showingDialogVersion ===
+                    this.state.areaSplitterShowingDialogVersion,
+                  style: styles.brAreaSplitterBalloonDialog,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [
+                      styles.brAreaSplitterItem,
+                      styles.brIconChannelMosaic1,
+                    ],
+                    onPress: function onPress() {
+                      return props.uiData.fire(
+                        'sidebarAreaSplitterItem_onClick',
+                        0,
+                      )
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: styles.menuIcon,
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _ChannelMosaic1Icon.default,
+                      null,
+                    ),
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.menuItemText,
+                    },
+                    _uawmsgs.default.LBL_SIDEBAR_AREA_SPLITTER_ITEM_0,
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [
+                      styles.brAreaSplitterItem,
+                      styles.brIconChannelMosaic12,
+                    ],
+                    onPress: function onPress() {
+                      return props.uiData.fire(
+                        'sidebarAreaSplitterItem_onClick',
+                        1,
+                      )
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: styles.menuIcon,
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _ChannelMosaic12Icon.default,
+                      null,
+                    ),
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.menuItemText,
+                    },
+                    _uawmsgs.default.LBL_SIDEBAR_AREA_SPLITTER_ITEM_1,
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [
+                      styles.brAreaSplitterItem,
+                      styles.brIconChannelMosaic4,
+                    ],
+                    onPress: function onPress() {
+                      return props.uiData.fire(
+                        'sidebarAreaSplitterItem_onClick',
+                        2,
+                      )
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: styles.menuIcon,
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _ChannelMosaic4Icon.default,
+                      null,
+                    ),
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.menuItemText,
+                    },
+                    _uawmsgs.default.LBL_SIDEBAR_AREA_SPLITTER_ITEM_2,
+                  ),
+                ),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
+              ref: this.signOutButtonRef,
+              style: [styles.brControlButton, styles.brSignOutButton],
+              iconSource: /*#__PURE__*/ _react.default.createElement(
+                _LogOutIcon.default,
+                null,
+              ),
+              accessibilityLabel:
+                _uawmsgs.default.LBL_SIDEBAR_SIGN_OUT_BUTTON_TOOLTIP,
+              onPress: function onPress() {
+                return props.uiData.fire('sidebarSignOutButton_onClick')
+              },
+            }),
+          ),
+        )
+      },
+    },
+  ])
+})(_react.default.Component))
+var styles = _reactNative.StyleSheet.create({
   brBuddylistItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -1331,7 +2104,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -1437,7 +2213,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -1484,7 +2263,9 @@ const styles = StyleSheet.create({
   },
   brAnimation: {
     transform: [
-      { rotate: '-90deg' },
+      {
+        rotate: '-90deg',
+      },
       {
         translateX: 0, // Will need to be animated using Animated API
       },
@@ -1495,7 +2276,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     padding: 8,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,

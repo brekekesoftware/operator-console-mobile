@@ -1,3 +1,5 @@
+'use strict'
+
 if (typeof Brekeke === 'undefined') {
   var Brekeke = {}
 }
@@ -5,11 +7,9 @@ var BLIB = Brekeke
 if (typeof Brekeke.ucconnect === 'undefined') {
   Brekeke.ucconnect = {}
 }
-
 if (typeof Brekeke.ucconnect.guest_settings === 'undefined') {
   Brekeke.ucconnect.guest_settings = {}
 }
-
 Brekeke.ucconnect.guest_settings.start = function (
   token,
   node,
@@ -28,9 +28,8 @@ Brekeke.ucconnect.guest_settings.start = function (
   } else {
     Brekeke.ucconnect.guest_settings.admin = me
   }
-
   ;(function (_me) {
-    var escapeHTML = function (unsafe) {
+    var escapeHTML = function escapeHTML(unsafe) {
       unsafe = unsafe || ''
       return unsafe.replace(/[&<"']/g, function (m) {
         switch (m) {
@@ -45,8 +44,7 @@ Brekeke.ucconnect.guest_settings.start = function (
         }
       })
     }
-
-    var isValidAppName = function (str) {
+    var isValidAppName = function isValidAppName(str) {
       if (!str) {
         return false
       }
@@ -56,11 +54,9 @@ Brekeke.ucconnect.guest_settings.start = function (
         return false
       }
     }
-
     _me.getAuthToken = function () {
       return this.chatClient.getChatSessionToken() + ' ' + (this.tenant || '-')
     }
-
     _me.start = function (token, node, baseurl, mt, tenant, sa, chatClient) {
       var _me = this
       _me.token = token
@@ -98,7 +94,6 @@ Brekeke.ucconnect.guest_settings.start = function (
         false,
       )
     }
-
     _me.recvMessage = function (event) {
       if (event.data != 'refresh') {
         console.log(event)
@@ -108,13 +103,12 @@ Brekeke.ucconnect.guest_settings.start = function (
         this.showApplicationEdit(this.editAppName)
       }
     }
-
     _me.showMessage = function (msg, timeRemove) {
       this.nodeMsg.innerHTML = msg
       this.nodeMsg.style.display = 'block'
       if (timeRemove > 0) {
         this.messageId++
-        let m = this.messageId
+        var m = this.messageId
         var _me = this
         setTimeout(function () {
           if (m == _me.messageId) {
@@ -123,7 +117,6 @@ Brekeke.ucconnect.guest_settings.start = function (
         }, timeRemove)
       }
     }
-
     _me.msgboxOkCancel = function (msg, fOk, fCancel) {
       var _me = this
       if (!this.nodeMsgBoxOkCancelBg) {
@@ -175,50 +168,53 @@ Brekeke.ucconnect.guest_settings.start = function (
     }
 
     /*_me.loadConfig = function(){
-			var _me = this;;
-			fetch( this.baseurl + "/guest_rest/config/api_base_url", {
-				cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-				method: 'GET', // *GET, POST, PUT, DELETE, etc.
-				referrer: 'no-referrer', // *client, no-referrer
-				headers: {
-			          'Accept': 'application/json',
-			          'Content-Type': 'application/json',
-			          'Authorization': 'b-token ' + this.getAuthToken(),
-			          //'Origin': window.location.protocol + "://" + window.location.hostname
-			        }
-			  }).then( function( response ){
-				  if( response.status == 401 ){
-				  	_me.showMessage( "Please close this screen and try again.", 45000 );
-					  return;
-				  }
-				  return response.json();
-			  }).then( function( json ){
-				  if( !json ){
-					  return;
-				  }
-				  var hr =  document.createElement( "HR" );
-				  _me.nodeMain.appendChild( hr );
-				  var h2 = document.createElement( "H2" );
-				  h2.innerHTML = "General settings";
-				  _me.nodeMain.appendChild( h2 );			  
-				  var div  = document.createElement( "DIV" );
-				  div.innerHTML = '<LABEL>API base URL</LABEL><INPUT type="TEXT" name="api_base_url" class="long" maxlength="300" ><BR /><INPUT TYPE="button" name="btn_save_config" >';
-				  var api_base_url = div.querySelector("[name='api_base_url']");
-				  var btn_save_config = div.querySelector("[name='btn_save_config']");
-				  btn_save_config.value = 'Save'
-				  _me.nodeMain.appendChild( div );
-			  }).catch( function( e ){
-					_me.showMessage( "Error: " + e.message, 15000 );
-			  });
-		}*/
+    var _me = this;;
+    fetch( this.baseurl + "/guest_rest/config/api_base_url", {
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    referrer: 'no-referrer', // *client, no-referrer
+    headers: {
+             'Accept': 'application/json',
+             'Content-Type': 'application/json',
+             'Authorization': 'b-token ' + this.getAuthToken(),
+             //'Origin': window.location.protocol + "://" + window.location.hostname
+           }
+     }).then( function( response ){
+      if( response.status == 401 ){
+      	_me.showMessage( "Please close this screen and try again.", 45000 );
+    	  return;
+      }
+      return response.json();
+     }).then( function( json ){
+      if( !json ){
+    	  return;
+      }
+      var hr =  document.createElement( "HR" );
+      _me.nodeMain.appendChild( hr );
+      var h2 = document.createElement( "H2" );
+      h2.innerHTML = "General settings";
+      _me.nodeMain.appendChild( h2 );			  
+      var div  = document.createElement( "DIV" );
+      div.innerHTML = '<LABEL>API base URL</LABEL><INPUT type="TEXT" name="api_base_url" class="long" maxlength="300" ><BR /><INPUT TYPE="button" name="btn_save_config" >';
+      var api_base_url = div.querySelector("[name='api_base_url']");
+      var btn_save_config = div.querySelector("[name='btn_save_config']");
+      btn_save_config.value = 'Save'
+      _me.nodeMain.appendChild( div );
+     }).catch( function( e ){
+    	_me.showMessage( "Error: " + e.message, 15000 );
+     });
+    }*/
 
     _me.loadApplicationList = function () {
       var _me = this
       _me.editAppName = null
       fetch(this.baseurl + '/guest_rest/apps', {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'GET',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -255,7 +251,7 @@ Brekeke.ucconnect.guest_settings.start = function (
           td = tr.insertCell(-1)
           td.innerHTML = ''
           td.classList.add('list_header')
-          for (let i = 0; i < json.length; i++) {
+          for (var i = 0; i < json.length; i++) {
             var app = _me.apps[i]
             var r = table.insertRow(-1)
             var cName = r.insertCell(-1)
@@ -268,7 +264,6 @@ Brekeke.ucconnect.guest_settings.start = function (
             var cNotes = r.insertCell(-1)
             cNotes.innerHTML = escapeHTML(app.notes)
             cNotes.classList.add('notes')
-
             var cDelete = r.insertCell(-1)
             cDelete.innerHTML = 'Delete'
             cDelete.classList.add('delete')
@@ -300,7 +295,6 @@ Brekeke.ucconnect.guest_settings.start = function (
           }
           table.classList.add('app_list')
           _me.nodeMain.appendChild(table)
-
           var btns = document.createElement('DIV')
           btns.innerHTML =
             '<input type="button" class="guest_btn_add" value="Add a new application" >'
@@ -317,13 +311,15 @@ Brekeke.ucconnect.guest_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.deleteApplication = function (name) {
       var _me = this
       fetch(this.baseurl + '/guest_rest/apps/' + encodeURIComponent(name), {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'DELETE',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -343,13 +339,15 @@ Brekeke.ucconnect.guest_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.getScripts = function () {
       var _me = this
       fetch(this.baseurl + '/guest_rest/scripts', {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'GET',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -362,7 +360,6 @@ Brekeke.ucconnect.guest_settings.start = function (
             _me.showMessage('Please close this screen and try again.', 45000)
             return
           }
-
           return response.json()
         })
         .then(function (json) {
@@ -376,13 +373,15 @@ Brekeke.ucconnect.guest_settings.start = function (
           console.error(e)
         })
     }
-
     _me.loadApplication = function (name) {
       var _me = this
       fetch(this.baseurl + '/guest_rest/apps/' + encodeURIComponent(name), {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'GET',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -408,7 +407,6 @@ Brekeke.ucconnect.guest_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.showApplicationList = function () {
       var _me = this
       this.nodeMain.innerHTML = ''
@@ -417,15 +415,12 @@ Brekeke.ucconnect.guest_settings.start = function (
       this.loadApplicationList()
       this.getScripts()
     }
-
     _me.btnAddClicked = function () {
       this.showApplicationEdit(null)
     }
-
     _me.btnBackClicked = function () {
       this.showApplicationList()
     }
-
     _me.btnSaveClicked = function () {
       var _me = this
       _me.nodeBtnSave.disabled = true
@@ -437,9 +432,12 @@ Brekeke.ucconnect.guest_settings.start = function (
       }
       console.debug(app)
       fetch(this.baseurl + '/guest_rest/apps/' + encodeURIComponent(app.name), {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: this.editAppName ? 'PUT' : 'POST', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: this.editAppName ? 'PUT' : 'POST',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -472,7 +470,6 @@ Brekeke.ucconnect.guest_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.applicationfromForm = function () {
       var app = {}
       app.name =
@@ -482,7 +479,6 @@ Brekeke.ucconnect.guest_settings.start = function (
         ? 0
         : 1
       app.notes = this.nodeMain.querySelector("[name='notes']").value
-
       app.script = this.nodeMain.querySelector("[name='script']").value
       app.script = !app.script ? '' : app.script
       app.service_id = this.nodeMain
@@ -491,7 +487,6 @@ Brekeke.ucconnect.guest_settings.start = function (
       app.ex_info = this.nodeMain.querySelector("[name='ex_info']").value
       return app
     }
-
     _me.composeApplicationEditMain = function (name) {
       var d
       this.nodeMain.innerHTML = ''
@@ -510,21 +505,17 @@ Brekeke.ucconnect.guest_settings.start = function (
           '<LABEL>Application name</LABEL><SPAN>' + escapeHTML(name) + '</SPAN>'
       }
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>Disabled</LABEL><INPUT type="checkbox" name="status" value="" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>Descriptions</LABEL><INPUT type="text" maxlength="500" class="long" name="notes" value="" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML = '<LABEL>Guest Type</LABEL><SELECT name="script" ></SELECT>'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('H3')
       d.innerHTML = 'UC settings'
       this.nodeMain.appendChild(d)
@@ -538,12 +529,10 @@ Brekeke.ucconnect.guest_settings.start = function (
       d.innerHTML =
         '<LABEL>Service ID</LABEL><INPUT type="text" maxlength="500" name="service_id" value="" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>Options<BR/><BR/><BR/><BR/><BR/><BR/></LABEL><TEXTAREA cols="100" rows="10" name="ex_info" >'
       this.nodeMain.appendChild(d)
-
       var btns = document.createElement('DIV')
       btns.innerHTML =
         '<input type="button" class="guest_btn_save" value="Save" >&nbsp;<input type="button" class="guest_btn_back" value="Back" >'
@@ -558,7 +547,6 @@ Brekeke.ucconnect.guest_settings.start = function (
         _me.btnBackClicked(e)
       })
     }
-
     _me.showApplicationEdit = function (name) {
       var _me = this
       this.nodeHeader.innerHTML = '<h2>Application</h2>'
@@ -570,7 +558,6 @@ Brekeke.ucconnect.guest_settings.start = function (
         this.startApplicationEditMain()
       }
     }
-
     _me.startApplicationEditMain = function (data) {
       var _me = this
       var name = this.nodeMain.querySelector("[name='name']")

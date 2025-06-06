@@ -1,4 +1,10 @@
-const currentScript = {
+'use strict'
+
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var currentScript = {
   DIR: '',
   FILE: '',
   QUERY: '',
@@ -8,5 +14,4 @@ const currentScript = {
     this.QUERY = ''
   },
 }
-
-export default currentScript
+var _default = (exports.default = currentScript)

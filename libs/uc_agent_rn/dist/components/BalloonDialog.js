@@ -1,34 +1,51 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
 /**
  * BalloonDialog
  * props.shows
  * props.indicator
  * props.anchor
  */
-export default props => {
+var _default = (exports.default = function _default(props) {
   if (props.shows) {
-    return (
-      <View style={styles.brBalloonDialog}>
-        <View
-          style={[
+    return /*#__PURE__*/ _react.default.createElement(
+      _reactNative.View,
+      {
+        style: styles.brBalloonDialog,
+      },
+      /*#__PURE__*/ _react.default.createElement(
+        _reactNative.View,
+        {
+          style: [
             styles.brBalloonDialogInner,
             props.anchor === 'right'
               ? styles.brAnchorRight
               : styles.brAnchorLeft,
-          ]}
-        >
-          <View style={styles.brBalloonDialogInnerInner}>{props.children}</View>
-        </View>
-      </View>
+          ],
+        },
+        /*#__PURE__*/ _react.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.brBalloonDialogInnerInner,
+          },
+          props.children,
+        ),
+      ),
     )
   } else {
-    return <View></View>
+    return /*#__PURE__*/ _react.default.createElement(_reactNative.View, null)
   }
-}
-
-const styles = StyleSheet.create({
+})
+var styles = _reactNative.StyleSheet.create({
   brBalloonDialog: {
     position: 'relative',
     left: 0,

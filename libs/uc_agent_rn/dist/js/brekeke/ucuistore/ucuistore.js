@@ -1,9 +1,224 @@
-const {
-  default: AsyncStorage,
-} = require('@react-native-async-storage/async-storage')
-const RNFS = require('react-native-fs')
+'use strict'
+
+function _regenerator() {
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e,
+    t,
+    r = 'function' == typeof Symbol ? Symbol : {},
+    n = r.iterator || '@@iterator',
+    o = r.toStringTag || '@@toStringTag'
+  function i(r, n, o, i) {
+    var c = n && n.prototype instanceof Generator ? n : Generator,
+      u = Object.create(c.prototype)
+    return (
+      _regeneratorDefine2(
+        u,
+        '_invoke',
+        (function (r, n, o) {
+          var i,
+            c,
+            u,
+            f = 0,
+            p = o || [],
+            y = !1,
+            G = {
+              p: 0,
+              n: 0,
+              v: e,
+              a: d,
+              f: d.bind(e, 4),
+              d: function d(t, r) {
+                return (i = t), (c = 0), (u = e), (G.n = r), a
+              },
+            }
+          function d(r, n) {
+            for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {
+              var o,
+                i = p[t],
+                d = G.p,
+                l = i[2]
+              r > 3
+                ? (o = l === n) &&
+                  ((c = i[4] || 3),
+                  (u = i[5] === e ? i[3] : i[5]),
+                  (i[4] = 3),
+                  (i[5] = e))
+                : i[0] <= d &&
+                  ((o = r < 2 && d < i[1])
+                    ? ((c = 0), (G.v = n), (G.n = i[1]))
+                    : d < l &&
+                      (o = r < 3 || i[0] > n || n > l) &&
+                      ((i[4] = r), (i[5] = n), (G.n = l), (c = 0)))
+            }
+            if (o || r > 1) return a
+            throw ((y = !0), n)
+          }
+          return function (o, p, l) {
+            if (f > 1) throw TypeError('Generator is already running')
+            for (
+              y && 1 === p && d(p, l), c = p, u = l;
+              (t = c < 2 ? e : u) || !y;
+
+            ) {
+              i ||
+                (c
+                  ? c < 3
+                    ? (c > 1 && (G.n = -1), d(c, u))
+                    : (G.n = u)
+                  : (G.v = u))
+              try {
+                if (((f = 2), i)) {
+                  if ((c || (o = 'next'), (t = i[o]))) {
+                    if (!(t = t.call(i, u)))
+                      throw TypeError('iterator result is not an object')
+                    if (!t.done) return t
+                    ;(u = t.value), c < 2 && (c = 0)
+                  } else
+                    1 === c && (t = i.return) && t.call(i),
+                      c < 2 &&
+                        ((u = TypeError(
+                          "The iterator does not provide a '" + o + "' method",
+                        )),
+                        (c = 1))
+                  i = e
+                } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break
+              } catch (t) {
+                ;(i = e), (c = 1), (u = t)
+              } finally {
+                f = 1
+              }
+            }
+            return { value: t, done: y }
+          }
+        })(r, o, i),
+        !0,
+      ),
+      u
+    )
+  }
+  var a = {}
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+  t = Object.getPrototypeOf
+  var c = [][n]
+      ? t(t([][n]()))
+      : (_regeneratorDefine2((t = {}), n, function () {
+          return this
+        }),
+        t),
+    u =
+      (GeneratorFunctionPrototype.prototype =
+      Generator.prototype =
+        Object.create(c))
+  function f(e) {
+    return (
+      Object.setPrototypeOf
+        ? Object.setPrototypeOf(e, GeneratorFunctionPrototype)
+        : ((e.__proto__ = GeneratorFunctionPrototype),
+          _regeneratorDefine2(e, o, 'GeneratorFunction')),
+      (e.prototype = Object.create(u)),
+      e
+    )
+  }
+  return (
+    (GeneratorFunction.prototype = GeneratorFunctionPrototype),
+    _regeneratorDefine2(u, 'constructor', GeneratorFunctionPrototype),
+    _regeneratorDefine2(
+      GeneratorFunctionPrototype,
+      'constructor',
+      GeneratorFunction,
+    ),
+    (GeneratorFunction.displayName = 'GeneratorFunction'),
+    _regeneratorDefine2(GeneratorFunctionPrototype, o, 'GeneratorFunction'),
+    _regeneratorDefine2(u),
+    _regeneratorDefine2(u, o, 'Generator'),
+    _regeneratorDefine2(u, n, function () {
+      return this
+    }),
+    _regeneratorDefine2(u, 'toString', function () {
+      return '[object Generator]'
+    }),
+    (_regenerator = function _regenerator() {
+      return { w: i, m: f }
+    })()
+  )
+}
+function _regeneratorDefine2(e, r, n, t) {
+  var i = Object.defineProperty
+  try {
+    i({}, '', {})
+  } catch (e) {
+    i = 0
+  }
+  ;(_regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) {
+    if (r)
+      i
+        ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t })
+        : (e[r] = n)
+    else {
+      var o = function o(r, n) {
+        _regeneratorDefine2(e, r, function (e) {
+          return this._invoke(r, n, e)
+        })
+      }
+      o('next', 0), o('throw', 1), o('return', 2)
+    }
+  }),
+    _regeneratorDefine2(e, r, n, t)
+}
+function asyncGeneratorStep(n, t, e, r, o, a, c) {
+  try {
+    var i = n[a](c),
+      u = i.value
+  } catch (n) {
+    return void e(n)
+  }
+  i.done ? t(u) : Promise.resolve(u).then(r, o)
+}
+function _asyncToGenerator(n) {
+  return function () {
+    var t = this,
+      e = arguments
+    return new Promise(function (r, o) {
+      var a = n.apply(t, e)
+      function _next(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, 'next', n)
+      }
+      function _throw(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, 'throw', n)
+      }
+      _next(void 0)
+    })
+  }
+}
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+var _require = require('@react-native-async-storage/async-storage'),
+  AsyncStorage = _require.default
+var RNFS = require('react-native-fs')
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory({
       net: require('../net/jsonrpc.js'),
       UCClient: require('../ucclient/ucclient.js'),
@@ -12,7 +227,7 @@ const RNFS = require('react-native-fs')
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UcUiStore = factory(root.Brekeke)
   }
-})(this, function (Brekeke) {
+})(void 0, function (Brekeke) {
   /**
    * consts
    */
@@ -24,50 +239,115 @@ const RNFS = require('react-native-fs')
     SEARCH_PREV_NEXT_TEXTS_MAX: 20,
     DUMMY: null,
   }
-
-  const readChunkFile = (p, pos, data) =>
-    new Promise((resolve, reject) => {
-      const fr = new FileReader()
-      fr.onloadend = async () => {
-        const r = fr.result
-        const b64 = r.replace(/^data:.*base64,/, '')
-        try {
-          if (!pos) {
-            await RNFS.writeFile(p, b64, 'base64')
-          } else {
-            await RNFS.appendFile(p, b64, 'base64')
-          }
-          resolve(p)
-        } catch (err) {
-          console.error('readChunkFile RNFS.writeFile error:', err)
-          reject(err)
-        }
-      }
+  var readChunkFile = function readChunkFile(p, pos, data) {
+    return new Promise(function (resolve, reject) {
+      var fr = new FileReader()
+      fr.onloadend = /*#__PURE__*/ _asyncToGenerator(
+        /*#__PURE__*/ _regenerator().m(function _callee() {
+          var r, b64, _t
+          return _regenerator().w(
+            function (_context) {
+              while (1)
+                switch (_context.n) {
+                  case 0:
+                    r = fr.result
+                    b64 = r.replace(/^data:.*base64,/, '')
+                    _context.p = 1
+                    if (pos) {
+                      _context.n = 3
+                      break
+                    }
+                    _context.n = 2
+                    return RNFS.writeFile(p, b64, 'base64')
+                  case 2:
+                    _context.n = 4
+                    break
+                  case 3:
+                    _context.n = 4
+                    return RNFS.appendFile(p, b64, 'base64')
+                  case 4:
+                    resolve(p)
+                    _context.n = 6
+                    break
+                  case 5:
+                    _context.p = 5
+                    _t = _context.v
+                    console.error('readChunkFile RNFS.writeFile error:', _t)
+                    reject(_t)
+                  case 6:
+                    return _context.a(2)
+                }
+            },
+            _callee,
+            null,
+            [[1, 5]],
+          )
+        }),
+      )
       fr.readAsDataURL(data)
     })
-  const saveBlobFile = (id, topic_id, type, data) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        type = type || 'image'
-        const chunkSize = 1024 * 1024 * 4 // (4 Megabyte)
-        const e = type === 'image' ? 'jpeg' : 'mp4'
-        const p = `${RNFS.DocumentDirectoryPath}/${id}.${e}`
-        const totalChunks = Math.ceil(data.size / chunkSize)
-        let pos = 1
-        while (pos <= totalChunks) {
-          const offset = (pos - 1) * chunkSize
-          const currentChunk = data.slice(
-            offset,
-            pos === totalChunks ? data.size : offset + chunkSize,
-          )
-          await readChunkFile(p, pos - 1, currentChunk)
-          pos++
+  }
+  var saveBlobFile = function saveBlobFile(id, topic_id, type, data) {
+    return new Promise(
+      /*#__PURE__*/ (function () {
+        var _ref2 = _asyncToGenerator(
+          /*#__PURE__*/ _regenerator().m(function _callee2(resolve, reject) {
+            var chunkSize, e, p, totalChunks, pos, offset, currentChunk, _t2
+            return _regenerator().w(
+              function (_context2) {
+                while (1)
+                  switch (_context2.n) {
+                    case 0:
+                      _context2.p = 0
+                      type = type || 'image'
+                      chunkSize = 1024 * 1024 * 4 // (4 Megabyte)
+                      e = type === 'image' ? 'jpeg' : 'mp4'
+                      p = ''
+                        .concat(RNFS.DocumentDirectoryPath, '/')
+                        .concat(id, '.')
+                        .concat(e)
+                      totalChunks = Math.ceil(data.size / chunkSize)
+                      pos = 1
+                    case 1:
+                      if (!(pos <= totalChunks)) {
+                        _context2.n = 3
+                        break
+                      }
+                      offset = (pos - 1) * chunkSize
+                      currentChunk = data.slice(
+                        offset,
+                        pos === totalChunks ? data.size : offset + chunkSize,
+                      )
+                      _context2.n = 2
+                      return readChunkFile(p, pos - 1, currentChunk)
+                    case 2:
+                      pos++
+                      _context2.n = 1
+                      break
+                    case 3:
+                      resolve(p)
+                      _context2.n = 5
+                      break
+                    case 4:
+                      _context2.p = 4
+                      _t2 = _context2.v
+                      reject(_t2)
+                    case 5:
+                      return _context2.a(2)
+                  }
+              },
+              _callee2,
+              null,
+              [[0, 4]],
+            )
+          }),
+        )
+        return function (_x, _x2) {
+          return _ref2.apply(this, arguments)
         }
-        resolve(p)
-      } catch (err) {
-        reject(err)
-      }
-    })
+      })(),
+    )
+  }
 
   /**
    * UcUiStore class
@@ -89,7 +369,11 @@ const RNFS = require('react-native-fs')
     this.signInOKCount = 0
     this.uncacheParam2 = 0
     this.diffClientServerTime = 0
-    this.lastSignOutReason = { code: 1, message: '', reSignInTime: 0 }
+    this.lastSignOutReason = {
+      code: 1,
+      message: '',
+      reSignInTime: 0,
+    }
     this.signInOption = null
     this.lastStatus = null
     this.reSignInDelay = 0
@@ -163,7 +447,11 @@ const RNFS = require('react-native-fs')
     this.signInOKCount = 0
     this.uncacheParam2 = 0
     this.diffClientServerTime = 0
-    this.lastSignOutReason = { code: 1, message: '', reSignInTime: 0 }
+    this.lastSignOutReason = {
+      code: 1,
+      message: '',
+      reSignInTime: 0,
+    }
     this.signInOption = null
     this.reSignInDelay = 0
     this.maxReSignInDelay = 0
@@ -201,7 +489,6 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.fire = function (eventName) {
     var _arguments = arguments
-
     this.handlers.forEach(function (handler) {
       if (handler[eventName]) {
         handler[eventName].apply(
@@ -268,7 +555,6 @@ const RNFS = require('react-native-fs')
   // option.maxReSignInDelay
   UcUiStore.prototype.signIn = function (option) {
     var _this = this
-
     if (this.signInStatus === 0 || this.signInStatus === 1) {
       this.signInStatus = 2
       this.signInOption = {}
@@ -315,7 +601,9 @@ const RNFS = require('react-native-fs')
       var dtoken = null
       try {
         dtoken = JSON.parse(
-          this.getLocalStoragePreference({ keyList: ['br+dtoken+'] })[0],
+          this.getLocalStoragePreference({
+            keyList: ['br+dtoken+'],
+          })[0],
         )
       } catch (e) {}
       if (dtoken && dtoken.token) {
@@ -358,7 +646,6 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.signIn_funcOK = function (ev) {
     var _this = this
-
     this.signInStatus = 3
     this.signInOKCount++
     this.configPropertiesCache = this.chatClient.getConfigProperties() || {}
@@ -391,13 +678,20 @@ const RNFS = require('react-native-fs')
       var dtoken = null
       try {
         dtoken = JSON.parse(
-          this.getLocalStoragePreference({ keyList: ['br+dtoken+'] })[0],
+          this.getLocalStoragePreference({
+            keyList: ['br+dtoken+'],
+          })[0],
         )
       } catch (e) {}
       if (dtoken && dtoken.token) {
         dtoken.timestamp = ev.tstamp
         this.setLocalStoragePreference({
-          keyValueList: [{ key: 'br+dtoken+', value: JSON.stringify(dtoken) }],
+          keyValueList: [
+            {
+              key: 'br+dtoken+',
+              value: JSON.stringify(dtoken),
+            },
+          ],
         })
       }
     }
@@ -410,7 +704,10 @@ const RNFS = require('react-native-fs')
         usersToRecvMsgs.forEach(function (u) {
           _this.clearChat({
             chatType: 'CHAT',
-            chatCode: JSON.stringify({ tenant: u.tenant, user_id: u.user_id }),
+            chatCode: JSON.stringify({
+              tenant: u.tenant,
+              user_id: u.user_id,
+            }),
           })
           if (u.property && u.property.unread) {
             unread = true
@@ -496,7 +793,6 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.signIn_receiveUnreadText_funcOK = function (ev) {
     var _this = this
-
     var messageList = ev.messages.map(
       this.createMessageFromReceivedText.bind(this),
     )
@@ -557,13 +853,11 @@ const RNFS = require('react-native-fs')
     } else if (readText) {
       readText()
     }
-
     this.render()
   }
   //
   UcUiStore.prototype.startReSignInTimer = function () {
     var _this = this
-
     if (this.reSignInDelay <= 0) {
       return
     }
@@ -590,7 +884,9 @@ const RNFS = require('react-native-fs')
       var dtoken = null
       try {
         dtoken = JSON.parse(
-          _this.getLocalStoragePreference({ keyList: ['br+dtoken+'] })[0],
+          _this.getLocalStoragePreference({
+            keyList: ['br+dtoken+'],
+          })[0],
         )
       } catch (e) {}
       if (dtoken && dtoken.token) {
@@ -626,7 +922,6 @@ const RNFS = require('react-native-fs')
   // option.myProfileImageUrl
   UcUiStore.prototype.signInGuest = function (option) {
     var _this = this
-
     if (this.signInStatus === 0 || this.signInStatus === 1) {
       this.signInStatus = 2
 
@@ -865,7 +1160,11 @@ const RNFS = require('react-native-fs')
         clearTimeout(this.reSignInTimer)
         this.reSignInTimer = null
       }
-      this.lastSignOutReason = { code: 1, message: '', reSignInTime: 0 }
+      this.lastSignOutReason = {
+        code: 1,
+        message: '',
+        reSignInTime: 0,
+      }
       this.addSignOutSysmsg()
       this.webchatQueueList = []
       this.chatClient.signOut(option && option.signOutOptions)
@@ -891,13 +1190,14 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.addSignOutSysmsg = function () {
     var _this = this
-
     var profile = this.chatClient.getProfile()
     if (this.guest_conf_id) {
       // guest
       this.addSysmsgToList({
         chatKeys: [
-          this.getChatCodeByConfId({ conf_id: this.guest_conf_id }).chatKey,
+          this.getChatCodeByConfId({
+            conf_id: this.guest_conf_id,
+          }).chatKey,
         ],
         sysmsgLevel: 'info',
         sysmsgType:
@@ -1024,7 +1324,10 @@ const RNFS = require('react-native-fs')
         this.chatClient.getBuddylist().user.some(function (u) {
           return (
             option.chatCode ===
-            JSON.stringify({ tenant: u.tenant, user_id: u.user_id })
+            JSON.stringify({
+              tenant: u.tenant,
+              user_id: u.user_id,
+            })
           )
         })
       ) {
@@ -1087,7 +1390,10 @@ const RNFS = require('react-native-fs')
         var chatKey =
           'CHAT' +
           '_' +
-          JSON.stringify({ tenant: p.tenant, user_id: p.user_id })
+          JSON.stringify({
+            tenant: p.tenant,
+            user_id: p.user_id,
+          })
         if (!_this.chatTable[chatKey]) {
           _this.chatTable[chatKey] = _this.newChatTableEntry(chatKey)
           _this.addShowmorelinkToList({
@@ -1133,7 +1439,6 @@ const RNFS = require('react-native-fs')
   // option.ui_customized_status
   UcUiStore.prototype.changeStatus = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
@@ -1185,7 +1490,8 @@ const RNFS = require('react-native-fs')
         name: '',
         display_name: '',
         profile_image_url: '',
-        paragraphClassIndex: 1, // TODO: yano test
+        paragraphClassIndex: 1,
+        // TODO: yano test
         isMe: false,
         isBuddy: false,
         isTemporaryBuddy: false,
@@ -1198,7 +1504,6 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.addChatClientBuddy = function (buddyList) {
     var _this = this
-
     var profile = this.chatClient.getProfile()
     var allUsersTable = (this.chatClient.getAllUsers().user || []).reduce(
       function (a, c) {
@@ -1271,23 +1576,30 @@ const RNFS = require('react-native-fs')
       isTemporaryBuddy = true
       //}
     }
-
     if (!this.buddyTable[u.tenant]) {
       this.buddyTable[u.tenant] = {}
     }
     this.buddyTable[u.tenant][u.user_id] = {
       tenant: u.tenant,
       user_id: u.user_id,
-      chatCode: JSON.stringify({ tenant: u.tenant, user_id: u.user_id }),
+      chatCode: JSON.stringify({
+        tenant: u.tenant,
+        user_id: u.user_id,
+      }),
       name: u.name || u.user_id,
       display_name:
         (isMe &&
           profile.user_type !== Constants.USER_TYPE_TENANT_GUEST &&
-          string(this.getOptionalSetting({ key: 'display_name' }))) ||
+          string(
+            this.getOptionalSetting({
+              key: 'display_name',
+            }),
+          )) ||
         u.name ||
         u.user_id,
       profile_image_url: u.profile_image_url,
-      paragraphClassIndex: isMe ? 0 : 1, // TODO: yano test
+      paragraphClassIndex: isMe ? 0 : 1,
+      // TODO: yano test
       isMe: isMe,
       isBuddy: isBuddy,
       isTemporaryBuddy: isTemporaryBuddy,
@@ -1614,7 +1926,10 @@ const RNFS = require('react-native-fs')
   UcUiStore.prototype.createConference_funcOK = function (option, ev) {
     this.chatClient.joinConference(
       ev.conference.conf_id,
-      { invisible: false, exclusive: false },
+      {
+        invisible: false,
+        exclusive: false,
+      },
       this.createConference_joinConference_funcOK.bind(
         this,
         ev.conference.conf_id,
@@ -1644,7 +1959,6 @@ const RNFS = require('react-native-fs')
     ev,
   ) {
     var _this = this
-
     var chatType = 'CONFERENCE'
     var chatCode =
       string(ev && ev.conference && ev.conference.yyyymm) +
@@ -1655,8 +1969,14 @@ const RNFS = require('react-native-fs')
       this.chatHeaderInfoTable[chatKey] = {}
     }
     this.chatHeaderInfoTable[chatKey].conf_id = string(conf_id)
-    this.getChatHeaderInfo({ chatType: chatType, chatCode: chatCode }) // overwrite guest, yyyymm, etc.
-    this.fire('newConference', { chatType: chatType, chatCode: chatCode })
+    this.getChatHeaderInfo({
+      chatType: chatType,
+      chatCode: chatCode,
+    }) // overwrite guest, yyyymm, etc.
+    this.fire('newConference', {
+      chatType: chatType,
+      chatCode: chatCode,
+    })
     option.invite &&
       option.invite.forEach &&
       option.invite.forEach(function (u) {
@@ -1688,14 +2008,14 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.inviteToConference_funcOK = function (option, ev) {
     var _this = this
-
     option.invite &&
       option.invite.forEach &&
       option.invite.forEach(function (u) {
         _this.addSysmsgToList({
           chatKeys: [
-            _this.getChatCodeByConfId({ conf_id: string(option.conf_id) })
-              .chatKey,
+            _this.getChatCodeByConfId({
+              conf_id: string(option.conf_id),
+            }).chatKey,
           ],
           sysmsgLevel: 'info',
           sysmsgType: 'MSG_CONFERENCE_INVITING',
@@ -1752,7 +2072,9 @@ const RNFS = require('react-native-fs')
       return
     }
     var chatType = 'CONFERENCE'
-    var chatCode = this.getChatCodeByConfId({ conf_id: conf_id }).chatCode
+    var chatCode = this.getChatCodeByConfId({
+      conf_id: conf_id,
+    }).chatCode
     // join
     this.chatClient.joinConference(
       conf_id,
@@ -1761,7 +2083,10 @@ const RNFS = require('react-native-fs')
       this.joinWebchatRoom_funcError.bind(this, option, chatType, chatCode),
     )
     this.confInJoinProcTable[conf_id] = {}
-    this.fire('newWebchat', { chatType: chatType, chatCode: chatCode })
+    this.fire('newWebchat', {
+      chatType: chatType,
+      chatCode: chatCode,
+    })
     this.render()
   }
   //
@@ -1769,11 +2094,16 @@ const RNFS = require('react-native-fs')
     var _this = this
     var conf_id = ev.conference.conf_id
     var chatType = 'CONFERENCE'
-    var chatCode = this.getChatCodeByConfId({ conf_id: conf_id }).chatCode
+    var chatCode = this.getChatCodeByConfId({
+      conf_id: conf_id,
+    }).chatCode
     var chatKey = chatType + '_' + chatCode
     delete this.confInJoinProcTable[conf_id]
     this.chatClient.searchConferenceTexts(
-      { conf_id: conf_id, yyyymm: ev.conference.yyyymm },
+      {
+        conf_id: conf_id,
+        yyyymm: ev.conference.yyyymm,
+      },
       this.joinWebchatRoom_searchConferenceTexts_funcOK.bind(
         this,
         conf_id,
@@ -1862,9 +2192,10 @@ const RNFS = require('react-native-fs')
       Constants.CONF_STATUS_LEFT_UNANSWERED
     ) {
       this.leavingUnansweredWebchatConfId = conf_id
-      this.leaveWebchatRoom({ conf_id: conf_id })
+      this.leaveWebchatRoom({
+        conf_id: conf_id,
+      })
     }
-
     this.render()
   }
   //
@@ -1901,7 +2232,6 @@ const RNFS = require('react-native-fs')
     ev,
   ) {
     var _this = this
-
     var conference = this.chatClient.getConference(conf_id)
     ev.logs.forEach(function (log) {
       // message
@@ -1913,7 +2243,11 @@ const RNFS = require('react-native-fs')
         } catch (e) {}
       }
       var message = {
-        chatKeys: [_this.getChatCodeByConfId({ conf_id: conf_id }).chatKey],
+        chatKeys: [
+          _this.getChatCodeByConfId({
+            conf_id: conf_id,
+          }).chatKey,
+        ],
         senderInfo: log.sender,
         ctype: log.ctype,
         messageText:
@@ -2045,7 +2379,9 @@ const RNFS = require('react-native-fs')
     )
     this.addSysmsgToList({
       chatKeys: [
-        this.getChatCodeByConfId({ conf_id: conference.conf_id }).chatKey,
+        this.getChatCodeByConfId({
+          conf_id: conference.conf_id,
+        }).chatKey,
       ],
       sysmsgLevel: 'error',
       sysmsgType: 'MSG_LEAVE_CONFERENCE_ERROR',
@@ -2062,7 +2398,6 @@ const RNFS = require('react-native-fs')
   // option.conf_id
   UcUiStore.prototype.kickOutOfWebchatRoom = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
@@ -2080,7 +2415,11 @@ const RNFS = require('react-native-fs')
         _this.buddyTable[u.tenant][u.user_id].isTemporaryBuddy
       ) {
         _this.chatClient.kickOutOfConference(
-          { conf_id: conf_id, tenant: u.tenant, user_id: u.user_id },
+          {
+            conf_id: conf_id,
+            tenant: u.tenant,
+            user_id: u.user_id,
+          },
           null,
           null,
         )
@@ -2113,7 +2452,9 @@ const RNFS = require('react-native-fs')
     )
     this.addSysmsgToList({
       chatKeys: [
-        this.getChatCodeByConfId({ conf_id: conference.conf_id }).chatKey,
+        this.getChatCodeByConfId({
+          conf_id: conference.conf_id,
+        }).chatKey,
       ],
       sysmsgLevel: 'error',
       sysmsgType: 'MSG_LEAVE_CONFERENCE_ERROR',
@@ -2146,7 +2487,6 @@ const RNFS = require('react-native-fs')
   // option.isRichText
   UcUiStore.prototype.sendText = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
@@ -2154,7 +2494,6 @@ const RNFS = require('react-native-fs')
     var chatKey = option.chatType + '_' + option.chatCode
     var chatHeaderInfo = this.getChatHeaderInfo(option)
     var conf_id = chatHeaderInfo.conf_id
-
     if (text.length > UiConstants.CHAT_CONTENT_SIZE) {
       this.logger.log('warn', 'message too long length=' + text.length)
       this.addSysmsgToList({
@@ -2190,7 +2529,6 @@ const RNFS = require('react-native-fs')
       },
       sentTimeValue: +new Date(),
     })
-
     if (option.chatType === 'CONFERENCE') {
       var profile = this.chatClient.getProfile()
       conference = conference || this.chatClient.getConference(conf_id)
@@ -2208,7 +2546,9 @@ const RNFS = require('react-native-fs')
         // reply
         if (conference.conf_status === Constants.CONF_STATUS_JOINED) {
           // leave old conference
-          this.leaveWebchatRoom({ conf_id: conf_id })
+          this.leaveWebchatRoom({
+            conf_id: conf_id,
+          })
         }
         if (!this.unsentReplyMessagesTable[chatKey]) {
           this.unsentReplyMessagesTable[chatKey] = []
@@ -2402,7 +2742,11 @@ const RNFS = require('react-native-fs')
       chatKeys.push('CHAT' + '_' + JSON.stringify(message.senderInfo))
     } else {
       // conference
-      chatKeys.push(this.getChatCodeByConfId({ conf_id: m.conf_id }).chatKey)
+      chatKeys.push(
+        this.getChatCodeByConfId({
+          conf_id: m.conf_id,
+        }).chatKey,
+      )
     }
     return message
   }
@@ -2443,22 +2787,22 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.addSysmsgToList = function (option, indexToInsertTable) {
     var _this = this
-
     var chatKeys = (option && option.chatKeys) || []
     var sysmsg = {
       key: string(++this.keyCounter),
       type: 'sysmsg',
       sysmsgLevel: string(option && option.sysmsgLevel),
       sysmsgType: string(option && option.sysmsgType),
-      buddy: option.buddy || { tenant: '', user_id: '' },
+      buddy: option.buddy || {
+        tenant: '',
+        user_id: '',
+      },
       sysmsgData: string(option && option.sysmsgData),
     }
     this.keyObjectTable[sysmsg.key] = sysmsg
-
     if (!indexToInsertTable) {
       indexToInsertTable = {}
     }
-
     chatKeys.forEach(function (chatKey) {
       if (!_this.chatTable[chatKey]) {
         _this.chatTable[chatKey] = _this.newChatTableEntry(chatKey)
@@ -2473,7 +2817,6 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.addMessageToList = function (option, indexToInsertTable) {
     var _this = this
-
     var chatKeys = (option && option.chatKeys) || []
     var messageFile = (option && option.messageFile) || {} // do not clone option.messageFile (keep reference)
     messageFile.file_id = string(messageFile.file_id)
@@ -2512,11 +2855,9 @@ const RNFS = require('react-native-fs')
       sentTimeValue: int(option && option.sentTimeValue),
     }
     this.keyObjectTable[message.key] = message
-
     if (!indexToInsertTable) {
       indexToInsertTable = {}
     }
-
     var eventArgs = []
     chatKeys.forEach(function (chatKey) {
       if (!_this.chatTable[chatKey]) {
@@ -2570,7 +2911,6 @@ const RNFS = require('react-native-fs')
           chatList.splice(indexToInsertTable[chatKey]++, 0, paragraph)
         }
         paragraph.messageList.push(message)
-
         var messageClone = {}
         try {
           messageClone = JSON.parse(JSON.stringify(message))
@@ -2582,11 +2922,9 @@ const RNFS = require('react-native-fs')
         })
       }
     })
-
     eventArgs.forEach(function (e) {
       _this.fire('newMessage', e)
     })
-
     return message
   }
   //
@@ -2595,7 +2933,6 @@ const RNFS = require('react-native-fs')
     indexToInsertTable,
   ) {
     var _this = this
-
     var chatKeys = (option && option.chatKeys) || []
     var key = string(++this.keyCounter)
     var showmorelink_id = key
@@ -2622,11 +2959,9 @@ const RNFS = require('react-native-fs')
       errorType: '',
       errorDetail: '',
     }
-
     if (!indexToInsertTable) {
       indexToInsertTable = {}
     }
-
     chatKeys.forEach(function (chatKey) {
       if (!_this.chatTable[chatKey]) {
         _this.chatTable[chatKey] = _this.newChatTableEntry(chatKey)
@@ -2660,7 +2995,6 @@ const RNFS = require('react-native-fs')
   // option.begin
   UcUiStore.prototype.receiveMore = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
@@ -2716,7 +3050,10 @@ const RNFS = require('react-native-fs')
                     _this.chatClient.getBuddylist().user.some(function (u) {
                       return (
                         chatCode ===
-                        JSON.stringify({ tenant: u.tenant, user_id: u.user_id })
+                        JSON.stringify({
+                          tenant: u.tenant,
+                          user_id: u.user_id,
+                        })
                       )
                     })
                   ) {
@@ -2750,20 +3087,21 @@ const RNFS = require('react-native-fs')
           }
           _this.render()
         }
-      var receiveUnreceivedFunction_funcError = function (ev) {
-        // funcError
-        _this.logger.log(
-          'warn',
-          'receiveUnreceivedFunction_funcError code=' +
-            ev.code +
-            ', message=' +
-            ev.message,
-        )
-        showmorelinkEntry.nowReceiving = false
-        showmorelinkEntry.errorType = 'MSG_RECEIVE_MORE_UNREAD_TEXTS_FAILED'
-        showmorelinkEntry.errorDetail = ev.message
-        _this.render()
-      }
+      var receiveUnreceivedFunction_funcError =
+        function receiveUnreceivedFunction_funcError(ev) {
+          // funcError
+          _this.logger.log(
+            'warn',
+            'receiveUnreceivedFunction_funcError code=' +
+              ev.code +
+              ', message=' +
+              ev.message,
+          )
+          showmorelinkEntry.nowReceiving = false
+          showmorelinkEntry.errorType = 'MSG_RECEIVE_MORE_UNREAD_TEXTS_FAILED'
+          showmorelinkEntry.errorDetail = ev.message
+          _this.render()
+        }
       // start receiving
       showmorelinkEntry.nowReceiving = true
       showmorelinkEntry.tried = true
@@ -2778,7 +3116,9 @@ const RNFS = require('react-native-fs')
       showmorelinkEntry.chatKeys.some(function (chatKey) {
         var chatType = chatKey.split('_')[0]
         var chatCode = chatKey.substr((chatType + '_').length)
-        var condition = { max: UiConstants.SEARCH_PREV_NEXT_TEXTS_MAX + 1 }
+        var condition = {
+          max: UiConstants.SEARCH_PREV_NEXT_TEXTS_MAX + 1,
+        }
         if (showmorelinkEntry.condition_user_id) {
           condition.tenant = string(showmorelinkEntry.condition_tenant)
           condition.user_id = string(showmorelinkEntry.condition_user_id)
@@ -3126,7 +3466,6 @@ const RNFS = require('react-native-fs')
   // option.isRichText
   UcUiStore.prototype.sendBroadcastText = function (option) {
     var _this = this
-
     if (!option || !option.target || !option.target.length) {
       return
     }
@@ -3135,10 +3474,12 @@ const RNFS = require('react-native-fs')
       return (
         'CHAT' +
         '_' +
-        JSON.stringify({ tenant: string(t.tenant), user_id: string(t.user_id) })
+        JSON.stringify({
+          tenant: string(t.tenant),
+          user_id: string(t.user_id),
+        })
       )
     })
-
     if (text.length > UiConstants.CHAT_CONTENT_SIZE) {
       this.logger.log('warn', 'message too long length=' + text.length)
       this.addSysmsgToList({
@@ -3230,13 +3571,11 @@ const RNFS = require('react-native-fs')
   // option.chatCode
   UcUiStore.prototype.sendTyping = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
     var chatKey = option.chatType + '_' + option.chatCode
     var conf_id = this.getChatHeaderInfo(option).conf_id
-
     var now = new Date().getTime()
     if (
       !this.lastSentTypingTimeTable[chatKey] ||
@@ -3244,7 +3583,6 @@ const RNFS = require('react-native-fs')
         this.lastSentTypingTimeTable[chatKey] + UiConstants.SEND_TYPING_INTERVAL
     ) {
       this.lastSentTypingTimeTable[chatKey] = now
-
       if (option.chatType === 'CONFERENCE') {
         var profile = this.chatClient.getProfile()
         var conference = this.chatClient.getConference(conf_id)
@@ -3298,13 +3636,11 @@ const RNFS = require('react-native-fs')
   // option.sysmsg
   UcUiStore.prototype.sendCustomClientEvent = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
     var chatKey = option.chatType + '_' + option.chatCode
     var conf_id = this.getChatHeaderInfo(option).conf_id
-
     if (option.chatType === 'CONFERENCE') {
       var profile = this.chatClient.getProfile()
       var conference = this.chatClient.getConference(conf_id)
@@ -3359,11 +3695,13 @@ const RNFS = require('react-native-fs')
         )
       }
     }
-
     var sysmsg =
       typeof option.sysmsg !== 'undefined'
         ? option.sysmsg
-        : { sysmsgLevel: 'info', sysmsgType: 'sysSendCustomClientEvent' }
+        : {
+            sysmsgLevel: 'info',
+            sysmsgType: 'sysSendCustomClientEvent',
+          }
     if (sysmsg) {
       this.addSysmsgChat({
         chatType: option.chatType,
@@ -3380,7 +3718,6 @@ const RNFS = require('react-native-fs')
   // option.files
   UcUiStore.prototype.sendFiles = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
@@ -3455,7 +3792,9 @@ const RNFS = require('react-native-fs')
         //        conf_id: conf_id
         //    };
         //}
-        target = { conf_id: conf_id }
+        target = {
+          conf_id: conf_id,
+        }
       } else {
         this.logger.log(
           'warn',
@@ -3492,72 +3831,92 @@ const RNFS = require('react-native-fs')
     // display message for each file
     var messageFiles = []
     var messages = []
-    Array.prototype.forEach.call(option.files, async function (f, i) {
-      var name = string(f && f.name)
-      var size = int(f && f.size)
-      // create message file info
-      messageFiles[i] = {
-        file_id: '',
-        name: name,
-        size: size,
-        receiverInfo: {
-          tenant: string(target.tenant),
-          user_id: string(target.user_id),
-        },
-        status: Constants.FILE_STATUS_UNACCEPTED,
-        progress: 0,
-        inlineImage: {
-          loading: false,
-          url: '',
-        },
-        messageFileError: '',
-      }
-      console.log('#Duy Phan console 3333 files')
-      // inline image
-      if (size > 0) {
-        var ext = name.substr(name.lastIndexOf('.') + 1).toLowerCase()
-        if (
-          ext === 'png' ||
-          ext === 'jpg' ||
-          ext === 'jpeg' ||
-          ext === 'gif' ||
-          ext === 'bmp'
-        ) {
-          if (
-            !(
-              settings.optional_settings &&
-              settings.optional_settings.image_file_transfer === 'file'
-            ) &&
-            typeof Blob !== 'undefined' &&
-            typeof URL !== 'undefined'
-          ) {
-            // create objectURL of inline image
-            _this.objectURLList.push((messageFiles[i].inlineImage.url = f.uri))
-          }
+    Array.prototype.forEach.call(
+      option.files,
+      /*#__PURE__*/ (function () {
+        var _ref3 = _asyncToGenerator(
+          /*#__PURE__*/ _regenerator().m(function _callee3(f, i) {
+            var name, size, ext
+            return _regenerator().w(function (_context3) {
+              while (1)
+                switch (_context3.n) {
+                  case 0:
+                    name = string(f && f.name)
+                    size = int(f && f.size) // create message file info
+                    messageFiles[i] = {
+                      file_id: '',
+                      name: name,
+                      size: size,
+                      receiverInfo: {
+                        tenant: string(target.tenant),
+                        user_id: string(target.user_id),
+                      },
+                      status: Constants.FILE_STATUS_UNACCEPTED,
+                      progress: 0,
+                      inlineImage: {
+                        loading: false,
+                        url: '',
+                      },
+                      messageFileError: '',
+                    }
+                    console.log('#Duy Phan console 3333 files')
+                    // inline image
+                    if (size > 0) {
+                      ext = name.substr(name.lastIndexOf('.') + 1).toLowerCase()
+                      if (
+                        ext === 'png' ||
+                        ext === 'jpg' ||
+                        ext === 'jpeg' ||
+                        ext === 'gif' ||
+                        ext === 'bmp'
+                      ) {
+                        if (
+                          !(
+                            settings.optional_settings &&
+                            settings.optional_settings.image_file_transfer ===
+                              'file'
+                          ) &&
+                          typeof Blob !== 'undefined' &&
+                          typeof URL !== 'undefined'
+                        ) {
+                          // create objectURL of inline image
+                          _this.objectURLList.push(
+                            (messageFiles[i].inlineImage.url = f.uri),
+                          )
+                        }
+                      }
+                    }
+                    // display message
+                    messages[i] = _this.addMessageToList({
+                      chatKeys: [chatKey],
+                      senderInfo: profile,
+                      ctype: Constants.CTYPE_FILE_REQUEST,
+                      messageText: '',
+                      messageObject: undefined,
+                      errorType: '',
+                      errorDetail: '',
+                      messageFile: messageFiles[i],
+                      received_text_id: '',
+                      topic_id: '',
+                      conf_type: string(conference && conference.conf_type),
+                      replyEnabled: false,
+                      unreached: true,
+                      messageExtInfo: {
+                        mailSubject: _this.getMailSubject(conference),
+                      },
+                      sentTimeValue: +new Date(),
+                    })
+                  case 1:
+                    return _context3.a(2)
+                }
+            }, _callee3)
+          }),
+        )
+        return function (_x3, _x4) {
+          return _ref3.apply(this, arguments)
         }
-      }
-      // display message
-      messages[i] = _this.addMessageToList({
-        chatKeys: [chatKey],
-        senderInfo: profile,
-        ctype: Constants.CTYPE_FILE_REQUEST,
-        messageText: '',
-        messageObject: undefined,
-        errorType: '',
-        errorDetail: '',
-        messageFile: messageFiles[i],
-        received_text_id: '',
-        topic_id: '',
-        conf_type: string(conference && conference.conf_type),
-        replyEnabled: false,
-        unreached: true,
-        messageExtInfo: {
-          mailSubject: _this.getMailSubject(conference),
-        },
-        sentTimeValue: +new Date(),
-      })
-    })
-
+      })(),
+    )
     console.log('#Duy Phan console 4444 files')
     // send files
     this.chatClient.sendFiles(
@@ -3624,7 +3983,6 @@ const RNFS = require('react-native-fs')
   // option.form
   UcUiStore.prototype.acceptFile = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
@@ -3653,14 +4011,12 @@ const RNFS = require('react-native-fs')
   // option.text
   UcUiStore.prototype.sendCallResult = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
     var text = string(option.text)
     var chatKey = option.chatType + '_' + option.chatCode
     var conf_id = this.getChatHeaderInfo(option).conf_id
-
     if (text.length > UiConstants.CHAT_CONTENT_SIZE) {
       this.logger.log('warn', 'message too long length=' + text.length)
       this.addSysmsgToList({
@@ -3696,11 +4052,12 @@ const RNFS = require('react-native-fs')
       },
       sentTimeValue: +new Date(),
     })
-
     if (option.chatType === 'CONFERENCE') {
       // send
       this.chatClient.sendCallResult(
-        { conf_id: conf_id },
+        {
+          conf_id: conf_id,
+        },
         text,
         function (ev) {
           // display sent time
@@ -3797,7 +4154,6 @@ const RNFS = require('react-native-fs')
   // option.object
   UcUiStore.prototype.sendObject = function (option) {
     var _this = this
-
     if (!option) {
       return
     }
@@ -3828,11 +4184,12 @@ const RNFS = require('react-native-fs')
       },
       sentTimeValue: +new Date(),
     })
-
     if (option.chatType === 'CONFERENCE') {
       // send
       this.chatClient.sendObject(
-        { conf_id: conf_id },
+        {
+          conf_id: conf_id,
+        },
         option.object,
         function (ev) {
           // display sent time
@@ -4265,7 +4622,11 @@ const RNFS = require('react-native-fs')
     this.render()
     // start search process
     if (!option.searchMore) {
-      condition = { tags: [], user_id_me: '', max: 10 }
+      condition = {
+        tags: [],
+        user_id_me: '',
+        max: 10,
+      }
       var searchConditionsTableEntry = this.searchConditionsTable[chatKey] || []
       searchConditionsTableEntry.forEach(function (searchCondition) {
         if (searchCondition.conditionKey === '_content') {
@@ -5196,7 +5557,7 @@ const RNFS = require('react-native-fs')
                   !searchResult._conf_id
                 ) {
                   // add showmorelink
-                  const indexToInsertTable = {}
+                  var indexToInsertTable = {}
                   indexToInsertTable[chatKey] = 0
                   _this.addShowmorelinkToList(
                     {
@@ -5230,8 +5591,8 @@ const RNFS = require('react-native-fs')
                   Object.keys(searchResult._relation).length
                 ) {
                   // add showmorelink of related conference
-                  const indexToInsertTable = {}
-                  indexToInsertTable[chatKey] = 0
+                  var _indexToInsertTable = {}
+                  _indexToInsertTable[chatKey] = 0
                   if (!Object.keys(searchResult._relationOrigin).length) {
                     _this.addShowmorelinkToList(
                       {
@@ -5241,7 +5602,7 @@ const RNFS = require('react-native-fs')
                         condition_yyyymm: searchResult._yyyymm,
                         condition_tstamp: searchResult.customerStartTime,
                       },
-                      indexToInsertTable,
+                      _indexToInsertTable,
                     )
                   }
                   _this.addShowmorelinkToList({
@@ -5495,7 +5856,6 @@ const RNFS = require('react-native-fs')
   // option.keyValueList
   UcUiStore.prototype.setLocalStoragePreference = function (option) {
     var _this = this
-
     var tenant = string(this.signInOption && this.signInOption.tenant)
     var t = this.signInOption && this.signInOption.isSingleTenant ? '' : tenant
     var u = string(this.signInOption && this.signInOption.user).split('?')[0]
@@ -5537,7 +5897,6 @@ const RNFS = require('react-native-fs')
    */
   UcUiStore.prototype.getLocalStoragePreference = function (option) {
     var _this = this
-
     return ((option && option.keyList) || []).map(function (key) {
       return string(_this.localStoragePreference[string(key)])
     })
@@ -5642,7 +6001,6 @@ const RNFS = require('react-native-fs')
 
     // message
     var message = this.createMessageFromReceivedText(ev)
-
     if (ev.conf_id === null) {
       // buddy
       // add to chat table
@@ -5734,7 +6092,6 @@ const RNFS = require('react-native-fs')
     } else if (readText) {
       readText()
     }
-
     this.addChatClientBuddy([ev.sender])
     this.render()
   }
@@ -5773,7 +6130,6 @@ const RNFS = require('react-native-fs')
           ev.conference.created_tstamp + this.diffClientServerTime
         this.webchatQueueList.push(webchatQueue)
       }
-
       var lastChatOfContinuation = {}
       if (ev.conference.invite_properties.continuation_info) {
         lastChatOfContinuation = this.getChatCodeByConfId({
@@ -5787,7 +6143,6 @@ const RNFS = require('react-native-fs')
           lastChatOfContinuation = {}
         }
       }
-
       if (
         ev.conference.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT &&
         !ev.conference.invite_properties.rwq &&
@@ -5808,16 +6163,16 @@ const RNFS = require('react-native-fs')
           evObj.notificationFunction()
         }
       }
-
       this.chatClient.peekWebchatConferenceText(
-        { conf_id: ev.conference.conf_id },
+        {
+          conf_id: ev.conference.conf_id,
+        },
         this.invitedToConference_peekWebchatConferenceText_funcOK.bind(this),
         null,
       )
 
       // add nonbuddy to chatClient immediately (do not subscribe)
       this.addChatClientBuddy(ev.conference.user)
-
       var chatType = lastChatOfContinuation.chatType || 'CONFERENCE'
       var chatCode =
         lastChatOfContinuation.chatCode ||
@@ -5827,9 +6182,14 @@ const RNFS = require('react-native-fs')
         this.chatHeaderInfoTable[chatKey] = {}
       }
       this.chatHeaderInfoTable[chatKey].conf_id = string(ev.conference.conf_id)
-      this.getChatHeaderInfo({ chatType: chatType, chatCode: chatCode }) // overwrite guest, yyyymm, etc.
-      this.fire('newConference', { chatType: chatType, chatCode: chatCode })
-
+      this.getChatHeaderInfo({
+        chatType: chatType,
+        chatCode: chatCode,
+      }) // overwrite guest, yyyymm, etc.
+      this.fire('newConference', {
+        chatType: chatType,
+        chatCode: chatCode,
+      })
       if (
         ev.conference.conf_status === Constants.CONF_STATUS_INVITED &&
         ev.conference.invite_properties.webchatfromguest.fromuser
@@ -5848,13 +6208,15 @@ const RNFS = require('react-native-fs')
           evObj.notificationFunction()
         }
       }
-
       if (ev.conference.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT) {
         if (lastChatOfContinuation.chatCode) {
           // continuation conference
           this.joinWebchatRoom({
             conf_id: string(ev.conference.conf_id),
-            properties: { invisible: false, exclusive: true },
+            properties: {
+              invisible: false,
+              exclusive: true,
+            },
           })
         } else if (
           int(ev.conference.webchatinfo.auto_answer) &
@@ -5863,13 +6225,15 @@ const RNFS = require('react-native-fs')
           // auto answer
           this.joinWebchatRoom({
             conf_id: string(ev.conference.conf_id),
-            properties: { invisible: false, exclusive: true },
+            properties: {
+              invisible: false,
+              exclusive: true,
+            },
           })
         }
       }
     } else {
       this.addChatClientBuddy(ev.conference.user)
-
       var chatType = 'CONFERENCE'
       var chatCode =
         string(ev.conference.yyyymm) + '_' + string(ev.conference.conf_id)
@@ -5878,9 +6242,14 @@ const RNFS = require('react-native-fs')
         this.chatHeaderInfoTable[chatKey] = {}
       }
       this.chatHeaderInfoTable[chatKey].conf_id = string(ev.conference.conf_id)
-      this.getChatHeaderInfo({ chatType: chatType, chatCode: chatCode }) // overwrite guest, yyyymm, etc.
-      this.fire('newConference', { chatType: chatType, chatCode: chatCode })
-
+      this.getChatHeaderInfo({
+        chatType: chatType,
+        chatCode: chatCode,
+      }) // overwrite guest, yyyymm, etc.
+      this.fire('newConference', {
+        chatType: chatType,
+        chatCode: chatCode,
+      })
       if (!ev.conference.invite_properties.rejoinable) {
         this.addSysmsgToList({
           chatKeys: [chatKey],
@@ -5888,7 +6257,6 @@ const RNFS = require('react-native-fs')
           sysmsgType: 'MSG_CONFERENCE_INVITED',
           buddy: ev.conference.from,
         })
-
         if (ev.conference.conf_status === Constants.CONF_STATUS_INVITED) {
           // notification
           var evObj = {
@@ -5906,14 +6274,12 @@ const RNFS = require('react-native-fs')
         }
       }
     }
-
     this.render()
   }
   //
   UcUiStore.prototype.invitedToConference_peekWebchatConferenceText_funcOK =
     function (ev) {
       var _this = this
-
       ev.messages.forEach(function (m) {
         // message
         var message = _this.createMessageFromReceivedText(m)
@@ -5954,9 +6320,7 @@ const RNFS = require('react-native-fs')
         }
       }
     }
-
     this.conferenceMemberChanged_updateMemberList(ev.conference.conf_id)
-
     this.render()
   }
   //
@@ -5964,7 +6328,6 @@ const RNFS = require('react-native-fs')
     conf_id,
   ) {
     var _this = this
-
     var profile = this.chatClient.getProfile()
     var conference = this.chatClient.getConference(conf_id)
     if (
@@ -5979,7 +6342,9 @@ const RNFS = require('react-native-fs')
     ) {
       setTimeout(this.signOut.bind(this), 1000) // sign-out after buddyStatusChanged of message
     }
-    var chatKey = this.getChatCodeByConfId({ conf_id: conf_id }).chatKey
+    var chatKey = this.getChatCodeByConfId({
+      conf_id: conf_id,
+    }).chatKey
     if (!chatKey) {
       chatKey = 'CONFERENCE' + '_' + conference.yyyymm + '_' + conf_id
     }
@@ -6125,7 +6490,6 @@ const RNFS = require('react-native-fs')
         }
       }
     })
-
     this.chatTable[chatKey].memberList = confMemberList
   }
   //
@@ -6133,7 +6497,6 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.fileReceived = function (ev) {
     var _this = this
-
     var settings = this.chatClient.getSettings()
     var file_id = ev.fileInfo.file_id
     // create message file info
@@ -6173,31 +6536,60 @@ const RNFS = require('react-native-fs')
         console.log('#Duy Phan console fileReceived')
         messageFile.inlineImage.loading = true
         var xhr = new XMLHttpRequest()
-
-        xhr.onreadystatechange = async function () {
-          console.log('#Duy Phan console onreadystatechange')
-          if (xhr.readyState === 1) {
-            xhr.responseType = 'blob'
-          } else if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              console.log('#Duy Phan console 200')
-              const url = await saveBlobFile(
-                file_id,
-                ev.topic_id,
-                'image',
-                xhr.response,
-              )
-              console.log('#Duy Phan console purl', url)
-              _this.objectURLList.push((messageFile.inlineImage.url = url))
-            } else {
-              // error
-              _this.logger.log('warn', 'xhr error status=' + xhr.status)
-              messageFile.messageFileError = 'xhr error status=' + xhr.status
-            }
-            messageFile.inlineImage.loading = false
-            _this.render()
-          }
-        }
+        xhr.onreadystatechange = /*#__PURE__*/ _asyncToGenerator(
+          /*#__PURE__*/ _regenerator().m(function _callee4() {
+            var url
+            return _regenerator().w(function (_context4) {
+              while (1)
+                switch (_context4.n) {
+                  case 0:
+                    console.log('#Duy Phan console onreadystatechange')
+                    if (!(xhr.readyState === 1)) {
+                      _context4.n = 1
+                      break
+                    }
+                    xhr.responseType = 'blob'
+                    _context4.n = 5
+                    break
+                  case 1:
+                    if (!(xhr.readyState === 4)) {
+                      _context4.n = 5
+                      break
+                    }
+                    if (!(xhr.status === 200)) {
+                      _context4.n = 3
+                      break
+                    }
+                    console.log('#Duy Phan console 200')
+                    _context4.n = 2
+                    return saveBlobFile(
+                      file_id,
+                      ev.topic_id,
+                      'image',
+                      xhr.response,
+                    )
+                  case 2:
+                    url = _context4.v
+                    console.log('#Duy Phan console purl', url)
+                    _this.objectURLList.push(
+                      (messageFile.inlineImage.url = url),
+                    )
+                    _context4.n = 4
+                    break
+                  case 3:
+                    // error
+                    _this.logger.log('warn', 'xhr error status=' + xhr.status)
+                    messageFile.messageFileError =
+                      'xhr error status=' + xhr.status
+                  case 4:
+                    messageFile.inlineImage.loading = false
+                    _this.render()
+                  case 5:
+                    return _context4.a(2)
+                }
+            }, _callee4)
+          }),
+        )
         this.chatClient.acceptFileWithXhr(file_id, xhr, function (ev) {
           // error
           _this.logger.log(
@@ -6219,7 +6611,9 @@ const RNFS = require('react-native-fs')
     var message = {
       chatKeys: [
         ev.conf_id
-          ? this.getChatCodeByConfId({ conf_id: ev.conf_id }).chatKey
+          ? this.getChatCodeByConfId({
+              conf_id: ev.conf_id,
+            }).chatKey
           : 'CHAT' + '_' + JSON.stringify(ev.fileInfo.target),
       ],
       senderInfo: ev.fileInfo.target,
@@ -6239,7 +6633,6 @@ const RNFS = require('react-native-fs')
       },
       sentTimeValue: +parseDate(ev.sent_ltime),
     }
-
     if (ev.conf_id === null) {
       // buddy
       // add to chat table
@@ -6275,7 +6668,6 @@ const RNFS = require('react-native-fs')
     if (evObj.notificationFunction) {
       evObj.notificationFunction()
     }
-
     this.addChatClientBuddy([ev.fileInfo.target])
     this.render()
   }
@@ -6354,7 +6746,9 @@ const RNFS = require('react-native-fs')
   //
   UcUiStore.prototype.confLeaveReceived = function (ev) {
     if (ev.conf_id !== null) {
-      var chatKey = this.getChatCodeByConfId({ conf_id: ev.conf_id }).chatKey
+      var chatKey = this.getChatCodeByConfId({
+        conf_id: ev.conf_id,
+      }).chatKey
       if (chatKey) {
         this.addSysmsgToList({
           chatKeys: [chatKey],
@@ -6377,8 +6771,7 @@ const RNFS = require('react-native-fs')
   }
   var stringify = function stringify(object) {
     var key, returnString
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       returnString = ''
       for (key in object) {
         returnString += string(key) + ': ' + string(object[key]) + ', '
@@ -6401,7 +6794,7 @@ const RNFS = require('react-native-fs')
   }
   var formatStr = function formatStr(fmt, a) {
     var rep_fn = undefined
-    if (typeof a === 'object') {
+    if (_typeof(a) === 'object') {
       rep_fn = function rep_fn(m, k) {
         return a[k]
       }
@@ -6436,7 +6829,6 @@ const RNFS = require('react-native-fs')
       var length = list.length >>> 0
       var thisArg = arguments[1]
       var value
-
       for (var i = 0; i < length; i++) {
         value = list[i]
         if (predicate.call(thisArg, value, i, list)) {
@@ -6460,7 +6852,6 @@ const RNFS = require('react-native-fs')
       var length = list.length >>> 0
       var thisArg = arguments[1]
       var value
-
       for (var i = 0; i < length; i++) {
         value = list[i]
         if (predicate.call(thisArg, value, i, list)) {

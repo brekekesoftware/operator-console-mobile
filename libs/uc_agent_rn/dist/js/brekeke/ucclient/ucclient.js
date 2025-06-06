@@ -1,16 +1,100 @@
+'use strict'
+
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
+}
+function _defineProperty(e, r, t) {
+  return (
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
+function _readOnlyError(r) {
+  throw new TypeError('"' + r + '" is read-only')
+}
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 /* ucclient.js compatible with 1.2.9.6u2294
  * require jsonrpc.js
  * require jssip-0.4.2.js (optional)
  * require webrtc.js (optional)
  */
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
-    module.exports = factory({ net: require('../net/jsonrpc.js') })
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
+    module.exports = factory({
+      net: require('../net/jsonrpc.js'),
+    })
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UCClient = factory(root.Brekeke)
   }
-})(this, function (Brekeke) {
+})(void 0, function (Brekeke) {
   var UCClient = {},
     ChatClient,
     Errors = {
@@ -187,13 +271,12 @@
   /*
    * ChatClient constructor
    */
-  ChatClient = function (logger, reportConsoleOptions) {
+  ChatClient = function ChatClient(logger, reportConsoleOptions) {
     /*
      * Private fields
      */
     ReportConsole(reportConsoleOptions)
     this._logger = logger && logger.log ? logger : new Logger(logger)
-
     this._host = null
     this._path = null
     this._tenant = null
@@ -215,7 +298,6 @@
     this._profileImageSize = ''
     this._crAuthMode = 0
     this._disableBuddylist = false
-
     this._profile = {}
     this._settings = {}
     this._buddylist = {}
@@ -229,61 +311,43 @@
     this._display = ''
     this._buddyStatus = {}
     this._lastErrors = {}
-
     this._phone = null
     this._phoneProperties = {}
     this._phoneRegistered = false
     this._buddyPhone = {}
-
     this._sessionBundleIdCounter = 0
     this._sessionBundleTable = {}
-
     this._conferenceCalls = {}
-
     this._upload_ids = {}
     this._download_keys = {}
     this._ucclient_customized_status_table = {}
-
     this._conferences = {}
-
     this._fileInfos = {}
-
     this._topicIdCounter = 0
     this._topics = {}
-
     this._databaseTaskTable = {}
-
     this._eventListeners = {}
     this._handlers = []
     this._eventListeners0 = {}
-
     this._rpc = null
-
     this._signInStatus = 0 // 0:signed-out 1:sign-in-failed 2:signing-in 3:signed-in
     this._signInTimer = null
     this._signInFuncOK = null
     this._signInFuncError = null
     this._mfa_verification_required = 0
-
     this._phoneRegisterTimer = null
-
     this._pingTimer = null
     this._timeSentKeepAlive = 0
     this._rpcTimeLastSent = 0
     this._timezoneOffsetNextCheckTime = 0
     this._exos = {}
-
     this._sendStatusCount = 0
-
     this._makeCallStatus = {}
     this._sendSharedObjectFuncOKTable = {}
     this._receivedSharedObjectJsonTable = {}
-
     this._chat_session_id = 0
     this._auth_result_info = null
-
     this._lastMessageTime = 0
-
     this._enteringWebchatRoom = null
     this._joiningConference = null
   }
@@ -295,7 +359,7 @@
     /*
      * Function addHandler
      */
-    addHandler: function (handler) {
+    addHandler: function addHandler(handler) {
       if (Object.keys(this._eventListeners).length === 0) {
         for (var i = 0; i < Events.length; i++) {
           this._eventListeners[Events[i]] = this._initEventListener(Events[i])
@@ -303,21 +367,19 @@
       }
       this._handlers.push(handler)
     },
-
     /*
      * Function removeHandler
      */
-    removeHandler: function (handler) {
+    removeHandler: function removeHandler(handler) {
       var index = this._handlers.indexOf(handler)
       if (index !== -1) {
         this._handlers.splice(index, 1)
       }
     },
-
     /*
      * Function setEventListeners
      */
-    setEventListeners: function (listeners) {
+    setEventListeners: function setEventListeners(listeners) {
       if (Object.keys(this._eventListeners).length === 0) {
         for (var i = 0; i < Events.length; i++) {
           this._eventListeners[Events[i]] = this._initEventListener(Events[i])
@@ -327,11 +389,10 @@
         this._eventListeners0[e] = listeners[e]
       }
     },
-
     /*
      * Function signIn
      */
-    signIn: function (
+    signIn: function signIn(
       host,
       path,
       tenant,
@@ -377,9 +438,7 @@
         }
         return
       }
-
       var trimRegExp = /(^\s+)|(\s+$)/g
-
       if (host && !user && !pass && !option && !funcOK && !funcError) {
         // signIn(option, funcOK, funcError)
         funcError = tenant
@@ -403,7 +462,6 @@
       if (!option) {
         option = {}
       }
-
       if (option.usePhone) {
         if (!Brekeke.webrtc || !Brekeke.webrtc.Phone) {
           this._logger.log(
@@ -446,7 +504,6 @@
           return
         }
       }
-
       this._host = string(host)
         .replace(trimRegExp, '')
         .replace(/\/$/, '')
@@ -480,7 +537,6 @@
           : string(option.profileImageSize)
       this._crAuthMode = int(option.crAuthMode)
       this._disableBuddylist = Boolean(option.disableBuddylist)
-
       this._profile = {}
       this._settings = {}
       this._buddylist = {}
@@ -495,7 +551,6 @@
       this._display = string(option.display)
       this._buddyStatus = {}
       this._lastErrors = {}
-
       if (option.usePhone) {
         this._phone = new Brekeke.webrtc.Phone()
       } else {
@@ -504,17 +559,17 @@
       this._phoneProperties = {}
       this._phoneRegistered = false
       this._buddyPhone = {}
-
       this._sessionBundleIdCounter = 0
       this._sessionBundleTable = {}
-
       this._conferenceCalls = {}
-
       this._upload_ids = {}
       this._download_keys = {}
       this._ucclient_customized_status_table = {}
       this._ucclient_customized_status_table[
-        JSON.stringify({ tenant: this._tenant, user_id: this._user_id })
+        JSON.stringify({
+          tenant: this._tenant,
+          user_id: this._user_id,
+        })
       ] = JSON.stringify({
         myProfileImageUrl:
           typeof option.myProfileImageUrl !== 'undefined'
@@ -522,27 +577,19 @@
             : undefined,
         ui_customized_status: option.ui_customized_status,
       })
-
       this._conferences = {}
-
       this._fileInfos = {}
-
       this._topicIdCounter = 0
       this._topics = {}
-
       this._databaseTaskTable = {}
-
       this._signInStatus = 2
       this._signInFuncOK = funcOK
       this._signInFuncError = funcError
       this._mfa_verification_required = 0
-
       this._pingTimer = null
       this._timezoneOffsetNextCheckTime = 0
       this._exos = {}
-
       this._sendStatusCount = 0
-
       this._makeCallStatus = {}
       this._sendSharedObjectFuncOKTable = {}
       this._receivedSharedObjectJsonTable = {}
@@ -560,7 +607,6 @@
           ? null
           : this._pass,
       )
-
       if (reportConsoleInfo) {
         reportConsoleInfo.report_console_url =
           (this._useHttps ? 'https:' : 'http:') +
@@ -570,28 +616,27 @@
           this._path
       }
     },
-
     /*
      * Function signOut
      */
-    signOut: function (options) {
-      this.cancelProfileImage({ _suppressWarn: true })
+    signOut: function signOut(options) {
+      this.cancelProfileImage({
+        _suppressWarn: true,
+      })
       this._rpcNotify('Logout', (options && options.logoutParams) || {}, null)
       this._signInStatus = 0
       this._signedOut()
     },
-
     /*
      * Function verifyMfaCode
      */
-    verifyMfaCode: function (options, funcOK, funcError) {
+    verifyMfaCode: function verifyMfaCode(options, funcOK, funcError) {
       this._rpcCall('VerifyMfaCode', options || {}, funcOK, funcError)
     },
-
     /*
      * Function resendMfaCode
      */
-    resendMfaCode: function (options, funcOK, funcError) {
+    resendMfaCode: function resendMfaCode(options, funcOK, funcError) {
       this._rpcCall(
         'ResendMfaCode',
         options || {},
@@ -615,26 +660,27 @@
         funcError,
       )
     },
-
     /*
      * Function enablePhone
      */
-    enablePhone: function () {
+    enablePhone: function enablePhone() {
       if (this._signInStatus !== 3) {
         this._logger.log('warn', 'Not signed-in')
         return
       }
-
       if (!this._phone) {
         this._phone = new Brekeke.webrtc.Phone()
         this._getPhoneProperties()
       }
     },
-
     /*
      * Function loadPhoneProperties
      */
-    loadPhoneProperties: function (options, funcOK, funcError) {
+    loadPhoneProperties: function loadPhoneProperties(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -653,7 +699,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetPhoneProperties',
         {
@@ -696,11 +741,16 @@
         },
       )
     },
-
     /*
      * Function saveProperties
      */
-    saveProperties: function (profile, settings, buddylist, funcOK, funcError) {
+    saveProperties: function saveProperties(
+      profile,
+      settings,
+      buddylist,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -719,13 +769,11 @@
         }
         return
       }
-
       var mustReSubscribe = false
       var mustRePublishDisplayName = false
       var configProperties = this.getConfigProperties()
       var optional_config = configProperties.optional_config || {}
       var buddy_mode = configProperties.buddy_mode
-
       profile = {
         name: string((profile && profile.name) || this._profile.name),
         group: string((profile && profile.group) || this._profile.group),
@@ -777,7 +825,6 @@
           }
           return
         }
-
         if (buddylist.user && buddylist.user.filter) {
           var userIdOrgSet = {}
           ;((this._buddylistOrg || {}).user || []).forEach(function (buddyOrg) {
@@ -807,12 +854,10 @@
               }
             })
         }
-
         if (buddy_mode === Constants.BUDDY_MODE_MANUAL) {
           mustReSubscribe = true
         }
       }
-
       this._rpcCall(
         'SetProperties',
         {
@@ -974,11 +1019,10 @@
         funcError,
       )
     },
-
     /*
      * Function uploadProfileImage
      */
-    uploadProfileImage: function (input, funcOK, funcError) {
+    uploadProfileImage: function uploadProfileImage(input, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -997,7 +1041,6 @@
         }
         return
       }
-
       var tenant = this._tenant
       var user_id = this._user_id
       if (input && input.user_id) {
@@ -1005,8 +1048,10 @@
         user_id = input.user_id
         input = input.input
       }
-      var key = JSON.stringify({ tenant: tenant, user_id: user_id })
-
+      var key = JSON.stringify({
+        tenant: tenant,
+        user_id: user_id,
+      })
       if (!input || !input.form) {
         this._logger.log(
           'info',
@@ -1025,12 +1070,13 @@
         }
         return
       }
-
       if (this._upload_ids[key]) {
         // already prepared (re-upload)
-        this.cancelProfileImage({ tenant: tenant, user_id: user_id })
+        this.cancelProfileImage({
+          tenant: tenant,
+          user_id: user_id,
+        })
       }
-
       this._rpcCall(
         'PrepareProfileImage',
         {
@@ -1039,10 +1085,9 @@
         },
         function (result) {
           var upload_id = result.upload_id
-
           var startTime = new Date().getTime()
           // upload-checking function
-          var checkFunction = function () {
+          var _checkFunction = function checkFunction() {
             this._rpcCall(
               'CheckProfileImage',
               {
@@ -1104,13 +1149,17 @@
                       funcError(ev)
                     }
                   } else {
-                    setTimeout(this._byThis(checkFunction), 1000)
+                    setTimeout(this._byThis(_checkFunction), 1000)
                   }
                 } else {
                   // Upload failed
                   this._rpcCall(
                     'CancelProfileImage',
-                    { tenant: tenant, user_id: user_id, upload_id: upload_id },
+                    {
+                      tenant: tenant,
+                      user_id: user_id,
+                      upload_id: upload_id,
+                    },
                     null,
                     null,
                   )
@@ -1134,7 +1183,11 @@
               function (error) {
                 this._rpcCall(
                   'CancelProfileImage',
-                  { tenant: tenant, user_id: user_id, upload_id: upload_id },
+                  {
+                    tenant: tenant,
+                    user_id: user_id,
+                    upload_id: upload_id,
+                  },
                   null,
                   null,
                 )
@@ -1148,7 +1201,6 @@
               },
             )
           }
-
           if (window.FormData) {
             // FormData enabled
             // upload with XHR + FormData
@@ -1170,7 +1222,7 @@
                 encodeURIComponent(user_id),
               true,
             )
-            xhr.onload = this._byThis(checkFunction)
+            xhr.onload = this._byThis(_checkFunction)
             xhr.send(fd)
           } else {
             // upload with form
@@ -1188,17 +1240,16 @@
             input.form.method = 'POST'
             input.form.enctype = 'multipart/form-data'
             input.form.submit()
-            setTimeout(this._byThis(checkFunction), 1000)
+            setTimeout(this._byThis(_checkFunction), 1000)
           }
         },
         funcError,
       )
     },
-
     /*
      * Function cancelProfileImage
      */
-    cancelProfileImage: function (options) {
+    cancelProfileImage: function cancelProfileImage(options) {
       if (this._signInStatus !== 3) {
         if (options && options._suppressWarn) {
           this._logger.log('info', 'Not signed-in')
@@ -1207,7 +1258,6 @@
         }
         return
       }
-
       var keyToCancel = null
       if (options && options.user_id) {
         keyToCancel = JSON.stringify({
@@ -1215,7 +1265,6 @@
           user_id: options.user_id,
         })
       }
-
       var keys = Object.keys(this._upload_ids)
       for (var i = 0; i < keys.length; i++) {
         var key = keys[i]
@@ -1233,11 +1282,10 @@
         }
       }
     },
-
     /*
      * Function saveProfileImage
      */
-    saveProfileImage: function (options, funcOK, funcError) {
+    saveProfileImage: function saveProfileImage(options, funcOK, funcError) {
       if (
         typeof options === 'function' &&
         typeof funcOK === 'function' &&
@@ -1247,7 +1295,6 @@
         funcOK = options
         options = {}
       }
-
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1266,15 +1313,16 @@
         }
         return
       }
-
       var tenant = this._tenant
       var user_id = this._user_id
       if (options && options.user_id) {
         tenant = options.tenant || tenant
         user_id = options.user_id
       }
-      var key = JSON.stringify({ tenant: tenant, user_id: user_id })
-
+      var key = JSON.stringify({
+        tenant: tenant,
+        user_id: user_id,
+      })
       var upload_id = this._upload_ids[key]
       if (upload_id) {
         this._rpcCall(
@@ -1288,9 +1336,7 @@
             if (result) {
               this._download_keys[key] = result.dlk
             }
-
             delete this._upload_ids[key]
-
             if (funcOK) {
               var ev = {
                 url: this.getProfile().profile_image_url,
@@ -1319,11 +1365,14 @@
         return
       }
     },
-
     /*
      * Function deleteProfileImage
      */
-    deleteProfileImage: function (options, funcOK, funcError) {
+    deleteProfileImage: function deleteProfileImage(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (
         typeof options === 'function' &&
         typeof funcOK === 'function' &&
@@ -1333,7 +1382,6 @@
         funcOK = options
         options = {}
       }
-
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1352,15 +1400,16 @@
         }
         return
       }
-
       var tenant = this._tenant
       var user_id = this._user_id
       if (options && options.user_id) {
         tenant = options.tenant || tenant
         user_id = options.user_id
       }
-      var key = JSON.stringify({ tenant: tenant, user_id: user_id })
-
+      var key = JSON.stringify({
+        tenant: tenant,
+        user_id: user_id,
+      })
       this._rpcCall(
         'DeleteProfileImage',
         {
@@ -1369,7 +1418,6 @@
         },
         function (result) {
           delete this._download_keys[key]
-
           if (funcOK) {
             var ev = {}
             funcOK(ev)
@@ -1378,29 +1426,28 @@
         funcError,
       )
     },
-
     /*
      * Function addTemporaryBuddy
      */
-    addTemporaryBuddy: function (buddyList, funcOK, funcError) {
+    addTemporaryBuddy: function addTemporaryBuddy(
+      buddyList,
+      funcOK,
+      funcError,
+    ) {
       var options = {}
       var users = []
       var profile = this.getProfile()
-
       if (buddyList && buddyList.buddyList) {
         options = buddyList
         buddyList = buddyList.buddyList
       }
-
       if (!buddyList || !buddyList.length) {
         buddyList = []
       }
-
       for (var i = 0; i < buddyList.length; i++) {
         var buddy = buddyList[i]
         var tenant = string(buddy.tenant || this._tenant)
         var user_id = string(buddy.user_id)
-
         if (tenant === profile.tenant && user_id === profile.user_id) {
           // me
           continue
@@ -1478,7 +1525,10 @@
             }
           } else {
             // subscribe (add nonbuddy after StatusNotified)
-            users.push({ tenant: tenant, user_id: user_id })
+            users.push({
+              tenant: tenant,
+              user_id: user_id,
+            })
           }
         }
       }
@@ -1507,18 +1557,19 @@
         }
       }
     },
-
     /*
      * Function removeTemporaryBuddy
      */
-    removeTemporaryBuddy: function (buddyList, funcOK, funcError) {
+    removeTemporaryBuddy: function removeTemporaryBuddy(
+      buddyList,
+      funcOK,
+      funcError,
+    ) {
       var users = []
-
       for (var i = 0; i < buddyList.length; i++) {
         var buddy = buddyList[i]
         var tenant = string(buddy.tenant || this._tenant)
         var user_id = string(buddy.user_id)
-
         var exists = false
         if (
           this._buddylist &&
@@ -1551,7 +1602,10 @@
             ) {
               // remove nonbuddy
               this._nonbuddylist.user.splice(j, 1)
-              users.push({ tenant: tenant, user_id: user_id })
+              users.push({
+                tenant: tenant,
+                user_id: user_id,
+              })
               break
             }
           }
@@ -1595,20 +1649,18 @@
         }
       }
     },
-
     /*
      * Function changeStatus
      */
-    changeStatus: function (status, display, funcOK, funcError) {
+    changeStatus: function changeStatus(status, display, funcOK, funcError) {
       var ui_customized_status = undefined
-      if (typeof status === 'object') {
+      if (_typeof(status) === 'object') {
         funcError = funcOK
         funcOK = display
         ui_customized_status = status.ui_customized_status
         display = status.display
         status = status.status
       }
-
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1627,7 +1679,6 @@
         }
         return
       }
-
       var myKey = JSON.stringify({
         tenant: this._tenant,
         user_id: this._user_id,
@@ -1668,11 +1719,10 @@
         }),
       )
     },
-
     /*
      * Function getAcdUsers
      */
-    getAcdUsers: function (option, funcOK, funcError) {
+    getAcdUsers: function getAcdUsers(option, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1693,11 +1743,10 @@
       }
       this._rpcCall('GetAcdUsers', option, funcOK, funcError)
     },
-
     /*
      * Function sendText
      */
-    sendText: function (text, target, funcOK, funcError) {
+    sendText: function sendText(text, target, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1716,7 +1765,6 @@
         }
         return
       }
-
       if (!target.user_id) {
         this._logger.log(
           'info',
@@ -1735,7 +1783,6 @@
         }
         return
       }
-
       var textVal = string(text)
       var targetObject = {
         tenant: string(target.tenant || this._tenant),
@@ -1753,7 +1800,6 @@
         },
         function (result) {
           this._lastMessageTime = int(result.tstamp)
-
           if (funcOK) {
             var topic_id = ''
             ;(result.topic_ids || []).forEach(function (topic) {
@@ -1781,11 +1827,10 @@
         funcError,
       )
     },
-
     /*
      * Function readText
      */
-    readText: function (received_text_id_array, funcError) {
+    readText: function readText(received_text_id_array, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1804,7 +1849,6 @@
         }
         return
       }
-
       if (!received_text_id_array || !received_text_id_array.length) {
         this._logger.log(
           'info',
@@ -1823,7 +1867,6 @@
         }
         return
       }
-
       var message = []
       for (var i = 0; i < received_text_id_array.length; i++) {
         var received_text_id = received_text_id_array[i].split('_')
@@ -1859,7 +1902,6 @@
           month: string(month),
         })
       }
-
       this._rpcNotify(
         'ReadText',
         {
@@ -1868,11 +1910,10 @@
         funcError,
       )
     },
-
     /*
      * Function receiveUnreadText
      */
-    receiveUnreadText: function (funcOK, funcError) {
+    receiveUnreadText: function receiveUnreadText(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1891,7 +1932,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetUnreadText',
         {},
@@ -1906,9 +1946,7 @@
               }
               var sender_tenant = message.sender.tenant || this._tenant
               var sender_user_id = string(message.sender.user_id)
-
               var receivedObject = undefined
-
               switch (message.ctype) {
                 case Constants.CTYPE_OBJECT:
                   try {
@@ -1927,7 +1965,8 @@
                     },
                     text: string(message.text),
                     object: receivedObject,
-                    conf_id: message.conf_id ? string(message.conf_id) : null, // message.conf_id might be undefined or "" on non-conf
+                    conf_id: message.conf_id ? string(message.conf_id) : null,
+                    // message.conf_id might be undefined or "" on non-conf
                     ctype: int(message.ctype),
                     received_text_id:
                       int(message.action_id) +
@@ -1937,10 +1976,14 @@
                         .split('-')
                         .join(''),
                     topic_id: string(message.topic_id || ''),
-                    ltime: stringifyTstamp(result.tstamp), // received time
-                    tstamp: int(result.tstamp), // received time
-                    sent_ltime: stringifyTstamp(message.sent_tstamp), // message.sent_tstamp has value in GetUnreadText
-                    sent_tstamp: int(message.sent_tstamp), // message.sent_tstamp has value in GetUnreadText
+                    ltime: stringifyTstamp(result.tstamp),
+                    // received time
+                    tstamp: int(result.tstamp),
+                    // received time
+                    sent_ltime: stringifyTstamp(message.sent_tstamp),
+                    // message.sent_tstamp has value in GetUnreadText
+                    sent_tstamp: int(message.sent_tstamp),
+                    // message.sent_tstamp has value in GetUnreadText
                     requires_read: message.conf_id ? false : true,
                   })
                   break
@@ -1966,11 +2009,14 @@
         funcError,
       )
     },
-
     /*
      * Function receiveUnreceivedConferenceText
      */
-    receiveUnreceivedConferenceText: function (options, funcOK, funcError) {
+    receiveUnreceivedConferenceText: function receiveUnreceivedConferenceText(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -1989,7 +2035,6 @@
         }
         return
       }
-
       var params = {}
       if (options && options.conf_id) {
         params.conf_id = string(options && options.conf_id)
@@ -1997,7 +2042,6 @@
       if (options && options.conf_status) {
         params.conf_status = int(options && options.conf_status)
       }
-
       this._rpcCall(
         'GetUnreceivedConferenceText',
         params,
@@ -2012,9 +2056,7 @@
               }
               var sender_tenant = message.sender.tenant || this._tenant
               var sender_user_id = string(message.sender.user_id)
-
               var receivedObject = undefined
-
               switch (message.ctype) {
                 case Constants.CTYPE_OBJECT:
                   try {
@@ -2033,7 +2075,8 @@
                     },
                     text: string(message.text),
                     object: receivedObject,
-                    conf_id: message.conf_id ? string(message.conf_id) : null, // message.conf_id might be undefined or "" on non-conf
+                    conf_id: message.conf_id ? string(message.conf_id) : null,
+                    // message.conf_id might be undefined or "" on non-conf
                     ctype: int(message.ctype),
                     received_text_id:
                       int(message.action_id) +
@@ -2042,10 +2085,14 @@
                         .substr(0, 7)
                         .split('-')
                         .join(''),
-                    ltime: stringifyTstamp(result.tstamp), // received time
-                    tstamp: int(result.tstamp), // received time
-                    sent_ltime: stringifyTstamp(message.sent_tstamp), // message.sent_tstamp has value in GetUnreadText
-                    sent_tstamp: int(message.sent_tstamp), // message.sent_tstamp has value in GetUnreadText
+                    ltime: stringifyTstamp(result.tstamp),
+                    // received time
+                    tstamp: int(result.tstamp),
+                    // received time
+                    sent_ltime: stringifyTstamp(message.sent_tstamp),
+                    // message.sent_tstamp has value in GetUnreadText
+                    sent_tstamp: int(message.sent_tstamp),
+                    // message.sent_tstamp has value in GetUnreadText
                     requires_read: message.conf_id ? false : true,
                   })
                   break
@@ -2071,11 +2118,14 @@
         funcError,
       )
     },
-
     /*
      * Function peekWebchatConferenceText
      */
-    peekWebchatConferenceText: function (options, funcOK, funcError) {
+    peekWebchatConferenceText: function peekWebchatConferenceText(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2094,7 +2144,6 @@
         }
         return
       }
-
       var params = {}
       if (options && options.conf_id) {
         params.conf_id = string(options && options.conf_id)
@@ -2102,7 +2151,6 @@
       if (options && options.max) {
         params.max = int(options && options.max)
       }
-
       this._rpcCall(
         'PeekWebchatConferenceText',
         params,
@@ -2117,9 +2165,7 @@
               }
               var sender_tenant = message.sender.tenant || this._tenant
               var sender_user_id = string(message.sender.user_id)
-
               var receivedObject = undefined
-
               switch (message.ctype) {
                 case Constants.CTYPE_OBJECT:
                   try {
@@ -2138,7 +2184,8 @@
                     },
                     text: string(message.text),
                     object: receivedObject,
-                    conf_id: message.conf_id ? string(message.conf_id) : null, // message.conf_id might be undefined or "" on non-conf
+                    conf_id: message.conf_id ? string(message.conf_id) : null,
+                    // message.conf_id might be undefined or "" on non-conf
                     ctype: int(message.ctype),
                     received_text_id:
                       int(message.action_id) +
@@ -2147,10 +2194,14 @@
                         .substr(0, 7)
                         .split('-')
                         .join(''),
-                    ltime: stringifyTstamp(result.tstamp), // received time
-                    tstamp: int(result.tstamp), // received time
-                    sent_ltime: stringifyTstamp(message.sent_tstamp), // message.sent_tstamp has value in GetUnreadText
-                    sent_tstamp: int(message.sent_tstamp), // message.sent_tstamp has value in GetUnreadText
+                    ltime: stringifyTstamp(result.tstamp),
+                    // received time
+                    tstamp: int(result.tstamp),
+                    // received time
+                    sent_ltime: stringifyTstamp(message.sent_tstamp),
+                    // message.sent_tstamp has value in GetUnreadText
+                    sent_tstamp: int(message.sent_tstamp),
+                    // message.sent_tstamp has value in GetUnreadText
                     requires_read: message.conf_id ? false : true,
                   })
                   break
@@ -2176,11 +2227,15 @@
         funcError,
       )
     },
-
     /*
      * Function sendBroadcastText
      */
-    sendBroadcastText: function (text, target, funcOK, funcError) {
+    sendBroadcastText: function sendBroadcastText(
+      text,
+      target,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2199,7 +2254,6 @@
         }
         return
       }
-
       if (!target.length) {
         this._logger.log(
           'info',
@@ -2218,7 +2272,6 @@
         }
         return
       }
-
       var textVal = string(text)
       var targetVal = []
       for (var i = 0; i < target.length; i++) {
@@ -2258,7 +2311,6 @@
         },
         function (result) {
           this._lastMessageTime = int(result.tstamp)
-
           if (funcOK) {
             var topic_ids = []
             targetVal.forEach(function (targetObject) {
@@ -2294,11 +2346,10 @@
         funcError,
       )
     },
-
     /*
      * Function sendTyping
      */
-    sendTyping: function (target, funcOK, funcError) {
+    sendTyping: function sendTyping(target, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2317,7 +2368,6 @@
         }
         return
       }
-
       if (!target.user_id) {
         this._logger.log(
           'info',
@@ -2336,7 +2386,6 @@
         }
         return
       }
-
       this._rpcCall(
         'SendClientEvent',
         {
@@ -2354,11 +2403,15 @@
         funcError,
       )
     },
-
     /*
      * Function createConference
      */
-    createConference: function (subject, invite, funcOK, funcError) {
+    createConference: function createConference(
+      subject,
+      invite,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2377,7 +2430,6 @@
         }
         return
       }
-
       if (!subject) {
         this._logger.log(
           'info',
@@ -2396,7 +2448,6 @@
         }
         return
       }
-
       var properties = {
         subject: string(subject),
       }
@@ -2410,7 +2461,6 @@
           })
         }
       }
-
       this._rpcCall(
         'CreateConference',
         {
@@ -2425,7 +2475,6 @@
 
           // new conference
           this._newConference(conf_id)
-
           this._conferences[conf_id].subject = string(subject)
           this._conferences[conf_id].created_time = stringifyTstamp(
             result.tstamp,
@@ -2465,11 +2514,15 @@
         },
       )
     },
-
     /*
      * Function joinConference
      */
-    joinConference: function (conf_id, properties, funcOK, funcError) {
+    joinConference: function joinConference(
+      conf_id,
+      properties,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2488,13 +2541,11 @@
         }
         return
       }
-
       conf_id = string(conf_id)
       properties = {
         invisible: Boolean(properties && properties.invisible),
         exclusive: Boolean(properties && properties.exclusive),
       }
-
       this._joiningConference = []
       this._rpcCall(
         'JoinConference',
@@ -2517,7 +2568,6 @@
             }
             funcOK(ev)
           }
-
           if (this._joiningConference) {
             var joiningConference = this._joiningConference
             this._joiningConference = null
@@ -2534,7 +2584,6 @@
             }
             funcError(ev)
           }
-
           if (this._joiningConference) {
             var joiningConference = this._joiningConference
             this._joiningConference = null
@@ -2545,11 +2594,10 @@
         },
       )
     },
-
     /*
      * Function leaveConference
      */
-    leaveConference: function (options, funcOK, funcError) {
+    leaveConference: function leaveConference(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2568,7 +2616,6 @@
         }
         return
       }
-
       var params = {}
       if (typeof options === 'string') {
         params.conf_id = string(options)
@@ -2578,7 +2625,6 @@
           params.rejoinable = options.rejoinable
         }
       }
-
       this._rpcCall(
         'LeaveConference',
         params,
@@ -2608,11 +2654,14 @@
         },
       )
     },
-
     /*
      * Function kickOutOfConference
      */
-    kickOutOfConference: function (options, funcOK, funcError) {
+    kickOutOfConference: function kickOutOfConference(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2631,7 +2680,6 @@
         }
         return
       }
-
       if (!options || typeof options.user_id === 'undefined') {
         this._logger.log(
           'info',
@@ -2650,7 +2698,6 @@
         }
         return
       }
-
       this._rpcCall(
         'KickOutOfConference',
         options || {},
@@ -2676,23 +2723,34 @@
         },
       )
     },
-
     /*
      * Function inviteToConference
      */
-    inviteToConference: function (conf_id, invite, funcOK, funcError) {
+    inviteToConference: function inviteToConference(
+      conf_id,
+      invite,
+      funcOK,
+      funcError,
+    ) {
       this.transferWebchat(
         conf_id,
-        { users: invite, keepDistribution: true },
+        {
+          users: invite,
+          keepDistribution: true,
+        },
         funcOK,
         funcError,
       )
     },
-
     /*
      * Function transferWebchat
      */
-    transferWebchat: function (conf_id, options, funcOK, funcError) {
+    transferWebchat: function transferWebchat(
+      conf_id,
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2711,9 +2769,7 @@
         }
         return
       }
-
       conf_id = string(conf_id)
-
       if (!this._conferences[conf_id]) {
         this._logger.log(
           'info',
@@ -2754,7 +2810,6 @@
         }
         return
       }
-
       var conference = this.getConference(conf_id)
       var profile = this.getProfile()
       var users = []
@@ -2772,7 +2827,9 @@
         conference.invite_properties &&
         conference.invite_properties.webchatfromguest
       ) {
-        newWebchatfromguest = { fromuser: true }
+        newWebchatfromguest = {
+          fromuser: true,
+        }
         if (acd) {
           newWebchatfromguest.acd_id = acd
         }
@@ -2801,7 +2858,6 @@
           },
         })
       }
-
       this._rpcCall(
         'InviteToConference',
         {
@@ -2903,11 +2959,10 @@
         },
       )
     },
-
     /*
      * Function cancelTransfer
      */
-    cancelTransfer: function (options, funcOK, funcError) {
+    cancelTransfer: function cancelTransfer(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2934,9 +2989,7 @@
       for (var i = 0; i < keys.length; i++) {
         options[keys[i]] = optionsOrg[keys[i]]
       }
-
       options.conf_status = Constants.CONF_STATUS_INVITED_WEBCHAT
-
       this._rpcCall(
         'KickOutOfConference',
         options,
@@ -2962,11 +3015,10 @@
         },
       )
     },
-
     /*
      * Function inviteGuest
      */
-    inviteGuest: function (options, funcOK, funcError) {
+    inviteGuest: function inviteGuest(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -2987,11 +3039,10 @@
       }
       this._rpcCall('InviteGuest', options, funcOK, funcError)
     },
-
     /*
      * Function enterWebchatRoom
      */
-    enterWebchatRoom: function (options, funcOK, funcError) {
+    enterWebchatRoom: function enterWebchatRoom(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -3010,7 +3061,6 @@
         }
         return
       }
-
       var profile = this.getProfile()
       var subject = options && options.properties && options.properties.subject
       var ext_conf_info = JSON.parse(
@@ -3019,7 +3069,6 @@
             {},
         ),
       )
-
       var adds = []
       var myProfileImageUrl = ''
       try {
@@ -3049,7 +3098,6 @@
       if (options && options.adds && options.adds.length) {
         adds = adds.concat(options.adds)
       }
-
       var continuation_info = options && options.continuation_info
       if (!continuation_info && options && options.continuation_code) {
         continuation_info = this.parseContinuationCode(
@@ -3070,7 +3118,6 @@
           return
         }
       }
-
       this._enteringWebchatRoom = []
       this._rpcCall(
         'EnterWebchatRoom',
@@ -3084,7 +3131,6 @@
 
           // new conference
           this._newConference(conf_id)
-
           this._conferences[conf_id].subject = string(subject)
           this._conferences[conf_id].created_time = stringifyTstamp(
             result.tstamp,
@@ -3127,7 +3173,6 @@
             }
             funcOK(ev)
           }
-
           if (this._enteringWebchatRoom) {
             var enteringWebchatRoom = this._enteringWebchatRoom
             this._enteringWebchatRoom = null
@@ -3144,7 +3189,6 @@
             }
             funcError(ev)
           }
-
           if (this._enteringWebchatRoom) {
             var enteringWebchatRoom = this._enteringWebchatRoom
             this._enteringWebchatRoom = null
@@ -3155,11 +3199,10 @@
         },
       )
     },
-
     /*
      * Function publishContinuationCode
      */
-    publishContinuationCode: function (options) {
+    publishContinuationCode: function publishContinuationCode(options) {
       var code = Math.floor(Math.random() * 90000) + 10000
       var chkdgt =
         (Math.floor(code / 10000) +
@@ -3175,11 +3218,10 @@
         string(options.conf_id)
       )
     },
-
     /*
      * Function parseContinuationCode
      */
-    parseContinuationCode: function (continuation_code) {
+    parseContinuationCode: function parseContinuationCode(continuation_code) {
       continuation_code = string(continuation_code)
       var code = int(continuation_code.substring(0, 5))
       var chkdgt =
@@ -3198,8 +3240,11 @@
         return null
       }
     },
-
-    createOutgoingWebchat: function (options, funcOK, funcError) {
+    createOutgoingWebchat: function createOutgoingWebchat(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -3218,15 +3263,13 @@
         }
         return
       }
-
       this._rpcCall('CreateOutgoingWebchat', options || {}, funcOK, funcError)
     },
-
     // obsotele (replaced by updateTag)
     /*
      * Function changeExtConfInfo
      */
-    changeExtConfInfo: function (options, funcOK, funcError) {
+    changeExtConfInfo: function changeExtConfInfo(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -3245,14 +3288,17 @@
         }
         return
       }
-
       this._rpcCall('SetExtConfInfo', options, funcOK, funcError)
     },
-
     /*
      * Function sendConferenceText
      */
-    sendConferenceText: function (text, conf_id, funcOK, funcError) {
+    sendConferenceText: function sendConferenceText(
+      text,
+      conf_id,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -3271,9 +3317,7 @@
         }
         return
       }
-
       conf_id = string(conf_id)
-
       if (!this._conferences[conf_id]) {
         this._logger.log(
           'info',
@@ -3293,7 +3337,6 @@
         }
         return
       }
-
       var textVal = string(text)
 
       // send
@@ -3307,7 +3350,6 @@
         },
         function (result) {
           this._lastMessageTime = int(result.tstamp)
-
           if (funcOK) {
             var topic_id = ''
             ;(result.topic_ids || []).forEach(function (topic) {
@@ -3331,11 +3373,10 @@
         funcError,
       )
     },
-
     /*
      * Function sendFile
      */
-    sendFile: function (target, input, funcOK, funcError) {
+    sendFile: function sendFile(target, input, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -3354,7 +3395,6 @@
         }
         return
       }
-
       if (!target || !target.user_id) {
         this._logger.log(
           'info',
@@ -3546,11 +3586,16 @@
         funcError,
       )
     },
-
     /*
      * Function sendFiles
      */
-    sendFiles: function (options, fileList, funcOK, funcError, evRecursion) {
+    sendFiles: function sendFiles(
+      options,
+      fileList,
+      funcOK,
+      funcError,
+      evRecursion,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -3569,7 +3614,6 @@
         }
         return
       }
-
       if (!window.FormData) {
         this._logger.log(
           'info',
@@ -3676,7 +3720,6 @@
       if (ext !== '') {
         params.ext = ext
       }
-
       if (size === 0) {
         // folder
         // skip
@@ -3692,7 +3735,6 @@
           null,
           null,
         )
-
         if (
           !evRecursion ||
           !evRecursion.infoList ||
@@ -3736,7 +3778,9 @@
       if (size > 0) {
         fileProps.size = size
       }
-      var prepareFileTransferFuncOK = function (result) {
+      var _prepareFileTransferFuncOK = function prepareFileTransferFuncOK(
+        result,
+      ) {
         var file_id = string(result.file_id)
         if (!fileProps.file_id) {
           // file_id of first user
@@ -3754,7 +3798,7 @@
           this._rpcCall(
             'PrepareFileTransfer',
             params,
-            prepareFileTransferFuncOK,
+            _prepareFileTransferFuncOK,
             funcError,
           )
         } else {
@@ -3776,13 +3820,18 @@
             sendTextParams,
             function (result) {
               this._lastMessageTime = int(result.tstamp)
-
               var form
-              const fd = new FormData()
-              fd.append('file', {
-                ...file,
-                type: 'multipart/form-data',
-              })
+              var fd = new FormData()
+              fd.append(
+                'file',
+                _objectSpread(
+                  _objectSpread({}, file),
+                  {},
+                  {
+                    type: 'multipart/form-data',
+                  },
+                ),
+              )
               inputrn = {
                 form: 'This is not a form element, see src/api/uc.ts for detail',
                 files: [file],
@@ -3793,7 +3842,7 @@
                 // upload with XHR + FormData
                 options.input.form.method = 'POST'
                 options.input.form.enctype = 'multipart/form-data'
-                fd = new window.FormData(options.input.form)
+                new window.FormData(options.input.form), _readOnlyError('fd')
               }
               // new file info
               this._newFileInfo(
@@ -3819,7 +3868,6 @@
                   fd,
                 )
               }
-
               if (
                 !evRecursion ||
                 !evRecursion.infoList ||
@@ -3888,15 +3936,14 @@
       this._rpcCall(
         'PrepareFileTransfer',
         params,
-        prepareFileTransferFuncOK,
+        _prepareFileTransferFuncOK,
         funcError,
       )
     },
-
     /*
      * Function acceptFile
      */
-    acceptFile: function (file_id, form, funcError) {
+    acceptFile: function acceptFile(file_id, form, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -3915,7 +3962,6 @@
         }
         return
       }
-
       file_id = string(file_id)
       var fileInfo = this._fileInfos[file_id]
       if (!fileInfo || !fileInfo.file_id) {
@@ -3989,11 +4035,10 @@
         funcError,
       )
     },
-
     /*
      * Function acceptFileWithXhr
      */
-    acceptFileWithXhr: function (file_id, xhr, funcError) {
+    acceptFileWithXhr: function acceptFileWithXhr(file_id, xhr, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -4012,7 +4057,6 @@
         }
         return
       }
-
       file_id = string(file_id)
       var fileInfo = this._fileInfos[file_id]
       if (!fileInfo || !fileInfo.file_id) {
@@ -4088,11 +4132,10 @@
         funcError,
       )
     },
-
     /*
      * Function cancelFile
      */
-    cancelFile: function (file_id, funcError) {
+    cancelFile: function cancelFile(file_id, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -4111,7 +4154,6 @@
         }
         return
       }
-
       file_id = string(file_id)
       var fileInfo = this._fileInfos[file_id]
       if (!fileInfo || !fileInfo.file_id) {
@@ -4203,11 +4245,10 @@
         )
       }
     },
-
     /*
      * Function sendCallResult
      */
-    sendCallResult: function (options, text, funcOK, funcError) {
+    sendCallResult: function sendCallResult(options, text, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -4226,14 +4267,11 @@
         }
         return
       }
-
       options = options || {}
-
       var sendTextParams = {
         text: string(text),
         ctype: Constants.CTYPE_CALL_RESULT,
       }
-
       if (options.conf_id) {
         // to conference
         var conf_id = string(options.conf_id)
@@ -4296,7 +4334,6 @@
         sendTextParams,
         function (result) {
           this._lastMessageTime = int(result.tstamp)
-
           if (funcOK) {
             var topic_id = ''
             var target =
@@ -4327,11 +4364,10 @@
         funcError,
       )
     },
-
     /*
      * Function sendObject
      */
-    sendObject: function (options, object, funcOK, funcError) {
+    sendObject: function sendObject(options, object, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -4350,13 +4386,10 @@
         }
         return
       }
-
       options = options || {}
-
       var sendTextParams = {
         ctype: Constants.CTYPE_OBJECT,
       }
-
       if (options.conf_id) {
         var conf_id = string(options.conf_id)
         if (!this._conferences[conf_id]) {
@@ -4410,11 +4443,12 @@
           return
         }
       }
-
       try {
         sendTextParams.text = JSON.stringify(object)
         if (!sendTextParams.text) {
-          throw { message: 'object is invalid' }
+          throw {
+            message: 'object is invalid',
+          }
         }
       } catch (e) {
         this._logger.log(
@@ -4442,7 +4476,6 @@
         sendTextParams,
         function (result) {
           this._lastMessageTime = int(result.tstamp)
-
           if (funcOK) {
             var topic_id = ''
             var target =
@@ -4473,11 +4506,10 @@
         funcError,
       )
     },
-
     /*
      * Function sendConfLeave
      */
-    sendConfLeave: function (options, text, funcOK, funcError) {
+    sendConfLeave: function sendConfLeave(options, text, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -4496,14 +4528,11 @@
         }
         return
       }
-
       options = options || {}
-
       var sendTextParams = {
         text: string(text),
         ctype: Constants.CTYPE_CONF_LEAVE,
       }
-
       if (options.conf_id) {
         // to conference
         var conf_id = string(options.conf_id)
@@ -4566,7 +4595,6 @@
         sendTextParams,
         function (result) {
           this._lastMessageTime = int(result.tstamp)
-
           if (funcOK) {
             var topic_id = ''
             var target =
@@ -4597,11 +4625,16 @@
         funcError,
       )
     },
-
     /*
      * Function makeCall
      */
-    makeCall: function (target, mediaConstraints, option, funcOK, funcError) {
+    makeCall: function makeCall(
+      target,
+      mediaConstraints,
+      option,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         if (funcError) {
           var ev = {
@@ -4667,7 +4700,6 @@
       if (!option) {
         option = {}
       }
-
       var sessionBundleId
       if (!option.call_id) {
         // numbering sessionBundleId
@@ -4730,7 +4762,10 @@
         ) {
           var buddyPhone =
             this._buddyPhone[
-              JSON.stringify({ tenant: target.tenant, user_id: target.user_id })
+              JSON.stringify({
+                tenant: target.tenant,
+                user_id: target.user_id,
+              })
             ]
           if (buddyPhone) {
             targetPnumber = string(buddyPhone.pnumber)
@@ -4762,7 +4797,10 @@
             // audio session
             makeCallParamsArray.push({
               targetAddress: targetExtension,
-              mediaConstraints: { audio: mediaConstraints.audio, video: false },
+              mediaConstraints: {
+                audio: mediaConstraints.audio,
+                video: false,
+              },
               extraHeaders: [],
               tenant: target.tenant,
               user_id: target.user_id,
@@ -4772,7 +4810,10 @@
             // video session
             makeCallParamsArray.push({
               targetAddress: targetPnumber,
-              mediaConstraints: { audio: false, video: mediaConstraints.video },
+              mediaConstraints: {
+                audio: false,
+                video: mediaConstraints.video,
+              },
               extraHeaders: this._phoneProperties.extraHeaderArray,
               tenant: target.tenant,
               user_id: target.user_id,
@@ -4879,7 +4920,10 @@
             // audio session
             makeCallParamsArray.push({
               targetAddress: targetExtension,
-              mediaConstraints: { audio: mediaConstraints.audio, video: false },
+              mediaConstraints: {
+                audio: mediaConstraints.audio,
+                video: false,
+              },
               extraHeaders: [],
               tenant: '',
               user_id: '',
@@ -4920,7 +4964,6 @@
           user_id: '',
         })
       }
-
       if (target.conf_id && makeCallParamsArray.length === 0) {
         // create sessionBundle
         sessionBundle = {
@@ -4982,16 +5025,14 @@
         )
       }
     },
-
     /*
      * Function muteMicrophone
      */
-    muteMicrophone: function (call_id, muted) {
+    muteMicrophone: function muteMicrophone(call_id, muted) {
       if (this._signInStatus !== 3) {
         this._logger.log('warn', 'Not signed-in')
         return
       }
-
       var sessionBundleId = string(call_id)
       muted = Boolean(muted)
       var sessionBundle = this._sessionBundleTable[sessionBundleId]
@@ -5010,16 +5051,14 @@
         this._callInfoChanged(sessionBundleId)
       }
     },
-
     /*
      * Function muteCamera
      */
-    muteCamera: function (call_id, muted) {
+    muteCamera: function muteCamera(call_id, muted) {
       if (this._signInStatus !== 3) {
         this._logger.log('warn', 'Not signed-in')
         return
       }
-
       var sessionBundleId = string(call_id)
       muted = Boolean(muted)
       var sessionBundle = this._sessionBundleTable[sessionBundleId]
@@ -5038,16 +5077,14 @@
         this._callInfoChanged(sessionBundleId)
       }
     },
-
     /*
      * Function answerCall
      */
-    answerCall: function (call_id, mediaConstraints) {
+    answerCall: function answerCall(call_id, mediaConstraints) {
       if (this._signInStatus !== 3) {
         this._logger.log('warn', 'Not signed-in')
         return
       }
-
       if (
         !mediaConstraints ||
         !(mediaConstraints.audio || mediaConstraints.video)
@@ -5083,16 +5120,14 @@
         }
       }
     },
-
     /*
      * Function sendDTMF
      */
-    sendDTMF: function (call_id, tone) {
+    sendDTMF: function sendDTMF(call_id, tone) {
       if (this._signInStatus !== 3) {
         this._logger.log('warn', 'Not signed-in')
         return
       }
-
       var sessionBundleId = string(call_id)
       var sessionBundle = this._sessionBundleTable[sessionBundleId]
       if (sessionBundle) {
@@ -5110,16 +5145,14 @@
         }
       }
     },
-
     /*
      * Function clearCall
      */
-    clearCall: function (call_id) {
+    clearCall: function clearCall(call_id) {
       if (this._signInStatus !== 3) {
         this._logger.log('warn', 'Not signed-in')
         return
       }
-
       var sessionBundleId = string(call_id)
       var sessionBundle = this._sessionBundleTable[sessionBundleId]
       if (sessionBundle) {
@@ -5136,11 +5169,15 @@
         this._callInfoChanged(sessionBundleId)
       }
     },
-
     /*
      * Function sendCustomClientEvent
      */
-    sendCustomClientEvent: function (target, client_param, funcOK, funcError) {
+    sendCustomClientEvent: function sendCustomClientEvent(
+      target,
+      client_param,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5159,7 +5196,6 @@
         }
         return
       }
-
       if (!target.user_id) {
         this._logger.log(
           'info',
@@ -5178,7 +5214,6 @@
         }
         return
       }
-
       this._rpcCall(
         'SendClientEvent',
         {
@@ -5193,11 +5228,10 @@
         funcError,
       )
     },
-
     /*
      * Function updateTag
      */
-    updateTag: function (options, funcOK, funcError) {
+    updateTag: function updateTag(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5216,7 +5250,6 @@
         }
         return
       }
-
       var text_id = string(options && options.attached_id).split('_')
       if (
         text_id[1] &&
@@ -5256,14 +5289,12 @@
           .join('')
           .substr(0, 6)
       }
-
       this._rpcCall('UpdateTag', options, funcOK, funcError)
     },
-
     /*
      * Function searchTopicsByDate
      */
-    searchTopicsByDate: function (date, funcOK, funcError) {
+    searchTopicsByDate: function searchTopicsByDate(date, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5282,7 +5313,6 @@
         }
         return
       }
-
       if (!date || !date.getTime || !date.getTime()) {
         this._logger.log(
           'info',
@@ -5301,7 +5331,6 @@
         }
         return
       }
-
       var dateString =
         date.getFullYear() +
         '-' +
@@ -5309,7 +5338,6 @@
         '-' +
         ('0' + date.getDate()).slice(-2) +
         ' 00:00:00'
-
       this._rpcCall(
         'LogSearch',
         {
@@ -5393,11 +5421,10 @@
         },
       )
     },
-
     /*
      * Function searchLogsByTopic
      */
-    searchLogsByTopic: function (topic_id, funcOK, funcError) {
+    searchLogsByTopic: function searchLogsByTopic(topic_id, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5416,7 +5443,6 @@
         }
         return
       }
-
       if (!topic_id || !this._topics[topic_id]) {
         this._logger.log(
           'info',
@@ -5435,7 +5461,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetLog',
         this._topics[topic_id],
@@ -5475,11 +5500,14 @@
         },
       )
     },
-
     /*
      * Function searchTopicsByCondition
      */
-    searchTopicsByCondition: function (condition, funcOK, funcError) {
+    searchTopicsByCondition: function searchTopicsByCondition(
+      condition,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5500,7 +5528,7 @@
       }
 
       // check condition
-      var toArray = function (a) {
+      var toArray = function toArray(a) {
         if (typeof a === 'string' && a.length) {
           return a.split(' ')
         } else if (a && a.length) {
@@ -5530,7 +5558,6 @@
       var end = string(condition.end) || null
       var asc = Boolean(condition.asc)
       var max = int(condition.max) || null
-
       this._rpcCall(
         'SearchTopics',
         {
@@ -5583,11 +5610,10 @@
         },
       )
     },
-
     /*
      * Function searchTopicTexts
      */
-    searchTopicTexts: function (topic_id, funcOK, funcError) {
+    searchTopicTexts: function searchTopicTexts(topic_id, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5606,7 +5632,6 @@
         }
         return
       }
-
       this._rpcCall(
         'SearchTopicTexts',
         {
@@ -5643,11 +5668,14 @@
         },
       )
     },
-
     /*
      * Function searchConferenceTexts
      */
-    searchConferenceTexts: function (condition, funcOK, funcError) {
+    searchConferenceTexts: function searchConferenceTexts(
+      condition,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5666,7 +5694,6 @@
         }
         return
       }
-
       this._rpcCall(
         'SearchConferenceTexts',
         {
@@ -5711,11 +5738,14 @@
         },
       )
     },
-
     /*
      * Function searchRelatedConferenceTexts
      */
-    searchRelatedConferenceTexts: function (condition, funcOK, funcError) {
+    searchRelatedConferenceTexts: function searchRelatedConferenceTexts(
+      condition,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5734,7 +5764,6 @@
         }
         return
       }
-
       this._rpcCall(
         'SearchRelatedConferenceTexts',
         condition,
@@ -5774,11 +5803,10 @@
         },
       )
     },
-
     /*
      * Function searchTexts
      */
-    searchTexts: function (condition, funcOK, funcError) {
+    searchTexts: function searchTexts(condition, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5806,7 +5834,6 @@
       var end = string(condition.end) || null
       var asc = Boolean(condition.asc)
       var max = int(condition.max) || null
-
       this._rpcCall(
         'SearchTexts',
         {
@@ -5851,11 +5878,10 @@
         },
       )
     },
-
     /*
      * Function getServerTime
      */
-    getServerTime: function (funcOK, funcError) {
+    getServerTime: function getServerTime(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5874,7 +5900,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetServerTime',
         {},
@@ -5891,11 +5916,14 @@
         funcError,
       )
     },
-
     /*
      * Function createGuestAccount
      */
-    createGuestAccount: function (options, funcOK, funcError) {
+    createGuestAccount: function createGuestAccount(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5914,7 +5942,6 @@
         }
         return
       }
-
       var params = {
         tenant: string(this._tenant),
       }
@@ -5924,7 +5951,6 @@
       if (options && options.email) {
         params.email = string(options.email)
       }
-
       this._rpcCall(
         'CreateGuestUser',
         params,
@@ -5951,11 +5977,10 @@
         },
       )
     },
-
     /*
      * Function loadSystemProperties
      */
-    loadSystemProperties: function (funcOK, funcError) {
+    loadSystemProperties: function loadSystemProperties(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -5974,7 +5999,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -5993,7 +6017,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetSystemProperties',
         {
@@ -6024,11 +6047,14 @@
         },
       )
     },
-
     /*
      * Function saveSystemProperties
      */
-    saveSystemProperties: function (systemProperties, funcOK, funcError) {
+    saveSystemProperties: function saveSystemProperties(
+      systemProperties,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6047,7 +6073,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6066,7 +6091,6 @@
         }
         return
       }
-
       var params = {
         type: systemProperties.type || 'db,pbx,cim,log,misc',
         db: systemProperties.db,
@@ -6075,17 +6099,16 @@
         log: systemProperties.log,
         misc: systemProperties.misc,
       }
-
       this._rpcCall(
         'SetSystemProperties',
         params,
         function (result) {
-          var func = function () {}
+          var func = function func() {}
           if (funcOK) {
             var ev = {
               result: result,
             }
-            func = function () {
+            func = function func() {
               funcOK(ev)
             }
           }
@@ -6114,11 +6137,10 @@
         },
       )
     },
-
     /*
      * Function loadTenantProperties
      */
-    loadTenantProperties: function (funcOK, funcError) {
+    loadTenantProperties: function loadTenantProperties(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6137,7 +6159,6 @@
         }
         return
       }
-
       if (
         this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN &&
         this.getProfile().user_type !== Constants.USER_TYPE_TENANT_ADMIN
@@ -6159,7 +6180,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetTenantProperties',
         {},
@@ -6182,11 +6202,14 @@
         },
       )
     },
-
     /*
      * Function saveTenantProperties
      */
-    saveTenantProperties: function (tenantProperties, funcOK, funcError) {
+    saveTenantProperties: function saveTenantProperties(
+      tenantProperties,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6205,7 +6228,6 @@
         }
         return
       }
-
       if (
         this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN &&
         this.getProfile().user_type !== Constants.USER_TYPE_TENANT_ADMIN
@@ -6227,7 +6249,6 @@
         }
         return
       }
-
       this._rpcCall(
         'SetTenantProperties',
         tenantProperties,
@@ -6248,11 +6269,14 @@
         },
       )
     },
-
     /*
      * Function createTenantProperties
      */
-    createTenantProperties: function (tenant, funcOK, funcError) {
+    createTenantProperties: function createTenantProperties(
+      tenant,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6271,7 +6295,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6290,7 +6313,6 @@
         }
         return
       }
-
       this._rpcCall(
         'CreateTenantProperties',
         {
@@ -6313,11 +6335,13 @@
         },
       )
     },
-
     /*
      * Function createTenantListFromPbx
      */
-    createTenantListFromPbx: function (funcOK, funcError) {
+    createTenantListFromPbx: function createTenantListFromPbx(
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6336,7 +6360,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6355,7 +6378,6 @@
         }
         return
       }
-
       this._rpcCall(
         'CreateTenantListFromPbx',
         {},
@@ -6378,11 +6400,10 @@
         },
       )
     },
-
     /*
      * Function loadTenantSettings
      */
-    loadTenantSettings: function (funcOK, funcError) {
+    loadTenantSettings: function loadTenantSettings(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6401,7 +6422,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6420,7 +6440,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetTenantSettings',
         {},
@@ -6443,11 +6462,14 @@
         },
       )
     },
-
     /*
      * Function saveTenantSettings
      */
-    saveTenantSettings: function (tenantSettings, funcOK, funcError) {
+    saveTenantSettings: function saveTenantSettings(
+      tenantSettings,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6466,7 +6488,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6485,7 +6506,6 @@
         }
         return
       }
-
       this._rpcCall(
         'SetTenantSettings',
         tenantSettings,
@@ -6506,11 +6526,10 @@
         },
       )
     },
-
     /*
      * Function loadTenantListFromPbx
      */
-    loadTenantListFromPbx: function (funcOK, funcError) {
+    loadTenantListFromPbx: function loadTenantListFromPbx(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6529,7 +6548,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6548,7 +6566,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetTenantListFromPbx',
         {},
@@ -6571,11 +6588,10 @@
         },
       )
     },
-
     /*
      * Function loadAdvancedSettings
      */
-    loadAdvancedSettings: function (funcOK, funcError) {
+    loadAdvancedSettings: function loadAdvancedSettings(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6594,7 +6610,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6613,7 +6628,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetSystemProperties',
         {
@@ -6640,11 +6654,14 @@
         },
       )
     },
-
     /*
      * Function saveAdvancedSettings
      */
-    saveAdvancedSettings: function (advancedSettings, funcOK, funcError) {
+    saveAdvancedSettings: function saveAdvancedSettings(
+      advancedSettings,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6663,7 +6680,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6682,19 +6698,21 @@
         }
         return
       }
-
       var params = {
         type: 'adv',
-        adv: { settings: advancedSettings },
+        adv: {
+          settings: advancedSettings,
+        },
       }
-
       this._rpcCall(
         'SetSystemProperties',
         params,
         function (result) {
           this._rpcCall(
             'GetSystemProperties',
-            { type: 'configproperties' },
+            {
+              type: 'configproperties',
+            },
             function (result) {
               if (result && result.configproperties) {
                 this._configProperties = result.configproperties
@@ -6723,11 +6741,10 @@
         },
       )
     },
-
     /*
      * Function loadBlockListSettings
      */
-    loadBlockListSettings: function (funcOK, funcError) {
+    loadBlockListSettings: function loadBlockListSettings(funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6746,7 +6763,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6765,7 +6781,6 @@
         }
         return
       }
-
       this._rpcCall(
         'GetSystemProperties',
         {
@@ -6790,11 +6805,14 @@
         },
       )
     },
-
     /*
      * Function saveBlockListSettings
      */
-    saveBlockListSettings: function (blocklist, funcOK, funcError) {
+    saveBlockListSettings: function saveBlockListSettings(
+      blocklist,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6813,7 +6831,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6832,12 +6849,10 @@
         }
         return
       }
-
       var params = {
         type: 'blocklist',
         blocklist: blocklist,
       }
-
       this._rpcCall(
         'SetSystemProperties',
         params,
@@ -6858,11 +6873,14 @@
         },
       )
     },
-
     /*
      * Function removeBlockedAddress
      */
-    removeBlockedAddress: function (options, funcOK, funcError) {
+    removeBlockedAddress: function removeBlockedAddress(
+      options,
+      funcOK,
+      funcError,
+    ) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6881,7 +6899,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6900,11 +6917,9 @@
         }
         return
       }
-
       var params = {
         ip: string(options.ip),
       }
-
       this._rpcCall(
         'RemoveBlockedAddress',
         params,
@@ -6925,11 +6940,10 @@
         },
       )
     },
-
     /*
      * Function startUserSearch
      */
-    startUserSearch: function (options, funcOK, funcError) {
+    startUserSearch: function startUserSearch(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6948,7 +6962,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -6967,14 +6980,12 @@
         }
         return
       }
-
       this._rpcCall('StartUserSearch', options || {}, funcOK, funcError)
     },
-
     /*
      * Function cancelUserSearch
      */
-    cancelUserSearch: function (options, funcOK, funcError) {
+    cancelUserSearch: function cancelUserSearch(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -6993,7 +7004,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -7012,14 +7022,12 @@
         }
         return
       }
-
       this._rpcCall('CancelUserSearch', options || {}, funcOK, funcError)
     },
-
     /*
      * Function startUserDelete
      */
-    startUserDelete: function (options, funcOK, funcError) {
+    startUserDelete: function startUserDelete(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -7038,7 +7046,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -7057,14 +7064,12 @@
         }
         return
       }
-
       this._rpcCall('StartUserDelete', options || {}, funcOK, funcError)
     },
-
     /*
      * Function prepareDebugLog
      */
-    prepareDebugLog: function (options, funcOK, funcError) {
+    prepareDebugLog: function prepareDebugLog(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -7083,7 +7088,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -7102,11 +7106,9 @@
         }
         return
       }
-
       var params = {
         days: string(options && options.days),
       }
-
       this._rpcCall(
         'PrepareDebugLog',
         params,
@@ -7129,11 +7131,10 @@
         },
       )
     },
-
     /*
      * Function cancelDebugLog
      */
-    cancelDebugLog: function (options, funcOK, funcError) {
+    cancelDebugLog: function cancelDebugLog(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -7152,7 +7153,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -7171,11 +7171,9 @@
         }
         return
       }
-
       var params = {
         debug_log_id: string(options && options.debug_log_id),
       }
-
       this._rpcCall(
         'CancelDebugLog',
         params,
@@ -7196,11 +7194,10 @@
         },
       )
     },
-
     /*
      * Function createSocialToken
      */
-    createSocialToken: function (options, funcOK, funcError) {
+    createSocialToken: function createSocialToken(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -7219,7 +7216,6 @@
         }
         return
       }
-
       if (
         this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN &&
         this.getProfile().user_type !== Constants.USER_TYPE_TENANT_ADMIN
@@ -7241,14 +7237,12 @@
         }
         return
       }
-
       var params = {
         social: string(options && options.social),
       }
       if (options && options.tenant) {
         params.tenant = options.tenant
       }
-
       this._rpcCall(
         'CreateSocialToken',
         params,
@@ -7271,11 +7265,10 @@
         },
       )
     },
-
     /*
      * Function createDatabase
      */
-    createDatabase: function (options, funcOK, funcError) {
+    createDatabase: function createDatabase(options, funcOK, funcError) {
       if (this._signInStatus !== 3) {
         this._logger.log(
           'info',
@@ -7294,7 +7287,6 @@
         }
         return
       }
-
       if (this.getProfile().user_type !== Constants.USER_TYPE_SYSTEM_ADMIN) {
         this._logger.log(
           'info',
@@ -7313,14 +7305,12 @@
         }
         return
       }
-
       this._rpcCall('CreateDatabase', options || {}, funcOK, funcError)
     },
-
     /*
      * Function getExosProperty
      */
-    getExosProperty: function (key) {
+    getExosProperty: function getExosProperty(key) {
       var settings = this.getSettings()
       if (!settings.optional_settings) {
         settings.optional_settings = {}
@@ -7329,21 +7319,19 @@
         ? this._exos
         : settings.optional_settings.exos) || {})[key]
     },
-
     /*
      * Function setExosProperty
      */
-    setExosProperty: function (key, value) {
+    setExosProperty: function setExosProperty(key, value) {
       if (!this._exos) {
         this._exos = {}
       }
       this._exos[key] = value
     },
-
     /*
      * Function getProfile
      */
-    getProfile: function () {
+    getProfile: function getProfile() {
       var profile = {}
       profile.tenant = this._tenant
       profile.user_id = this._user_id
@@ -7358,11 +7346,10 @@
       )
       return profile
     },
-
     /*
      * Function getSettings
      */
-    getSettings: function () {
+    getSettings: function getSettings() {
       var settings = {}
       settings.buddylist_settings = {}
       settings.buddylist_settings.display_type =
@@ -7387,11 +7374,10 @@
       }
       return settings
     },
-
     /*
      * Function getBuddylist
      */
-    getBuddylist: function (options) {
+    getBuddylist: function getBuddylist(options) {
       var configProperties = this.getConfigProperties()
       var optional_config = configProperties.optional_config || {}
       var buddy_mode = configProperties.buddy_mode
@@ -7444,11 +7430,10 @@
       }
       return buddylist
     },
-
     /*
      * Function getBuddyUser
      */
-    getBuddyUser: function (buddy) {
+    getBuddyUser: function getBuddyUser(buddy) {
       var tenant = string(buddy.tenant || this._tenant)
       var user_id = string(buddy.user_id)
       var userBuddy = {
@@ -7544,18 +7529,16 @@
       }
       return userBuddy
     },
-
     /*
      * Function getAllUsers
      */
-    getAllUsers: function () {
+    getAllUsers: function getAllUsers() {
       return JSON.parse(JSON.stringify(this._allUsers))
     },
-
     /*
      * Function getConfigProperties
      */
-    getConfigProperties: function () {
+    getConfigProperties: function getConfigProperties() {
       var configProperties = {}
       configProperties.buddy_mode = this._configProperties
         ? int(this._configProperties.buddy_mode)
@@ -7576,18 +7559,16 @@
       }
       return configProperties
     },
-
     /*
      * Function getSignedInInfo
      */
-    getSignedInInfo: function () {
+    getSignedInInfo: function getSignedInInfo() {
       return JSON.parse(JSON.stringify(this._signedInInfo))
     },
-
     /*
      * Function getStatus
      */
-    getStatus: function () {
+    getStatus: function getStatus() {
       var status = {}
       status.status = int(this._status)
       status.display = string(this._display)
@@ -7596,7 +7577,10 @@
           JSON.parse(
             string(
               this._ucclient_customized_status_table[
-                JSON.stringify({ tenant: this._tenant, user_id: this._user_id })
+                JSON.stringify({
+                  tenant: this._tenant,
+                  user_id: this._user_id,
+                })
               ],
             ),
           ) || {}
@@ -7607,11 +7591,10 @@
       }
       return status
     },
-
     /*
      * Function getBuddyStatus
      */
-    getBuddyStatus: function (buddy) {
+    getBuddyStatus: function getBuddyStatus(buddy) {
       var status = {}
       var key = JSON.stringify({
         tenant: buddy.tenant || this._tenant,
@@ -7641,11 +7624,10 @@
       }
       return status
     },
-
     /*
      * Function getConference
      */
-    getConference: function (conf_id) {
+    getConference: function getConference(conf_id) {
       conf_id = string(conf_id)
       var conference = {
         conf_id: '',
@@ -7814,11 +7796,10 @@
       }
       return conference
     },
-
     /*
      * Function getConferenceTag
      */
-    getConferenceTag: function (options) {
+    getConferenceTag: function getConferenceTag(options) {
       var conf_id = string(options && options.conf_id)
       var tag_key = string(options && options.tag_key)
       return string(
@@ -7837,11 +7818,10 @@
             .pop(),
       )
     },
-
     /*
      * Function getFileInfo
      */
-    getFileInfo: function (file_id) {
+    getFileInfo: function getFileInfo(file_id) {
       file_id = string(file_id)
       var fileInfo = {
         file_id: '',
@@ -7866,11 +7846,10 @@
       }
       return fileInfo
     },
-
     /*
      * Function getCallInfo
      */
-    getCallInfo: function (call_id) {
+    getCallInfo: function getCallInfo(call_id) {
       var sessionBundleId = string(call_id)
       var callInfo = {
         call_id: '',
@@ -8005,29 +7984,26 @@
       }
       return callInfo
     },
-
     /*
      * Function getChatSessionToken
      */
-    getChatSessionToken: function () {
+    getChatSessionToken: function getChatSessionToken() {
       return JSON.stringify({
         tenant: this._tenant,
         user_id: this._user_id,
         chat_session_id: this._chat_session_id,
       })
     },
-
     /*
      * Function getAuthResultInfo
      */
-    getAuthResultInfo: function () {
+    getAuthResultInfo: function getAuthResultInfo() {
       return this._auth_result_info
     },
-
     /*
      * Private functions
      */
-    _initEventListener: function (eventName) {
+    _initEventListener: function _initEventListener(eventName) {
       var self = this
       return function (ev) {
         try {
@@ -8050,7 +8026,7 @@
         }
       }
     },
-    _convertJsonToOutline: function (content) {
+    _convertJsonToOutline: function _convertJsonToOutline(content) {
       var jloh = ((this._configProperties || {}).optional_config || {}).jloh
       var jlool = ((this._configProperties || {}).optional_config || {}).jlool
       var jloolAry = jlool ? string(jlool).split(',') : []
@@ -8062,7 +8038,7 @@
             try {
               object = JSON.parse(content.substring(index))
             } catch (e) {}
-            if (object && typeof object === 'object') {
+            if (object && _typeof(object) === 'object') {
               if (
                 this._modifyObjectJsonToOutline(
                   object,
@@ -8075,11 +8051,11 @@
               }
             }
           }
-        } else if (typeof content === 'object') {
+        } else if (_typeof(content) === 'object') {
           try {
             object = JSON.parse(JSON.stringify(content))
           } catch (e) {}
-          if (object && typeof object === 'object') {
+          if (object && _typeof(object) === 'object') {
             if (
               this._modifyObjectJsonToOutline(
                 object,
@@ -8095,15 +8071,22 @@
       }
       return content
     },
-    _modifyObjectJsonToOutline: function (object, jlohAry, changed, jloolAry) {
+    _modifyObjectJsonToOutline: function _modifyObjectJsonToOutline(
+      object,
+      jlohAry,
+      changed,
+      jloolAry,
+    ) {
       for (key in object) {
-        if (typeof object[key] === 'object') {
+        if (_typeof(object[key]) === 'object') {
           if (
             jloolAry &&
             jloolAry.indexOf(key) !== -1 &&
             typeof object[key].length === 'number'
           ) {
-            object[key] = { _L: object[key].length }
+            object[key] = {
+              _L: object[key].length,
+            }
             changed = true
           } else if (
             this._modifyObjectJsonToOutline(
@@ -8122,20 +8105,20 @@
       }
       return changed
     },
-    _byThis: function (func, argsArray) {
+    _byThis: function _byThis(func, argsArray) {
       var self = this
       // if argsArray is not given, returned function calls func with arguments of itself
       return function () {
         func.apply(self, argsArray || arguments)
       }
     },
-    _rpcPrintDebug: function (content) {
+    _rpcPrintDebug: function _rpcPrintDebug(content) {
       this._logger.log('debug', this._convertJsonToOutline(content))
     },
-    _rpcPrintError: function (content) {
+    _rpcPrintError: function _rpcPrintError(content) {
       this._logger.log('error', content)
     },
-    _rpcClose: function (e) {
+    _rpcClose: function _rpcClose(e) {
       if (this._signInStatus === 2) {
         this._signInNG(
           int((e && e.code) || e) || Errors.RPC_CLOSED,
@@ -8148,14 +8131,14 @@
         )
       }
     },
-    _rpcError: function () {
+    _rpcError: function _rpcError() {
       if (this._signInStatus === 2) {
         this._signInNG(Errors.RPC_ERROR, 'RPC error')
       } else if (this._signInStatus === 3) {
         this._forcedSignOut(Errors.RPC_ERROR, 'RPC error')
       }
     },
-    _rpcCall: function (method, params, funcOK, funcError) {
+    _rpcCall: function _rpcCall(method, params, funcOK, funcError) {
       // in funcOK and funcError, "this" is the same this in _rpcCall
       if (this._rpc) {
         this._rpc.call(
@@ -8199,7 +8182,7 @@
         }
       }
     },
-    _rpcNotify: function (method, params, funcError) {
+    _rpcNotify: function _rpcNotify(method, params, funcError) {
       if (this._rpc) {
         this._rpc.call(method, params, null, null, null)
         this._rpcTimeLastSent = new Date().getTime()
@@ -8216,16 +8199,13 @@
         }
       }
     },
-    _forcedSignOut: function (code, message) {
+    _forcedSignOut: function _forcedSignOut(code, message) {
       this._logger.log(
         'warn',
         '_forcedSignOut code: ' + code + ', message: ' + message,
       )
-
       var signInStatusOrg = this._signInStatus
-
       this._signInStatus = 0
-
       this._signedOut()
 
       // raise forcedSignOut event
@@ -8237,7 +8217,7 @@
         this._eventListeners.forcedSignOut(ev)
       }
     },
-    _signedOut: function () {
+    _signedOut: function _signedOut() {
       if (this._rpc) {
         this._rpc.onClose = function () {}
         delete this._rpc.handlerObject
@@ -8264,10 +8244,8 @@
       this._phoneProperties = {}
       this._phoneRegistered = false
       this._buddyPhone = {}
-
       this._sessionBundleIdCounter = 0
       this._sessionBundleTable = {}
-
       this._conferenceCalls = {}
 
       // reinit fields
@@ -8283,31 +8261,22 @@
       this._display = ''
       this._buddyStatus = {}
       this._lastErrors = {}
-
       this._upload_ids = []
       this._download_keys = {}
       this._ucclient_customized_status_table = {}
-
       this._conferences = {}
-
       this._fileInfos = {}
-
       this._topicIdCounter = 0
       this._topics = {}
-
       this._databaseTaskTable = {}
-
       this._sendStatusCount = 0
-
       this._makeCallStatus = {}
       this._sendSharedObjectFuncOKTable = {}
       this._receivedSharedObjectJsonTable = {}
-
       if (this._signInTimer) {
         clearTimeout(this._signInTimer)
         this._signInTimer = null
       }
-
       if (this._pingTimer) {
         clearTimeout(this._pingTimer)
         this._pingTimer = null
@@ -8318,7 +8287,7 @@
         reportConsoleInfo.signedInAuth = false
       }
     },
-    _signInNG: function (code, message, tstamp) {
+    _signInNG: function _signInNG(code, message, tstamp) {
       if (code) {
         this._logger.log(
           'warn',
@@ -8330,11 +8299,8 @@
           '_signInNG code: ' + code + ', message: ' + message,
         )
       }
-
       this._signInStatus = 1
-
       this._signedOut()
-
       if (this._signInFuncError) {
         var ev = {
           code: int(code),
@@ -8347,7 +8313,7 @@
       this._signInFuncOK = null
       this._signInFuncError = null
     },
-    _signInSuccess: function (tstamp) {
+    _signInSuccess: function _signInSuccess(tstamp) {
       this._signInStatus = 3
       if (this._signInTimer) {
         clearTimeout(this._signInTimer)
@@ -8364,7 +8330,9 @@
       var optional_config = this.getConfigProperties().optional_config
       if (reportConsoleInfo && optional_config) {
         Object.keys(reportConsoleInfo).forEach(function (key) {
-          if (typeof reportConsoleInfo[key] === typeof optional_config[key]) {
+          if (
+            _typeof(reportConsoleInfo[key]) === _typeof(optional_config[key])
+          ) {
             reportConsoleInfo[key] = optional_config[key]
           }
         })
@@ -8385,7 +8353,6 @@
         reportConsoleInfo.signedInAuth = true
         reportConsoleInfo.signedIn = false
       }
-
       if (this._signInFuncOK) {
         var ev = {
           ltime: stringifyTstamp(tstamp),
@@ -8396,7 +8363,7 @@
       this._signInFuncOK = null
       this._signInFuncError = null
     },
-    _signInTimeout: function () {
+    _signInTimeout: function _signInTimeout() {
       if (this._signInStatus === 2) {
         if (this._mfa_verification_required) {
           var now = new Date().getTime()
@@ -8417,7 +8384,7 @@
         }
       }
     },
-    _signInStartRpc: function (password) {
+    _signInStartRpc: function _signInStartRpc(password) {
       if (this._rpc) {
         this._rpc.onClose = this._byThis(function () {
           this._rpc = null
@@ -8520,13 +8487,11 @@
       this._rpc.onError = this._byThis(this._rpcError)
       this._rpc.open()
     },
-    _signInActionStatusOK: function (args) {
+    _signInActionStatusOK: function _signInActionStatusOK(args) {
       this._lastMessageTime = int(args.tstamp)
-
       if (this._signInStatus === 2) {
         // remove auth info from url (mandatory for ajax long polling)
         this._rpc.setUrl(this._rpc.url.split('?').shift())
-
         this._configProperties = args.properties
         this._signedInInfo = args.sii || {}
         this._chat_session_id = int(
@@ -8538,18 +8503,19 @@
           // chat disabled (admin mode)
           // this is admin
           this._profile.user_type = Constants.USER_TYPE_TENANT_ADMIN
-
           this._signInSuccess(args.tstamp)
         } else if (args.type === 1) {
           // chat disabled (sa)
           // this is sa
           this._profile.user_type = Constants.USER_TYPE_SYSTEM_ADMIN
-
           this._signInSuccess(args.tstamp)
         } else {
           // chat enabled
           this._download_keys[
-            JSON.stringify({ tenant: this._tenant, user_id: this._user_id })
+            JSON.stringify({
+              tenant: this._tenant,
+              user_id: this._user_id,
+            })
           ] = args.properties.dlk
           this._rpcCall(
             'GetProperties',
@@ -8564,7 +8530,7 @@
         }
       }
     },
-    _signInActionStatusNG: function (args) {
+    _signInActionStatusNG: function _signInActionStatusNG(args) {
       this._logger.log('info', '_signInActionStatusNG code: ' + args.code)
       if (this._signInStatus === 2) {
         if (args.nonce) {
@@ -8578,7 +8544,10 @@
               })
               if (this._ucclient_customized_status_table[orgKey]) {
                 this._ucclient_customized_status_table[
-                  JSON.stringify({ tenant: newTenant, user_id: this._user_id })
+                  JSON.stringify({
+                    tenant: newTenant,
+                    user_id: this._user_id,
+                  })
                 ] = this._ucclient_customized_status_table[orgKey]
                 delete this._ucclient_customized_status_table[orgKey]
               }
@@ -8598,7 +8567,7 @@
         }
       }
     },
-    _signInGetPropertiesOK: function (result) {
+    _signInGetPropertiesOK: function _signInGetPropertiesOK(result) {
       if (this._signInStatus === 2) {
         this._profile = result.profile
         this._settings = result.settings
@@ -8613,7 +8582,6 @@
           this._buddylistOrg = {}
         }
         this._buddylist = result.buddylist
-
         if (
           this._disableBuddylist ||
           this.getProfile().user_type === Constants.USER_TYPE_TENANT_GUEST
@@ -8634,12 +8602,12 @@
         }
       }
     },
-    _signInGetPropertiesNG: function (error) {
+    _signInGetPropertiesNG: function _signInGetPropertiesNG(error) {
       if (this._signInStatus === 2) {
         this._signInNG(int(error.code), error.message + ' at GetProperties')
       }
     },
-    _refreshBuddylist: function () {
+    _refreshBuddylist: function _refreshBuddylist() {
       var configProperties = this.getConfigProperties()
       var optional_config = configProperties.optional_config || {}
       var buddy_mode = configProperties.buddy_mode
@@ -8819,7 +8787,7 @@
         }
       }
     },
-    _signInGetAllUsersOK: function (result) {
+    _signInGetAllUsersOK: function _signInGetAllUsersOK(result) {
       if (this._signInStatus === 2) {
         this._allUsers = result || {}
         if (
@@ -8846,7 +8814,10 @@
           for (var i = 0; i < this._buddylist.user.length; i++) {
             var buddy = this._buddylist.user[i]
             if (buddy.user_id || buddy.user_id === '') {
-              users.push({ tenant: buddy.tenant, user_id: buddy.user_id })
+              users.push({
+                tenant: buddy.tenant,
+                user_id: buddy.user_id,
+              })
             }
           }
         }
@@ -8862,22 +8833,22 @@
         )
       }
     },
-    _signInGetAllUsersNG: function (error) {
+    _signInGetAllUsersNG: function _signInGetAllUsersNG(error) {
       if (this._signInStatus === 2) {
         this._signInNG(int(error.code), error.message + ' at GetAllUsers')
       }
     },
-    _signInSubscribeStatusOK: function (result) {
+    _signInSubscribeStatusOK: function _signInSubscribeStatusOK(result) {
       if (this._signInStatus === 2) {
         this._signInAllOK(result)
       }
     },
-    _signInSubscribeStatusNG: function (error) {
+    _signInSubscribeStatusNG: function _signInSubscribeStatusNG(error) {
       if (this._signInStatus === 2) {
         this._signInNG(int(error.code), error.message + ' at SubscribeStatus')
       }
     },
-    _signInAllOK: function (result) {
+    _signInAllOK: function _signInAllOK(result) {
       if (this._signInStatus === 2) {
         // change status
         if (this._status === null) {
@@ -8888,14 +8859,13 @@
 
         // sign-in success callback
         this._signInSuccess(result.tstamp)
-
         if (this._phone) {
           // webrtc enabled
           this._getPhoneProperties()
         }
       }
     },
-    _getPhoneProperties: function () {
+    _getPhoneProperties: function _getPhoneProperties() {
       this._phoneRegisterTimer = setTimeout(
         this._byThis(function () {
           this._logger.log('warn', 'Phone register timeout')
@@ -8907,7 +8877,6 @@
         }),
         this.PHONE_REGISTER_TIMEOUT_DEFAULT,
       )
-
       this._rpcCall(
         'GetPhoneProperties',
         {
@@ -8918,9 +8887,8 @@
         this._getPhonePropertiesNG,
       )
     },
-    _getPhonePropertiesOK: function (result) {
+    _getPhonePropertiesOK: function _getPhonePropertiesOK(result) {
       this._phoneProperties = result
-
       var sip_host = this._phoneProperties.sip_host || this._host.split(':')[0]
       var stun_servers = []
       if (this._phoneProperties.stun) {
@@ -8948,7 +8916,6 @@
           }
         } catch (e) {}
       }
-
       if (this._phoneProperties.pnumber === '') {
         this._logger.log('warn', 'Empty pnumber')
         this._phoneStatusChanged(
@@ -8969,7 +8936,9 @@
       try {
         this._phone.initPhone(
           {
-            log: { level: 'debug' },
+            log: {
+              level: 'debug',
+            },
             uri: this._phoneProperties.pnumber + '@' + sip_host,
             password: this._phoneProperties.password,
             ws_servers: this._useHttps
@@ -9007,7 +8976,6 @@
           'warn',
           e.message + ' at InitPhone' + '\n' + e.stack + '\n',
         )
-
         this._phoneStatusChanged(
           false,
           Errors.WEBRTC_TEMPORARILY_UNAVAILABLE,
@@ -9015,20 +8983,19 @@
         )
       }
     },
-    _getPhonePropertiesNG: function (error) {
+    _getPhonePropertiesNG: function _getPhonePropertiesNG(error) {
       this._logger.log('warn', error.message + ' at GetPhoneProperties')
-
       this._phoneStatusChanged(
         false,
         Errors.WEBRTC_TEMPORARILY_UNAVAILABLE,
         error.message + ' at GetPhoneProperties',
       )
     },
-    _initPhoneOK: function (e) {
+    _initPhoneOK: function _initPhoneOK(e) {
       this._logger.log('info', 'Phone registered')
       this._phoneStatusChanged(true, 0, '')
     },
-    _phoneStatusChanged: function (registered, code, msg) {
+    _phoneStatusChanged: function _phoneStatusChanged(registered, code, msg) {
       var mustNotify = true
       if (this._phoneRegisterTimer) {
         clearTimeout(this._phoneRegisterTimer)
@@ -9073,7 +9040,7 @@
         }
       }
     },
-    _sendStatusAfterSignIn: function () {
+    _sendStatusAfterSignIn: function _sendStatusAfterSignIn() {
       if (this._signInStatus === 3) {
         if (this._sendStatusCount === 0) {
           // ChangeStatus
@@ -9087,14 +9054,14 @@
         }
       }
     },
-    _receiveInvitationAfterSignIn: function () {
+    _receiveInvitationAfterSignIn: function _receiveInvitationAfterSignIn() {
       if (this._signInStatus === 3) {
         if (this.getProfile().user_type !== Constants.USER_TYPE_TENANT_GUEST) {
           this._rpcNotify('ReceiveConferenceInvitaion', {}, null)
         }
       }
     },
-    _keepAlive: function () {
+    _keepAlive: function _keepAlive() {
       clearTimeout(this._pingTimer)
       if (this._signInStatus === 3) {
         if (this._rpc.timeLastReceived > 0) {
@@ -9116,7 +9083,13 @@
           ) {
             // send ping
             this._timeSentKeepAlive = now
-            this._rpcNotify('keepalive', { brekeke: 'cool' }, null)
+            this._rpcNotify(
+              'keepalive',
+              {
+                brekeke: 'cool',
+              },
+              null,
+            )
           }
         }
         if (!this._admin_mode) {
@@ -9136,7 +9109,7 @@
         )
       }
     },
-    _checkTimezoneOffset: function () {
+    _checkTimezoneOffset: function _checkTimezoneOffset() {
       var modified = false
       var settings = this.getSettings()
       if (!settings.optional_settings) {
@@ -9228,23 +9201,21 @@
         }
       }
     },
-    _sendStatus: function (funcOK, funcError) {
+    _sendStatus: function _sendStatus(funcOK, funcError) {
       var profile = this.getProfile()
       var status = this.getStatus()
-
       var count = this._sendStatusCount++
-
       var myKey = JSON.stringify({
         tenant: this._tenant,
         user_id: this._user_id,
       })
-
       this._rpcCall(
         'ChangeStatus',
         {
           status: status.status,
           name: profile.name,
-          display_name: count > 0 ? void 0 : 1, // only first, value is dummy
+          display_name: count > 0 ? void 0 : 1,
+          // only first, value is dummy
           display: status.display,
           pnumber: string(this._phoneProperties.pnumber),
           registered: Boolean(this._phoneRegistered),
@@ -9276,14 +9247,13 @@
         },
       )
     },
-    _recvNotifyStatus: function (args) {
+    _recvNotifyStatus: function _recvNotifyStatus(args) {
       if (!args.sender || !args.client_param) {
         this._logger.log('warn', 'Invalid argument: _recvNotifyStatus')
         return
       }
       var sender_tenant = string(args.sender.tenant || this._tenant)
       var sender_user_id = string(args.sender.user_id)
-
       var user = null
       var isNonbuddy = false
       if (
@@ -9332,7 +9302,6 @@
           this._nonbuddylist.user.push(nonbuddy)
           user = nonbuddy
         }
-
         var buddy_mode = this.getConfigProperties().buddy_mode
         if (
           buddy_mode !== Constants.BUDDY_MODE_MANUAL &&
@@ -9362,7 +9331,6 @@
                 })
               }
               this._refreshBuddylist()
-
               this._recvNotifyStatus2(args, user, isNonbuddy)
             },
             null,
@@ -9370,10 +9338,9 @@
           return
         }
       }
-
       this._recvNotifyStatus2(args, user, isNonbuddy)
     },
-    _recvNotifyStatus2: function (args, user, isNonbuddy) {
+    _recvNotifyStatus2: function _recvNotifyStatus2(args, user, isNonbuddy) {
       var sender_tenant = string(args.sender.tenant || this._tenant)
       var sender_user_id = string(args.sender.user_id)
       var key = JSON.stringify({
@@ -9439,8 +9406,11 @@
         this._eventListeners.buddyStatusChanged(ev)
       }
     },
-    _getProfileImageUrl: function (tenant, user_id) {
-      var key = JSON.stringify({ tenant: tenant, user_id: user_id })
+    _getProfileImageUrl: function _getProfileImageUrl(tenant, user_id) {
+      var key = JSON.stringify({
+        tenant: tenant,
+        user_id: user_id,
+      })
       if (this._ucclient_customized_status_table[key]) {
         var url = ''
         try {
@@ -9477,16 +9447,14 @@
           : Constants.NOIMAGE_URL)
       )
     },
-    _recvText: function (args) {
+    _recvText: function _recvText(args) {
       if (!args.sender) {
         this._logger.log('warn', 'Invalid argument: _recvText')
         return
       }
       var sender_tenant = args.sender.tenant || this._tenant
       var sender_user_id = string(args.sender.user_id)
-
       this._lastMessageTime = int(args.tstamp)
-
       switch (args.ctype) {
         case Constants.CTYPE_TEXT:
         case Constants.CTYPE_CALL_RESULT:
@@ -9498,7 +9466,8 @@
                 user_id: sender_user_id,
               },
               text: string(args.text),
-              conf_id: args.conf_id ? string(args.conf_id) : null, // args.conf_id might be undefined or "" on non-conf
+              conf_id: args.conf_id ? string(args.conf_id) : null,
+              // args.conf_id might be undefined or "" on non-conf
               ctype: int(args.ctype),
               received_text_id:
                 string(args.action_id) +
@@ -9510,8 +9479,10 @@
               topic_id: string(args.topic_id || ''),
               ltime: stringifyTstamp(args.tstamp),
               tstamp: int(args.tstamp),
-              sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
-              sent_tstamp: int(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
+              sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp),
+              // args.sent_tstamp has value only in GetUnreadText
+              sent_tstamp: int(args.sent_tstamp || args.tstamp),
+              // args.sent_tstamp has value only in GetUnreadText
               requires_read: args.conf_id ? false : true,
             }
             this._eventListeners.receivedText(ev)
@@ -9565,7 +9536,8 @@
                   user_id: sender_user_id,
                 },
                 text: string(args.text),
-                conf_id: args.conf_id ? string(args.conf_id) : null, // args.conf_id might be undefined or "" on non-conf
+                conf_id: args.conf_id ? string(args.conf_id) : null,
+                // args.conf_id might be undefined or "" on non-conf
                 ctype: int(args.ctype),
                 received_text_id:
                   string(args.action_id) +
@@ -9577,8 +9549,10 @@
                 topic_id: string(args.topic_id || ''),
                 ltime: stringifyTstamp(args.tstamp),
                 tstamp: int(args.tstamp),
-                sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
-                sent_tstamp: int(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
+                sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp),
+                // args.sent_tstamp has value only in GetUnreadText
+                sent_tstamp: int(args.sent_tstamp || args.tstamp),
+                // args.sent_tstamp has value only in GetUnreadText
                 requires_read: args.conf_id ? false : true,
               }
               this._eventListeners.receivedText(ev)
@@ -9641,7 +9615,8 @@
               },
               text: string(args.text),
               object: receivedObject,
-              conf_id: args.conf_id ? string(args.conf_id) : null, // args.conf_id might be undefined or "" on non-conf
+              conf_id: args.conf_id ? string(args.conf_id) : null,
+              // args.conf_id might be undefined or "" on non-conf
               ctype: int(args.ctype),
               received_text_id:
                 string(args.action_id) +
@@ -9653,8 +9628,10 @@
               topic_id: string(args.topic_id || ''),
               ltime: stringifyTstamp(args.tstamp),
               tstamp: int(args.tstamp),
-              sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
-              sent_tstamp: int(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
+              sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp),
+              // args.sent_tstamp has value only in GetUnreadText
+              sent_tstamp: int(args.sent_tstamp || args.tstamp),
+              // args.sent_tstamp has value only in GetUnreadText
               requires_read: args.conf_id ? false : true,
             }
             this._eventListeners.objectReceived(ev)
@@ -9674,7 +9651,8 @@
                 user_id: sender_user_id,
               },
               text: string(args.text),
-              conf_id: args.conf_id ? string(args.conf_id) : null, // args.conf_id might be undefined or "" on non-conf
+              conf_id: args.conf_id ? string(args.conf_id) : null,
+              // args.conf_id might be undefined or "" on non-conf
               ctype: int(args.ctype),
               received_text_id:
                 string(args.action_id) +
@@ -9686,7 +9664,8 @@
               topic_id: string(args.topic_id || ''),
               ltime: stringifyTstamp(args.tstamp),
               tstamp: int(args.tstamp),
-              sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
+              sent_ltime: stringifyTstamp(args.sent_tstamp || args.tstamp),
+              // args.sent_tstamp has value only in GetUnreadText
               sent_tstamp: int(args.sent_tstamp || args.tstamp), // args.sent_tstamp has value only in GetUnreadText
             }
             this._eventListeners.confLeaveReceived(ev)
@@ -9700,7 +9679,7 @@
           break
       }
     },
-    _recvTyping: function (args) {
+    _recvTyping: function _recvTyping(args) {
       if (!args.sender || !args.client_param) {
         this._logger.log('warn', 'Invalid argument: _recvTyping')
         return
@@ -9719,7 +9698,7 @@
         this._eventListeners.receivedTyping(ev)
       }
     },
-    _newConference: function (conf_id) {
+    _newConference: function _newConference(conf_id) {
       // create conference if not exists
       if (!this._conferences[conf_id]) {
         var conference = {}
@@ -9758,17 +9737,14 @@
         this._conferences[conf_id] = conference
       }
     },
-    _invitedToConference: function (args) {
+    _invitedToConference: function _invitedToConference(args) {
       if (!args.conf_id || !args.from) {
         this._logger.log('warn', 'Invalid argument: _invitedToConference')
         return
       }
-
       var profile = this.getProfile()
       var conf_id = string(args.conf_id)
-
       this._newConference(conf_id)
-
       this._conferences[conf_id].subject = string(args.subject)
       this._conferences[conf_id].created_time = stringifyTstamp(
         args.created_tstamp,
@@ -9859,7 +9835,7 @@
         this._eventListeners.invitedToConference(ev)
       }
     },
-    _conferenceMemberChanged: function (args) {
+    _conferenceMemberChanged: function _conferenceMemberChanged(args) {
       if (this._enteringWebchatRoom && this._enteringWebchatRoom.push) {
         this._enteringWebchatRoom.push(
           this._byThis(this._conferenceMemberChanged, [args]),
@@ -9872,10 +9848,8 @@
         )
         return
       }
-
       var conf_id = string(args.conf_id)
       var conf_status = Constants.CONF_STATUS_INACTIVE
-
       this._newConference(conf_id)
 
       // update member list
@@ -9900,7 +9874,6 @@
       }
       this._conferences[conf_id].user = users
       this._conferences[conf_id].conf_status = conf_status
-
       if (conf_status === Constants.CONF_STATUS_INVITED) {
         // inviter
         this._conferences[conf_id].user.push({
@@ -9933,7 +9906,6 @@
           }
         }
       }
-
       var conference = this.getConference(conf_id)
 
       // forced left
@@ -9966,16 +9938,13 @@
         }
       }
     },
-    _extConfInfoChanged: function (args) {
+    _extConfInfoChanged: function _extConfInfoChanged(args) {
       var conf_id = string(args.conf_id)
-
       if (!this._conferences[conf_id]) {
         this._logger.log('warn', 'Unknown conference changed: ' + conf_id)
         return
       }
-
       this._conferences[conf_id].ext_conf_info = args.ext_conf_info || {}
-
       var conference = this.getConference(conf_id)
 
       // raise extConfInfoChanged event
@@ -9986,13 +9955,12 @@
         this._eventListeners.extConfInfoChanged(ev)
       }
     },
-    _tagUpdated: function (args) {
+    _tagUpdated: function _tagUpdated(args) {
       var attached_type = string(args.attached_type)
       var attached_id = string(args.attached_id)
       var tags = args.tags && args.tags.length ? args.tags : []
       var yyyymm = string(args.yyyymm)
       var ltime = string(args.ltime)
-
       if (attached_type === 'conf') {
         var conf_id = attached_id
         if (
@@ -10029,7 +9997,7 @@
         }
       }
     },
-    _newFileInfo: function (
+    _newFileInfo: function _newFileInfo(
       file_id,
       target,
       isUpload,
@@ -10054,7 +10022,7 @@
         _lastProgressTime: 0,
       }
     },
-    _terminateFileInfo: function (file_id, status) {
+    _terminateFileInfo: function _terminateFileInfo(file_id, status) {
       if (this._fileInfos[file_id]) {
         this._fileInfos[file_id].status = status
         if (status === Constants.FILE_STATUS_COMPLETED) {
@@ -10071,11 +10039,10 @@
           }
           this._eventListeners.fileTerminated(ev)
         }
-
         delete this._fileInfos[file_id]
       }
     },
-    _changeFileInfo: function (file_id, status, progress) {
+    _changeFileInfo: function _changeFileInfo(file_id, status, progress) {
       if (this._fileInfos[file_id]) {
         this._fileInfos[file_id].status = status
         this._fileInfos[file_id].progress = progress
@@ -10089,7 +10056,7 @@
         }
       }
     },
-    _recvRecvFile: function (args) {
+    _recvRecvFile: function _recvRecvFile(args) {
       if (
         !args.client_param ||
         !args.client_param.response ||
@@ -10262,7 +10229,7 @@
         }
       }
     },
-    _recvNotifyFileTransfer: function (args) {
+    _recvNotifyFileTransfer: function _recvNotifyFileTransfer(args) {
       if (
         !args.client_param ||
         !args.client_param.status ||
@@ -10294,7 +10261,7 @@
         }
       }
     },
-    _recvFile: function (args) {
+    _recvFile: function _recvFile(args) {
       if (!args.status || !args.file_id) {
         this._logger.log('warn', 'Invalid argument: _recvFile')
         return
@@ -10307,22 +10274,20 @@
         }
       }
     },
-    _phoneError: function (e) {
+    _phoneError: function _phoneError(e) {
       var msg = e.event + ' at InitPhone (cause: ' + e.data.cause + ')'
       var detail = e.data.response ? '\n' + e.data.response.data : ''
       this._logger.log('warn', msg + detail)
-
       this._phoneStatusChanged(
         false,
         Errors.WEBRTC_TEMPORARILY_UNAVAILABLE,
         msg,
       )
     },
-    _sessionCreated: function (e) {
+    _sessionCreated: function _sessionCreated(e) {
       var callSession = e.callSession
       var sessionBundleId = null
       var sessionBundle = null
-
       if (callSession.status === 'dialing') {
         // outgoing call
         sessionBundleId = callSession.option.sessionBundleId
@@ -10368,7 +10333,6 @@
             this._sessionBundleTable[sessionBundleId] = sessionBundle
           }
           sessionBundle.sessionIdArray.push(callSession.id)
-
           clearTimeout(this._makeCallStatus[sessionBundleId].timer)
 
           // callback funcOK of makeCall
@@ -10512,7 +10476,6 @@
             }
           }
         }
-
         if (sessionBundleId === null) {
           // create new sessionBundle
           sessionBundle = {
@@ -10524,7 +10487,10 @@
             cameraMuted: false,
             autoAnswer: false,
             autoTerminate: true,
-            mediaConstraints: { audio: false, video: false },
+            mediaConstraints: {
+              audio: false,
+              video: false,
+            },
             sharedObjectJson: '{}',
             singleSession: false,
           }
@@ -10551,7 +10517,6 @@
             sessionBundle.target.address = address
           }
           sessionBundle.sessionIdArray.push(callSession.id)
-
           sessionBundleId = ++this._sessionBundleIdCounter
           this._sessionBundleTable[sessionBundleId] = sessionBundle
 
@@ -10572,7 +10537,6 @@
           if (sessionBundle.direction !== Constants.CALL_DIRECTION_INCOMING) {
             sessionBundle.direction = Constants.CALL_DIRECTION_UNKNOWN
           }
-
           if (this._receivedSharedObjectJsonTable[key]) {
             if (
               new Date().getTime() -
@@ -10606,7 +10570,7 @@
         }
       }
     },
-    _statusChanged: function (e) {
+    _statusChanged: function _statusChanged(e) {
       var callSession = e.callSession
       var sessionBundleId = null
       var sessionBundle = null
@@ -10620,7 +10584,6 @@
           }
         }
       }
-
       if (sessionBundleId === null) {
         this._logger.log('warn', 'Unknown session changed: ' + callSession.id)
         return
@@ -10639,7 +10602,7 @@
       // raise callInfoChanged event or callTerminated event
       this._callInfoChanged(sessionBundleId)
     },
-    _callInfoChanged: function (sessionBundleId) {
+    _callInfoChanged: function _callInfoChanged(sessionBundleId) {
       var sessionBundle = this._sessionBundleTable[sessionBundleId]
       if (!sessionBundle) {
         return
@@ -10659,7 +10622,6 @@
           }
         }
       }
-
       var callInfo = this.getCallInfo(sessionBundleId)
       if (!terminated) {
         var callInfoJson = JSON.stringify(callInfo)
@@ -10703,11 +10665,15 @@
           }
           this._eventListeners.callTerminated(ev)
         }
-
         delete this._sessionBundleTable[sessionBundleId]
       }
     },
-    _sendSharedObject: function (target, sharedObject, funcOK, funcError) {
+    _sendSharedObject: function _sendSharedObject(
+      target,
+      sharedObject,
+      funcOK,
+      funcError,
+    ) {
       var sendSharedObjectFuncOKTable = this._sendSharedObjectFuncOKTable
       var key = JSON.stringify(target)
       if (sendSharedObjectFuncOKTable[key]) {
@@ -10720,7 +10686,6 @@
         }
         return
       }
-
       var timer = setTimeout(function () {
         // timeout
         clearTimeout(timer)
@@ -10733,7 +10698,6 @@
           funcError(ev)
         }
       }, this.MAKE_CALL_TIMEOUT_DEFAULT)
-
       sendSharedObjectFuncOKTable[key] = function () {
         // funcOK
         clearTimeout(timer)
@@ -10757,16 +10721,18 @@
         null,
       )
     },
-    _recvSendSharedObject: function (args) {
+    _recvSendSharedObject: function _recvSendSharedObject(args) {
       if (!args.sender || !args.client_param) {
         this._logger.log('warn', 'Invalid argument: _recvSendSharedObject')
         return
       }
       var sender_tenant = string(args.sender.tenant || this._tenant)
       var sender_user_id = string(args.sender.user_id)
-      var target = { tenant: sender_tenant, user_id: sender_user_id }
+      var target = {
+        tenant: sender_tenant,
+        user_id: sender_user_id,
+      }
       var key = JSON.stringify(target)
-
       this._receivedSharedObjectJsonTable[key] = {
         json: JSON.stringify(args.client_param.sharedObject),
         timestamp: new Date().getTime(),
@@ -10784,14 +10750,17 @@
         null,
       )
     },
-    _recvRecvSharedObject: function (args) {
+    _recvRecvSharedObject: function _recvRecvSharedObject(args) {
       if (!args.sender || !args.client_param) {
         this._logger.log('warn', 'Invalid argument: _recvRecvSharedObject')
         return
       }
       var sender_tenant = string(args.sender.tenant || this._tenant)
       var sender_user_id = string(args.sender.user_id)
-      var target = { tenant: sender_tenant, user_id: sender_user_id }
+      var target = {
+        tenant: sender_tenant,
+        user_id: sender_user_id,
+      }
       var key = JSON.stringify(target)
 
       // funcOK
@@ -10799,7 +10768,7 @@
         this._sendSharedObjectFuncOKTable[key]()
       }
     },
-    _makeCallTimeout: function (sessionBundleId) {
+    _makeCallTimeout: function _makeCallTimeout(sessionBundleId) {
       clearTimeout(this._makeCallStatus[sessionBundleId].timer)
       if (this._makeCallStatus[sessionBundleId].funcError) {
         var ev = {
@@ -10810,7 +10779,7 @@
       }
       delete this._makeCallStatus[sessionBundleId]
     },
-    _recvCustomClientEvent: function (args) {
+    _recvCustomClientEvent: function _recvCustomClientEvent(args) {
       if (!args.sender) {
         this._logger.log('warn', 'Invalid argument: _recvCustomClientEvent')
         return
@@ -10833,18 +10802,17 @@
         this._eventListeners.receivedCustomClientEvent(ev)
       }
     },
-
     /*
      * RPC handler functions
      */
-    ActionStatus: function (args) {
+    ActionStatus: function ActionStatus(args) {
       if (args.result) {
         this._signInActionStatusOK(args)
       } else {
         this._signInActionStatusNG(args)
       }
     },
-    MfaStarted: function (args) {
+    MfaStarted: function MfaStarted(args) {
       if (args && args.mfa_verification_required) {
         this._mfa_verification_required = int(
           args && args.mfa_verification_required,
@@ -10861,7 +10829,7 @@
         this._eventListeners.mfaStarted(args)
       }
     },
-    ErrorNotification: function (args) {
+    ErrorNotification: function ErrorNotification(args) {
       if (this._signInStatus === 2) {
         this._signInNG(int(args.code), args.message)
       } else if (this._signInStatus === 3) {
@@ -10878,7 +10846,7 @@
         )
       }
     },
-    StatusNotified: function (args) {
+    StatusNotified: function StatusNotified(args) {
       if (!args.users || !args.users.length) {
         this._logger.log('warn', 'Invalid argument: StatusNotified')
         return
@@ -10887,7 +10855,7 @@
         this._recvNotifyStatus(args.users[i])
       }
     },
-    RecvClientEvent: function (args) {
+    RecvClientEvent: function RecvClientEvent(args) {
       switch (args.client_method) {
         case 'Typing':
           this._recvTyping(args)
@@ -10918,37 +10886,37 @@
           break
       }
     },
-    RecvText: function (args) {
+    RecvText: function RecvText(args) {
       this._recvText(args)
     },
-    InviteToConferenceEvent: function (args) {
+    InviteToConferenceEvent: function InviteToConferenceEvent(args) {
       this._invitedToConference(args)
     },
-    ConferenceMemberChanged: function (args) {
+    ConferenceMemberChanged: function ConferenceMemberChanged(args) {
       this._conferenceMemberChanged(args)
     },
-    ExtConfInfoChanged: function (args) {
+    ExtConfInfoChanged: function ExtConfInfoChanged(args) {
       this._extConfInfoChanged(args)
     },
-    TagUpdated: function (args) {
+    TagUpdated: function TagUpdated(args) {
       this._tagUpdated(args)
     },
-    RecvFile: function (args) {
+    RecvFile: function RecvFile(args) {
       this._recvFile(args)
     },
-    NotifiedUserSearch: function (args) {
+    NotifiedUserSearch: function NotifiedUserSearch(args) {
       // raise notifiedUserSearch event
       if (this._eventListeners.notifiedUserSearch && this._signInStatus === 3) {
         this._eventListeners.notifiedUserSearch(args)
       }
     },
-    NotifiedUserDelete: function (args) {
+    NotifiedUserDelete: function NotifiedUserDelete(args) {
       // raise notifiedUserDelete event
       if (this._eventListeners.notifiedUserDelete && this._signInStatus === 3) {
         this._eventListeners.notifiedUserDelete(args)
       }
     },
-    DebugLogFilePrepared: function (args) {
+    DebugLogFilePrepared: function DebugLogFilePrepared(args) {
       // raise debugLogFilePrepared event
       if (
         this._eventListeners.debugLogFilePrepared &&
@@ -10966,7 +10934,7 @@
         this._eventListeners.debugLogFilePrepared(ev)
       }
     },
-    DatabaseTaskEnded: function (args) {
+    DatabaseTaskEnded: function DatabaseTaskEnded(args) {
       if (args && args.database_task_id) {
         if (
           typeof this._databaseTaskTable[args.database_task_id] === 'function'
@@ -10978,7 +10946,7 @@
         }
       }
     },
-    CreateDatabaseEnded: function (args) {
+    CreateDatabaseEnded: function CreateDatabaseEnded(args) {
       // raise createDatabaseEnded event
       if (
         this._eventListeners.createDatabaseEnded &&
@@ -10987,13 +10955,12 @@
         this._eventListeners.createDatabaseEnded(args)
       }
     },
-    keepalive: function (args) {
+    keepalive: function keepalive(args) {
       // ping reply OK
     },
-    handler: function (method, args) {
+    handler: function handler(method, args) {
       this._logger.log('warn', 'Not implemented: ChatClient.' + method)
     },
-
     /*
      * Private constants
      */
@@ -11017,13 +10984,13 @@
   /*
    * Utility functions
    */
-  var int = function (value) {
+  var int = function int(value) {
     return parseInt(value, 10) || 0
   }
-  var string = function (value) {
+  var string = function string(value) {
     return String(value || value === 0 || value === false ? value : '')
   }
-  var stringifyDate = function (date) {
+  var stringifyDate = function stringifyDate(date) {
     return (
       date.getFullYear() +
       '-' +
@@ -11038,12 +11005,11 @@
       ('0' + date.getSeconds()).slice(-2)
     )
   }
-  var stringifyTstamp = function (tstamp) {
+  var stringifyTstamp = function stringifyTstamp(tstamp) {
     return stringifyDate(new Date(int(tstamp)))
   }
-
   var reportConsoleInfo = null
-  var ReportConsole = function (options) {
+  var ReportConsole = function ReportConsole(options) {
     if (reportConsoleInfo) {
       return
     }
@@ -11058,7 +11024,8 @@
         string(options && options.report_console_ptn) || '/lds',
       myid: string(options && options.myid),
       expires: int(options && options.expires),
-      signedIn: false, // anonymous (only on login screen)
+      signedIn: false,
+      // anonymous (only on login screen)
       signedInAuth: false,
       report_console_queue_size: int(
         (options && options.report_console_queue_size) || 500,
@@ -11084,7 +11051,7 @@
     }
     var queue = []
     var overflowed = false
-    var output = function () {
+    var output = function output() {
       var expired =
         int(reportConsoleInfo && reportConsoleInfo.expires) <
         new Date().getTime()
@@ -11166,7 +11133,7 @@
                       accumulator += '\n |||\n'
                     }
                     accumulator += currentValue
-                    if (typeof currentValue === 'object') {
+                    if (_typeof(currentValue) === 'object') {
                       try {
                         accumulator += JSON.stringify(currentValue)
                       } catch (e) {}
@@ -11227,8 +11194,8 @@
               var newReportConsoleInfo = JSON.parse(xhr.responseText)
               Object.keys(reportConsoleInfo).forEach(function (key) {
                 if (
-                  typeof reportConsoleInfo[key] ===
-                  typeof newReportConsoleInfo[key]
+                  _typeof(reportConsoleInfo[key]) ===
+                  _typeof(newReportConsoleInfo[key])
                 ) {
                   reportConsoleInfo[key] = newReportConsoleInfo[key]
                 }
@@ -11268,24 +11235,23 @@
       return f()
     })
   }
-
   var CryptoJS = (function () {
     /**
      * @license
-/*
-CryptoJS v3.1.2
-code.google.com/p/crypto-js
-(c) 2009-2013 by Jeff Mott. All rights reserved.
-code.google.com/p/crypto-js/wiki/License
-*/
+    /*
+    CryptoJS v3.1.2
+    code.google.com/p/crypto-js
+    (c) 2009-2013 by Jeff Mott. All rights reserved.
+    code.google.com/p/crypto-js/wiki/License
+    */
     var CryptoJS =
       CryptoJS ||
       (function (s, p) {
         var m = {},
           l = (m.lib = {}),
-          n = function () {},
+          n = function n() {},
           r = (l.Base = {
-            extend: function (b) {
+            extend: function extend(b) {
               n.prototype = this
               var h = new n()
               b && h.mixIn(b)
@@ -11297,29 +11263,29 @@ code.google.com/p/crypto-js/wiki/License
               h.$super = this
               return h
             },
-            create: function () {
+            create: function create() {
               var b = this.extend()
               b.init.apply(b, arguments)
               return b
             },
-            init: function () {},
-            mixIn: function (b) {
+            init: function init() {},
+            mixIn: function mixIn(b) {
               for (var h in b) b.hasOwnProperty(h) && (this[h] = b[h])
               b.hasOwnProperty('toString') && (this.toString = b.toString)
             },
-            clone: function () {
+            clone: function clone() {
               return this.init.prototype.extend(this)
             },
           }),
           q = (l.WordArray = r.extend({
-            init: function (b, h) {
+            init: function init(b, h) {
               b = this.words = b || []
               this.sigBytes = h != p ? h : 4 * b.length
             },
-            toString: function (b) {
+            toString: function toString(b) {
               return (b || t).stringify(this)
             },
-            concat: function (b) {
+            concat: function concat(b) {
               var h = this.words,
                 a = b.words,
                 j = this.sigBytes
@@ -11336,18 +11302,18 @@ code.google.com/p/crypto-js/wiki/License
               this.sigBytes += b
               return this
             },
-            clamp: function () {
+            clamp: function clamp() {
               var b = this.words,
                 h = this.sigBytes
               b[h >>> 2] &= 4294967295 << (32 - 8 * (h % 4))
               b.length = s.ceil(h / 4)
             },
-            clone: function () {
+            clone: function clone() {
               var b = r.clone.call(this)
               b.words = this.words.slice(0)
               return b
             },
-            random: function (b) {
+            random: function random(b) {
               for (var h = [], a = 0; a < b; a += 4)
                 h.push((4294967296 * s.random()) | 0)
               return new q.init(h, b)
@@ -11355,7 +11321,7 @@ code.google.com/p/crypto-js/wiki/License
           })),
           v = (m.enc = {}),
           t = (v.Hex = {
-            stringify: function (b) {
+            stringify: function stringify(b) {
               var a = b.words
               b = b.sigBytes
               for (var g = [], j = 0; j < b; j++) {
@@ -11365,14 +11331,14 @@ code.google.com/p/crypto-js/wiki/License
               }
               return g.join('')
             },
-            parse: function (b) {
+            parse: function parse(b) {
               for (var a = b.length, g = [], j = 0; j < a; j += 2)
                 g[j >>> 3] |= parseInt(b.substr(j, 2), 16) << (24 - 4 * (j % 8))
               return new q.init(g, a / 2)
             },
           }),
           a = (v.Latin1 = {
-            stringify: function (b) {
+            stringify: function stringify(b) {
               var a = b.words
               b = b.sigBytes
               for (var g = [], j = 0; j < b; j++)
@@ -11383,35 +11349,35 @@ code.google.com/p/crypto-js/wiki/License
                 )
               return g.join('')
             },
-            parse: function (b) {
+            parse: function parse(b) {
               for (var a = b.length, g = [], j = 0; j < a; j++)
                 g[j >>> 2] |= (b.charCodeAt(j) & 255) << (24 - 8 * (j % 4))
               return new q.init(g, a)
             },
           }),
           u = (v.Utf8 = {
-            stringify: function (b) {
+            stringify: function stringify(b) {
               try {
                 return decodeURIComponent(escape(a.stringify(b)))
               } catch (g) {
                 throw Error('Malformed UTF-8 data')
               }
             },
-            parse: function (b) {
+            parse: function parse(b) {
               return a.parse(unescape(encodeURIComponent(b)))
             },
           }),
           g = (l.BufferedBlockAlgorithm = r.extend({
-            reset: function () {
+            reset: function reset() {
               this._data = new q.init()
               this._nDataBytes = 0
             },
-            _append: function (b) {
+            _append: function _append(b) {
               'string' == typeof b && (b = u.parse(b))
               this._data.concat(b)
               this._nDataBytes += b.sigBytes
             },
-            _process: function (b) {
+            _process: function _process(b) {
               var a = this._data,
                 g = a.words,
                 j = a.sigBytes,
@@ -11427,7 +11393,7 @@ code.google.com/p/crypto-js/wiki/License
               }
               return new q.init(l, j)
             },
-            clone: function () {
+            clone: function clone() {
               var b = r.clone.call(this)
               b._data = this._data.clone()
               return b
@@ -11436,30 +11402,30 @@ code.google.com/p/crypto-js/wiki/License
           }))
         l.Hasher = g.extend({
           cfg: r.extend(),
-          init: function (b) {
+          init: function init(b) {
             this.cfg = this.cfg.extend(b)
             this.reset()
           },
-          reset: function () {
+          reset: function reset() {
             g.reset.call(this)
             this._doReset()
           },
-          update: function (b) {
+          update: function update(b) {
             this._append(b)
             this._process()
             return this
           },
-          finalize: function (b) {
+          finalize: function finalize(b) {
             b && this._append(b)
             return this._doFinalize()
           },
           blockSize: 16,
-          _createHelper: function (b) {
+          _createHelper: function _createHelper(b) {
             return function (a, g) {
               return new b.init(g).finalize(a)
             }
           },
-          _createHmacHelper: function (b) {
+          _createHmacHelper: function _createHmacHelper(b) {
             return function (a, g) {
               return new k.HMAC.init(b, g).finalize(a)
             }
@@ -11498,12 +11464,12 @@ code.google.com/p/crypto-js/wiki/License
       )
         a[u] = (4294967296 * s.abs(s.sin(u + 1))) | 0
       q = q.MD5 = t.extend({
-        _doReset: function () {
+        _doReset: function _doReset() {
           this._hash = new v.init([
             1732584193, 4023233417, 2562383102, 271733878,
           ])
         },
-        _doProcessBlock: function (g, k) {
+        _doProcessBlock: function _doProcessBlock(g, k) {
           for (var b = 0; 16 > b; b++) {
             var h = k + b,
               w = g[h]
@@ -11601,7 +11567,7 @@ code.google.com/p/crypto-js/wiki/License
           b[2] = (b[2] + e) | 0
           b[3] = (b[3] + f) | 0
         },
-        _doFinalize: function () {
+        _doFinalize: function _doFinalize() {
           var a = this._data,
             k = a.words,
             b = 8 * this._nDataBytes,
@@ -11625,7 +11591,7 @@ code.google.com/p/crypto-js/wiki/License
                 (((h << 24) | (h >>> 8)) & 4278255360))
           return a
         },
-        clone: function () {
+        clone: function clone() {
           var a = t.clone.call(this)
           a._hash = this._hash.clone()
           return a
@@ -11636,7 +11602,6 @@ code.google.com/p/crypto-js/wiki/License
     })(Math)
     return CryptoJS
   })()
-
   UCClient.ChatClient = ChatClient
   UCClient.Errors = Errors
   UCClient.Constants = Constants
@@ -11652,7 +11617,7 @@ code.google.com/p/crypto-js/wiki/License
   /*
    * Logger constructor
    */
-  Logger = function (level, func, withStackTrace) {
+  Logger = function Logger(level, func, withStackTrace) {
     var self = this
 
     /*
@@ -11698,27 +11663,24 @@ code.google.com/p/crypto-js/wiki/License
     /*
      * Function setLoggerLevel
      */
-    setLoggerLevel: function (level) {
+    setLoggerLevel: function setLoggerLevel(level) {
       this._levelValue =
         level in this.LEVEL_VALUES
           ? this.LEVEL_VALUES[level]
           : this.LEVEL_VALUES['log']
     },
-
     /*
      * Function setLogFunction
      */
-    setLogFunction: function (func) {
+    setLogFunction: function setLogFunction(func) {
       this._logFunction = func
     },
-
     /*
      * Function log
      */
-    log: function (level, content) {
+    log: function log(level, content) {
       var stackTrace = ''
       var date = new Date()
-
       try {
         if (this.LEVEL_VALUES[level] <= this._levelValue) {
           if (this._withStackTrace[level] || level === 'trial') {
@@ -11748,11 +11710,10 @@ code.google.com/p/crypto-js/wiki/License
         }
       } catch (e) {}
     },
-
     /*
      * Function outputLog
      */
-    outputLog: function (level, content, stackTrace, date) {
+    outputLog: function outputLog(level, content, stackTrace, date) {
       try {
         if (this._logFunction) {
           if (!this._logFunction(level, content, stackTrace, date)) {
@@ -11763,13 +11724,16 @@ code.google.com/p/crypto-js/wiki/License
         }
       } catch (e) {}
     },
-
     /*
      * Private functions
      */
-    _logFunctionDefault: function (level, content, stackTrace, date) {
+    _logFunctionDefault: function _logFunctionDefault(
+      level,
+      content,
+      stackTrace,
+      date,
+    ) {
       var func
-
       if (console) {
         if (level === 'fatal') {
           func = console.error || console.log
@@ -11787,7 +11751,7 @@ code.google.com/p/crypto-js/wiki/License
           func = console.log
         }
         if (func) {
-          if (typeof content === 'object') {
+          if (_typeof(content) === 'object') {
             try {
               content += JSON.stringify(content) // output both toString (for Exception) and JSON.stringify (for JSON-RPC)
             } catch (e) {}
@@ -11796,7 +11760,6 @@ code.google.com/p/crypto-js/wiki/License
         }
       }
     },
-
     /*
      * Constants
      */
@@ -11814,8 +11777,6 @@ code.google.com/p/crypto-js/wiki/License
     },
     DUMMY: null,
   }
-
   UCClient.Logger = Logger
-
   return UCClient
 })

@@ -1,11 +1,36 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory()
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UAWMsgs = root.Brekeke.UAWMsgs_default = factory()
   }
-})(this, function () {
+})(void 0, function () {
   return {
     CMN_OK: 'OK',
     CMN_CANCEL: 'Cancel',
@@ -19,7 +44,8 @@
     CMN_OWN_STATUS_STRING_AVAILABLE: 'Available',
     CMN_OWN_STATUS_STRING_IDLE: 'Idle',
     CMN_OWN_STATUS_STRING_BUSY: 'Busy',
-    CMN_FORMAT_DATE: '{3} {2}', // {0}: year, {1}: month, {2}: day, {3}: month string
+    CMN_FORMAT_DATE: '{3} {2}',
+    // {0}: year, {1}: month, {2}: day, {3}: month string
     CMN_FORMAT_DATE_WITH_YEAR: '{3} {2} {0}',
     CMN_FORMAT_DATE_WITH_DOW: '{4}, {3} {2}',
     CMN_FORMAT_DATE_WITH_DOW_YEAR: '{4}, {3} {2} {0}',
@@ -44,8 +70,10 @@
     CMN_DOW_STR_06: 'Sat',
     CMN_TODAY: 'today',
     CMN_YESTERDAY: 'yesterday',
-    CMN_FORMAT_TIME: '{1}:{2} {3}', // {0}: hour (0 - 23), {1}: hour (1 - 12), {2}: minute, {3}: AM/PM string
-    CMN_FORMAT_TIME_WITH_SECOND: '{1}:{2}:{4} {3}', // {4}: second
+    CMN_FORMAT_TIME: '{1}:{2} {3}',
+    // {0}: hour (0 - 23), {1}: hour (1 - 12), {2}: minute, {3}: AM/PM string
+    CMN_FORMAT_TIME_WITH_SECOND: '{1}:{2}:{4} {3}',
+    // {4}: second
     CMN_FORMAT_HOURS_AGO: '{0}H',
     CMN_FORMAT_MINUTES_AGO: '{0}M',
     CMN_AM_STR: 'AM',
@@ -61,7 +89,6 @@
     CMN_LANGUAGE_JA: 'Japanese',
     CMN_LANGUAGE_ZH: 'Chinese',
     CMN_MOMENT_LOCALE: 'en',
-
     MSG_ABOUT_DIALOG_TITLE: 'About {0}',
     MSG_CALL_DEVICE_WARNING:
       'Please check for problems of the microphone or the camera.',
@@ -190,12 +217,10 @@
     MSG_USER_LIST_DIALOG_TITLE: 'Edit the user list',
     MSG_WEBRTC_UNAVAILABLE_1: 'You have no Phone ID of WebRTC.',
     MSG_WEBRTC_UNAVAILABLE_2: 'Would you like to add a new Phone ID?',
-
     TAB_HISTORYDETAIL: 'History - ',
     TAB_HISTORYSUMMARIES: 'History',
     TAB_PREFERENCE: 'Preferences',
     TAB_WEBCHATQUEUE: 'Webchat',
-
     LBL_BROADCAST_BUDDIES: 'Members',
     LBL_BROADCAST_GROUP: 'Group',
     LBL_BROADCAST_GROUP_NONE: '(None)',
@@ -549,7 +574,6 @@
     LBL_WEBRTC_UNAVAILABLE_NEVER: 'Do not use WebRTC',
     LBL_WEBRTC_UNAVAILABLE_NO: 'No, for now',
     LBL_WEBRTC_UNAVAILABLE_YES: 'Yes',
-
     DUMMY: '',
   }
 })

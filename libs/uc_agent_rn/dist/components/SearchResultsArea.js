@@ -1,24 +1,157 @@
-import React from 'react'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  Platform,
-  FlatList,
-} from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import ChatList from './ChatList.js'
-import { formatTopicDate } from '../utilities/strings.js'
-import RadioCheckboxCheckedIcon from '../icons/RadioCheckboxCheckedIcon.js'
-import RadioCheckboxUncheckedIcon from '../icons/RadioCheckboxUncheckedIcon.js'
-import { ScrollView } from 'react-native-gesture-handler'
+'use strict'
 
-const colors = {
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _ChatList = _interopRequireDefault(require('./ChatList'))
+var _strings = require('../utilities/strings')
+var _RadioCheckboxCheckedIcon = _interopRequireDefault(
+  require('../icons/RadioCheckboxCheckedIcon'),
+)
+var _RadioCheckboxUncheckedIcon = _interopRequireDefault(
+  require('../icons/RadioCheckboxUncheckedIcon'),
+)
+var _reactNativeGestureHandler = require('react-native-gesture-handler')
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n))
+    throw new TypeError('Cannot call a class as a function')
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t]
+    ;(o.enumerable = o.enumerable || !1),
+      (o.configurable = !0),
+      'value' in o && (o.writable = !0),
+      Object.defineProperty(e, _toPropertyKey(o.key), o)
+  }
+}
+function _createClass(e, r, t) {
+  return (
+    r && _defineProperties(e.prototype, r),
+    t && _defineProperties(e, t),
+    Object.defineProperty(e, 'prototype', { writable: !1 }),
+    e
+  )
+}
+function _callSuper(t, o, e) {
+  return (
+    (o = _getPrototypeOf(o)),
+    _possibleConstructorReturn(
+      t,
+      _isNativeReflectConstruct()
+        ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
+        : o.apply(t, e),
+    )
+  )
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ('object' == _typeof(e) || 'function' == typeof e)) return e
+  if (void 0 !== e)
+    throw new TypeError(
+      'Derived constructors may only return object or undefined',
+    )
+  return _assertThisInitialized(t)
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called",
+    )
+  return e
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(
+      Reflect.construct(Boolean, [], function () {}),
+    )
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct() {
+    return !!t
+  })()
+}
+function _getPrototypeOf(t) {
+  return (
+    (_getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf.bind()
+      : function (t) {
+          return t.__proto__ || Object.getPrototypeOf(t)
+        }),
+    _getPrototypeOf(t)
+  )
+}
+function _inherits(t, e) {
+  if ('function' != typeof e && null !== e)
+    throw new TypeError('Super expression must either be null or a function')
+  ;(t.prototype = Object.create(e && e.prototype, {
+    constructor: { value: t, writable: !0, configurable: !0 },
+  })),
+    Object.defineProperty(t, 'prototype', { writable: !1 }),
+    e && _setPrototypeOf(t, e)
+}
+function _setPrototypeOf(t, e) {
+  return (
+    (_setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function (t, e) {
+          return (t.__proto__ = e), t
+        }),
+    _setPrototypeOf(t, e)
+  )
+}
+function _defineProperty(e, r, t) {
+  return (
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
+var colors = {
   white: '#FFFFFF',
   black: '#000000',
   borderColor: '#DCDCD5',
@@ -29,8 +162,7 @@ const colors = {
   textHoverColor: '#685947',
   yellow: '#FFFF00',
 }
-
-const styles = StyleSheet.create({
+var styles = _reactNative.StyleSheet.create({
   container: {
     flex: 1,
     borderWidth: 1,
@@ -264,288 +396,384 @@ const styles = StyleSheet.create({
  * props.checkBox
  * props.emphasize
  */
-export default class extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
+var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
+  function _default(_props) {
+    var _this
+    _classCallCheck(this, _default)
+    _this = _callSuper(this, _default, [_props])
+    _defineProperty(_this, 'handleResultPress', function (searchResultId) {
+      var _this2 = _this,
+        props = _this2.props
+      props.uiData.ucUiAction.expandSearchResult({
+        chatType: props.panelType,
+        chatCode: props.panelCode,
+        searchResultIds: [searchResultId],
+      })
+    })
+    _defineProperty(
+      _this,
+      'handleSelectPress',
+      function (searchResultId, event) {
+        var _this3 = _this,
+          props = _this3.props
+        props.uiData.ucUiAction.selectSearchResult({
+          chatType: props.panelType,
+          chatCode: props.panelCode,
+          selectIds: [],
+          unselectIds: [],
+          reverseIds: [searchResultId],
+        })
+      },
+    )
+    _defineProperty(_this, 'handleSelectAllPress', function () {
+      var _this4 = _this,
+        props = _this4.props
+      if (_this.state.selectedAll) {
+        _this.setState({
+          selectedAll: false,
+        })
+        props.uiData.ucUiAction.selectSearchResult({
+          chatType: props.panelType,
+          chatCode: props.panelCode,
+          selectIds: [],
+          unselectIds: null,
+          reverseIds: [],
+        })
+      } else {
+        _this.setState({
+          selectedAll: true,
+        })
+        props.uiData.ucUiAction.selectSearchResult({
+          chatType: props.panelType,
+          chatCode: props.panelCode,
+          selectIds: null,
+          unselectIds: [],
+          reverseIds: [],
+        })
+      }
+    })
+    _defineProperty(_this, 'handleSearchMorePress', function () {
+      var _this5 = _this,
+        props = _this5.props
+      props.uiData.ucUiAction.doSearch({
+        chatType: props.panelType,
+        chatCode: props.panelCode,
+        searchMore: true,
+        emphasize: true,
+      })
+    })
+    _defineProperty(_this, 'renderCheckbox', function (selected) {
+      return /*#__PURE__*/ _react.default.createElement(
+        _reactNative.View,
+        {
+          style: styles.checkbox,
+        },
+        selected
+          ? /*#__PURE__*/ _react.default.createElement(
+              _RadioCheckboxCheckedIcon.default,
+              null,
+            )
+          : /*#__PURE__*/ _react.default.createElement(
+              _RadioCheckboxUncheckedIcon.default,
+              null,
+            ),
+      )
+    })
+    _defineProperty(
+      _this,
+      'renderButton',
+      function (text, onPress, selected, style, textStyle) {
+        return /*#__PURE__*/ _react.default.createElement(
+          _reactNative.TouchableOpacity,
+          {
+            style: [style, selected && styles.selectButtonSelected],
+            onPress: onPress,
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.Text,
+            {
+              style: textStyle,
+            },
+            text,
+          ),
+        )
+      },
+    )
+    _defineProperty(
+      _this,
+      'renderSearchResult',
+      function (searchResult, index) {
+        var _this6 = _this,
+          props = _this6.props
+        var _this$state = _this.state,
+          hoveredRow = _this$state.hoveredRow,
+          activeRow = _this$state.activeRow
+        var isHovered = hoveredRow === index
+        var isActive = activeRow === index
+        console.log('#Duy Phan console searchResult', searchResult)
+        return /*#__PURE__*/ _react.default.createElement(
+          _react.default.Fragment,
+          {
+            key: 'result-'.concat(index),
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.TouchableOpacity,
+            {
+              style: [
+                styles.row,
+                isHovered && styles.rowHovered,
+                isActive && styles.rowActive,
+              ],
+              onPress: function onPress() {
+                return _this.handleResultPress(searchResult.searchResultId)
+              },
+              onPressIn: function onPressIn() {
+                return _this.setState({
+                  hoveredRow: index,
+                })
+              },
+              onPressOut: function onPressOut() {
+                return _this.setState({
+                  hoveredRow: null,
+                  activeRow: null,
+                })
+              },
+              activeOpacity: 1,
+            },
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: [
+                  styles.checkCell,
+                  (!props.selectable || !props.checkBox) &&
+                    styles.checkCellHidden,
+                ],
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  onPress: function onPress(e) {
+                    _this.handleSelectPress(searchResult.searchResultId)
+                  },
+                },
+                _this.renderCheckbox(searchResult.selected),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.timeCell,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                null,
+                (0, _strings.formatTopicDate)(searchResult.customerStartTime),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.nameCell,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.nameText,
+                },
+                searchResult.customerName,
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.summaryCell,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                null,
+                searchResult.summary.replace(/<[^>]*>/g, ''),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: [
+                  styles.selectCell,
+                  (!props.selectable || props.checkBox) &&
+                    styles.selectCellHidden,
+                ],
+              },
+              props.selectable &&
+                !props.checkBox &&
+                _this.renderButton(
+                  _uawmsgs.default.LBL_SEARCH_SELECT_BUTTON,
+                  function (e) {
+                    _this.handleSelectPress(searchResult.searchResultId)
+                    e.stopPropagation()
+                  },
+                  searchResult.selected,
+                  styles.selectButton,
+                  styles.selectButtonText,
+                ),
+            ),
+          ),
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            {
+              style: [
+                styles.detailRow,
+                searchResult._expanded && styles.detailRowExpanded,
+              ],
+            },
+            /*#__PURE__*/ _react.default.createElement(_ChatList.default, {
+              uiData: props.uiData,
+              panelType: 'SEARCHRESULTDETAIL',
+              panelCode: searchResult.searchResultId,
+            }),
+          ),
+        )
+      },
+    )
+    _this.state = {
       selectedAll: false,
       hoveredRow: null,
       activeRow: null,
     }
+    return _this
   }
-
-  handleResultPress = searchResultId => {
-    const { props } = this
-    props.uiData.ucUiAction.expandSearchResult({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
-      searchResultIds: [searchResultId],
-    })
-  }
-
-  handleSelectPress = (searchResultId, event) => {
-    const { props } = this
-    props.uiData.ucUiAction.selectSearchResult({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
-      selectIds: [],
-      unselectIds: [],
-      reverseIds: [searchResultId],
-    })
-  }
-
-  handleSelectAllPress = () => {
-    const { props } = this
-    if (this.state.selectedAll) {
-      this.setState({ selectedAll: false })
-      props.uiData.ucUiAction.selectSearchResult({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
-        selectIds: [],
-        unselectIds: null,
-        reverseIds: [],
-      })
-    } else {
-      this.setState({ selectedAll: true })
-      props.uiData.ucUiAction.selectSearchResult({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
-        selectIds: null,
-        unselectIds: [],
-        reverseIds: [],
-      })
-    }
-  }
-
-  handleSearchMorePress = () => {
-    const { props } = this
-    props.uiData.ucUiAction.doSearch({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
-      searchMore: true,
-      emphasize: true,
-    })
-  }
-
-  renderCheckbox = selected => {
-    return (
-      <View style={styles.checkbox}>
-        {selected ? (
-          <RadioCheckboxCheckedIcon />
-        ) : (
-          <RadioCheckboxUncheckedIcon />
-        )}
-      </View>
-    )
-  }
-
-  renderButton = (text, onPress, selected, style, textStyle) => {
-    return (
-      <TouchableOpacity
-        style={[style, selected && styles.selectButtonSelected]}
-        onPress={onPress}
-      >
-        {/* <LinearGradient
-          colors={
-            selected
-              ? ['#FFFFFF1A', '#FFFFFF73', '#FFFFFFA6']
-              : ['#FFFFFFA6', '#FFFFFF73', '#FFFFFF1A']
-          }
-          style={styles.gradientButton}
-        /> */}
-        <Text style={textStyle}>{text}</Text>
-      </TouchableOpacity>
-    )
-  }
-
-  renderSearchResult = (searchResult, index) => {
-    const { props } = this
-    const { hoveredRow, activeRow } = this.state
-    const isHovered = hoveredRow === index
-    const isActive = activeRow === index
-    console.log('#Duy Phan console searchResult', searchResult)
-
-    return (
-      <React.Fragment key={`result-${index}`}>
-        <TouchableOpacity
-          style={[
-            styles.row,
-            isHovered && styles.rowHovered,
-            isActive && styles.rowActive,
-          ]}
-          onPress={() => this.handleResultPress(searchResult.searchResultId)}
-          onPressIn={() => this.setState({ hoveredRow: index })}
-          onPressOut={() =>
-            this.setState({ hoveredRow: null, activeRow: null })
-          }
-          activeOpacity={1}
-        >
-          <View
-            style={[
-              styles.checkCell,
-              (!props.selectable || !props.checkBox) && styles.checkCellHidden,
-            ]}
-          >
-            <TouchableOpacity
-              onPress={e => {
-                this.handleSelectPress(searchResult.searchResultId)
-              }}
-            >
-              {this.renderCheckbox(searchResult.selected)}
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.timeCell}>
-            <Text>{formatTopicDate(searchResult.customerStartTime)}</Text>
-          </View>
-
-          <View style={styles.nameCell}>
-            <Text style={styles.nameText}>{searchResult.customerName}</Text>
-          </View>
-
-          <View style={styles.summaryCell}>
-            <Text>
-              {/* TODO: HTML content needs to be parsed properly */}
-              {searchResult.summary.replace(/<[^>]*>/g, '')}
-            </Text>
-          </View>
-
-          <View
-            style={[
-              styles.selectCell,
-              (!props.selectable || props.checkBox) && styles.selectCellHidden,
-            ]}
-          >
-            {props.selectable &&
-              !props.checkBox &&
-              this.renderButton(
-                uawMsgs.LBL_SEARCH_SELECT_BUTTON,
-                e => {
-                  this.handleSelectPress(searchResult.searchResultId)
-                  e.stopPropagation()
+  _inherits(_default, _React$Component)
+  return _createClass(_default, [
+    {
+      key: 'render',
+      value: function render() {
+        var _this7 = this
+        var props = this.props
+        var searchResults = props.uiData.ucUiStore.getSearchResults({
+          chatType: props.panelType,
+          chatCode: props.panelCode,
+        })
+        var searchWorkData = props.uiData.ucUiStore.getSearchWorkData({
+          chatType: props.panelType,
+          chatCode: props.panelCode,
+        })
+        var containerStyles = [styles.container]
+        var headerStyles = [
+          styles.header,
+          props.allSelectable && searchResults.length && styles.headerVisible,
+        ]
+        var scrollableStyles = [
+          styles.scrollable,
+          props.allSelectable &&
+            searchResults.length &&
+            styles.scrollableWithHeader,
+        ]
+        return /*#__PURE__*/ _react.default.createElement(
+          _reactNative.View,
+          {
+            style: containerStyles,
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            {
+              style: headerStyles,
+            },
+            props.checkBox
+              ? /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: styles.checkboxButton,
+                    onPress: this.handleSelectAllPress,
+                  },
+                  this.renderCheckbox(this.state.selectedAll),
+                )
+              : this.renderButton(
+                  _uawmsgs.default.LBL_SEARCH_SELECT_ALL_BUTTON,
+                  this.handleSelectAllPress,
+                  this.state.selectedAll,
+                  styles.selectAllButton,
+                  styles.selectAllButtonText,
+                ),
+          ),
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNativeGestureHandler.ScrollView,
+            {
+              style: scrollableStyles,
+            },
+            searchResults.length > 0 &&
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: [styles.tableContainer],
                 },
-                searchResult.selected,
-                styles.selectButton,
-                styles.selectButtonText,
-              )}
-          </View>
-        </TouchableOpacity>
-
-        <View
-          style={[
-            styles.detailRow,
-            searchResult._expanded && styles.detailRowExpanded,
-          ]}
-        >
-          <ChatList
-            uiData={props.uiData}
-            panelType='SEARCHRESULTDETAIL'
-            panelCode={searchResult.searchResultId}
-          />
-        </View>
-      </React.Fragment>
-    )
-  }
-
-  render() {
-    const { props } = this
-    const searchResults = props.uiData.ucUiStore.getSearchResults({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
-    })
-    const searchWorkData = props.uiData.ucUiStore.getSearchWorkData({
-      chatType: props.panelType,
-      chatCode: props.panelCode,
-    })
-
-    const containerStyles = [styles.container]
-
-    const headerStyles = [
-      styles.header,
-      props.allSelectable && searchResults.length && styles.headerVisible,
-    ]
-
-    const scrollableStyles = [
-      styles.scrollable,
-      props.allSelectable &&
-        searchResults.length &&
-        styles.scrollableWithHeader,
-    ]
-
-    return (
-      <View style={containerStyles}>
-        <View style={headerStyles}>
-          {props.checkBox ? (
-            <TouchableOpacity
-              style={styles.checkboxButton}
-              onPress={this.handleSelectAllPress}
-            >
-              {this.renderCheckbox(this.state.selectedAll)}
-            </TouchableOpacity>
-          ) : (
-            this.renderButton(
-              uawMsgs.LBL_SEARCH_SELECT_ALL_BUTTON,
-              this.handleSelectAllPress,
-              this.state.selectedAll,
-              styles.selectAllButton,
-              styles.selectAllButtonText,
-            )
-          )}
-        </View>
-
-        <ScrollView style={scrollableStyles}>
-          {searchResults.length > 0 && (
-            <View style={[styles.tableContainer]}>
-              {searchResults.map((result, index) =>
-                this.renderSearchResult(result, index),
-              )}
-            </View>
-          )}
-
-          <View
-            style={[
-              styles.errorArea,
-              !searchWorkData.errorType && styles.errorAreaHidden,
-            ]}
-          >
-            <Text style={styles.errorMessage}>
-              {(uawMsgs[searchWorkData.errorType] || searchWorkData.errorType) +
-                (searchWorkData.errorDetail
-                  ? ' (' + searchWorkData.errorDetail + ')'
-                  : '')}
-            </Text>
-          </View>
-
-          {searchWorkData.hasMore && (
-            <View style={[styles.searchMoreArea]}>
-              <TouchableOpacity
-                style={styles.searchMoreButton}
-                onPress={this.handleSearchMorePress}
-              >
-                <Text style={styles.searchMoreButtonText}>
-                  {uawMsgs.LBL_SEARCH_MORE_BUTTON}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-
-          <View
-            style={[
-              styles.searchingArea,
-              !(searchWorkData.searching && !searchWorkData.clearing) &&
-                styles.searchingAreaHidden,
-            ]}
-          >
-            <Image
-              source={require('../images/progress.gif')}
-              style={styles.searchingIcon}
-            />
-            <Text style={styles.searchingMessage}>
-              {uawMsgs.LBL_SEARCH_SEARCHING}
-            </Text>
-          </View>
-        </ScrollView>
-      </View>
-    )
-  }
-}
+                searchResults.map(function (result, index) {
+                  return _this7.renderSearchResult(result, index)
+                }),
+              ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: [
+                  styles.errorArea,
+                  !searchWorkData.errorType && styles.errorAreaHidden,
+                ],
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.errorMessage,
+                },
+                (_uawmsgs.default[searchWorkData.errorType] ||
+                  searchWorkData.errorType) +
+                  (searchWorkData.errorDetail
+                    ? ' (' + searchWorkData.errorDetail + ')'
+                    : ''),
+              ),
+            ),
+            searchWorkData.hasMore &&
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: [styles.searchMoreArea],
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: styles.searchMoreButton,
+                    onPress: this.handleSearchMorePress,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.searchMoreButtonText,
+                    },
+                    _uawmsgs.default.LBL_SEARCH_MORE_BUTTON,
+                  ),
+                ),
+              ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: [
+                  styles.searchingArea,
+                  !(searchWorkData.searching && !searchWorkData.clearing) &&
+                    styles.searchingAreaHidden,
+                ],
+              },
+              /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
+                source: require('../images/progress.gif'),
+                style: styles.searchingIcon,
+              }),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.searchingMessage,
+                },
+                _uawmsgs.default.LBL_SEARCH_SEARCHING,
+              ),
+            ),
+          ),
+        )
+      },
+    },
+  ])
+})(_react.default.Component))

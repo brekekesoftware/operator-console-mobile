@@ -1,19 +1,139 @@
-import React from 'react'
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  ScrollView,
-} from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import NameEmbeddedSpan from './NameEmbeddedSpan.js'
-import StatusIcon from './StatusIcon.js'
-import ToolbarButton from './ToolbarButton.js'
-import BalloonDialog from './BalloonDialog.js'
+'use strict'
 
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _strings = require('../utilities/strings')
+var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+var _StatusIcon = _interopRequireDefault(require('./StatusIcon'))
+var _ToolbarButton = _interopRequireDefault(require('./ToolbarButton'))
+var _BalloonDialog = _interopRequireDefault(require('./BalloonDialog'))
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n))
+    throw new TypeError('Cannot call a class as a function')
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t]
+    ;(o.enumerable = o.enumerable || !1),
+      (o.configurable = !0),
+      'value' in o && (o.writable = !0),
+      Object.defineProperty(e, _toPropertyKey(o.key), o)
+  }
+}
+function _createClass(e, r, t) {
+  return (
+    r && _defineProperties(e.prototype, r),
+    t && _defineProperties(e, t),
+    Object.defineProperty(e, 'prototype', { writable: !1 }),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
+function _callSuper(t, o, e) {
+  return (
+    (o = _getPrototypeOf(o)),
+    _possibleConstructorReturn(
+      t,
+      _isNativeReflectConstruct()
+        ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
+        : o.apply(t, e),
+    )
+  )
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ('object' == _typeof(e) || 'function' == typeof e)) return e
+  if (void 0 !== e)
+    throw new TypeError(
+      'Derived constructors may only return object or undefined',
+    )
+  return _assertThisInitialized(t)
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called",
+    )
+  return e
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(
+      Reflect.construct(Boolean, [], function () {}),
+    )
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct() {
+    return !!t
+  })()
+}
+function _getPrototypeOf(t) {
+  return (
+    (_getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf.bind()
+      : function (t) {
+          return t.__proto__ || Object.getPrototypeOf(t)
+        }),
+    _getPrototypeOf(t)
+  )
+}
+function _inherits(t, e) {
+  if ('function' != typeof e && null !== e)
+    throw new TypeError('Super expression must either be null or a function')
+  ;(t.prototype = Object.create(e && e.prototype, {
+    constructor: { value: t, writable: !0, configurable: !0 },
+  })),
+    Object.defineProperty(t, 'prototype', { writable: !1 }),
+    e && _setPrototypeOf(t, e)
+}
+function _setPrototypeOf(t, e) {
+  return (
+    (_setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function (t, e) {
+          return (t.__proto__ = e), t
+        }),
+    _setPrototypeOf(t, e)
+  )
+}
 /**
  * BuddylistButton
  * props.uiData
@@ -24,108 +144,148 @@ import BalloonDialog from './BalloonDialog.js'
  * props.uiData.buddylistBuddy_onClick
  * props.disabled
  */
-export default class extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
+var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
+  function _default(props) {
+    var _this
+    _classCallCheck(this, _default)
+    _this = _callSuper(this, _default, [props])
+    _this.state = {
       showingDialogVersion: null,
     }
+    return _this
   }
-
-  handleBuddylistButtonClick(ev) {
-    const props = this.props
-    if (props.uiData.showingDialogVersion !== this.state.showingDialogVersion) {
-      this.setState({
-        showingDialogVersion: ++props.uiData.showingDialogVersion,
-      })
-      props.uiData.fire('showingDialog_update')
-      props.uiData.fire('buddylistButton_onClick', { visible: true }, ev)
-    } else {
-      props.uiData.fire('buddylistButton_onClick', { visible: false }, ev)
-      props.uiData.window_onclick()
-    }
-  }
-
-  render() {
-    const props = this.props
-    const profile = props.uiData.ucUiStore.getChatClient().getProfile()
-    const buddyTable =
-      props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
-    const myUcCimUserType = int(props.uiData.ucUiStore.getUcCimUserType())
-    const filteredBuddyList = []
-
-    for (let user_id in buddyTable) {
-      if (
-        !buddyTable[user_id].isMe &&
-        buddyTable[user_id].isBuddy &&
-        !buddyTable[user_id].isTemporaryBuddy
-      ) {
-        filteredBuddyList.push(buddyTable[user_id])
-      }
-    }
-
-    const buddyNodes = filteredBuddyList.sort().map(buddy => {
-      const currentBuddyStatus = props.uiData.getCurrentBuddyStatus(buddy) || {}
-      console.log('#Duy Phan console buddy', buddy)
-      return (
-        <TouchableOpacity
-          key={buddy.user_id}
-          style={styles.brBuddylistBuddy}
-          onPress={() => props.uiData.fire('buddylistBuddy_onClick', buddy)}
-        >
-          <View style={styles.buddyContent}>
-            <StatusIcon
-              style={styles.brStatusIcon}
-              status={currentBuddyStatus.status}
-              degree={currentBuddyStatus.degree}
-            />
-            <NameEmbeddedSpan
-              style={styles.brNameEmbeddedSpan}
-              ucUiStore={props.uiData.ucUiStore}
-              format='{0}'
-              title='{0}'
-              buddy={buddy}
-            />
-          </View>
-        </TouchableOpacity>
-      )
-    })
-
-    return (
-      <View style={styles.brBuddylistButton}>
-        <BalloonDialog
-          shows={
-            props.uiData.showingDialogVersion ===
-            this.state.showingDialogVersion
+  _inherits(_default, _React$Component)
+  return _createClass(_default, [
+    {
+      key: 'handleBuddylistButtonClick',
+      value: function handleBuddylistButtonClick(ev) {
+        var props = this.props
+        if (
+          props.uiData.showingDialogVersion !== this.state.showingDialogVersion
+        ) {
+          this.setState({
+            showingDialogVersion: ++props.uiData.showingDialogVersion,
+          })
+          props.uiData.fire('showingDialog_update')
+          props.uiData.fire(
+            'buddylistButton_onClick',
+            {
+              visible: true,
+            },
+            ev,
+          )
+        } else {
+          props.uiData.fire(
+            'buddylistButton_onClick',
+            {
+              visible: false,
+            },
+            ev,
+          )
+          props.uiData.window_onclick()
+        }
+      },
+    },
+    {
+      key: 'render',
+      value: function render() {
+        var props = this.props
+        var profile = props.uiData.ucUiStore.getChatClient().getProfile()
+        var buddyTable =
+          props.uiData.ucUiStore.getBuddyTable()[profile.tenant] || {}
+        var myUcCimUserType = (0, _strings.int)(
+          props.uiData.ucUiStore.getUcCimUserType(),
+        )
+        var filteredBuddyList = []
+        for (var user_id in buddyTable) {
+          if (
+            !buddyTable[user_id].isMe &&
+            buddyTable[user_id].isBuddy &&
+            !buddyTable[user_id].isTemporaryBuddy
+          ) {
+            filteredBuddyList.push(buddyTable[user_id])
           }
-          anchor='left'
-        >
-          <ScrollView style={styles.brBuddylistArea}>{buddyNodes}</ScrollView>
-        </BalloonDialog>
-        <ToolbarButton
-          iconStyle={styles.brIconBuddylist}
-          iconSource={require('../images/buddylist.png')}
-          title={uawMsgs.LBL_BUDDYLIST_BUTON_TOOLTIP}
-          disabled={
-            props.disabled ||
-            buddyNodes.length === 0 ||
-            (int(
-              props.uiData.ucUiStore.getOptionalSetting({
-                key: 'buddylist_button_type',
+        }
+        var buddyNodes = filteredBuddyList.sort().map(function (buddy) {
+          var currentBuddyStatus =
+            props.uiData.getCurrentBuddyStatus(buddy) || {}
+          console.log('#Duy Phan console buddy', buddy)
+          return /*#__PURE__*/ _react.default.createElement(
+            _reactNative.TouchableOpacity,
+            {
+              key: buddy.user_id,
+              style: styles.brBuddylistBuddy,
+              onPress: function onPress() {
+                return props.uiData.fire('buddylistBuddy_onClick', buddy)
+              },
+            },
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.buddyContent,
+              },
+              /*#__PURE__*/ _react.default.createElement(_StatusIcon.default, {
+                style: styles.brStatusIcon,
+                status: currentBuddyStatus.status,
+                degree: currentBuddyStatus.degree,
               }),
-            ) &
-              myUcCimUserType) ===
-              myUcCimUserType
-          }
-          dropDown={true}
-          onPress={this.handleBuddylistButtonClick.bind(this)}
-        />
-      </View>
-    )
-  }
-}
-
-const styles = StyleSheet.create({
+              /*#__PURE__*/ _react.default.createElement(
+                _NameEmbeddedSpan.default,
+                {
+                  style: styles.brNameEmbeddedSpan,
+                  ucUiStore: props.uiData.ucUiStore,
+                  format: '{0}',
+                  title: '{0}',
+                  buddy: buddy,
+                },
+              ),
+            ),
+          )
+        })
+        return /*#__PURE__*/ _react.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.brBuddylistButton,
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _BalloonDialog.default,
+            {
+              shows:
+                props.uiData.showingDialogVersion ===
+                this.state.showingDialogVersion,
+              anchor: 'left',
+            },
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.ScrollView,
+              {
+                style: styles.brBuddylistArea,
+              },
+              buddyNodes,
+            ),
+          ),
+          /*#__PURE__*/ _react.default.createElement(_ToolbarButton.default, {
+            iconStyle: styles.brIconBuddylist,
+            iconSource: require('../images/buddylist.png'),
+            title: _uawmsgs.default.LBL_BUDDYLIST_BUTON_TOOLTIP,
+            disabled:
+              props.disabled ||
+              buddyNodes.length === 0 ||
+              ((0, _strings.int)(
+                props.uiData.ucUiStore.getOptionalSetting({
+                  key: 'buddylist_button_type',
+                }),
+              ) &
+                myUcCimUserType) ===
+                myUcCimUserType,
+            dropDown: true,
+            onPress: this.handleBuddylistButtonClick.bind(this),
+          }),
+        )
+      },
+    },
+  ])
+})(_react.default.Component))
+var styles = _reactNative.StyleSheet.create({
   brBuddylistButton: {
     // Container styles
     zIndex: 1,
@@ -155,7 +315,8 @@ const styles = StyleSheet.create({
   brNameEmbeddedSpan: {
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 24, // 1.6 * 15
+    lineHeight: 24,
+    // 1.6 * 15
     letterSpacing: 0.3,
     color: '#1A2B2B', // @dark_jungle_green
   },

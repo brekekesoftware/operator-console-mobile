@@ -3026,6 +3026,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@rollup/plugin-alias@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-5.1.1.tgz#53601d88cda8b1577aa130b4a6e452283605bf26"
+  integrity sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz#04bc0608f4aa4b2e4b1aebf284344d0f68fda283"
@@ -14417,9 +14422,9 @@ type-fest@^1.0.2:
   integrity sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==
 
 type-fest@^4.18.2:
-  version "4.27.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.27.0.tgz#57329aae32e7b27b942b961e3ef861f0873c4b1b"
-  integrity sha512-3IMSWgP7C5KSQqmo1wjhKrwsvXAtF33jO3QY+Uy++ia7hqvgSK6iXbbg5PbDBc1P2ZbNEDgejOrN4YooXvhwCw==
+  version "4.41.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.41.0.tgz#6ae1c8e5731273c2bf1f58ad39cbae2c91a46c58"
+  integrity sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==
 
 type-is@~1.6.18:
   version "1.6.18"
@@ -14498,6 +14503,7 @@ uc.micro@^1.0.1:
 uc_agent_rn@./libs/uc_agent_rn:
   version "1.0.0"
   dependencies:
+    "@rollup/plugin-alias" "^5.1.1"
     cpx "^1.5.0"
 
 uglify-es@^3.1.9:

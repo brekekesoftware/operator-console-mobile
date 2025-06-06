@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "react-native": "dist/index.js",
+  "browser": "dist/index.js",
   "files": [
-    "dist"
+    "dist",
+    "dist/js",
+    "dist/icons",
+    "dist/apps",
+    "dist/sounds"
   ],
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "*",
@@ -14,29 +19,44 @@
     "react-native-date-picker": "*",
     "react-native-dimensions": "*",
     "react-native-document-picker": "*",
+    "react-native-draggable-flatlist": "*",
     "react-native-fs": "*",
     "react-native-gesture-handler": "*",
     "react-native-image-picker": "*",
     "react-native-linear-gradient": "*",
+    "react-native-reanimated": "*",
     "react-native-share": "*",
-    "react-native-video": "*",
-    "react-native-svg": "*",
     "react-native-sound": "*",
-    "react-native-draggable-flatlist": "*",
-    "react-native-reanimated": "*"
+    "react-native-svg": "*",
+    "react-native-video": "*",
+    "react-native-webrtc": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "mkdir -p dist && cp -r src/* dist/",
-    "build:dev": "babel src --out-dir dist --extensions \".js,.jsx\"",
+    "build:dev": "rm -rf dist && babel src --out-dir dist --extensions \".js,.jsx\" && npm run copy-assets",
     "prepare": "npm run build",
-    "copy-assets": "cpx \"src/**/*.{png,jpg,jpeg,svg,json}\" dist"
+    "copy-assets": "cpx \"src/**/*.{png,jpg,jpeg,svg,json,mp3,gif}\" dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@rollup/plugin-alias": "^5.1.1",
     "cpx": "^1.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.27.2",
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-image": "^3.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "rollup": "^4.41.1",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-terser": "^7.0.2"
   }
 }

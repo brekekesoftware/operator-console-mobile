@@ -1,4 +1,10 @@
-const Brekeke = (window.Brekeke = window.Brekeke || {})
+'use strict'
+
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var Brekeke = (window.Brekeke = window.Brekeke || {})
 Brekeke.UCClient =
   Brekeke.UCClient || require('../js/brekeke/ucclient/ucclient.js')
-export default Brekeke.UCClient.Constants
+var _default = (exports.default = Brekeke.UCClient.Constants)

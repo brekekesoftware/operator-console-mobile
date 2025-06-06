@@ -1,9 +1,11 @@
-import React from 'react'
-import { Text, StyleSheet } from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _reactNative = require('react-native')
+var _strings = require('../utilities/strings')
 /*
  * props.ucUiStore - UI store for getting user information
  * props.format - Format string with {0} placeholder for user name
@@ -11,47 +13,39 @@ import { int, string } from '../utilities/strings.js'
  * props.buddy - Buddy object containing user information
  * props.style - Additional styles
  */
-const NameEmbeddedSpan = props => {
-  const format = string(props.format)
-  const title = string(props.title)
-  const messages = format.split('{0}')
-  const titleMessages = title.split('{0}')
-  const user = props.buddy && props.ucUiStore.getBuddyUserForUi(props.buddy)
-  const user_name = string(user && user.name)
-
-  const stylesToApply = [styles.nameEmbeddedSpan]
-
+var NameEmbeddedSpan = function NameEmbeddedSpan(props) {
+  var format = (0, _strings.string)(props.format)
+  var title = (0, _strings.string)(props.title)
+  var messages = format.split('{0}')
+  var titleMessages = title.split('{0}')
+  var user = props.buddy && props.ucUiStore.getBuddyUserForUi(props.buddy)
+  var user_name = (0, _strings.string)(user && user.name)
+  var stylesToApply = [styles.nameEmbeddedSpan]
   if (user && user.isMe) {
     stylesToApply.push(styles.isMe)
   }
-
   if (user && user.isBuddy) {
     stylesToApply.push(styles.isBuddy)
   }
-
   if (user && user.isTemporaryBuddy) {
     stylesToApply.push(styles.isTemporaryBuddy)
   }
-
   if (props.style) {
     stylesToApply.push(props.style)
   }
-
-  return (
-    <Text
-      style={stylesToApply}
-      accessibilityHint={titleMessages.join(user_name)}
-    >
-      {messages.join(user_name)}
-    </Text>
+  return /*#__PURE__*/ React.createElement(
+    _reactNative.Text,
+    {
+      style: stylesToApply,
+      accessibilityHint: titleMessages.join(user_name),
+    },
+    messages.join(user_name),
   )
 }
-
-const colors = {
+var colors = {
   portlandOrange: '#FF4526', // @portland_orange
 }
-
-const styles = StyleSheet.create({
+var styles = _reactNative.StyleSheet.create({
   nameEmbeddedSpan: {},
   isMe: {
     color: colors.portlandOrange,
@@ -59,5 +53,4 @@ const styles = StyleSheet.create({
   isBuddy: {},
   isTemporaryBuddy: {},
 })
-
-export default NameEmbeddedSpan
+var _default = (exports.default = NameEmbeddedSpan)

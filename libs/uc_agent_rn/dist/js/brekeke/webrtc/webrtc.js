@@ -1,3 +1,5 @@
+'use strict'
+
 /*
  * require jssip/jssip-0.4.2.js
  */
@@ -21,7 +23,7 @@ Brekeke.webrtc = {}
   /*
    * Phone constructor
    */
-  Phone = function () {
+  Phone = function Phone() {
     /*
      * Properties
      */
@@ -49,7 +51,7 @@ Brekeke.webrtc = {}
      * @param {Function} onSessionCreated e = { callSession: callSession }
      * @param {Function} onStatusChanged e = { callSession: callSession }
      */
-    initPhone: function (
+    initPhone: function initPhone(
       configuration,
       onRegistered,
       onPhoneError,
@@ -136,7 +138,6 @@ Brekeke.webrtc = {}
         })
       }
       this._myPhone.start()
-
       this._callSessionTable = {}
       this._callSessionIdCounter = 0
     },
@@ -144,7 +145,7 @@ Brekeke.webrtc = {}
      * Function finalizePhone
      * Finalizes WebRTC user agent.
      */
-    finalizePhone: function () {
+    finalizePhone: function finalizePhone() {
       if (this._myPhone) {
         this._myPhone.unregister()
         this._myPhone.stop()
@@ -156,14 +157,25 @@ Brekeke.webrtc = {}
     /*
      * Function makeCall
      */
-    makeCall: function (target, mediaConstraints, extraHeaders, sessionOption) {
+    makeCall: function makeCall(
+      target,
+      mediaConstraints,
+      extraHeaders,
+      sessionOption,
+    ) {
       if (!this._myPhone) {
         return
       }
       if (mediaConstraints === true) {
-        mediaConstraints = { audio: true, video: this.videoConstraints }
+        mediaConstraints = {
+          audio: true,
+          video: this.videoConstraints,
+        }
       } else if (!mediaConstraints) {
-        mediaConstraints = { audio: true, video: false }
+        mediaConstraints = {
+          audio: true,
+          video: false,
+        }
       }
       var session = new JsSIP.RTCSession(this._myPhone) // jssip-0.4.2.js: OK, jssip-0.5.0.js: NG
       session.brMediaConstraints = mediaConstraints
@@ -171,7 +183,13 @@ Brekeke.webrtc = {}
       session.connect(target, {
         //this._myPhone.call(target, {
         mediaConstraints: mediaConstraints,
-        RTCConstraints: { optional: [{ DtlsSrtpKeyAgreement: 'true' }] },
+        RTCConstraints: {
+          optional: [
+            {
+              DtlsSrtpKeyAgreement: 'true',
+            },
+          ],
+        },
         extraHeaders: extraHeaders,
         stun_servers:
           this._options.iceOnlyVideo && mediaConstraints.audio
@@ -186,19 +204,19 @@ Brekeke.webrtc = {}
     /*
      * Function getCallSession
      */
-    getCallSession: function (id) {
+    getCallSession: function getCallSession(id) {
       return this._callSessionTable[id]
     },
     /*
      * Function getCallSessionsCount
      */
-    getCallSessionsCount: function () {
+    getCallSessionsCount: function getCallSessionsCount() {
       return Object.keys(this._callSessionTable).length
     },
     /*
      * Function getCallSessionTable
      */
-    getCallSessionTable: function () {
+    getCallSessionTable: function getCallSessionTable() {
       var callSessionTable = {}
       for (var id in this._callSessionTable) {
         callSessionTable[id] = this._callSessionTable[id]
@@ -206,7 +224,6 @@ Brekeke.webrtc = {}
       return callSessionTable
     },
   }
-
   webrtc.Phone = Phone
 })(Brekeke.webrtc)
 
@@ -219,7 +236,7 @@ Brekeke.webrtc = {}
   /*
    * CallSession constructor
    */
-  CallSession = function (phone, e, id, onStatusChanged) {
+  CallSession = function CallSession(phone, e, id, onStatusChanged) {
     /*
      * Private fields
      */
@@ -284,7 +301,7 @@ Brekeke.webrtc = {}
     /*
      * Function answer
      */
-    answer: function (mediaConstraints) {
+    answer: function answer(mediaConstraints) {
       if (mediaConstraints) {
         this._mediaConstraints = {
           audio: mediaConstraints.audio || false,
@@ -300,13 +317,13 @@ Brekeke.webrtc = {}
     /*
      * Function hangUp
      */
-    hangUp: function () {
+    hangUp: function hangUp() {
       this._session.terminate()
     },
     /*
      * Function micOnOff (Obsolete)
      */
-    micOnOff: function () {
+    micOnOff: function micOnOff() {
       if (this._mediaConstraints.audio) {
         return (this._session.rtcMediaHandler.localMedia.getAudioTracks()[0].enabled =
           !this._session.rtcMediaHandler.localMedia.getAudioTracks()[0].enabled)
@@ -317,17 +334,23 @@ Brekeke.webrtc = {}
     /*
      * Function muteMicrophone
      */
-    muteMicrophone: function (muted) {
+    muteMicrophone: function muteMicrophone(muted) {
       if (muted) {
-        this._session.mute({ audio: true, video: false })
+        this._session.mute({
+          audio: true,
+          video: false,
+        })
       } else {
-        this._session.unmute({ audio: true, video: false })
+        this._session.unmute({
+          audio: true,
+          video: false,
+        })
       }
     },
     /*
      * Function videoOnOff (Obsolete)
      */
-    videoOnOff: function () {
+    videoOnOff: function videoOnOff() {
       if (this._mediaConstraints.video) {
         return (this._session.rtcMediaHandler.localMedia.getVideoTracks()[0].enabled =
           !this._session.rtcMediaHandler.localMedia.getVideoTracks()[0].enabled)
@@ -338,23 +361,29 @@ Brekeke.webrtc = {}
     /*
      * Function muteCamera
      */
-    muteCamera: function (muted) {
+    muteCamera: function muteCamera(muted) {
       if (muted) {
-        this._session.mute({ audio: false, video: true })
+        this._session.mute({
+          audio: false,
+          video: true,
+        })
       } else {
-        this._session.unmute({ audio: false, video: true })
+        this._session.unmute({
+          audio: false,
+          video: true,
+        })
       }
     },
     /*
      * Function sendDTMF
      */
-    sendDTMF: function (tone) {
+    sendDTMF: function sendDTMF(tone) {
       this._session.sendDTMF(tone)
     },
     /*
      * Function getStatusData
      */
-    getStatusData: function (status) {
+    getStatusData: function getStatusData(status) {
       return this._statusData[status]
     },
     /*
@@ -417,10 +446,12 @@ Brekeke.webrtc = {}
     /*
      * Event StatusChanged
      */
-    setStatusChangedEventHandler: function (onStatusChanged) {
+    setStatusChangedEventHandler: function setStatusChangedEventHandler(
+      onStatusChanged,
+    ) {
       this._onStatusChanged = onStatusChanged
     },
-    _fireStatusChangedEvent: function () {
+    _fireStatusChangedEvent: function _fireStatusChangedEvent() {
       if (this._onStatusChanged) {
         this._onStatusChanged({
           callSession: this,
@@ -428,6 +459,5 @@ Brekeke.webrtc = {}
       }
     },
   }
-
   webrtc.CallSession = CallSession
 })(Brekeke.webrtc)

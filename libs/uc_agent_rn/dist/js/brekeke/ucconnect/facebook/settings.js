@@ -1,3 +1,5 @@
+'use strict'
+
 if (typeof Brekeke === 'undefined') {
   var Brekeke = {}
 }
@@ -5,11 +7,9 @@ var BLIB = Brekeke
 if (typeof Brekeke.ucconnect === 'undefined') {
   Brekeke.ucconnect = {}
 }
-
 if (typeof Brekeke.ucconnect.facebook_settings === 'undefined') {
   Brekeke.ucconnect.facebook_settings = {}
 }
-
 Brekeke.ucconnect.facebook_settings.start = function (
   token,
   node,
@@ -29,7 +29,7 @@ Brekeke.ucconnect.facebook_settings.start = function (
     Brekeke.ucconnect.facebook_settings.admin = me
   }
   ;(function (_me) {
-    var escapeHTML = function (unsafe) {
+    var escapeHTML = function escapeHTML(unsafe) {
       unsafe = unsafe || ''
       return unsafe.replace(/[&<"']/g, function (m) {
         switch (m) {
@@ -44,8 +44,7 @@ Brekeke.ucconnect.facebook_settings.start = function (
         }
       })
     }
-
-    var isValidAppName = function (str) {
+    var isValidAppName = function isValidAppName(str) {
       if (!str) {
         return false
       }
@@ -55,11 +54,9 @@ Brekeke.ucconnect.facebook_settings.start = function (
         return false
       }
     }
-
     _me.getAuthToken = function () {
       return this.chatClient.getChatSessionToken() + ' ' + (this.tenant || '-')
     }
-
     _me.start = function (token, node, baseurl, mt, tenant, sa, chatClient) {
       var _me = this
       _me.mt = mt
@@ -97,7 +94,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
         false,
       )
     }
-
     _me.recvMessage = function (event) {
       if (event.data != 'refresh') {
         console.log(event)
@@ -112,13 +108,12 @@ Brekeke.ucconnect.facebook_settings.start = function (
         this.showApplicationEdit(this.editAppName)
       }
     }
-
     _me.showMessage = function (msg, timeRemove) {
       this.nodeMsg.innerHTML = msg
       this.nodeMsg.style.display = 'block'
       if (timeRemove > 0) {
         this.messageId++
-        let m = this.messageId
+        var m = this.messageId
         var _me = this
         setTimeout(function () {
           if (m == _me.messageId) {
@@ -127,7 +122,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
         }, timeRemove)
       }
     }
-
     _me.msgboxOkCancel = function (msg, fOk, fCancel) {
       var _me = this
       if (!this.nodeMsgBoxOkCancelBg) {
@@ -177,13 +171,15 @@ Brekeke.ucconnect.facebook_settings.start = function (
         _me.nodeSettings.appendChild(mb)
       }
     }
-
     _me.loadConfig = function () {
       var _me = this
       fetch(this.baseurl + '/fb_rest/config/api_base_url', {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'GET',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           Authorization: 'b-token ' + this.getAuthToken(),
@@ -235,7 +231,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.saveApiBaseUrl = function () {
       var _me = this
       var api_base_url = _me.nodeMain.querySelector("[name='api_base_url']")
@@ -259,9 +254,12 @@ Brekeke.ucconnect.facebook_settings.start = function (
           '/fb_rest/config/api_base_url?val=' +
           encodeURIComponent(abu),
         {
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          method: 'POST', // *GET, POST, PUT, DELETE, etc.
-          referrer: 'no-referrer', // *client, no-referrer
+          cache: 'no-cache',
+          // *default, no-cache, reload, force-cache, only-if-cached
+          method: 'POST',
+          // *GET, POST, PUT, DELETE, etc.
+          referrer: 'no-referrer',
+          // *client, no-referrer
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -287,14 +285,16 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.loadApplicationList = function () {
       var _me = this
       _me.editAppName = null
       fetch(this.baseurl + '/fb_rest/apps', {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'GET',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           Authorization: 'b-token ' + this.getAuthToken(),
@@ -330,7 +330,7 @@ Brekeke.ucconnect.facebook_settings.start = function (
           td = tr.insertCell(-1)
           td.innerHTML = ''
           td.classList.add('list_header')
-          for (let i = 0; i < json.length; i++) {
+          for (var i = 0; i < json.length; i++) {
             var app = _me.apps[i]
             var r = table.insertRow(-1)
             var cName = r.insertCell(-1)
@@ -374,7 +374,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
           }
           table.classList.add('app_list')
           _me.nodeMain.appendChild(table)
-
           var btns = document.createElement('DIV')
           btns.innerHTML =
             '<input type="button" class="fb_btn_add" value="Add a new application" >'
@@ -391,13 +390,15 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.deleteApplication = function (name) {
       var _me = this
       fetch(this.baseurl + '/fb_rest/apps/' + encodeURIComponent(name), {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'DELETE',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           Authorization: 'b-token ' + this.getAuthToken(),
@@ -416,13 +417,15 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.loadApplication = function (name) {
       var _me = this
       fetch(this.baseurl + '/fb_rest/apps/' + encodeURIComponent(name), {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: 'GET',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           Authorization: 'b-token ' + this.getAuthToken(),
@@ -448,7 +451,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.showApplicationList = function () {
       var _me = this
       this.nodeMain.innerHTML = ''
@@ -456,15 +458,12 @@ Brekeke.ucconnect.facebook_settings.start = function (
       this.nodeFooter.innerHTML = ''
       this.loadApplicationList()
     }
-
     _me.btnAddClicked = function () {
       this.showApplicationEdit(null)
     }
-
     _me.btnBackClicked = function () {
       this.showApplicationList()
     }
-
     _me.btnSaveClicked = function () {
       var _me = this
       _me.nodeBtnSave.disabled = true
@@ -476,9 +475,12 @@ Brekeke.ucconnect.facebook_settings.start = function (
       }
       console.debug(app)
       fetch(this.baseurl + '/fb_rest/apps/' + encodeURIComponent(app.name), {
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        method: this.editAppName ? 'PUT' : 'POST', // *GET, POST, PUT, DELETE, etc.
-        referrer: 'no-referrer', // *client, no-referrer
+        cache: 'no-cache',
+        // *default, no-cache, reload, force-cache, only-if-cached
+        method: this.editAppName ? 'PUT' : 'POST',
+        // *GET, POST, PUT, DELETE, etc.
+        referrer: 'no-referrer',
+        // *client, no-referrer
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -511,7 +513,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.deleteUser = function (app_name) {
       var _me = this
       fetch(
@@ -520,9 +521,12 @@ Brekeke.ucconnect.facebook_settings.start = function (
           encodeURIComponent(app_name) +
           '/user',
         {
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-          referrer: 'no-referrer', // *client, no-referrer
+          cache: 'no-cache',
+          // *default, no-cache, reload, force-cache, only-if-cached
+          method: 'DELETE',
+          // *GET, POST, PUT, DELETE, etc.
+          referrer: 'no-referrer',
+          // *client, no-referrer
           headers: {
             Accept: 'application/json',
             Authorization: 'b-token ' + this.getAuthToken(),
@@ -546,7 +550,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.loadPageInfo = function (app_name) {
       var _me = this
       fetch(
@@ -555,9 +558,12 @@ Brekeke.ucconnect.facebook_settings.start = function (
           encodeURIComponent(app_name) +
           '/pages',
         {
-          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-          method: 'GET', // *GET, POST, PUT, DELETE, etc.
-          referrer: 'no-referrer', // *client, no-referrer
+          cache: 'no-cache',
+          // *default, no-cache, reload, force-cache, only-if-cached
+          method: 'GET',
+          // *GET, POST, PUT, DELETE, etc.
+          referrer: 'no-referrer',
+          // *client, no-referrer
           headers: {
             Accept: 'application/json',
             Authorization: 'b-token ' + this.getAuthToken(),
@@ -584,7 +590,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
           _me.showMessage('Error: ' + e.message, 15000)
         })
     }
-
     _me.startPageInfo = function (ap) {
       if (!ap || !ap.length) {
         return
@@ -620,7 +625,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
       table.classList.add('app_list')
       _me.nodeMain.appendChild(table)
     }
-
     _me.getLoginUrl = function (app) {
       var _me = this
       var u = window.location.href
@@ -636,7 +640,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
         encodeURIComponent(o)
       )
     }
-
     _me.showFacebookLogin = function (app) {
       var _me = this
       if (app.user_id) {
@@ -674,7 +677,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
       }
       _me.refreshing = false
     }
-
     _me.applicationfromForm = function () {
       var app = {}
       app.name =
@@ -684,7 +686,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
         ? 0
         : 1
       app.notes = this.nodeMain.querySelector("[name='notes']").value
-
       app.app_id = this.nodeMain.querySelector("[name='app_id']").value.trim()
       var s = this.nodeMain.querySelector("[name='app_secret']").value.trim()
       if (s) {
@@ -715,7 +716,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
       app.ex_info = this.nodeMain.querySelector("[name='ex_info']").value
       return app
     }
-
     _me.composeApplicationEditMain = function (name) {
       var d
       this.nodeMain.innerHTML = ''
@@ -734,27 +734,22 @@ Brekeke.ucconnect.facebook_settings.start = function (
           '<LABEL>Application name</LABEL><SPAN>' + escapeHTML(name) + '</SPAN>'
       }
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>Disabled</LABEL><INPUT type="checkbox" name="status" value="" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>Descriptions</LABEL><INPUT type="text" maxlength="500" class="long" name="notes" value="" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>App ID</LABEL><INPUT type="text" maxlength="150" name="app_id" value="" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>App Secret</LABEL><INPUT type="password" maxlength="300" class="long" name="app_secret" value="*******************" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('H3')
       d.innerHTML = 'UC settings'
       this.nodeMain.appendChild(d)
@@ -768,12 +763,10 @@ Brekeke.ucconnect.facebook_settings.start = function (
       d.innerHTML =
         '<LABEL>Service ID</LABEL><INPUT type="text" maxlength="200" name="ex_id2" value="" >'
       this.nodeMain.appendChild(d)
-
       d = document.createElement('DIV')
       d.innerHTML =
         '<LABEL>Options<BR/><BR/><BR/><BR/><BR/><BR/></LABEL><TEXTAREA cols="100" rows="10" name="ex_info" >'
       this.nodeMain.appendChild(d)
-
       var btns = document.createElement('DIV')
       btns.innerHTML =
         '<input type="button" class="fb_btn_save" value="Save" >&nbsp;<input type="button" class="fb_btn_back" value="Back" >'
@@ -788,7 +781,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
         _me.btnBackClicked(e)
       })
     }
-
     _me.showApplicationEdit = function (name) {
       var _me = this
       this.nodeHeader.innerHTML = '<h2>Application</h2>'
@@ -800,7 +792,6 @@ Brekeke.ucconnect.facebook_settings.start = function (
         this.startApplicationEditMain()
       }
     }
-
     _me.startApplicationEditMain = function (data) {
       var _me = this
       var app_id = this.nodeMain.querySelector("[name='app_id']")

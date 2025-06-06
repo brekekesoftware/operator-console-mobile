@@ -1,16 +1,20 @@
-const Brekeke = (window.Brekeke = window.Brekeke || {})
+'use strict'
+
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var Brekeke = (window.Brekeke = window.Brekeke || {})
 Brekeke.UAWMsgs_default =
   Brekeke.UAWMsgs_default || require('../js/brekeke/uawmsgs/uawmsgs_default.js')
-
-const languageFiles = {
+var languageFiles = {
   default: require('../js/brekeke/uawmsgs/uawmsgs_default.js'),
   it: require('../js/brekeke/uawmsgs/uawmsgs_it.js'),
   ja: require('../js/brekeke/uawmsgs/uawmsgs_ja.js'),
   zh: require('../js/brekeke/uawmsgs/uawmsgs_zh.js'),
 }
-
-const uawMsgs = {
-  init: function (options) {
+var uawMsgs = {
+  init: function init(options) {
     if (!options) {
       return
     }
@@ -20,7 +24,7 @@ const uawMsgs = {
       QUERY: options.QUERY,
     }
   },
-  registerMoment: function (moment) {
+  registerMoment: function registerMoment(moment) {
     if (!moment) {
       return
     }
@@ -29,7 +33,7 @@ const uawMsgs = {
     }
     uawMsgs.moments.push(moment)
   },
-  loadLanguage: function (lang, func) {
+  loadLanguage: function loadLanguage(lang, func) {
     if (!Brekeke['UAWMsgs_' + lang]) {
       try {
         Brekeke['UAWMsgs_' + lang] =
@@ -39,18 +43,18 @@ const uawMsgs = {
         Brekeke['UAWMsgs_' + lang] = languageFiles.default
       }
     }
-    let tryCount = 0
-    const f = function () {
+    var tryCount = 0
+    var _f = function f() {
       if (!Brekeke['UAWMsgs_' + lang] && tryCount < 30) {
         tryCount++
-        setTimeout(f, 100)
+        setTimeout(_f, 100)
       } else {
-        let msgs = Brekeke['UAWMsgs_' + lang]
+        var msgs = Brekeke['UAWMsgs_' + lang]
         if (!msgs) {
           msgs = Brekeke.UAWMsgs_default
           lang = 'default'
         }
-        for (let key in msgs) {
+        for (var key in msgs) {
           uawMsgs[key] = msgs[key]
         }
         if (
@@ -58,23 +62,22 @@ const uawMsgs = {
           typeof uawMsgs.moments.forEach === 'function' &&
           uawMsgs.CMN_MOMENT_LOCALE
         ) {
-          uawMsgs.moments.forEach(
-            moment =>
+          uawMsgs.moments.forEach(function (moment) {
+            return (
               typeof moment.locale === 'function' &&
-              moment.locale(uawMsgs.CMN_MOMENT_LOCALE),
-          )
+              moment.locale(uawMsgs.CMN_MOMENT_LOCALE)
+            )
+          })
         }
         if (func) {
           func(lang)
         }
       }
     }
-    f()
+    _f()
   },
 }
-
-for (let key in Brekeke.UAWMsgs_default) {
+for (var key in Brekeke.UAWMsgs_default) {
   uawMsgs[key] = Brekeke.UAWMsgs_default[key]
 }
-
-export default uawMsgs
+var _default = (exports.default = uawMsgs)

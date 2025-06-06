@@ -1,3 +1,5 @@
+'use strict'
+
 if (!window.Brekeke) {
   window.Brekeke = {}
 }
@@ -57,52 +59,42 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     CMN_LANGUAGE_IT: 'イタリア語',
     CMN_LANGUAGE_JA: '日本語',
     CMN_LANGUAGE_ZH: '中国語',
-
     MSG_AUTHENTICATION_FAILED:
       'サインインに失敗しました。パスワードを確認してください。',
     MSG_IP_NOT_ALLOWED: 'アクセスが許可されていません。',
     MSG_OVER_MAX_LOGIN_COUNT: '最大ログインユーザー数を超えています。',
     MSG_VERSION_INVALID: 'ページを再読み込みしてください。',
     MSG_SIGN_IN_FAILED: 'サインインに失敗しました。',
-
     MSG_GROUP_EXISTS: "グループ '{0}' は既に存在します。",
     MSG_CREATE_GROUP_FAILED: 'グループの作成に失敗しました。',
     MSG_GROUP_NOT_EMPTY: "グループ '{0}' は空ではありません。",
     MSG_REMOVE_GROUP_FAILED: 'グループの削除に失敗しました。',
     MSG_MOVE_BUDDY_FAILED: 'バディの移動に失敗しました。',
-
     MSG_ME_OFFLINE: '現在 {0} に対してオフラインのステータスを通知しています。',
     MSG_ME_BUSY: '現在 {0} に対して取り込み中のステータスを通知しています。',
     MSG_BUDDY_OFFLINE: '{0} のステータスはオフラインです。',
     MSG_BUDDY_BUSY: '{0} のステータスは取り込み中です。',
-
     MSG_SIP_FAILED: 'SIP サーバに接続できません。',
-
     MSG_TOO_LONG: 'メッセージが長すぎます。',
     MSG_SEND_TEXT_FAILED: 'テキストの送信に失敗しました。',
     MSG_SEARCH_FAILED: '検索に失敗しました。',
     MSG_SEND_TEXT_CONFIRM: 'メッセージを送信してよろしいですか?',
-
     MSG_JOIN_CONFERENCE_FAILED: '会議への参加に失敗しました。',
     MSG_CREATE_CONFERENCE_FAILED: '会議の作成に失敗しました。',
     MSG_LEAVE_CONFERENCE_FAILED: '会議からの離脱に失敗しました。',
     MSG_INVITE_TO_CONFERENCE_FAILED: '会議への招待に失敗しました。',
     MSG_LEAVE_CONFERENCE_CONFIRM: '会議を離脱してもよろしいですか?',
-
     MSG_MULTIPLE_SENDING:
       'ブラウザで複数ファイルの送信がサポートされていません。',
     MSG_SEND_FILE_FAILED: 'ファイルの送信に失敗しました。',
     MSG_DOWNLOAD_FILE_FAILED: 'ダウンロードに失敗しました。',
     MSG_CANCEL_FILE_FAILED: 'キャンセルに失敗しました。',
-
     MSG_WEBRTC_UNAVAILABLE_1: 'WebRTC の端末 ID がありません。',
     MSG_WEBRTC_UNAVAILABLE_2: '新しい端末 ID を追加しますか?',
     MSG_MAKE_CALL_FAILED: '発信に失敗しました。',
     MSG_MAKE_CALL_UNSUPPORTED: 'サポートされていないブラウザです。',
-
     MSG_SEARCH_TOPICS_FAILED: '検索に失敗しました。',
     MSG_SEARCH_TOPIC_TEXTS_FAILED: '検索に失敗しました。',
-
     MSG_UPLOAD_PROFILE_IMAGE_FAILED:
       'プロフィール画像のアップロードに失敗しました。',
     MSG_SAVE_PREFERENCE_TRANSFERRING: 'ファイル転送中です。',
@@ -115,7 +107,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     MSG_SAVE_PREFERENCE_FRAME_RATE: 'サムネイルフレームレートが無効です。',
     MSG_SAVE_PREFERENCE_SUCCESSFUL: '保存しました。',
     MSG_SAVE_PREFERENCE_FAILED: '設定の保存に失敗しました。',
-
     MSG_DB_INITIALIZE_SCHEMA_EXISTS:
       "スキーマ '{0}' は既に存在します。削除して続行するには OK を再度押してください。",
     MSG_DB_INITIALIZE_USER_EXISTS:
@@ -135,7 +126,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     MSG_SAVE_SERVER_SUCCESSFUL: '保存しました。',
     MSG_SAVE_SERVER_SUCCESSFUL_DB: 'データベース設定を保存しました。',
     MSG_SAVE_SERVER_FAILED: 'サーバ設定の保存に失敗しました。',
-
     MSG_NOTIFIED_USER_SEARCH_CANCELED: 'キャンセルしました。',
     MSG_START_USER_DELETE_EMPTY: "'削除するユーザー' リストが空です。",
     MSG_START_USER_DELETE_CONFIRM:
@@ -144,7 +134,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
       '以下のテナントでは、すべてのユーザーが削除の対象になります。よろしいですか?',
     MSG_NOTIFIED_USER_DELETE_FINISHED: '削除処理が完了しました。',
     MSG_NOTIFIED_USER_DELETE_ERROR: 'いくつかのエラーが処理中に発生しました。',
-
     MSG_SAVE_TENANT_INVALID: '無効な値です。',
     MSG_SAVE_TENANT_MAX_LOGIN: '合計最大ログインユーザー数が超過しています。',
     MSG_SAVE_TENANT_SUCCESSFUL: '保存しました。',
@@ -152,17 +141,14 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     MSG_LOAD_TENANT_CONFIRM: 'PBX からテナントをロードしますか?',
     MSG_LOAD_TENANT_FAILED: 'テナントのロードに失敗しました。',
     MSG_DELETE_TENANT_CONFIRM: 'テナントを削除しますか?',
-
     MSG_UPLOAD_AUTO_MESSAGE_IMAGE_FAILED:
       'プロフィール画像のアップロードに失敗しました。',
     MSG_SAVE_TENANT_PROPERTY_TRANSFERRING: 'ファイル転送中です。',
     MSG_SAVE_TENANT_PROPERTY_SUCCESSFUL: '保存しました。',
     MSG_SAVE_TENANT_PROPERTY_FAILED: '設定の保存に失敗しました。',
     MSG_LOAD_TENANT_PROPERTY_FAILED: '設定のロードに失敗しました。',
-
     MSG_SAVE_ADVANCED_SUCCESSFUL: '保存しました。',
     MSG_SAVE_ADVANCED_FAILED: '設定の保存に失敗しました。',
-
     MSG_SIGNED_OUT_MAINTENANCE:
       'システムメンテナンスのためサービスが停止しました。',
     MSG_SIGNED_OUT_PLEONASTIC:
@@ -170,7 +156,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     MSG_SIGNED_OUT_DISCONNECTED: 'サーバとの接続が切断されました。',
     MSG_SECURITY_CHECK_NG:
       '{0} への接続がブロックされました。ブラウザのセキュリティ設定を確認し、もう一度サインインしてください。',
-
     TAB_BROADCAST: 'ブロードキャスト',
     TAB_PREFERENCE: '設定',
     TAB_HISTORY: '履歴',
@@ -185,7 +170,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     TAB_ACTIVATE_LICENSE: 'ライセンス アクティベート',
     TAB_SOCIAL_SETTINGS: '{0} 設定',
     TAB_TARGET_NOT_ENTERED: '発信先未入力',
-
     MNU_SERVER_SETTINGS: 'サーバ設定',
     MNU_TENANT_SETTINGS: 'テナント設定',
     MNU_TENANT_PROPERTIES: 'プロパティ',
@@ -199,35 +183,29 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     MNU_HISTORY: '履歴',
     MNU_WEBCHAT_REQUESTS: 'ウェブチャット',
     MNU_SERVER_PROPERTIES: 'サーバ プロパティ',
-
     CTX_OPEN_CHAT: 'チャットを開く',
     CTX_INVITE_TO_CONFERENCE: '会議への招待',
     CTX_SEND_FILE: 'ファイルの送信',
     CTX_VOICE_CALL: '音声通話をかける',
     CTX_VIDEO_CALL: 'ビデオ通話をかける',
     CTX_REMOVE_GROUP: 'グループの削除',
-
     LBL_LOGIN_TITLE: 'サインイン',
     LBL_LOGIN_USERID: 'ユーザー',
     LBL_LOGIN_PASSWORD: 'パスワード',
     LBL_LOGIN_TENANT: 'テナント',
     LBL_LOGIN_REMEMBERME: '記憶する',
     LBL_LOGIN_SIGNIN: 'サインイン',
-
     LBL_TYPE_STATUS: '状態メモ',
     LBL_CLEAR_STATUS_DISPLAY: '(クリア)',
     LBL_FILTER: 'フィルタ',
     LBL_ONLINE_ONLY: 'オンラインのみ',
     LBL_SHOW_MORE_ITEM: 'もっと表示',
-
     LBL_SEND_TEXT_TITLE: 'テキスト送信',
-
     LBL_DND_TO_INVITE:
       'バディを招待するにはここにドラッグ &amp; ドロップします',
     LBL_DND_BUDDIES: 'バディをここにドラッグ &amp; ドロップします',
     LBL_TARGET: '発信先',
     LBL_LEAVE_CONFERENCE_TITLE: '会議離脱',
-
     LBL_SHOW_FROM: 'メッセージを表示する:',
     LBL_SHOW_TODAY: '今日',
     LBL_SHOW_YESTERDAY: '昨日',
@@ -235,7 +213,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_SHOW_MORE: '未読メッセージを表示する',
     LBL_CHAT_LIST_PROFINFO: 'ウェブチャット情報',
     LBL_IS_TYPING: '{0} 入力中...',
-
     LBL_FILE: 'ファイル:',
     LBL_STATUS: 'ステータス:',
     LBL_FILE_STATUS_REQUESTING: '開始待ち',
@@ -244,7 +221,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_FILE_STATUS_CANCELED: '{0} によるキャンセル',
     LBL_FILE_STATUS_ERROR: 'エラー',
     LBL_FILE_STATUS_UNKNOWN: '不明',
-
     LBL_INCOMING_CALL: '着信中...',
     LBL_INCOMING_SCREEN: '着信中... (スクリーン)',
     LBL_INCOMING_CALL_HIGHLIGHT: '着信中...',
@@ -259,9 +235,7 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_DEVICE_SOUND_ONLY: '音声のみ',
     LBL_AUDIENCE_VIEWERS: '閲覧者:',
     LBL_AUDIENCE_LISTENERS: 'リスナー:',
-
     LBL_WEBCHAT_ROOM_ALREADY_CLOSED: '終了',
-
     LBL_SEARCH_ALL_USERS: 'すべて',
     LBL_CONDITION_SIMPLE: '検索',
     LBL_SHOW_ADVANCED_SEARCH: '詳細検索',
@@ -270,7 +244,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_SEARCH_BEGIN_END: '日付',
     LBL_SEARCH_CONTENT: '内容',
     LBL_SEARCH_NO_RESULTS: '検索結果なし',
-
     LBL_CATEGORY_USER: 'ユーザー設定',
     LBL_CATEGORY_WEBCHAT_SETTINGS: 'ウェブチャット設定',
     LBL_CATEGORY_TERMINAL: '端末設定',
@@ -321,7 +294,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_SENDING_CONFIRMATION_CHECK: 'メッセージ送信前に確認する',
     LBL_USER_LANGUAGE: '言語',
     LBL_USER_LANGUAGE_AUTO: '自動',
-
     LBL_CATEGORY_UC: 'UC',
     LBL_IP_ALLOWED: '有効クライアント IP パターン',
     LBL_BUDDY_MODE: 'バディモード',
@@ -404,7 +376,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_LOG_CATEGORY_SERVER: 'サーバログ',
     LBL_LOG_CATEGORY_CLIENT: 'クライアントログ',
     LBL_LOG_CATEGORY_GUEST: 'ゲストクライアントログ',
-
     LBL_CATEGORY_DELETE_USER_DATA: 'ユーザーデータとチャット履歴の削除',
     LBL_START_USER_SEARCH_TENANT: 'テナント',
     LBL_START_USER_SEARCH_USER: 'ユーザー',
@@ -414,7 +385,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
       'PBX に存在しないユーザーを自動的に選択する',
     LBL_START_USER_DELETE_TITLE: 'ユーザーデータとチャット履歴の削除',
     LBL_NOTIFIED_USER_DELETE_TITLE: 'ユーザーデータとチャット履歴の削除',
-
     LBL_TOTAL_MAX_LOGIN: '合計最大ログインユーザー数:',
     LBL_TENANT_COLUMN: 'テナント',
     LBL_MAX_LOGIN_COLUMN: '最大ログインユーザー数',
@@ -423,7 +393,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_NEW_TENANT_NAME: 'テナント名',
     LBL_LOAD_TENANT_TITLE: 'テナントロード',
     LBL_DELETE_TENANT_TITLE: '削除',
-
     LBL_CATEGORY_RESOURCE: 'リソース',
     LBL_LIMIT_GUEST_COLUMN: '最大ゲストセッション数',
     LBL_CATEGORY_UC_TENANT: 'UC',
@@ -507,22 +476,18 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     LBL_FILE_SENDING_NAME_ALLOWED: '許可ファイル名パターン (正規表現)',
     LBL_CATEGORY_CLIENT_SCRIPT: 'クライアントスクリプト',
     LBL_CLIENT_SCRIPT_CLIENT_SCRIPT: 'クライアントスクリプト',
-
     LBL_CATEGORY_ADVANCED: 'アドバンスド オプション',
-
     LBL_ABOUT_TITLE: '{0} について',
     LBL_ADD_GROUP_TITLE: 'グループの作成',
     LBL_ADD_GROUP_NAME: 'グループ名',
     LBL_CREATE_CONFERENCE_TITLE: '会議室の作成',
     LBL_CREATE_CONFERENCE_SUBJECT: 'タイトル',
-
     LBL_MESSAGE_BAR_STOP: '停止',
     LBL_MESSAGE_BAR_HIDE: '隠す',
     LBL_MESSAGE_BAR_CONNECTING: '接続中...',
     LBL_MESSAGE_BAR_TIME: 'まで {0} 秒',
     LBL_MESSAGE_BAR_SIGN_IN: 'サインイン',
     LBL_MESSAGE_BAR_RETRY: '再接続',
-
     BTN_CHANGE_STATUS_TOOLTIP: 'ステータス変更',
     BTN_STATUS_DISPLAY_HISTORY_TOOLTIP: '状態メモ履歴',
     BTN_DELETE_STATUS_DISPLAY_HISTORY_TOOLTIP: '削除',
@@ -533,7 +498,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     BTN_MAKE_CALL_TOOLTIP: '電話',
     BTN_SPLIT_UD_TOOLTIP: '水平分割',
     BTN_SPLIT_LR_TOOLTIP: '垂直分割',
-
     BTN_JOIN_CONFERENCE_TOOLTIP: '会議参加',
     BTN_JOIN_CONFERENCE: '参加',
     BTN_REJECT_CONFERENCE_TOOLTIP: '拒否',
@@ -586,16 +550,13 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     BTN_CLEAR_CALL: '切断',
     BTN_SEND_TEXT_TOOLTIP: 'テキスト送信',
     BTN_SEND_TEXT: '送信',
-
     BTN_DIALOG_SEND_FILE: 'ファイル送信',
     BTN_DOWNLOAD_FILE: 'ダウンロード',
     BTN_CANCEL_FILE: 'キャンセル',
     BTN_SAVE_IMAGE_FILE: '保存',
-
     BTN_ADD_PHONE_ID_YES: 'はい',
     BTN_ADD_PHONE_ID_NO: '今は使わない',
     BTN_ADD_PHONE_ID_NEVER: 'WebRTC を無効にする',
-
     BTN_CHAT_WEBCHAT_ROOM_TOOLTIP: '応答',
     BTN_CHAT_WEBCHAT_ROOM: '応答',
     BTN_JOIN_WEBCHAT_ROOM_TOOLTIP: '参加',
@@ -603,7 +564,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     BTN_REJECT_WEBCHAT_ROOM_TOOLTIP: '拒否',
     BTN_HIDE_WEBCHAT_ROOM_TOOLTIP: '閉じる',
     BTN_HIDE_WEBCHAT_ROOM: '閉じる',
-
     BTN_SEARCH_SIMPLE_TOOLTIP: '検索',
     BTN_SEARCH_SIMPLE: '検索',
     BTN_SEARCH_ADVANCED_TOOLTIP: '検索',
@@ -614,7 +574,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     BTN_SHOW_MORE: 'もっと表示',
     BTN_SEARCH_PREV_TOPIC_TOOLTIP: '前のメッセージを表示',
     BTN_SEARCH_NEXT_TOPIC_TOOLTIP: '次のメッセージを表示',
-
     BTN_INITIAL_STATUS_TOOLTIP: '初期ステータス',
     BTN_PROFILE_SELECT_TOOLTIP: '選択',
     BTN_PROFILE_SELECT: '選択',
@@ -623,14 +582,12 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     BTN_DIALOG_SELECT_PROFILE_IMAGE: 'ファイル選択',
     BTN_WEBRTC_TYPE_TOOLTIP: 'WebRTC タイプ',
     BTN_VIDEO_SOURCE_TOOLTIP: 'ビデオソース',
-
     BTN_LOGDOWNLOAD_PREPARE_TOOLTIP: 'ダウンロード',
     BTN_LOGDOWNLOAD_PREPARE: 'ダウンロード',
     BTN_LOGDOWNLOAD_CANCEL_TOOLTIP: 'キャンセル',
     BTN_LOGDOWNLOAD_CANCEL: 'キャンセル',
     BTN_LOGDOWNLOAD_FILE_TOOLTIP: 'ログファイル {0}',
     BTN_LOGDOWNLOAD_FILE: 'ログファイル {0}',
-
     BTN_START_USER_SEARCH_TOOLTIP: 'ユーザー検索',
     BTN_START_USER_SEARCH: 'ユーザー検索',
     BTN_CANCEL_USER_SEARCH_TOOLTIP: 'キャンセル',
@@ -641,12 +598,10 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     BTN_MOVE_LEFT_DELETE_USER_DATA: '&#x2190;',
     BTN_START_USER_DELETE_TOOLTIP: 'ユーザーデータとチャット履歴の削除',
     BTN_START_USER_DELETE: '削除',
-
     BTN_NEW_TENANT_TOOLTIP: 'テナント追加',
     BTN_NEW_TENANT: 'テナント追加',
     BTN_PBX_TENANT_TOOLTIP: 'PBX からテナントロード',
     BTN_PBX_TENANT: 'PBX からテナントロード',
-
     BTN_NEW_WEBRTC_TYPE_TOOLTIP: '新規 WebRTC タイプ',
     BTN_NEW_WEBRTC_TYPE: '新規 WebRTC タイプ',
     BTN_NEW_WEBCHAT_SERVICE_TOOLTIP: '新規サービス',
@@ -661,6 +616,5 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_ja =
     BTN_NEW_WEBCHAT_WIDGET: '新規ウィジェット',
     BTN_NEW_LAMP_TYPE_TOOLTIP: '新規通知タイプ',
     BTN_NEW_LAMP_TYPE: '新規通知タイプ',
-
     DUMMY: '',
   }

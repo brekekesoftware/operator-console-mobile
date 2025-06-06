@@ -1,9 +1,11 @@
-import React from 'react'
-import { TextInput, StyleSheet } from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _reactNative = require('react-native')
+var _strings = require('../utilities/strings.js')
 /**
  * CustomerSignInProfinfoInputInput - React Native version
  * A text input component for sign-in profile information
@@ -14,43 +16,36 @@ import { int, string } from '../utilities/strings.js'
  * props.uiData.signInProfileInfoInputInput_onChange - Change handler
  * props.profinfoInput - Profile info input configuration
  */
-export default props => {
-  const handleChangeText = text => {
-    const event = {
+var _default = (exports.default = function _default(props) {
+  var handleChangeText = function handleChangeText(text) {
+    var event = {
       target: {
         value: text,
       },
     }
-
     props.uiData.fire(
       'signInProfileInfoInputInput_onChange',
       props.profinfoInput,
       event,
     )
   }
-
-  const inputValue = string(
+  var inputValue = (0, _strings.string)(
     props.uiData.signInProfinfoInputsValue[props.profinfoInput.key],
   )
-
-  const customStyle =
+  var customStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInProfinfoInputInput
-
-  return (
-    <TextInput
-      style={[styles.signInProfinfoInputInput, customStyle]}
-      value={inputValue}
-      placeholder={props.profinfoInput.placeholder}
-      autoCapitalize={props.profinfoInput.autoCapitalize || 'none'}
-      onChangeText={handleChangeText}
-      autoCorrect={false}
-      underlineColorAndroid='transparent'
-    />
-  )
-}
-
-const styles = StyleSheet.create({
+  return /*#__PURE__*/ React.createElement(_reactNative.TextInput, {
+    style: [styles.signInProfinfoInputInput, customStyle],
+    value: inputValue,
+    placeholder: props.profinfoInput.placeholder,
+    autoCapitalize: props.profinfoInput.autoCapitalize || 'none',
+    onChangeText: handleChangeText,
+    autoCorrect: false,
+    underlineColorAndroid: 'transparent',
+  })
+})
+var styles = _reactNative.StyleSheet.create({
   signInProfinfoInputInput: {
     width: 180,
     height: 40,

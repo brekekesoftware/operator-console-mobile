@@ -1,19 +1,25 @@
-import React from 'react'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-} from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import CustomerSignInError from './CustomerSignInError.js'
-import CustomerSignInProfinfoInputs from './CustomerSignInProfinfoInputs.js'
-import CustomerSignInWebchatOptionsSelect from './CustomerSignInWebchatOptionsSelect.js'
-import { LinearGradient } from 'react-native-linear-gradient'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _CustomerSignInError = _interopRequireDefault(
+  require('./CustomerSignInError'),
+)
+var _CustomerSignInProfinfoInputs = _interopRequireDefault(
+  require('./CustomerSignInProfinfoInputs'),
+)
+var _CustomerSignInWebchatOptionsSelect = _interopRequireDefault(
+  require('./CustomerSignInWebchatOptionsSelect'),
+)
+var _reactNativeLinearGradient = require('react-native-linear-gradient')
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
 /**
  * CustomerSignInArea - React Native version
  * A component for user sign-in area
@@ -23,32 +29,26 @@ import { LinearGradient } from 'react-native-linear-gradient'
  * props.uiData.configurations - Configuration properties
  * props.uiData.signInButton_onClick - Sign-in button click handler
  */
-export default props => {
-  const isAutoSigning =
+var _default = (exports.default = function _default(props) {
+  var isAutoSigning =
     props.uiData.configurations.autoSignIn &&
     props.uiData.ucUiStore.getSignInStatus() === 2
-
   if (isAutoSigning) {
     return null
   }
-
-  const customSignInAreaStyle =
+  var customSignInAreaStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInArea
-
-  const customFormAreaStyle =
+  var customFormAreaStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInFormArea
-
-  const customButtonStyle =
+  var customButtonStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInButton
-
-  const handleSignIn = () => {
+  var handleSignIn = function handleSignIn() {
     props.uiData.fire('signInButton_onClick')
   }
-
-  let buttonContent
+  var buttonContent
   if (props.uiData.configurations.signInButtonInnerHTML) {
     // TODO: Add HTML support
     buttonContent = props.uiData.configurations.signInButtonInnerHTML.replace(
@@ -58,50 +58,72 @@ export default props => {
   } else {
     buttonContent =
       props.uiData.configurations.signInButtonLabel ||
-      uawMsgs.LBL_SIGN_IN_BUTTON
+      _uawmsgs.default.LBL_SIGN_IN_BUTTON
   }
-
-  return (
-    <ScrollView
-      style={[styles.signInArea, customSignInAreaStyle]}
-      contentContainerStyle={styles.scrollContent}
-    >
-      <View style={[styles.signInFormArea, customFormAreaStyle]}>
-        <CustomerSignInError uiData={props.uiData} />
-        <CustomerSignInProfinfoInputs uiData={props.uiData} />
-        <CustomerSignInWebchatOptionsSelect uiData={props.uiData} />
-
-        <TouchableOpacity
-          style={[styles.buttonContainer, customButtonStyle]}
-          onPress={handleSignIn}
-          disabled={props.uiData.ucUiStore.getSignInStatus() === 2}
-          activeOpacity={0.7}
-        >
-          <LinearGradient
-            colors={[
+  return /*#__PURE__*/ _react.default.createElement(
+    _reactNative.ScrollView,
+    {
+      style: [styles.signInArea, customSignInAreaStyle],
+      contentContainerStyle: styles.scrollContent,
+    },
+    /*#__PURE__*/ _react.default.createElement(
+      _reactNative.View,
+      {
+        style: [styles.signInFormArea, customFormAreaStyle],
+      },
+      /*#__PURE__*/ _react.default.createElement(_CustomerSignInError.default, {
+        uiData: props.uiData,
+      }),
+      /*#__PURE__*/ _react.default.createElement(
+        _CustomerSignInProfinfoInputs.default,
+        {
+          uiData: props.uiData,
+        },
+      ),
+      /*#__PURE__*/ _react.default.createElement(
+        _CustomerSignInWebchatOptionsSelect.default,
+        {
+          uiData: props.uiData,
+        },
+      ),
+      /*#__PURE__*/ _react.default.createElement(
+        _reactNative.TouchableOpacity,
+        {
+          style: [styles.buttonContainer, customButtonStyle],
+          onPress: handleSignIn,
+          disabled: props.uiData.ucUiStore.getSignInStatus() === 2,
+          activeOpacity: 0.7,
+        },
+        /*#__PURE__*/ _react.default.createElement(
+          _reactNativeLinearGradient.LinearGradient,
+          {
+            colors: [
               'rgba(255,255,255,0.35)',
               'rgba(255,255,255,0.25)',
               'rgba(255,255,255,0.1)',
-            ]}
-            style={styles.buttonGradient}
-          >
-            <Text style={styles.buttonText}>{buttonContent}</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+            ],
+            style: styles.buttonGradient,
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.Text,
+            {
+              style: styles.buttonText,
+            },
+            buttonContent,
+          ),
+        ),
+      ),
+    ),
   )
-}
-
-const colors = {
+})
+var colors = {
   white: '#FFFFFF',
   buttonBorder: '#5fac3f',
   buttonBackground: '#6dbd4c',
   buttonHover: '#7bc85c',
   buttonActive: '#5aa63b',
 }
-
-const styles = StyleSheet.create({
+var styles = _reactNative.StyleSheet.create({
   signInArea: {
     position: 'absolute',
     padding: 4,

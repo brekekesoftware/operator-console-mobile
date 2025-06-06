@@ -1,9 +1,15 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _strings = require('../utilities/strings')
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
 /**
  * CustomerSignInError - React Native version
  * A component that displays sign-in error messages
@@ -12,51 +18,49 @@ import { int, string } from '../utilities/strings.js'
  * props.uiData.ucUiStore - UI store
  * props.uiData.configurations - Configuration properties
  */
-export default props => {
-  const errorMessage = string(props.uiData.ucUiStore.getSignInErrorMessage())
-
-  const hasErrorMessage = errorMessage.length > 0
-  const hasSignInFailed = props.uiData.ucUiStore.isSignInFailed()
-  const isErrorReenterConf = props.uiData.ucUiStore.isErrorReenterConf()
-
-  const showErrorArea =
+var _default = (exports.default = function _default(props) {
+  var errorMessage = (0, _strings.string)(
+    props.uiData.ucUiStore.getSignInErrorMessage(),
+  )
+  var hasErrorMessage = errorMessage.length > 0
+  var hasSignInFailed = props.uiData.ucUiStore.isSignInFailed()
+  var isErrorReenterConf = props.uiData.ucUiStore.isErrorReenterConf()
+  var showErrorArea =
     hasErrorMessage || (hasSignInFailed && !isErrorReenterConf)
-
   if (!showErrorArea) {
     return null
   }
-
-  const customStyle =
+  var customStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInErrorArea
-
-  const customMessageStyle =
+  var customMessageStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInErrorMessage
-
-  return (
-    <View
-      style={[
+  return /*#__PURE__*/ React.createElement(
+    _reactNative.View,
+    {
+      style: [
         styles.signInErrorArea,
         hasErrorMessage && styles.withErrorMessage,
         hasSignInFailed && styles.signInFailed,
         hasSignInFailed && isErrorReenterConf && styles.errorReenterConf,
         customStyle,
-      ]}
-    >
-      <Text style={[styles.signInErrorMessage, customMessageStyle]}>
-        {errorMessage || uawMsgs.MSG_SIGN_IN_FAILED}
-      </Text>
-    </View>
+      ],
+    },
+    /*#__PURE__*/ React.createElement(
+      _reactNative.Text,
+      {
+        style: [styles.signInErrorMessage, customMessageStyle],
+      },
+      errorMessage || _uawmsgs.default.MSG_SIGN_IN_FAILED,
+    ),
   )
-}
-
-const colors = {
+})
+var colors = {
   errorBorder: '#bb7755',
   errorText: '#bb7755',
 }
-
-const styles = StyleSheet.create({
+var styles = _reactNative.StyleSheet.create({
   signInErrorArea: {
     margin: 12,
     alignItems: 'center',

@@ -1,16 +1,17 @@
+'use strict'
+
 ;(function () {
-  var int = function (value) {
+  var int = function int(value) {
     return parseInt(value, 10) || 0
   }
-  var string = function (value) {
+  var string = function string(value) {
     return String(value || value === 0 || value === false ? value : '')
   }
-  var addPx = function (value) {
+  var addPx = function addPx(value) {
     return string(int(value)) === string(value) ? value + 'px' : string(value)
   }
   if (!window.$brUCClientSidetabCreated && window.$brUCClientSidetabOption) {
     var p_o = window.$brUCClientSidetabOption
-
     var initOption = {
       parentElement: 'content',
       configurations: {
@@ -170,7 +171,6 @@
       ),
       handler: {},
     }
-
     var widgetProps = {
       url: string(p_o.widgetProps && p_o.widgetProps.url) || '',
       cacheBust: string(p_o.widgetProps && p_o.widgetProps.cacheBust) || '',
@@ -189,7 +189,6 @@
     var cacheBustQuery = widgetProps.cacheBust
       ? '?' + widgetProps.cacheBust
       : ''
-
     var sidetabStyle = {
       className:
         string(p_o.sidetabStyle && p_o.sidetabStyle.className) ||
@@ -863,7 +862,6 @@
       css.appendChild(rule)
     }
     document.getElementsByTagName('head')[0].appendChild(css)
-
     var sidetabDiv = document.createElement('div')
     var widgetContent = null
     sidetabDiv.className = sidetabStyle.className
@@ -925,7 +923,6 @@
         sidetabDiv.style[p] = styleInfo[p]
       }
     })
-
     if (p_o.widgetProps && p_o.widgetProps.widgetType === '2') {
       // Embedded
       if (p_o.events) {
@@ -935,7 +932,6 @@
           }
         }
       }
-
       var script0 = document.getElementsByTagName('script')[0]
       var script
       script = document.createElement('script')
@@ -1032,7 +1028,6 @@
         isReentering = true
         sidetabStyle.delay = '0'
       }
-
       var onloadTimerCnt = 0
       var onloadTimerInterval = int(sidetabStyle.onloadTimerInterval) || 100
       var onloadTimerCntMax =
@@ -1080,18 +1075,17 @@
         }
         clearInterval(onloadTimer)
         console.debug('onloadTimerCnt=' + onloadTimerCnt)
-
         if (isReentering) {
           // init automatically
-          initUiData()
+          _initUiData()
         } else {
           // init after clicking sidetabDiv
-          sidetabDiv.addEventListener('click', initUiData)
+          sidetabDiv.addEventListener('click', _initUiData)
         }
       }, onloadTimerInterval)
-      var initUiData = function () {
+      var _initUiData = function initUiData() {
         // clear sidetabDiv
-        sidetabDiv.removeEventListener('click', initUiData)
+        sidetabDiv.removeEventListener('click', _initUiData)
         sidetabDiv.className = widgetStyle.className
         if (widgetContent) {
           sidetabDiv.removeChild(widgetContent)
@@ -1379,7 +1373,9 @@
           closeableDiv.className = widgetStyle.closeableClassName
           sidetabDiv.appendChild(closeableDiv)
           closeableDiv.addEventListener('click', function (e) {
-            ud.signOutIntentionally({ confirms: 1 }).then(function (value) {
+            ud.signOutIntentionally({
+              confirms: 1,
+            }).then(function (value) {
               if (value && value.cancelled) {
                 return
               }
@@ -1412,7 +1408,7 @@
                   sidetabDiv.addEventListener.bind(
                     sidetabDiv,
                     'click',
-                    initUiData,
+                    _initUiData,
                   ),
                   0,
                 )
@@ -1459,7 +1455,6 @@
             })
             sidetabDiv.className = sidetabStyle.minimizedClassName
           })
-
           var restoreDiv = document.createElement('div')
           restoreDiv.className = sidetabStyle.restoreClassName
           restoreDiv.style.display = 'none'
@@ -1471,7 +1466,6 @@
             })
             restoreDiv.style.display = 'none'
           })
-
           notificationDiv = document.createElement('div')
           notificationDiv.className = sidetabStyle.notificationClassName
           notificationDiv.style.display = 'none'
@@ -1480,13 +1474,12 @@
 
         // initialize uc client
         initOption.parentElement = widgetContent
-
         var ucUiActionInstance = new Brekeke.UcUiAction()
         var ucUiStoreInstance = new Brekeke.UcUiStore({
           ucUiAction: ucUiActionInstance,
         })
         ucUiStoreInstance.addHandler({
-          checkRequiresNotification: function (evObj) {
+          checkRequiresNotification: function checkRequiresNotification(evObj) {
             notificationDiv.style.display = ''
           },
         })
@@ -1497,11 +1490,9 @@
             logLevel: 'debug',
           })
         }
-
         initOption.handler.customerChatReconnectButton_onClick = function () {
-          initUiData()
+          _initUiData()
         }
-
         var ud = new Brekeke.UCCustomerWidget.uiData(initOption)
         ud.render()
         var language = widgetProps.language
@@ -1531,7 +1522,7 @@
           sidetabStyle.windowFeatures,
         )
         if (!subWindow.$brUCCustomerWidgetCreated) {
-          var f = function () {
+          var f = function f() {
             if (p_o.events && typeof p_o.events.onBeforePopup === 'function') {
               p_o.events.onBeforePopup(p_o, subWindow)
             }
@@ -1695,12 +1686,16 @@
                 clearInterval(intervalID)
                 f()
                 subWindow.history.pushState(
-                  { page: 'backed' },
+                  {
+                    page: 'backed',
+                  },
                   null,
                   sidetabStyle.windowUrl,
                 )
                 subWindow.history.pushState(
-                  { page: 'forwarded' },
+                  {
+                    page: 'forwarded',
+                  },
                   null,
                   sidetabStyle.windowUrl,
                 )
@@ -1708,7 +1703,9 @@
                   if (event && event.state && event.state.page === 'backed') {
                     subWindow.close()
                     subWindow.history.pushState(
-                      { page: 'forwarded' },
+                      {
+                        page: 'forwarded',
+                      },
                       null,
                       sidetabStyle.windowUrl,
                     )
@@ -1723,7 +1720,6 @@
         subWindow.focus()
       })
     }
-
     if (
       sidetabStyle.showFunction &&
       typeof sidetabStyle.showFunction === 'function'
@@ -1737,31 +1733,30 @@
       ) {
         getParent = sidetabStyle.getParent
       } else if (sidetabStyle.parentId) {
-        getParent = function () {
+        getParent = function getParent() {
           return document.getElementById(sidetabStyle.parentId)
         }
       } else {
-        getParent = function () {
+        getParent = function getParent() {
           return document.body
         }
       }
       var appendChildTryCount = 0
-      var appendChild = function () {
+      var _appendChild = function appendChild() {
         var parent = getParent()
         if (parent && parent.appendChild) {
           parent.appendChild(sidetabDiv)
         } else if (appendChildTryCount < 30) {
           appendChildTryCount++
-          setTimeout(appendChild, 100)
+          setTimeout(_appendChild, 100)
         }
       }
       if (document.referrer.indexOf(window.location.hostname) !== -1) {
-        appendChild()
+        _appendChild()
       } else {
-        setTimeout(appendChild, int(sidetabStyle.delay))
+        setTimeout(_appendChild, int(sidetabStyle.delay))
       }
     }
-
     window.$brUCClientSidetabCreated = true
   }
 })()

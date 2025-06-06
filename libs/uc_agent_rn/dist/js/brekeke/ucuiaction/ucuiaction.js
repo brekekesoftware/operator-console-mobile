@@ -1,11 +1,36 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory({})
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UcUiAction = factory(root.Brekeke)
   }
-})(this, function (Brekeke) {
+})(void 0, function (Brekeke) {
   /**
    * UcUiAction class
    */
@@ -23,7 +48,6 @@
   //
   UcUiAction.prototype.fire = function (eventName) {
     var _arguments = arguments
-
     this.handlers.forEach(function (handler) {
       if (handler[eventName]) {
         handler[eventName].apply(

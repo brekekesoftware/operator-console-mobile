@@ -1,83 +1,131 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import CustomerSignInProfinfoInputSelect from './CustomerSignInProfinfoInputSelect.js'
-import CustomerSignInProfinfoInputInput from './CustomerSignInProfinfoInputInput.js'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _reactNative = require('react-native')
+var _strings = require('../utilities/strings')
+var _CustomerSignInProfinfoInputSelect = _interopRequireDefault(
+  require('./CustomerSignInProfinfoInputSelect'),
+)
+var _CustomerSignInProfinfoInputInput = _interopRequireDefault(
+  require('./CustomerSignInProfinfoInputInput'),
+)
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
 /**
  * CustomerSignInProfinfoInputs
  * props.uiData
  * props.uiData.configurations
  */
-export default props => {
+var _default = (exports.default = function _default(props) {
   if (
     props.uiData.configurations.profinfoInputs &&
     props.uiData.configurations.profinfoInputs.length
   ) {
+    var _props$uiData$configu,
+      _props$uiData$configu2,
+      _props$uiData$configu3,
+      _props$uiData$configu4
     // Get custom styles from configurations
-    const areaStyles =
-      props.uiData.configurations.signInFormStyles
-        ?.brSignInProfinfoInputsArea || {}
-    const labelStyles =
-      props.uiData.configurations.signInFormStyles
-        ?.brSignInProfinfoInputsLabel || {}
-    const inputAreaStyles =
-      props.uiData.configurations.signInFormStyles?.brSignInProfinfoInputArea ||
-      {}
-    const inputLabelStyles =
-      props.uiData.configurations.signInFormStyles
-        ?.brSignInProfinfoInputLabel || {}
-
-    return (
-      <View style={[styles.brSignInProfinfoInputsArea, areaStyles]}>
-        <Text style={[styles.brSignInProfinfoInputsLabel, labelStyles]}>
-          {props.uiData.configurations.profinfoInputsInnerHTML
-            ? props.uiData.configurations.profinfoInputsInnerHTML.replace(
-                /<[^>]*>/g,
-                '',
+    var areaStyles =
+      ((_props$uiData$configu =
+        props.uiData.configurations.signInFormStyles) === null ||
+      _props$uiData$configu === void 0
+        ? void 0
+        : _props$uiData$configu.brSignInProfinfoInputsArea) || {}
+    var labelStyles =
+      ((_props$uiData$configu2 =
+        props.uiData.configurations.signInFormStyles) === null ||
+      _props$uiData$configu2 === void 0
+        ? void 0
+        : _props$uiData$configu2.brSignInProfinfoInputsLabel) || {}
+    var inputAreaStyles =
+      ((_props$uiData$configu3 =
+        props.uiData.configurations.signInFormStyles) === null ||
+      _props$uiData$configu3 === void 0
+        ? void 0
+        : _props$uiData$configu3.brSignInProfinfoInputArea) || {}
+    var inputLabelStyles =
+      ((_props$uiData$configu4 =
+        props.uiData.configurations.signInFormStyles) === null ||
+      _props$uiData$configu4 === void 0
+        ? void 0
+        : _props$uiData$configu4.brSignInProfinfoInputLabel) || {}
+    return /*#__PURE__*/ React.createElement(
+      _reactNative.View,
+      {
+        style: [styles.brSignInProfinfoInputsArea, areaStyles],
+      },
+      /*#__PURE__*/ React.createElement(
+        _reactNative.Text,
+        {
+          style: [styles.brSignInProfinfoInputsLabel, labelStyles],
+        },
+        props.uiData.configurations.profinfoInputsInnerHTML
+          ? props.uiData.configurations.profinfoInputsInnerHTML.replace(
+              /<[^>]*>/g,
+              '',
+            )
+          : (0, _strings.string)(
+              props.uiData.configurations.profinfoInputsLabel,
+            ),
+      ),
+      props.uiData.configurations.profinfoInputs.map(function (o) {
+        return /*#__PURE__*/ React.createElement(
+          _reactNative.View,
+          {
+            key: o.key,
+            style: [styles.brSignInProfinfoInputArea, inputAreaStyles],
+          },
+          /*#__PURE__*/ React.createElement(
+            _reactNative.View,
+            {
+              style: styles.labelContainer,
+            },
+            /*#__PURE__*/ React.createElement(
+              _reactNative.Text,
+              {
+                style: [styles.brSignInProfinfoInputLabel, inputLabelStyles],
+              },
+              o.innerHTML
+                ? o.innerHTML.replace(/<[^>]*>/g, '')
+                : (0, _strings.string)(o.label),
+            ),
+            o.mandatory &&
+              /*#__PURE__*/ React.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.mandatoryIndicator,
+                },
+                '*',
+              ),
+          ),
+          o.options && o.options.length
+            ? /*#__PURE__*/ React.createElement(
+                _CustomerSignInProfinfoInputSelect.default,
+                {
+                  uiData: props.uiData,
+                  profinfoInput: o,
+                },
               )
-            : string(props.uiData.configurations.profinfoInputsLabel)}
-        </Text>
-
-        {props.uiData.configurations.profinfoInputs.map(o => (
-          <View
-            key={o.key}
-            style={[styles.brSignInProfinfoInputArea, inputAreaStyles]}
-          >
-            <View style={styles.labelContainer}>
-              <Text
-                style={[styles.brSignInProfinfoInputLabel, inputLabelStyles]}
-              >
-                {o.innerHTML
-                  ? o.innerHTML.replace(/<[^>]*>/g, '')
-                  : string(o.label)}
-              </Text>
-              {o.mandatory && <Text style={styles.mandatoryIndicator}>*</Text>}
-            </View>
-
-            {o.options && o.options.length ? (
-              <CustomerSignInProfinfoInputSelect
-                uiData={props.uiData}
-                profinfoInput={o}
-              />
-            ) : (
-              <CustomerSignInProfinfoInputInput
-                uiData={props.uiData}
-                profinfoInput={o}
-              />
-            )}
-          </View>
-        ))}
-      </View>
+            : /*#__PURE__*/ React.createElement(
+                _CustomerSignInProfinfoInputInput.default,
+                {
+                  uiData: props.uiData,
+                  profinfoInput: o,
+                },
+              ),
+        )
+      }),
     )
   } else {
     return null
   }
-}
-
-const styles = StyleSheet.create({
+})
+var styles = _reactNative.StyleSheet.create({
   brSignInProfinfoInputsArea: {
     width: 180,
     marginVertical: 8,

@@ -1,8 +1,8 @@
 import React from 'react'
-import { AppRegistry } from 'react-native'
+import { AppRegistry, Platform } from 'react-native'
 
-import uawMsgs from './utilities/uawmsgs.js'
-import Constants from './utilities/constants.js'
+import uawMsgs from './utilities/uawmsgs'
+import Constants from './utilities/constants'
 import {
   int,
   string,
@@ -13,30 +13,30 @@ import {
   toPlainText,
   truncateWithEllipsis,
   parsePanelKey,
-} from './utilities/strings.js'
-import CURRENT_SCRIPT_URL from './utilities/currentscript.js'
-import './utilities/polyfills.js'
+} from './utilities/strings'
+import CURRENT_SCRIPT_URL from './utilities/currentscript'
+import './utilities/polyfills'
 
-import App from './apps/App.js'
-import UCApp from './apps/UCApp.js'
-import IconApp from './apps/IconApp.js'
-import DialogApp from './apps/DialogApp.js'
-import StaticApp from './apps/StaticApp.js'
-import ChatOnlyApp from './apps/ChatOnlyApp.js'
-import UndockedPanelSubWindowApp from './apps/UndockedPanelSubWindowApp.js'
+import App from './apps/App'
+import UCApp from './apps/UCApp'
+import IconApp from './apps/IconApp'
+import DialogApp from './apps/DialogApp'
+import StaticApp from './apps/StaticApp'
+import ChatOnlyApp from './apps/ChatOnlyApp'
+import UndockedPanelSubWindowApp from './apps/UndockedPanelSubWindowApp'
 import RnAsyncStorage from '@react-native-async-storage/async-storage'
-import { renderToView } from './dynamic-renderer/index.js'
+import { renderToView } from './dynamic-renderer/index'
 
 const Brekeke = (window.BLIB = window.Brekeke = window.Brekeke || {})
 Brekeke.UCClient =
   Brekeke.UCClient || require('./js/brekeke/ucclient/ucclient.js')
 Brekeke.WebNotification =
   Brekeke.WebNotification ||
-  require('./js/brekeke/webnotification/webnotification.js')
+  require('./js/brekeke/webnotification/webnotification')
 const UcUiAction = (Brekeke.UcUiAction =
-  Brekeke.UcUiAction || require('./js/brekeke/ucuiaction/ucuiaction.js'))
+  Brekeke.UcUiAction || require('./js/brekeke/ucuiaction/ucuiaction'))
 const UcUiStore = (Brekeke.UcUiStore =
-  Brekeke.UcUiStore || require('./js/brekeke/ucuistore/ucuistore.js'))
+  Brekeke.UcUiStore || require('./js/brekeke/ucuistore/ucuistore'))
 
 CURRENT_SCRIPT_URL.init()
 uawMsgs.init(CURRENT_SCRIPT_URL)
@@ -4007,64 +4007,66 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
     return
   }
 
-  // Import DocumentPicker from react-native-document-picker
-  const DocumentPicker = require('react-native-document-picker').default
+  if (Platform.OS !== 'web') {
+    // Import DocumentPicker from react-native-document-picker
+    const DocumentPicker = require('react-native-document-picker').default
 
-  // Launch document picker
-  DocumentPicker.pick({
-    type: [DocumentPicker.types.allFiles],
-    allowMultiSelection: true,
-  })
-    .then(results => {
-      console.log('#Duy Phan console results', results)
-
-      if (results && results.length > 0) {
-        // Convert DocumentPicker results to File objects
-        const files = results.map(result => {
-          // Create a File-like object from the document picker result
-          return {
-            uri: result.uri,
-            name: result.name,
-            type: result.type,
-            size: result.size,
-            // Add a method to get the file content as a blob
-            // blob: async () => {
-            //   try {
-            //     const RNFS = require('react-native-fs')
-            //     const fileContent = await RNFS.readFile(result.uri, 'base64')
-            //     const blob = new Blob([fileContent], { type: result.type })
-            //     return blob
-            //   } catch (error) {
-            //     this.ucUiStore
-            //       .getLogger()
-            //       .log('error', 'Error reading file: ' + error)
-            //     return null
-            //   }
-            // },
-          }
-        })
-        console.log('#Duy Phan console 222222', files)
-
-        // Send the files
-        this.ucUiAction.sendFiles({
-          chatType: panelType,
-          chatCode: panelCode,
-          files: files,
-        })
-        console.log('#Duy Phan console files done')
-      } else {
-        this.ucUiStore.getLogger().log('info', 'No files selected')
-      }
+    // Launch document picker
+    DocumentPicker.pick({
+      type: [DocumentPicker.types.allFiles],
+      allowMultiSelection: true,
     })
-    .catch(err => {
-      if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker
-        this.ucUiStore.getLogger().log('info', 'User cancelled file picker')
-      } else {
-        // Error occurred
-        this.ucUiStore.getLogger().log('error', 'Error picking files: ' + err)
-      }
-    })
+      .then(results => {
+        console.log('#Duy Phan console results', results)
+
+        if (results && results.length > 0) {
+          // Convert DocumentPicker results to File objects
+          const files = results.map(result => {
+            // Create a File-like object from the document picker result
+            return {
+              uri: result.uri,
+              name: result.name,
+              type: result.type,
+              size: result.size,
+              // Add a method to get the file content as a blob
+              // blob: async () => {
+              //   try {
+              //     const RNFS = require('react-native-fs')
+              //     const fileContent = await RNFS.readFile(result.uri, 'base64')
+              //     const blob = new Blob([fileContent], { type: result.type })
+              //     return blob
+              //   } catch (error) {
+              //     this.ucUiStore
+              //       .getLogger()
+              //       .log('error', 'Error reading file: ' + error)
+              //     return null
+              //   }
+              // },
+            }
+          })
+          console.log('#Duy Phan console 222222', files)
+
+          // Send the files
+          this.ucUiAction.sendFiles({
+            chatType: panelType,
+            chatCode: panelCode,
+            files: files,
+          })
+          console.log('#Duy Phan console files done')
+        } else {
+          this.ucUiStore.getLogger().log('info', 'No files selected')
+        }
+      })
+      .catch(err => {
+        if (DocumentPicker.isCancel(err)) {
+          // User cancelled the picker
+          this.ucUiStore.getLogger().log('info', 'User cancelled file picker')
+        } else {
+          // Error occurred
+          this.ucUiStore.getLogger().log('error', 'Error picking files: ' + err)
+        }
+      })
+  }
 }
 uiData.prototype.panelHeaderVoiceButton_onClick = function (
   panelType,
@@ -4648,7 +4650,8 @@ uiData.prototype.chatInlineImage_onClick = function (url, ev) {
       },
     },
     contentParams: {
-      content: <img src={url} style={style} />,
+      content: '<img src={url} style={style} />',
+      // TODO: Check and update this element
     },
   })
   const currentModalInfo = this.modalInfo

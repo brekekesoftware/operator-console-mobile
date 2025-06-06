@@ -1,5 +1,5 @@
 import debounce from 'debounce'
-import { deleteProperty, setProperty } from 'dot-prop'
+import lodash from 'lodash'
 
 import { RnAsyncStorage } from '../../components/Rn'
 import type { EmbedApi } from '../../embed/embedApi'
@@ -350,7 +350,7 @@ export class WebphonePhoneClient extends APhoneClient {
 
       const path = `${e.user}.callStatus.${e.talker_id}`
       if (status === 'hanging') {
-        deleteProperty(extensionsStatus, path)
+        lodash.unset(extensionsStatus, path)
         if (e.user === monitoringExtension) {
           monitoringExtension = ''
         }
@@ -364,7 +364,7 @@ export class WebphonePhoneClient extends APhoneClient {
             e,
           ) // !bad //!fixit
       } else {
-        setProperty(extensionsStatus, path, status)
+        lodash.set(extensionsStatus, path, status)
         this._OperatorConsoleAsParent
           .getExtensionsStatusInstance()
           .onSetExtensionStatusProperty(this, extensionsStatus, path, status, e) // !bad //!fixit
@@ -507,7 +507,7 @@ export class WebphonePhoneClient extends APhoneClient {
       if (e.status == 'on') {
         linesStatus[e.line] = e
       } else if (e.status == 'off') {
-        deleteProperty(linesStatus, e.line)
+        lodash.unset(linesStatus, e.line)
         usingLine = usingLine === e.line ? '' : usingLine
       }
     }
@@ -532,8 +532,8 @@ export class WebphonePhoneClient extends APhoneClient {
       if (e.status == 'on') {
         parksStatus[e.park] = e
       } else if (e.status == 'off') {
-        deleteProperty(parksStatus, e.park)
-        deleteProperty(myParksStatus, e.park)
+        lodash.unset(parksStatus, e.park)
+        lodash.unset(myParksStatus, e.park)
       }
 
       this._OperatorConsoleAsParent.setParksStatusAndMyParksStatus(

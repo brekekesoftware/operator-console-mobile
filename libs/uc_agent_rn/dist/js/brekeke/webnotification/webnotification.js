@@ -1,13 +1,38 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory()
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.WebNotification = factory()
   }
-})(this, function () {
+})(void 0, function () {
   var WebNotification = {},
-    debug = function () {}
+    debug = function debug() {}
   ;(notificationIdCounter = 0), (notificationInfoTable = {})
 
   /**
@@ -19,7 +44,6 @@
    */
   WebNotification.requestPermission = function (options) {
     var targetDocument, targetWindow
-
     options = options || {}
     targetDocument = options.document || document
     targetWindow = (targetDocument && targetDocument.defaultView) || window
@@ -70,7 +94,6 @@
       opt,
       id,
       notification
-
     options = options || {}
     debug = typeof options.debug === 'function' ? options.debug : debug
     targetDocument = options.document || document
@@ -94,14 +117,17 @@
     if (options.icon) {
       opt.icon = string(options.icon)
     }
-
     id = string(++notificationIdCounter)
     notification = new targetWindow.Notification(title, opt)
     if (!notification) {
       throw new Error('failed to create notification')
     }
-    notification.onclick = notification_onclick.bind({ notificationId: id })
-    notification.onclose = notification_onclose.bind({ notificationId: id })
+    notification.onclick = notification_onclick.bind({
+      notificationId: id,
+    })
+    notification.onclose = _notification_onclose.bind({
+      notificationId: id,
+    })
     opt.silent = noisiness === 0 || noisiness === 1
     notificationInfoTable[id] = {
       notificationId: id,
@@ -121,10 +147,13 @@
       onclick: options.onclick,
       onclose: options.onclose,
     }
-    setTimeout(closeAndReshow.bind({ notificationId: id }), interval)
-
+    setTimeout(
+      closeAndReshow.bind({
+        notificationId: id,
+      }),
+      interval,
+    )
     debug('WebNotification started (' + id + ')')
-
     return id
   }
 
@@ -137,14 +166,12 @@
    */
   WebNotification.closeNotification = function (options) {
     var notificationInfo
-
     debug(
       'WebNotification stopping (' +
         (options && options.notificationId) +
         ') reason: ' +
         (options && options.reason),
     )
-
     Object.keys(notificationInfoTable).forEach(function (id) {
       if (
         !options ||
@@ -173,7 +200,6 @@
           }
         }
         delete notificationInfoTable[id]
-
         debug(
           'WebNotification stopped (' +
             id +
@@ -187,30 +213,25 @@
   /**
    * private functions
    */
-  var notification_onclick = function () {
+  var notification_onclick = function notification_onclick() {
     var id = string(this && this.notificationId),
       notificationInfo = notificationInfoTable[id]
-
     debug('WebNotification notification_onclick occurred (' + id + ')')
-
     if (notificationInfo && notificationInfo.onclick) {
       notificationInfo.onclick({
         notificationId: id,
       })
     }
   }
-
-  var notification_onclose = function () {
+  var _notification_onclose = function notification_onclose() {
     var id = string(this && this.notificationId),
       notificationInfo = notificationInfoTable[id]
-
     debug(
       'WebNotification notification_onclose occurred (' +
         id +
         ') reshowing: ' +
         (notificationInfo && notificationInfo.reshowing),
     )
-
     if (notificationInfo && notificationInfo.notification) {
       if (notificationInfo.reshowing) {
         // reshow
@@ -229,11 +250,13 @@
         notificationInfo.notification.onclick = notification_onclick.bind({
           notificationId: id,
         })
-        notificationInfo.notification.onclose = notification_onclose.bind({
+        notificationInfo.notification.onclose = _notification_onclose.bind({
           notificationId: id,
         })
         setTimeout(
-          closeAndReshow.bind({ notificationId: id }),
+          closeAndReshow.bind({
+            notificationId: id,
+          }),
           notificationInfo.interval,
         )
       } else {
@@ -245,20 +268,17 @@
       }
     }
   }
-
-  var closeAndReshow = function () {
+  var closeAndReshow = function closeAndReshow() {
     var id = string(this && this.notificationId),
       notificationInfo = notificationInfoTable[id]
-
     debug(
       'WebNotification closeAndReshow occurred (' +
         id +
         ') close: ' +
         (notificationInfo &&
           notificationInfo.notification &&
-          typeof notificationInfo.notification.close),
+          _typeof(notificationInfo.notification.close)),
     )
-
     if (
       notificationInfo &&
       notificationInfo.notification &&
@@ -268,12 +288,10 @@
       notificationInfo.notification.close()
     }
   }
-
-  var int = function (value) {
+  var int = function int(value) {
     return parseInt(value, 10) || 0
   }
-
-  var string = function (value) {
+  var string = function string(value) {
     return String(value || value === 0 || value === false ? value : '')
   }
   return WebNotification

@@ -1,40 +1,179 @@
-import React from 'react'
-import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg'
+'use strict'
 
-const FileIcon = ({ width = 24, height = 24, color = '#212121', ...props }) => (
-  <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
-    <Defs>
-      <Path
-        id='path-1'
-        d='M18.4,0 L1.6,0 C0.72,0 0,0.73125 0,1.625 L0,22.375 C0,23.26875 0.72,24 1.6,24 L22.4,24 C23.28,24 24,23.26875 24,22.375 L24,5.625 Q24,4.952 23.524,4.476 L19.549,0.476 Q19.073,0 18.4,0 Z M22.4,22.375 L1.6,22.375 L1.6,1.625 L18.4,1.625 L18.4,4 C18.4,4.89375 19.12,5.625 20,5.625 L22.4,5.625 L22.4,22.375 Z'
-      />
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
-      </Mask>
-      <Use xlinkHref='#path-1' />
-      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
-    </Defs>
-    <G
-      id='icon/folder'
-      fill='none'
-      mask='url(#mask-2)'
-      fillRule='evenodd'
-      stroke='none'
-      strokeWidth='1'
-    >
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
-      </Mask>
-      <Use
-        id='Shape'
-        fill='#191919'
-        fillRule='nonzero'
-        xlinkHref='#path-1'
-      ></Use>
-
-      <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
-    </G>
-  </Svg>
-)
-
-export default FileIcon
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNativeSvg = _interopRequireWildcard(require('react-native-svg'))
+var _excluded = ['width', 'height', 'color']
+function _interopRequireWildcard(e, t) {
+  if ('function' == typeof WeakMap)
+    var r = new WeakMap(),
+      n = new WeakMap()
+  return (_interopRequireWildcard = function _interopRequireWildcard(e, t) {
+    if (!t && e && e.__esModule) return e
+    var o,
+      i,
+      f = { __proto__: null, default: e }
+    if (null === e || ('object' != _typeof(e) && 'function' != typeof e))
+      return f
+    if ((o = t ? n : r)) {
+      if (o.has(e)) return o.get(e)
+      o.set(e, f)
+    }
+    for (var _t in e)
+      'default' !== _t &&
+        {}.hasOwnProperty.call(e, _t) &&
+        ((i =
+          (o = Object.defineProperty) &&
+          Object.getOwnPropertyDescriptor(e, _t)) &&
+        (i.get || i.set)
+          ? o(f, _t, i)
+          : (f[_t] = e[_t]))
+    return f
+  })(e, t)
+}
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function _extends() {
+  return (
+    (_extends = Object.assign
+      ? Object.assign.bind()
+      : function (n) {
+          for (var e = 1; e < arguments.length; e++) {
+            var t = arguments[e]
+            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
+          }
+          return n
+        }),
+    _extends.apply(null, arguments)
+  )
+}
+function _objectWithoutProperties(e, t) {
+  if (null == e) return {}
+  var o,
+    r,
+    i = _objectWithoutPropertiesLoose(e, t)
+  if (Object.getOwnPropertySymbols) {
+    var n = Object.getOwnPropertySymbols(e)
+    for (r = 0; r < n.length; r++)
+      (o = n[r]),
+        -1 === t.indexOf(o) &&
+          {}.propertyIsEnumerable.call(e, o) &&
+          (i[o] = e[o])
+  }
+  return i
+}
+function _objectWithoutPropertiesLoose(r, e) {
+  if (null == r) return {}
+  var t = {}
+  for (var n in r)
+    if ({}.hasOwnProperty.call(r, n)) {
+      if (-1 !== e.indexOf(n)) continue
+      t[n] = r[n]
+    }
+  return t
+}
+var FileIcon = function FileIcon(_ref) {
+  var _ref$width = _ref.width,
+    width = _ref$width === void 0 ? 24 : _ref$width,
+    _ref$height = _ref.height,
+    height = _ref$height === void 0 ? 24 : _ref$height,
+    _ref$color = _ref.color,
+    color = _ref$color === void 0 ? '#212121' : _ref$color,
+    props = _objectWithoutProperties(_ref, _excluded)
+  return /*#__PURE__*/ _react.default.createElement(
+    _reactNativeSvg.default,
+    _extends(
+      {
+        width: width,
+        height: height,
+        viewBox: '0 0 24 24',
+      },
+      props,
+    ),
+    /*#__PURE__*/ _react.default.createElement(
+      _reactNativeSvg.Defs,
+      null,
+      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Path, {
+        id: 'path-1',
+        d: 'M18.4,0 L1.6,0 C0.72,0 0,0.73125 0,1.625 L0,22.375 C0,23.26875 0.72,24 1.6,24 L22.4,24 C23.28,24 24,23.26875 24,22.375 L24,5.625 Q24,4.952 23.524,4.476 L19.549,0.476 Q19.073,0 18.4,0 Z M22.4,22.375 L1.6,22.375 L1.6,1.625 L18.4,1.625 L18.4,4 C18.4,4.89375 19.12,5.625 20,5.625 L22.4,5.625 L22.4,22.375 Z',
+      }),
+      /*#__PURE__*/ _react.default.createElement(
+        _reactNativeSvg.Mask,
+        {
+          id: 'mask-2',
+          fill: 'white',
+        },
+        /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
+          xlinkHref: '#path-1',
+        }),
+      ),
+      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
+        xlinkHref: '#path-1',
+      }),
+      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
+        id: 'Shape',
+        fill: '#191919',
+        fillRule: 'nonzero',
+        xlinkHref: '#path-1',
+      }),
+    ),
+    /*#__PURE__*/ _react.default.createElement(
+      _reactNativeSvg.G,
+      {
+        id: 'icon/folder',
+        fill: 'none',
+        mask: 'url(#mask-2)',
+        fillRule: 'evenodd',
+        stroke: 'none',
+        strokeWidth: '1',
+      },
+      /*#__PURE__*/ _react.default.createElement(
+        _reactNativeSvg.Mask,
+        {
+          id: 'mask-2',
+          fill: 'white',
+        },
+        /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
+          xlinkHref: '#path-1',
+        }),
+      ),
+      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
+        id: 'Shape',
+        fill: '#191919',
+        fillRule: 'nonzero',
+        xlinkHref: '#path-1',
+      }),
+      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Rect, {
+        id: 'Rectangle',
+        x: '0',
+        y: '0',
+        width: '24',
+        height: '24',
+      }),
+    ),
+  )
+}
+var _default = (exports.default = FileIcon)

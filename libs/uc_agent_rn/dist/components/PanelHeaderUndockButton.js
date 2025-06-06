@@ -1,10 +1,15 @@
-import React from 'react'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import SimpleButton from './SimpleButton.js'
-import { Image } from 'react-native'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _SimpleButton = _interopRequireDefault(require('./SimpleButton'))
+var _reactNative = require('react-native')
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
 /**
  * PanelHeaderUndockButton
  * props.uiData
@@ -13,19 +18,21 @@ import { Image } from 'react-native'
  * props.panelCode
  * props.disabled
  */
-export default props => {
-  return (
-    <SimpleButton
-      title={uawMsgs.LBL_PANEL_HEADER_UNDOCK_BUTTON_TOOLTIP}
-      disabled={props.disabled}
-      onClick={props.uiData.fire.bind(
+var _default = (exports.default = function _default(props) {
+  return /*#__PURE__*/ React.createElement(
+    _SimpleButton.default,
+    {
+      title: _uawmsgs.default.LBL_PANEL_HEADER_UNDOCK_BUTTON_TOOLTIP,
+      disabled: props.disabled,
+      onClick: props.uiData.fire.bind(
         props.uiData,
         'panelHeaderUndockButton_onClick',
         props.panelType,
         props.panelCode,
-      )}
-    >
-      <Image source={require('../images/panelheaderundock.png')} />
-    </SimpleButton>
+      ),
+    },
+    /*#__PURE__*/ React.createElement(_reactNative.Image, {
+      source: require('../images/panelheaderundock.png'),
+    }),
   )
-}
+})

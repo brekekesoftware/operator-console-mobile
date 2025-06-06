@@ -1,33 +1,59 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory({})
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.net = factory(root.Brekeke)
   }
-})(this, function (Brekeke) {
+})(void 0, function (Brekeke) {
   Brekeke.net = {
     ERROR_TIMEOUT: -1,
     ERROR_DISCONNECTED: -2,
     ERROR_NOT_OPENED: -3,
     ERROR_UNKNOWN_RESPONSE: -4,
     WebSocket: window.WebSocket || window.MozWebSocket,
-    createJsonRpc: function (websocketURL, ajaxURL) {
+    createJsonRpc: function createJsonRpc(websocketURL, ajaxURL) {
       return (
         this.createJsonRpcOverWebSocket(websocketURL) ||
         this.createJsonRpcOverAjax(ajaxURL)
       )
     },
-    getJsonRpcPrototype: function () {
+    getJsonRpcPrototype: function getJsonRpcPrototype() {
       if (Brekeke.net.prototype_jsonrpc) {
         return Brekeke.net.prototype_jsonrpc
       }
       var rpc = {
         timeoutMethod: 10000,
         method_id: 1,
-        debugLevel: 0, // 0: release, 1:dev, 2:debug for all messages.
+        debugLevel: 0,
+        // 0: release, 1:dev, 2:debug for all messages.
         timeLastReceived: 0,
-        call: function (method, params, funcOK, funcError, returnObj) {
+        call: function call(method, params, funcOK, funcError, returnObj) {
           if (funcOK) {
             var mid = this.method_id++
             mid = mid.toString()
@@ -47,26 +73,35 @@
             this._sendNotification(obj_send)
           }
         },
-        printDebug: function (str) {
+        printDebug: function printDebug(str) {
           if (this.debugLevel >= 2) {
-            if (typeof str === 'object') {
+            if (_typeof(str) === 'object') {
               str = JSON.stringify(str)
             }
             console.debug(new Date() + ' [debug] ' + str)
           }
         },
-        printError: function (str) {
+        printError: function printError(str) {
           if (this.debugLevel >= 1) {
-            if (typeof str === 'object') {
+            if (_typeof(str) === 'object') {
               str = JSON.stringify(str)
             }
             console.debug(new Date() + ' [error] ' + str)
           }
         },
-        _sendMethod: function (obj_send, mid, funcOK, funcError, returnObj) {
+        _sendMethod: function _sendMethod(
+          obj_send,
+          mid,
+          funcOK,
+          funcError,
+          returnObj,
+        ) {
           if (!this.isOpen()) {
             funcError(
-              { code: Brekeke.net.ERROR_NOT_OPENED, message: 'Not Opened' },
+              {
+                code: Brekeke.net.ERROR_NOT_OPENED,
+                message: 'Not Opened',
+              },
               returnObj,
             )
             return
@@ -97,12 +132,12 @@
             }
           }, t.timeoutMethod)
         },
-        _sendNotification: function (obj_send) {
+        _sendNotification: function _sendNotification(obj_send) {
           var s = JSON.stringify(obj_send)
           this.printDebug('JsonRpcBase._sendNotify:' + s)
           this.send(s)
         },
-        _recvOneMsg: function (msg) {
+        _recvOneMsg: function _recvOneMsg(msg) {
           if (msg.id) {
             //
             if (msg.method) {
@@ -143,7 +178,7 @@
             }
           }
         },
-        _recv: function (msg) {
+        _recv: function _recv(msg) {
           this.timeLastReceived = new Date().getTime()
           this.printDebug(msg)
           if (msg instanceof Array) {
@@ -154,7 +189,7 @@
             this._recvOneMsg(msg)
           }
         },
-        _recvNotification: function (method, params) {
+        _recvNotification: function _recvNotification(method, params) {
           var hobj = this._getHandlerObject()
           var handler = hobj[method]
           if (handler) {
@@ -164,7 +199,7 @@
             this._getHandlerObject().handler(method, params, false)
           }
         },
-        _recvMethod: function (method, params) {
+        _recvMethod: function _recvMethod(method, params) {
           var hobj = this._getHandlerObject()
           var handler = hobj[method]
           if (handler) {
@@ -175,29 +210,29 @@
           }
         },
         //
-        handler: function (msg) {
+        handler: function handler(msg) {
           this.printError('no handler found. ' + msg)
         },
-        onClose: function () {},
-        _onClose: function (e) {
+        onClose: function onClose() {},
+        _onClose: function _onClose(e) {
           if (this.closed) {
             return
           }
           this.closed = true
           this.onClose(e)
         },
-        onOpen: function () {},
-        _onOpen: function () {
+        onOpen: function onOpen() {},
+        _onOpen: function _onOpen() {
           this.onOpen()
         },
-        send: function () {},
-        setHandlerObject: function (h) {
+        send: function send() {},
+        setHandlerObject: function setHandlerObject(h) {
           this.handlerObject = h
         },
-        _getHandlerObject: function () {
+        _getHandlerObject: function _getHandlerObject() {
           return this.handlerObject ? this.handlerObject : this
         },
-        _canOpen: function () {
+        _canOpen: function _canOpen() {
           if (this.closed) {
             this.printDebug('Already Closed.')
             return false
@@ -211,88 +246,92 @@
           this.closed = false
           return true
         },
-        setUrl: function (url) {
+        setUrl: function setUrl(url) {
           this.url = url
         },
-        onError: function (e) {
+        onError: function onError(e) {
           console.log('error', e)
         },
       }
       Brekeke.net.prototype_jsonrpc = rpc
       return Brekeke.net.prototype_jsonrpc
     },
-    getJsonRpcOverWebSocketPrototype: function () {
-      if (!Brekeke.net.WebSocket) {
-        return null
-      }
-      if (Brekeke.net.prototype_jsonrpc_websocket) {
+    getJsonRpcOverWebSocketPrototype:
+      function getJsonRpcOverWebSocketPrototype() {
+        if (!Brekeke.net.WebSocket) {
+          return null
+        }
+        if (Brekeke.net.prototype_jsonrpc_websocket) {
+          return Brekeke.net.prototype_jsonrpc_websocket
+        }
+        var rpc = Object.create(Brekeke.net.getJsonRpcPrototype())
+        rpc.isOpen = function () {
+          this.printDebug(
+            'JsonRpcOverWebSocket.isOpen() rpc.socket.readyState=' +
+              this.socket.readyState,
+          )
+          return this.socket.readyState === 1
+        }
+        rpc.send = function (msg) {
+          try {
+            this.socket.send(msg)
+          } catch (error) {}
+        }
+        rpc.open = function () {
+          if (!this._canOpen()) {
+            throw new Error('Failed to open')
+          }
+          var socket = new WebSocket(this.url)
+          this.socket = socket
+          var t = this
+          socket.onopen = function (e) {
+            t.printDebug('JsonRpcOverWebSocket.open() onopen:' + e)
+            t._onOpen()
+          }
+          socket.onclose = function (e) {
+            for (var id in t.methods_sending) {
+              var m = t.methods_sending[id]
+              m.funcError(
+                {
+                  code: Brekeke.net.ERROR_DISCONNECTED,
+                  message: 'Disconnected',
+                },
+                m.returnObj,
+              )
+            }
+            delete this.methods_sending
+            t.methods_sending = {}
+            t._onClose(e)
+          }
+          socket.onmessage = function (e) {
+            if (!e) {
+              return
+            }
+            if (!e.data || e.data.length == 0) {
+              return
+            }
+            var msg = JSON.parse(e.data)
+            t._recv(msg)
+          }
+          socket.onerror = function (e) {
+            t.printDebug(e)
+            rpc.onerror(e)
+          }
+        }
+        rpc.close = function () {
+          if (!this.socket) {
+            return
+          }
+          this.socket.close()
+          this.socket = null
+        }
+        rpc.onerror = function (e) {
+          this.onError(e)
+        }
+        Brekeke.net.prototype_jsonrpc_websocket = rpc
         return Brekeke.net.prototype_jsonrpc_websocket
-      }
-      var rpc = Object.create(Brekeke.net.getJsonRpcPrototype())
-      rpc.isOpen = function () {
-        this.printDebug(
-          'JsonRpcOverWebSocket.isOpen() rpc.socket.readyState=' +
-            this.socket.readyState,
-        )
-        return this.socket.readyState === 1
-      }
-      rpc.send = function (msg) {
-        try {
-          this.socket.send(msg)
-        } catch (error) {}
-      }
-      rpc.open = function () {
-        if (!this._canOpen()) {
-          throw new Error('Failed to open')
-        }
-        var socket = new WebSocket(this.url)
-        this.socket = socket
-        var t = this
-        socket.onopen = function (e) {
-          t.printDebug('JsonRpcOverWebSocket.open() onopen:' + e)
-          t._onOpen()
-        }
-        socket.onclose = function (e) {
-          for (var id in t.methods_sending) {
-            var m = t.methods_sending[id]
-            m.funcError(
-              { code: Brekeke.net.ERROR_DISCONNECTED, message: 'Disconnected' },
-              m.returnObj,
-            )
-          }
-          delete this.methods_sending
-          t.methods_sending = {}
-          t._onClose(e)
-        }
-        socket.onmessage = function (e) {
-          if (!e) {
-            return
-          }
-          if (!e.data || e.data.length == 0) {
-            return
-          }
-          var msg = JSON.parse(e.data)
-          t._recv(msg)
-        }
-        socket.onerror = function (e) {
-          t.printDebug(e)
-          rpc.onerror(e)
-        }
-      }
-      rpc.close = function () {
-        if (!this.socket) {
-          return
-        }
-        this.socket.close()
-        this.socket = null
-      }
-      rpc.onerror = function (e) {
-        this.onError(e)
-      }
-      Brekeke.net.prototype_jsonrpc_websocket = rpc
-      return Brekeke.net.prototype_jsonrpc_websocket
-    },
-    createXhr: function () {
+      },
+    createXhr: function createXhr() {
       var MSXML_PROGID = [
         'Microsoft.XMLHTTP',
         'MSXML2.XMLHTTP.3.0',
@@ -321,7 +360,7 @@
         return xhr
       }
     },
-    getJsonRpcOverAjaxPrototype: function () {
+    getJsonRpcOverAjaxPrototype: function getJsonRpcOverAjaxPrototype() {
       if (Brekeke.net.prototype_jsonrpc_ajax) {
         return Brekeke.net.prototype_jsonrpc_ajax
       }
@@ -337,7 +376,6 @@
         //            this.printDebug("JsonRpcOverAjax.isOpen()");
         return this.methods_sending && !this.closing && !this.closed
       }
-
       rpc.polling = function () {
         if (this.closing) {
           return
@@ -359,8 +397,9 @@
               try {
                 throw {
                   value: 500,
-                  message: 'Internal Server Error.()', //"Internal Server Error",
-                  toString: function () {
+                  message: 'Internal Server Error.()',
+                  //"Internal Server Error",
+                  toString: function toString() {
                     return this.value + this.message
                   },
                 }
@@ -419,12 +458,12 @@
       Brekeke.net.prototype_jsonrpc_ajax = rpc
       return Brekeke.net.prototype_jsonrpc_ajax
     },
-    createJsonRpcOverWebSocket: function (url) {
+    createJsonRpcOverWebSocket: function createJsonRpcOverWebSocket(url) {
       var r = Object.create(Brekeke.net.getJsonRpcOverWebSocketPrototype())
       r.setUrl(url)
       return r
     },
-    createJsonRpcOverAjax: function (url) {
+    createJsonRpcOverAjax: function createJsonRpcOverAjax(url) {
       var r = Object.create(Brekeke.net.getJsonRpcOverAjaxPrototype())
       r.setUrl(url)
       return r

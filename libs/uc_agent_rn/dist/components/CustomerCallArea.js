@@ -1,32 +1,231 @@
-import React from 'react'
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  Dimensions,
-  PanResponder,
-  Platform,
-  StatusBar,
-} from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import { int, string } from '../utilities/strings.js'
-import ButtonIconic from './ButtonIconic.js'
-import CallAudio from './CallAudio.js'
-import CallVideo from './CallVideo.js'
-import CallTimer from './CallTimer.js'
-import MenuBalloonDialog from './MenuBalloonDialog.js'
-import MenuItem from './MenuItem.js'
-import MultipleAudio from '../components/MultipleAudio.js'
-import CURRENT_SCRIPT_URL from '../utilities/currentscript.js'
-import { RTCView } from 'react-native-webrtc'
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  useSharedValue,
-} from 'react-native-reanimated'
+'use strict'
 
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _strings = require('../utilities/strings')
+var _ButtonIconic = _interopRequireDefault(require('./ButtonIconic'))
+var _CallAudio = _interopRequireDefault(require('./CallAudio'))
+var _CallVideo = _interopRequireDefault(require('./CallVideo'))
+var _CallTimer = _interopRequireDefault(require('./CallTimer'))
+var _MenuBalloonDialog = _interopRequireDefault(require('./MenuBalloonDialog'))
+var _MenuItem = _interopRequireDefault(require('./MenuItem'))
+var _MultipleAudio = _interopRequireDefault(
+  require('../components/MultipleAudio'),
+)
+var _currentscript = _interopRequireDefault(
+  require('../utilities/currentscript'),
+)
+var _reactNativeReanimated = _interopRequireWildcard(
+  require('react-native-reanimated'),
+)
+function _interopRequireWildcard(e, t) {
+  if ('function' == typeof WeakMap)
+    var r = new WeakMap(),
+      n = new WeakMap()
+  return (_interopRequireWildcard = function _interopRequireWildcard(e, t) {
+    if (!t && e && e.__esModule) return e
+    var o,
+      i,
+      f = { __proto__: null, default: e }
+    if (null === e || ('object' != _typeof(e) && 'function' != typeof e))
+      return f
+    if ((o = t ? n : r)) {
+      if (o.has(e)) return o.get(e)
+      o.set(e, f)
+    }
+    for (var _t in e)
+      'default' !== _t &&
+        {}.hasOwnProperty.call(e, _t) &&
+        ((i =
+          (o = Object.defineProperty) &&
+          Object.getOwnPropertyDescriptor(e, _t)) &&
+        (i.get || i.set)
+          ? o(f, _t, i)
+          : (f[_t] = e[_t]))
+    return f
+  })(e, t)
+}
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
+}
+function _defineProperty(e, r, t) {
+  return (
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
+  )
+}
+function _extends() {
+  return (
+    (_extends = Object.assign
+      ? Object.assign.bind()
+      : function (n) {
+          for (var e = 1; e < arguments.length; e++) {
+            var t = arguments[e]
+            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
+          }
+          return n
+        }),
+    _extends.apply(null, arguments)
+  )
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n))
+    throw new TypeError('Cannot call a class as a function')
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t]
+    ;(o.enumerable = o.enumerable || !1),
+      (o.configurable = !0),
+      'value' in o && (o.writable = !0),
+      Object.defineProperty(e, _toPropertyKey(o.key), o)
+  }
+}
+function _createClass(e, r, t) {
+  return (
+    r && _defineProperties(e.prototype, r),
+    t && _defineProperties(e, t),
+    Object.defineProperty(e, 'prototype', { writable: !1 }),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
+function _callSuper(t, o, e) {
+  return (
+    (o = _getPrototypeOf(o)),
+    _possibleConstructorReturn(
+      t,
+      _isNativeReflectConstruct()
+        ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
+        : o.apply(t, e),
+    )
+  )
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ('object' == _typeof(e) || 'function' == typeof e)) return e
+  if (void 0 !== e)
+    throw new TypeError(
+      'Derived constructors may only return object or undefined',
+    )
+  return _assertThisInitialized(t)
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called",
+    )
+  return e
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(
+      Reflect.construct(Boolean, [], function () {}),
+    )
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct() {
+    return !!t
+  })()
+}
+function _getPrototypeOf(t) {
+  return (
+    (_getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf.bind()
+      : function (t) {
+          return t.__proto__ || Object.getPrototypeOf(t)
+        }),
+    _getPrototypeOf(t)
+  )
+}
+function _inherits(t, e) {
+  if ('function' != typeof e && null !== e)
+    throw new TypeError('Super expression must either be null or a function')
+  ;(t.prototype = Object.create(e && e.prototype, {
+    constructor: { value: t, writable: !0, configurable: !0 },
+  })),
+    Object.defineProperty(t, 'prototype', { writable: !1 }),
+    e && _setPrototypeOf(t, e)
+}
+function _setPrototypeOf(t, e) {
+  return (
+    (_setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function (t, e) {
+          return (t.__proto__ = e), t
+        }),
+    _setPrototypeOf(t, e)
+  )
+}
 /**
  * CustomerCallArea
  * props.uiData
@@ -53,11 +252,15 @@ import Animated, {
  * props.uiData.callDeclineButton_onClick
  * props.withMenuOptions
  */
-export default class CustomerCallArea extends React.Component {
-  constructor(props) {
-    super(props)
-    this.fullscreenEntered = false
-    this.state = {
+var CustomerCallArea = (exports.default = /*#__PURE__*/ (function (
+  _React$Component,
+) {
+  function CustomerCallArea(props) {
+    var _this
+    _classCallCheck(this, CustomerCallArea)
+    _this = _callSuper(this, CustomerCallArea, [props])
+    _this.fullscreenEntered = false
+    _this.state = {
       callVideoOptionsMenuShowingDialogVersion: null,
       callVideoOptionsMenuShowingDialogVideoClientSessionId: null,
       touchStartX: 0,
@@ -76,691 +279,918 @@ export default class CustomerCallArea extends React.Component {
     }
 
     // Create refs
-    this.callVideoAreaRef = React.createRef()
-    this.videoRefs = {}
+    _this.callVideoAreaRef = /*#__PURE__*/ _react.default.createRef()
+    _this.videoRefs = {}
 
     // Setup pan responder for draggable local video
-    this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (evt, gestureState) => {
-        this.setState({
+    _this.panResponder = _reactNative.PanResponder.create({
+      onStartShouldSetPanResponder: function onStartShouldSetPanResponder() {
+        return true
+      },
+      onMoveShouldSetPanResponder: function onMoveShouldSetPanResponder() {
+        return true
+      },
+      onPanResponderGrant: function onPanResponderGrant(evt, gestureState) {
+        _this.setState({
           touchStartX: gestureState.x0,
           touchStartY: gestureState.y0,
           touchStartTime: Date.now(),
         })
       },
-      onPanResponderMove: (evt, gestureState) => {
-        this.setState({
+      onPanResponderMove: function onPanResponderMove(evt, gestureState) {
+        _this.setState({
           touchMoveX: gestureState.moveX,
           touchMoveY: gestureState.moveY,
         })
-
-        if (this.props.uiData.callAreaExpanded) {
-          this.setState({
+        if (_this.props.uiData.callAreaExpanded) {
+          _this.setState({
             callLocalVideoPosition: {
-              x: gestureState.dx + this.state.callLocalVideoPosition.x,
-              y: gestureState.dy + this.state.callLocalVideoPosition.y,
+              x: gestureState.dx + _this.state.callLocalVideoPosition.x,
+              y: gestureState.dy + _this.state.callLocalVideoPosition.y,
             },
           })
         }
       },
-      onPanResponderRelease: (evt, gestureState) => {
-        const nowTime = Date.now()
-        const dTime = nowTime - this.state.touchStartTime
-        const dY = gestureState.dy
-
+      onPanResponderRelease: function onPanResponderRelease(evt, gestureState) {
+        var nowTime = Date.now()
+        var dTime = nowTime - _this.state.touchStartTime
+        var dY = gestureState.dy
         if (dTime < 1000) {
           if (24 < dY && dY < 200) {
-            this.setState({ swipedTime: nowTime })
-            this.props.uiData.fire('callArea_onSwipedDown', evt)
+            _this.setState({
+              swipedTime: nowTime,
+            })
+            _this.props.uiData.fire('callArea_onSwipedDown', evt)
           } else if (-200 < dY && dY < -24) {
-            this.setState({ swipedTime: nowTime })
-            this.props.uiData.fire('callArea_onSwipedUp', evt)
+            _this.setState({
+              swipedTime: nowTime,
+            })
+            _this.props.uiData.fire('callArea_onSwipedUp', evt)
           }
         }
       },
     })
+    return _this
   }
-  componentDidUpdate() {
-    const props = this.props
-    const session = props.uiData.phone && props.uiData.phone.getSession()
-
-    if (!session && this.fullscreenEntered) {
-      this.fullscreenEntered = false
-    }
-  }
-  handleEvent(ev) {
-    const props = this.props
-    if (ev.type === 'click') {
-      if (+new Date() - this.state.swipedTime > 500) {
-        props.uiData.fire('callArea_onClick', ev)
-      }
-    } else if (ev.type === 'touchstart') {
-      if (ev.touches && ev.touches[0]) {
+  _inherits(CustomerCallArea, _React$Component)
+  return _createClass(CustomerCallArea, [
+    {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+        var props = this.props
+        var session = props.uiData.phone && props.uiData.phone.getSession()
+        if (!session && this.fullscreenEntered) {
+          this.fullscreenEntered = false
+        }
+      },
+    },
+    {
+      key: 'handleEvent',
+      value: function handleEvent(ev) {
+        var props = this.props
+        if (ev.type === 'click') {
+          if (+new Date() - this.state.swipedTime > 500) {
+            props.uiData.fire('callArea_onClick', ev)
+          }
+        } else if (ev.type === 'touchstart') {
+          if (ev.touches && ev.touches[0]) {
+            this.setState({
+              touchStartX: ev.touches[0].pageX,
+              touchStartY: ev.touches[0].pageY,
+              touchStartTime: +new Date(),
+              touchMoveX: ev.touches[0].pageX,
+              touchMoveY: ev.touches[0].pageY,
+            })
+          }
+        } else if (ev.type === 'touchmove') {
+          if (ev.touches && ev.changedTouches[0]) {
+            this.setState({
+              touchMoveX: ev.changedTouches[0].pageX,
+              touchMoveY: ev.changedTouches[0].pageY,
+            })
+          }
+        } else if (ev.type === 'touchend') {
+          var nowTime = +new Date()
+          var dTime = nowTime - this.state.touchStartTime
+          var dY = this.state.touchMoveY - this.state.touchStartY
+          if (dTime < 1000) {
+            if (24 < dY && dY < 200) {
+              this.setState({
+                swipedTime: nowTime,
+              })
+              props.uiData.fire('callArea_onSwipedDown', ev)
+            } else if (-200 < dY && dY < -24) {
+              this.setState({
+                swipedTime: nowTime,
+              })
+              props.uiData.fire('callArea_onSwipedUp', ev)
+            }
+          }
+        }
+      },
+    },
+    {
+      key: 'handleFullscreenButtonClick',
+      value: function handleFullscreenButtonClick() {
+        if (_reactNative.Platform.OS === 'ios') {
+          // iOS fullscreen handling
+          if (this.callVideoAreaRef.current) {
+            if (!this.fullscreenEntered) {
+              // Enter fullscreen
+              this.setState({
+                isFullscreen: true,
+              })
+              this.fullscreenEntered = true
+            } else {
+              // Exit fullscreen
+              this.setState({
+                isFullscreen: false,
+              })
+              this.fullscreenEntered = false
+            }
+          }
+        } else {
+          // Android fullscreen handling
+          if (this.callVideoAreaRef.current) {
+            if (!this.fullscreenEntered) {
+              // Enter fullscreen
+              _reactNative.StatusBar.setHidden(true)
+              this.setState({
+                isFullscreen: true,
+              })
+              this.fullscreenEntered = true
+            } else {
+              // Exit fullscreen
+              _reactNative.StatusBar.setHidden(false)
+              this.setState({
+                isFullscreen: false,
+              })
+              this.fullscreenEntered = false
+            }
+          }
+        }
+      },
+    },
+    {
+      key: 'handleCallRemoteVideoClick',
+      value: function handleCallRemoteVideoClick(videoClientSessionId, ev) {
+        var _this2 = this
+        var props = this.props
+        props.uiData.callVideoOptionsHidden = false
+        this.state.videoOptionsPanelTime[videoClientSessionId] = Date.now()
         this.setState({
-          touchStartX: ev.touches[0].pageX,
-          touchStartY: ev.touches[0].pageY,
-          touchStartTime: +new Date(),
-          touchMoveX: ev.touches[0].pageX,
-          touchMoveY: ev.touches[0].pageY,
+          videoOptionsPanelTime: this.state.videoOptionsPanelTime,
         })
-      }
-    } else if (ev.type === 'touchmove') {
-      if (ev.touches && ev.changedTouches[0]) {
+        setTimeout(function () {
+          return _this2.setState({})
+        }, 2000)
+        setTimeout(function () {
+          return _this2.setState({})
+        }, 3000)
+      },
+    },
+    {
+      key: 'handleCallRemoteVideoMouseMove',
+      value: function handleCallRemoteVideoMouseMove(videoClientSessionId, ev) {
+        var _this3 = this
+        var props = this.props
+        this.state.videoOptionsPanelTime[videoClientSessionId] = Date.now()
         this.setState({
-          touchMoveX: ev.changedTouches[0].pageX,
-          touchMoveY: ev.changedTouches[0].pageY,
+          videoOptionsPanelTime: this.state.videoOptionsPanelTime,
         })
-      }
-    } else if (ev.type === 'touchend') {
-      const nowTime = +new Date()
-      const dTime = nowTime - this.state.touchStartTime
-      const dY = this.state.touchMoveY - this.state.touchStartY
-      if (dTime < 1000) {
-        if (24 < dY && dY < 200) {
-          this.setState({ swipedTime: nowTime })
-          props.uiData.fire('callArea_onSwipedDown', ev)
-        } else if (-200 < dY && dY < -24) {
-          this.setState({ swipedTime: nowTime })
-          props.uiData.fire('callArea_onSwipedUp', ev)
-        }
-      }
-    }
-  }
-  handleFullscreenButtonClick() {
-    if (Platform.OS === 'ios') {
-      // iOS fullscreen handling
-      if (this.callVideoAreaRef.current) {
-        if (!this.fullscreenEntered) {
-          // Enter fullscreen
-          this.setState({
-            isFullscreen: true,
-          })
-          this.fullscreenEntered = true
-        } else {
-          // Exit fullscreen
-          this.setState({
-            isFullscreen: false,
-          })
-          this.fullscreenEntered = false
-        }
-      }
-    } else {
-      // Android fullscreen handling
-      if (this.callVideoAreaRef.current) {
-        if (!this.fullscreenEntered) {
-          // Enter fullscreen
-          StatusBar.setHidden(true)
-          this.setState({
-            isFullscreen: true,
-          })
-          this.fullscreenEntered = true
-        } else {
-          // Exit fullscreen
-          StatusBar.setHidden(false)
-          this.setState({
-            isFullscreen: false,
-          })
-          this.fullscreenEntered = false
-        }
-      }
-    }
-  }
-  handleCallRemoteVideoClick(videoClientSessionId, ev) {
-    const props = this.props
-    props.uiData.callVideoOptionsHidden = false
-    this.state.videoOptionsPanelTime[videoClientSessionId] = Date.now()
-    this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
-    setTimeout(() => this.setState({}), 2000)
-    setTimeout(() => this.setState({}), 3000)
-  }
-  handleCallRemoteVideoMouseMove(videoClientSessionId, ev) {
-    const props = this.props
-    this.state.videoOptionsPanelTime[videoClientSessionId] = Date.now()
-    this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
-    setTimeout(() => this.setState({}), 2000)
-    setTimeout(() => this.setState({}), 3000)
-  }
-  handleCallRemoteVideoMouseLeave(videoClientSessionId, ev) {
-    const props = this.props
-    delete this.state.videoOptionsPanelTime[videoClientSessionId]
-    this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
-  }
-  handleCallVideoOptionsOptionsButtonClick(videoClientSessionId, ev) {
-    const props = this.props
-    if (
-      props.uiData.showingDialogVersion !==
-        this.state.callVideoOptionsMenuShowingDialogVersion ||
-      videoClientSessionId !==
-        this.state.callVideoOptionsMenuShowingDialogVideoClientSessionId
-    ) {
-      this.setState({
-        callVideoOptionsMenuShowingDialogVersion: ++props.uiData
-          .showingDialogVersion,
-        callVideoOptionsMenuShowingDialogVideoClientSessionId:
-          videoClientSessionId,
-      })
-      ev.stopPropagation()
-      props.uiData.fire('showingDialog_update')
-    }
-  }
-  handleCallVideoOptionsHideMenuItemClick(videoClientSessionId, ev) {
-    const props = this.props
-    props.uiData.callVideoOptionsHidden = true
-    ev.stopPropagation()
-  }
-  handleCallVideoOptionsFullscreenButtonClick(videoClientSessionId) {
-    const videoRef = this.videoRefs[videoClientSessionId]
-
-    if (Platform.OS === 'ios') {
-      // iOS fullscreen handling
-      if (videoRef) {
-        if (!this.fullscreenEntered) {
-          this.setState({
-            fullscreenVideo: videoClientSessionId,
-            isFullscreen: true,
-          })
-          this.fullscreenEntered = true
-        } else {
-          this.setState({
-            fullscreenVideo: null,
-            isFullscreen: false,
-          })
-          this.fullscreenEntered = false
-        }
-      }
-    } else {
-      // Android fullscreen handling
-      if (videoRef) {
-        if (!this.fullscreenEntered) {
-          StatusBar.setHidden(true)
-          this.setState({
-            fullscreenVideo: videoClientSessionId,
-            isFullscreen: true,
-          })
-          this.fullscreenEntered = true
-        } else {
-          StatusBar.setHidden(false)
-          this.setState({
-            fullscreenVideo: null,
-            isFullscreen: false,
-          })
-          this.fullscreenEntered = false
-        }
-      }
-    }
-
-    delete this.state.videoOptionsPanelTime[videoClientSessionId]
-    this.setState({ videoOptionsPanelTime: this.state.videoOptionsPanelTime })
-  }
-  render() {
-    const props = this.props
-    if (props.uiData.phone) {
-      const session = props.uiData.phone && props.uiData.phone.getSession()
-      let className = 'brCallArea'
-      let videos = []
-      let startTime = 0
-      const remoteBuddies =
-        Object.values(props.uiData.ucUiStore.getBuddyTable())[0] || {}
-      let imcomingRemoteBuddy = props.uiData.ucUiStore.getBuddyUserForUi({
-        user_id: string(
-          session &&
-            session.rtcSession &&
-            session.rtcSession.remote_identity &&
-            session.rtcSession.remote_identity.uri &&
-            session.rtcSession.remote_identity.uri.user,
-        ),
-      })
-      if (!imcomingRemoteBuddy.name && !imcomingRemoteBuddy.profile_image_url) {
-        imcomingRemoteBuddy = props.uiData.ucUiStore.getBuddyUserForUi(
-          Object.values(remoteBuddies).filter(b => !b.isMe)[0],
-        )
-      }
-      if (props.withMenuOptions) {
-        className += ' brWithMenuOptions'
-      }
-      if (
-        props.uiData.configurations &&
-        props.uiData.configurations.cameraButton
+        setTimeout(function () {
+          return _this3.setState({})
+        }, 2000)
+        setTimeout(function () {
+          return _this3.setState({})
+        }, 3000)
+      },
+    },
+    {
+      key: 'handleCallRemoteVideoMouseLeave',
+      value: function handleCallRemoteVideoMouseLeave(
+        videoClientSessionId,
+        ev,
       ) {
-        className += ' brWithCameraButton'
-      }
-      if (
-        props.uiData.configurations &&
-        props.uiData.configurations.screenButton
+        var props = this.props
+        delete this.state.videoOptionsPanelTime[videoClientSessionId]
+        this.setState({
+          videoOptionsPanelTime: this.state.videoOptionsPanelTime,
+        })
+      },
+    },
+    {
+      key: 'handleCallVideoOptionsOptionsButtonClick',
+      value: function handleCallVideoOptionsOptionsButtonClick(
+        videoClientSessionId,
+        ev,
       ) {
-        className += ' brWithScreenButton'
-      }
-      if (
-        props.uiData.configurations &&
-        props.uiData.configurations.fullscreenButton
-      ) {
-        className += ' brWithFullscreenButton'
-      }
-      if (session) {
-        if (props.uiData.callAreaExpanded) {
-          className += ' brExpanded'
-        } else {
-          className += ' brContracted'
-        }
-        if (props.uiData.callAreaTheater) {
-          className += ' brTheater'
-        } else if (
-          session.withVideo &&
-          session.remoteUserOptionsTable &&
-          Object.keys(session.remoteUserOptionsTable).some(user => {
-            let remoteSoundOnly = false
-            try {
-              remoteSoundOnly = JSON.parse(
-                session.remoteUserOptionsTable[user].exInfo,
-              ).soundOnly
-            } catch (ex) {}
-            return (
-              session.remoteUserOptionsTable[user] &&
-              session.remoteUserOptionsTable[user].withVideo &&
-              !remoteSoundOnly
-            )
-          })
-        ) {
-          className += ' brNonTheaterLarge'
-        } else if (session.withVideo) {
-          className += ' brNonTheaterSmall'
-        } else {
-          className += ' brNonTheaterHidden'
-        }
+        var props = this.props
         if (
-          session.rtcSession &&
-          session.rtcSession.direction === 'incoming' &&
-          session.sessionStatus === 'progress' &&
-          !session.answering
+          props.uiData.showingDialogVersion !==
+            this.state.callVideoOptionsMenuShowingDialogVersion ||
+          videoClientSessionId !==
+            this.state.callVideoOptionsMenuShowingDialogVideoClientSessionId
         ) {
-          className += ' brIncomingProgress'
+          this.setState({
+            callVideoOptionsMenuShowingDialogVersion: ++props.uiData
+              .showingDialogVersion,
+            callVideoOptionsMenuShowingDialogVideoClientSessionId:
+              videoClientSessionId,
+          })
+          ev.stopPropagation()
+          props.uiData.fire('showingDialog_update')
         }
-        if (session.muted.main) {
-          className += ' brMicMuted'
-        }
-        if (props.uiData.cameraOff) {
-          className += ' brCameraOff'
-        }
-        if (props.uiData.isScreen) {
-          className += ' brIsScreen'
-        }
-        if (session.withVideo) {
-          className += ' brWithVideo'
-          if (session.videoClientSessionTable) {
-            const keys = Object.keys(session.videoClientSessionTable)
-            const width =
-              Math.floor(100 / Math.ceil(Math.sqrt(keys.length))) + '%'
-            const height =
-              Math.floor(
-                100 / Math.ceil((Math.sqrt(4 * keys.length + 1) - 1) / 2),
-              ) + '%'
-            videos = keys.map((videoClientSessionId, index) => (
-              <View
-                key={videoClientSessionId}
-                ref={ref => (this.videoRefs[videoClientSessionId] = ref)}
-                style={[
-                  styles.brCallRemoteVideo,
-                  { width, height },
-                  this.state.fullscreenVideo === videoClientSessionId &&
-                    styles.fullscreen,
-                ]}
-                onTouchStart={() =>
-                  this.handleCallRemoteVideoClick(videoClientSessionId)
-                }
-                onTouchMove={() =>
-                  this.handleCallRemoteVideoMouseMove(videoClientSessionId)
-                }
-              >
-                <CallVideo
-                  uiData={props.uiData}
-                  sessionId={string(session && session.sessionId)}
-                  videoClientSessionId={videoClientSessionId}
-                  streamMarker={string(
-                    session &&
-                      session.videoClientSessionTable &&
-                      session.videoClientSessionTable[videoClientSessionId] &&
-                      session.videoClientSessionTable[videoClientSessionId]
-                        .remoteStreamObject &&
-                      session.videoClientSessionTable[videoClientSessionId]
-                        .remoteStreamObject.id,
-                  )}
-                  isLocal={false}
-                  style={
-                    props.uiData.callAreaExpanded
-                      ? styles.brCancelCallAreaClick
-                      : null
-                  }
-                />
-                <Text style={styles.brCallVideoName}>
-                  {
-                    (user =>
-                      remoteBuddies[user] ||
-                      remoteBuddies[
-                        Object.keys(remoteBuddies).find(
-                          user_id =>
-                            user.indexOf(string(user_id).replace('#', '')) !==
-                            -1,
-                        )
-                      ] || { name: user })(
-                      string(
-                        session &&
-                          session.videoClientSessionTable &&
-                          session.videoClientSessionTable[
-                            videoClientSessionId
-                          ] &&
-                          session.videoClientSessionTable[videoClientSessionId]
-                            .user,
-                      ),
-                    ).name
-                  }
-                </Text>
-                <View
-                  style={[
-                    styles.brCallVideoOptionsPanel,
-                    styles.brCancelCallAreaClick,
-                    props.uiData.callVideoOptionsHidden ||
-                      (!props.uiData.callAreaExpanded && styles.brHidden),
-                    Date.now() <
-                      this.state.videoOptionsPanelTime[videoClientSessionId] +
-                        1500 && styles.brVisible,
-                    Date.now() <
-                      this.state.videoOptionsPanelTime[videoClientSessionId] +
-                        2500 && styles.brEnabled,
-                  ]}
-                >
-                  <ButtonIconic
-                    style={[
-                      styles.brCallVideoOptionsOptionsButton,
-                      styles.brCancelCallAreaClick,
-                    ]}
-                    onPress={() =>
-                      this.handleCallVideoOptionsOptionsButtonClick(
-                        videoClientSessionId,
-                      )
-                    }
-                  >
-                    <View
-                      style={[
-                        styles.brCallVideoOptionsOptionsButtonIcon,
-                        styles.br_bi_icon_more_svg,
-                      ]}
-                    />
-                  </ButtonIconic>
-                  <MenuBalloonDialog
-                    showing={
-                      props.uiData.showingDialogVersion ===
-                        this.state.callVideoOptionsMenuShowingDialogVersion &&
-                      videoClientSessionId ===
-                        this.state
-                          .callVideoOptionsMenuShowingDialogVideoClientSessionId
-                    }
-                    style={styles.brCallVideoOptionsMenuBalloon}
-                  >
-                    <MenuItem
-                      style={[
-                        styles.brCallVideoOptionsMenuItem,
-                        styles.brCallVideoOptionsHideMenuItem,
-                        styles.brCancelCallAreaClick,
-                      ]}
-                      onPress={() =>
-                        this.handleCallVideoOptionsHideMenuItemClick(
-                          videoClientSessionId,
-                        )
-                      }
-                    >
-                      <Text>{uawMsgs.LBL_CALL_VIDEO_OPTIONS_HIDE_MENU}</Text>
-                    </MenuItem>
-                  </MenuBalloonDialog>
-                  <ButtonIconic
-                    style={[styles.brCallVideoOptionsTheaterButton]}
-                    hidden={
-                      !(
-                        props.uiData.configurations &&
-                        props.uiData.configurations.theaterButton
-                      ) ||
-                      (props.uiData.ownerDocument &&
-                        props.uiData.ownerDocument.fullscreenElement &&
-                        string(
-                          props.uiData.ownerDocument.fullscreenElement
-                            .className,
-                        ).indexOf('brCallRemoteVideo') !== -1)
-                    }
-                    onPress={() =>
-                      props.uiData.fire('callAreaTheaterButton_onClick')
-                    }
-                  >
-                    <View
-                      style={[
-                        styles.brCallVideoOptionsTheaterButtonIcon,
-                        props.uiData.callAreaTheater
-                          ? styles.br_bi_icon_chevron_up_svg
-                          : styles.br_bi_icon_chevron_down_svg,
-                      ]}
-                    />
-                  </ButtonIconic>
-                </View>
-              </View>
-            ))
+      },
+    },
+    {
+      key: 'handleCallVideoOptionsHideMenuItemClick',
+      value: function handleCallVideoOptionsHideMenuItemClick(
+        videoClientSessionId,
+        ev,
+      ) {
+        var props = this.props
+        props.uiData.callVideoOptionsHidden = true
+        ev.stopPropagation()
+      },
+    },
+    {
+      key: 'handleCallVideoOptionsFullscreenButtonClick',
+      value: function handleCallVideoOptionsFullscreenButtonClick(
+        videoClientSessionId,
+      ) {
+        var videoRef = this.videoRefs[videoClientSessionId]
+        if (_reactNative.Platform.OS === 'ios') {
+          // iOS fullscreen handling
+          if (videoRef) {
+            if (!this.fullscreenEntered) {
+              this.setState({
+                fullscreenVideo: videoClientSessionId,
+                isFullscreen: true,
+              })
+              this.fullscreenEntered = true
+            } else {
+              this.setState({
+                fullscreenVideo: null,
+                isFullscreen: false,
+              })
+              this.fullscreenEntered = false
+            }
           }
-          if (props.uiData.callAreaExpanded) {
-            videos.push(
-              <Animated.View
-                key='local'
-                style={[
-                  styles.brCallLocalVideo,
-                  {
-                    transform: [
-                      { translateX: this.state.callLocalVideoPosition.x },
-                      { translateY: this.state.callLocalVideoPosition.y },
-                    ],
-                  },
-                ]}
-                {...this.panResponder.panHandlers}
-              >
-                <CallVideo
-                  uiData={props.uiData}
-                  sessionId={string(session && session.sessionId)}
-                  streamMarker={string(
-                    session &&
-                      session.localVideoStreamObject &&
-                      session.localVideoStreamObject.id,
-                  )}
-                  isLocal={true}
-                  style={styles.brCancelCallAreaClick}
-                />
-              </Animated.View>,
-            )
-          } else {
-            videos.push(
-              <View key='local' style={styles.brCallLocalVideo}>
-                <CallVideo
-                  uiData={props.uiData}
-                  sessionId={string(session && session.sessionId)}
-                  streamMarker={string(
-                    session &&
-                      session.localVideoStreamObject &&
-                      session.localVideoStreamObject.id,
-                  )}
-                  isLocal={true}
-                />
-              </View>,
-            )
+        } else {
+          // Android fullscreen handling
+          if (videoRef) {
+            if (!this.fullscreenEntered) {
+              _reactNative.StatusBar.setHidden(true)
+              this.setState({
+                fullscreenVideo: videoClientSessionId,
+                isFullscreen: true,
+              })
+              this.fullscreenEntered = true
+            } else {
+              _reactNative.StatusBar.setHidden(false)
+              this.setState({
+                fullscreenVideo: null,
+                isFullscreen: false,
+              })
+              this.fullscreenEntered = false
+            }
           }
         }
-        if (session.rtcSession && session.rtcSession.start_time) {
-          startTime = +session.rtcSession.start_time
-        }
-      }
-      return (
-        <View
-          style={[
-            styles.brCallArea,
-            className,
-            {
-              ...this.panResponder.panHandlers,
-            },
-          ]}
-          {...this.panResponder.panHandlers}
-        >
-          <View style={styles.brCallHeaderArea}>
-            <TouchableOpacity
-              style={[styles.brCallMuteMicButton, styles.brCallAreaButton]}
-              onPress={() => props.uiData.fire('callMuteMicButton_onClick')}
-            >
-              <View
-                style={[
-                  styles.brCallMuteMicIcon,
-                  styles.brCallAreaIcon,
-                  styles.br_bi_icon_block_microphone_svg,
-                ]}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.brCallMuteCamButton, styles.brCallAreaButton]}
-              onPress={() => props.uiData.fire('callMuteCamButton_onClick')}
-            >
-              <View
-                style={[
-                  styles.brCallMuteCamIcon,
-                  styles.brCallAreaIcon,
-                  styles.br_bi_icon_no_video_svg,
-                ]}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.brCallScreenButton, styles.brCallAreaButton]}
-              onPress={() => props.uiData.fire('callScreenButton_onClick')}
-            >
-              <View style={styles.brCallScreenIconArea}>
-                <View
-                  style={[
-                    styles.brCallScreenIcon,
-                    styles.brCallAreaIconAreaIcon,
-                    styles.br_bi_icon_channel_mosaic_1_svg,
-                  ]}
-                />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.brCallHangUpButton, styles.brCallAreaButton]}
-              onPress={() => props.uiData.fire('callHangUpButton_onClick')}
-            >
-              <View
-                style={[
-                  styles.brCallHangUpIcon,
-                  styles.brCallAreaIcon,
-                  styles.br_bi_icon_end_call_svg,
-                ]}
-              />
-            </TouchableOpacity>
-            <CallTimer startTime={startTime} />
-          </View>
-          <View style={styles.brCallAnswerArea}>
-            <View style={styles.brCallIncomingArea}>
-              <Image
-                style={styles.brCallIncomingIcon}
-                source={{ uri: imcomingRemoteBuddy.profile_image_url }}
-              />
-              <View style={styles.brCallIncomingMessageArea}>
-                <Text style={styles.brCallIncomingName}>
-                  {imcomingRemoteBuddy.name}
-                </Text>
-                <Text style={styles.brCallIncomingMessage}>
-                  {uawMsgs.LBL_CALL_INCOMING}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.brCallAnswerButtonArea}>
-              <TouchableOpacity
-                style={[
-                  styles.brCallAnswerButton,
-                  styles.brCallAnswerAreaButton,
-                ]}
-                onPress={() => props.uiData.fire('callAnswerButton_onClick')}
-              />
-              <TouchableOpacity
-                style={[
-                  styles.brCallAnswerWithVideoButton,
-                  styles.brCallAnswerAreaButton,
-                ]}
-                onPress={() =>
-                  props.uiData.fire('callAnswerWithVideoButton_onClick')
-                }
-              />
-              <TouchableOpacity
-                style={[
-                  styles.brCallDeclineButton,
-                  styles.brCallAnswerAreaButton,
-                ]}
-                onPress={() => props.uiData.fire('callDeclineButton_onClick')}
-              />
-            </View>
-          </View>
-          <View
-            ref={this.callVideoAreaRef}
-            style={[
-              styles.brCallVideoArea,
-              Object.keys((session && session.videoClientSessionTable) || {})
-                .length >= 2 && styles.brMultiRemoteVideo,
-              this.state.isFullscreen && styles.fullscreen,
-            ]}
-          >
-            {videos}
-          </View>
-          <MultipleAudio
-            uiData={props.uiData}
-            style={styles.brRingMultipleAudio}
-            src={CURRENT_SCRIPT_URL.DIR + '../sounds/ring.mp3'}
-            loop={true}
-            playing={
-              props.uiData.configurations &&
-              props.uiData.configurations.ringTone &&
+        delete this.state.videoOptionsPanelTime[videoClientSessionId]
+        this.setState({
+          videoOptionsPanelTime: this.state.videoOptionsPanelTime,
+        })
+      },
+    },
+    {
+      key: 'render',
+      value: function render() {
+        var _this4 = this
+        var props = this.props
+        if (props.uiData.phone) {
+          var session = props.uiData.phone && props.uiData.phone.getSession()
+          var className = 'brCallArea'
+          var videos = []
+          var startTime = 0
+          var remoteBuddies =
+            Object.values(props.uiData.ucUiStore.getBuddyTable())[0] || {}
+          var imcomingRemoteBuddy = props.uiData.ucUiStore.getBuddyUserForUi({
+            user_id: (0, _strings.string)(
               session &&
+                session.rtcSession &&
+                session.rtcSession.remote_identity &&
+                session.rtcSession.remote_identity.uri &&
+                session.rtcSession.remote_identity.uri.user,
+            ),
+          })
+          if (
+            !imcomingRemoteBuddy.name &&
+            !imcomingRemoteBuddy.profile_image_url
+          ) {
+            imcomingRemoteBuddy = props.uiData.ucUiStore.getBuddyUserForUi(
+              Object.values(remoteBuddies).filter(function (b) {
+                return !b.isMe
+              })[0],
+            )
+          }
+          if (props.withMenuOptions) {
+            className += ' brWithMenuOptions'
+          }
+          if (
+            props.uiData.configurations &&
+            props.uiData.configurations.cameraButton
+          ) {
+            className += ' brWithCameraButton'
+          }
+          if (
+            props.uiData.configurations &&
+            props.uiData.configurations.screenButton
+          ) {
+            className += ' brWithScreenButton'
+          }
+          if (
+            props.uiData.configurations &&
+            props.uiData.configurations.fullscreenButton
+          ) {
+            className += ' brWithFullscreenButton'
+          }
+          if (session) {
+            if (props.uiData.callAreaExpanded) {
+              className += ' brExpanded'
+            } else {
+              className += ' brContracted'
+            }
+            if (props.uiData.callAreaTheater) {
+              className += ' brTheater'
+            } else if (
+              session.withVideo &&
+              session.remoteUserOptionsTable &&
+              Object.keys(session.remoteUserOptionsTable).some(function (user) {
+                var remoteSoundOnly = false
+                try {
+                  remoteSoundOnly = JSON.parse(
+                    session.remoteUserOptionsTable[user].exInfo,
+                  ).soundOnly
+                } catch (ex) {}
+                return (
+                  session.remoteUserOptionsTable[user] &&
+                  session.remoteUserOptionsTable[user].withVideo &&
+                  !remoteSoundOnly
+                )
+              })
+            ) {
+              className += ' brNonTheaterLarge'
+            } else if (session.withVideo) {
+              className += ' brNonTheaterSmall'
+            } else {
+              className += ' brNonTheaterHidden'
+            }
+            if (
               session.rtcSession &&
               session.rtcSession.direction === 'incoming' &&
               session.sessionStatus === 'progress' &&
               !session.answering
+            ) {
+              className += ' brIncomingProgress'
             }
-          />
-          <MultipleAudio
-            uiData={props.uiData}
-            style={styles.brRingbackMultipleAudio}
-            src={CURRENT_SCRIPT_URL.DIR + '../sounds/ringback.mp3'}
-            loop={true}
-            playing={
-              props.uiData.configurations &&
-              props.uiData.configurations.ringbackTone &&
-              session &&
-              !session.remoteStreamObject &&
-              session.rtcSession &&
-              session.rtcSession.direction === 'outgoing' &&
-              session.sessionStatus === 'progress'
+            if (session.muted.main) {
+              className += ' brMicMuted'
             }
-          />
-          <CallAudio
-            uiData={props.uiData}
-            sessionId={string(session && session.sessionId)}
-            streamMarker={
-              string(
+            if (props.uiData.cameraOff) {
+              className += ' brCameraOff'
+            }
+            if (props.uiData.isScreen) {
+              className += ' brIsScreen'
+            }
+            if (session.withVideo) {
+              className += ' brWithVideo'
+              if (session.videoClientSessionTable) {
+                var keys = Object.keys(session.videoClientSessionTable)
+                var width =
+                  Math.floor(100 / Math.ceil(Math.sqrt(keys.length))) + '%'
+                var height =
+                  Math.floor(
+                    100 / Math.ceil((Math.sqrt(4 * keys.length + 1) - 1) / 2),
+                  ) + '%'
+                videos = keys.map(function (videoClientSessionId, index) {
+                  return /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      key: videoClientSessionId,
+                      ref: function ref(_ref) {
+                        return (_this4.videoRefs[videoClientSessionId] = _ref)
+                      },
+                      style: [
+                        styles.brCallRemoteVideo,
+                        {
+                          width: width,
+                          height: height,
+                        },
+                        _this4.state.fullscreenVideo === videoClientSessionId &&
+                          styles.fullscreen,
+                      ],
+                      onTouchStart: function onTouchStart() {
+                        return _this4.handleCallRemoteVideoClick(
+                          videoClientSessionId,
+                        )
+                      },
+                      onTouchMove: function onTouchMove() {
+                        return _this4.handleCallRemoteVideoMouseMove(
+                          videoClientSessionId,
+                        )
+                      },
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _CallVideo.default,
+                      {
+                        uiData: props.uiData,
+                        sessionId: (0, _strings.string)(
+                          session && session.sessionId,
+                        ),
+                        videoClientSessionId: videoClientSessionId,
+                        streamMarker: (0, _strings.string)(
+                          session &&
+                            session.videoClientSessionTable &&
+                            session.videoClientSessionTable[
+                              videoClientSessionId
+                            ] &&
+                            session.videoClientSessionTable[
+                              videoClientSessionId
+                            ].remoteStreamObject &&
+                            session.videoClientSessionTable[
+                              videoClientSessionId
+                            ].remoteStreamObject.id,
+                        ),
+                        isLocal: false,
+                        style: props.uiData.callAreaExpanded
+                          ? styles.brCancelCallAreaClick
+                          : null,
+                      },
+                    ),
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.Text,
+                      {
+                        style: styles.brCallVideoName,
+                      },
+                      (function (user) {
+                        return (
+                          remoteBuddies[user] ||
+                          remoteBuddies[
+                            Object.keys(remoteBuddies).find(function (user_id) {
+                              return (
+                                user.indexOf(
+                                  (0, _strings.string)(user_id).replace(
+                                    '#',
+                                    '',
+                                  ),
+                                ) !== -1
+                              )
+                            })
+                          ] || {
+                            name: user,
+                          }
+                        )
+                      })(
+                        (0, _strings.string)(
+                          session &&
+                            session.videoClientSessionTable &&
+                            session.videoClientSessionTable[
+                              videoClientSessionId
+                            ] &&
+                            session.videoClientSessionTable[
+                              videoClientSessionId
+                            ].user,
+                        ),
+                      ).name,
+                    ),
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.View,
+                      {
+                        style: [
+                          styles.brCallVideoOptionsPanel,
+                          styles.brCancelCallAreaClick,
+                          props.uiData.callVideoOptionsHidden ||
+                            (!props.uiData.callAreaExpanded && styles.brHidden),
+                          Date.now() <
+                            _this4.state.videoOptionsPanelTime[
+                              videoClientSessionId
+                            ] +
+                              1500 && styles.brVisible,
+                          Date.now() <
+                            _this4.state.videoOptionsPanelTime[
+                              videoClientSessionId
+                            ] +
+                              2500 && styles.brEnabled,
+                        ],
+                      },
+                      /*#__PURE__*/ _react.default.createElement(
+                        _ButtonIconic.default,
+                        {
+                          style: [
+                            styles.brCallVideoOptionsOptionsButton,
+                            styles.brCancelCallAreaClick,
+                          ],
+                          onPress: function onPress() {
+                            return _this4.handleCallVideoOptionsOptionsButtonClick(
+                              videoClientSessionId,
+                            )
+                          },
+                        },
+                        /*#__PURE__*/ _react.default.createElement(
+                          _reactNative.View,
+                          {
+                            style: [
+                              styles.brCallVideoOptionsOptionsButtonIcon,
+                              styles.br_bi_icon_more_svg,
+                            ],
+                          },
+                        ),
+                      ),
+                      /*#__PURE__*/ _react.default.createElement(
+                        _MenuBalloonDialog.default,
+                        {
+                          showing:
+                            props.uiData.showingDialogVersion ===
+                              _this4.state
+                                .callVideoOptionsMenuShowingDialogVersion &&
+                            videoClientSessionId ===
+                              _this4.state
+                                .callVideoOptionsMenuShowingDialogVideoClientSessionId,
+                          style: styles.brCallVideoOptionsMenuBalloon,
+                        },
+                        /*#__PURE__*/ _react.default.createElement(
+                          _MenuItem.default,
+                          {
+                            style: [
+                              styles.brCallVideoOptionsMenuItem,
+                              styles.brCallVideoOptionsHideMenuItem,
+                              styles.brCancelCallAreaClick,
+                            ],
+                            onPress: function onPress() {
+                              return _this4.handleCallVideoOptionsHideMenuItemClick(
+                                videoClientSessionId,
+                              )
+                            },
+                          },
+                          /*#__PURE__*/ _react.default.createElement(
+                            _reactNative.Text,
+                            null,
+                            _uawmsgs.default.LBL_CALL_VIDEO_OPTIONS_HIDE_MENU,
+                          ),
+                        ),
+                      ),
+                      /*#__PURE__*/ _react.default.createElement(
+                        _ButtonIconic.default,
+                        {
+                          style: [styles.brCallVideoOptionsTheaterButton],
+                          hidden:
+                            !(
+                              props.uiData.configurations &&
+                              props.uiData.configurations.theaterButton
+                            ) ||
+                            (props.uiData.ownerDocument &&
+                              props.uiData.ownerDocument.fullscreenElement &&
+                              (0, _strings.string)(
+                                props.uiData.ownerDocument.fullscreenElement
+                                  .className,
+                              ).indexOf('brCallRemoteVideo') !== -1),
+                          onPress: function onPress() {
+                            return props.uiData.fire(
+                              'callAreaTheaterButton_onClick',
+                            )
+                          },
+                        },
+                        /*#__PURE__*/ _react.default.createElement(
+                          _reactNative.View,
+                          {
+                            style: [
+                              styles.brCallVideoOptionsTheaterButtonIcon,
+                              props.uiData.callAreaTheater
+                                ? styles.br_bi_icon_chevron_up_svg
+                                : styles.br_bi_icon_chevron_down_svg,
+                            ],
+                          },
+                        ),
+                      ),
+                    ),
+                  )
+                })
+              }
+              if (props.uiData.callAreaExpanded) {
+                videos.push(
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNativeReanimated.default.View,
+                    _extends(
+                      {
+                        key: 'local',
+                        style: [
+                          styles.brCallLocalVideo,
+                          {
+                            transform: [
+                              {
+                                translateX: this.state.callLocalVideoPosition.x,
+                              },
+                              {
+                                translateY: this.state.callLocalVideoPosition.y,
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                      this.panResponder.panHandlers,
+                    ),
+                    /*#__PURE__*/ _react.default.createElement(
+                      _CallVideo.default,
+                      {
+                        uiData: props.uiData,
+                        sessionId: (0, _strings.string)(
+                          session && session.sessionId,
+                        ),
+                        streamMarker: (0, _strings.string)(
+                          session &&
+                            session.localVideoStreamObject &&
+                            session.localVideoStreamObject.id,
+                        ),
+                        isLocal: true,
+                        style: styles.brCancelCallAreaClick,
+                      },
+                    ),
+                  ),
+                )
+              } else {
+                videos.push(
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      key: 'local',
+                      style: styles.brCallLocalVideo,
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _CallVideo.default,
+                      {
+                        uiData: props.uiData,
+                        sessionId: (0, _strings.string)(
+                          session && session.sessionId,
+                        ),
+                        streamMarker: (0, _strings.string)(
+                          session &&
+                            session.localVideoStreamObject &&
+                            session.localVideoStreamObject.id,
+                        ),
+                        isLocal: true,
+                      },
+                    ),
+                  ),
+                )
+              }
+            }
+            if (session.rtcSession && session.rtcSession.start_time) {
+              startTime = +session.rtcSession.start_time
+            }
+          }
+          return /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            _extends(
+              {
+                style: [
+                  styles.brCallArea,
+                  className,
+                  _objectSpread({}, this.panResponder.panHandlers),
+                ],
+              },
+              this.panResponder.panHandlers,
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brCallHeaderArea,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [styles.brCallMuteMicButton, styles.brCallAreaButton],
+                  onPress: function onPress() {
+                    return props.uiData.fire('callMuteMicButton_onClick')
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+                  style: [
+                    styles.brCallMuteMicIcon,
+                    styles.brCallAreaIcon,
+                    styles.br_bi_icon_block_microphone_svg,
+                  ],
+                }),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [styles.brCallMuteCamButton, styles.brCallAreaButton],
+                  onPress: function onPress() {
+                    return props.uiData.fire('callMuteCamButton_onClick')
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+                  style: [
+                    styles.brCallMuteCamIcon,
+                    styles.brCallAreaIcon,
+                    styles.br_bi_icon_no_video_svg,
+                  ],
+                }),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [styles.brCallScreenButton, styles.brCallAreaButton],
+                  onPress: function onPress() {
+                    return props.uiData.fire('callScreenButton_onClick')
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: styles.brCallScreenIconArea,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: [
+                        styles.brCallScreenIcon,
+                        styles.brCallAreaIconAreaIcon,
+                        styles.br_bi_icon_channel_mosaic_1_svg,
+                      ],
+                    },
+                  ),
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.TouchableOpacity,
+                {
+                  style: [styles.brCallHangUpButton, styles.brCallAreaButton],
+                  onPress: function onPress() {
+                    return props.uiData.fire('callHangUpButton_onClick')
+                  },
+                },
+                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+                  style: [
+                    styles.brCallHangUpIcon,
+                    styles.brCallAreaIcon,
+                    styles.br_bi_icon_end_call_svg,
+                  ],
+                }),
+              ),
+              /*#__PURE__*/ _react.default.createElement(_CallTimer.default, {
+                startTime: startTime,
+              }),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brCallAnswerArea,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brCallIncomingArea,
+                },
+                /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
+                  style: styles.brCallIncomingIcon,
+                  source: {
+                    uri: imcomingRemoteBuddy.profile_image_url,
+                  },
+                }),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: styles.brCallIncomingMessageArea,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.brCallIncomingName,
+                    },
+                    imcomingRemoteBuddy.name,
+                  ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.brCallIncomingMessage,
+                    },
+                    _uawmsgs.default.LBL_CALL_INCOMING,
+                  ),
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brCallAnswerButtonArea,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [
+                      styles.brCallAnswerButton,
+                      styles.brCallAnswerAreaButton,
+                    ],
+                    onPress: function onPress() {
+                      return props.uiData.fire('callAnswerButton_onClick')
+                    },
+                  },
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [
+                      styles.brCallAnswerWithVideoButton,
+                      styles.brCallAnswerAreaButton,
+                    ],
+                    onPress: function onPress() {
+                      return props.uiData.fire(
+                        'callAnswerWithVideoButton_onClick',
+                      )
+                    },
+                  },
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [
+                      styles.brCallDeclineButton,
+                      styles.brCallAnswerAreaButton,
+                    ],
+                    onPress: function onPress() {
+                      return props.uiData.fire('callDeclineButton_onClick')
+                    },
+                  },
+                ),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                ref: this.callVideoAreaRef,
+                style: [
+                  styles.brCallVideoArea,
+                  Object.keys(
+                    (session && session.videoClientSessionTable) || {},
+                  ).length >= 2 && styles.brMultiRemoteVideo,
+                  this.state.isFullscreen && styles.fullscreen,
+                ],
+              },
+              videos,
+            ),
+            /*#__PURE__*/ _react.default.createElement(_MultipleAudio.default, {
+              uiData: props.uiData,
+              style: styles.brRingMultipleAudio,
+              src: _currentscript.default.DIR + '../sounds/ring.mp3',
+              loop: true,
+              playing:
+                props.uiData.configurations &&
+                props.uiData.configurations.ringTone &&
                 session &&
-                  session.remoteStreamObject &&
-                  session.remoteStreamObject.id,
-              ) + string(session && session.remoteStreamUrl)
-            }
-            isLocal={false}
-            style={styles.brCallRemoteAudio}
-          />
-        </View>
-      )
-    } else {
-      return <View />
-    }
-  }
-}
-
-const styles = StyleSheet.create({
+                session.rtcSession &&
+                session.rtcSession.direction === 'incoming' &&
+                session.sessionStatus === 'progress' &&
+                !session.answering,
+            }),
+            /*#__PURE__*/ _react.default.createElement(_MultipleAudio.default, {
+              uiData: props.uiData,
+              style: styles.brRingbackMultipleAudio,
+              src: _currentscript.default.DIR + '../sounds/ringback.mp3',
+              loop: true,
+              playing:
+                props.uiData.configurations &&
+                props.uiData.configurations.ringbackTone &&
+                session &&
+                !session.remoteStreamObject &&
+                session.rtcSession &&
+                session.rtcSession.direction === 'outgoing' &&
+                session.sessionStatus === 'progress',
+            }),
+            /*#__PURE__*/ _react.default.createElement(_CallAudio.default, {
+              uiData: props.uiData,
+              sessionId: (0, _strings.string)(session && session.sessionId),
+              streamMarker:
+                (0, _strings.string)(
+                  session &&
+                    session.remoteStreamObject &&
+                    session.remoteStreamObject.id,
+                ) + (0, _strings.string)(session && session.remoteStreamUrl),
+              isLocal: false,
+              style: styles.brCallRemoteAudio,
+            }),
+          )
+        } else {
+          return /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            null,
+          )
+        }
+      },
+    },
+  ])
+})(_react.default.Component))
+var styles = _reactNative.StyleSheet.create({
   brCallArea: {
     position: 'absolute',
     width: '100%',
@@ -814,8 +1244,12 @@ const styles = StyleSheet.create({
   brMicMutedButton: {
     borderWidth: 2,
     borderColor: '#FFFFFF',
-    shadowColor: '#FF5722', // @portland_orange
-    shadowOffset: { width: 0, height: 0 },
+    shadowColor: '#FF5722',
+    // @portland_orange
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
     shadowOpacity: 1,
     shadowRadius: 2,
     elevation: 4,
@@ -827,7 +1261,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#FFFFFF',
     shadowColor: '#FF5722',
-    shadowOffset: { width: 0, height: 0 },
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
     shadowOpacity: 1,
     shadowRadius: 2,
     elevation: 4,
@@ -838,8 +1275,12 @@ const styles = StyleSheet.create({
   brIsScreenButton: {
     borderWidth: 2,
     borderColor: '#FFFFFF',
-    shadowColor: '#48D1CC', // @medium_turquoise
-    shadowOffset: { width: 0, height: 0 },
+    shadowColor: '#48D1CC',
+    // @medium_turquoise
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
     shadowOpacity: 1,
     shadowRadius: 2,
     elevation: 4,
@@ -1031,7 +1472,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: '50%',
     top: '50%',
-    transform: [{ translateX: -50 }, { translateY: -50 }],
+    transform: [
+      {
+        translateX: -50,
+      },
+      {
+        translateY: -50,
+      },
+    ],
   },
   // Icon styles
   br_bi_icon_more_svg: {

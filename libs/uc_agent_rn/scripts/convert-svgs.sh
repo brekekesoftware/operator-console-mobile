@@ -37,7 +37,7 @@ if [ $? -eq 0 ]; then
     
     # Format the generated files
     echo "Formatting generated files..."
-    npx prettier --write "../src/icons/*.js"
+    npx prettier --write "../src/icons/*.jsx"
     
     echo "All done! Check the ../src/icons/ directory for your converted components."
 else

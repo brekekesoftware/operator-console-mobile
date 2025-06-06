@@ -1,3 +1,24 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 /**
  * webrtcclient.js
  *
@@ -31,7 +52,7 @@ if (!Brekeke.WebrtcClient) {
   /**
    * class Brekeke.WebrtcClient.Phone
    */
-  Phone = function (options) {
+  Phone = function Phone(options) {
     var d,
       self = this
 
@@ -48,13 +69,10 @@ if (!Brekeke.WebrtcClient) {
       this._options.audioContext ||
       (window.AudioContext ? new window.AudioContext() : {})
     this._mediaStreamConverter = this._options.mediaStreamConverter || null
-
     this._lastCreatedEventId = 0
     this._eventIdFuncTable = {}
     this._eventNameIdsTable = {}
-
     this._destroyed = false
-
     this._ua = null
     this._vua = null // video client
 
@@ -63,11 +81,8 @@ if (!Brekeke.WebrtcClient) {
     this._phoneStatus = 'stopped'
     this._stopReasonInfo = null
     this._aliveSessions = []
-
     this._gettingUserMedia = false
-
     this._defaultGatheringTimeout = 2000
-
     this._user = ''
     this._videoClientUser = ''
     this._register = true
@@ -76,7 +91,6 @@ if (!Brekeke.WebrtcClient) {
     this._uaSocketKeepAliveTimer = null
     this._vuaSocket = null
     this._vuaSocketKeepAliveTimer = null
-
     this._lastCreatedSessionId = 0
     this._lastSessionEndTime = 0
     this._sessionTable = {}
@@ -88,19 +102,14 @@ if (!Brekeke.WebrtcClient) {
     this._ridVideoClientSessionsTable = {}
     this._ridMembersTable = {}
     this._tryingVideoCallTargets = {}
-
     this._masterVolume =
       typeof this._options.masterVolume === 'number'
         ? this._options.masterVolume
         : 1000
-
     this._lastDefaultOptionsPosition = {}
-
     this._jssipLoadingFailed =
       typeof JsSIP === 'undefined' || !JsSIP.Utils || !JsSIP.UA
-
     this._randomOrg = null
-
     this.UA_WO_GAIN = ''
     this.CHECK_CTX_STATE = 1
     this.FORCE_CREATE_OSCILLATOR = false
@@ -110,7 +119,6 @@ if (!Brekeke.WebrtcClient) {
     this.URL_PATH = '/webrtcclient'
     this.COMPLEMENT_URL_PATH = true
     this.HANDLE_BYE_IN_STATUS_WAITING_FOR_ACK = true
-
     this.WEBRTC_CLIENT_VERSION = WEBRTC_CLIENT_VERSION
 
     /**
@@ -176,19 +184,31 @@ if (!Brekeke.WebrtcClient) {
     this.defaultOptions = {
       main: {
         call: (d && d.main && d.main.call) || {
-          mediaConstraints: { audio: true, video: false },
+          mediaConstraints: {
+            audio: true,
+            video: false,
+          },
         },
         answer: (d && d.main && d.main.answer) || {
-          mediaConstraints: { audio: true, video: false },
+          mediaConstraints: {
+            audio: true,
+            video: false,
+          },
         },
       },
       withVideo: Boolean(d && d.withVideo),
       videoOptions: {
         call: (d && d.videoOptions && d.videoOptions.call) || {
-          mediaConstraints: { audio: false, video: true },
+          mediaConstraints: {
+            audio: false,
+            video: true,
+          },
         },
         answer: (d && d.videoOptions && d.videoOptions.answer) || {
-          mediaConstraints: { audio: false, video: true },
+          mediaConstraints: {
+            audio: false,
+            video: true,
+          },
         },
         shareStream: Boolean(d && d.videoOptions && d.videoOptions.shareStream),
         screenCapture: Boolean(
@@ -238,15 +258,16 @@ if (!Brekeke.WebrtcClient) {
             this.type = type
           }
     var addsOntrack =
-      typeof window === 'object' &&
+      (typeof window === 'undefined' ? 'undefined' : _typeof(window)) ===
+        'object' &&
       window.RTCPeerConnection &&
       !('ontrack' in window.RTCPeerConnection.prototype)
     if (addsOntrack) {
       Object.defineProperty(window.RTCPeerConnection.prototype, 'ontrack', {
-        get: function () {
+        get: function get() {
           return this._ontrack
         },
-        set: function (f) {
+        set: function set(f) {
           if (this._ontrack) {
             this.removeEventListener('track', this._ontrack)
           }
@@ -269,13 +290,16 @@ if (!Brekeke.WebrtcClient) {
                 return r.track && r.track.id === te.track.id
               })
             } else {
-              receiver = { track: te.track }
+              receiver = {
+                track: te.track,
+              }
             }
-
             var event = new Event_shim('track')
             event.track = te.track
             event.receiver = receiver
-            event.transceiver = { receiver: receiver }
+            event.transceiver = {
+              receiver: receiver,
+            }
             event.streams = [e.stream]
             pc.dispatchEvent(event)
           })
@@ -286,12 +310,16 @@ if (!Brekeke.WebrtcClient) {
                 return r.track && r.track.id === track.id
               })
             } else {
-              receiver = { track: track }
+              receiver = {
+                track: track,
+              }
             }
             var event = new Event_shim('track')
             event.track = track
             event.receiver = receiver
-            event.transceiver = { receiver: receiver }
+            event.transceiver = {
+              receiver: receiver,
+            }
             event.streams = [e.stream]
             pc.dispatchEvent(event)
           })
@@ -335,7 +363,6 @@ if (!Brekeke.WebrtcClient) {
           throw error
         })
     }
-
     if (!this._jssipLoadingFailed) {
       // hack jssip
       jssipHack()
@@ -357,27 +384,22 @@ if (!Brekeke.WebrtcClient) {
     /**
      * function addEventListener
      */
-    addEventListener: function (eventName, func) {
+    addEventListener: function addEventListener(eventName, func) {
       var eventId = 0
-
       eventId = ++this._lastCreatedEventId
       this._eventIdFuncTable[eventId] = func
       if (!this._eventNameIdsTable[eventName]) {
         this._eventNameIdsTable[eventName] = []
       }
       this._eventNameIdsTable[eventName].push(eventId)
-
       return string(eventId)
     },
-
     /**
      * function removeEventListener
      */
-    removeEventListener: function (eventName, eventId) {
+    removeEventListener: function removeEventListener(eventName, eventId) {
       var i = 0
-
       eventId = int(eventId)
-
       if (eventId) {
         // remove one
         if (this._eventNameIdsTable[eventName]) {
@@ -398,11 +420,10 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-
     /**
      * function startWebRTC
      */
-    startWebRTC: function (configuration) {
+    startWebRTC: function startWebRTC(configuration) {
       var auth = '',
         configurations,
         defaultConfiguration,
@@ -421,7 +442,6 @@ if (!Brekeke.WebrtcClient) {
         user = '',
         userAgent = '',
         videoClientUser = ''
-
       if (this._jssipLoadingFailed) {
         this._logger.log('error', 'jssip-3.2.15.js is not loaded')
         throw new Error('jssip-3.2.15.js is not loaded')
@@ -527,7 +547,6 @@ if (!Brekeke.WebrtcClient) {
         this._logger.log('info', 'WebRTC already destroyed')
         return
       }
-
       this._register =
         typeof configuration.register === 'boolean'
           ? configuration.register
@@ -545,7 +564,9 @@ if (!Brekeke.WebrtcClient) {
       configurations = []
       for (i = 0; i < (useVideoClient ? 2 : 1); i++) {
         configurations[i] = {
-          log: { level: this._jssipLogLevel },
+          log: {
+            level: this._jssipLogLevel,
+          },
           uri:
             (i === 0 ? user : videoClientUser) +
             '@' +
@@ -665,13 +686,11 @@ if (!Brekeke.WebrtcClient) {
         this._vua.on('newRTCSession', by(this, this._vua_newRTCSession))
         this._vua.on('newNotify', by(this, this._vua_newNotify))
       }
-
       this._changePhoneStatus('starting')
       this._uaStarting = true
       if (this._vua) {
         this._vuaStarting = true
       }
-
       this._user = user
       this._videoClientUser = videoClientUser
 
@@ -695,11 +714,10 @@ if (!Brekeke.WebrtcClient) {
         this.stopWebRTC(true)
       }
     },
-
     /**
      * function stopWebRTC
      */
-    stopWebRTC: function (force) {
+    stopWebRTC: function stopWebRTC(force) {
       var elapsed, session, sessionId
 
       // check stopped
@@ -707,9 +725,7 @@ if (!Brekeke.WebrtcClient) {
         this._logger.log('info', 'WebRTC already stopped')
         return
       }
-
       this._changePhoneStatus('stopping')
-
       elapsed = +new Date() - this._lastSessionEndTime
       if (elapsed < this.STOP_WEBRTC_WAIT) {
         this._logger.log(
@@ -733,7 +749,6 @@ if (!Brekeke.WebrtcClient) {
           return
         }
       }
-
       if (this._vua) {
         try {
           this._vua.stop()
@@ -785,11 +800,10 @@ if (!Brekeke.WebrtcClient) {
         this._videoClientUser = ''
       }
     },
-
     /**
      * function destroyWebRTC
      */
-    destroyWebRTC: function () {
+    destroyWebRTC: function destroyWebRTC() {
       this._eventNameIdsTable = {}
       this._phoneStatus = 'stopped'
       this._uaStarting = false
@@ -844,72 +858,73 @@ if (!Brekeke.WebrtcClient) {
       this._videoClientUser = ''
       this._destroyed = true
     },
-
     /**
      * function setDefaultCallOptions
      */
-    setDefaultCallOptions: function (callOptions) {
-      var assignDeeply, assignForEachPosition, deleteForEachPosition
-
+    setDefaultCallOptions: function setDefaultCallOptions(callOptions) {
+      var _assignDeeply, _assignForEachPosition, _deleteForEachPosition
       if (!callOptions) {
         this._logger.log('warn', 'Empty callOptions')
         return
       }
-
-      assignDeeply = function (target, targetPosition, object, level) {
+      _assignDeeply = function assignDeeply(
+        target,
+        targetPosition,
+        object,
+        level,
+      ) {
         var key
-
-        if (object && typeof object === 'object') {
+        if (object && _typeof(object) === 'object') {
           for (key in object) {
             if (level === 0 && key === 'position') {
               // skip
             } else if (Array.isArray(object[key])) {
               if (typeof target[key] === 'undefined') {
                 target[key] = []
-                if (typeof targetPosition === 'object') {
+                if (_typeof(targetPosition) === 'object') {
                   targetPosition[key] = true
                 }
               } else if (!Array.isArray(target[key])) {
                 target[key] = []
                 if (
-                  typeof targetPosition === 'object' &&
+                  _typeof(targetPosition) === 'object' &&
                   !Array.isArray(targetPosition[key])
                 ) {
                   targetPosition[key] = []
                 }
               } else if (
-                typeof targetPosition === 'object' &&
+                _typeof(targetPosition) === 'object' &&
                 !Array.isArray(targetPosition[key])
               ) {
                 targetPosition[key] = []
               }
-              assignDeeply(
+              _assignDeeply(
                 target[key],
                 targetPosition && targetPosition[key],
                 object[key],
                 level + 1,
               )
-            } else if (typeof object[key] === 'object') {
+            } else if (_typeof(object[key]) === 'object') {
               if (typeof target[key] === 'undefined') {
                 target[key] = {}
-                if (typeof targetPosition === 'object') {
+                if (_typeof(targetPosition) === 'object') {
                   targetPosition[key] = true
                 }
-              } else if (typeof target[key] !== 'object') {
+              } else if (_typeof(target[key]) !== 'object') {
                 target[key] = {}
                 if (
-                  typeof targetPosition === 'object' &&
-                  typeof targetPosition[key] !== 'object'
+                  _typeof(targetPosition) === 'object' &&
+                  _typeof(targetPosition[key]) !== 'object'
                 ) {
                   targetPosition[key] = {}
                 }
               } else if (
-                typeof targetPosition === 'object' &&
-                typeof targetPosition[key] !== 'object'
+                _typeof(targetPosition) === 'object' &&
+                _typeof(targetPosition[key]) !== 'object'
               ) {
                 targetPosition[key] = {}
               }
-              assignDeeply(
+              _assignDeeply(
                 target[key],
                 targetPosition && targetPosition[key],
                 object[key],
@@ -917,56 +932,55 @@ if (!Brekeke.WebrtcClient) {
               )
             } else {
               target[key] = object[key]
-              if (typeof targetPosition === 'object') {
+              if (_typeof(targetPosition) === 'object') {
                 targetPosition[key] = true
               }
             }
           }
         }
       }
-      assignForEachPosition = function (
+      _assignForEachPosition = function assignForEachPosition(
         target,
         targetPosition,
         position,
         object,
       ) {
         var key
-
         if (
           position &&
-          typeof position === 'object' &&
+          _typeof(position) === 'object' &&
           target &&
-          typeof target === 'object'
+          _typeof(target) === 'object'
         ) {
           for (key in position) {
             if (typeof target[key] === 'undefined') {
               target[key] = {}
-              if (typeof targetPosition === 'object') {
+              if (_typeof(targetPosition) === 'object') {
                 targetPosition[key] = true
               }
-            } else if (typeof target[key] !== 'object') {
+            } else if (_typeof(target[key]) !== 'object') {
               target[key] = {}
               if (
-                typeof targetPosition === 'object' &&
-                typeof targetPosition[key] !== 'object'
+                _typeof(targetPosition) === 'object' &&
+                _typeof(targetPosition[key]) !== 'object'
               ) {
                 targetPosition[key] = {}
               }
             } else if (
-              typeof targetPosition === 'object' &&
-              typeof targetPosition[key] !== 'object'
+              _typeof(targetPosition) === 'object' &&
+              _typeof(targetPosition[key]) !== 'object'
             ) {
               targetPosition[key] = {}
             }
             if (position[key] === true) {
-              assignDeeply(
+              _assignDeeply(
                 target[key],
                 targetPosition && targetPosition[key],
                 object,
                 0,
               )
-            } else if (typeof position[key] === 'object') {
-              assignForEachPosition(
+            } else if (_typeof(position[key]) === 'object') {
+              _assignForEachPosition(
                 target[key],
                 targetPosition && targetPosition[key],
                 position[key],
@@ -976,14 +990,16 @@ if (!Brekeke.WebrtcClient) {
           }
         }
       }
-      deleteForEachPosition = function (target, position) {
+      _deleteForEachPosition = function deleteForEachPosition(
+        target,
+        position,
+      ) {
         var key
-
         if (
           position &&
-          typeof position === 'object' &&
+          _typeof(position) === 'object' &&
           target &&
-          typeof target === 'object'
+          _typeof(target) === 'object'
         ) {
           for (key in position) {
             if (position[key] === true) {
@@ -992,21 +1008,21 @@ if (!Brekeke.WebrtcClient) {
               } else {
                 delete target[key]
               }
-            } else if (typeof position[key] === 'object') {
-              deleteForEachPosition(target[key], position[key])
+            } else if (_typeof(position[key]) === 'object') {
+              _deleteForEachPosition(target[key], position[key])
             }
           }
         }
       }
 
       // delete last defaultCallOptions
-      deleteForEachPosition(
+      _deleteForEachPosition(
         this.defaultOptions,
         this._lastDefaultOptionsPosition,
       )
       this._lastDefaultOptionsPosition = {}
       // set defaultCallOptions
-      assignForEachPosition(
+      _assignForEachPosition(
         this.defaultOptions,
         this._lastDefaultOptionsPosition,
         callOptions.position || {
@@ -1022,15 +1038,17 @@ if (!Brekeke.WebrtcClient) {
         callOptions,
       )
     },
-
     /**
      * function checkUserMedia
      */
-    checkUserMedia: function (callback, options, screenCapture, keep) {
+    checkUserMedia: function checkUserMedia(
+      callback,
+      options,
+      screenCapture,
+      keep,
+    ) {
       var self = this
-
       this._disposeLocalMedia('check')
-
       if (!this._ua || this._phoneStatus !== 'started') {
         if (callback) {
           callback({
@@ -1038,12 +1056,11 @@ if (!Brekeke.WebrtcClient) {
             message: 'WebRTC not started',
             streamObject: null,
             analyser: null,
-            dispose: function () {},
+            dispose: function dispose() {},
           })
         }
         return
       }
-
       options =
         clone(
           options ||
@@ -1052,7 +1069,10 @@ if (!Brekeke.WebrtcClient) {
               this.defaultOptions.main.call),
         ) || {}
       if (!options.mediaConstraints) {
-        options.mediaConstraints = { audio: true, video: false }
+        options.mediaConstraints = {
+          audio: true,
+          video: false,
+        }
       }
 
       // getUserMedia
@@ -1082,7 +1102,7 @@ if (!Brekeke.WebrtcClient) {
                 message: stringifyError(e),
                 streamObject: null,
                 analyser: null,
-                dispose: function () {},
+                dispose: function dispose() {},
               })
               return
             }
@@ -1092,7 +1112,7 @@ if (!Brekeke.WebrtcClient) {
               streamObject:
                 self._sessionLocalMediaTable['check'].localMediaStreamForCall,
               analyser: self._sessionLocalMediaTable['check'].analyser,
-              dispose: function () {
+              dispose: function dispose() {
                 self._disposeLocalMedia('check')
               },
             })
@@ -1104,7 +1124,7 @@ if (!Brekeke.WebrtcClient) {
                 message: '',
                 streamObject: null,
                 analyser: null,
-                dispose: function () {},
+                dispose: function dispose() {},
               })
             }
           }
@@ -1116,31 +1136,33 @@ if (!Brekeke.WebrtcClient) {
               message: stringifyError(error),
               streamObject: null,
               analyser: null,
-              dispose: function () {},
+              dispose: function dispose() {},
             })
           }
         },
         0,
       )
     },
-
     /**
      * function makeCall
      */
-    makeCall: function (target, options, withVideo, videoOptions, exInfo) {
+    makeCall: function makeCall(
+      target,
+      options,
+      withVideo,
+      videoOptions,
+      exInfo,
+    ) {
       var rtcInfoJsonStr
-
       if (!this._ua || this._phoneStatus !== 'started') {
         this._logger.log('warn', 'WebRTC not started')
         return
       }
-
       target = string(target)
       if (!target) {
         this._logger.log('warn', 'Empty target')
         return
       }
-
       options =
         clone(
           options ||
@@ -1149,7 +1171,10 @@ if (!Brekeke.WebrtcClient) {
               this.defaultOptions.main.call),
         ) || {}
       if (!options.mediaConstraints) {
-        options.mediaConstraints = { audio: true, video: false }
+        options.mediaConstraints = {
+          audio: true,
+          video: false,
+        }
       }
       if (!options.pcConfig || !options.pcConfig.gatheringTimeout) {
         options.pcConfig = clone(options.pcConfig) || {}
@@ -1158,7 +1183,6 @@ if (!Brekeke.WebrtcClient) {
       if (!options.extraHeaders) {
         options.extraHeaders = []
       }
-
       if (withVideo !== true && withVideo !== false) {
         withVideo = Boolean(
           this.defaultOptions && this.defaultOptions.withVideo,
@@ -1169,13 +1193,11 @@ if (!Brekeke.WebrtcClient) {
           this._logger.log('warn', 'Video client unavailable')
           return
         }
-
         videoOptions =
           clone(
             videoOptions ||
               (this.defaultOptions && this.defaultOptions.videoOptions),
           ) || {}
-
         options.eventHandlers = clone(options.eventHandlers) || {}
         // make call of video session after main session response
         options.eventHandlers['progress'] = by(
@@ -1189,7 +1211,6 @@ if (!Brekeke.WebrtcClient) {
           [this, videoOptions, options.eventHandlers['accepted']],
         )
       }
-
       exInfo = string(
         typeof exInfo !== 'undefined'
           ? exInfo
@@ -1206,7 +1227,6 @@ if (!Brekeke.WebrtcClient) {
         withVideo: withVideo,
         exInfo: exInfo,
       }
-
       this._doCall(
         target,
         options,
@@ -1214,25 +1234,31 @@ if (!Brekeke.WebrtcClient) {
         null,
         false,
         by(this, this._rtcErrorOccurred, [
-          { sessionId: null, target: target, options: options, client: 'main' },
+          {
+            sessionId: null,
+            target: target,
+            options: options,
+            client: 'main',
+          },
         ]),
       )
     },
-
     /**
      * function setWithVideo
      */
-    setWithVideo: function (sessionId, withVideo, videoOptions, exInfo) {
+    setWithVideo: function setWithVideo(
+      sessionId,
+      withVideo,
+      videoOptions,
+      exInfo,
+    ) {
       var i, members, options, rid, rm, session, targets
-
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
-
       if (!session) {
         this._logger.log('warn', 'Not found session of sessionId: ' + sessionId)
         return
       }
-
       if (
         withVideo === true &&
         (!this._vua || this._phoneStatus !== 'started')
@@ -1240,7 +1266,6 @@ if (!Brekeke.WebrtcClient) {
         this._logger.log('warn', 'Video client unavailable')
         return
       }
-
       session.exInfo = string(
         typeof exInfo !== 'undefined' ? exInfo : session.exInfo,
       )
@@ -1252,7 +1277,6 @@ if (!Brekeke.WebrtcClient) {
           by(this, this._sendInfoXUaEx, [sessionId, false, null, 0]),
         )
       }
-
       if (withVideo === true && !session.withVideo) {
         session.withVideo = true
 
@@ -1344,36 +1368,33 @@ if (!Brekeke.WebrtcClient) {
       }
       this._emitEvent('sessionStatusChanged', this.getSession(sessionId))
     },
-
     /**
      * function makeAdditionalVideoCall
      */
-    makeAdditionalVideoCall: function (sessionId, videoOptions, targets) {
+    makeAdditionalVideoCall: function makeAdditionalVideoCall(
+      sessionId,
+      videoOptions,
+      targets,
+    ) {
       var existing, i, j, members, memberTargets, options, rid, rm, session
-
       if (!this._ua || this._phoneStatus !== 'started') {
         this._logger.log('warn', 'WebRTC not started')
         return
       }
-
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
-
       if (!session) {
         this._logger.log('warn', 'Not found session of sessionId: ' + sessionId)
         return
       }
-
       if (!session.withVideo) {
         this._logger.log('warn', 'Not with video')
         return
       }
-
       if (!this._vua) {
         this._logger.log('warn', 'Video client unavailable')
         return
       }
-
       videoOptions =
         clone(
           videoOptions ||
@@ -1415,7 +1436,10 @@ if (!Brekeke.WebrtcClient) {
       // options
       options = clone(videoOptions.call) || {}
       if (!options.mediaConstraints) {
-        options.mediaConstraints = { audio: false, video: true }
+        options.mediaConstraints = {
+          audio: false,
+          video: true,
+        }
       }
       if (!options.pcConfig || !options.pcConfig.gatheringTimeout) {
         options.pcConfig = clone(options.pcConfig) || {}
@@ -1451,21 +1475,23 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-
     /**
      * function answer
      */
-    answer: function (sessionId, options, withVideo, videoOptions, exInfo) {
+    answer: function answer(
+      sessionId,
+      options,
+      withVideo,
+      videoOptions,
+      exInfo,
+    ) {
       var rtcInfoJsonStr, session
-
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
-
       if (!session) {
         this._logger.log('warn', 'Not found session of sessionId: ' + sessionId)
         return
       }
-
       if (
         session.sessionStatus !== 'dialing' &&
         session.sessionStatus !== 'progress'
@@ -1476,12 +1502,10 @@ if (!Brekeke.WebrtcClient) {
         )
         return
       }
-
       if (session.answeringStarted) {
         this._logger.log('warn', 'Already answering')
         return
       }
-
       if (withVideo === true) {
         if (!this._vua) {
           this._logger.log('warn', 'Video client unavailable')
@@ -1499,10 +1523,8 @@ if (!Brekeke.WebrtcClient) {
           session.videoOptions =
             clone(this.defaultOptions && this.defaultOptions.videoOptions) || {}
         }
-
         this._tryVideoCall(sessionId)
       }
-
       options =
         clone(
           options ||
@@ -1511,7 +1533,10 @@ if (!Brekeke.WebrtcClient) {
               this.defaultOptions.main.answer),
         ) || {}
       if (!options.mediaConstraints) {
-        options.mediaConstraints = { audio: true, video: false }
+        options.mediaConstraints = {
+          audio: true,
+          video: false,
+        }
       }
       if (!options.pcConfig || !options.pcConfig.gatheringTimeout) {
         options.pcConfig = clone(options.pcConfig) || {}
@@ -1520,7 +1545,6 @@ if (!Brekeke.WebrtcClient) {
       if (!options.extraHeaders) {
         options.extraHeaders = []
       }
-
       session.exInfo = string(
         typeof exInfo !== 'undefined' ? exInfo : session.exInfo,
       )
@@ -1540,7 +1564,6 @@ if (!Brekeke.WebrtcClient) {
           ';' +
           session.exInfo,
       )
-
       session.answeringStarted = true
       if (
         session.sessionStatus === 'dialing' ||
@@ -1564,13 +1587,11 @@ if (!Brekeke.WebrtcClient) {
         ]),
       )
     },
-
     /**
      * function reconnectMicrophone
      */
-    reconnectMicrophone: function (sessionId, options) {
+    reconnectMicrophone: function reconnectMicrophone(sessionId, options) {
       var mediaObject, session
-
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
       if (!session) {
@@ -1589,7 +1610,10 @@ if (!Brekeke.WebrtcClient) {
                   : this.defaultOptions.main.answer)),
           ) || {}
         if (!options.mediaConstraints) {
-          options.mediaConstraints = { audio: true, video: false }
+          options.mediaConstraints = {
+            audio: true,
+            video: false,
+          }
         }
 
         // getUserMedia
@@ -1628,43 +1652,40 @@ if (!Brekeke.WebrtcClient) {
                 options: options,
                 client: 'main',
               },
-              { from: 'browser', error: error },
+              {
+                from: 'browser',
+                error: error,
+              },
             )
           },
           0,
         )
       }
     },
-
     /**
      * function setMuted
      */
-    setMuted: function (muted, sessionId) {
+    setMuted: function setMuted(muted, sessionId) {
       var mutedOrg,
         rid,
         self = this,
         videoClientSession,
         videoClientSessionId
-
       muted = muted || {}
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
-
       mutedOrg = {
         main: false,
         videoClient: false,
       }
-
       if (!session) {
         this._logger.log('warn', 'Not found session of sessionId: ' + sessionId)
         return mutedOrg
       }
-
       mutedOrg = {
         main: Boolean(session.mainMuted),
         videoClient: Boolean(session.videoClientMuted),
       }
-
       if (muted.main === true || muted.main === false) {
         session.mainMuted = muted.main
         if (session.rtcSession && session.rtcSession.isEstablished()) {
@@ -1680,13 +1701,18 @@ if (!Brekeke.WebrtcClient) {
             }
           }
           if (muted.main) {
-            session.rtcSession.mute({ audio: true, video: true })
+            session.rtcSession.mute({
+              audio: true,
+              video: true,
+            })
           } else {
-            session.rtcSession.unmute({ audio: true, video: true })
+            session.rtcSession.unmute({
+              audio: true,
+              video: true,
+            })
           }
         }
       }
-
       if (muted.videoClient === true || muted.videoClient === false) {
         session.videoClientMuted = muted.videoClient
         rid = this._getRid(sessionId)
@@ -1713,7 +1739,10 @@ if (!Brekeke.WebrtcClient) {
                   }
               }
               if (muted.videoClient) {
-                videoClientSession.rtcSession.mute({ audio: true, video: true })
+                videoClientSession.rtcSession.mute({
+                  audio: true,
+                  video: true,
+                })
               } else {
                 videoClientSession.rtcSession.unmute({
                   audio: true,
@@ -1724,16 +1753,13 @@ if (!Brekeke.WebrtcClient) {
           }
         }
       }
-
       return mutedOrg
     },
-
     /**
      * function setSessionVolume
      */
-    setSessionVolume: function (volumePercent, sessionId) {
+    setSessionVolume: function setSessionVolume(volumePercent, sessionId) {
       var mediaObject, session
-
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
       mediaObject = this._sessionLocalMediaTable[sessionId]
@@ -1748,33 +1774,29 @@ if (!Brekeke.WebrtcClient) {
         return
       }
     },
-
     /**
      * function sendDTMF
      */
-    sendDTMF: function (tones, sessionId, options) {
+    sendDTMF: function sendDTMF(tones, sessionId, options) {
       var environment,
         mediaObject,
         self = this,
         sendInbandDTMF,
         session
-
       options = options || {}
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
       mediaObject = this._sessionLocalMediaTable[sessionId]
-
       if (!session) {
         this._logger.log('warn', 'Not found session of sessionId: ' + sessionId)
         return
       }
-
       environment = this.getEnvironment()
       if (
         int(this.dtmfSendMode) === 1 &&
         !Boolean(options && options.disableOscillator)
       ) {
-        sendInbandDTMF = function () {
+        sendInbandDTMF = function sendInbandDTMF() {
           var duration, interToneGap, tasksLengthOrg, volume
           duration = int(options && options.duration) || 100
           interToneGap = int(options && options.interToneGap) || 500
@@ -1910,18 +1932,16 @@ if (!Brekeke.WebrtcClient) {
         session.rtcSession.sendDTMF(tones, options)
       }
     },
-
     /**
      * function getPhoneStatus
      */
-    getPhoneStatus: function () {
+    getPhoneStatus: function getPhoneStatus() {
       return string(this._phoneStatus)
     },
-
     /**
      * function getSession
      */
-    getSession: function (sessionId) {
+    getSession: function getSession(sessionId) {
       var analyser,
         localStreamObject,
         localVideoStreamObject,
@@ -1937,14 +1957,11 @@ if (!Brekeke.WebrtcClient) {
         videoClientSession,
         videoClientSessionId,
         videoClientSessionTable
-
       sessionId = string(sessionId) || this._getLatestSessionId()
       session = this._sessionTable[sessionId]
-
       if (!session) {
         return null
       }
-
       remoteStreamObject = null
       localStreamObject = null
       localVideoStreamObject = null
@@ -1958,7 +1975,6 @@ if (!Brekeke.WebrtcClient) {
         } catch (e) {
           remoteStreamObject = null
         }
-
         if (this._sessionLocalMediaTable[sessionId]) {
           localStreamObject =
             this._sessionLocalMediaTable[sessionId].localMediaStreamForCall
@@ -2015,7 +2031,6 @@ if (!Brekeke.WebrtcClient) {
           analyser = this._sessionLocalMediaTable[sessionId].analyser
         }
       }
-
       remoteUserOptionsTable = {}
       remoteWithVideo = false
       for (user in session.remoteUserOptionsTable) {
@@ -2028,7 +2043,6 @@ if (!Brekeke.WebrtcClient) {
           remoteWithVideo = true
         }
       }
-
       return {
         sessionId: session.sessionId,
         sessionStatus: session.sessionStatus,
@@ -2058,11 +2072,10 @@ if (!Brekeke.WebrtcClient) {
         analyser: analyser,
       }
     },
-
     /**
      * function getSessionTable
      */
-    getSessionTable: function () {
+    getSessionTable: function getSessionTable() {
       var sessionId,
         sessionTable = {}
 
@@ -2072,18 +2085,16 @@ if (!Brekeke.WebrtcClient) {
       }
       return sessionTable
     },
-
     /**
      * function getSessionCount
      */
-    getSessionCount: function () {
+    getSessionCount: function getSessionCount() {
       return Object.keys(this._sessionTable).length
     },
-
     /**
      * function getEnvironment
      */
-    getEnvironment: function () {
+    getEnvironment: function getEnvironment() {
       var environment = {
           webRTC: false,
           gain: false,
@@ -2093,14 +2104,15 @@ if (!Brekeke.WebrtcClient) {
         },
         ua,
         uaLower
-
       ua = string(typeof navigator !== 'undefined' && navigator.userAgent)
       uaLower = ua.toLowerCase()
       if (
         (window.RTCPeerConnection ||
           window.mozRTCPeerConnection ||
           window.webkitRTCPeerConnection) &&
-        typeof navigator === 'object' &&
+        (typeof navigator === 'undefined'
+          ? 'undefined'
+          : _typeof(navigator)) === 'object' &&
         navigator.mediaDevices &&
         navigator.mediaDevices.getUserMedia
       ) {
@@ -2119,7 +2131,6 @@ if (!Brekeke.WebrtcClient) {
           environment.oscillator = true
         }
       }
-
       ;[
         'edge',
         'edg',
@@ -2140,23 +2151,19 @@ if (!Brekeke.WebrtcClient) {
           return false
         }
       })
-
       return environment
     },
-
     /**
      * getter masterVolume
      */
     get masterVolume() {
       return this._masterVolume
     },
-
     /**
      * setter masterVolume
      */
     set masterVolume(value) {
       var key, mediaObject
-
       this._masterVolume = int(value)
       for (key in this._sessionLocalMediaTable) {
         mediaObject = this._sessionLocalMediaTable[key]
@@ -2166,15 +2173,13 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-
     /**
      * private functions
      */
-    _emitEvent: function (eventName, eventArgs) {
+    _emitEvent: function _emitEvent(eventName, eventArgs) {
       var func,
         i = 0,
         len = 0
-
       this._logger.log(
         'debug',
         'Emitting event: ' +
@@ -2183,7 +2188,6 @@ if (!Brekeke.WebrtcClient) {
           stringify(eventArgs) +
           ' }',
       )
-
       if (this._eventNameIdsTable[eventName]) {
         for (
           i = 0, len = this._eventNameIdsTable[eventName].length;
@@ -2201,24 +2205,23 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _registerAudioContext: function () {
+    _registerAudioContext: function _registerAudioContext() {
       var elems,
-        funcToResume,
+        _funcToResume,
         self = this
-
       this._logger.log(
         'debug',
         'AudioContext.state: ' + this._audioContext.state,
       )
       if (this._audioContext.state === 'suspended') {
         try {
-          funcToResume = function () {
+          _funcToResume = function funcToResume() {
             try {
               self._logger.log('debug', 'AudioContext.resume()')
               self._audioContext.resume().then(function () {
                 self._logger.log('debug', 'AudioContext resumed successfully')
                 elems.forEach(function (elem) {
-                  elem.removeEventListener('click', funcToResume)
+                  elem.removeEventListener('click', _funcToResume)
                 })
                 elems.length = 0
               })
@@ -2234,16 +2237,15 @@ if (!Brekeke.WebrtcClient) {
             elems.push(window.opener.document.body)
           } catch (e) {}
           elems.forEach(function (elem) {
-            elem.addEventListener('click', funcToResume)
+            elem.addEventListener('click', _funcToResume)
           })
         } catch (e) {
           this._logger.log('info', stringifyError(e))
         }
       }
     },
-    _changePhoneStatus: function (status) {
+    _changePhoneStatus: function _changePhoneStatus(status) {
       var dialog_id, rtcSession, session, sessionId, target
-
       if (status !== 'stopping' && status !== 'stopped') {
         this._stopReasonInfo = null
       }
@@ -2301,7 +2303,7 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _getUserMedia: function (
+    _getUserMedia: function _getUserMedia(
       constraints,
       screenCapture,
       successCallback,
@@ -2309,7 +2311,7 @@ if (!Brekeke.WebrtcClient) {
       count,
     ) {
       this._logger.log('debug', '_getUserMedia #' + count)
-      const ev = {
+      var ev = {
         constraints: constraints,
         screenCapture: screenCapture,
         count: count,
@@ -2384,7 +2386,7 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _doCall: function (
+    _doCall: function _doCall(
       target,
       options,
       ua,
@@ -2393,7 +2395,6 @@ if (!Brekeke.WebrtcClient) {
       errorCallback,
     ) {
       options = clone(options)
-
       if (sourceSessionId) {
         this._doUaCall(
           target,
@@ -2426,14 +2427,19 @@ if (!Brekeke.WebrtcClient) {
               'getUserMedia() failed: ' + stringifyError(error),
             )
             if (errorCallback) {
-              errorCallback.apply(this, [{ from: 'browser', error: error }])
+              errorCallback.apply(this, [
+                {
+                  from: 'browser',
+                  error: error,
+                },
+              ])
             }
           },
           0,
         )
       }
     },
-    _doUaCall: function (
+    _doUaCall: function _doUaCall(
       target,
       options,
       ua,
@@ -2443,7 +2449,6 @@ if (!Brekeke.WebrtcClient) {
       stream,
     ) {
       var randomOrg
-
       options = clone(options)
 
       // local media
@@ -2467,12 +2472,16 @@ if (!Brekeke.WebrtcClient) {
           )
           this._disposeLocalMedia('outgoing')
           if (errorCallback) {
-            errorCallback.apply(this, [{ from: 'jssip', error: e }])
+            errorCallback.apply(this, [
+              {
+                from: 'jssip',
+                error: e,
+              },
+            ])
           }
           return
         }
       }
-
       if (this._randomOrg === null) {
         this._randomOrg = randomOrg = Math.random
         Math.random = function () {
@@ -2490,16 +2499,22 @@ if (!Brekeke.WebrtcClient) {
         )
         this._disposeLocalMedia('outgoing')
         if (errorCallback) {
-          errorCallback.apply(this, [{ from: 'jssip', error: e }])
+          errorCallback.apply(this, [
+            {
+              from: 'jssip',
+              error: e,
+            },
+          ])
         }
       }
-
       if (this._randomOrg) {
         Math.random = this._randomOrg
         this._randomOrg = null
       }
     },
-    _iceCandidateGatheringTimedOut: function (iceCandidateInfo) {
+    _iceCandidateGatheringTimedOut: function _iceCandidateGatheringTimedOut(
+      iceCandidateInfo,
+    ) {
       this._logger.log(
         'debug',
         'ice candidate gathering timed out: ' +
@@ -2513,12 +2528,12 @@ if (!Brekeke.WebrtcClient) {
         iceCandidateInfo.onGatheringTimedOut()
       }
     },
-    _rtcErrorOccurred: function (eventArgs, e) {
+    _rtcErrorOccurred: function _rtcErrorOccurred(eventArgs, e) {
       eventArgs.from = e.from
       eventArgs.error = e.error
       this._emitEvent('rtcErrorOccurred', eventArgs)
     },
-    _doAnswer: function (
+    _doAnswer: function _doAnswer(
       sessionId,
       options,
       rtcSession,
@@ -2546,9 +2561,7 @@ if (!Brekeke.WebrtcClient) {
         }
         return
       }
-
       options = clone(options)
-
       if (sourceSessionId) {
         this._doRtcSessionAnswer(
           sessionId,
@@ -2589,14 +2602,19 @@ if (!Brekeke.WebrtcClient) {
               'getUserMedia() failed: ' + stringifyError(error),
             )
             if (errorCallback) {
-              errorCallback.apply(this, [{ from: 'browser', error: error }])
+              errorCallback.apply(this, [
+                {
+                  from: 'browser',
+                  error: error,
+                },
+              ])
             }
           },
           0,
         )
       }
     },
-    _doRtcSessionAnswer: function (
+    _doRtcSessionAnswer: function _doRtcSessionAnswer(
       sessionId,
       options,
       rtcSession,
@@ -2628,7 +2646,12 @@ if (!Brekeke.WebrtcClient) {
           )
           this._disposeLocalMedia(sessionId)
           if (errorCallback) {
-            errorCallback.apply(this, [{ from: 'jssip', error: e }])
+            errorCallback.apply(this, [
+              {
+                from: 'jssip',
+                error: e,
+              },
+            ])
           }
           return
         }
@@ -2644,13 +2667,17 @@ if (!Brekeke.WebrtcClient) {
         )
         this._disposeLocalMedia(sessionId)
         if (errorCallback) {
-          errorCallback.apply(this, [{ from: 'jssip', error: e }])
+          errorCallback.apply(this, [
+            {
+              from: 'jssip',
+              error: e,
+            },
+          ])
         }
       }
     },
-    _answerFailed: function (eventArgs, e) {
+    _answerFailed: function _answerFailed(eventArgs, e) {
       var session, sessionId
-
       if (e && e.from) {
         this._rtcErrorOccurred(eventArgs, e)
       }
@@ -2666,9 +2693,9 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _tryVideoCall: function (sessionId) {
+    _tryVideoCall: function _tryVideoCall(sessionId) {
       var clearTryingVideoCallTarget,
-        doCallFunc,
+        _doCallFunc,
         i,
         j,
         members,
@@ -2681,7 +2708,6 @@ if (!Brekeke.WebrtcClient) {
         self = this,
         session,
         targets
-
       this._checkAndTerminateVideo()
 
       // make video call when all informations (session, rid, members) have been prepared
@@ -2766,7 +2792,6 @@ if (!Brekeke.WebrtcClient) {
           : Number.MAX_VALUE
         session.mustSendInfoXUaEx = false
       }
-
       if (!session.withVideo) {
         this._logger.log('debug', 'No need to try video call')
         return
@@ -2778,18 +2803,15 @@ if (!Brekeke.WebrtcClient) {
       for (i = 0; i < targets.length; i++) {
         this._tryingVideoCallTargets[targets[i]] = true
       }
-
-      doCallFunc = function (target) {
+      _doCallFunc = function doCallFunc(target) {
         var creatingLocalMedia = false,
           i,
           session,
           sourceSessionId,
           target
-
         if (!targets || !targets.length) {
           return
         }
-
         if (!self._sessionTable[sessionId]) {
           self._logger.log(
             'info',
@@ -2828,7 +2850,7 @@ if (!Brekeke.WebrtcClient) {
               'debug',
               'Waiting for creating previous local media...',
             )
-            setTimeout(doCallFunc, 1000)
+            setTimeout(_doCallFunc, 1000)
             return
           }
           if (self._gettingUserMedia) {
@@ -2837,17 +2859,19 @@ if (!Brekeke.WebrtcClient) {
               'debug',
               'Waiting for creating another local user media...',
             )
-            setTimeout(doCallFunc, 1000)
+            setTimeout(_doCallFunc, 1000)
             return
           }
         }
-
         target = targets.shift()
 
         // options
         options = clone(session.videoOptions && session.videoOptions.call) || {}
         if (!options.mediaConstraints) {
-          options.mediaConstraints = { audio: false, video: true }
+          options.mediaConstraints = {
+            audio: false,
+            video: true,
+          }
         }
         if (!options.pcConfig || !options.pcConfig.gatheringTimeout) {
           options.pcConfig = clone(options.pcConfig) || {}
@@ -2889,19 +2913,18 @@ if (!Brekeke.WebrtcClient) {
             },
           ]),
         )
-
-        setTimeout(doCallFunc, 0)
+        setTimeout(_doCallFunc, 0)
       }
-      doCallFunc()
+      _doCallFunc()
     },
-    _tryVideoCallFailed: function (target, eventArgs, e) {
+    _tryVideoCallFailed: function _tryVideoCallFailed(target, eventArgs, e) {
       this._clearTryingVideoCallTarget(target)
       this._rtcErrorOccurred(eventArgs, e)
     },
-    _clearTryingVideoCallTarget: function (target) {
+    _clearTryingVideoCallTarget: function _clearTryingVideoCallTarget(target) {
       delete this._tryingVideoCallTargets[target]
     },
-    _checkAndTerminateVideo: function () {
+    _checkAndTerminateVideo: function _checkAndTerminateVideo() {
       var i,
         member,
         memberOk,
@@ -2958,7 +2981,7 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _terminateRtcSession: function (rtcSession) {
+    _terminateRtcSession: function _terminateRtcSession(rtcSession) {
       try {
         rtcSession.terminate()
       } catch (e) {
@@ -2972,9 +2995,8 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _getLatestSessionId: function () {
+    _getLatestSessionId: function _getLatestSessionId() {
       var sid, sessionId
-
       sessionId = ''
       for (sid in this._sessionTable) {
         if (this._sessionTable[sid].sessionStatus !== 'terminated') {
@@ -2985,7 +3007,7 @@ if (!Brekeke.WebrtcClient) {
       }
       return sessionId
     },
-    _createLocalMedia: function (
+    _createLocalMedia: function _createLocalMedia(
       sessionId,
       stream,
       mediaConstraints,
@@ -3018,7 +3040,9 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _connectLocalMediaToAudioNode: function (sessionId) {
+    _connectLocalMediaToAudioNode: function _connectLocalMediaToAudioNode(
+      sessionId,
+    ) {
       var analyser = null,
         connectorNode = null,
         environment,
@@ -3031,7 +3055,6 @@ if (!Brekeke.WebrtcClient) {
         sourceNode = null,
         stream,
         volumePercent
-
       mediaObject = this._sessionLocalMediaTable[sessionId]
       if (!mediaObject) {
         this._logger.log(
@@ -3089,7 +3112,6 @@ if (!Brekeke.WebrtcClient) {
         }
         connectorNode.connect(destinationNode)
         gainNode.gain.value = (this._masterVolume * volumePercent) / 100000
-
         if (
           environment.oscillator &&
           (int(this.dtmfSendMode) === 1 || this.FORCE_CREATE_OSCILLATOR)
@@ -3147,7 +3169,6 @@ if (!Brekeke.WebrtcClient) {
             }.bind(this),
           )
         }
-
         mediaObject.localMediaStreamForCall = destinationNode.stream
         mediaObject.gainNode = gainNode
         mediaObject.sourceNode = sourceNode
@@ -3157,11 +3178,10 @@ if (!Brekeke.WebrtcClient) {
         mediaObject.analyser = analyser
       }
     },
-    _disposeLocalMedia: function (sessionId) {
+    _disposeLocalMedia: function _disposeLocalMedia(sessionId) {
       var existing = false,
         mediaObject,
         sid
-
       mediaObject = this._sessionLocalMediaTable[sessionId]
       if (mediaObject) {
         for (sid in this._sessionLocalMediaTable) {
@@ -3218,10 +3238,9 @@ if (!Brekeke.WebrtcClient) {
         delete this._sessionLocalMediaTable[sessionId]
       }
     },
-    _getRid: function (sessionId) {
+    _getRid: function _getRid(sessionId) {
       var rid = '',
         session
-
       session = this._sessionTable[sessionId]
       if (
         session &&
@@ -3232,14 +3251,12 @@ if (!Brekeke.WebrtcClient) {
         rid = rid.split(';')
         rid = string(rid[1])
       }
-
       return rid
     },
-    _checkSendInfoXUaEx: function (sessionId) {
+    _checkSendInfoXUaEx: function _checkSendInfoXUaEx(sessionId) {
       var i,
         self = this,
         session
-
       session = this._sessionTable[sessionId]
       if (
         session &&
@@ -3265,9 +3282,8 @@ if (!Brekeke.WebrtcClient) {
         this._sendInfoXUaEx(sessionId, session.remoteUserOptionsTable, null, 0)
       }
     },
-    _sendInfoXUaEx: function (sessionId, echo, withVideo, delay) {
+    _sendInfoXUaEx: function _sendInfoXUaEx(sessionId, echo, withVideo, delay) {
       var session
-
       if (delay) {
         setTimeout(
           by(this, this._sendInfoXUaEx, [sessionId, echo, withVideo, 0]),
@@ -3307,7 +3323,7 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _putRemoteUserOptions: function (sessionId, xUaEx) {
+    _putRemoteUserOptions: function _putRemoteUserOptions(sessionId, xUaEx) {
       var exInfo = '',
         myUser,
         result = false,
@@ -3319,7 +3335,6 @@ if (!Brekeke.WebrtcClient) {
         withVideo,
         xUaExEntries,
         xUaExRtcInfo = ''
-
       session = this._sessionTable[sessionId]
       if (session && xUaEx) {
         xUaExEntries = string(xUaEx).split(';')
@@ -3426,7 +3441,7 @@ if (!Brekeke.WebrtcClient) {
       }
       return result
     },
-    _keepAliveUaSocket: function () {
+    _keepAliveUaSocket: function _keepAliveUaSocket() {
       if (this._socketKeepAlive && this._uaSocket) {
         this._uaSocket.send('')
         this._uaSocketKeepAliveTimer = setTimeout(
@@ -3435,7 +3450,7 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _keepAliveVuaSocket: function () {
+    _keepAliveVuaSocket: function _keepAliveVuaSocket() {
       if (this._socketKeepAlive && this._vuaSocket) {
         this._vuaSocket.send('')
         this._vuaSocketKeepAliveTimer = setTimeout(
@@ -3444,11 +3459,10 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-
     /**
      * event listeners
      */
-    _ua_connected: function (e) {
+    _ua_connected: function _ua_connected(e) {
       this._uaSocket = e.socket
       if (!this._register) {
         this._ua_registered(e)
@@ -3460,11 +3474,11 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _ua_disconnected: function (e) {
+    _ua_disconnected: function _ua_disconnected(e) {
       this._uaSocket = null
       clearTimeout(this._uaSocketKeepAliveTimer)
     },
-    _ua_registered: function (e) {
+    _ua_registered: function _ua_registered(e) {
       this._uaStarting = false
       if (this._vuaStarting) {
         try {
@@ -3489,9 +3503,8 @@ if (!Brekeke.WebrtcClient) {
         this._changePhoneStatus('started')
       }
     },
-    _ua_unregistered: function (e) {
+    _ua_unregistered: function _ua_unregistered(e) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       if (this._phoneStatus !== 'stopping' && this._phoneStatus !== 'stopped') {
@@ -3508,9 +3521,8 @@ if (!Brekeke.WebrtcClient) {
       this._user = ''
       this._videoClientUser = ''
     },
-    _ua_registrationFailed: function (e) {
+    _ua_registrationFailed: function _ua_registrationFailed(e) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       this._logger.log(
@@ -3530,7 +3542,7 @@ if (!Brekeke.WebrtcClient) {
       this._user = ''
       this._videoClientUser = ''
     },
-    _ua_newRTCSession: function (e) {
+    _ua_newRTCSession: function _ua_newRTCSession(e) {
       var audio = false,
         data,
         options,
@@ -3539,11 +3551,9 @@ if (!Brekeke.WebrtcClient) {
         sessionId,
         sessionStatus = '',
         video = false
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       jssipRtcSessionHack(data && data.session, this)
-
       if (
         this._phoneStatus !== 'started' ||
         (!this.multiSession &&
@@ -3581,7 +3591,6 @@ if (!Brekeke.WebrtcClient) {
         // do not create session
         return
       }
-
       sessionId = string(++this._lastCreatedSessionId)
       sessionStatus = 'dialing'
       if (data.session.direction === 'outgoing') {
@@ -3694,7 +3703,6 @@ if (!Brekeke.WebrtcClient) {
           by(this, this._rtcSession_peerconnection, [sessionId]),
         )
       }
-
       if (data.session.direction === 'incoming') {
         if (this.defaultOptions && this.defaultOptions.withVideo) {
           if (this._vua) {
@@ -3711,11 +3719,9 @@ if (!Brekeke.WebrtcClient) {
             this.defaultOptions && this.defaultOptions.exInfo,
           )
         }
-
         if (this.eventTalk) {
           data.request.brExtraHeaders180 = 'Allow-Events: talk'
         }
-
         if (
           this.autoAnswer ||
           (this.ctiAutoAnswer &&
@@ -3728,7 +3734,6 @@ if (!Brekeke.WebrtcClient) {
           if (session.withVideo) {
             setTimeout(by(this, this._tryVideoCall, [sessionId]), 0)
           }
-
           options =
             clone(
               this.defaultOptions &&
@@ -3736,7 +3741,10 @@ if (!Brekeke.WebrtcClient) {
                 this.defaultOptions.main.answer,
             ) || {}
           if (!options.mediaConstraints) {
-            options.mediaConstraints = { audio: true, video: false }
+            options.mediaConstraints = {
+              audio: true,
+              video: false,
+            }
           }
           if (!options.pcConfig || !options.pcConfig.gatheringTimeout) {
             options.pcConfig = clone(options.pcConfig) || {}
@@ -3784,10 +3792,9 @@ if (!Brekeke.WebrtcClient) {
           )
         }
       }
-
       this._emitEvent('sessionCreated', this.getSession(sessionId))
     },
-    _vua_connected: function (e) {
+    _vua_connected: function _vua_connected(e) {
       this._vuaSocket = e.socket
       if (!this._register) {
         this._vua_registered(e)
@@ -3799,11 +3806,11 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _vua_disconnected: function (e) {
+    _vua_disconnected: function _vua_disconnected(e) {
       this._vuaSocket = null
       clearTimeout(this._vuaSocketKeepAliveTimer)
     },
-    _vua_registered: function (e) {
+    _vua_registered: function _vua_registered(e) {
       this._vuaStarting = false
       if (this._uaStarting) {
         try {
@@ -3828,9 +3835,8 @@ if (!Brekeke.WebrtcClient) {
         this._changePhoneStatus('started')
       }
     },
-    _vua_unregistered: function (e) {
+    _vua_unregistered: function _vua_unregistered(e) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       if (this._phoneStatus !== 'stopping' && this._phoneStatus !== 'stopped') {
@@ -3844,9 +3850,8 @@ if (!Brekeke.WebrtcClient) {
       }
       this._vua = null
     },
-    _vua_registrationFailed: function (e) {
+    _vua_registrationFailed: function _vua_registrationFailed(e) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       this._logger.log('warn', 'UA.registrationFailed cause: ' + data.cause)
@@ -3860,9 +3865,9 @@ if (!Brekeke.WebrtcClient) {
       }
       this._vua = null
     },
-    _vua_newRTCSession: function (e, count) {
+    _vua_newRTCSession: function _vua_newRTCSession(e, count) {
       var data,
-        doAnswerFunc,
+        _doAnswerFunc,
         i = 0,
         member,
         members,
@@ -3873,17 +3878,14 @@ if (!Brekeke.WebrtcClient) {
         sessionId,
         sid,
         videoClientSessionId
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       jssipRtcSessionHack(data && data.session, this)
-
       if (!data || !data.session || data.session.isEnded()) {
         // already ended
         this._logger.log('debug', 'Video client session already ended')
         return
       }
-
       if (this._phoneStatus !== 'started') {
         this._logger.log(
           'info',
@@ -3898,7 +3900,6 @@ if (!Brekeke.WebrtcClient) {
         // do not create video client session
         return
       }
-
       videoClientSessionId = 'v' + ++this._lastCreatedVideoClientSessionId
 
       // specify member and main session
@@ -3922,7 +3923,6 @@ if (!Brekeke.WebrtcClient) {
           }
         }
       }
-
       if (
         sessionId &&
         rid &&
@@ -4033,7 +4033,6 @@ if (!Brekeke.WebrtcClient) {
             ]),
           )
         }
-
         if (data.session.direction === 'incoming') {
           // answer
           options =
@@ -4042,13 +4041,16 @@ if (!Brekeke.WebrtcClient) {
                 this._sessionTable[sessionId].videoOptions.answer,
             ) || {}
           if (!options.mediaConstraints) {
-            options.mediaConstraints = { audio: false, video: true }
+            options.mediaConstraints = {
+              audio: false,
+              video: true,
+            }
           }
           if (!options.pcConfig || !options.pcConfig.gatheringTimeout) {
             options.pcConfig = clone(options.pcConfig) || {}
             options.pcConfig.gatheringTimeout = this._defaultGatheringTimeout
           }
-          doAnswerFunc = function () {
+          _doAnswerFunc = function doAnswerFunc() {
             var creatingLocalMedia = false,
               isFirstSession = false,
               sourceSessionId = null
@@ -4104,7 +4106,7 @@ if (!Brekeke.WebrtcClient) {
                   'debug',
                   'Waiting for creating previous local media...',
                 )
-                setTimeout(doAnswerFunc, 1000)
+                setTimeout(_doAnswerFunc, 1000)
                 return
               }
               if (self._gettingUserMedia) {
@@ -4113,7 +4115,7 @@ if (!Brekeke.WebrtcClient) {
                   'debug',
                   'Waiting for creating another local user media...',
                 )
-                setTimeout(doAnswerFunc, 1000)
+                setTimeout(_doAnswerFunc, 1000)
                 return
               }
             }
@@ -4133,7 +4135,7 @@ if (!Brekeke.WebrtcClient) {
               ]),
             )
           }
-          setTimeout(doAnswerFunc, 0)
+          setTimeout(_doAnswerFunc, 0)
         }
       } else {
         // cannot specify member or main session
@@ -4165,7 +4167,7 @@ if (!Brekeke.WebrtcClient) {
         return
       }
     },
-    _vua_newNotify: function (e) {
+    _vua_newNotify: function _vua_newNotify(e) {
       var body2 = [],
         data,
         i = 0,
@@ -4174,7 +4176,6 @@ if (!Brekeke.WebrtcClient) {
         member2 = [],
         rid = '',
         sessionId
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       if (!data) {
@@ -4219,7 +4220,6 @@ if (!Brekeke.WebrtcClient) {
           me = members[members.length - 1]
         }
       }
-
       this._ridMembersTable[rid] = {
         members: members.sort(function (m1, m2) {
           return m1.phone_id < m2.phone_id
@@ -4230,7 +4230,6 @@ if (!Brekeke.WebrtcClient) {
         }),
         me: me,
       }
-
       for (sessionId in this._sessionTable) {
         if (this._getRid(sessionId) === rid) {
           this._tryVideoCall(sessionId)
@@ -4238,9 +4237,8 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _rtcSession_progress: function (sessionId, e) {
+    _rtcSession_progress: function _rtcSession_progress(sessionId, e) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       this._sessionTable[sessionId].sessionStatus = 'progress'
@@ -4261,9 +4259,8 @@ if (!Brekeke.WebrtcClient) {
       }
       this._emitEvent('sessionStatusChanged', this.getSession(sessionId))
     },
-    _rtcSession_accepted: function (sessionId, e) {
+    _rtcSession_accepted: function _rtcSession_accepted(sessionId, e) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       this._sessionTable[sessionId].sessionStatus = 'connected'
@@ -4307,14 +4304,13 @@ if (!Brekeke.WebrtcClient) {
       }
       this._emitEvent('sessionStatusChanged', this.getSession(sessionId))
     },
-    _rtcSession_confirmed: function (sessionId, e) {
+    _rtcSession_confirmed: function _rtcSession_confirmed(sessionId, e) {
       if (this && this._sessionTable && this._sessionTable[sessionId]) {
         this._sessionTable[sessionId].isConfirmed = true
       }
     },
-    _rtcSession_notifiedTalk: function (sessionId, e) {
+    _rtcSession_notifiedTalk: function _rtcSession_notifiedTalk(sessionId, e) {
       var data, options, rtcInfoJsonStr, session
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       if (this.eventTalk) {
@@ -4329,7 +4325,6 @@ if (!Brekeke.WebrtcClient) {
           if (session.withVideo) {
             setTimeout(by(this, this._tryVideoCall, [sessionId]), 0)
           }
-
           options =
             clone(
               this.defaultOptions &&
@@ -4337,7 +4332,10 @@ if (!Brekeke.WebrtcClient) {
                 this.defaultOptions.main.answer,
             ) || {}
           if (!options.mediaConstraints) {
-            options.mediaConstraints = { audio: true, video: false }
+            options.mediaConstraints = {
+              audio: true,
+              video: false,
+            }
           }
           if (!options.pcConfig || !options.pcConfig.gatheringTimeout) {
             options.pcConfig = clone(options.pcConfig) || {}
@@ -4392,9 +4390,11 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _rtcSession_notifiedSessionInfo: function (sessionId, e) {
+    _rtcSession_notifiedSessionInfo: function _rtcSession_notifiedSessionInfo(
+      sessionId,
+      e,
+    ) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       if (data && data.request) {
@@ -4403,9 +4403,8 @@ if (!Brekeke.WebrtcClient) {
       }
       this._emitEvent('sessionStatusChanged', this.getSession(sessionId))
     },
-    _rtcSession_newInfo: function (sessionId, e) {
+    _rtcSession_newInfo: function _rtcSession_newInfo(sessionId, e) {
       var data
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       if (data && data.request) {
@@ -4422,12 +4421,11 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _rtcSession_ended: function (sessionId, e) {
+    _rtcSession_ended: function _rtcSession_ended(sessionId, e) {
       var data,
         rid = '',
         session,
         videoClientSessionId
-
       data = e.data || e // jssip ~0.5: e.data, jssip 0.6~: e
 
       rid = this._getRid(sessionId)
@@ -4448,13 +4446,11 @@ if (!Brekeke.WebrtcClient) {
           delete this._ridMembersTable[rid]
         }
       }
-
       this._sessionTable[sessionId].sessionStatus = 'terminated'
       if (data && data.message) {
         this._sessionTable[sessionId].incomingMessage = data.message
       }
       session = this.getSession(sessionId)
-
       clearInterval(this._sessionTable[sessionId].sendInfoXUaExInterval)
       delete this._sessionTable[sessionId]
       this._lastSessionEndTime = +new Date()
@@ -4471,7 +4467,7 @@ if (!Brekeke.WebrtcClient) {
       this._disposeLocalMedia(sessionId)
       this._emitEvent('sessionStatusChanged', session)
     },
-    _rtcSession_connecting: function (sessionId, e) {
+    _rtcSession_connecting: function _rtcSession_connecting(sessionId, e) {
       // start ice candidate gathering timeout timer
       this._sessionIceCandidateInfoTable[sessionId] = {}
       if (this.iceCandidateGatheringTimeout >= 0) {
@@ -4484,9 +4480,8 @@ if (!Brekeke.WebrtcClient) {
           )
       }
     },
-    _rtcSession_icecandidate: function (sessionId, e) {
+    _rtcSession_icecandidate: function _rtcSession_icecandidate(sessionId, e) {
       var candidate, data
-
       data = e
       candidate = string(data && data.candidate && data.candidate.candidate)
       this._logger.log(
@@ -4509,9 +4504,8 @@ if (!Brekeke.WebrtcClient) {
           data.ready
       }
     },
-    _rtcSession_sdp: function (sessionId, e) {
+    _rtcSession_sdp: function _rtcSession_sdp(sessionId, e) {
       var candidate, data, i, indexOfA, indexOfM, modified
-
       data = e
       this._logger.log(
         'debug',
@@ -4566,9 +4560,8 @@ if (!Brekeke.WebrtcClient) {
         }
       }
     },
-    _rtcSession_ontrack: function (sessionId, e) {
+    _rtcSession_ontrack: function _rtcSession_ontrack(sessionId, e) {
       var index, stream
-
       stream = e.streams && e.streams[0]
       if (stream) {
         if (this._sessionRemoteStreamsTable[sessionId]) {
@@ -4597,23 +4590,28 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _rtcSession_onicegatheringstatechange: function (sessionId, e) {
-      this._emitEvent('icegatheringstatechange', {
-        iceGatheringState: e && e.target && e.target.iceGatheringState,
-        sessionId: string(sessionId),
-        videoClientSessionId: null,
-        connection: e && e.target,
-      })
-    },
-    _rtcSession_oniceconnectionstatechange: function (sessionId, e) {
-      this._emitEvent('iceconnectionstatechange', {
-        iceConnectionState: e && e.target && e.target.iceConnectionState,
-        sessionId: string(sessionId),
-        videoClientSessionId: null,
-        connection: e && e.target,
-      })
-    },
-    _rtcSession_peerconnection: function (sessionId, e) {
+    _rtcSession_onicegatheringstatechange:
+      function _rtcSession_onicegatheringstatechange(sessionId, e) {
+        this._emitEvent('icegatheringstatechange', {
+          iceGatheringState: e && e.target && e.target.iceGatheringState,
+          sessionId: string(sessionId),
+          videoClientSessionId: null,
+          connection: e && e.target,
+        })
+      },
+    _rtcSession_oniceconnectionstatechange:
+      function _rtcSession_oniceconnectionstatechange(sessionId, e) {
+        this._emitEvent('iceconnectionstatechange', {
+          iceConnectionState: e && e.target && e.target.iceConnectionState,
+          sessionId: string(sessionId),
+          videoClientSessionId: null,
+          connection: e && e.target,
+        })
+      },
+    _rtcSession_peerconnection: function _rtcSession_peerconnection(
+      sessionId,
+      e,
+    ) {
       if (e.peerconnection) {
         e.peerconnection.ontrack = by(this, this._rtcSession_ontrack, [
           sessionId,
@@ -4630,39 +4628,38 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _rtcSession_responseAfterMakeCallWithVideo: function (
-      self,
-      videoOptions,
-      orgFunc,
-      e,
-    ) {
-      // this: RTCSession
-      var rtcSession = this,
-        session,
-        sessionId
+    _rtcSession_responseAfterMakeCallWithVideo:
+      function _rtcSession_responseAfterMakeCallWithVideo(
+        self,
+        videoOptions,
+        orgFunc,
+        e,
+      ) {
+        // this: RTCSession
+        var rtcSession = this,
+          session,
+          sessionId
 
-      // set videoOptions to session
-      for (sessionId in self._sessionTable) {
-        session = self._sessionTable[sessionId]
-        if (session.rtcSession === rtcSession) {
-          if (!session.videoOptions) {
-            session.videoOptions = videoOptions
-            // make video call when members (phone_ids) have been notified
-            self._tryVideoCall(sessionId)
+        // set videoOptions to session
+        for (sessionId in self._sessionTable) {
+          session = self._sessionTable[sessionId]
+          if (session.rtcSession === rtcSession) {
+            if (!session.videoOptions) {
+              session.videoOptions = videoOptions
+              // make video call when members (phone_ids) have been notified
+              self._tryVideoCall(sessionId)
+            }
           }
         }
-      }
-
-      if (orgFunc) {
-        orgFunc.call(this, e)
-      }
-    },
-    _videoClientRtcSession_accepted: function (
+        if (orgFunc) {
+          orgFunc.call(this, e)
+        }
+      },
+    _videoClientRtcSession_accepted: function _videoClientRtcSession_accepted(
       videoClientSessionId,
       sessionId,
     ) {
       var rid
-
       rid = this._getRid(sessionId)
       if (
         this._sessionTable[sessionId] &&
@@ -4678,12 +4675,17 @@ if (!Brekeke.WebrtcClient) {
       ) {
         this._ridVideoClientSessionsTable[rid][
           videoClientSessionId
-        ].rtcSession.mute({ audio: true, video: true })
+        ].rtcSession.mute({
+          audio: true,
+          video: true,
+        })
       }
     },
-    _videoClientRtcSession_ended: function (videoClientSessionId, sessionId) {
+    _videoClientRtcSession_ended: function _videoClientRtcSession_ended(
+      videoClientSessionId,
+      sessionId,
+    ) {
       var r
-
       for (r in this._ridVideoClientSessionsTable) {
         if (this._ridVideoClientSessionsTable[r][videoClientSessionId]) {
           delete this._ridVideoClientSessionsTable[r][videoClientSessionId]
@@ -4705,7 +4707,6 @@ if (!Brekeke.WebrtcClient) {
       delete this._sessionIceCandidateInfoTable[videoClientSessionId]
       delete this._sessionRemoteStreamsTable[videoClientSessionId]
       this._disposeLocalMedia(videoClientSessionId)
-
       if (this._sessionTable[sessionId]) {
         this._emitEvent('videoClientSessionEnded', {
           sessionId: string(sessionId),
@@ -4713,13 +4714,12 @@ if (!Brekeke.WebrtcClient) {
         })
       }
     },
-    _videoClientRtcSession_ontrack: function (
+    _videoClientRtcSession_ontrack: function _videoClientRtcSession_ontrack(
       videoClientSessionId,
       sessionId,
       e,
     ) {
       var index, stream
-
       stream = e.streams && e.streams[0]
       if (stream) {
         if (this._sessionRemoteStreamsTable[videoClientSessionId]) {
@@ -4730,7 +4730,6 @@ if (!Brekeke.WebrtcClient) {
               )
             if (index === -1) {
               this._sessionRemoteStreamsTable[videoClientSessionId].push(stream)
-
               this._emitEvent('videoClientSessionCreated', {
                 sessionId: string(sessionId),
                 videoClientSessionId: string(videoClientSessionId),
@@ -4765,61 +4764,63 @@ if (!Brekeke.WebrtcClient) {
         )
       }
     },
-    _videoClientRtcSession_onicegatheringstatechange: function (
-      videoClientSessionId,
-      sessionId,
-      e,
-    ) {
-      this._emitEvent('icegatheringstatechange', {
-        iceGatheringState: e && e.target && e.target.iceGatheringState,
-        sessionId: string(sessionId),
-        videoClientSessionId: string(videoClientSessionId),
-        connection: e && e.target,
-      })
-    },
-    _videoClientRtcSession_oniceconnectionstatechange: function (
-      videoClientSessionId,
-      sessionId,
-      e,
-    ) {
-      this._emitEvent('iceconnectionstatechange', {
-        iceConnectionState: e && e.target && e.target.iceConnectionState,
-        sessionId: string(sessionId),
-        videoClientSessionId: string(videoClientSessionId),
-        connection: e && e.target,
-      })
-    },
-    _videoClientRtcSession_peerconnection: function (
-      videoClientSessionId,
-      sessionId,
-      e,
-    ) {
-      if (e.peerconnection) {
-        e.peerconnection.ontrack = by(
-          this,
-          this._videoClientRtcSession_ontrack,
-          [videoClientSessionId, sessionId],
-        )
-        e.peerconnection.onicegatheringstatechange = by(
-          this,
-          this._videoClientRtcSession_onicegatheringstatechange,
-          [videoClientSessionId, sessionId],
-        )
-        e.peerconnection.oniceconnectionstatechange = by(
-          this,
-          this._videoClientRtcSession_oniceconnectionstatechange,
-          [videoClientSessionId, sessionId],
-        )
-      }
-    },
-
+    _videoClientRtcSession_onicegatheringstatechange:
+      function _videoClientRtcSession_onicegatheringstatechange(
+        videoClientSessionId,
+        sessionId,
+        e,
+      ) {
+        this._emitEvent('icegatheringstatechange', {
+          iceGatheringState: e && e.target && e.target.iceGatheringState,
+          sessionId: string(sessionId),
+          videoClientSessionId: string(videoClientSessionId),
+          connection: e && e.target,
+        })
+      },
+    _videoClientRtcSession_oniceconnectionstatechange:
+      function _videoClientRtcSession_oniceconnectionstatechange(
+        videoClientSessionId,
+        sessionId,
+        e,
+      ) {
+        this._emitEvent('iceconnectionstatechange', {
+          iceConnectionState: e && e.target && e.target.iceConnectionState,
+          sessionId: string(sessionId),
+          videoClientSessionId: string(videoClientSessionId),
+          connection: e && e.target,
+        })
+      },
+    _videoClientRtcSession_peerconnection:
+      function _videoClientRtcSession_peerconnection(
+        videoClientSessionId,
+        sessionId,
+        e,
+      ) {
+        if (e.peerconnection) {
+          e.peerconnection.ontrack = by(
+            this,
+            this._videoClientRtcSession_ontrack,
+            [videoClientSessionId, sessionId],
+          )
+          e.peerconnection.onicegatheringstatechange = by(
+            this,
+            this._videoClientRtcSession_onicegatheringstatechange,
+            [videoClientSessionId, sessionId],
+          )
+          e.peerconnection.oniceconnectionstatechange = by(
+            this,
+            this._videoClientRtcSession_oniceconnectionstatechange,
+            [videoClientSessionId, sessionId],
+          )
+        }
+      },
     END_OF_PROTOTYPE: null,
   }
 
   /**
    * class Brekeke.WebrtcClient.Logger
    */
-  Logger = function (level, func, withStackTrace) {
+  Logger = function Logger(level, func, withStackTrace) {
     var self = this
 
     /**
@@ -4876,30 +4877,26 @@ if (!Brekeke.WebrtcClient) {
       trace: 60,
       all: 60,
     },
-
     /**
      * function setLoggerLevel
      */
-    setLoggerLevel: function (level) {
+    setLoggerLevel: function setLoggerLevel(level) {
       this._levelValue =
         level in this.LEVEL_VALUES
           ? this.LEVEL_VALUES[level]
           : this.LEVEL_VALUES['log']
     },
-
     /**
      * function setLogFunction
      */
-    setLogFunction: function (func) {
+    setLogFunction: function setLogFunction(func) {
       this._logFunction = func
     },
-
     /**
      * function log
      */
-    log: function (level, content) {
+    log: function log(level, content) {
       var stackTrace = ''
-
       try {
         if (this.LEVEL_VALUES[level] <= this._levelValue) {
           if (this._withStackTrace[level] || level === 'trial') {
@@ -4935,13 +4932,15 @@ if (!Brekeke.WebrtcClient) {
         }
       } catch (e) {}
     },
-
     /**
      * private functions
      */
-    _logFunctionDefault: function (level, content, stackTrace) {
+    _logFunctionDefault: function _logFunctionDefault(
+      level,
+      content,
+      stackTrace,
+    ) {
       var func
-
       if (console) {
         if (level === 'fatal') {
           func = console.error || console.log
@@ -4963,13 +4962,12 @@ if (!Brekeke.WebrtcClient) {
             console,
             new Date() + '[' + level + '] ' + content + stackTrace,
           )
-          if (typeof content === 'object') {
+          if (_typeof(content) === 'object') {
             console.dir(content)
           }
         }
       }
     },
-
     END_OF_PROTOTYPE: null,
   }
 
@@ -5000,7 +4998,9 @@ if (!Brekeke.WebrtcClient) {
             request.method === 'NOTIFY' &&
             this.listeners('newNotify').length
           ) {
-            this.emit('newNotify', { request: request })
+            this.emit('newNotify', {
+              request: request,
+            })
           }
         }
       }
@@ -5014,7 +5014,6 @@ if (!Brekeke.WebrtcClient) {
     var orig = null
     return function jssipRtcSessionHack(rtcSession, phone) {
       var proto
-
       if (
         orig ||
         typeof rtcSession === 'undefined' ||
@@ -5035,7 +5034,11 @@ if (!Brekeke.WebrtcClient) {
             request.headers['X-Ua-Ex'] &&
             !request.headers['Content-Type']
           ) {
-            request.headers['Content-Type'] = [{ raw: 'application/x-ua-ex' }]
+            request.headers['Content-Type'] = [
+              {
+                raw: 'application/x-ua-ex',
+              },
+            ]
           }
           if (
             request &&
@@ -5090,7 +5093,6 @@ if (!Brekeke.WebrtcClient) {
     var orig = null
     return function jssipIncomingRequestHack(incomingRequest) {
       var proto
-
       if (
         orig ||
         typeof incomingRequest === 'undefined' ||
@@ -5159,7 +5161,7 @@ if (!Brekeke.WebrtcClient) {
   /**
    * utility functions
    */
-  by = function (thisArg, func, argsArray) {
+  by = function by(thisArg, func, argsArray) {
     // return function
     return function () {
       // if argsArray is not given, returned function calls func with arguments of itself
@@ -5169,10 +5171,9 @@ if (!Brekeke.WebrtcClient) {
       )
     }
   }
-  clone = function (object) {
+  clone = function clone(object) {
     var key, returnObject
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       // memberwise clone (shallow copy)
       returnObject = {}
       for (key in object) {
@@ -5183,16 +5184,15 @@ if (!Brekeke.WebrtcClient) {
       return object
     }
   }
-  stringify = function (object) {
+  stringify = function stringify(object) {
     var key, returnString
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       returnString = ''
       for (key in object) {
         returnString +=
           string(key) +
           ': ' +
-          (object[key] && typeof object[key] === 'object'
+          (object[key] && _typeof(object[key]) === 'object'
             ? '{ ... }'
             : object[key]) +
           ', '
@@ -5205,10 +5205,9 @@ if (!Brekeke.WebrtcClient) {
       return string(object)
     }
   }
-  stringifyError = function (object) {
+  stringifyError = function stringifyError(object) {
     var key, returnString
-
-    if (object && typeof object === 'object') {
+    if (object && _typeof(object) === 'object') {
       returnString = ''
       if (typeof object.toString === 'function') {
         returnString = object.toString()
@@ -5228,10 +5227,10 @@ if (!Brekeke.WebrtcClient) {
       return string(object)
     }
   }
-  int = function (value) {
+  int = function int(value) {
     return parseInt(value, 10) || 0
   }
-  string = function (value) {
+  string = function string(value) {
     return String(value || value === 0 || value === false ? value : '')
   }
 

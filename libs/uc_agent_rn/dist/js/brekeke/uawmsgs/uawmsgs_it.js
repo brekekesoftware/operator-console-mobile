@@ -1,11 +1,36 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory()
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UAWMsgs = root.Brekeke.UAWMsgs_it = factory()
   }
-})(this, function () {
+})(void 0, function () {
   return {
     CMN_OK: 'Ok',
     CMN_CANCEL: 'Annulla',
@@ -61,7 +86,6 @@
     CMN_LANGUAGE_JA: 'Giaponese',
     CMN_LANGUAGE_ZH: 'Cinese',
     CMN_MOMENT_LOCALE: 'en',
-
     MSG_ABOUT_DIALOG_TITLE: 'Informazioni su {0}',
     MSG_CALL_DEVICE_WARNING:
       'Please check for problems of the microphone or the camera.',
@@ -191,12 +215,10 @@
     MSG_WEBRTC_UNAVAILABLE_1: 'Non hai un ID  del telefono  WebRTC.',
     MSG_WEBRTC_UNAVAILABLE_2:
       'Vorresti aggiungere un nuovo numero di telefono?',
-
     TAB_HISTORYDETAIL: 'History - ',
     TAB_HISTORYSUMMARIES: 'History',
     TAB_PREFERENCE: 'Preferenze',
     TAB_WEBCHATQUEUE: 'Webchat',
-
     LBL_BROADCAST_BUDDIES: 'Members',
     LBL_BROADCAST_GROUP: 'Group',
     LBL_BROADCAST_GROUP_NONE: '(None)',
@@ -550,7 +572,6 @@
     LBL_WEBRTC_UNAVAILABLE_NEVER: 'Non usare WebRTC',
     LBL_WEBRTC_UNAVAILABLE_NO: 'Non ora',
     LBL_WEBRTC_UNAVAILABLE_YES: 'Sì',
-
     DUMMY: '',
   }
 })

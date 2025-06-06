@@ -1,13 +1,37 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory()
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UCLogTexts = factory()
   }
-})(this, function () {
+})(void 0, function () {
   var UCLogTexts = {}
-
   UCLogTexts.startLoadingTexts = function (options) {
     if (!options) {
       console.warn('invalid parameter in UCLogTexts.startLoadingTexts()')
@@ -58,8 +82,7 @@
       }, 100)
     }
   }
-
-  var loadTexts = function (options) {
+  var loadTexts = function loadTexts(options) {
     var logger = new Brekeke.UCClient.Logger('all')
     logger.log('debug', options)
     var parent = document.querySelector(
@@ -74,7 +97,6 @@
       )
       return
     }
-
     var panelType = 'CONFERENCE'
     var panelCode = 'singleton'
     var panelKey = panelType + '_' + panelCode
@@ -97,12 +119,11 @@
     UCLogTexts.ucUiStoreInstance = ucUiStore // for debug
     UCLogTexts.uiDataInstance = ud // for debug
 
-    var onreadystatechange = function (data) {
+    var _onreadystatechange = function onreadystatechange(data) {
       if (this.readyState == 4) {
         if (this.status == 200) {
           var responseText = this.responseText
           logger.log('debug', responseText)
-
           var result = {}
           try {
             result = JSON.parse(responseText) || {}
@@ -338,7 +359,7 @@
                       '&srctp=' +
                       encodeURIComponent(JSON.stringify(condition)),
                   )
-                  xhr2.onreadystatechange = onreadystatechange.bind(xhr2, {
+                  xhr2.onreadystatechange = _onreadystatechange.bind(xhr2, {
                     showmorelink_id: option.showmorelink_id,
                   })
                   xhr2.send()
@@ -347,7 +368,6 @@
               }
             }
           }
-
           ud.render()
         } else {
           logger.log('warn', this.status)
@@ -355,7 +375,6 @@
       } else {
       }
     }
-
     var xhr = new XMLHttpRequest()
     xhr.open(
       'POST',
@@ -363,10 +382,9 @@
         '/uus?method=texts&withtags=1&withconfprops=1&withprofimage=1&param=' +
         options.param,
     )
-    xhr.onreadystatechange = onreadystatechange.bind(xhr, {})
+    xhr.onreadystatechange = _onreadystatechange.bind(xhr, {})
     xhr.send()
   }
-
   var int = function int(value) {
     return parseInt(value, 10) || 0
   }
@@ -383,6 +401,5 @@
       int(str.substr(17, 2)),
     )
   }
-
   return UCLogTexts
 })

@@ -1,11 +1,18 @@
-import React from 'react'
-import { View, StyleSheet, Platform } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
+'use strict'
 
-const styles = StyleSheet.create({
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = Toolbar
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _reactNativeLinearGradient = _interopRequireDefault(
+  require('react-native-linear-gradient'),
+)
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+var styles = _reactNative.StyleSheet.create({
   toolbar: {
     position: 'absolute',
     left: 0,
@@ -37,54 +44,84 @@ const styles = StyleSheet.create({
  * props.children - Toolbar buttons or other components
  * props.style - Additional custom styles for the toolbar
  */
-export default function Toolbar(props) {
+function Toolbar(props) {
   // On iOS and Android, we'll use LinearGradient for the background
-  if (Platform.OS === 'web') {
-    return (
-      <LinearGradient
-        style={[styles.toolbar, props.style]}
-        colors={['rgba(255,255,255,0.7)', 'rgba(255,255,255,0)']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-      >
-        <View style={styles.toolbarContent}>
-          {React.Children.map(props.children, child => {
-            // Apply toolbar button styles to ToolbarButton children
-            if (child?.type?.name === 'ToolbarButton') {
-              return React.cloneElement(child, {
-                style: [styles.toolbarButton, child.props.style],
-              })
-            }
-            return child
-          })}
-        </View>
-      </LinearGradient>
+  if (_reactNative.Platform.OS === 'web') {
+    return /*#__PURE__*/ _react.default.createElement(
+      _reactNativeLinearGradient.default,
+      {
+        style: [styles.toolbar, props.style],
+        colors: ['rgba(255,255,255,0.7)', 'rgba(255,255,255,0)'],
+        start: {
+          x: 0,
+          y: 0,
+        },
+        end: {
+          x: 0,
+          y: 1,
+        },
+      },
+      /*#__PURE__*/ _react.default.createElement(
+        _reactNative.View,
+        {
+          style: styles.toolbarContent,
+        },
+        _react.default.Children.map(props.children, function (child) {
+          var _child$type
+          // Apply toolbar button styles to ToolbarButton children
+          if (
+            (child === null ||
+            child === void 0 ||
+            (_child$type = child.type) === null ||
+            _child$type === void 0
+              ? void 0
+              : _child$type.name) === 'ToolbarButton'
+          ) {
+            return /*#__PURE__*/ _react.default.cloneElement(child, {
+              style: [styles.toolbarButton, child.props.style],
+            })
+          }
+          return child
+        }),
+      ),
     )
   }
 
   // For web, we can use the regular View with background gradient
-  return (
-    <View
-      style={[
+  return /*#__PURE__*/ _react.default.createElement(
+    _reactNative.View,
+    {
+      style: [
         styles.toolbar,
         // {
         //   backgroundImage:
         //     'linear-gradient(rgba(255,255,255,0.7) 0, rgba(255,255,255,0) 100%)',
         // },
         props.style,
-      ]}
-    >
-      <View style={styles.toolbarContent}>
-        {React.Children.map(props.children, child => {
-          // Apply toolbar button styles to ToolbarButton children
-          if (child?.type?.name === 'ToolbarButton') {
-            return React.cloneElement(child, {
-              style: [styles.toolbarButton, child.props.style],
-            })
-          }
-          return child
-        })}
-      </View>
-    </View>
+      ],
+    },
+    /*#__PURE__*/ _react.default.createElement(
+      _reactNative.View,
+      {
+        style: styles.toolbarContent,
+      },
+      _react.default.Children.map(props.children, function (child) {
+        var _child$type2
+        // Apply toolbar button styles to ToolbarButton children
+        if (
+          (child === null ||
+          child === void 0 ||
+          (_child$type2 = child.type) === null ||
+          _child$type2 === void 0
+            ? void 0
+            : _child$type2.name) === 'ToolbarButton'
+        ) {
+          return /*#__PURE__*/ _react.default.cloneElement(child, {
+            style: [styles.toolbarButton, child.props.style],
+          })
+        }
+        return child
+      }),
+    ),
   )
 }

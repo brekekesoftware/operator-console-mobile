@@ -1,19 +1,24 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import NameEmbeddedSpan from './NameEmbeddedSpan.js'
+'use strict'
 
-const colors = {
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+var colors = {
   darkGray: '#666666',
 }
-
-const styles = StyleSheet.create({
+var styles = _reactNative.StyleSheet.create({
   chatTyping: {
     fontSize: 13,
     fontWeight: '400',
-    lineHeight: 20.8, // 1.6 * 13
+    lineHeight: 20.8,
+    // 1.6 * 13
     letterSpacing: 0.3,
     paddingLeft: 16,
     color: colors.darkGray,
@@ -30,27 +35,30 @@ const styles = StyleSheet.create({
  * props.panelType
  * props.panelCode
  */
-export default props => {
-  const typingBuddy = props.uiData.ucUiStore.getTypingBuddy({
+var _default = (exports.default = function _default(props) {
+  var typingBuddy = props.uiData.ucUiStore.getTypingBuddy({
     chatType: props.panelType,
     chatCode: props.panelCode,
   })
-
   if (typingBuddy && typingBuddy.user_id) {
-    return (
-      <View style={styles.chatTyping}>
-        <NameEmbeddedSpan
-          ucUiStore={props.uiData.ucUiStore}
-          format={uawMsgs.MSG_TYPING}
-          buddy={typingBuddy}
-        />
-      </View>
+    return /*#__PURE__*/ React.createElement(
+      _reactNative.View,
+      {
+        style: styles.chatTyping,
+      },
+      /*#__PURE__*/ React.createElement(_NameEmbeddedSpan.default, {
+        ucUiStore: props.uiData.ucUiStore,
+        format: _uawmsgs.default.MSG_TYPING,
+        buddy: typingBuddy,
+      }),
     )
   } else {
-    return (
-      <View style={[styles.chatTyping, styles.emptySpace]}>
-        <Text>{'\u00A0'}</Text>
-      </View>
+    return /*#__PURE__*/ React.createElement(
+      _reactNative.View,
+      {
+        style: [styles.chatTyping, styles.emptySpace],
+      },
+      /*#__PURE__*/ React.createElement(_reactNative.Text, null, '\xA0'),
     )
   }
-}
+})

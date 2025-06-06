@@ -1,20 +1,26 @@
-import { int, string } from './strings.js'
-const animatings = []
-export default function animate(element, property, to, duration, tick) {
+'use strict'
+
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = animate
+var _strings = require('./strings.js')
+var animatings = []
+function animate(element, property, to, duration, tick) {
   if (!element) {
     return
   }
-  const animating = {
+  var animating = {
     element: element,
     property: property,
-    to: int(to),
+    to: (0, _strings.int)(to),
     duration: Math.abs(duration) || 200,
     tick: Math.abs(tick) || 20,
   }
   animating.tick = Math.min(animating.duration, animating.tick)
-  const existingAnimating = animatings.find(
-    a => a.element === element && a.property === property,
-  )
+  var existingAnimating = animatings.find(function (a) {
+    return a.element === element && a.property === property
+  })
   if (existingAnimating) {
     existingAnimating.to = animating.to
     existingAnimating.duration = animating.duration
@@ -22,25 +28,27 @@ export default function animate(element, property, to, duration, tick) {
     return
   }
   animatings.push(animating)
-  const f = () => {
-    const from = int(animating.element[animating.property])
-    const d =
-      int(((animating.to - from) * animating.tick) / animating.duration) ||
-      (animating.to > from ? 1 : -1)
+  var _f = function f() {
+    var from = (0, _strings.int)(animating.element[animating.property])
+    var d =
+      (0, _strings.int)(
+        ((animating.to - from) * animating.tick) / animating.duration,
+      ) || (animating.to > from ? 1 : -1)
     if (Math.abs(animating.to - from) <= Math.abs(d)) {
       animating.element[animating.property] = animating.to
-      const i = animatings.findIndex(
-        a =>
-          a.element === animating.element && a.property === animating.property,
-      )
+      var i = animatings.findIndex(function (a) {
+        return (
+          a.element === animating.element && a.property === animating.property
+        )
+      })
       if (i >= 0) {
         animatings.splice(i, 1)
       }
     } else {
       animating.element[animating.property] = from + d
       animating.duration = Math.max(1, animating.duration - animating.tick)
-      setTimeout(f, animating.tick)
+      setTimeout(_f, animating.tick)
     }
   }
-  setTimeout(f, animating.tick)
+  setTimeout(_f, animating.tick)
 }

@@ -1,3 +1,5 @@
+'use strict'
+
 Object.values = Object.values
   ? Object.values
   : function (obj) {
@@ -8,7 +10,6 @@ Object.values = Object.values
         '[object Function]',
       ]
       var objType = Object.prototype.toString.call(obj)
-
       if (obj === null || typeof obj === 'undefined') {
         throw new TypeError('Cannot convert undefined or null to object')
       } else if (!~allowedTypes.indexOf(objType)) {
@@ -20,14 +21,12 @@ Object.values = Object.values
             return obj[key]
           })
         }
-
         var result = []
         for (var prop in obj) {
           if (obj.hasOwnProperty(prop)) {
             result.push(obj[prop])
           }
         }
-
         return result
       }
     }
@@ -37,16 +36,14 @@ if (typeof Object.assign != 'function') {
     value: function assign(target, varArgs) {
       // .length of function is 2
       'use strict'
+
       if (target == null) {
         // TypeError if undefined or null
         throw new TypeError('Cannot convert undefined or null to object')
       }
-
       var to = Object(target)
-
       for (var index = 1; index < arguments.length; index++) {
         var nextSource = arguments[index]
-
         if (nextSource != null) {
           // Skip over if undefined or null
           for (var nextKey in nextSource) {
@@ -75,7 +72,6 @@ if (!Array.prototype.find) {
     var length = list.length >>> 0
     var thisArg = arguments[1]
     var value
-
     for (var i = 0; i < length; i++) {
       value = list[i]
       if (predicate.call(thisArg, value, i, list)) {
@@ -99,7 +95,6 @@ if (!Array.prototype.findIndex) {
     var length = list.length >>> 0
     var thisArg = arguments[1]
     var value
-
     for (var i = 0; i < length; i++) {
       value = list[i]
       if (predicate.call(thisArg, value, i, list)) {

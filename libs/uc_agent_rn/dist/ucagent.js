@@ -1,45 +1,252 @@
-import React from 'react'
-import { AppRegistry } from 'react-native'
+'use strict'
 
-import uawMsgs from './utilities/uawmsgs.js'
-import Constants from './utilities/constants.js'
-import {
-  int,
-  string,
-  clone,
-  escapeHTML,
-  formatStr,
-  formatTime,
-  toPlainText,
-  truncateWithEllipsis,
-  parsePanelKey,
-} from './utilities/strings.js'
-import CURRENT_SCRIPT_URL from './utilities/currentscript.js'
-import './utilities/polyfills.js'
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('./utilities/uawmsgs'))
+var _constants = _interopRequireDefault(require('./utilities/constants'))
+var _strings = require('./utilities/strings')
+var _currentscript = _interopRequireDefault(
+  require('./utilities/currentscript'),
+)
+require('./utilities/polyfills')
+var _App = _interopRequireDefault(require('./apps/App'))
+var _UCApp = _interopRequireDefault(require('./apps/UCApp'))
+var _IconApp = _interopRequireDefault(require('./apps/IconApp'))
+var _DialogApp = _interopRequireDefault(require('./apps/DialogApp'))
+var _StaticApp = _interopRequireDefault(require('./apps/StaticApp'))
+var _ChatOnlyApp = _interopRequireDefault(require('./apps/ChatOnlyApp'))
+var _UndockedPanelSubWindowApp = _interopRequireDefault(
+  require('./apps/UndockedPanelSubWindowApp'),
+)
+var _asyncStorage = _interopRequireDefault(
+  require('@react-native-async-storage/async-storage'),
+)
+var _index = require('./dynamic-renderer/index')
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function _regenerator() {
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e,
+    t,
+    r = 'function' == typeof Symbol ? Symbol : {},
+    n = r.iterator || '@@iterator',
+    o = r.toStringTag || '@@toStringTag'
+  function i(r, n, o, i) {
+    var c = n && n.prototype instanceof Generator ? n : Generator,
+      u = Object.create(c.prototype)
+    return (
+      _regeneratorDefine2(
+        u,
+        '_invoke',
+        (function (r, n, o) {
+          var i,
+            c,
+            u,
+            f = 0,
+            p = o || [],
+            y = !1,
+            G = {
+              p: 0,
+              n: 0,
+              v: e,
+              a: d,
+              f: d.bind(e, 4),
+              d: function d(t, r) {
+                return (i = t), (c = 0), (u = e), (G.n = r), a
+              },
+            }
+          function d(r, n) {
+            for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {
+              var o,
+                i = p[t],
+                d = G.p,
+                l = i[2]
+              r > 3
+                ? (o = l === n) &&
+                  ((c = i[4] || 3),
+                  (u = i[5] === e ? i[3] : i[5]),
+                  (i[4] = 3),
+                  (i[5] = e))
+                : i[0] <= d &&
+                  ((o = r < 2 && d < i[1])
+                    ? ((c = 0), (G.v = n), (G.n = i[1]))
+                    : d < l &&
+                      (o = r < 3 || i[0] > n || n > l) &&
+                      ((i[4] = r), (i[5] = n), (G.n = l), (c = 0)))
+            }
+            if (o || r > 1) return a
+            throw ((y = !0), n)
+          }
+          return function (o, p, l) {
+            if (f > 1) throw TypeError('Generator is already running')
+            for (
+              y && 1 === p && d(p, l), c = p, u = l;
+              (t = c < 2 ? e : u) || !y;
 
-import App from './apps/App.js'
-import UCApp from './apps/UCApp.js'
-import IconApp from './apps/IconApp.js'
-import DialogApp from './apps/DialogApp.js'
-import StaticApp from './apps/StaticApp.js'
-import ChatOnlyApp from './apps/ChatOnlyApp.js'
-import UndockedPanelSubWindowApp from './apps/UndockedPanelSubWindowApp.js'
-import RnAsyncStorage from '@react-native-async-storage/async-storage'
-import { renderToView } from './dynamic-renderer/index.js'
-
-const Brekeke = (window.BLIB = window.Brekeke = window.Brekeke || {})
+            ) {
+              i ||
+                (c
+                  ? c < 3
+                    ? (c > 1 && (G.n = -1), d(c, u))
+                    : (G.n = u)
+                  : (G.v = u))
+              try {
+                if (((f = 2), i)) {
+                  if ((c || (o = 'next'), (t = i[o]))) {
+                    if (!(t = t.call(i, u)))
+                      throw TypeError('iterator result is not an object')
+                    if (!t.done) return t
+                    ;(u = t.value), c < 2 && (c = 0)
+                  } else
+                    1 === c && (t = i.return) && t.call(i),
+                      c < 2 &&
+                        ((u = TypeError(
+                          "The iterator does not provide a '" + o + "' method",
+                        )),
+                        (c = 1))
+                  i = e
+                } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break
+              } catch (t) {
+                ;(i = e), (c = 1), (u = t)
+              } finally {
+                f = 1
+              }
+            }
+            return { value: t, done: y }
+          }
+        })(r, o, i),
+        !0,
+      ),
+      u
+    )
+  }
+  var a = {}
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+  t = Object.getPrototypeOf
+  var c = [][n]
+      ? t(t([][n]()))
+      : (_regeneratorDefine2((t = {}), n, function () {
+          return this
+        }),
+        t),
+    u =
+      (GeneratorFunctionPrototype.prototype =
+      Generator.prototype =
+        Object.create(c))
+  function f(e) {
+    return (
+      Object.setPrototypeOf
+        ? Object.setPrototypeOf(e, GeneratorFunctionPrototype)
+        : ((e.__proto__ = GeneratorFunctionPrototype),
+          _regeneratorDefine2(e, o, 'GeneratorFunction')),
+      (e.prototype = Object.create(u)),
+      e
+    )
+  }
+  return (
+    (GeneratorFunction.prototype = GeneratorFunctionPrototype),
+    _regeneratorDefine2(u, 'constructor', GeneratorFunctionPrototype),
+    _regeneratorDefine2(
+      GeneratorFunctionPrototype,
+      'constructor',
+      GeneratorFunction,
+    ),
+    (GeneratorFunction.displayName = 'GeneratorFunction'),
+    _regeneratorDefine2(GeneratorFunctionPrototype, o, 'GeneratorFunction'),
+    _regeneratorDefine2(u),
+    _regeneratorDefine2(u, o, 'Generator'),
+    _regeneratorDefine2(u, n, function () {
+      return this
+    }),
+    _regeneratorDefine2(u, 'toString', function () {
+      return '[object Generator]'
+    }),
+    (_regenerator = function _regenerator() {
+      return { w: i, m: f }
+    })()
+  )
+}
+function _regeneratorDefine2(e, r, n, t) {
+  var i = Object.defineProperty
+  try {
+    i({}, '', {})
+  } catch (e) {
+    i = 0
+  }
+  ;(_regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) {
+    if (r)
+      i
+        ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t })
+        : (e[r] = n)
+    else {
+      var o = function o(r, n) {
+        _regeneratorDefine2(e, r, function (e) {
+          return this._invoke(r, n, e)
+        })
+      }
+      o('next', 0), o('throw', 1), o('return', 2)
+    }
+  }),
+    _regeneratorDefine2(e, r, n, t)
+}
+function asyncGeneratorStep(n, t, e, r, o, a, c) {
+  try {
+    var i = n[a](c),
+      u = i.value
+  } catch (n) {
+    return void e(n)
+  }
+  i.done ? t(u) : Promise.resolve(u).then(r, o)
+}
+function _asyncToGenerator(n) {
+  return function () {
+    var t = this,
+      e = arguments
+    return new Promise(function (r, o) {
+      var a = n.apply(t, e)
+      function _next(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, 'next', n)
+      }
+      function _throw(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, 'throw', n)
+      }
+      _next(void 0)
+    })
+  }
+}
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+var Brekeke = (window.BLIB = window.Brekeke = window.Brekeke || {})
 Brekeke.UCClient =
   Brekeke.UCClient || require('./js/brekeke/ucclient/ucclient.js')
 Brekeke.WebNotification =
   Brekeke.WebNotification ||
-  require('./js/brekeke/webnotification/webnotification.js')
-const UcUiAction = (Brekeke.UcUiAction =
-  Brekeke.UcUiAction || require('./js/brekeke/ucuiaction/ucuiaction.js'))
-const UcUiStore = (Brekeke.UcUiStore =
-  Brekeke.UcUiStore || require('./js/brekeke/ucuistore/ucuistore.js'))
-
-CURRENT_SCRIPT_URL.init()
-uawMsgs.init(CURRENT_SCRIPT_URL)
+  require('./js/brekeke/webnotification/webnotification')
+var UcUiAction = (Brekeke.UcUiAction =
+  Brekeke.UcUiAction || require('./js/brekeke/ucuiaction/ucuiaction'))
+var UcUiStore = (Brekeke.UcUiStore =
+  Brekeke.UcUiStore || require('./js/brekeke/ucuistore/ucuistore'))
+_currentscript.default.init()
+_uawmsgs.default.init(_currentscript.default)
 
 /**
  * uiData class
@@ -66,7 +273,7 @@ uawMsgs.init(CURRENT_SCRIPT_URL)
  * option.timeoutFuncBeforeRender (optional)
  * option.handler (optional)
  */
-const uiData = function (option) {
+var uiData = function uiData(option) {
   // data
   this.parentElement = null
   this.handlers = []
@@ -167,6 +374,7 @@ const uiData = function (option) {
  * option.handler (optional)
  */
 uiData.prototype.initApp = function (option) {
+  var _this = this
   if (
     !option ||
     !option.parentElement ||
@@ -180,7 +388,6 @@ uiData.prototype.initApp = function (option) {
   if (option.handler) {
     this.addHandler(option.handler)
   }
-
   this.ucUiAction = option.ucUiAction
   this.ucUiStore = option.ucUiStore
   this.ucUiStore.addHandler(this)
@@ -198,31 +405,31 @@ uiData.prototype.initApp = function (option) {
     global.$brUCDndEnabledApp = this.uiDataId
   }
   this.isUC = Boolean(option.isUC)
-  this.iconName = string(option.iconName)
+  this.iconName = (0, _strings.string)(option.iconName)
   this.iconDisabled = Boolean(option.iconDisabled)
   this.dialogPanel = option.dialogPanel
-    ? parsePanelKey(option.dialogPanel)
+    ? (0, _strings.parsePanelKey)(option.dialogPanel)
     : null
   this.dialogOption = option.dialogOption || {}
   this.staticPanel = option.staticPanel
-    ? parsePanelKey(option.staticPanel)
+    ? (0, _strings.parsePanelKey)(option.staticPanel)
     : null
-  this.chatOnly = option.chatOnly ? parsePanelKey(option.chatOnly) : null
+  this.chatOnly = option.chatOnly
+    ? (0, _strings.parsePanelKey)(option.chatOnly)
+    : null
   this.chatOptionButtonsInfoCreator =
     option.chatOptionButtonsInfoCreator || null
-
   this.autoRenderingTimer = setInterval(
     this.autoRenderingTimerFunc.bind(this),
     this.configurations.autoRenderingTimerDelay || 60000,
   )
-
   if (option.bindsFunctions) {
     Brekeke.UcUiAction.BoundFunctions = {}
-    Object.keys(Brekeke.UcUiAction.prototype).forEach(funcName => {
-      Brekeke.UcUiAction.BoundFunctions[funcName] = (option, event) => {
-        const currentTarget = (event && event.currentTarget) || {}
-        const className = string(currentTarget.className)
-        this.ucUiStore
+    Object.keys(Brekeke.UcUiAction.prototype).forEach(function (funcName) {
+      Brekeke.UcUiAction.BoundFunctions[funcName] = function (option, event) {
+        var currentTarget = (event && event.currentTarget) || {}
+        var className = (0, _strings.string)(currentTarget.className)
+        _this.ucUiStore
           .getLogger()
           .log(
             'debug',
@@ -237,14 +444,14 @@ uiData.prototype.initApp = function (option) {
         ) {
           return
         }
-        const panel = parsePanelKey(this.currentSelectedTab)
-        this.ucUiAction[funcName](
+        var panel = (0, _strings.parsePanelKey)(_this.currentSelectedTab)
+        _this.ucUiAction[funcName](
           Object.assign(
             {
               chatType: panel.panelType,
               chatCode: panel.panelCode,
-              conf_id: string(
-                this.ucUiStore.getChatHeaderInfo({
+              conf_id: (0, _strings.string)(
+                _this.ucUiStore.getChatHeaderInfo({
                   chatType: panel.panelType,
                   chatCode: panel.panelCode,
                 }).conf_id,
@@ -256,47 +463,45 @@ uiData.prototype.initApp = function (option) {
       }
     })
   }
-
   if (option.urlFuncBeforeRender) {
-    const xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest()
     xhr.open('POST', option.urlFuncBeforeRender)
-    xhr.onreadystatechange = () => {
+    xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         try {
           if (xhr.status === 200) {
-            this.ucUiStore
+            _this.ucUiStore
               .getLogger()
               .log('info', 'urlFuncBeforeRender status=' + xhr.status)
-            const funcBeforeRender = new Function('uiData', xhr.responseText)
-            const result = funcBeforeRender(this)
+            var funcBeforeRender = new Function('uiData', xhr.responseText)
+            var result = funcBeforeRender(_this)
             if (result && result.then) {
               result
-                .then(() => {
-                  this.timeRender = 0
+                .then(function () {
+                  _this.timeRender = 0
                 })
-                .catch(() => {
-                  this.timeRender = 0
+                .catch(function () {
+                  _this.timeRender = 0
                 })
             } else {
-              this.timeRender = 0
+              _this.timeRender = 0
             }
           } else {
-            this.ucUiStore
+            _this.ucUiStore
               .getLogger()
               .log('warn', 'urlFuncBeforeRender status=' + xhr.status)
-            this.timeRender = 0
+            _this.timeRender = 0
           }
         } catch (ex) {
-          this.ucUiStore.getLogger().log('warn', ex)
-          this.timeRender = 0
+          _this.ucUiStore.getLogger().log('warn', ex)
+          _this.timeRender = 0
         }
       }
     }
     this.timeRender =
-      Date.now() + (int(option.timeoutFuncBeforeRender) || 10000)
+      Date.now() + ((0, _strings.int)(option.timeoutFuncBeforeRender) || 10000)
     xhr.send()
   }
-
   this.initPhone(option)
 }
 
@@ -306,6 +511,7 @@ uiData.prototype.initApp = function (option) {
  * option.phone (optional)
  */
 uiData.prototype.initPhone = function (option) {
+  var _this2 = this
   if (!this.ucUiStore) {
     return
   }
@@ -327,10 +533,10 @@ uiData.prototype.initPhone = function (option) {
       'rtcErrorOccurred',
       'icegatheringstatechange',
       'iceconnectionstatechange',
-    ].forEach(eventName => {
-      this.phoneEventIds[eventName] = this.phone.addEventListener(
+    ].forEach(function (eventName) {
+      _this2.phoneEventIds[eventName] = _this2.phone.addEventListener(
         eventName,
-        this[eventName].bind(this),
+        _this2[eventName].bind(_this2),
       )
     })
     console.log('#Duy Phan console initPhone', !this.ucUiStore)
@@ -342,42 +548,38 @@ uiData.prototype.initPhone = function (option) {
  * destroyApp function
  */
 uiData.prototype.destroyApp = function () {
-  let parentElement =
+  var _this3 = this
+  var parentElement =
     typeof this.parentElement === 'string' ? this.parentElement : null
   if (this.ownerDocument) {
     parentElement =
       typeof this.parentElement === 'string' ? this.parentElement : null
     this.addedEventListeners = []
-
     if (
       global.$brUCDndEnabledApp &&
       global.$brUCDndEnabledApp === this.uiDataId
     ) {
       delete global.$brUCDndEnabledApp
     }
-
     this.ownerDocument = null
   }
   console.log('#Duy Phan console destroyApp', parentElement)
   if (parentElement) {
-    renderToView(parentElement, null)
+    ;(0, _index.renderToView)(parentElement, null)
   }
-
   this.shutdownPhone()
   this.panelSessionTable = {}
-  Object.keys(this.phoneEventIds).forEach(eventName => {
-    this.phone.removeEventListener(eventName, this.phoneEventIds[eventName])
-    delete this.phoneEventIds[eventName]
+  Object.keys(this.phoneEventIds).forEach(function (eventName) {
+    _this3.phone.removeEventListener(eventName, _this3.phoneEventIds[eventName])
+    delete _this3.phoneEventIds[eventName]
   })
   this.phone = null
-
   clearInterval(this.autoRenderingTimer)
   this.autoRenderingTimer = 0
   this.currentBuddyStatusCache = {}
-
   this.agentComponentInstance = null
   if (this.ucUiStore) {
-    for (let panelCode in this.unansweredWebchatsToKick) {
+    for (var panelCode in this.unansweredWebchatsToKick) {
       // delete webchat queue of unanswered webchat for other agents
       this.ucUiStore
         .getChatClient()
@@ -407,7 +609,7 @@ uiData.prototype.addHandler = function (handler) {
  * handler
  */
 uiData.prototype.removeHandler = function (handler) {
-  const index = this.handlers.indexOf(handler)
+  var index = this.handlers.indexOf(handler)
   if (index !== -1) {
     this.handlers.splice(index, 1)
   }
@@ -415,8 +617,8 @@ uiData.prototype.removeHandler = function (handler) {
 
 //
 uiData.prototype.fire = function (eventName) {
-  let result
-
+  var _arguments = arguments
+  var result
   if (
     [
       'editorTextarea_onKeyDown',
@@ -440,12 +642,11 @@ uiData.prototype.fire = function (eventName) {
       } catch (ex) {}
     }
   }
-
-  this.handlers.forEach(handler => {
+  this.handlers.forEach(function (handler) {
     if (handler[eventName]) {
       result = handler[eventName].apply(
         handler,
-        Array.prototype.slice.call(arguments, 1),
+        Array.prototype.slice.call(_arguments, 1),
       )
     }
   })
@@ -460,10 +661,13 @@ uiData.prototype.render = function () {
     this.timeRender &&
     (this.timeRender < 0 || Date.now() < this.timeRender)
   ) {
-    setTimeout(this.render.bind(this), int(this.intervalCheckTimeRender) || 100)
+    setTimeout(
+      this.render.bind(this),
+      (0, _strings.int)(this.intervalCheckTimeRender) || 100,
+    )
     return
   }
-  const elapsed = Date.now() - this.lastRenderedTime
+  var elapsed = Date.now() - this.lastRenderedTime
   try {
     this.ucUiStore
       .getLogger()
@@ -473,7 +677,8 @@ uiData.prototype.render = function () {
       )
   } catch (ex) {}
   if (this.configurations.renderingInterval) {
-    const remaining = int(this.configurations.renderingInterval) - elapsed
+    var remaining =
+      (0, _strings.int)(this.configurations.renderingInterval) - elapsed
     if (0 < elapsed && 0 < remaining) {
       if (!this.nextRenderingTimer) {
         this.nextRenderingTimer = setTimeout(this.render.bind(this), remaining)
@@ -483,50 +688,54 @@ uiData.prototype.render = function () {
   }
   this.lastRenderedTime = Date.now()
   this.nextRenderingTimer = 0
-  const parentElement =
+  var parentElement =
     typeof this.parentElement === 'string' ? this.parentElement : null
   if (this.iconName === 'webchatqueue') {
-    const signInStatus = this.ucUiStore.getSignInStatus()
+    var signInStatus = this.ucUiStore.getSignInStatus()
     console.log('#Duy Phan console signInStatus', signInStatus)
   }
   if (parentElement) {
     if (this.iconName) {
-      renderToView(parentElement, IconApp, {
+      ;(0, _index.renderToView)(parentElement, _IconApp.default, {
         uiData: this,
         iconName: this.iconName,
         iconDisabled: this.iconDisabled,
       })
     } else if (this.dialogPanel) {
-      renderToView(parentElement, DialogApp, {
+      ;(0, _index.renderToView)(parentElement, _DialogApp.default, {
         uiData: this,
         panelType: this.dialogPanel.panelType,
         panelCode: this.dialogPanel.panelCode,
         dialogOption: this.dialogOption,
       })
     } else if (this.staticPanel) {
-      renderToView(parentElement, StaticApp, {
+      ;(0, _index.renderToView)(parentElement, _StaticApp.default, {
         uiData: this,
         panelType: this.staticPanel.panelType,
         panelCode: this.staticPanel.panelCode,
       })
     } else if (this.chatOnly) {
-      renderToView(parentElement, ChatOnlyApp, {
+      ;(0, _index.renderToView)(parentElement, _ChatOnlyApp.default, {
         uiData: this,
         panelType: this.chatOnly.panelType,
         panelCode: this.chatOnly.panelCode,
       })
     } else if (this.isSubWindow) {
-      renderToView(parentElement, UndockedPanelSubWindowApp, {
-        uiData: this,
-        panelType: this.subWindowPanelType,
-        panelCode: this.subWindowPanelCode,
-      })
+      ;(0, _index.renderToView)(
+        parentElement,
+        _UndockedPanelSubWindowApp.default,
+        {
+          uiData: this,
+          panelType: this.subWindowPanelType,
+          panelCode: this.subWindowPanelCode,
+        },
+      )
     } else if (this.isUC) {
-      renderToView(parentElement, UCApp, {
+      ;(0, _index.renderToView)(parentElement, _UCApp.default, {
         uiData: this,
       })
     } else {
-      renderToView(parentElement, App, {
+      ;(0, _index.renderToView)(parentElement, _App.default, {
         uiData: this,
       })
     }
@@ -536,18 +745,20 @@ uiData.prototype.render = function () {
 
 //
 uiData.prototype.changeLamp = function () {
+  var _this4 = this
   if (!this.configurations.lampEnabled) {
     return
   }
-  const lampTypeOptions = this.getlampTypeOptions()
-  const statusMe = this.ucUiStore.getChatClient().getStatus()
-  const sessionTable = (this.phone && this.phone.getSessionTable()) || {}
-  let blinkingCount = Object.keys(this.blinkingTabs).reduce(
-    (a, k) => a + this.blinkingTabs[k],
-    0,
-  )
-  let maxNotificationId = Object.keys(this.showingNotificationTable).reduce(
-    (a, k) => Math.max(a, k),
+  var lampTypeOptions = this.getlampTypeOptions()
+  var statusMe = this.ucUiStore.getChatClient().getStatus()
+  var sessionTable = (this.phone && this.phone.getSessionTable()) || {}
+  var blinkingCount = Object.keys(this.blinkingTabs).reduce(function (a, k) {
+    return a + _this4.blinkingTabs[k]
+  }, 0)
+  var maxNotificationId = Object.keys(this.showingNotificationTable).reduce(
+    function (a, k) {
+      return Math.max(a, k)
+    },
     0,
   )
   if (
@@ -567,18 +778,19 @@ uiData.prototype.changeLamp = function () {
       this.lastLampObject.maxNotificationId,
     )
   }
-  const lampObject = {
+  var lampObject = {
     lampTypeOptions: lampTypeOptions,
     status: statusMe.status,
     sessionActive: Object.keys(sessionTable).length > 0,
-    incomingProgress: Object.keys(sessionTable).some(
-      k =>
+    incomingProgress: Object.keys(sessionTable).some(function (k) {
+      return (
         sessionTable[k] &&
         sessionTable[k].rtcSession &&
         sessionTable[k].rtcSession.direction === 'incoming' &&
         sessionTable[k].sessionStatus === 'progress' &&
-        !sessionTable[k].answering,
-    ),
+        !sessionTable[k].answering
+      )
+    }),
     blinkingCount: blinkingCount,
     maxNotificationId: maxNotificationId,
   }
@@ -604,19 +816,19 @@ uiData.prototype.changeLampBusylight = function (lampObject) {
   this.ucUiStore
     .getLogger()
     .log('info', 'changeLampBusylight' + JSON.stringify(lampObject))
-  const lampTypeOptions =
+  var lampTypeOptions =
     lampObject &&
     lampObject.lampTypeOptions &&
     lampObject.lampTypeOptions.lampPort
       ? lampObject.lampTypeOptions
       : (this.lastLampObject && this.lastLampObject.lampTypeOptions) || {}
-  let baseColor = '0,0,0'
-  if (lampObject.status === Constants.STATUS_AVAILABLE) {
+  var baseColor = '0,0,0'
+  if (lampObject.status === _constants.default.STATUS_AVAILABLE) {
     baseColor = '0,0,10'
-  } else if (lampObject.status === Constants.STATUS_BUSY) {
+  } else if (lampObject.status === _constants.default.STATUS_BUSY) {
     baseColor = '10,0,0'
   }
-  let path
+  var path
   if (lampObject.incomingProgress) {
     if (lampTypeOptions.silent) {
       path = 'Light?p=' + baseColor
@@ -634,7 +846,7 @@ uiData.prototype.changeLampBusylight = function (lampObject) {
   } else {
     path = 'Light?p=' + baseColor
   }
-  let elm = document.getElementById('busylight_dummy_img')
+  var elm = document.getElementById('busylight_dummy_img')
   if (!elm) {
     elm = document.createElement('img')
     elm.id = 'busylight_dummy_img'
@@ -660,11 +872,12 @@ uiData.prototype.changeLampBusylight = function (lampObject) {
 
 //
 uiData.prototype.autoRenderingTimerFunc = function () {
-  const now = Date.now()
+  var _this5 = this
+  var now = Date.now()
   if (
-    Object.keys(this.currentBuddyStatusCache).some(
-      key => this.currentBuddyStatusCache[key].expiration <= now,
-    )
+    Object.keys(this.currentBuddyStatusCache).some(function (key) {
+      return _this5.currentBuddyStatusCache[key].expiration <= now
+    })
   ) {
     this.render()
   }
@@ -673,30 +886,33 @@ uiData.prototype.autoRenderingTimerFunc = function () {
 //
 uiData.prototype.getCurrentBuddyStatus = function (buddy) {
   buddy = buddy || {}
-  const key = JSON.stringify({ tenant: buddy.tenant, user_id: buddy.user_id })
-  const buddyStatus = this.ucUiStore.getChatClient().getBuddyStatus(buddy)
+  var key = JSON.stringify({
+    tenant: buddy.tenant,
+    user_id: buddy.user_id,
+  })
+  var buddyStatus = this.ucUiStore.getChatClient().getBuddyStatus(buddy)
   if (buddyStatus.disconnected_tstamp) {
-    const now = Date.now()
+    var now = Date.now()
     if (
       !this.currentBuddyStatusCache[key] ||
       this.currentBuddyStatusCache[key].expiration <= now
     ) {
-      const recentlyOnlineStatusTime = int(
+      var recentlyOnlineStatusTime = (0, _strings.int)(
         this.ucUiStore.getOptionalSetting({
           key: ['recently_online_status_time'],
         }),
       )
-      const recentlyOnlineStatusSteps = Math.max(
+      var recentlyOnlineStatusSteps = Math.max(
         1,
-        int(
+        (0, _strings.int)(
           this.ucUiStore.getOptionalSetting({
             key: ['recently_online_status_steps'],
           }),
         ),
       )
-      const elapsed = now - buddyStatus.disconnected_tstamp
+      var elapsed = now - buddyStatus.disconnected_tstamp
       if (0 < recentlyOnlineStatusTime && elapsed < recentlyOnlineStatusTime) {
-        const sectorIndex = Math.floor(
+        var sectorIndex = Math.floor(
           (elapsed * recentlyOnlineStatusSteps) / recentlyOnlineStatusTime,
         )
         buddyStatus.status = buddyStatus.disconnected_status
@@ -725,29 +941,31 @@ uiData.prototype.getCurrentBuddyStatus = function (buddy) {
  * option.select
  */
 uiData.prototype.updateTab = function (option) {
-  let openedTab = null
-  let closedTab = null
-  let selectedTab = null
+  var _this6 = this
+  var openedTab = null
+  var closedTab = null
+  var selectedTab = null
   if (option) {
     if (option.open) {
       if (
-        !this.mainPanelList.find(
-          p =>
+        !this.mainPanelList.find(function (p) {
+          return (
             p.panelType === option.open.panelType &&
-            p.panelCode === option.open.panelCode,
-        )
+            p.panelCode === option.open.panelCode
+          )
+        })
       ) {
-        const sourcePanelKey = option.open.sourcePanelType
+        var sourcePanelKey = option.open.sourcePanelType
           ? option.open.sourcePanelType + '_' + option.open.sourcePanelCode
           : this.currentSelectedTab
-        const sourcePanelIndex = this.mainPanelList.findIndex(
-          p => p.panelType + '_' + p.panelCode === sourcePanelKey,
-        )
+        var sourcePanelIndex = this.mainPanelList.findIndex(function (p) {
+          return p.panelType + '_' + p.panelCode === sourcePanelKey
+        })
         this.mainPanelList.splice(sourcePanelIndex + 1, 0, {
           panelType: option.open.panelType,
           panelCode: option.open.panelCode,
           position: option.open.sourcePanelType
-            ? string(
+            ? (0, _strings.string)(
                 (this.mainPanelList[sourcePanelIndex] &&
                   this.mainPanelList[sourcePanelIndex].position) ||
                   'center',
@@ -758,11 +976,12 @@ uiData.prototype.updateTab = function (option) {
       }
     }
     if (option.close) {
-      const index = this.mainPanelList.findIndex(
-        p =>
+      var index = this.mainPanelList.findIndex(function (p) {
+        return (
           p.panelType === option.close.panelType &&
-          p.panelCode === option.close.panelCode,
-      )
+          p.panelCode === option.close.panelCode
+        )
+      })
       if (index !== -1) {
         this.mainPanelList.splice(index, 1)
         closedTab = option.close.panelType + '_' + option.close.panelCode
@@ -773,27 +992,27 @@ uiData.prototype.updateTab = function (option) {
         option.select.panelType + '_' + option.select.panelCode
     }
   }
-  let firstKey = ''
-  let currentKey = ''
-  let lastKey = ''
-  let nextKey = ''
-  this.mainPanelList.forEach(panel => {
-    const key = panel.panelType + '_' + panel.panelCode
+  var firstKey = ''
+  var currentKey = ''
+  var lastKey = ''
+  var nextKey = ''
+  this.mainPanelList.forEach(function (panel) {
+    var key = panel.panelType + '_' + panel.panelCode
     if (!firstKey) {
       firstKey = key
     }
-    if (this.currentSelectedTab === key) {
+    if (_this6.currentSelectedTab === key) {
       currentKey = key
     }
-    if (this.lastSelectedTab === key) {
+    if (_this6.lastSelectedTab === key) {
       lastKey = key
     }
-    if (this.nextSelectedTab === key) {
+    if (_this6.nextSelectedTab === key) {
       nextKey = key
-      this.nextSelectedTab = ''
+      _this6.nextSelectedTab = ''
     }
   })
-  const keyToSelect = nextKey || currentKey || lastKey || firstKey
+  var keyToSelect = nextKey || currentKey || lastKey || firstKey
   if (this.currentSelectedTab !== keyToSelect) {
     this.lastSelectedTab = this.currentSelectedTab
     this.currentSelectedTab = keyToSelect
@@ -802,7 +1021,7 @@ uiData.prototype.updateTab = function (option) {
     if (this.unscrolledTabs && this.unscrolledTabs[keyToSelect]) {
       delete this.unscrolledTabs[keyToSelect]
       if (this.funcOnScrolledQueues[keyToSelect]) {
-        let funcOnScrolled
+        var funcOnScrolled
         while (
           (funcOnScrolled = this.funcOnScrolledQueues[keyToSelect].shift())
         ) {
@@ -823,7 +1042,7 @@ uiData.prototype.updateTab = function (option) {
   }
   if (this.blinkingTabs && this.blinkingTabs[this.currentSelectedTab]) {
     delete this.blinkingTabs[this.currentSelectedTab]
-    let funcOnSelected
+    var funcOnSelected
     while ((funcOnSelected = this.funcOnSelectedQueue.shift())) {
       funcOnSelected()
       this.ucUiStore
@@ -843,63 +1062,72 @@ uiData.prototype.updateTab = function (option) {
     this.render()
   }
   if (openedTab) {
-    this.fire('tabOpened', { panelKey: openedTab })
+    this.fire('tabOpened', {
+      panelKey: openedTab,
+    })
     this.ucUiAction.refreshBuddyTable()
   }
   if (closedTab) {
-    this.fire('tabClosed', { panelKey: closedTab })
+    this.fire('tabClosed', {
+      panelKey: closedTab,
+    })
   }
   if (selectedTab) {
-    this.fire('tabSelected', { panelKey: selectedTab })
+    this.fire('tabSelected', {
+      panelKey: selectedTab,
+    })
     this.discardBackgroundTabs()
   }
 }
 
 //
 uiData.prototype.discardBackgroundTabs = function () {
-  const nonDiscardedCount =
+  var _this7 = this
+  var nonDiscardedCount =
     typeof this.configurations.nonDiscardedCount !== 'undefined'
-      ? int(this.configurations.nonDiscardedCount)
+      ? (0, _strings.int)(this.configurations.nonDiscardedCount)
       : 4
   if (this.mainPanelList.length <= nonDiscardedCount) {
     return
   }
-  const discardingTime =
+  var discardingTime =
     typeof this.configurations.discardingTime !== 'undefined'
-      ? int(this.configurations.discardingTime)
+      ? (0, _strings.int)(this.configurations.discardingTime)
       : 10800000
-  const candidates = []
-  Object.keys(this.backgroundTabs).forEach(key => {
-    const panel = this.mainPanelList.find(
-      p => p.panelType + '_' + p.panelCode === key,
-    )
+  var candidates = []
+  Object.keys(this.backgroundTabs).forEach(function (key) {
+    var panel = _this7.mainPanelList.find(function (p) {
+      return p.panelType + '_' + p.panelCode === key
+    })
     if (!panel) {
-      delete this.backgroundTabs[key]
+      delete _this7.backgroundTabs[key]
       return
     }
     if (panel.panelType !== 'CHAT') {
       return
     }
-    if (Date.now() - this.backgroundTabs[key].time < discardingTime) {
+    if (Date.now() - _this7.backgroundTabs[key].time < discardingTime) {
       return
     }
     candidates.push({
       key: key,
-      time: this.backgroundTabs[key].time,
+      time: _this7.backgroundTabs[key].time,
       panel: panel,
     })
   })
   candidates
-    .sort((a, b) => a.time - b.time)
+    .sort(function (a, b) {
+      return a.time - b.time
+    })
     .slice(0, this.mainPanelList.length - nonDiscardedCount)
-    .forEach(a => {
-      if (!this.backgroundTabs[a.key].discarded) {
-        this.ucUiAction.clearChat({
+    .forEach(function (a) {
+      if (!_this7.backgroundTabs[a.key].discarded) {
+        _this7.ucUiAction.clearChat({
           chatType: a.panel.panelType,
           chatCode: a.panel.panelCode,
         })
-        this.backgroundTabs[a.key].discarded = true
-        this.ucUiStore
+        _this7.backgroundTabs[a.key].discarded = true
+        _this7.ucUiStore
           .getLogger()
           .log('debug', 'discarded: ' + a.panel.panelCode)
       }
@@ -968,48 +1196,59 @@ uiData.prototype.showModalSessionWarning = function (
   warningMessageKey,
   warningMessageValue,
 ) {
-  const warningMessages = this.panelSessionTable[panelKey]
+  var _this8 = this
+  var warningMessages = this.panelSessionTable[panelKey]
     ? this.panelSessionTable[panelKey].warningMessages ||
       (this.panelSessionTable[panelKey].warningMessages = {})
     : {}
   if (!warningMessages[warningMessageKey]) {
     warningMessages[warningMessageKey] = ''
   }
-  warningMessages[warningMessageKey] += string(warningMessageValue) + '\n'
-  const audioResettable =
+  warningMessages[warningMessageKey] +=
+    (0, _strings.string)(warningMessageValue) + '\n'
+  var audioResettable =
     (warningMessages.MSG_CALL_RTC_ERROR ||
       warningMessages.MSG_CALL_RTC_ANSWER_ERROR ||
       warningMessages.MSG_CALL_RTC_MICROPHONE_ERROR) &&
-    this.ucUiStore.getLocalStoragePreference({ keyList: ['audioSource'] })[0]
-  const videoResettable =
+    this.ucUiStore.getLocalStoragePreference({
+      keyList: ['audioSource'],
+    })[0]
+  var videoResettable =
     warningMessages.MSG_CALL_RTC_CAMERA_ERROR &&
-    this.ucUiStore.getLocalStoragePreference({ keyList: ['videoSource'] })[0]
+    this.ucUiStore.getLocalStoragePreference({
+      keyList: ['videoSource'],
+    })[0]
   this.showModal({
-    title: uawMsgs.CMN_ALERT,
-    message: Object.keys(warningMessages).reduce(
-      (a, key) => a + uawMsgs[key] + '\n' + warningMessages[key],
-      '',
-    ),
+    title: _uawmsgs.default.CMN_ALERT,
+    message: Object.keys(warningMessages).reduce(function (a, key) {
+      return a + _uawmsgs.default[key] + '\n' + warningMessages[key]
+    }, ''),
     checkBoxLabel:
       audioResettable || videoResettable
-        ? uawMsgs.LBL_CALL_RTC_ERROR_CHECK
+        ? _uawmsgs.default.LBL_CALL_RTC_ERROR_CHECK
         : '',
-    onOk: ev => {
-      if (this.panelSessionTable[panelKey]) {
-        this.panelSessionTable[panelKey].warningMessages = {}
+    onOk: function onOk(ev) {
+      if (_this8.panelSessionTable[panelKey]) {
+        _this8.panelSessionTable[panelKey].warningMessages = {}
       }
       if (ev && ev.modalInfo && ev.modalInfo.checkBoxChecked) {
-        const keyValueList = []
+        var keyValueList = []
         if (audioResettable) {
-          keyValueList.push({ key: 'audioSource', value: '' })
+          keyValueList.push({
+            key: 'audioSource',
+            value: '',
+          })
         }
         if (videoResettable) {
-          keyValueList.push({ key: 'videoSource', value: '' })
+          keyValueList.push({
+            key: 'videoSource',
+            value: '',
+          })
         }
-        this.ucUiAction.setLocalStoragePreference({
+        _this8.ucUiAction.setLocalStoragePreference({
           keyValueList: keyValueList,
         })
-        this.setPhoneDefaultOptions()
+        _this8.setPhoneDefaultOptions()
       }
     },
   })
@@ -1056,24 +1295,24 @@ uiData.prototype.loadLanguage = function () {
   if (!this.configurations.languageLoadable) {
     return
   }
-  const settings = this.ucUiStore.getChatClient().getSettings()
-  const configProperties = this.ucUiStore.getConfigProperties()
-  const languageSetting = string(
+  var settings = this.ucUiStore.getChatClient().getSettings()
+  var configProperties = this.ucUiStore.getConfigProperties()
+  var languageSetting = (0, _strings.string)(
     configProperties.optional_config &&
       configProperties.optional_config.language_setting,
   )
-  const userLanguage =
+  var userLanguage =
     languageSetting === 'user'
-      ? string(
+      ? (0, _strings.string)(
           settings.optional_settings &&
             settings.optional_settings.user_language,
         )
       : languageSetting
-  let lang
+  var lang
   if (!userLanguage || userLanguage === 'auto') {
     if (typeof navigator !== 'undefined') {
       lang = (
-        string(
+        (0, _strings.string)(
           navigator.browserLanguage ||
             navigator.language ||
             navigator.userLanguage,
@@ -1088,12 +1327,12 @@ uiData.prototype.loadLanguage = function () {
   if (lang === 'en') {
     lang = 'default'
   }
-  uawMsgs.loadLanguage(lang, this.render.bind(this))
+  _uawmsgs.default.loadLanguage(lang, this.render.bind(this))
   // save to exos for ChatReport
   this.ucUiStore.getChatClient().setExosProperty('current_lang', lang)
   // save to localStorage for ucindex
   try {
-    RnAsyncStorage.setItem('UC.ucindex.lang', lang)
+    _asyncStorage.default.setItem('UC.ucindex.lang', lang)
   } catch (ex) {
     this.ucUiStore
       .getLogger()
@@ -1113,6 +1352,7 @@ uiData.prototype.getAgentComponentInstance = function () {
 
 //
 uiData.prototype.startupPhone = function () {
+  var _this9 = this
   this.phoneWillRestart = false
   if (!this.phone) {
     this.ucUiStore.getLogger().log('info', 'empty phone')
@@ -1138,14 +1378,16 @@ uiData.prototype.startupPhone = function () {
     return
   }
   if (
-    this.ucUiStore.getLocalStoragePreference({ keyList: ['webRTCDisabled'] })[0]
+    this.ucUiStore.getLocalStoragePreference({
+      keyList: ['webRTCDisabled'],
+    })[0]
   ) {
     this.ucUiStore.getLogger().log('info', 'webRTCDisabled')
     return
   }
   if (
     this.ucUiStore.getChatClient().getProfile().user_type ===
-    Constants.USER_TYPE_SYSTEM_ADMIN
+    _constants.default.USER_TYPE_SYSTEM_ADMIN
   ) {
     this.ucUiStore
       .getLogger()
@@ -1153,28 +1395,34 @@ uiData.prototype.startupPhone = function () {
     return
   }
   this.phoneIsActive = true
-
   this.registerPhone(
     false,
     this.showModal.bind(this, {
       // onPermanentlyUnavailable
-      title: uawMsgs.CMN_ALERT,
+      title: _uawmsgs.default.CMN_ALERT,
       message:
-        uawMsgs.MSG_WEBRTC_UNAVAILABLE_1 +
+        _uawmsgs.default.MSG_WEBRTC_UNAVAILABLE_1 +
         '\n' +
-        uawMsgs.MSG_WEBRTC_UNAVAILABLE_2,
+        _uawmsgs.default.MSG_WEBRTC_UNAVAILABLE_2,
       cancelable: true,
       thirdButton: true,
-      okCaption: uawMsgs.LBL_WEBRTC_UNAVAILABLE_YES,
-      cancelCaption: uawMsgs.LBL_WEBRTC_UNAVAILABLE_NO,
-      thirdButtonCaption: uawMsgs.LBL_WEBRTC_UNAVAILABLE_NEVER,
-      onOk: this.registerPhone.bind(this, true, null), // retry registration (force to add phone id)
-      onCancel: this.registerPhone.bind(this, false, null), // retry registration
-      onThirdButton: ev => {
-        this.ucUiAction.setLocalStoragePreference({
-          keyValueList: [{ key: 'webRTCDisabled', value: 'true' }],
+      okCaption: _uawmsgs.default.LBL_WEBRTC_UNAVAILABLE_YES,
+      cancelCaption: _uawmsgs.default.LBL_WEBRTC_UNAVAILABLE_NO,
+      thirdButtonCaption: _uawmsgs.default.LBL_WEBRTC_UNAVAILABLE_NEVER,
+      onOk: this.registerPhone.bind(this, true, null),
+      // retry registration (force to add phone id)
+      onCancel: this.registerPhone.bind(this, false, null),
+      // retry registration
+      onThirdButton: function onThirdButton(ev) {
+        _this9.ucUiAction.setLocalStoragePreference({
+          keyValueList: [
+            {
+              key: 'webRTCDisabled',
+              value: 'true',
+            },
+          ],
         })
-        this.shutdownPhone()
+        _this9.shutdownPhone()
       },
     }),
   )
@@ -1193,6 +1441,7 @@ uiData.prototype.shutdownPhone = function () {
 
 //
 uiData.prototype.registerPhone = function (force, onPermanentlyUnavailable) {
+  var _this0 = this
   if (!this.phone) {
     this.ucUiStore.getLogger().log('info', 'empty phone')
     return
@@ -1215,79 +1464,85 @@ uiData.prototype.registerPhone = function (force, onPermanentlyUnavailable) {
   }
   this.phonePropertiesLoading = true
   this.ucUiStore.getChatClient().loadPhoneProperties(
-    { force: force },
-    ev => {
-      this.phonePropertiesLoading = false
-      if (!this.phoneIsActive) {
-        this.ucUiStore.getLogger().log('info', 'phone is inactive')
+    {
+      force: force,
+    },
+    function (ev) {
+      _this0.phonePropertiesLoading = false
+      if (!_this0.phoneIsActive) {
+        _this0.ucUiStore.getLogger().log('info', 'phone is inactive')
         return
       }
-      if (this.phone.getPhoneStatus() !== 'stopped') {
-        this.ucUiStore
+      if (_this0.phone.getPhoneStatus() !== 'stopped') {
+        _this0.ucUiStore
           .getLogger()
-          .log('info', 'phoneStatus is ' + this.phone.getPhoneStatus())
+          .log('info', 'phoneStatus is ' + _this0.phone.getPhoneStatus())
         return
       }
       if (ev.phone_prop) {
-        let phone_prop = {}
+        var phone_prop = {}
         try {
           phone_prop = JSON.parse(ev.phone_prop) || {}
-          Object.keys(phone_prop).forEach(k => (this.phone[k] = phone_prop[k]))
+          Object.keys(phone_prop).forEach(function (k) {
+            return (_this0.phone[k] = phone_prop[k])
+          })
         } catch (ex) {
-          this.ucUiStore.getLogger().log('warn', ex)
+          _this0.ucUiStore.getLogger().log('warn', ex)
         }
       }
-      const webRTCTypeOptions = this.setPhoneDefaultOptions()
-      const configuration = webRTCTypeOptions.configuration || {}
+      var webRTCTypeOptions = _this0.setPhoneDefaultOptions()
+      var configuration = webRTCTypeOptions.configuration || {}
       try {
         configuration.host =
-          string(ev.sip_host) ||
-          new URL(this.ucUiStore.getSignInOption().url).hostname
+          (0, _strings.string)(ev.sip_host) ||
+          new URL(_this0.ucUiStore.getSignInOption().url).hostname
       } catch (ex) {
-        this.ucUiStore.getLogger().log('warn', ex)
+        _this0.ucUiStore.getLogger().log('warn', ex)
       }
       configuration.tls = !(
-        this.ownerDocument.defaultView &&
-        this.ownerDocument.defaultView.location &&
-        this.ownerDocument.defaultView.location.protocol === 'http:'
+        _this0.ownerDocument.defaultView &&
+        _this0.ownerDocument.defaultView.location &&
+        _this0.ownerDocument.defaultView.location.protocol === 'http:'
       )
-      configuration.port = int(
+      configuration.port = (0, _strings.int)(
         configuration.tls ? ev.sip_wss_port : ev.sip_ws_port,
       )
-      configuration.user = string(ev.pnumber)
-      configuration.password = string(ev.password)
-      configuration.auth = string(ev.authorization)
+      configuration.user = (0, _strings.string)(ev.pnumber)
+      configuration.password = (0, _strings.string)(ev.password)
+      configuration.auth = (0, _strings.string)(ev.authorization)
       configuration.useVideoClient = true
-      configuration.register_expires = int(ev.register_expires)
-      configuration.userAgent = string(ev.user_agent)
+      configuration.register_expires = (0, _strings.int)(ev.register_expires)
+      configuration.userAgent = (0, _strings.string)(ev.user_agent)
       if (
         typeof configuration.socketKeepAlive === 'undefined' &&
-        typeof this.configurations.socketKeepAlive !== 'undefined'
+        typeof _this0.configurations.socketKeepAlive !== 'undefined'
       ) {
-        configuration.socketKeepAlive = int(this.configurations.socketKeepAlive)
+        configuration.socketKeepAlive = (0, _strings.int)(
+          _this0.configurations.socketKeepAlive,
+        )
       }
       try {
-        this.phone.startWebRTC(configuration)
+        _this0.phone.startWebRTC(configuration)
       } catch (ex) {
-        this.ucUiStore.getLogger().log('warn', ex)
+        _this0.ucUiStore.getLogger().log('warn', ex)
         // retry registration
         setTimeout(
-          this.registerPhone.bind(this, false, null),
-          (this.phoneRegisterDelay = Math.min(
-            (this.phoneRegisterDelay + 500) * 2,
+          _this0.registerPhone.bind(_this0, false, null),
+          (_this0.phoneRegisterDelay = Math.min(
+            (_this0.phoneRegisterDelay + 500) * 2,
             300000,
           )),
         )
-        this.ucUiStore
+        _this0.ucUiStore
           .getLogger()
           .log(
             'info',
-            'retrying registration in ' + this.phoneRegisterDelay + 'ms',
+            'retrying registration in ' + _this0.phoneRegisterDelay + 'ms',
           )
       }
     },
-    ev => {
-      this.ucUiStore
+    function (ev) {
+      _this0.ucUiStore
         .getLogger()
         .log(
           'warn',
@@ -1296,9 +1551,9 @@ uiData.prototype.registerPhone = function (force, onPermanentlyUnavailable) {
             ', message=' +
             ev.message,
         )
-      this.phonePropertiesLoading = false
-      if (!this.phoneIsActive) {
-        this.ucUiStore.getLogger().log('info', 'phone is inactive')
+      _this0.phonePropertiesLoading = false
+      if (!_this0.phoneIsActive) {
+        _this0.ucUiStore.getLogger().log('info', 'phone is inactive')
         return
       }
       if (
@@ -1309,17 +1564,17 @@ uiData.prototype.registerPhone = function (force, onPermanentlyUnavailable) {
       } else {
         // retry registration
         setTimeout(
-          this.registerPhone.bind(this, false, null),
-          (this.phoneRegisterDelay = Math.min(
-            (this.phoneRegisterDelay + 500) * 2,
+          _this0.registerPhone.bind(_this0, false, null),
+          (_this0.phoneRegisterDelay = Math.min(
+            (_this0.phoneRegisterDelay + 500) * 2,
             300000,
           )),
         )
-        this.ucUiStore
+        _this0.ucUiStore
           .getLogger()
           .log(
             'info',
-            'retrying registration in ' + this.phoneRegisterDelay + 'ms',
+            'retrying registration in ' + _this0.phoneRegisterDelay + 'ms',
           )
       }
     },
@@ -1328,42 +1583,47 @@ uiData.prototype.registerPhone = function (force, onPermanentlyUnavailable) {
 
 //
 uiData.prototype.notifyCallStatus = function () {
-  const callStatus =
-    this.ucUiStore.getOptionalSetting({ key: 'notify_call_status' }) &&
+  var _this1 = this
+  var callStatus =
+    this.ucUiStore.getOptionalSetting({
+      key: 'notify_call_status',
+    }) &&
     this.phone &&
     this.phone.getSessionCount() >= 1
       ? 1
       : 0
-  const conferenceStatus = int(
-    this.ucUiStore.getOptionalSetting({ key: 'notify_conf_status' }) &&
-      Object.values(this.ucUiStore.getChatTable()).reduce(
-        (accumulator, currentValue) => {
-          const chatHeaderInfo = this.ucUiStore.getChatHeaderInfo(currentValue)
-          const conference =
-            chatHeaderInfo.conf_id &&
-            this.ucUiStore.getChatClient().getConference(chatHeaderInfo.conf_id)
-          if (
-            conference &&
-            conference.conf_status === Constants.CONF_STATUS_JOINED &&
-            conference.user.filter(
-              u => u.conf_status === Constants.CONF_STATUS_JOINED,
-            ).length >= 2
-          ) {
-            return accumulator + (conference.conf_type === 'webchat' ? 100 : 1)
-          } else {
-            return accumulator
-          }
-        },
-        0,
-      ),
+  var conferenceStatus = (0, _strings.int)(
+    this.ucUiStore.getOptionalSetting({
+      key: 'notify_conf_status',
+    }) &&
+      Object.values(this.ucUiStore.getChatTable()).reduce(function (
+        accumulator,
+        currentValue,
+      ) {
+        var chatHeaderInfo = _this1.ucUiStore.getChatHeaderInfo(currentValue)
+        var conference =
+          chatHeaderInfo.conf_id &&
+          _this1.ucUiStore.getChatClient().getConference(chatHeaderInfo.conf_id)
+        if (
+          conference &&
+          conference.conf_status === _constants.default.CONF_STATUS_JOINED &&
+          conference.user.filter(function (u) {
+            return u.conf_status === _constants.default.CONF_STATUS_JOINED
+          }).length >= 2
+        ) {
+          return accumulator + (conference.conf_type === 'webchat' ? 100 : 1)
+        } else {
+          return accumulator
+        }
+      }, 0),
   )
-  const statusOrg = this.ucUiStore.getChatClient().getStatus()
-  const callStatusOrg = int(
+  var statusOrg = this.ucUiStore.getChatClient().getStatus()
+  var callStatusOrg = (0, _strings.int)(
     statusOrg &&
       statusOrg.ui_customized_status &&
       statusOrg.ui_customized_status.callStatus,
   )
-  const conferenceStatusOrg = int(
+  var conferenceStatusOrg = (0, _strings.int)(
     statusOrg &&
       statusOrg.ui_customized_status &&
       statusOrg.ui_customized_status.conferenceStatus,
@@ -1372,18 +1632,20 @@ uiData.prototype.notifyCallStatus = function () {
     callStatus !== callStatusOrg ||
     conferenceStatus !== conferenceStatusOrg
   ) {
-    const ui_customized_status = statusOrg.ui_customized_status || {}
+    var ui_customized_status = statusOrg.ui_customized_status || {}
     ui_customized_status.callStatus = callStatus
     ui_customized_status.conferenceStatus = conferenceStatus
-    this.ucUiAction.changeStatus({ ui_customized_status: ui_customized_status })
+    this.ucUiAction.changeStatus({
+      ui_customized_status: ui_customized_status,
+    })
   }
 }
 
 //
 uiData.prototype.makeCall = function (panelType, panelCode, isVideo, isScreen) {
-  const panelKey = panelType + '_' + panelCode
-  const profile = this.ucUiStore.getChatClient().getProfile()
-  const dontMakeVideo = new RegExp(
+  var panelKey = panelType + '_' + panelCode
+  var profile = this.ucUiStore.getChatClient().getProfile()
+  var dontMakeVideo = new RegExp(
     '^' +
       this.ucUiStore.getLocalStoragePreference({
         keyList: ['noVideoMode'],
@@ -1405,9 +1667,9 @@ uiData.prototype.makeCall = function (panelType, panelCode, isVideo, isScreen) {
     this.ucUiStore.getLogger().log('warn', 'already calling')
     return
   }
-  let target
+  var target
   if (panelType === 'CHAT') {
-    let buddy
+    var buddy
     try {
       buddy = JSON.parse(panelCode) || {}
     } catch (ex) {
@@ -1422,10 +1684,10 @@ uiData.prototype.makeCall = function (panelType, panelCode, isVideo, isScreen) {
         .log('warn', 'cannot call to buddy of tenant=' + buddy.tenant)
       return
     }
-    target = string(buddy.user_id)
+    target = (0, _strings.string)(buddy.user_id)
   } else if (panelType === 'CONFERENCE') {
-    const conference = this.ucUiStore.getChatClient().getConference(
-      string(
+    var conference = this.ucUiStore.getChatClient().getConference(
+      (0, _strings.string)(
         this.ucUiStore.getChatHeaderInfo({
           chatType: panelType,
           chatCode: panelCode,
@@ -1433,12 +1695,12 @@ uiData.prototype.makeCall = function (panelType, panelCode, isVideo, isScreen) {
       ),
     )
     if (conference.webchatinfo && conference.webchatinfo.call_target) {
-      target = string(conference.webchatinfo.call_target)
+      target = (0, _strings.string)(conference.webchatinfo.call_target)
     } else {
-      target = string(conference.conf_ext)
+      target = (0, _strings.string)(conference.conf_ext)
     }
   } else if (panelType === 'EXTERNALCALL') {
-    target = string(panelCode)
+    target = (0, _strings.string)(panelCode)
   }
   if (!target) {
     this.ucUiStore.getLogger().log('warn', 'empty target')
@@ -1461,15 +1723,17 @@ uiData.prototype.makeCall = function (panelType, panelCode, isVideo, isScreen) {
     null,
     isVideo,
     this.getVideoOptions(panelKey),
-    JSON.stringify({ soundOnly: !Boolean(isVideo) }),
+    JSON.stringify({
+      soundOnly: !Boolean(isVideo),
+    }),
   )
 }
 
 //
 uiData.prototype.getVideoOptions = function (panelKey) {
-  const isVideo = (this.panelSessionTable[panelKey] || {}).isVideo
-  const isScreen = (this.panelSessionTable[panelKey] || {}).isScreen
-  const videoOptions = {
+  var isVideo = (this.panelSessionTable[panelKey] || {}).isVideo
+  var isScreen = (this.panelSessionTable[panelKey] || {}).isScreen
+  var videoOptions = {
     call: Object.assign(
       {},
       this.phone &&
@@ -1493,7 +1757,7 @@ uiData.prototype.getVideoOptions = function (panelKey) {
       keyList: ['videoSource'],
     })[0] === 'sound_only'
   ) {
-    let canvasSoundOnly = this.ownerDocument.querySelector('canvas.brSoundOnly')
+    var canvasSoundOnly = this.ownerDocument.querySelector('canvas.brSoundOnly')
     if (!canvasSoundOnly) {
       canvasSoundOnly = this.ownerDocument.createElement('canvas')
       canvasSoundOnly.className = 'brSoundOnly'
@@ -1503,7 +1767,7 @@ uiData.prototype.getVideoOptions = function (panelKey) {
       this.ownerDocument.body.appendChild(canvasSoundOnly)
     }
     if (!this.soundOnlyStream) {
-      const context = canvasSoundOnly.getContext('2d')
+      var context = canvasSoundOnly.getContext('2d')
       context.fillStyle = '#041008'
       context.fillRect(0, 0, 80, 60)
       this.soundOnlyStream = canvasSoundOnly.captureStream(0)
@@ -1516,10 +1780,12 @@ uiData.prototype.getVideoOptions = function (panelKey) {
 
 //
 uiData.prototype.sendDTMF = function (tones, sessionId, options) {
-  let defaultOptions = undefined
+  var defaultOptions = undefined
   try {
     defaultOptions = JSON.parse(
-      this.ucUiStore.getOptionalSetting({ key: ['send_dtmf_options'] }),
+      this.ucUiStore.getOptionalSetting({
+        key: ['send_dtmf_options'],
+      }),
     )
   } catch (ex) {}
   if (defaultOptions) {
@@ -1534,28 +1800,32 @@ uiData.prototype.sendDTMF = function (tones, sessionId, options) {
 
 //
 uiData.prototype.setPhoneDefaultOptions = function () {
-  const configProperties = this.ucUiStore.getConfigProperties()
+  var configProperties = this.ucUiStore.getConfigProperties()
   // get preference
-  const localStoragePreference = this.ucUiStore.getLocalStoragePreference({
+  var localStoragePreference = this.ucUiStore.getLocalStoragePreference({
     keyList: ['webRTCTypeName', 'audioSource', 'videoSource'],
   })
-  let webRTCTypeName = string(localStoragePreference[0])
-  const audioSource = string(localStoragePreference[1])
-  const videoSource = string(localStoragePreference[2])
+  var webRTCTypeName = (0, _strings.string)(localStoragePreference[0])
+  var audioSource = (0, _strings.string)(localStoragePreference[1])
+  var videoSource = (0, _strings.string)(localStoragePreference[2])
   // get webrtc type name
   if (
     !webRTCTypeName ||
     (configProperties.optional_config &&
       configProperties.optional_config.webrtc_type_name_locked)
   ) {
-    webRTCTypeName = string(
-      this.ucUiStore.getOptionalSetting({ key: 'webrtc_type_name' }),
+    webRTCTypeName = (0, _strings.string)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'webrtc_type_name',
+      }),
     )
   }
   // get webrtc type options
-  let webRTCTypeOptions = {}
-  const webRTCTypes = this.getWebRTCTypes()
-  const webRTCType = webRTCTypes.find(type => type.name === webRTCTypeName)
+  var webRTCTypeOptions = {}
+  var webRTCTypes = this.getWebRTCTypes()
+  var webRTCType = webRTCTypes.find(function (type) {
+    return type.name === webRTCTypeName
+  })
   if (webRTCType) {
     try {
       webRTCTypeOptions = JSON.parse(webRTCType.options) || {}
@@ -1568,7 +1838,7 @@ uiData.prototype.setPhoneDefaultOptions = function () {
     return webRTCTypeOptions
   }
   // set default call options
-  const callOptions = webRTCTypeOptions.callOptions || {}
+  var callOptions = webRTCTypeOptions.callOptions || {}
   this.phone.setDefaultCallOptions(callOptions)
   // set deviceId
   if (!this.phone.defaultOptions) {
@@ -1586,7 +1856,7 @@ uiData.prototype.setPhoneDefaultOptions = function () {
   if (audioSource) {
     if (
       !this.phone.defaultOptions.main.call.mediaConstraints.audio ||
-      typeof this.phone.defaultOptions.main.call.mediaConstraints.audio !==
+      _typeof(this.phone.defaultOptions.main.call.mediaConstraints.audio) !==
         'object'
     ) {
       this.phone.defaultOptions.main.call.mediaConstraints.audio = {}
@@ -1611,7 +1881,7 @@ uiData.prototype.setPhoneDefaultOptions = function () {
   if (audioSource) {
     if (
       !this.phone.defaultOptions.main.answer.mediaConstraints.audio ||
-      typeof this.phone.defaultOptions.main.answer.mediaConstraints.audio !==
+      _typeof(this.phone.defaultOptions.main.answer.mediaConstraints.audio) !==
         'object'
     ) {
       this.phone.defaultOptions.main.answer.mediaConstraints.audio = {}
@@ -1640,8 +1910,9 @@ uiData.prototype.setPhoneDefaultOptions = function () {
   if (videoSource && videoSource !== 'sound_only') {
     if (
       !this.phone.defaultOptions.videoOptions.call.mediaConstraints.video ||
-      typeof this.phone.defaultOptions.videoOptions.call.mediaConstraints
-        .video !== 'object'
+      _typeof(
+        this.phone.defaultOptions.videoOptions.call.mediaConstraints.video,
+      ) !== 'object'
     ) {
       this.phone.defaultOptions.videoOptions.call.mediaConstraints.video = {}
     }
@@ -1667,8 +1938,9 @@ uiData.prototype.setPhoneDefaultOptions = function () {
   if (videoSource && videoSource !== 'sound_only') {
     if (
       !this.phone.defaultOptions.videoOptions.answer.mediaConstraints.video ||
-      typeof this.phone.defaultOptions.videoOptions.answer.mediaConstraints
-        .video !== 'object'
+      _typeof(
+        this.phone.defaultOptions.videoOptions.answer.mediaConstraints.video,
+      ) !== 'object'
     ) {
       this.phone.defaultOptions.videoOptions.answer.mediaConstraints.video = {}
     }
@@ -1691,8 +1963,8 @@ uiData.prototype.setPhoneDefaultOptions = function () {
 
 //
 uiData.prototype.getWebRTCTypes = function () {
-  const configProperties = this.ucUiStore.getConfigProperties()
-  let webRTCTypes = []
+  var configProperties = this.ucUiStore.getConfigProperties()
+  var webRTCTypes = []
   try {
     webRTCTypes =
       (configProperties.optional_config &&
@@ -1707,30 +1979,40 @@ uiData.prototype.getWebRTCTypes = function () {
 
 //
 uiData.prototype.getlampTypeOptions = function () {
-  let lampTypeName
+  var lampTypeName
   if (
     this.preferenceWorkTable['static'] &&
     this.preferenceWorkTable['static'].lampTypeTestingNow
   ) {
-    lampTypeName = string(this.preferenceWorkTable['static'].lampTypeName)
+    lampTypeName = (0, _strings.string)(
+      this.preferenceWorkTable['static'].lampTypeName,
+    )
   } else {
-    lampTypeName = string(
+    lampTypeName = (0, _strings.string)(
       this.ucUiStore.getLocalStoragePreference({
         keyList: ['lampTypeName'],
       })[0],
     )
-    if (this.ucUiStore.getOptionalSetting({ key: 'status_options_enabled' })) {
-      const statusOptions =
-        this.ucUiStore.getOptionalSetting({ key: 'status_options' }) || []
-      const statusMe = this.ucUiStore.getChatClient().getStatus()
-      const statusOption = statusOptions[statusMe.status] || {}
+    if (
+      this.ucUiStore.getOptionalSetting({
+        key: 'status_options_enabled',
+      })
+    ) {
+      var statusOptions =
+        this.ucUiStore.getOptionalSetting({
+          key: 'status_options',
+        }) || []
+      var statusMe = this.ucUiStore.getChatClient().getStatus()
+      var statusOption = statusOptions[statusMe.status] || {}
       if (typeof statusOption.lampTypeName !== 'undefined') {
         lampTypeName = statusOption.lampTypeName
       }
     }
   }
-  const lampTypes = this.getlampTypes()
-  const lampType = lampTypes.find(type => type.name === lampTypeName)
+  var lampTypes = this.getlampTypes()
+  var lampType = lampTypes.find(function (type) {
+    return type.name === lampTypeName
+  })
   if (lampType) {
     try {
       return JSON.parse(lampType.options) || {}
@@ -1743,8 +2025,8 @@ uiData.prototype.getlampTypeOptions = function () {
 
 //
 uiData.prototype.getlampTypes = function () {
-  const configProperties = this.ucUiStore.getConfigProperties()
-  let types = []
+  var configProperties = this.ucUiStore.getConfigProperties()
+  var types = []
   try {
     types =
       (configProperties.optional_config &&
@@ -1764,7 +2046,6 @@ uiData.prototype.getlampTypes = function () {
   })
   return types
 }
-
 uiData.prototype.sendTextFromEditor = function (
   panelType,
   panelCode,
@@ -1772,16 +2053,19 @@ uiData.prototype.sendTextFromEditor = function (
   subjectTextBox,
   isEmail,
 ) {
+  var _this10 = this
   if (editorTextarea && editorTextarea.getValue()) {
-    let text = string(editorTextarea.getValue())
-    let isRichText = false
+    var text = (0, _strings.string)(editorTextarea.getValue())
+    var isRichText = false
     if (text.substring(0, '/html '.length) === '/html ') {
       text = text.substring('/html '.length)
       isRichText = true
     }
-    const subject = string(subjectTextBox && subjectTextBox.getValue())
-    const sendTextFuncInner = () => {
-      this.ucUiAction.sendText({
+    var subject = (0, _strings.string)(
+      subjectTextBox && subjectTextBox.getValue(),
+    )
+    var sendTextFuncInner = function sendTextFuncInner() {
+      _this10.ucUiAction.sendText({
         chatType: panelType,
         chatCode: panelCode,
         text: text,
@@ -1789,26 +2073,26 @@ uiData.prototype.sendTextFromEditor = function (
       })
       editorTextarea.setValue('')
       editorTextarea.focus()
-      this.render()
+      _this10.render()
     }
-    const sendTextFunc =
+    var sendTextFunc =
       isEmail && panelType === 'CONFERENCE' && subject
-        ? () => {
-            const chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
+        ? function () {
+            var chatHeaderInfo = _this10.ucUiStore.getChatHeaderInfo({
               chatType: panelType,
               chatCode: panelCode,
             })
-            this.ucUiStore.getChatClient().updateTag(
+            _this10.ucUiStore.getChatClient().updateTag(
               {
                 attached_type: 'conf',
-                attached_id: string(chatHeaderInfo.conf_id),
-                yyyymm: string(chatHeaderInfo.yyyymm),
+                attached_id: (0, _strings.string)(chatHeaderInfo.conf_id),
+                yyyymm: (0, _strings.string)(chatHeaderInfo.yyyymm),
                 adds: [
                   {
                     tag_key: '_outgoing_email_subject',
                     tag_value: subject,
                     tag_type: '_conftag',
-                    permission: Constants.USER_TYPE_TENANT_GUEST,
+                    permission: _constants.default.USER_TYPE_TENANT_GUEST,
                   },
                 ],
               },
@@ -1817,10 +2101,14 @@ uiData.prototype.sendTextFromEditor = function (
             )
           }
         : sendTextFuncInner
-    if (this.ucUiStore.getOptionalSetting({ key: 'sending_confirmation' })) {
+    if (
+      this.ucUiStore.getOptionalSetting({
+        key: 'sending_confirmation',
+      })
+    ) {
       this.showModal({
-        title: uawMsgs.MSG_SEND_TEXT_CONFIRM_TITLE,
-        message: uawMsgs.MSG_SEND_TEXT_CONFIRM,
+        title: _uawmsgs.default.MSG_SEND_TEXT_CONFIRM_TITLE,
+        message: _uawmsgs.default.MSG_SEND_TEXT_CONFIRM,
         cancelable: true,
         onOk: sendTextFunc,
         onCancel: editorTextarea.focus.bind(editorTextarea),
@@ -1830,7 +2118,6 @@ uiData.prototype.sendTextFromEditor = function (
     }
   }
 }
-
 uiData.prototype.replyContinuation = function (
   yyyymm,
   conf_id,
@@ -1839,42 +2126,43 @@ uiData.prototype.replyContinuation = function (
   invitesSoon,
   nextWebchatTags,
 ) {
-  return new Promise((resolve, reject) => {
-    const profile = this.ucUiStore.getChatClient().getProfile()
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
+  var _this11 = this
+  return new Promise(function (resolve, reject) {
+    var profile = _this11.ucUiStore.getChatClient().getProfile()
+    var conference = _this11.ucUiStore.getChatClient().getConference(conf_id)
 
     // update tag of next distribution
-    const adds = [
+    var adds = [
       {
         tag_key: 'replyingCode',
         tag_value: profile.user_id,
         tag_type: '_webchat',
-        permission: Constants.USER_TYPE_TENANT_USER,
+        permission: _constants.default.USER_TYPE_TENANT_USER,
         unoverwritable: '_FOR_REPLYING_CODE',
       },
       {
         tag_key: 'nextDistributionType',
         tag_value: '0',
         tag_type: '_webchat',
-        permission: Constants.USER_TYPE_TENANT_USER,
+        permission: _constants.default.USER_TYPE_TENANT_USER,
       },
       {
         tag_key: 'nextDistributionTarget',
         tag_value: profile.user_id,
         tag_type: '_webchat',
-        permission: Constants.USER_TYPE_TENANT_USER,
+        permission: _constants.default.USER_TYPE_TENANT_USER,
       },
       {
         tag_key: 'nextWebchatTags',
         tag_value: JSON.stringify(nextWebchatTags || []),
         tag_type: '_webchat',
-        permission: Constants.USER_TYPE_TENANT_USER,
+        permission: _constants.default.USER_TYPE_TENANT_USER,
       },
       {
         tag_key: 'selectedReplyType',
         tag_value: replyType,
         tag_type: '_webchat',
-        permission: Constants.USER_TYPE_TENANT_USER,
+        permission: _constants.default.USER_TYPE_TENANT_USER,
       },
     ]
     if (!originalWebchatId) {
@@ -1882,16 +2170,16 @@ uiData.prototype.replyContinuation = function (
         tag_key: '_originalWebchatId',
         tag_value: yyyymm + '_' + conf_id,
         tag_type: '_relation',
-        permission: Constants.USER_TYPE_TENANT_USER,
+        permission: _constants.default.USER_TYPE_TENANT_USER,
       })
       adds.push({
         tag_key: '_originalWebchatId',
         tag_value: yyyymm + '_' + conf_id,
         tag_type: '_relationOrigin',
-        permission: Constants.USER_TYPE_TENANT_USER,
+        permission: _constants.default.USER_TYPE_TENANT_USER,
       })
     }
-    this.ucUiStore.getChatClient().updateTag(
+    _this11.ucUiStore.getChatClient().updateTag(
       {
         attached_type: 'conf',
         attached_id: conf_id,
@@ -1899,14 +2187,16 @@ uiData.prototype.replyContinuation = function (
         adds: adds,
         removes: [],
       },
-      ev => {
+      function (ev) {
         if (!ev.warnings) {
           if (!invitesSoon) {
-            const panelCode = string(
-              this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+            var panelCode = (0, _strings.string)(
+              _this11.ucUiStore.getChatCodeByConfId({
+                conf_id: conf_id,
+              }).chatCode,
             )
             // store selected reply type
-            this.ucUiAction.selectReplyType({
+            _this11.ucUiAction.selectReplyType({
               chatType: 'CONFERENCE',
               chatCode: panelCode,
               replyType: replyType,
@@ -1915,30 +2205,37 @@ uiData.prototype.replyContinuation = function (
             })
 
             // show conference panel
-            this.updateTab({
-              open: { panelType: 'CONFERENCE', panelCode: panelCode },
+            _this11.updateTab({
+              open: {
+                panelType: 'CONFERENCE',
+                panelCode: panelCode,
+              },
               select: {
                 panelType: 'CONFERENCE',
-                panelCode: string(
-                  this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id })
-                    .chatCode,
+                panelCode: (0, _strings.string)(
+                  _this11.ucUiStore.getChatCodeByConfId({
+                    conf_id: conf_id,
+                  }).chatCode,
                 ),
               },
             })
           }
-
           if (replyType === '' || invitesSoon) {
             // publish continuation code
-            const continuation_code = this.ucUiStore
+            var continuation_code = _this11.ucUiStore
               .getChatClient()
-              .publishContinuationCode({ yyyymm: yyyymm, conf_id: conf_id })
-            this.ucUiStore
+              .publishContinuationCode({
+                yyyymm: yyyymm,
+                conf_id: conf_id,
+              })
+            _this11.ucUiStore
               .getLogger()
               .log('debug', 'published continuation_code=' + continuation_code)
             if (replyType === '') {
               // show continuation code
-              this.showModal({
-                title: uawMsgs.MSG_REPLY_MANUAL_CONTINUATION_DIALOG_TITLE,
+              _this11.showModal({
+                title:
+                  _uawmsgs.default.MSG_REPLY_MANUAL_CONTINUATION_DIALOG_TITLE,
                 message:
                   '<input type="text" value="' +
                   continuation_code +
@@ -1948,7 +2245,7 @@ uiData.prototype.replyContinuation = function (
               resolve({})
             } else {
               // invite guest
-              this.ucUiStore.getChatClient().inviteGuest(
+              _this11.ucUiStore.getChatClient().inviteGuest(
                 {
                   conf_id: conf_id,
                   yyyymm: yyyymm,
@@ -1958,11 +2255,11 @@ uiData.prototype.replyContinuation = function (
                     agent_operation: 'reply',
                   },
                 },
-                ev => {
+                function (ev) {
                   resolve({})
                 },
-                ev => {
-                  this.ucUiStore
+                function (ev) {
+                  _this11.ucUiStore
                     .getLogger()
                     .log(
                       'warn',
@@ -1971,8 +2268,8 @@ uiData.prototype.replyContinuation = function (
                         ', message=' +
                         ev.message,
                     )
-                  this.showModal({
-                    title: uawMsgs.CMN_ALERT,
+                  _this11.showModal({
+                    title: _uawmsgs.default.CMN_ALERT,
                     message:
                       'Failed to reply.' +
                       '\n(' +
@@ -1997,15 +2294,17 @@ uiData.prototype.replyContinuation = function (
           }
         } else {
           // updateTag partially failed
-          this.ucUiStore
+          _this11.ucUiStore
             .getLogger()
             .log('warn', 'updateTag partially failed. ' + ev.warnings)
-          this.showModal({
-            title: uawMsgs.CMN_ALERT,
+          _this11.showModal({
+            title: _uawmsgs.default.CMN_ALERT,
             message:
               'Failed to reply.' +
               '\n(' +
-              (string(ev.warnings).indexOf('Cannot overwrite until ') !== -1
+              ((0, _strings.string)(ev.warnings).indexOf(
+                'Cannot overwrite until ',
+              ) !== -1
                 ? 'Being replied by another user'
                 : ev.warnings) +
               ')',
@@ -2013,9 +2312,9 @@ uiData.prototype.replyContinuation = function (
           reject(new Error('updateTag partially failed. ' + ev.warnings))
         }
       },
-      ev => {
+      function (ev) {
         // updateTag totally failed
-        this.ucUiStore
+        _this11.ucUiStore
           .getLogger()
           .log(
             'warn',
@@ -2024,8 +2323,8 @@ uiData.prototype.replyContinuation = function (
               ', message=' +
               ev.message,
           )
-        this.showModal({
-          title: uawMsgs.CMN_ALERT,
+        _this11.showModal({
+          title: _uawmsgs.default.CMN_ALERT,
           message:
             'Failed to reply.' + '\n(' + ev.code + ' ' + ev.message + ')',
         })
@@ -2044,7 +2343,7 @@ uiData.prototype.replyContinuation = function (
 
 // events from ui
 uiData.prototype.window_onfocus = function () {
-  Object.keys(this.showingNotificationTable).forEach(notificationId => {
+  Object.keys(this.showingNotificationTable).forEach(function (notificationId) {
     Brekeke.WebNotification.closeNotification({
       notificationId: notificationId,
       reason: 'window_onfocus',
@@ -2052,8 +2351,11 @@ uiData.prototype.window_onfocus = function () {
   })
   // animation
   this.startAnimation('controlstatusdisplay', 4000, false)
-  const statusMe = this.ucUiStore.getChatClient().getStatus()
-  if (statusMe.status !== Constants.STATUS_AVAILABLE || statusMe.display) {
+  var statusMe = this.ucUiStore.getChatClient().getStatus()
+  if (
+    statusMe.status !== _constants.default.STATUS_AVAILABLE ||
+    statusMe.display
+  ) {
     this.startAnimation('statusbar', 4000, false)
   }
 }
@@ -2062,7 +2364,7 @@ uiData.prototype.window_onclick = function () {
     // ignore click event immediately after resize
     this.closeAllshowingDialogs()
   }
-  Object.keys(this.showingNotificationTable).forEach(notificationId => {
+  Object.keys(this.showingNotificationTable).forEach(function (notificationId) {
     Brekeke.WebNotification.closeNotification({
       notificationId: notificationId,
       reason: 'window_onclick',
@@ -2095,7 +2397,7 @@ uiData.prototype.showingDialog_update = function () {
 uiData.prototype.widgetBody_onClick = function (ev) {}
 uiData.prototype.modalOk_onClick = function (content, ev) {
   if (this.modalInfo && this.modalInfo.onOk) {
-    const ev2 = {
+    var ev2 = {
       content: content,
       closes: true,
       modalInfo: this.modalInfo,
@@ -2110,7 +2412,7 @@ uiData.prototype.modalOk_onClick = function (content, ev) {
 }
 uiData.prototype.modalCancel_onClick = function (content, ev) {
   if (this.modalInfo && this.modalInfo.onCancel) {
-    const ev2 = {
+    var ev2 = {
       content: content,
       closes: true,
       modalInfo: this.modalInfo,
@@ -2125,7 +2427,7 @@ uiData.prototype.modalCancel_onClick = function (content, ev) {
 }
 uiData.prototype.modalThirdButton_onClick = function (content, ev) {
   if (this.modalInfo && this.modalInfo.onThirdButton) {
-    const ev2 = {
+    var ev2 = {
       content: content,
       closes: true,
       modalInfo: this.modalInfo,
@@ -2159,10 +2461,12 @@ uiData.prototype.sidebarBuddylistGroupTitle_onClick = function (groupName, ev) {
   if (!groupName) {
     return
   }
-  const buddylistOpenList = this.ucUiStore
-    .getLocalStoragePreference({ keyList: ['buddylistOpenList'] })[0]
+  var buddylistOpenList = this.ucUiStore
+    .getLocalStoragePreference({
+      keyList: ['buddylistOpenList'],
+    })[0]
     .split(',')
-  const i = buddylistOpenList.indexOf(groupName)
+  var i = buddylistOpenList.indexOf(groupName)
   if (i !== -1) {
     buddylistOpenList.splice(i, 1)
   } else {
@@ -2170,20 +2474,29 @@ uiData.prototype.sidebarBuddylistGroupTitle_onClick = function (groupName, ev) {
   }
   this.ucUiAction.setLocalStoragePreference({
     keyValueList: [
-      { key: 'buddylistOpenList', value: buddylistOpenList.join(',') },
+      {
+        key: 'buddylistOpenList',
+        value: buddylistOpenList.join(','),
+      },
     ],
   })
   this.render()
 }
 uiData.prototype.sidebarBuddylistItem_onClick = function (buddy, ev) {
-  const panelType = 'CHAT'
-  const panelCode = JSON.stringify({
+  var panelType = 'CHAT'
+  var panelCode = JSON.stringify({
     tenant: buddy.tenant,
     user_id: buddy.user_id,
   })
   this.updateTab({
-    open: { panelType: panelType, panelCode: panelCode },
-    select: { panelType: panelType, panelCode: panelCode },
+    open: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+    select: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
   })
 }
 uiData.prototype.sidebarBuddylistDndable_onDrop = function (
@@ -2196,20 +2509,20 @@ uiData.prototype.sidebarBuddylistDndable_onDrop = function (
       .log('warn', 'invalid dragSourceInfo, dropTargetInfo')
     return
   }
-  const configProperties = this.ucUiStore.getConfigProperties()
-  if (configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO) {
+  var configProperties = this.ucUiStore.getConfigProperties()
+  if (configProperties.buddy_mode === _constants.default.BUDDY_MODE_AUTO) {
     this.ucUiStore.getLogger().log('warn', 'invalid buddy_mode')
     return
   }
   // parameters
-  const dragSourceInfoType = ev.dragSourceInfo.dragSourceInfoType
-  const dragSourceInfoCode = ev.dragSourceInfo.dragSourceInfoCode
-  const dropTargetInfoType = dropTargetInfo.dropTargetInfoType
-  const dropTargetInfoCode = dropTargetInfo.dropTargetInfoCode
+  var dragSourceInfoType = ev.dragSourceInfo.dragSourceInfoType
+  var dragSourceInfoCode = ev.dragSourceInfo.dragSourceInfoCode
+  var dropTargetInfoType = dropTargetInfo.dropTargetInfoType
+  var dropTargetInfoCode = dropTargetInfo.dropTargetInfoCode
 
   // get buddylist
-  const buddylist = this.ucUiStore.getChatClient().getBuddylist()
-  const buddies = buddylist.user
+  var buddylist = this.ucUiStore.getChatClient().getBuddylist()
+  var buddies = buddylist.user
   if (!buddies || !buddies.length) {
     this.ucUiStore
       .getLogger()
@@ -2221,39 +2534,47 @@ uiData.prototype.sidebarBuddylistDndable_onDrop = function (
   }
 
   // get sourceBuddy, targetBuddy
-  let sourceIndex = -1
-  let sourceBuddy = null
-  let targetIndex = -1
-  let targetBuddy = null
-  let sourcePredicate = null
+  var sourceIndex = -1
+  var sourceBuddy = null
+  var targetIndex = -1
+  var targetBuddy = null
+  var sourcePredicate = null
   if (dragSourceInfoType === 'buddylistItem') {
     try {
-      const dragSourceInfoCodeObject = JSON.parse(dragSourceInfoCode) || {}
-      sourcePredicate = buddy =>
-        buddy &&
-        buddy.user_id &&
-        buddy.tenant === dragSourceInfoCodeObject.tenant &&
-        buddy.user_id === dragSourceInfoCodeObject.user_id
+      var dragSourceInfoCodeObject = JSON.parse(dragSourceInfoCode) || {}
+      sourcePredicate = function sourcePredicate(buddy) {
+        return (
+          buddy &&
+          buddy.user_id &&
+          buddy.tenant === dragSourceInfoCodeObject.tenant &&
+          buddy.user_id === dragSourceInfoCodeObject.user_id
+        )
+      }
     } catch (ex) {}
   } else if (dragSourceInfoType === 'buddylistGroupTitle') {
-    sourcePredicate = buddy =>
-      buddy && buddy.id && buddy.id === dragSourceInfoCode
+    sourcePredicate = function sourcePredicate(buddy) {
+      return buddy && buddy.id && buddy.id === dragSourceInfoCode
+    }
   }
-  let targetPredicate = null
+  var targetPredicate = null
   if (dropTargetInfoType === 'buddylistItem') {
     try {
-      const dropTargetInfoCodeObject = JSON.parse(dropTargetInfoCode) || {}
-      targetPredicate = buddy =>
-        buddy &&
-        buddy.user_id &&
-        buddy.tenant === dropTargetInfoCodeObject.tenant &&
-        buddy.user_id === dropTargetInfoCodeObject.user_id
+      var dropTargetInfoCodeObject = JSON.parse(dropTargetInfoCode) || {}
+      targetPredicate = function targetPredicate(buddy) {
+        return (
+          buddy &&
+          buddy.user_id &&
+          buddy.tenant === dropTargetInfoCodeObject.tenant &&
+          buddy.user_id === dropTargetInfoCodeObject.user_id
+        )
+      }
     } catch (ex) {}
   } else if (dropTargetInfoType === 'buddylistGroupTitle') {
-    targetPredicate = buddy =>
-      buddy && buddy.id && buddy.id === dropTargetInfoCode
+    targetPredicate = function targetPredicate(buddy) {
+      return buddy && buddy.id && buddy.id === dropTargetInfoCode
+    }
   }
-  buddies.forEach((buddy, index) => {
+  buddies.forEach(function (buddy, index) {
     if (sourcePredicate && sourcePredicate(buddy)) {
       sourceIndex = index
       sourcePredicate = null
@@ -2274,7 +2595,9 @@ uiData.prototype.sidebarBuddylistDndable_onDrop = function (
       dragSourceInfoType === 'buddylistItem' &&
       dropTargetInfoType === 'buddylistGroupTitle'
     ) {
-      targetBuddy = { id: '' } // root group
+      targetBuddy = {
+        id: '',
+      } // root group
     } else {
       this.ucUiStore.getLogger().log('warn', 'targetBuddy not found')
       return
@@ -2290,7 +2613,7 @@ uiData.prototype.sidebarBuddylistDndable_onDrop = function (
   ) {
     if (sourceIndex < targetIndex) {
       // drag downward
-      const newTargetIndex = targetIndex - 1 // after remove source
+      var newTargetIndex = targetIndex - 1 // after remove source
       if (sourceBuddy.group === targetBuddy.group) {
         // drag downward in the same group
         // move sourceBuddy after targetBuddy
@@ -2348,15 +2671,15 @@ uiData.prototype.sidebarBuddylistGroupRemoveDndable_onDrop = function (ev) {
     this.ucUiStore.getLogger().log('warn', 'invalid dragSourceInfo')
     return
   }
-  const configProperties = this.ucUiStore.getConfigProperties()
-  if (configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO) {
+  var configProperties = this.ucUiStore.getConfigProperties()
+  if (configProperties.buddy_mode === _constants.default.BUDDY_MODE_AUTO) {
     this.ucUiStore.getLogger().log('warn', 'invalid buddy_mode')
     return
   }
-  const id = string(ev.dragSourceInfo.dragSourceInfoCode)
+  var id = (0, _strings.string)(ev.dragSourceInfo.dragSourceInfoCode)
 
   // get buddylist
-  const buddylist = this.ucUiStore.getChatClient().getBuddylist()
+  var buddylist = this.ucUiStore.getChatClient().getBuddylist()
   if (!buddylist || !buddylist.user || !buddylist.user.length) {
     this.ucUiStore
       .getLogger()
@@ -2368,7 +2691,7 @@ uiData.prototype.sidebarBuddylistGroupRemoveDndable_onDrop = function (ev) {
   }
 
   // edit buddylist
-  for (let i = buddylist.user.length - 1; i >= 0; i--) {
+  for (var i = buddylist.user.length - 1; i >= 0; i--) {
     if (buddylist.user[i].id === id) {
       buddylist.user.splice(i, 1)
     } else if (buddylist.user[i].group === id) {
@@ -2378,8 +2701,8 @@ uiData.prototype.sidebarBuddylistGroupRemoveDndable_onDrop = function (ev) {
 
   // save buddylist
   this.showModal({
-    title: uawMsgs.MSG_REMOVE_GROUP_CONFIRM_TITLE,
-    message: uawMsgs.MSG_REMOVE_GROUP_CONFIRM,
+    title: _uawmsgs.default.MSG_REMOVE_GROUP_CONFIRM_TITLE,
+    message: _uawmsgs.default.MSG_REMOVE_GROUP_CONFIRM,
     cancelable: true,
     onOk: this.ucUiStore
       .getChatClient()
@@ -2398,28 +2721,31 @@ uiData.prototype.sidebarControlProfile_onMouseEnter = function (ev) {
   this.startAnimation('controlstatusdisplay', 4000, false)
 }
 uiData.prototype.sidebarEditStatusDisplayButton_onClick = function (ev) {
+  var _this12 = this
   this.closeAllshowingDialogs()
   this.showModal({
-    title: uawMsgs.MSG_STATUS_DISPLAY_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_STATUS_DISPLAY_DIALOG_TITLE,
     contentClass: 'StatusDisplayForm',
     cancelable: true,
-    onOk: ev => {
-      const display = string(
+    onOk: function onOk(ev) {
+      var display = (0, _strings.string)(
         ev && ev.content && ev.content.state && ev.content.state.inputValue,
       )
       // change
-      this.ucUiAction.changeStatus({ display: display })
+      _this12.ucUiAction.changeStatus({
+        display: display,
+      })
       // add to history
       if (display) {
-        const MENU_ITEM_STATUS_DISPLAY_LENGTH = 10
-        const settings = this.ucUiStore.getChatClient().getSettings()
+        var MENU_ITEM_STATUS_DISPLAY_LENGTH = 10
+        var settings = _this12.ucUiStore.getChatClient().getSettings()
         if (!settings.optional_settings) {
           settings.optional_settings = {}
         }
         if (!settings.optional_settings.status_display_history) {
           settings.optional_settings.status_display_history = []
         }
-        const index =
+        var index =
           settings.optional_settings.status_display_history.indexOf(display)
         if (index !== 0) {
           if (index >= 1) {
@@ -2434,13 +2760,13 @@ uiData.prototype.sidebarEditStatusDisplayButton_onClick = function (ev) {
             // remove oldest one
             settings.optional_settings.status_display_history.pop()
           }
-          this.ucUiStore
+          _this12.ucUiStore
             .getChatClient()
             .saveProperties(null, settings, null, null, null)
         }
       }
       // animation
-      this.startAnimation('controlstatusdisplay', 4000, true)
+      _this12.startAnimation('controlstatusdisplay', 4000, true)
     },
   })
 }
@@ -2449,16 +2775,15 @@ uiData.prototype.statusDisplayUseLaterButton_onClick = function (display, ev) {
   if (!display) {
     return
   }
-  const MENU_ITEM_STATUS_DISPLAY_LENGTH = 10
-  const settings = this.ucUiStore.getChatClient().getSettings()
+  var MENU_ITEM_STATUS_DISPLAY_LENGTH = 10
+  var settings = this.ucUiStore.getChatClient().getSettings()
   if (!settings.optional_settings) {
     settings.optional_settings = {}
   }
   if (!settings.optional_settings.status_display_history) {
     settings.optional_settings.status_display_history = []
   }
-  const index =
-    settings.optional_settings.status_display_history.indexOf(display)
+  var index = settings.optional_settings.status_display_history.indexOf(display)
   if (index !== 0) {
     if (index >= 1) {
       // bring to top
@@ -2485,15 +2810,14 @@ uiData.prototype.statusDisplayItemDeleteButton_onClick = function (
   if (!display) {
     return
   }
-  const settings = this.ucUiStore.getChatClient().getSettings()
+  var settings = this.ucUiStore.getChatClient().getSettings()
   if (
     !settings.optional_settings ||
     !settings.optional_settings.status_display_history
   ) {
     return
   }
-  const index =
-    settings.optional_settings.status_display_history.indexOf(display)
+  var index = settings.optional_settings.status_display_history.indexOf(display)
   if (index === -1) {
     return
   }
@@ -2506,52 +2830,59 @@ uiData.prototype.sidebarControlProfileStatusItem_onClick = function (
   status,
   ev,
 ) {
-  this.ucUiAction.changeStatus({ status: status, display: '' })
+  this.ucUiAction.changeStatus({
+    status: status,
+    display: '',
+  })
 }
 uiData.prototype.sidebarPreferenceButton_onClick = function (ev) {
-  const panelType = 'PREFERENCE'
-  const panelCode = 'static'
+  var panelType = 'PREFERENCE'
+  var panelCode = 'static'
   if (!this.preferenceWorkTable[panelCode]) {
     // if not opened
     // load preference
     if (this.ucUiStore.getSignInStatus() !== 3) {
       this.showModal({
-        title: uawMsgs.CMN_ALERT,
-        message: uawMsgs.MSG_PREFERENCE_LOAD_FAILED,
+        title: _uawmsgs.default.CMN_ALERT,
+        message: _uawmsgs.default.MSG_PREFERENCE_LOAD_FAILED,
       })
       return
     }
-    const profile = this.ucUiStore.getChatClient().getProfile()
-    const settings = this.ucUiStore.getChatClient().getSettings()
-    const configProperties = this.ucUiStore.getConfigProperties()
-    const userMe = this.ucUiStore.getBuddyUserForUi(profile)
+    var profile = this.ucUiStore.getChatClient().getProfile()
+    var settings = this.ucUiStore.getChatClient().getSettings()
+    var configProperties = this.ucUiStore.getConfigProperties()
+    var userMe = this.ucUiStore.getBuddyUserForUi(profile)
     this.preferenceWorkTable[panelCode] = {}
     this.preferenceWorkTable[panelCode].initialStatus = settings.initial_status
     this.preferenceWorkTable[panelCode].statusOptionsEnabled = Boolean(
-      this.ucUiStore.getOptionalSetting({ key: 'status_options_enabled' }),
+      this.ucUiStore.getOptionalSetting({
+        key: 'status_options_enabled',
+      }),
     )
     this.preferenceWorkTable[panelCode].statusOptionsEnabledLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.status_options_enabled_locked,
     )
     this.preferenceWorkTable[panelCode].statusOptions =
-      this.ucUiStore.getOptionalSetting({ key: 'status_options' }) || []
+      this.ucUiStore.getOptionalSetting({
+        key: 'status_options',
+      }) || []
     this.preferenceWorkTable[panelCode].profileImageUrl =
       userMe.profile_image_url
     this.preferenceWorkTable[panelCode].profileImageUploading = false
     this.preferenceWorkTable[panelCode].profileImageTo = ''
     if (
-      string(
+      (0, _strings.string)(
         configProperties.optional_config &&
           configProperties.optional_config.language_setting,
       ) === 'user'
     ) {
-      this.preferenceWorkTable[panelCode].userLanguage = string(
+      this.preferenceWorkTable[panelCode].userLanguage = (0, _strings.string)(
         settings.optional_settings && settings.optional_settings.user_language,
       )
       this.preferenceWorkTable[panelCode].languageDisabled = false
     } else {
-      this.preferenceWorkTable[panelCode].userLanguage = string(
+      this.preferenceWorkTable[panelCode].userLanguage = (0, _strings.string)(
         configProperties.optional_config &&
           configProperties.optional_config.language_setting,
       )
@@ -2560,7 +2891,9 @@ uiData.prototype.sidebarPreferenceButton_onClick = function (ev) {
     this.preferenceWorkTable[panelCode].validLanguages =
       (configProperties.optional_config &&
         configProperties.optional_config.valid_languages &&
-        string(configProperties.optional_config.valid_languages).split(',')) ||
+        (0, _strings.string)(
+          configProperties.optional_config.valid_languages,
+        ).split(',')) ||
       []
     this.preferenceWorkTable[panelCode].loginPasswordPlaceholder = '**********'
     this.preferenceWorkTable[panelCode].loginPassword =
@@ -2570,131 +2903,179 @@ uiData.prototype.sidebarPreferenceButton_onClick = function (ev) {
     this.preferenceWorkTable[panelCode].loginPasswordLocked = !new RegExp(
       this.configurations.loginPasswordEnabledTenant || '^$',
     ).test(profile.tenant)
-    this.preferenceWorkTable[panelCode].displayName = string(
-      this.ucUiStore.getOptionalSetting({ key: 'display_name' }),
+    this.preferenceWorkTable[panelCode].displayName = (0, _strings.string)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'display_name',
+      }),
     )
     this.preferenceWorkTable[panelCode].displayNameLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.display_name_locked,
     )
-    if (string(configProperties.webchat_enabled) !== 'true') {
+    if ((0, _strings.string)(configProperties.webchat_enabled) !== 'true') {
       this.preferenceWorkTable[panelCode].displayNameLocked = true
     }
     this.preferenceWorkTable[panelCode].sendingConfirmation = Boolean(
-      this.ucUiStore.getOptionalSetting({ key: 'sending_confirmation' }),
+      this.ucUiStore.getOptionalSetting({
+        key: 'sending_confirmation',
+      }),
     )
     this.preferenceWorkTable[panelCode].sendingConfirmationLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.sending_confirmation_locked,
     )
-    this.preferenceWorkTable[panelCode].nameDisplayMode = int(
-      this.ucUiStore.getOptionalSetting({ key: 'name_display_mode' }),
+    this.preferenceWorkTable[panelCode].nameDisplayMode = (0, _strings.int)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'name_display_mode',
+      }),
     )
     this.preferenceWorkTable[panelCode].nameDisplayModeLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.name_display_mode_locked,
     )
     this.preferenceWorkTable[panelCode].notifyCallStatus = Boolean(
-      this.ucUiStore.getOptionalSetting({ key: 'notify_call_status' }),
+      this.ucUiStore.getOptionalSetting({
+        key: 'notify_call_status',
+      }),
     )
     this.preferenceWorkTable[panelCode].notifyCallStatusLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.notify_call_status_locked,
     )
     this.preferenceWorkTable[panelCode].notifyConfStatus = Boolean(
-      this.ucUiStore.getOptionalSetting({ key: 'notify_conf_status' }),
+      this.ucUiStore.getOptionalSetting({
+        key: 'notify_conf_status',
+      }),
     )
     this.preferenceWorkTable[panelCode].notifyConfStatusLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.notify_conf_status_locked,
     )
-    this.preferenceWorkTable[panelCode].dtmfShortcut = int(
-      this.ucUiStore.getOptionalSetting({ key: 'dtmf_shortcut' }),
+    this.preferenceWorkTable[panelCode].dtmfShortcut = (0, _strings.int)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'dtmf_shortcut',
+      }),
     )
     this.preferenceWorkTable[panelCode].dtmfShortcutLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.dtmf_shortcut_locked,
     )
     this.preferenceWorkTable[panelCode].displayPeriod =
-      int(this.ucUiStore.getOptionalSetting({ key: 'display_period' })) || 15
+      (0, _strings.int)(
+        this.ucUiStore.getOptionalSetting({
+          key: 'display_period',
+        }),
+      ) || 15
     this.preferenceWorkTable[panelCode].displayPeriodLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.display_period_locked,
     )
-    this.preferenceWorkTable[panelCode].chatBgColor = string(
-      this.ucUiStore.getOptionalSetting({ key: 'chat_bg_color' }),
+    this.preferenceWorkTable[panelCode].chatBgColor = (0, _strings.string)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'chat_bg_color',
+      }),
     )
     this.preferenceWorkTable[panelCode].chatBgColorLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.chat_bg_color_locked,
     )
-    this.preferenceWorkTable[panelCode].chatBgColorBk = string(
-      this.ucUiStore.getOptionalSetting({ key: 'chat_bg_color_bk' }),
+    this.preferenceWorkTable[panelCode].chatBgColorBk = (0, _strings.string)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'chat_bg_color_bk',
+      }),
     )
-    this.preferenceWorkTable[panelCode].dbgopt = string(
-      int(this.ucUiStore.getOptionalSetting({ key: 'dbgopt' })) || '',
+    this.preferenceWorkTable[panelCode].dbgopt = (0, _strings.string)(
+      (0, _strings.int)(
+        this.ucUiStore.getOptionalSetting({
+          key: 'dbgopt',
+        }),
+      ) || '',
     )
     this.preferenceWorkTable[panelCode].dbgoptLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.dbgopt_locked,
     )
     this.preferenceWorkTable[panelCode].autoSignIn = Boolean(
-      this.ucUiStore.getLocalStoragePreference({ keyList: ['autoSignIn'] })[0],
+      this.ucUiStore.getLocalStoragePreference({
+        keyList: ['autoSignIn'],
+      })[0],
     )
     this.preferenceWorkTable[panelCode].webRTCDisabled = Boolean(
       this.ucUiStore.getLocalStoragePreference({
         keyList: ['webRTCDisabled'],
       })[0],
     )
-    this.preferenceWorkTable[panelCode].tenantWebRTCTypeName = string(
-      this.ucUiStore.getOptionalSetting({ key: 'webrtc_type_name' }),
+    this.preferenceWorkTable[panelCode].tenantWebRTCTypeName = (0,
+    _strings.string)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'webrtc_type_name',
+      }),
     )
     this.preferenceWorkTable[panelCode].tenantWebRTCTypeNameLocked = Boolean(
       configProperties.optional_config &&
         configProperties.optional_config.webrtc_type_name_locked,
     )
-    this.preferenceWorkTable[panelCode].webRTCTypeName = string(
+    this.preferenceWorkTable[panelCode].webRTCTypeName = (0, _strings.string)(
       this.ucUiStore.getLocalStoragePreference({
         keyList: ['webRTCTypeName'],
       })[0],
     )
     this.preferenceWorkTable[panelCode].webRTCTypes = this.getWebRTCTypes()
-    this.preferenceWorkTable[panelCode].noVideoMode = string(
-      this.ucUiStore.getLocalStoragePreference({ keyList: ['noVideoMode'] })[0],
+    this.preferenceWorkTable[panelCode].noVideoMode = (0, _strings.string)(
+      this.ucUiStore.getLocalStoragePreference({
+        keyList: ['noVideoMode'],
+      })[0],
     )
-    this.preferenceWorkTable[panelCode].audioSource = string(
-      this.ucUiStore.getLocalStoragePreference({ keyList: ['audioSource'] })[0],
+    this.preferenceWorkTable[panelCode].audioSource = (0, _strings.string)(
+      this.ucUiStore.getLocalStoragePreference({
+        keyList: ['audioSource'],
+      })[0],
     )
-    this.preferenceWorkTable[panelCode].audioTarget = string(
-      this.ucUiStore.getLocalStoragePreference({ keyList: ['audioTarget'] })[0],
+    this.preferenceWorkTable[panelCode].audioTarget = (0, _strings.string)(
+      this.ucUiStore.getLocalStoragePreference({
+        keyList: ['audioTarget'],
+      })[0],
     )
-    this.preferenceWorkTable[panelCode].videoSource = string(
-      this.ucUiStore.getLocalStoragePreference({ keyList: ['videoSource'] })[0],
+    this.preferenceWorkTable[panelCode].videoSource = (0, _strings.string)(
+      this.ucUiStore.getLocalStoragePreference({
+        keyList: ['videoSource'],
+      })[0],
     )
-    this.preferenceWorkTable[panelCode].lampTypeName = string(
+    this.preferenceWorkTable[panelCode].lampTypeName = (0, _strings.string)(
       this.ucUiStore.getLocalStoragePreference({
         keyList: ['lampTypeName'],
       })[0],
     )
     this.preferenceWorkTable[panelCode].lampTypes = this.getlampTypes()
-    this.preferenceWorkTable[panelCode].bellAudioTarget = string(
+    this.preferenceWorkTable[panelCode].bellAudioTarget = (0, _strings.string)(
       this.ucUiStore.getLocalStoragePreference({
         keyList: ['bellAudioTarget'],
       })[0],
     )
   }
   this.updateTab({
-    open: { panelType: panelType, panelCode: panelCode },
-    select: { panelType: panelType, panelCode: panelCode },
+    open: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+    select: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
   })
 }
 uiData.prototype.sidebarHistoryButton_onClick = function (ev) {
-  const panelType = 'HISTORYSUMMARIES'
-  const panelCode = string(++this.panelCodeCounter)
+  var panelType = 'HISTORYSUMMARIES'
+  var panelCode = (0, _strings.string)(++this.panelCodeCounter)
   this.ucUiAction.setSearchConditions({
     chatType: panelType,
     chatCode: panelCode,
-    searchConditions: [{ conditionKey: '_onlyMe', conditionValue: '2' }],
+    searchConditions: [
+      {
+        conditionKey: '_onlyMe',
+        conditionValue: '2',
+      },
+    ],
   })
   this.ucUiAction.doSearch({
     chatType: panelType,
@@ -2702,23 +3083,35 @@ uiData.prototype.sidebarHistoryButton_onClick = function (ev) {
     emphasize: true,
   })
   this.updateTab({
-    open: { panelType: panelType, panelCode: panelCode },
-    select: { panelType: panelType, panelCode: panelCode },
+    open: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+    select: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
   })
 }
 uiData.prototype.sidebarWebchatRequestsButton_onClick = function (ev) {
-  const panelType = 'WEBCHATQUEUE'
-  const panelCode = 'static'
+  var panelType = 'WEBCHATQUEUE'
+  var panelCode = 'static'
   this.updateTab({
-    open: { panelType: panelType, panelCode: panelCode },
-    select: { panelType: panelType, panelCode: panelCode },
+    open: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+    select: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
   })
 }
 uiData.prototype.sidebarServerPropertiesButton_onClick = function (ev) {}
 uiData.prototype.sidebarAboutButton_onClick = function (ev) {
   this.showModal({
-    title: formatStr(
-      uawMsgs.MSG_ABOUT_DIALOG_TITLE,
+    title: (0, _strings.formatStr)(
+      _uawmsgs.default.MSG_ABOUT_DIALOG_TITLE,
       this.configurations.productName || 'UC',
     ),
     message: this.configurations.licenseInfo,
@@ -2726,11 +3119,12 @@ uiData.prototype.sidebarAboutButton_onClick = function (ev) {
   })
 }
 uiData.prototype.sidebarCreateConferenceButton_onClick = function (ev) {
+  var _this13 = this
   this.showModal({
-    title: uawMsgs.MSG_CREATE_CONFERENCE_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_CREATE_CONFERENCE_DIALOG_TITLE,
     contentClass: 'ConferenceInviteForm',
     cancelable: true,
-    onOk: ev => {
+    onOk: function onOk(ev) {
       if (
         ev &&
         ev.content &&
@@ -2738,31 +3132,36 @@ uiData.prototype.sidebarCreateConferenceButton_onClick = function (ev) {
         ev.content.state.subject &&
         ev.content.state.selectedBuddyTable
       ) {
-        this.ucUiStore
+        _this13.ucUiStore
           .getLogger()
           .log('debug', 'ev.content.state=' + JSON.stringify(ev.content.state))
-        const invite = []
-        Object.keys(ev.content.state.selectedBuddyTable).forEach(tenant => {
-          if (ev.content.state.selectedBuddyTable[tenant]) {
-            Object.keys(ev.content.state.selectedBuddyTable[tenant]).forEach(
-              user_id => {
-                if (ev.content.state.selectedBuddyTable[tenant][user_id]) {
-                  if (
-                    this.ucUiStore
-                      .getChatClient()
-                      .getBuddyStatus({ tenant: tenant, user_id: user_id })
-                      .status !== Constants.STATUS_OFFLINE
-                  ) {
-                    invite.push({ tenant: tenant, user_id: user_id })
+        var invite = []
+        Object.keys(ev.content.state.selectedBuddyTable).forEach(
+          function (tenant) {
+            if (ev.content.state.selectedBuddyTable[tenant]) {
+              Object.keys(ev.content.state.selectedBuddyTable[tenant]).forEach(
+                function (user_id) {
+                  if (ev.content.state.selectedBuddyTable[tenant][user_id]) {
+                    if (
+                      _this13.ucUiStore.getChatClient().getBuddyStatus({
+                        tenant: tenant,
+                        user_id: user_id,
+                      }).status !== _constants.default.STATUS_OFFLINE
+                    ) {
+                      invite.push({
+                        tenant: tenant,
+                        user_id: user_id,
+                      })
+                    }
                   }
-                }
-              },
-            )
-          }
-        })
+                },
+              )
+            }
+          },
+        )
         // createConference after dialog closed
         setTimeout(
-          this.ucUiAction.createConference.bind(this.ucUiAction, {
+          _this13.ucUiAction.createConference.bind(_this13.ucUiAction, {
             subject: ev.content.state.subject,
             invite: invite,
           }),
@@ -2775,11 +3174,12 @@ uiData.prototype.sidebarCreateConferenceButton_onClick = function (ev) {
   })
 }
 uiData.prototype.sidebarSendBroadcastTextButton_onClick = function (ev) {
+  var _this14 = this
   this.showModal({
-    title: uawMsgs.MSG_SEND_BROADCAST_TEXT_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_SEND_BROADCAST_TEXT_DIALOG_TITLE,
     contentClass: 'BroadcastForm',
     cancelable: true,
-    onOk: ev => {
+    onOk: function onOk(ev) {
       if (
         ev &&
         ev.content &&
@@ -2787,29 +3187,34 @@ uiData.prototype.sidebarSendBroadcastTextButton_onClick = function (ev) {
         ev.content.state.text &&
         ev.content.state.selectedBuddyTable
       ) {
-        const target = []
-        Object.keys(ev.content.state.selectedBuddyTable).forEach(tenant => {
-          if (ev.content.state.selectedBuddyTable[tenant]) {
-            Object.keys(ev.content.state.selectedBuddyTable[tenant]).forEach(
-              user_id => {
-                if (ev.content.state.selectedBuddyTable[tenant][user_id]) {
-                  target.push({ tenant: tenant, user_id: user_id })
-                }
-              },
-            )
-          }
-        })
+        var target = []
+        Object.keys(ev.content.state.selectedBuddyTable).forEach(
+          function (tenant) {
+            if (ev.content.state.selectedBuddyTable[tenant]) {
+              Object.keys(ev.content.state.selectedBuddyTable[tenant]).forEach(
+                function (user_id) {
+                  if (ev.content.state.selectedBuddyTable[tenant][user_id]) {
+                    target.push({
+                      tenant: tenant,
+                      user_id: user_id,
+                    })
+                  }
+                },
+              )
+            }
+          },
+        )
         if (target.length) {
           // sendBroadcastText after dialog closed
           setTimeout(
-            this.ucUiAction.sendBroadcastText.bind(this.ucUiAction, {
+            _this14.ucUiAction.sendBroadcastText.bind(_this14.ucUiAction, {
               target: target,
               text:
                 (ev.content.state.broadcastMark
                   ? '<span class="brBroadcastMark br_bi_icon_broadcasting_svg" title="' +
-                    uawMsgs.LBL_CHAT_BROADCAST_MARK_TOOLTIP +
+                    _uawmsgs.default.LBL_CHAT_BROADCAST_MARK_TOOLTIP +
                     '"></span>'
-                  : '') + escapeHTML(ev.content.state.text),
+                  : '') + (0, _strings.escapeHTML)(ev.content.state.text),
               isRichText: true,
             }),
             0,
@@ -2824,63 +3229,76 @@ uiData.prototype.sidebarSendBroadcastTextButton_onClick = function (ev) {
   })
 }
 uiData.prototype.sidebarExternalCallButton_onClick = function (ev) {
+  var _this15 = this
   this.showModal({
-    title: uawMsgs.MSG_EXTERNAL_CALL_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_EXTERNAL_CALL_DIALOG_TITLE,
     contentClass: 'ConfirmForm',
     contentParams: {
-      placeholder: uawMsgs.MSG_EXTERNAL_CALL_DIALOG_PLACEHOLDER,
+      placeholder: _uawmsgs.default.MSG_EXTERNAL_CALL_DIALOG_PLACEHOLDER,
       autoCapitalize: 'off',
     },
     cancelable: true,
     thirdButton: true,
     cancelByThirdButton: true,
-    okCaption: uawMsgs.LBL_EXTERNAL_CALL_DIALOG_OPEN,
-    cancelCaption: uawMsgs.LBL_EXTERNAL_CALL_DIALOG_CALL,
-    thirdButtonCaption: uawMsgs.CMN_CANCEL,
+    okCaption: _uawmsgs.default.LBL_EXTERNAL_CALL_DIALOG_OPEN,
+    cancelCaption: _uawmsgs.default.LBL_EXTERNAL_CALL_DIALOG_CALL,
+    thirdButtonCaption: _uawmsgs.default.CMN_CANCEL,
     cancelClassName: 'brVivid',
-    onOk: ev => {
-      const text = string(
+    onOk: function onOk(ev) {
+      var text = (0, _strings.string)(
         ev && ev.content && ev.content.state && ev.content.state.text,
       )
       if (text) {
-        const panelCode = text.replace(/[\(\)-]/g, '')
+        var panelCode = text.replace(/[\(\)-]/g, '')
         if (panelCode !== text) {
-          if (!this.externalCallWorkTable[panelCode]) {
-            this.externalCallWorkTable[panelCode] = {}
+          if (!_this15.externalCallWorkTable[panelCode]) {
+            _this15.externalCallWorkTable[panelCode] = {}
           }
-          this.externalCallWorkTable[panelCode].display_name = text
+          _this15.externalCallWorkTable[panelCode].display_name = text
         }
-        this.ucUiStore
+        _this15.ucUiStore
           .getLogger()
           .log('debug', 'open EXTERNALCALL call=false text=' + text)
-        this.updateTab({
-          open: { panelType: 'EXTERNALCALL', panelCode: panelCode },
-          select: { panelType: 'EXTERNALCALL', panelCode: panelCode },
+        _this15.updateTab({
+          open: {
+            panelType: 'EXTERNALCALL',
+            panelCode: panelCode,
+          },
+          select: {
+            panelType: 'EXTERNALCALL',
+            panelCode: panelCode,
+          },
         })
       } else if (ev) {
         ev.closes = false
       }
     },
-    onCancel: ev => {
-      const text = string(
+    onCancel: function onCancel(ev) {
+      var text = (0, _strings.string)(
         ev && ev.content && ev.content.state && ev.content.state.text,
       )
       if (text) {
-        const panelCode = text.replace(/[\(\)-]/g, '')
+        var panelCode = text.replace(/[\(\)-]/g, '')
         if (panelCode !== text) {
-          if (!this.externalCallWorkTable[panelCode]) {
-            this.externalCallWorkTable[panelCode] = {}
+          if (!_this15.externalCallWorkTable[panelCode]) {
+            _this15.externalCallWorkTable[panelCode] = {}
           }
-          this.externalCallWorkTable[panelCode].display_name = text
+          _this15.externalCallWorkTable[panelCode].display_name = text
         }
-        this.ucUiStore
+        _this15.ucUiStore
           .getLogger()
           .log('debug', 'open EXTERNALCALL call=true text=' + text)
-        this.updateTab({
-          open: { panelType: 'EXTERNALCALL', panelCode: panelCode },
-          select: { panelType: 'EXTERNALCALL', panelCode: panelCode },
+        _this15.updateTab({
+          open: {
+            panelType: 'EXTERNALCALL',
+            panelCode: panelCode,
+          },
+          select: {
+            panelType: 'EXTERNALCALL',
+            panelCode: panelCode,
+          },
         })
-        this.makeCall('EXTERNALCALL', panelCode, false, false)
+        _this15.makeCall('EXTERNALCALL', panelCode, false, false)
       } else if (ev) {
         ev.closes = false
       }
@@ -2888,8 +3306,9 @@ uiData.prototype.sidebarExternalCallButton_onClick = function (ev) {
   })
 }
 uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
-  const configProperties = this.ucUiStore.getConfigProperties()
-  const contentParams = {
+  var _this16 = this
+  var configProperties = this.ucUiStore.getConfigProperties()
+  var contentParams = {
     replyTypes: [],
     webchatServiceIds: {},
   }
@@ -2897,11 +3316,11 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
     (configProperties.optional_config &&
       configProperties.optional_config.awsl) ||
     []
-  ).forEach(aws => {
+  ).forEach(function (aws) {
     if (!aws.og || aws.og.disabled || !aws.senders) {
       return
     }
-    ;(aws.og.reply_types || []).forEach(replyType => {
+    ;(aws.og.reply_types || []).forEach(function (replyType) {
       if (contentParams.replyTypes.indexOf(replyType) === -1) {
         contentParams.replyTypes.push(replyType)
       }
@@ -2919,19 +3338,19 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
     )
   if (!contentParams.replyTypes.length) {
     this.showModal({
-      title: uawMsgs.CMN_ALERT,
+      title: _uawmsgs.default.CMN_ALERT,
       message: 'Failed to load the webchat service list.',
     })
     return
   }
   this.showModal({
-    title: uawMsgs.MSG_OUTGOING_WEBCHAT_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_OUTGOING_WEBCHAT_DIALOG_TITLE,
     contentClass: 'OutgoingWebchatForm',
     contentParams: contentParams,
     cancelable: true,
-    okCaption: uawMsgs.LBL_OUTGOING_WEBCHAT_DIALOG_OPEN,
-    onOk: ev => {
-      this.ucUiStore
+    okCaption: _uawmsgs.default.LBL_OUTGOING_WEBCHAT_DIALOG_OPEN,
+    onOk: function onOk(ev) {
+      _this16.ucUiStore
         .getLogger()
         .log(
           'debug',
@@ -2944,69 +3363,72 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
         !ev.content.state ||
         !ev.content.state.serviceId
       ) {
-        this.showModal({
-          title: uawMsgs.CMN_ALERT,
+        _this16.showModal({
+          title: _uawmsgs.default.CMN_ALERT,
           message: 'Empty serviceId.',
         })
         return
       }
-      const replyType = string(ev.content.state.replyType)
-      const serviceId = string(ev.content.state.serviceId)
-      const text = string(ev.content.state.text)
-      const isEmail = replyType.toUpperCase() === 'EMAIL'
-      const email = isEmail ? text : ''
-      const guest_address = text
-      const outgoingId = 'uiData' + Date.now()
-      this.ucUiStore.getChatClient().createOutgoingWebchat(
+      var replyType = (0, _strings.string)(ev.content.state.replyType)
+      var serviceId = (0, _strings.string)(ev.content.state.serviceId)
+      var text = (0, _strings.string)(ev.content.state.text)
+      var isEmail = replyType.toUpperCase() === 'EMAIL'
+      var email = isEmail ? text : ''
+      var guest_address = text
+      var outgoingId = 'uiData' + Date.now()
+      _this16.ucUiStore.getChatClient().createOutgoingWebchat(
         {
           replyType: replyType,
           email: email,
           outgoingId: outgoingId,
         },
-        ev => {
-          const replyType = ev.replyType
-          const conf_id = ev.conf_id
-          const yyyymm = ev.yyyymm
+        function (ev) {
+          var replyType = ev.replyType
+          var conf_id = ev.conf_id
+          var yyyymm = ev.yyyymm
 
           // publish continuation code
-          const continuation_code = this.ucUiStore
+          var continuation_code = _this16.ucUiStore
             .getChatClient()
-            .publishContinuationCode({ yyyymm: yyyymm, conf_id: conf_id })
-          this.ucUiStore
+            .publishContinuationCode({
+              yyyymm: yyyymm,
+              conf_id: conf_id,
+            })
+          _this16.ucUiStore
             .getLogger()
             .log('debug', 'published continuation_code=' + continuation_code)
 
           // memory continuation info
-          const outgoingContinuationInfo = {
+          var outgoingContinuationInfo = {
             conf_id: conf_id,
             yyyymm: yyyymm,
             replyTime: +new Date(),
           }
-          this.outgoingContinuationInfos.push(outgoingContinuationInfo)
-          setTimeout(() => {
+          _this16.outgoingContinuationInfos.push(outgoingContinuationInfo)
+          setTimeout(function () {
             while (
-              this.outgoingContinuationInfos[0] &&
-              this.outgoingContinuationInfos[0].replyTime + 60000 < +new Date()
+              _this16.outgoingContinuationInfos[0] &&
+              _this16.outgoingContinuationInfos[0].replyTime + 60000 <
+                +new Date()
             ) {
-              const info = this.outgoingContinuationInfos.shift()
-              this._logger.log(
+              var info = _this16.outgoingContinuationInfos.shift()
+              _this16._logger.log(
                 'warn',
                 'outgoing timeout ' + JSON.stringify(info),
               )
             }
           }, 60000 + 1000)
-
           if (replyType === '') {
-            this.ucUiStore
+            _this16.ucUiStore
               .getLogger()
               .log('warn', 'Empty replyType. (Not implemented)')
-            this.showModal({
-              title: uawMsgs.CMN_ALERT,
+            _this16.showModal({
+              title: _uawmsgs.default.CMN_ALERT,
               message: 'Empty replyType.',
             })
           } else {
             // invite guest
-            const optional_ev = {
+            var optional_ev = {
               agent_operation: 'create',
               guest_user_name: text,
               guest_user_email: email,
@@ -3015,7 +3437,7 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
             if (guest_address) {
               optional_ev.guest_address = guest_address
             }
-            this.ucUiStore.getChatClient().inviteGuest(
+            _this16.ucUiStore.getChatClient().inviteGuest(
               {
                 conf_id: conf_id,
                 yyyymm: yyyymm,
@@ -3023,9 +3445,9 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
                 continuation_code: continuation_code,
                 optional_ev: optional_ev,
               },
-              ev => {},
-              ev => {
-                this.ucUiStore
+              function (ev) {},
+              function (ev) {
+                _this16.ucUiStore
                   .getLogger()
                   .log(
                     'warn',
@@ -3034,8 +3456,8 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
                       ', message=' +
                       ev.message,
                   )
-                this.showModal({
-                  title: uawMsgs.CMN_ALERT,
+                _this16.showModal({
+                  title: _uawmsgs.default.CMN_ALERT,
                   message:
                     'chatClient.inviteGuest error code=' +
                     ev.code +
@@ -3046,8 +3468,8 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
             )
           }
         },
-        ev => {
-          this.ucUiStore
+        function (ev) {
+          _this16.ucUiStore
             .getLogger()
             .log(
               'warn',
@@ -3056,8 +3478,8 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
                 ', message=' +
                 ev.message,
             )
-          this.showModal({
-            title: uawMsgs.CMN_ALERT,
+          _this16.showModal({
+            title: _uawmsgs.default.CMN_ALERT,
             message:
               'chatClient.createOutgoingWebchat error code=' +
               ev.code +
@@ -3070,31 +3492,32 @@ uiData.prototype.sidebarOutgoingWebchatButton_onClick = function (ev) {
   })
 }
 uiData.prototype.sidebarCreateGroupButton_onClick = function (ev) {
-  const configProperties = this.ucUiStore.getConfigProperties()
-  if (configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO) {
+  var _this17 = this
+  var configProperties = this.ucUiStore.getConfigProperties()
+  if (configProperties.buddy_mode === _constants.default.BUDDY_MODE_AUTO) {
     this.ucUiStore.getLogger().log('warn', 'invalid buddy_mode')
     return
   }
   this.showModal({
-    title: uawMsgs.MSG_CREATE_GROUP_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_CREATE_GROUP_DIALOG_TITLE,
     contentClass: 'ConfirmForm',
     contentParams: {
-      placeholder: uawMsgs.MSG_CREATE_GROUP_DIALOG_PLACEHOLDER,
+      placeholder: _uawmsgs.default.MSG_CREATE_GROUP_DIALOG_PLACEHOLDER,
     },
     cancelable: true,
-    onOk: ev => {
-      const id = string(
+    onOk: function onOk(ev) {
+      var id = (0, _strings.string)(
         ev && ev.content && ev.content.state && ev.content.state.text,
       )
       if (id) {
-        const buddylist = this.ucUiStore.getChatClient().getBuddylist()
+        var buddylist = _this17.ucUiStore.getChatClient().getBuddylist()
         if (
           !buddylist ||
           !buddylist.user ||
           !buddylist.user.some ||
           !buddylist.user.push
         ) {
-          this.ucUiStore
+          _this17.ucUiStore
             .getLogger()
             .log(
               'warn',
@@ -3102,8 +3525,12 @@ uiData.prototype.sidebarCreateGroupButton_onClick = function (ev) {
             )
           return
         }
-        if (buddylist.user.some(buddy => buddy && buddy.id === id)) {
-          this.ucUiStore.getLogger().log('info', 'duplicate group id=' + id)
+        if (
+          buddylist.user.some(function (buddy) {
+            return buddy && buddy.id === id
+          })
+        ) {
+          _this17.ucUiStore.getLogger().log('info', 'duplicate group id=' + id)
           return
         }
         buddylist.user.push({
@@ -3111,13 +3538,13 @@ uiData.prototype.sidebarCreateGroupButton_onClick = function (ev) {
           name: id,
           group: '',
         })
-        this.ucUiStore
+        _this17.ucUiStore
           .getChatClient()
           .saveProperties(
             null,
             null,
             buddylist,
-            this.ucUiAction.refreshBuddyTable.bind(this.ucUiAction),
+            _this17.ucUiAction.refreshBuddyTable.bind(_this17.ucUiAction),
             null,
           )
       } else if (ev) {
@@ -3127,13 +3554,20 @@ uiData.prototype.sidebarCreateGroupButton_onClick = function (ev) {
   })
 }
 uiData.prototype.sidebarUserListButton_onClick = function (ev) {
-  const profile = this.ucUiStore.getChatClient().getProfile()
-  const configProperties = this.ucUiStore.getConfigProperties()
-  const allUsers = this.ucUiStore.getChatClient().getAllUsers()
-  const currentBuddylist = this.ucUiStore.getChatClient().getBuddylist()
-  const contentParams = {
-    buddylist: this.ucUiStore.getChatClient().getBuddylist({ type: 'saved' }),
-    buddy_max: int(this.ucUiStore.getOptionalSetting({ key: 'buddy_max' })),
+  var _this18 = this
+  var profile = this.ucUiStore.getChatClient().getProfile()
+  var configProperties = this.ucUiStore.getConfigProperties()
+  var allUsers = this.ucUiStore.getChatClient().getAllUsers()
+  var currentBuddylist = this.ucUiStore.getChatClient().getBuddylist()
+  var contentParams = {
+    buddylist: this.ucUiStore.getChatClient().getBuddylist({
+      type: 'saved',
+    }),
+    buddy_max: (0, _strings.int)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'buddy_max',
+      }),
+    ),
   }
   if (
     this.ucUiStore.getSignInStatus() !== 3 ||
@@ -3144,13 +3578,13 @@ uiData.prototype.sidebarUserListButton_onClick = function (ev) {
     !contentParams.buddylist.user
   ) {
     this.showModal({
-      title: uawMsgs.CMN_ALERT,
+      title: _uawmsgs.default.CMN_ALERT,
       message: 'Failed to load the user list.',
     })
     return
   }
-  allUsers.user.forEach(u => {
-    const tenant = profile.tenant // u.tenant is undefined
+  allUsers.user.forEach(function (u) {
+    var tenant = profile.tenant // u.tenant is undefined
     if (u.disabledBuddy) {
       return
     }
@@ -3159,9 +3593,9 @@ uiData.prototype.sidebarUserListButton_onClick = function (ev) {
       return
     }
     if (
-      contentParams.buddylist.user.find(
-        b => b.tenant === tenant && b.user_id === u.user_id,
-      )
+      contentParams.buddylist.user.find(function (b) {
+        return b.tenant === tenant && b.user_id === u.user_id
+      })
     ) {
       // already exists
       return
@@ -3171,61 +3605,63 @@ uiData.prototype.sidebarUserListButton_onClick = function (ev) {
       tenant: tenant,
       name: u.user_name,
       group:
-        configProperties.buddy_mode === Constants.BUDDY_MODE_AUTO
+        configProperties.buddy_mode === _constants.default.BUDDY_MODE_AUTO
           ? u.user_group
           : '',
-      delete: !currentBuddylist.user.find(
-        b => b.tenant === tenant && b.user_id === u.user_id,
-      ),
+      delete: !currentBuddylist.user.find(function (b) {
+        return b.tenant === tenant && b.user_id === u.user_id
+      }),
     })
   })
   contentParams.buddy_mode = configProperties.buddy_mode
-  if (configProperties.buddy_mode === Constants.BUDDY_MODE_MANUAL) {
+  if (configProperties.buddy_mode === _constants.default.BUDDY_MODE_MANUAL) {
     contentParams.buddylist.screened = true
     contentParams.allUsersCheckDisabled = true
     contentParams.allUsersCheckHidden = true
   }
   if (
     contentParams.buddy_max <
-    contentParams.buddylist.user.filter(buddy => buddy && buddy.user_id).length
+    contentParams.buddylist.user.filter(function (buddy) {
+      return buddy && buddy.user_id
+    }).length
   ) {
     contentParams.buddylist.screened = true
     contentParams.allUsersCheckDisabled = true
   }
   this.showModal({
-    title: uawMsgs.MSG_USER_LIST_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_USER_LIST_DIALOG_TITLE,
     contentClass: 'UserListForm',
     contentParams: contentParams,
     cancelable: true,
-    onOk: ev => {
-      const newBuddylist =
+    onOk: function onOk(ev) {
+      var newBuddylist =
         ev && ev.content && ev.content.state && ev.content.state.buddylist
       if (newBuddylist && newBuddylist.user) {
         if (ev.content.state.usedCount <= contentParams.buddy_max) {
           if (!ev.content.state.saveOrder) {
             // do not save edited order (update only buddy.delete: true / false)
-            const editedBuddies = newBuddylist.user
+            var editedBuddies = newBuddylist.user
             newBuddylist.user = JSON.parse(
               JSON.stringify(contentParams.buddylist.user),
             )
-            newBuddylist.user.forEach(buddy => {
+            newBuddylist.user.forEach(function (buddy) {
               if (buddy.user_id) {
-                const editedBuddy = editedBuddies.find(
-                  editedBuddy => buddy.user_id === editedBuddy.user_id,
-                )
+                var editedBuddy = editedBuddies.find(function (editedBuddy) {
+                  return buddy.user_id === editedBuddy.user_id
+                })
                 if (editedBuddy) {
                   buddy.delete = editedBuddy.delete
                 }
               }
             })
           }
-          this.ucUiStore.getChatClient().saveProperties(
+          _this18.ucUiStore.getChatClient().saveProperties(
             null,
             null,
             newBuddylist,
-            this.ucUiAction.refreshBuddyTable.bind(this.ucUiAction),
-            this.showModal.bind(this, {
-              title: uawMsgs.CMN_ALERT,
+            _this18.ucUiAction.refreshBuddyTable.bind(_this18.ucUiAction),
+            _this18.showModal.bind(_this18, {
+              title: _uawmsgs.default.CMN_ALERT,
               message: 'Failed to save the user list. (saveProperties)',
             }),
           )
@@ -3233,8 +3669,8 @@ uiData.prototype.sidebarUserListButton_onClick = function (ev) {
           ev.closes = false
         }
       } else {
-        this.showModal({
-          title: uawMsgs.CMN_ALERT,
+        _this18.showModal({
+          title: _uawmsgs.default.CMN_ALERT,
           message: 'Failed to save the user list.',
         })
       }
@@ -3245,58 +3681,66 @@ uiData.prototype.sidebarAreaSplitterItem_onClick = function (
   mainAreaSplitters,
   ev,
 ) {
+  var _this19 = this
   this.mainAreaSplitters = mainAreaSplitters
-  this.mainPanelList.forEach(panel => {
-    const key = panel.panelType + '_' + panel.panelCode
-    if (!this.backgroundTabs[key]) {
-      this.backgroundTabs[key] = { time: Date.now() }
+  this.mainPanelList.forEach(function (panel) {
+    var key = panel.panelType + '_' + panel.panelCode
+    if (!_this19.backgroundTabs[key]) {
+      _this19.backgroundTabs[key] = {
+        time: Date.now(),
+      }
     }
   })
   this.render()
 }
 uiData.prototype.sidebarSignOutButton_onClick = function (ev) {
-  const joinings = this.mainPanelList
-    .map(panel => {
+  var _this20 = this
+  var joinings = this.mainPanelList
+    .map(function (panel) {
       if (panel.panelType === 'CONFERENCE') {
-        const chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
+        var chatHeaderInfo = _this20.ucUiStore.getChatHeaderInfo({
           chatType: panel.panelType,
           chatCode: panel.panelCode,
         })
-        const conf_id = string(chatHeaderInfo.conf_id)
-        const conference = this.ucUiStore.getChatClient().getConference(conf_id)
+        var conf_id = (0, _strings.string)(chatHeaderInfo.conf_id)
+        var conference = _this20.ucUiStore
+          .getChatClient()
+          .getConference(conf_id)
         if (
-          conference.conf_status === Constants.CONF_STATUS_JOINED &&
+          conference.conf_status === _constants.default.CONF_STATUS_JOINED &&
           conference.conf_type !== 'webchat'
         ) {
           return conf_id
         }
       }
     })
-    .filter(p => p)
-  const onOk = () => {
-    for (let panelCode in this.unansweredWebchatsToKick) {
+    .filter(function (p) {
+      return p
+    })
+  var onOk = function onOk() {
+    for (var panelCode in _this20.unansweredWebchatsToKick) {
       // delete webchat queue of unanswered webchat for other agents
-      this.ucUiStore
+      _this20.ucUiStore
         .getChatClient()
-        .kickOutOfConference(this.unansweredWebchatsToKick[panelCode])
+        .kickOutOfConference(_this20.unansweredWebchatsToKick[panelCode])
     }
-    this.unansweredWebchatsToKick = {}
-    this.ucUiAction.signOut()
-    this.fire('reload', {})
+    _this20.unansweredWebchatsToKick = {}
+    _this20.ucUiAction.signOut()
+    _this20.fire('reload', {})
   }
   if (joinings.length) {
-    const onSecondButton = () => {
+    var _onSecondButton = function onSecondButton() {
       // leave conferences with rejoinable: true
-      const conf_id = joinings.pop()
+      var conf_id = joinings.pop()
       if (conf_id) {
         // recursive
-        this.ucUiStore.getChatClient().leaveConference(
+        _this20.ucUiStore.getChatClient().leaveConference(
           {
             conf_id: conf_id,
             rejoinable: true,
           },
-          onSecondButton,
-          onSecondButton,
+          _onSecondButton,
+          _onSecondButton,
         )
       } else {
         // sign out
@@ -3304,21 +3748,21 @@ uiData.prototype.sidebarSignOutButton_onClick = function (ev) {
       }
     }
     this.showModal({
-      title: uawMsgs.MSG_SIGN_OUT_CONFIRM_TITLE,
-      message: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM,
+      title: _uawmsgs.default.MSG_SIGN_OUT_CONFIRM_TITLE,
+      message: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM,
       cancelable: true,
       thirdButton: true,
       cancelByThirdButton: true,
-      cancelCaption: uawMsgs.LBL_EDITOR_LEAVE_REJOINABLE_BUTTON,
-      thirdButtonCaption: uawMsgs.CMN_CANCEL,
+      cancelCaption: _uawmsgs.default.LBL_EDITOR_LEAVE_REJOINABLE_BUTTON,
+      thirdButtonCaption: _uawmsgs.default.CMN_CANCEL,
       cancelClassName: 'brVivid',
       onOk: onOk,
-      onCancel: onSecondButton,
+      onCancel: _onSecondButton,
     })
   } else {
     this.showModal({
-      title: uawMsgs.MSG_SIGN_OUT_CONFIRM_TITLE,
-      message: uawMsgs.MSG_SIGN_OUT_CONFIRM,
+      title: _uawmsgs.default.MSG_SIGN_OUT_CONFIRM_TITLE,
+      message: _uawmsgs.default.MSG_SIGN_OUT_CONFIRM,
       cancelable: true,
       onOk: onOk,
     })
@@ -3331,8 +3775,8 @@ uiData.prototype.messagebarReloadButton_onClick = function (ev) {
   this.fire('reload', {})
 }
 uiData.prototype.messagebarRetryButton_onClick = function (ev) {
-  const signInOption = this.ucUiStore.getSignInOption()
-  const lastStatus = this.ucUiStore.getLastStatus()
+  var signInOption = this.ucUiStore.getSignInOption()
+  var lastStatus = this.ucUiStore.getLastStatus()
   if (lastStatus) {
     signInOption.status = lastStatus.status
     signInOption.display = lastStatus.display
@@ -3350,20 +3794,34 @@ uiData.prototype.incomingbarPanelLink_onClick = function (
   panelCode,
   ev,
 ) {
-  this.updateTab({ select: { panelType: panelType, panelCode: panelCode } })
+  this.updateTab({
+    select: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+  })
   this.render()
 }
 uiData.prototype.mainArea_handleSelect = function (panelKey) {
   if (
-    this.mainPanelList.some(p => p.panelType + '_' + p.panelCode === panelKey)
+    this.mainPanelList.some(function (p) {
+      return p.panelType + '_' + p.panelCode === panelKey
+    })
   ) {
-    this.updateTab({ select: parsePanelKey(panelKey) })
+    this.updateTab({
+      select: (0, _strings.parsePanelKey)(panelKey),
+    })
     this.render()
   }
 }
 uiData.prototype.tabMenuItem_onClick = function (panelType, panelCode, ev) {
   this.closeAllshowingDialogs()
-  this.updateTab({ select: { panelType: panelType, panelCode: panelCode } })
+  this.updateTab({
+    select: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+  })
   this.render()
 }
 uiData.prototype.tabLinkHideButton_onClick = function (
@@ -3371,27 +3829,34 @@ uiData.prototype.tabLinkHideButton_onClick = function (
   panelCode,
   ev,
 ) {
-  this.closeTab({ panelType: panelType, panelCode: panelCode, ev: ev })
+  this.closeTab({
+    panelType: panelType,
+    panelCode: panelCode,
+    ev: ev,
+  })
 }
 uiData.prototype.closeTab = function (option) {
-  const panelType = string(option && option.panelType)
-  const panelCode = string(option && option.panelCode)
-  const ev = (option && option.ev) || {}
-  const showModal =
+  var _this21 = this
+  var panelType = (0, _strings.string)(option && option.panelType)
+  var panelCode = (0, _strings.string)(option && option.panelCode)
+  var ev = (option && option.ev) || {}
+  var showModal =
     option && option.force === true
-      ? o => o.onOk()
+      ? function (o) {
+          return o.onOk()
+        }
       : option && option.force === false
-        ? () => {}
+        ? function () {}
         : this.showModal.bind(this)
-  const profile = this.ucUiStore.getChatClient().getProfile()
-  const funcConfirmClosable = funcOnClosableOk => {
-    if (this.configurations.tabCloseCancelable) {
-      const continueEvent = result => {
+  var profile = this.ucUiStore.getChatClient().getProfile()
+  var funcConfirmClosable = function funcConfirmClosable(funcOnClosableOk) {
+    if (_this21.configurations.tabCloseCancelable) {
+      var continueEvent = function continueEvent(result) {
         if (result) {
           funcOnClosableOk()
         }
       }
-      this.fire('tabClosing', {
+      _this21.fire('tabClosing', {
         panelKey: panelType + '_' + panelCode,
         continueEvent: continueEvent,
       })
@@ -3399,66 +3864,80 @@ uiData.prototype.closeTab = function (option) {
       funcOnClosableOk()
     }
   }
-  const funcClose = () => {
-    this.updateTab({ close: { panelType: panelType, panelCode: panelCode } })
+  var funcClose = function funcClose() {
+    _this21.updateTab({
+      close: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
+    })
     if (panelType === 'PREFERENCE') {
-      this.ucUiStore.getChatClient().cancelProfileImage()
-      delete this.preferenceWorkTable[panelCode]
+      _this21.ucUiStore.getChatClient().cancelProfileImage()
+      delete _this21.preferenceWorkTable[panelCode]
     } else if (panelType === 'HISTORYSUMMARIES') {
-      this.ucUiAction.clearSearchResults({
+      _this21.ucUiAction.clearSearchResults({
         chatType: panelType,
         chatCode: panelCode,
       })
-      this.ucUiAction.setSearchConditions({
+      _this21.ucUiAction.setSearchConditions({
         chatType: panelType,
         chatCode: panelCode,
         searchConditions: [],
       })
     } else if (panelType === 'HISTORYDETAIL') {
-      this.ucUiAction.clearChat({ chatType: panelType, chatCode: panelCode })
-      delete this.historyDetailWorkTable[panelCode]
+      _this21.ucUiAction.clearChat({
+        chatType: panelType,
+        chatCode: panelCode,
+      })
+      delete _this21.historyDetailWorkTable[panelCode]
     } else if (panelType === 'EXTERNALCALL') {
-      delete this.externalCallWorkTable[panelCode]
+      delete _this21.externalCallWorkTable[panelCode]
     } else if (panelType === 'CHAT') {
-      this.ucUiAction.clearChat({ chatType: panelType, chatCode: panelCode })
+      _this21.ucUiAction.clearChat({
+        chatType: panelType,
+        chatCode: panelCode,
+      })
     } else if (panelType === 'CONFERENCE') {
-      this.ucUiAction.clearChat({ chatType: panelType, chatCode: panelCode })
-      if (this.unansweredWebchatsToKick[panelCode]) {
+      _this21.ucUiAction.clearChat({
+        chatType: panelType,
+        chatCode: panelCode,
+      })
+      if (_this21.unansweredWebchatsToKick[panelCode]) {
         // delete webchat queue of unanswered webchat for other agents
-        this.ucUiStore
+        _this21.ucUiStore
           .getChatClient()
-          .kickOutOfConference(this.unansweredWebchatsToKick[panelCode])
-        delete this.unansweredWebchatsToKick[panelCode]
+          .kickOutOfConference(_this21.unansweredWebchatsToKick[panelCode])
+        delete _this21.unansweredWebchatsToKick[panelCode]
       }
     }
     if (panelType !== 'CHAT') {
-      delete this.blinkingTabs[panelType + '_' + panelCode]
-      delete this.unscrolledTabs[panelType + '_' + panelCode]
+      delete _this21.blinkingTabs[panelType + '_' + panelCode]
+      delete _this21.unscrolledTabs[panelType + '_' + panelCode]
     }
-    if (this.panelSessionTable[panelType + '_' + panelCode]) {
-      this.callHangUpButton_onClick(panelType, panelCode, ev)
+    if (_this21.panelSessionTable[panelType + '_' + panelCode]) {
+      _this21.callHangUpButton_onClick(panelType, panelCode, ev)
     }
   }
   if (panelType === 'CONFERENCE') {
-    const chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
+    var chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
       chatType: panelType,
       chatCode: panelCode,
     })
-    const conf_id = string(chatHeaderInfo.conf_id)
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-    const isReplying = chatHeaderInfo.nextDistributionTarget === profile.user_id
-    if (conference.conf_status === Constants.CONF_STATUS_JOINED) {
+    var conf_id = (0, _strings.string)(chatHeaderInfo.conf_id)
+    var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+    var isReplying = chatHeaderInfo.nextDistributionTarget === profile.user_id
+    if (conference.conf_status === _constants.default.CONF_STATUS_JOINED) {
       if (conference.conf_type === 'webchat') {
         // confirm modal -> confirm tabClosing event -> leave webchat -> close tab
         showModal({
-          title: uawMsgs.MSG_CLOSE_TALKING_WEBCHAT_CONFIRM_TITLE,
-          message: uawMsgs.MSG_CLOSE_TALKING_WEBCHAT_CONFIRM,
+          title: _uawmsgs.default.MSG_CLOSE_TALKING_WEBCHAT_CONFIRM_TITLE,
+          message: _uawmsgs.default.MSG_CLOSE_TALKING_WEBCHAT_CONFIRM,
           cancelable: true,
-          onOk: funcConfirmClosable.bind(this, () => {
-            this.ucUiAction.leaveWebchatRoom({
+          onOk: funcConfirmClosable.bind(this, function () {
+            _this21.ucUiAction.leaveWebchatRoom({
               conf_id: conf_id,
             })
-            this.funcOnWebchatLeft[panelCode] = funcClose
+            _this21.funcOnWebchatLeft[panelCode] = funcClose
           }),
         })
         //if (this.ucUiStore.getWebchatQueue({ conf_id: conf_id }).isTalking || isReplying) {
@@ -3489,26 +3968,28 @@ uiData.prototype.closeTab = function (option) {
       } else {
         // confirm modal -> confirm tabClosing event -> leave conference -> close tab
         showModal({
-          title: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
-          message: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM,
+          title: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
+          message: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM,
           cancelable: true,
-          onOk: funcConfirmClosable.bind(this, () => {
-            this.ucUiAction.leaveConference({
+          onOk: funcConfirmClosable.bind(this, function () {
+            _this21.ucUiAction.leaveConference({
               conf_id: conf_id,
             })
             funcClose()
           }),
         })
       }
-    } else if (conference.conf_status === Constants.CONF_STATUS_INVITED) {
+    } else if (
+      conference.conf_status === _constants.default.CONF_STATUS_INVITED
+    ) {
       if (isReplying) {
         // confirm modal -> confirm tabClosing event -> reject conference -> close tab
         showModal({
-          title: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
-          message: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM,
+          title: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
+          message: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM,
           cancelable: true,
-          onOk: funcConfirmClosable.bind(this, () => {
-            this.ucUiAction.leaveConference({
+          onOk: funcConfirmClosable.bind(this, function () {
+            _this21.ucUiAction.leaveConference({
               conf_id: conf_id,
             })
             funcClose()
@@ -3517,11 +3998,11 @@ uiData.prototype.closeTab = function (option) {
       } else {
         // confirm modal -> confirm tabClosing event -> reject conference -> close tab
         showModal({
-          title: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
-          message: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM,
+          title: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
+          message: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM,
           cancelable: true,
-          onOk: funcConfirmClosable.bind(this, () => {
-            this.ucUiAction.leaveConference({
+          onOk: funcConfirmClosable.bind(this, function () {
+            _this21.ucUiAction.leaveConference({
               conf_id: conf_id,
             })
             funcClose()
@@ -3532,8 +4013,8 @@ uiData.prototype.closeTab = function (option) {
       if (isReplying) {
         // confirm modal -> confirm tabClosing event -> close tab
         showModal({
-          title: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
-          message: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM,
+          title: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
+          message: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM,
           cancelable: true,
           onOk: funcConfirmClosable.bind(this, funcClose),
         })
@@ -3552,9 +4033,9 @@ uiData.prototype.tabLinkMoveHContextMenuItem_onClick = function (
   panelCode,
   ev,
 ) {
-  const panel = this.mainPanelList.find(
-    p => p.panelType === panelType && p.panelCode === panelCode,
-  )
+  var panel = this.mainPanelList.find(function (p) {
+    return p.panelType === panelType && p.panelCode === panelCode
+  })
   if (panel.position === 'center') {
     panel.position = 'east'
   } else if (panel.position === 'east') {
@@ -3571,9 +4052,9 @@ uiData.prototype.tabLinkMoveVContextMenuItem_onClick = function (
   panelCode,
   ev,
 ) {
-  const panel = this.mainPanelList.find(
-    p => p.panelType === panelType && p.panelCode === panelCode,
-  )
+  var panel = this.mainPanelList.find(function (p) {
+    return p.panelType === panelType && p.panelCode === panelCode
+  })
   if (panel.position === 'center') {
     panel.position = 'south'
   } else if (panel.position === 'south') {
@@ -3593,40 +4074,44 @@ uiData.prototype.mainTabsDndable_onDrop = function (dropTargetInfo, ev) {
     return
   }
   // parameters
-  const dragSourceInfoType = ev.dragSourceInfo.dragSourceInfoType
-  const dragSourceInfoCode = ev.dragSourceInfo.dragSourceInfoCode
-  const dropTargetInfoType = dropTargetInfo.dropTargetInfoType
-  const dropTargetInfoCode = dropTargetInfo.dropTargetInfoCode
+  var dragSourceInfoType = ev.dragSourceInfo.dragSourceInfoType
+  var dragSourceInfoCode = ev.dragSourceInfo.dragSourceInfoCode
+  var dropTargetInfoType = dropTargetInfo.dropTargetInfoType
+  var dropTargetInfoCode = dropTargetInfo.dropTargetInfoCode
 
   // get sourcePanel, targetPanel
-  let sourceIndex = -1
-  let sourcePanel = null
-  let sourceMainTabsPosition = ''
-  let targetIndex = -1
-  let targetPanel = null
-  let targetMainTabsPosition = ''
+  var sourceIndex = -1
+  var sourcePanel = null
+  var sourceMainTabsPosition = ''
+  var targetIndex = -1
+  var targetPanel = null
+  var targetMainTabsPosition = ''
   if (dragSourceInfoType === 'mainTabLinkSpan') {
     try {
-      const dragSourceInfoCodeArray = string(dragSourceInfoCode).split('|')
-      sourceIndex = this.mainPanelList.findIndex(
-        p => p.panelType + '_' + p.panelCode === dragSourceInfoCodeArray[1],
-      )
+      var dragSourceInfoCodeArray = (0, _strings.string)(
+        dragSourceInfoCode,
+      ).split('|')
+      sourceIndex = this.mainPanelList.findIndex(function (p) {
+        return p.panelType + '_' + p.panelCode === dragSourceInfoCodeArray[1]
+      })
       sourcePanel = this.mainPanelList[sourceIndex]
       sourceMainTabsPosition = dragSourceInfoCodeArray[0]
     } catch (ex) {}
   }
   if (dropTargetInfoType === 'mainTabLinkSpan') {
     try {
-      const dropTargetInfoCodeArray = string(dropTargetInfoCode).split('|')
-      targetIndex = this.mainPanelList.findIndex(
-        p => p.panelType + '_' + p.panelCode === dropTargetInfoCodeArray[1],
-      )
+      var dropTargetInfoCodeArray = (0, _strings.string)(
+        dropTargetInfoCode,
+      ).split('|')
+      targetIndex = this.mainPanelList.findIndex(function (p) {
+        return p.panelType + '_' + p.panelCode === dropTargetInfoCodeArray[1]
+      })
       targetPanel = this.mainPanelList[targetIndex]
       targetMainTabsPosition = dropTargetInfoCodeArray[0]
     } catch (ex) {}
   } else if (dropTargetInfoType === 'mainTabLinksLast') {
     targetPanel = {} // dummy
-    targetMainTabsPosition = string(dropTargetInfoCode)
+    targetMainTabsPosition = (0, _strings.string)(dropTargetInfoCode)
   }
   if (
     !sourcePanel ||
@@ -3645,7 +4130,7 @@ uiData.prototype.mainTabsDndable_onDrop = function (dropTargetInfo, ev) {
   ) {
     if (sourceIndex < targetIndex) {
       // drag downward
-      const newTargetIndex = targetIndex - 1 // after remove source
+      var newTargetIndex = targetIndex - 1 // after remove source
       if (sourceMainTabsPosition === targetMainTabsPosition) {
         // drag downward in the same group
         // move sourcePanel after targetPanel
@@ -3700,17 +4185,17 @@ uiData.prototype.panelHeaderKickButton_onClick = function (
   ev,
 ) {
   if (panelType === 'CONFERENCE') {
-    const conf_id = string(
+    var conf_id = (0, _strings.string)(
       this.ucUiStore.getChatHeaderInfo({
         chatType: panelType,
         chatCode: panelCode,
       }).conf_id,
     )
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
+    var conference = this.ucUiStore.getChatClient().getConference(conf_id)
     if (conference.conf_type === 'webchat') {
       this.showModal({
-        title: uawMsgs.MSG_KICK_TALKING_WEBCHAT_CONFIRM_TITLE,
-        message: uawMsgs.MSG_KICK_TALKING_WEBCHAT_CONFIRM,
+        title: _uawmsgs.default.MSG_KICK_TALKING_WEBCHAT_CONFIRM_TITLE,
+        message: _uawmsgs.default.MSG_KICK_TALKING_WEBCHAT_CONFIRM,
         cancelable: true,
         onOk: this.ucUiAction.kickOutOfWebchatRoom.bind(this.ucUiAction, {
           conf_id: conf_id,
@@ -3725,17 +4210,17 @@ uiData.prototype.panelHeaderLeaveButton_onClick = function (
   ev,
 ) {
   if (panelType === 'CONFERENCE') {
-    const conf_id = string(
+    var conf_id = (0, _strings.string)(
       this.ucUiStore.getChatHeaderInfo({
         chatType: panelType,
         chatCode: panelCode,
       }).conf_id,
     )
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
+    var conference = this.ucUiStore.getChatClient().getConference(conf_id)
     if (conference.conf_type === 'webchat') {
       this.showModal({
-        title: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
-        message: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM,
+        title: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
+        message: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM,
         cancelable: true,
         onOk: this.ucUiAction.leaveWebchatRoom.bind(this.ucUiAction, {
           conf_id: conf_id,
@@ -3743,13 +4228,13 @@ uiData.prototype.panelHeaderLeaveButton_onClick = function (
       })
     } else {
       this.showModal({
-        title: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
-        message: uawMsgs.MSG_LEAVE_CONFERENCE_CONFIRM,
+        title: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM_TITLE,
+        message: _uawmsgs.default.MSG_LEAVE_CONFERENCE_CONFIRM,
         cancelable: true,
         thirdButton: true,
         cancelByThirdButton: true,
-        cancelCaption: uawMsgs.LBL_EDITOR_LEAVE_REJOINABLE_BUTTON,
-        thirdButtonCaption: uawMsgs.CMN_CANCEL,
+        cancelCaption: _uawmsgs.default.LBL_EDITOR_LEAVE_REJOINABLE_BUTTON,
+        thirdButtonCaption: _uawmsgs.default.CMN_CANCEL,
         cancelClassName: 'brVivid',
         onOk: this.ucUiAction.leaveConference.bind(this.ucUiAction, {
           conf_id: conf_id,
@@ -3767,46 +4252,52 @@ uiData.prototype.panelHeaderInviteButton_onClick = function (
   panelCode,
   ev,
 ) {
+  var _this22 = this
   this.showModal({
-    title: uawMsgs.MSG_INVITE_TO_CONFERENCE_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_INVITE_TO_CONFERENCE_DIALOG_TITLE,
     contentClass: 'ConferenceInviteForm',
     contentParams: {
       panelType: panelType,
       panelCode: panelCode,
     },
     cancelable: true,
-    onOk: ev => {
+    onOk: function onOk(ev) {
       if (
         ev &&
         ev.content &&
         ev.content.state &&
         ev.content.state.selectedBuddyTable
       ) {
-        const invite = []
-        Object.keys(ev.content.state.selectedBuddyTable).forEach(tenant => {
-          if (ev.content.state.selectedBuddyTable[tenant]) {
-            Object.keys(ev.content.state.selectedBuddyTable[tenant]).forEach(
-              user_id => {
-                if (ev.content.state.selectedBuddyTable[tenant][user_id]) {
-                  if (
-                    this.ucUiStore
-                      .getChatClient()
-                      .getBuddyStatus({ tenant: tenant, user_id: user_id })
-                      .status !== Constants.STATUS_OFFLINE
-                  ) {
-                    invite.push({ tenant: tenant, user_id: user_id })
+        var invite = []
+        Object.keys(ev.content.state.selectedBuddyTable).forEach(
+          function (tenant) {
+            if (ev.content.state.selectedBuddyTable[tenant]) {
+              Object.keys(ev.content.state.selectedBuddyTable[tenant]).forEach(
+                function (user_id) {
+                  if (ev.content.state.selectedBuddyTable[tenant][user_id]) {
+                    if (
+                      _this22.ucUiStore.getChatClient().getBuddyStatus({
+                        tenant: tenant,
+                        user_id: user_id,
+                      }).status !== _constants.default.STATUS_OFFLINE
+                    ) {
+                      invite.push({
+                        tenant: tenant,
+                        user_id: user_id,
+                      })
+                    }
                   }
-                }
-              },
-            )
-          }
-        })
+                },
+              )
+            }
+          },
+        )
         if (invite.length) {
           // inviteToConference after dialog closed
           setTimeout(
-            this.ucUiAction.inviteToConference.bind(this.ucUiAction, {
-              conf_id: string(
-                this.ucUiStore.getChatHeaderInfo({
+            _this22.ucUiAction.inviteToConference.bind(_this22.ucUiAction, {
+              conf_id: (0, _strings.string)(
+                _this22.ucUiStore.getChatHeaderInfo({
                   chatType: panelType,
                   chatCode: panelCode,
                 }).conf_id,
@@ -3828,21 +4319,21 @@ uiData.prototype.panelHeaderInviteDndable_onCheckCanDrop = function (
   ev,
 ) {
   if (panelType === 'CONFERENCE') {
-    const conf_id = string(
+    var conf_id = (0, _strings.string)(
       this.ucUiStore.getChatHeaderInfo({
         chatType: panelType,
         chatCode: panelCode,
       }).conf_id,
     )
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-    const myUcCimUserType = int(this.ucUiStore.getUcCimUserType())
+    var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+    var myUcCimUserType = (0, _strings.int)(this.ucUiStore.getUcCimUserType())
     if (
       conference &&
-      conference.conf_status === Constants.CONF_STATUS_JOINED &&
+      conference.conf_status === _constants.default.CONF_STATUS_JOINED &&
       (conference.conf_type !== 'webchat' ||
-        (-int(
+        (-(0, _strings.int)(
           (conference.webchatinfo &&
-            string(conference.webchatinfo.invite_button_type)) ||
+            (0, _strings.string)(conference.webchatinfo.invite_button_type)) ||
             '-98',
         ) &
           myUcCimUserType) ===
@@ -3853,21 +4344,22 @@ uiData.prototype.panelHeaderInviteDndable_onCheckCanDrop = function (
         ev.dragSourceInfo &&
         ev.dragSourceInfo.dragSourceInfoType === 'buddylistItem'
       ) {
-        let buddy = null
+        var buddy = null
         try {
           buddy = JSON.parse(ev.dragSourceInfo.dragSourceInfoCode)
         } catch (ex) {}
         if (
           buddy &&
           this.ucUiStore.getChatClient().getBuddyStatus(buddy).status !==
-            Constants.STATUS_OFFLINE &&
-          !conference.user.some(
-            u =>
+            _constants.default.STATUS_OFFLINE &&
+          !conference.user.some(function (u) {
+            return (
               u.tenant === buddy.tenant &&
               u.user_id === buddy.user_id &&
-              (u.conf_status === Constants.CONF_STATUS_INVITED ||
-                u.conf_status === Constants.CONF_STATUS_JOINED),
-          )
+              (u.conf_status === _constants.default.CONF_STATUS_INVITED ||
+                u.conf_status === _constants.default.CONF_STATUS_JOINED)
+            )
+          })
         ) {
           return true
         }
@@ -3877,7 +4369,9 @@ uiData.prototype.panelHeaderInviteDndable_onCheckCanDrop = function (
         ev.dragSourceInfo.dragSourceInfoType === 'buddylistGroupTitle'
       ) {
         // TODO: yano check if conference already has group tag
-        const group_id = string(ev.dragSourceInfo.dragSourceInfoCode)
+        var group_id = (0, _strings.string)(
+          ev.dragSourceInfo.dragSourceInfoCode,
+        )
         if (
           group_id &&
           conference.user.length === 1 // TODO: yano test
@@ -3894,22 +4388,23 @@ uiData.prototype.panelHeaderInviteDndable_onDrop = function (
   panelCode,
   ev,
 ) {
+  var _this23 = this
   if (panelType === 'CONFERENCE') {
-    const conf_id = string(
+    var conf_id = (0, _strings.string)(
       this.ucUiStore.getChatHeaderInfo({
         chatType: panelType,
         chatCode: panelCode,
       }).conf_id,
     )
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-    const myUcCimUserType = int(this.ucUiStore.getUcCimUserType())
+    var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+    var myUcCimUserType = (0, _strings.int)(this.ucUiStore.getUcCimUserType())
     if (
       conference &&
-      conference.conf_status === Constants.CONF_STATUS_JOINED &&
+      conference.conf_status === _constants.default.CONF_STATUS_JOINED &&
       (conference.conf_type !== 'webchat' ||
-        (-int(
+        (-(0, _strings.int)(
           (conference.webchatinfo &&
-            string(conference.webchatinfo.invite_button_type)) ||
+            (0, _strings.string)(conference.webchatinfo.invite_button_type)) ||
             '-98',
         ) &
           myUcCimUserType) ===
@@ -3920,21 +4415,22 @@ uiData.prototype.panelHeaderInviteDndable_onDrop = function (
         ev.dragSourceInfo &&
         ev.dragSourceInfo.dragSourceInfoType === 'buddylistItem'
       ) {
-        let buddy = null
+        var buddy = null
         try {
           buddy = JSON.parse(ev.dragSourceInfo.dragSourceInfoCode)
         } catch (ex) {}
         if (
           buddy &&
           this.ucUiStore.getChatClient().getBuddyStatus(buddy).status !==
-            Constants.STATUS_OFFLINE &&
-          !conference.user.some(
-            u =>
+            _constants.default.STATUS_OFFLINE &&
+          !conference.user.some(function (u) {
+            return (
               u.tenant === buddy.tenant &&
               u.user_id === buddy.user_id &&
-              (u.conf_status === Constants.CONF_STATUS_INVITED ||
-                u.conf_status === Constants.CONF_STATUS_JOINED),
-          )
+              (u.conf_status === _constants.default.CONF_STATUS_INVITED ||
+                u.conf_status === _constants.default.CONF_STATUS_JOINED)
+            )
+          })
         ) {
           this.ucUiAction.inviteToConference({
             conf_id: conf_id,
@@ -3947,32 +4443,32 @@ uiData.prototype.panelHeaderInviteDndable_onDrop = function (
         ev.dragSourceInfo.dragSourceInfoType === 'buddylistGroupTitle'
       ) {
         // TODO: yano check if conference already has group tag
-        const group = string(ev.dragSourceInfo.dragSourceInfoCode)
+        var group = (0, _strings.string)(ev.dragSourceInfo.dragSourceInfoCode)
         if (
           group &&
           conference.user.length === 1 // TODO: yano test
         ) {
-          const invite = []
-          const profile = this.ucUiStore.getChatClient().getProfile()
-          const buddyTable =
-            this.ucUiStore.getBuddyTable()[profile.tenant] || {}
-          Object.keys(buddyTable).forEach(key => {
-            const buddy = buddyTable[key]
+          var invite = []
+          var profile = this.ucUiStore.getChatClient().getProfile()
+          var buddyTable = this.ucUiStore.getBuddyTable()[profile.tenant] || {}
+          Object.keys(buddyTable).forEach(function (key) {
+            var buddy = buddyTable[key]
             if (
               !buddy.isMe &&
               buddy.isBuddy &&
               !buddy.isTemporaryBuddy &&
               buddy.group === group &&
               group &&
-              this.ucUiStore.getChatClient().getBuddyStatus(buddy).status !==
-                Constants.STATUS_OFFLINE &&
-              !conference.user.some(
-                u =>
+              _this23.ucUiStore.getChatClient().getBuddyStatus(buddy).status !==
+                _constants.default.STATUS_OFFLINE &&
+              !conference.user.some(function (u) {
+                return (
                   u.tenant === buddy.tenant &&
                   u.user_id === buddy.user_id &&
-                  (u.conf_status === Constants.CONF_STATUS_INVITED ||
-                    u.conf_status === Constants.CONF_STATUS_JOINED),
-              )
+                  (u.conf_status === _constants.default.CONF_STATUS_INVITED ||
+                    u.conf_status === _constants.default.CONF_STATUS_JOINED)
+                )
+              })
             ) {
               invite.push(buddy)
             }
@@ -3995,9 +4491,14 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
   panelCode,
   ev,
 ) {
-  const myUcCimUserType = int(this.ucUiStore.getUcCimUserType())
+  var _this24 = this
+  var myUcCimUserType = (0, _strings.int)(this.ucUiStore.getUcCimUserType())
   if (
-    (int(this.ucUiStore.getOptionalSetting({ key: 'fsp' })) &
+    ((0, _strings.int)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'fsp',
+      }),
+    ) &
       myUcCimUserType) ===
     myUcCimUserType
   ) {
@@ -4006,65 +4507,69 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
       .log('warn', 'invalid fsp in panelHeaderFileButton_onClick')
     return
   }
+  if (_reactNative.Platform.OS !== 'web') {
+    // Import DocumentPicker from react-native-document-picker
+    var DocumentPicker = require('react-native-document-picker').default
 
-  // Import DocumentPicker from react-native-document-picker
-  const DocumentPicker = require('react-native-document-picker').default
-
-  // Launch document picker
-  DocumentPicker.pick({
-    type: [DocumentPicker.types.allFiles],
-    allowMultiSelection: true,
-  })
-    .then(results => {
-      console.log('#Duy Phan console results', results)
-
-      if (results && results.length > 0) {
-        // Convert DocumentPicker results to File objects
-        const files = results.map(result => {
-          // Create a File-like object from the document picker result
-          return {
-            uri: result.uri,
-            name: result.name,
-            type: result.type,
-            size: result.size,
-            // Add a method to get the file content as a blob
-            // blob: async () => {
-            //   try {
-            //     const RNFS = require('react-native-fs')
-            //     const fileContent = await RNFS.readFile(result.uri, 'base64')
-            //     const blob = new Blob([fileContent], { type: result.type })
-            //     return blob
-            //   } catch (error) {
-            //     this.ucUiStore
-            //       .getLogger()
-            //       .log('error', 'Error reading file: ' + error)
-            //     return null
-            //   }
-            // },
-          }
-        })
-        console.log('#Duy Phan console 222222', files)
-
-        // Send the files
-        this.ucUiAction.sendFiles({
-          chatType: panelType,
-          chatCode: panelCode,
-          files: files,
-        })
-        console.log('#Duy Phan console files done')
-      } else {
-        this.ucUiStore.getLogger().log('info', 'No files selected')
-      }
+    // Launch document picker
+    DocumentPicker.pick({
+      type: [DocumentPicker.types.allFiles],
+      allowMultiSelection: true,
     })
-    .catch(err => {
-      if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker
-        this.ucUiStore.getLogger().log('info', 'User cancelled file picker')
-      } else {
-        // Error occurred
-        this.ucUiStore.getLogger().log('error', 'Error picking files: ' + err)
-      }
-    })
+      .then(function (results) {
+        console.log('#Duy Phan console results', results)
+        if (results && results.length > 0) {
+          // Convert DocumentPicker results to File objects
+          var files = results.map(function (result) {
+            // Create a File-like object from the document picker result
+            return {
+              uri: result.uri,
+              name: result.name,
+              type: result.type,
+              size: result.size,
+              // Add a method to get the file content as a blob
+              // blob: async () => {
+              //   try {
+              //     const RNFS = require('react-native-fs')
+              //     const fileContent = await RNFS.readFile(result.uri, 'base64')
+              //     const blob = new Blob([fileContent], { type: result.type })
+              //     return blob
+              //   } catch (error) {
+              //     this.ucUiStore
+              //       .getLogger()
+              //       .log('error', 'Error reading file: ' + error)
+              //     return null
+              //   }
+              // },
+            }
+          })
+          console.log('#Duy Phan console 222222', files)
+
+          // Send the files
+          _this24.ucUiAction.sendFiles({
+            chatType: panelType,
+            chatCode: panelCode,
+            files: files,
+          })
+          console.log('#Duy Phan console files done')
+        } else {
+          _this24.ucUiStore.getLogger().log('info', 'No files selected')
+        }
+      })
+      .catch(function (err) {
+        if (DocumentPicker.isCancel(err)) {
+          // User cancelled the picker
+          _this24.ucUiStore
+            .getLogger()
+            .log('info', 'User cancelled file picker')
+        } else {
+          // Error occurred
+          _this24.ucUiStore
+            .getLogger()
+            .log('error', 'Error picking files: ' + err)
+        }
+      })
+  }
 }
 uiData.prototype.panelHeaderVoiceButton_onClick = function (
   panelType,
@@ -4094,8 +4599,8 @@ uiData.prototype.panelHeaderHistoryButton_onClick = function (
   ev,
 ) {
   if (panelType === 'CHAT' || panelType === 'HISTORYDETAIL') {
-    const profile = this.ucUiStore.getChatClient().getProfile()
-    let buddy
+    var profile = this.ucUiStore.getChatClient().getProfile()
+    var buddy
     try {
       buddy =
         JSON.parse(
@@ -4115,14 +4620,20 @@ uiData.prototype.panelHeaderHistoryButton_onClick = function (
         .log('warn', 'cannot open history of buddy of tenant=' + buddy.tenant)
       return
     }
-    const newPanelType = 'HISTORYSUMMARIES'
-    const newPanelCode = string(++this.panelCodeCounter)
+    var newPanelType = 'HISTORYSUMMARIES'
+    var newPanelCode = (0, _strings.string)(++this.panelCodeCounter)
     this.ucUiAction.setSearchConditions({
       chatType: newPanelType,
       chatCode: newPanelCode,
       searchConditions: [
-        { conditionKey: '_onlyMe', conditionValue: '2' },
-        { conditionKey: '_userId', conditionValue: string(buddy.user_id) },
+        {
+          conditionKey: '_onlyMe',
+          conditionValue: '2',
+        },
+        {
+          conditionKey: '_userId',
+          conditionValue: (0, _strings.string)(buddy.user_id),
+        },
       ],
     })
     this.ucUiAction.doSearch({
@@ -4137,7 +4648,10 @@ uiData.prototype.panelHeaderHistoryButton_onClick = function (
         sourcePanelType: panelType,
         sourcePanelCode: panelCode,
       },
-      select: { panelType: newPanelType, panelCode: newPanelCode },
+      select: {
+        panelType: newPanelType,
+        panelCode: newPanelCode,
+      },
     })
   }
 }
@@ -4177,7 +4691,7 @@ uiData.prototype.panelHeaderContinuationMenuItem_onClick = function (
   replyType,
   ev,
 ) {
-  const chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
+  var chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
     chatType: panelType,
     chatCode: panelCode,
   })
@@ -4195,23 +4709,28 @@ uiData.prototype.panelHeaderUndockButton_onClick = function (
   panelCode,
   ev,
 ) {
-  this.updateTab({ close: { panelType: panelType, panelCode: panelCode } })
-  const subWindow = this.subWindowList.find(
-    p => p.panelType === panelType && p.panelCode === panelCode,
-  )
+  this.updateTab({
+    close: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+  })
+  var subWindow = this.subWindowList.find(function (p) {
+    return p.panelType === panelType && p.panelCode === panelCode
+  })
   if (subWindow) {
     subWindow.window.focus()
     return
   }
-  const win = window.open(
+  var win = window.open(
     '',
     panelType + '_' + panelCode,
     'width=300, height=400',
   )
   if (win) {
-    const chatTitle =
+    var chatTitle =
       panelType === 'WEBCHATQUEUE'
-        ? uawMsgs.TAB_WEBCHATQUEUE
+        ? _uawmsgs.default.TAB_WEBCHATQUEUE
         : this.ucUiStore.getChatHeaderInfo({
             chatType: panelType,
             chatCode: panelCode,
@@ -4222,20 +4741,20 @@ uiData.prototype.panelHeaderUndockButton_onClick = function (
     win.document.write('<head>')
     win.document.write('<meta charset="utf-8">')
     win.document.write('<title>')
-    win.document.write(escapeHTML(chatTitle))
+    win.document.write((0, _strings.escapeHTML)(chatTitle))
     win.document.write('</title>')
     win.document.write(
       '<link rel="stylesheet" href="' +
-        CURRENT_SCRIPT_URL.DIR +
+        _currentscript.default.DIR +
         '../../../css/ucagentwidget.css' +
-        CURRENT_SCRIPT_URL.QUERY +
+        _currentscript.default.QUERY +
         '" />',
     )
     win.document.write(
       '<link rel="stylesheet" href="' +
-        CURRENT_SCRIPT_URL.DIR +
+        _currentscript.default.DIR +
         '../../../css/react-datepicker.css' +
-        CURRENT_SCRIPT_URL.QUERY +
+        _currentscript.default.QUERY +
         '" />',
     )
     win.document.write('</head>')
@@ -4249,7 +4768,7 @@ uiData.prototype.panelHeaderUndockButton_onClick = function (
       'unload',
       this.subwindow_unload.bind(this, panelType, panelCode),
     )
-    const ud = new uiData({
+    var ud = new uiData({
       parentElement: 'content',
       ucUiAction: this.ucUiAction,
       ucUiStore: this.ucUiStore,
@@ -4277,14 +4796,14 @@ uiData.prototype.panelHeaderUndockButton_onClick = function (
   }
 }
 uiData.prototype.subwindow_unload = function (panelType, panelCode, ev) {
-  const index = this.subWindowList.findIndex(
-    p => p.panelType === panelType && p.panelCode === panelCode,
-  )
+  var index = this.subWindowList.findIndex(function (p) {
+    return p.panelType === panelType && p.panelCode === panelCode
+  })
   if (index !== -1) {
     this.subWindowList[index].uiData.destroyApp()
     this.subWindowList.splice(index, 1)
   }
-  const win =
+  var win =
     ev.target &&
     ev.target.ownerDocument &&
     (ev.target.ownerDocument.defaultView ||
@@ -4295,8 +4814,14 @@ uiData.prototype.subwindow_unload = function (panelType, panelCode, ev) {
       (ev.target.defaultView || ev.target.parentWindow || {}).brDockFlag)
   ) {
     this.updateTab({
-      open: { panelType: panelType, panelCode: panelCode },
-      select: { panelType: panelType, panelCode: panelCode },
+      open: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
+      select: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
     })
   }
 }
@@ -4306,12 +4831,15 @@ uiData.prototype.panelHeaderHideButton_onClick = function (
   ev,
 ) {
   if (this.configurations.tabCloseCancelable) {
-    const doCloseFunc = {
+    var doCloseFunc = {
       func: this.updateTab.bind(this, {
-        close: { panelType: panelType, panelCode: panelCode },
+        close: {
+          panelType: panelType,
+          panelCode: panelCode,
+        },
       }),
     }
-    const continueEvent = result => {
+    var continueEvent = function continueEvent(result) {
       if (result) {
         if (doCloseFunc.func) {
           doCloseFunc.func()
@@ -4324,7 +4852,12 @@ uiData.prototype.panelHeaderHideButton_onClick = function (
       continueEvent: continueEvent,
     })
   } else {
-    this.updateTab({ close: { panelType: panelType, panelCode: panelCode } })
+    this.updateTab({
+      close: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
+    })
   }
 }
 uiData.prototype.panelHeaderDockButton_onClick = function (
@@ -4333,7 +4866,7 @@ uiData.prototype.panelHeaderDockButton_onClick = function (
   ev,
 ) {
   // this is sub window
-  const win =
+  var win =
     ev.target &&
     ev.target.ownerDocument &&
     (ev.target.ownerDocument.defaultView ||
@@ -4349,7 +4882,7 @@ uiData.prototype.panelHeaderHideSubButton_onClick = function (
   ev,
 ) {
   // this is sub window
-  const win =
+  var win =
     ev.target &&
     ev.target.ownerDocument &&
     (ev.target.ownerDocument.defaultView ||
@@ -4365,11 +4898,11 @@ uiData.prototype.panelHeaderCloseChatButton_onClick = function (
 ) {
   if (panelType === 'CONFERENCE') {
     this.showModal({
-      title: uawMsgs.MSG_CLOSE_CHAT_CONFIRM_TITLE,
-      message: uawMsgs.MSG_CLOSE_CHAT_CONFIRM,
+      title: _uawmsgs.default.MSG_CLOSE_CHAT_CONFIRM_TITLE,
+      message: _uawmsgs.default.MSG_CLOSE_CHAT_CONFIRM,
       cancelable: true,
       onOk: this.ucUiAction.leaveWebchatRoom.bind(this.ucUiAction, {
-        conf_id: string(
+        conf_id: (0, _strings.string)(
           this.ucUiStore.getChatHeaderInfo({
             chatType: panelType,
             chatCode: panelCode,
@@ -4385,26 +4918,33 @@ uiData.prototype.panelHeaderRejoinButton_onClick = function (
   ev,
 ) {
   this.ucUiAction.joinWebchatRoom({
-    conf_id: string(
+    conf_id: (0, _strings.string)(
       this.ucUiStore.getChatHeaderInfo({
         chatType: panelType,
         chatCode: panelCode,
       }).conf_id,
     ),
-    properties: { invisible: false, exclusive: false },
+    properties: {
+      invisible: false,
+      exclusive: false,
+    },
   })
 }
 uiData.prototype.chatPanel_onDrop = function (panelType, panelCode, ev) {
-  const myUcCimUserType = int(this.ucUiStore.getUcCimUserType())
+  var myUcCimUserType = (0, _strings.int)(this.ucUiStore.getUcCimUserType())
   if (
-    (int(this.ucUiStore.getOptionalSetting({ key: 'fsp' })) &
+    ((0, _strings.int)(
+      this.ucUiStore.getOptionalSetting({
+        key: 'fsp',
+      }),
+    ) &
       myUcCimUserType) ===
     myUcCimUserType
   ) {
     this.ucUiStore.getLogger().log('warn', 'invalid fsp in chatPanel_onDrop')
     return
   }
-  const files =
+  var files =
     (ev && ev.files) || (ev && ev.dataTransfer && ev.dataTransfer.files)
   if (files && files.length) {
     this.ucUiAction.sendFiles({
@@ -4421,7 +4961,7 @@ uiData.prototype.chatArea_onScrolledToBottomChanged = function (
   panelCode,
   scrolledToBottom,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (this.currentSelectedTab === panelKey) {
     this.currentSelectedTabScrolledToBottom = scrolledToBottom
     if (
@@ -4431,7 +4971,7 @@ uiData.prototype.chatArea_onScrolledToBottomChanged = function (
     ) {
       delete this.unscrolledTabs[panelKey]
       if (this.funcOnScrolledQueues[panelKey]) {
-        let funcOnScrolled
+        var funcOnScrolled
         while ((funcOnScrolled = this.funcOnScrolledQueues[panelKey].shift())) {
           funcOnScrolled()
           this.ucUiStore
@@ -4457,7 +4997,7 @@ uiData.prototype.chatInvitationJoinButton_onClick = function (
 ) {
   if (panelType === 'CONFERENCE') {
     this.ucUiAction.joinConference({
-      conf_id: string(
+      conf_id: (0, _strings.string)(
         this.ucUiStore.getChatHeaderInfo({
           chatType: panelType,
           chatCode: panelCode,
@@ -4473,7 +5013,7 @@ uiData.prototype.chatInvitationRejectButton_onClick = function (
 ) {
   if (panelType === 'CONFERENCE') {
     this.ucUiAction.leaveConference({
-      conf_id: string(
+      conf_id: (0, _strings.string)(
         this.ucUiStore.getChatHeaderInfo({
           chatType: panelType,
           chatCode: panelCode,
@@ -4487,11 +5027,11 @@ uiData.prototype.chatListOpenDetailLink_onClick = function (
   panelCode,
   ev,
 ) {
-  const newPanelType = 'HISTORYDETAIL'
-  const newPanelCode = panelCode
+  var newPanelType = 'HISTORYDETAIL'
+  var newPanelCode = panelCode
   this.historyDetailWorkTable[newPanelCode] = {
     chatPanelCode: panelCode,
-    historyDetailName: string(
+    historyDetailName: (0, _strings.string)(
       (
         this.ucUiStore.getChatHeaderInfo({
           chatType: panelType,
@@ -4514,34 +5054,38 @@ uiData.prototype.chatListOpenDetailLink_onClick = function (
       sourcePanelType: panelType,
       sourcePanelCode: panelCode,
     },
-    select: { panelType: newPanelType, panelCode: newPanelCode },
+    select: {
+      panelType: newPanelType,
+      panelCode: newPanelCode,
+    },
   })
 }
 uiData.prototype.chatFileOpenInNewWindowButton_onClick = function (url, ev) {
+  var _this25 = this
   // convert to data uri scheme (internet explorer cannot display img from blob url scheme on another window)
   if (
     typeof Blob !== 'undefined' &&
     typeof XMLHttpRequest !== 'undefined' &&
     typeof FileReader !== 'undefined'
   ) {
-    const xhr = new XMLHttpRequest()
-    xhr.onreadystatechange = () => {
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function () {
       if (xhr.readyState === 1) {
         xhr.responseType = 'blob'
       } else if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          const fileReader = new window.FileReader()
-          fileReader.onload = () => {
+          var fileReader = new window.FileReader()
+          fileReader.onload = function () {
             // open new window and display full size image
-            let url = string(
-              this.ownerDocument.defaultView &&
-                this.ownerDocument.defaultView.location &&
-                this.ownerDocument.defaultView.location.href,
+            var url = (0, _strings.string)(
+              _this25.ownerDocument.defaultView &&
+                _this25.ownerDocument.defaultView.location &&
+                _this25.ownerDocument.defaultView.location.href,
             )
             url += (url.indexOf('?') === -1 ? '?' : '&') + 'image'
-            const win = window.open(url, null)
+            var win = window.open(url, null)
             if (win) {
-              setTimeout(() => {
+              setTimeout(function () {
                 win.document.open()
                 win.document.write(
                   '<!doctype html><html><body><img src="' +
@@ -4551,7 +5095,7 @@ uiData.prototype.chatFileOpenInNewWindowButton_onClick = function (url, ev) {
                 win.document.close()
               }, 0)
             } else {
-              this.ucUiStore.getLogger().log('warn', 'window.open error')
+              _this25.ucUiStore.getLogger().log('warn', 'window.open error')
             }
           }
           fileReader.readAsDataURL(xhr.response)
@@ -4563,51 +5107,55 @@ uiData.prototype.chatFileOpenInNewWindowButton_onClick = function (url, ev) {
   }
 }
 uiData.prototype.chatFileCancelButton_onClick = function (messageFile, ev) {
+  var _this26 = this
   this.showModal({
-    title: uawMsgs.MSG_FILE_CANCEL_CONFIRM_TITLE,
-    message: uawMsgs.MSG_FILE_CANCEL_CONFIRM,
+    title: _uawmsgs.default.MSG_FILE_CANCEL_CONFIRM_TITLE,
+    message: _uawmsgs.default.MSG_FILE_CANCEL_CONFIRM,
     cancelable: true,
-    onOk: () => {
+    onOk: function onOk() {
       if (!messageFile.multiReceiversInfo) {
-        this.ucUiStore.getChatClient().cancelFile(messageFile.file_id, null)
+        _this26.ucUiStore.getChatClient().cancelFile(messageFile.file_id, null)
       } else {
-        messageFile.multiReceiversInfo.forEach(info => {
-          this.ucUiStore.getChatClient().cancelFile(info.file_id, null)
+        messageFile.multiReceiversInfo.forEach(function (info) {
+          _this26.ucUiStore.getChatClient().cancelFile(info.file_id, null)
         })
       }
     },
   })
 }
 uiData.prototype.chatInlineImage_onClick = function (url, ev) {
-  const style = {
+  var _this27 = this
+  var style = {
     margin: '8px',
   }
-  const imageWidth = ev && ev.target && ev.target.naturalWidth
-  const imageHeight = ev && ev.target && ev.target.naturalHeight
-  const clientWidth =
+  var imageWidth = ev && ev.target && ev.target.naturalWidth
+  var imageHeight = ev && ev.target && ev.target.naturalHeight
+  var clientWidth =
     this.ownerDocument &&
     this.ownerDocument.documentElement &&
     this.ownerDocument.documentElement.clientWidth
-  const clientHeight =
+  var clientHeight =
     this.ownerDocument &&
     this.ownerDocument.documentElement &&
     this.ownerDocument.documentElement.clientHeight
-  const chatArea =
+  var chatArea =
     ev && ev.target && ev.target.closest && ev.target.closest('.brChatArea')
-  const editorArea =
+  var editorArea =
     chatArea &&
     chatArea.parentElement &&
     chatArea.parentElement.querySelector &&
     chatArea.parentElement.querySelector('.brEditorArea')
-  const clickableHeight =
+  var clickableHeight =
     clientHeight -
       (
         (editorArea &&
           editorArea.getBoundingClientRect &&
-          editorArea.getBoundingClientRect()) || { top: clientHeight }
+          editorArea.getBoundingClientRect()) || {
+          top: clientHeight,
+        }
       ).top || 0
-  const maxWidth = clientWidth - 16
-  const maxHeight = clientHeight - clickableHeight - 28
+  var maxWidth = clientWidth - 16
+  var maxHeight = clientHeight - clickableHeight - 28
   if (imageWidth > 0 && imageHeight > 0 && maxWidth > 0 && maxHeight > 0) {
     if (imageWidth < maxWidth && imageHeight < maxHeight) {
       style.width = imageWidth + 'px'
@@ -4648,35 +5196,40 @@ uiData.prototype.chatInlineImage_onClick = function (url, ev) {
       },
     },
     contentParams: {
-      content: <img src={url} style={style} />,
+      content: '<img src={url} style={style} />',
+      // TODO: Check and update this element
     },
   })
-  const currentModalInfo = this.modalInfo
-  let count = 0
-  const funcSetListener = () => {
-    const overlay = this.ownerDocument.querySelector(
+  var currentModalInfo = this.modalInfo
+  var count = 0
+  var _funcSetListener = function funcSetListener() {
+    var overlay = _this27.ownerDocument.querySelector(
       '.brWidgetBodyModalOverlay',
     )
     if (overlay) {
       overlay.addEventListener(
         'click',
-        () => {
-          if (this.modalInfo === currentModalInfo) {
-            this.modalInfo = null
-            this.render()
+        function () {
+          if (_this27.modalInfo === currentModalInfo) {
+            _this27.modalInfo = null
+            _this27.render()
           }
         },
-        { once: true },
+        {
+          once: true,
+        },
       )
     } else if (count < 50) {
-      setTimeout(funcSetListener, 100)
+      setTimeout(_funcSetListener, 100)
     } else {
-      this.ucUiStore.getLogger().log('warn', 'funcSetListener count=' + count)
-      this.modalInfo = null
-      this.render()
+      _this27.ucUiStore
+        .getLogger()
+        .log('warn', 'funcSetListener count=' + count)
+      _this27.modalInfo = null
+      _this27.render()
     }
   }
-  setTimeout(funcSetListener, 100)
+  setTimeout(_funcSetListener, 100)
 }
 uiData.prototype.chatInlineImage_onLoad = function (messageFile, ev) {
   this.render()
@@ -4707,9 +5260,9 @@ uiData.prototype.editorTextarea_onKeyDown = function (
           chatCode: panelCode,
         })
         if (ev.target && ev.target.value === '') {
-          const statusMe = this.ucUiStore.getChatClient().getStatus()
+          var statusMe = this.ucUiStore.getChatClient().getStatus()
           if (
-            statusMe.status !== Constants.STATUS_AVAILABLE ||
+            statusMe.status !== _constants.default.STATUS_AVAILABLE ||
             statusMe.display
           ) {
             this.startAnimation('statusbar', 4000, false)
@@ -4727,7 +5280,7 @@ uiData.prototype.editorSendButton_onClick = function (
   isEmail,
   ev,
 ) {
-  const value = editorTextarea.getValue()
+  var value = editorTextarea.getValue()
   if (value) {
     this.sendTextFromEditor(
       panelType,
@@ -4746,8 +5299,8 @@ uiData.prototype.callAnswerButton_onClick = function (
   isVideo,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
-  const dontMakeVideo = new RegExp(
+  var panelKey = panelType + '_' + panelCode
+  var dontMakeVideo = new RegExp(
     '^' +
       this.ucUiStore.getLocalStoragePreference({
         keyList: ['noVideoMode'],
@@ -4764,19 +5317,19 @@ uiData.prototype.callAnswerButton_onClick = function (
       .log('warn', 'empty this.panelSessionTable["' + panelKey + '"]')
     return
   }
-  const session = this.phone.getSession(
+  var session = this.phone.getSession(
     this.panelSessionTable[panelKey].sessionId,
   )
   if (!session) {
     this.ucUiStore.getLogger().log('warn', 'empty session')
     return
   }
-  const newWithVideo =
+  var newWithVideo =
     isVideo ||
     (!dontMakeVideo &&
       session.remoteUserOptionsTable &&
-      Object.keys(session.remoteUserOptionsTable).some(user => {
-        let remoteSoundOnly = false
+      Object.keys(session.remoteUserOptionsTable).some(function (user) {
+        var remoteSoundOnly = false
         try {
           remoteSoundOnly = JSON.parse(
             session.remoteUserOptionsTable[user].exInfo,
@@ -4805,9 +5358,16 @@ uiData.prototype.callAnswerButton_onClick = function (
     null,
     newWithVideo,
     this.getVideoOptions(panelKey),
-    JSON.stringify({ soundOnly: !Boolean(isVideo) }),
+    JSON.stringify({
+      soundOnly: !Boolean(isVideo),
+    }),
   )
-  this.updateTab({ select: { panelType: panelType, panelCode: panelCode } })
+  this.updateTab({
+    select: {
+      panelType: panelType,
+      panelCode: panelCode,
+    },
+  })
 }
 uiData.prototype.callAreaTheaterButton_onClick = function (
   panelType,
@@ -4834,7 +5394,7 @@ uiData.prototype.callTransferButton_onClick = function (
   target,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -4876,7 +5436,7 @@ uiData.prototype.callTransferConferenceButton_onClick = function (
   panelCode,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -4904,7 +5464,7 @@ uiData.prototype.callTransferConferenceButton_onClick = function (
   this.render()
 }
 uiData.prototype.callHoldButton_onClick = function (panelType, panelCode, ev) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -4937,7 +5497,7 @@ uiData.prototype.callDtmfButton_onClick = function (
   tone,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -4956,7 +5516,7 @@ uiData.prototype.callAreaChangeDeviceMenuItem_onClick = function (
   device,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -4967,7 +5527,7 @@ uiData.prototype.callAreaChangeDeviceMenuItem_onClick = function (
       .log('warn', 'empty this.panelSessionTable["' + panelKey + '"]')
     return
   }
-  const session = this.phone.getSession(
+  var session = this.phone.getSession(
     this.panelSessionTable[panelKey].sessionId,
   )
   if (!session) {
@@ -4980,7 +5540,12 @@ uiData.prototype.callAreaChangeDeviceMenuItem_onClick = function (
   }
   if (device.kind === 'videoinput') {
     this.ucUiAction.setLocalStoragePreference({
-      keyValueList: [{ key: 'videoSource', value: string(device.deviceId) }],
+      keyValueList: [
+        {
+          key: 'videoSource',
+          value: (0, _strings.string)(device.deviceId),
+        },
+      ],
     })
     this.setPhoneDefaultOptions()
     if (this.panelSessionTable[panelKey].isVideo) {
@@ -4989,18 +5554,30 @@ uiData.prototype.callAreaChangeDeviceMenuItem_onClick = function (
         session.sessionId,
         true,
         this.getVideoOptions(panelKey),
-        JSON.stringify({ soundOnly: false }),
+        JSON.stringify({
+          soundOnly: false,
+        }),
       )
     }
   } else if (device.kind === 'audioinput') {
     this.ucUiAction.setLocalStoragePreference({
-      keyValueList: [{ key: 'audioSource', value: string(device.deviceId) }],
+      keyValueList: [
+        {
+          key: 'audioSource',
+          value: (0, _strings.string)(device.deviceId),
+        },
+      ],
     })
     this.setPhoneDefaultOptions()
     this.phone.reconnectMicrophone(session.sessionId)
   } else if (device.kind === 'audiooutput') {
     this.ucUiAction.setLocalStoragePreference({
-      keyValueList: [{ key: 'audioTarget', value: string(device.deviceId) }],
+      keyValueList: [
+        {
+          key: 'audioTarget',
+          value: (0, _strings.string)(device.deviceId),
+        },
+      ],
     })
   } else {
     this.ucUiStore.getLogger().log('warn', 'invalid device.kind=' + device.kind)
@@ -5014,7 +5591,7 @@ uiData.prototype.callMuteButton_onClick = function (
   prop,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -5025,7 +5602,7 @@ uiData.prototype.callMuteButton_onClick = function (
       .log('warn', 'empty this.panelSessionTable["' + panelKey + '"]')
     return
   }
-  const session = this.phone.getSession(
+  var session = this.phone.getSession(
     this.panelSessionTable[panelKey].sessionId,
   )
   if (!session) {
@@ -5036,7 +5613,7 @@ uiData.prototype.callMuteButton_onClick = function (
     this.ucUiStore.getLogger().log('warn', 'empty session.muted')
     return
   }
-  const muted = {}
+  var muted = {}
   muted[prop] = !Boolean(session.muted[prop])
   this.phone.setMuted(muted, session.sessionId)
   this.render()
@@ -5046,7 +5623,7 @@ uiData.prototype.callCameraMuteButton_onClick = function (
   panelCode,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -5057,7 +5634,7 @@ uiData.prototype.callCameraMuteButton_onClick = function (
       .log('warn', 'empty this.panelSessionTable["' + panelKey + '"]')
     return
   }
-  const session = this.phone.getSession(
+  var session = this.phone.getSession(
     this.panelSessionTable[panelKey].sessionId,
   )
   if (!session) {
@@ -5073,7 +5650,6 @@ uiData.prototype.callCameraMuteButton_onClick = function (
   this.panelSessionTable[panelKey].cameraMuted = !Boolean(
     this.panelSessionTable[panelKey].cameraMuted,
   )
-
   if (!this.panelSessionTable[panelKey].isVideo) {
     // change video on
     this.panelSessionTable[panelKey].isVideo = true
@@ -5096,7 +5672,9 @@ uiData.prototype.callCameraMuteButton_onClick = function (
       session.sessionId,
       true,
       this.getVideoOptions(panelKey),
-      JSON.stringify({ soundOnly: false }),
+      JSON.stringify({
+        soundOnly: false,
+      }),
     )
   } else {
     // set muted of video client
@@ -5116,7 +5694,7 @@ uiData.prototype.callScreenToggleButton_onClick = function (
   panelCode,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -5133,7 +5711,7 @@ uiData.prototype.callScreenToggleButton_onClick = function (
       .log('warn', 'empty this.panelSessionTable["' + panelKey + '"]')
     return
   }
-  const session = this.phone.getSession(
+  var session = this.phone.getSession(
     this.panelSessionTable[panelKey].sessionId,
   )
   if (!session) {
@@ -5171,7 +5749,9 @@ uiData.prototype.callScreenToggleButton_onClick = function (
     session.sessionId,
     true,
     this.getVideoOptions(panelKey),
-    JSON.stringify({ soundOnly: false }),
+    JSON.stringify({
+      soundOnly: false,
+    }),
   )
 }
 uiData.prototype.callVideoRefreshButton_onClick = function (
@@ -5179,7 +5759,7 @@ uiData.prototype.callVideoRefreshButton_onClick = function (
   panelCode,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -5196,7 +5776,7 @@ uiData.prototype.callVideoRefreshButton_onClick = function (
       .log('warn', 'empty this.panelSessionTable["' + panelKey + '"]')
     return
   }
-  const session = this.phone.getSession(
+  var session = this.phone.getSession(
     this.panelSessionTable[panelKey].sessionId,
   )
   if (!session) {
@@ -5231,7 +5811,7 @@ uiData.prototype.callHangUpButton_onClick = function (
   panelCode,
   ev,
 ) {
-  const panelKey = panelType + '_' + panelCode
+  var panelKey = panelType + '_' + panelCode
   if (!this.phone) {
     this.ucUiStore.getLogger().log('warn', 'empty phone')
     return
@@ -5242,7 +5822,7 @@ uiData.prototype.callHangUpButton_onClick = function (
       .log('warn', 'empty this.panelSessionTable["' + panelKey + '"]')
     return
   }
-  const session = this.phone.getSession(
+  var session = this.phone.getSession(
     this.panelSessionTable[panelKey].sessionId,
   )
   if (!session) {
@@ -5266,14 +5846,15 @@ uiData.prototype.historySummariesPanelOpenDetailButton_onClick = function (
   historyDetailName,
   ev,
 ) {
-  const newPanelType = 'HISTORYDETAIL'
-  const newPanelCode = string(++this.panelCodeCounter)
+  var _this28 = this
+  var newPanelType = 'HISTORYDETAIL'
+  var newPanelCode = (0, _strings.string)(++this.panelCodeCounter)
   this.historyDetailWorkTable[newPanelCode] = {
     chatPanelCode:
       peer && peer.user_id
         ? JSON.stringify({
-            tenant: string(peer.tenant),
-            user_id: string(peer.user_id),
+            tenant: (0, _strings.string)(peer.tenant),
+            user_id: (0, _strings.string)(peer.user_id),
           })
         : '',
     historyDetailName: historyDetailName,
@@ -5297,7 +5878,10 @@ uiData.prototype.historySummariesPanelOpenDetailButton_onClick = function (
         sourcePanelType: panelType,
         sourcePanelCode: panelCode,
       },
-      select: { panelType: newPanelType, panelCode: newPanelCode },
+      select: {
+        panelType: newPanelType,
+        panelCode: newPanelCode,
+      },
     })
   } else {
     this.updateTab({
@@ -5307,7 +5891,10 @@ uiData.prototype.historySummariesPanelOpenDetailButton_onClick = function (
         sourcePanelType: panelType,
         sourcePanelCode: panelCode,
       },
-      select: { panelType: newPanelType, panelCode: newPanelCode },
+      select: {
+        panelType: newPanelType,
+        panelCode: newPanelCode,
+      },
     })
     this.ucUiAction.expandSearchResult({
       chatType: panelType,
@@ -5319,25 +5906,25 @@ uiData.prototype.historySummariesPanelOpenDetailButton_onClick = function (
       chatCode: panelCode,
       searchResultIds: [searchResultId],
     })
-    let count = 0
-    const funcCopy = () => {
+    var count = 0
+    var _funcCopy = function funcCopy() {
       if (
-        this.ucUiStore.getChatList({
+        _this28.ucUiStore.getChatList({
           chatType: 'SEARCHRESULTDETAIL',
           chatCode: searchResultId,
         }).length
       ) {
-        this.ucUiAction.copyChatList({
+        _this28.ucUiAction.copyChatList({
           chatTypeSource: 'SEARCHRESULTDETAIL',
           chatCodeSource: searchResultId,
           chatTypeTarget: newPanelType,
           chatCodeTarget: newPanelCode,
         })
       } else if (count < 20) {
-        setTimeout(funcCopy, 100 * ++count)
+        setTimeout(_funcCopy, 100 * ++count)
       }
     }
-    setTimeout(funcCopy, 0)
+    setTimeout(_funcCopy, 0)
   }
 }
 uiData.prototype.historySummariesPanelContinuationButton_onClick = function (
@@ -5347,14 +5934,15 @@ uiData.prototype.historySummariesPanelContinuationButton_onClick = function (
   replyType,
   ev,
 ) {
-  const profile = this.ucUiStore.getChatClient().getProfile()
-  const searchResult =
+  var _this29 = this
+  var profile = this.ucUiStore.getChatClient().getProfile()
+  var searchResult =
     this.ucUiStore.getSearchResults({
       chatType: panelType,
       chatCode: panelCode,
       searchResultIds: [searchResultId],
     })[0] || {}
-  let chatCode = this.ucUiStore.getChatCodeByConfId({
+  var chatCode = this.ucUiStore.getChatCodeByConfId({
     conf_id: searchResult._conf_id,
     yyyymm: searchResult._yyyymm,
   }).chatCode
@@ -5370,8 +5958,10 @@ uiData.prototype.historySummariesPanelContinuationButton_onClick = function (
     }).chatCode
   }
   if (
-    !this.ucUiStore.getChatList({ chatType: 'CONFERENCE', chatCode: chatCode })
-      .length
+    !this.ucUiStore.getChatList({
+      chatType: 'CONFERENCE',
+      chatCode: chatCode,
+    }).length
   ) {
     if (
       this.ucUiStore.getChatList({
@@ -5396,25 +5986,25 @@ uiData.prototype.historySummariesPanelContinuationButton_onClick = function (
         chatCode: panelCode,
         searchResultIds: [searchResultId],
       })
-      let count = 0
-      const funcCopy = () => {
+      var count = 0
+      var _funcCopy2 = function funcCopy() {
         if (
-          this.ucUiStore.getChatList({
+          _this29.ucUiStore.getChatList({
             chatType: 'SEARCHRESULTDETAIL',
             chatCode: searchResultId,
           }).length
         ) {
-          this.ucUiAction.copyChatList({
+          _this29.ucUiAction.copyChatList({
             chatTypeSource: 'SEARCHRESULTDETAIL',
             chatCodeSource: searchResultId,
             chatTypeTarget: 'CONFERENCE',
             chatCodeTarget: chatCode,
           })
         } else if (count < 20) {
-          setTimeout(funcCopy, 100 * ++count)
+          setTimeout(_funcCopy2, 100 * ++count)
         }
       }
-      setTimeout(funcCopy, 0)
+      setTimeout(_funcCopy2, 0)
     }
   }
   this.replyContinuation(
@@ -5431,6 +6021,7 @@ uiData.prototype.preferenceProfileImagePreview_onClick = function (
   panelCode,
   ev,
 ) {
+  var _this30 = this
   if (!this.preferenceWorkTable[panelCode]) {
     this.ucUiStore
       .getLogger()
@@ -5455,7 +6046,7 @@ uiData.prototype.preferenceProfileImagePreview_onClick = function (
     this.ucUiStore.getLogger().log('info', 'no image')
     return
   }
-  const url = string(
+  var url = (0, _strings.string)(
     this.preferenceWorkTable[panelCode].profileImageUrl,
   ).replace('&SIZE=40', '&SIZE=ORIGINAL')
   // convert to data uri scheme (internet explorer cannot display img from blob url scheme on another window)
@@ -5464,24 +6055,24 @@ uiData.prototype.preferenceProfileImagePreview_onClick = function (
     typeof XMLHttpRequest !== 'undefined' &&
     typeof FileReader !== 'undefined'
   ) {
-    const xhr = new XMLHttpRequest()
-    xhr.onreadystatechange = () => {
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function () {
       if (xhr.readyState === 1) {
         xhr.responseType = 'blob'
       } else if (xhr.readyState === 4) {
         if (xhr.status === 200) {
-          const fileReader = new window.FileReader()
-          fileReader.onload = () => {
+          var fileReader = new window.FileReader()
+          fileReader.onload = function () {
             // open new window and display full size image
-            let url = string(
-              this.ownerDocument.defaultView &&
-                this.ownerDocument.defaultView.location &&
-                this.ownerDocument.defaultView.location.href,
+            var url = (0, _strings.string)(
+              _this30.ownerDocument.defaultView &&
+                _this30.ownerDocument.defaultView.location &&
+                _this30.ownerDocument.defaultView.location.href,
             )
             url += (url.indexOf('?') === -1 ? '?' : '&') + 'image'
-            const win = window.open(url, null)
+            var win = window.open(url, null)
             if (win) {
-              setTimeout(() => {
+              setTimeout(function () {
                 win.document.open()
                 win.document.write(
                   '<!doctype html><html><body><img src="' +
@@ -5491,7 +6082,7 @@ uiData.prototype.preferenceProfileImagePreview_onClick = function (
                 win.document.close()
               }, 0)
             } else {
-              this.ucUiStore.getLogger().log('warn', 'window.open error')
+              _this30.ucUiStore.getLogger().log('warn', 'window.open error')
             }
           }
           fileReader.readAsDataURL(xhr.response)
@@ -5507,6 +6098,7 @@ uiData.prototype.preferenceProfileImageUploadInput_onChange = function (
   panelCode,
   ev,
 ) {
+  var _this31 = this
   if (!this.preferenceWorkTable[panelCode]) {
     this.ucUiStore
       .getLogger()
@@ -5524,7 +6116,7 @@ uiData.prototype.preferenceProfileImageUploadInput_onChange = function (
       )
     return
   }
-  const input = ev && ev.target
+  var input = ev && ev.target
   if (!input || !input.value) {
     this.ucUiStore.getLogger().log('info', 'empty input.value')
     return
@@ -5532,15 +6124,15 @@ uiData.prototype.preferenceProfileImageUploadInput_onChange = function (
   this.preferenceWorkTable[panelCode].profileImageUploading = true
   this.ucUiStore.getChatClient().uploadProfileImage(
     ev.target,
-    ev => {
+    function (ev) {
       input.value = ''
-      this.preferenceWorkTable[panelCode].profileImageUrl = ev.url
-      this.preferenceWorkTable[panelCode].profileImageUploading = false
-      this.preferenceWorkTable[panelCode].profileImageTo = 'SAVE'
-      this.render()
+      _this31.preferenceWorkTable[panelCode].profileImageUrl = ev.url
+      _this31.preferenceWorkTable[panelCode].profileImageUploading = false
+      _this31.preferenceWorkTable[panelCode].profileImageTo = 'SAVE'
+      _this31.render()
     },
-    ev => {
-      this.ucUiStore
+    function (ev) {
+      _this31.ucUiStore
         .getLogger()
         .log(
           'warn',
@@ -5550,16 +6142,16 @@ uiData.prototype.preferenceProfileImageUploadInput_onChange = function (
             ev.message,
         )
       input.value = ''
-      const profile = this.ucUiStore.getChatClient().getProfile()
-      const userMe = this.ucUiStore.getBuddyUserForUi(profile)
-      this.preferenceWorkTable[panelCode].profileImageUrl =
+      var profile = _this31.ucUiStore.getChatClient().getProfile()
+      var userMe = _this31.ucUiStore.getBuddyUserForUi(profile)
+      _this31.preferenceWorkTable[panelCode].profileImageUrl =
         userMe.profile_image_url
-      this.preferenceWorkTable[panelCode].profileImageUploading = false
-      this.preferenceWorkTable[panelCode].profileImageTo = ''
-      this.showModal({
-        title: uawMsgs.CMN_ALERT,
+      _this31.preferenceWorkTable[panelCode].profileImageUploading = false
+      _this31.preferenceWorkTable[panelCode].profileImageTo = ''
+      _this31.showModal({
+        title: _uawmsgs.default.CMN_ALERT,
         message:
-          uawMsgs.MSG_PREFERENCE_PROFILE_IMAGE_UPLOAD_FAILED +
+          _uawmsgs.default.MSG_PREFERENCE_PROFILE_IMAGE_UPLOAD_FAILED +
           '\n(' +
           ev.code +
           ' ' +
@@ -5593,6 +6185,7 @@ uiData.prototype.preferenceChatBgColorCustom_onClick = function (
   panelCode,
   ev,
 ) {
+  var _this32 = this
   if (!this.preferenceWorkTable[panelCode]) {
     this.ucUiStore
       .getLogger()
@@ -5607,11 +6200,13 @@ uiData.prototype.preferenceChatBgColorCustom_onClick = function (
       this.preferenceWorkTable[panelCode].chatBgColorBk || '{ "list": [] }'
   }
   this.showModal({
-    title: uawMsgs.MSG_PREFERENCE_CHAT_BG_COLOR_EDIT_DIALOG_TITLE,
+    title: _uawmsgs.default.MSG_PREFERENCE_CHAT_BG_COLOR_EDIT_DIALOG_TITLE,
     contentClass: 'BgColorEditForm',
-    contentParams: { panelCode: panelCode },
+    contentParams: {
+      panelCode: panelCode,
+    },
     cancelable: true,
-    onOk: ev => {
+    onOk: function onOk(ev) {
       if (
         ev &&
         ev.content &&
@@ -5622,12 +6217,12 @@ uiData.prototype.preferenceChatBgColorCustom_onClick = function (
           ev.content.state.nowEditing,
         )
       }
-      this.render()
+      _this32.render()
     },
-    onCancel: ev => {
-      this.preferenceWorkTable[panelCode].chatBgColor =
-        this.preferenceWorkTable[panelCode].chatBgColorBk
-      this.render()
+    onCancel: function onCancel(ev) {
+      _this32.preferenceWorkTable[panelCode].chatBgColor =
+        _this32.preferenceWorkTable[panelCode].chatBgColorBk
+      _this32.render()
     },
   })
 }
@@ -5635,6 +6230,7 @@ uiData.prototype.preferenceLampTypeTestTimer_onTick = function (
   panelType,
   panelCode,
 ) {
+  var _this33 = this
   if (!this.preferenceWorkTable[panelCode]) {
     this.ucUiStore
       .getLogger()
@@ -5643,23 +6239,23 @@ uiData.prototype.preferenceLampTypeTestTimer_onTick = function (
   }
   this.ucUiStore.getLogger().log('debug', 'lamp type test notification started')
   this.preferenceWorkTable[panelCode].lampTypeTestingNow = true
-  const evObj = {
+  var evObj = {
     chatKeys: [panelType + '_' + panelCode],
     notificationProperties: {
-      title: uawMsgs.MSG_PREFERENCE_LAMP_TYPE_TEST_NOTIFICATION_TITLE,
-      body: uawMsgs.MSG_PREFERENCE_LAMP_TYPE_TEST_NOTIFICATION_BODY,
+      title: _uawmsgs.default.MSG_PREFERENCE_LAMP_TYPE_TEST_NOTIFICATION_TITLE,
+      body: _uawmsgs.default.MSG_PREFERENCE_LAMP_TYPE_TEST_NOTIFICATION_BODY,
     },
-    funcOnSelected: () => {
-      this.render()
-      setTimeout(() => {
-        this.ucUiStore
+    funcOnSelected: function funcOnSelected() {
+      _this33.render()
+      setTimeout(function () {
+        _this33.ucUiStore
           .getLogger()
           .log('debug', 'lamp type test notification stopped')
         if (
-          this.preferenceWorkTable[panelCode] &&
-          this.preferenceWorkTable[panelCode].lampTypeTestingNow
+          _this33.preferenceWorkTable[panelCode] &&
+          _this33.preferenceWorkTable[panelCode].lampTypeTestingNow
         ) {
-          this.preferenceWorkTable[panelCode].lampTypeTestingNow = false
+          _this33.preferenceWorkTable[panelCode].lampTypeTestingNow = false
         }
       }, 0)
     },
@@ -5675,6 +6271,7 @@ uiData.prototype.preferenceSaveButton_onClick = function (
   panelCode,
   ev,
 ) {
+  var _this34 = this
   // save preference
   if (!this.preferenceWorkTable[panelCode]) {
     this.ucUiStore
@@ -5701,9 +6298,9 @@ uiData.prototype.preferenceSaveButton_onClick = function (
           '"].profileImageUploading is true',
       )
     this.preferenceWorkTable[panelCode].saveMessage =
-      uawMsgs.MSG_PREFERENCE_SAVE_FAILED +
+      _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
       ' (' +
-      uawMsgs.MSG_PREFERENCE_SAVE_TRANSFERRING +
+      _uawmsgs.default.MSG_PREFERENCE_SAVE_TRANSFERRING +
       ')'
     this.render()
     return
@@ -5719,7 +6316,7 @@ uiData.prototype.preferenceSaveButton_onClick = function (
         .getLogger()
         .log('info', 'The passwords you typed did not match')
       this.preferenceWorkTable[panelCode].saveMessage =
-        uawMsgs.MSG_PREFERENCE_SAVE_FAILED +
+        _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
         ' (The passwords you typed did not match)'
       this.render()
       return
@@ -5727,16 +6324,20 @@ uiData.prototype.preferenceSaveButton_onClick = function (
     if (!this.preferenceWorkTable[panelCode].loginPassword) {
       this.ucUiStore.getLogger().log('info', 'Invalid login password value')
       this.preferenceWorkTable[panelCode].saveMessage =
-        uawMsgs.MSG_PREFERENCE_SAVE_FAILED + ' (Invalid login password value)'
+        _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
+        ' (Invalid login password value)'
       this.render()
       return
     }
   }
   if (!this.preferenceWorkTable[panelCode].displayPeriodLocked) {
-    if (int(this.preferenceWorkTable[panelCode].displayPeriod) < 1) {
+    if (
+      (0, _strings.int)(this.preferenceWorkTable[panelCode].displayPeriod) < 1
+    ) {
       this.ucUiStore.getLogger().log('info', 'Invalid display period value')
       this.preferenceWorkTable[panelCode].saveMessage =
-        uawMsgs.MSG_PREFERENCE_SAVE_FAILED + ' (Invalid display period value)'
+        _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
+        ' (Invalid display period value)'
       this.render()
       return
     }
@@ -5749,7 +6350,8 @@ uiData.prototype.preferenceSaveButton_onClick = function (
         this.ucUiStore.getLogger().log('warn', ex)
         this.ucUiStore.getLogger().log('info', 'Invalid chat bg color value')
         this.preferenceWorkTable[panelCode].saveMessage =
-          uawMsgs.MSG_PREFERENCE_SAVE_FAILED + ' (Invalid chat bg color value)'
+          _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
+          ' (Invalid chat bg color value)'
         this.render()
         return
       }
@@ -5757,31 +6359,31 @@ uiData.prototype.preferenceSaveButton_onClick = function (
   }
   if (!this.preferenceWorkTable[panelCode].dbgoptLocked) {
     if (
-      int(this.preferenceWorkTable[panelCode].dbgopt) < 1 &&
-      string(this.preferenceWorkTable[panelCode].dbgopt) !== ''
+      (0, _strings.int)(this.preferenceWorkTable[panelCode].dbgopt) < 1 &&
+      (0, _strings.string)(this.preferenceWorkTable[panelCode].dbgopt) !== ''
     ) {
       this.ucUiStore.getLogger().log('info', 'Invalid debug options value')
       this.preferenceWorkTable[panelCode].saveMessage =
-        uawMsgs.MSG_PREFERENCE_SAVE_FAILED + ' (Invalid debug options value)'
+        _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
+        ' (Invalid debug options value)'
       this.render()
       return
     }
   }
-
   if (this.ucUiStore.getSignInStatus() !== 3) {
     this.ucUiStore
       .getLogger()
       .log('info', 'not signed-in at preferenceSaveButton_onClick')
     this.preferenceWorkTable[panelCode].saveMessage =
-      uawMsgs.MSG_PREFERENCE_SAVE_FAILED
+      _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED
     this.render()
     return
   }
-  const localStoragePreferenceOrg = this.ucUiStore.getLocalStoragePreference({
+  var localStoragePreferenceOrg = this.ucUiStore.getLocalStoragePreference({
     keyList: ['webRTCDisabled', 'webRTCTypeName'],
   })
-  const webRTCDisabledOrg = Boolean(localStoragePreferenceOrg[0])
-  const webRTCTypeNameOrg = string(localStoragePreferenceOrg[1])
+  var webRTCDisabledOrg = Boolean(localStoragePreferenceOrg[0])
+  var webRTCTypeNameOrg = (0, _strings.string)(localStoragePreferenceOrg[1])
   if (
     this.phone &&
     this.phone.getSessionCount &&
@@ -5793,17 +6395,17 @@ uiData.prototype.preferenceSaveButton_onClick = function (
       .getLogger()
       .log('info', 'now calling at preferenceSaveButton_onClick')
     this.preferenceWorkTable[panelCode].saveMessage =
-      uawMsgs.MSG_PREFERENCE_SAVE_FAILED +
+      _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
       ' (' +
-      uawMsgs.MSG_PREFERENCE_SAVE_CALLING +
+      _uawmsgs.default.MSG_PREFERENCE_SAVE_CALLING +
       ')'
     this.render()
     return
   }
   this.preferenceWorkTable[panelCode].nowSaving = true
   this.preferenceWorkTable[panelCode].lampTypeTestingNow = false
-  const profile = this.ucUiStore.getChatClient().getProfile()
-  const settings = this.ucUiStore.getChatClient().getSettings()
+  var profile = this.ucUiStore.getChatClient().getProfile()
+  var settings = this.ucUiStore.getChatClient().getSettings()
   if (!settings.optional_settings) {
     settings.optional_settings = {}
   }
@@ -5826,10 +6428,12 @@ uiData.prototype.preferenceSaveButton_onClick = function (
     this.preferenceWorkTable[panelCode].loginPassword !==
       this.preferenceWorkTable[panelCode].loginPasswordPlaceholder
   ) {
-    profile.password = string(this.preferenceWorkTable[panelCode].loginPassword)
+    profile.password = (0, _strings.string)(
+      this.preferenceWorkTable[panelCode].loginPassword,
+    )
   }
   if (!this.preferenceWorkTable[panelCode].displayNameLocked) {
-    settings.optional_settings.display_name = string(
+    settings.optional_settings.display_name = (0, _strings.string)(
       this.preferenceWorkTable[panelCode].displayName,
     )
   }
@@ -5839,7 +6443,7 @@ uiData.prototype.preferenceSaveButton_onClick = function (
     )
   }
   if (!this.preferenceWorkTable[panelCode].nameDisplayModeLocked) {
-    settings.optional_settings.name_display_mode = int(
+    settings.optional_settings.name_display_mode = (0, _strings.int)(
       this.preferenceWorkTable[panelCode].nameDisplayMode,
     )
   }
@@ -5854,25 +6458,25 @@ uiData.prototype.preferenceSaveButton_onClick = function (
     )
   }
   if (!this.preferenceWorkTable[panelCode].dtmfShortcutLocked) {
-    settings.optional_settings.dtmf_shortcut = int(
+    settings.optional_settings.dtmf_shortcut = (0, _strings.int)(
       this.preferenceWorkTable[panelCode].dtmfShortcut,
     )
   }
   if (!this.preferenceWorkTable[panelCode].displayPeriodLocked) {
-    settings.optional_settings.display_period = int(
+    settings.optional_settings.display_period = (0, _strings.int)(
       this.preferenceWorkTable[panelCode].displayPeriod,
     )
   }
   if (!this.preferenceWorkTable[panelCode].chatBgColorLocked) {
-    settings.optional_settings.chat_bg_color = string(
+    settings.optional_settings.chat_bg_color = (0, _strings.string)(
       this.preferenceWorkTable[panelCode].chatBgColor,
     )
-    settings.optional_settings.chat_bg_color_bk = string(
+    settings.optional_settings.chat_bg_color_bk = (0, _strings.string)(
       this.preferenceWorkTable[panelCode].chatBgColorBk,
     )
   }
   if (!this.preferenceWorkTable[panelCode].dbgoptLocked) {
-    settings.optional_settings.dbgopt = int(
+    settings.optional_settings.dbgopt = (0, _strings.int)(
       this.preferenceWorkTable[panelCode].dbgopt,
     )
   }
@@ -5881,104 +6485,125 @@ uiData.prototype.preferenceSaveButton_onClick = function (
     profile,
     settings,
     null,
-    ev => {
+    function (ev) {
       // save to localStorage
-      this.ucUiAction.setLocalStoragePreference({
+      _this34.ucUiAction.setLocalStoragePreference({
         keyValueList: [
           {
             key: 'autoSignIn',
-            value: this.preferenceWorkTable[panelCode].autoSignIn ? 'true' : '',
+            value: _this34.preferenceWorkTable[panelCode].autoSignIn
+              ? 'true'
+              : '',
           },
           {
             key: 'webRTCDisabled',
-            value: this.preferenceWorkTable[panelCode].webRTCDisabled
+            value: _this34.preferenceWorkTable[panelCode].webRTCDisabled
               ? 'true'
               : '',
           },
           {
             key: 'webRTCTypeName',
-            value: string(this.preferenceWorkTable[panelCode].webRTCTypeName),
+            value: (0, _strings.string)(
+              _this34.preferenceWorkTable[panelCode].webRTCTypeName,
+            ),
           },
           {
             key: 'noVideoMode',
-            value: string(this.preferenceWorkTable[panelCode].noVideoMode),
+            value: (0, _strings.string)(
+              _this34.preferenceWorkTable[panelCode].noVideoMode,
+            ),
           },
           {
             key: 'audioSource',
-            value: string(this.preferenceWorkTable[panelCode].audioSource),
+            value: (0, _strings.string)(
+              _this34.preferenceWorkTable[panelCode].audioSource,
+            ),
           },
           {
             key: 'audioTarget',
-            value: string(this.preferenceWorkTable[panelCode].audioTarget),
+            value: (0, _strings.string)(
+              _this34.preferenceWorkTable[panelCode].audioTarget,
+            ),
           },
           {
             key: 'videoSource',
-            value: string(this.preferenceWorkTable[panelCode].videoSource),
+            value: (0, _strings.string)(
+              _this34.preferenceWorkTable[panelCode].videoSource,
+            ),
           },
           {
             key: 'lampTypeName',
-            value: string(this.preferenceWorkTable[panelCode].lampTypeName),
+            value: (0, _strings.string)(
+              _this34.preferenceWorkTable[panelCode].lampTypeName,
+            ),
           },
           {
             key: 'bellAudioTarget',
-            value: string(this.preferenceWorkTable[panelCode].bellAudioTarget),
+            value: (0, _strings.string)(
+              _this34.preferenceWorkTable[panelCode].bellAudioTarget,
+            ),
           },
         ],
       })
       // save to localStorage for ucindex
-      if (this.preferenceWorkTable[panelCode].autoSignIn) {
+      if (_this34.preferenceWorkTable[panelCode].autoSignIn) {
         try {
-          const signInOption = this.ucUiStore.getSignInOption()
-          RnAsyncStorage.setItem('UC.ucindex.rememberme', 'on')
-          RnAsyncStorage.setItem('UC.ucindex.user', signInOption.user)
-          RnAsyncStorage.setItem('UC.ucindex.pass', signInOption.pass)
-          RnAsyncStorage.setItem('UC.ucindex.tenant', signInOption.tenant)
+          var signInOption = _this34.ucUiStore.getSignInOption()
+          _asyncStorage.default.setItem('UC.ucindex.rememberme', 'on')
+          _asyncStorage.default.setItem('UC.ucindex.user', signInOption.user)
+          _asyncStorage.default.setItem('UC.ucindex.pass', signInOption.pass)
+          _asyncStorage.default.setItem(
+            'UC.ucindex.tenant',
+            signInOption.tenant,
+          )
         } catch (ex) {
-          this.ucUiStore
+          _this34.ucUiStore
             .getLogger()
             .log('warn', 'localStorage.setItem error ex=' + ex)
         }
       }
       // reload language
-      this.loadLanguage()
+      _this34.loadLanguage()
       // re-init WebRTC
-      if (this.preferenceWorkTable[panelCode].webRTCDisabled) {
+      if (_this34.preferenceWorkTable[panelCode].webRTCDisabled) {
         if (!webRTCDisabledOrg) {
-          this.shutdownPhone()
+          _this34.shutdownPhone()
         }
       } else {
         if (webRTCDisabledOrg) {
-          this.startupPhone()
+          _this34.startupPhone()
         } else if (
           webRTCTypeNameOrg !==
-          this.preferenceWorkTable[panelCode].webRTCTypeName
+          _this34.preferenceWorkTable[panelCode].webRTCTypeName
         ) {
-          this.shutdownPhone()
-          this.startupPhone()
+          _this34.shutdownPhone()
+          _this34.startupPhone()
         } else {
-          this.setPhoneDefaultOptions()
+          _this34.setPhoneDefaultOptions()
         }
       }
       // re-notify status
-      this.notifyCallStatus()
-      const successfulFunc = () => {
-        this.preferenceWorkTable[panelCode].saveMessage =
-          uawMsgs.MSG_PREFERENCE_SAVE_SUCCESSFUL + ' ' + formatTime()
-        const profile = this.ucUiStore.getChatClient().getProfile()
-        this.ucUiStore.addToBuddyTable(profile)
-        const userMe = this.ucUiStore.getBuddyUserForUi(profile)
-        this.preferenceWorkTable[panelCode].profileImageUrl =
+      _this34.notifyCallStatus()
+      var successfulFunc = function successfulFunc() {
+        _this34.preferenceWorkTable[panelCode].saveMessage =
+          _uawmsgs.default.MSG_PREFERENCE_SAVE_SUCCESSFUL +
+          ' ' +
+          (0, _strings.formatTime)()
+        var profile = _this34.ucUiStore.getChatClient().getProfile()
+        _this34.ucUiStore.addToBuddyTable(profile)
+        var userMe = _this34.ucUiStore.getBuddyUserForUi(profile)
+        _this34.preferenceWorkTable[panelCode].profileImageUrl =
           userMe.profile_image_url
-        this.preferenceWorkTable[panelCode].profileImageTo = ''
-        this.preferenceWorkTable[panelCode].nowSaving = false
-        this.render()
+        _this34.preferenceWorkTable[panelCode].profileImageTo = ''
+        _this34.preferenceWorkTable[panelCode].nowSaving = false
+        _this34.render()
       }
       // save profile image
-      if (this.preferenceWorkTable[panelCode].profileImageTo === 'SAVE') {
-        this.ucUiStore
+      if (_this34.preferenceWorkTable[panelCode].profileImageTo === 'SAVE') {
+        _this34.ucUiStore
           .getChatClient()
-          .saveProfileImage({}, successfulFunc, ev => {
-            this.ucUiStore
+          .saveProfileImage({}, successfulFunc, function (ev) {
+            _this34.ucUiStore
               .getLogger()
               .log(
                 'warn',
@@ -5987,23 +6612,23 @@ uiData.prototype.preferenceSaveButton_onClick = function (
                   ', message=' +
                   ev.message,
               )
-            this.preferenceWorkTable[panelCode].saveMessage =
-              uawMsgs.MSG_PREFERENCE_SAVE_FAILED +
+            _this34.preferenceWorkTable[panelCode].saveMessage =
+              _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
               ' (' +
               ev.code +
               ' ' +
               ev.message +
               ')'
-            this.preferenceWorkTable[panelCode].nowSaving = false
-            this.render()
+            _this34.preferenceWorkTable[panelCode].nowSaving = false
+            _this34.render()
           })
       } else if (
-        this.preferenceWorkTable[panelCode].profileImageTo === 'DELETE'
+        _this34.preferenceWorkTable[panelCode].profileImageTo === 'DELETE'
       ) {
-        this.ucUiStore
+        _this34.ucUiStore
           .getChatClient()
-          .deleteProfileImage({}, successfulFunc, ev => {
-            this.ucUiStore
+          .deleteProfileImage({}, successfulFunc, function (ev) {
+            _this34.ucUiStore
               .getLogger()
               .log(
                 'warn',
@@ -6012,22 +6637,22 @@ uiData.prototype.preferenceSaveButton_onClick = function (
                   ', message=' +
                   ev.message,
               )
-            this.preferenceWorkTable[panelCode].saveMessage =
-              uawMsgs.MSG_PREFERENCE_SAVE_FAILED +
+            _this34.preferenceWorkTable[panelCode].saveMessage =
+              _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
               ' (' +
               ev.code +
               ' ' +
               ev.message +
               ')'
-            this.preferenceWorkTable[panelCode].nowSaving = false
-            this.render()
+            _this34.preferenceWorkTable[panelCode].nowSaving = false
+            _this34.render()
           })
       } else {
         successfulFunc()
       }
     },
-    ev => {
-      this.ucUiStore
+    function (ev) {
+      _this34.ucUiStore
         .getLogger()
         .log(
           'warn',
@@ -6036,26 +6661,26 @@ uiData.prototype.preferenceSaveButton_onClick = function (
             ', message=' +
             ev.message,
         )
-      this.preferenceWorkTable[panelCode].saveMessage =
-        uawMsgs.MSG_PREFERENCE_SAVE_FAILED +
+      _this34.preferenceWorkTable[panelCode].saveMessage =
+        _uawmsgs.default.MSG_PREFERENCE_SAVE_FAILED +
         ' (' +
         ev.code +
         ' ' +
         ev.message +
         ')'
-      this.preferenceWorkTable[panelCode].nowSaving = false
-      this.render()
+      _this34.preferenceWorkTable[panelCode].nowSaving = false
+      _this34.render()
     },
   )
   this.render()
 }
 uiData.prototype.webchatQueueShowAllLink_onClick = function (ev) {
-  const panelType = 'WEBCHATQUEUE'
-  const panelCode = 'static'
+  var panelType = 'WEBCHATQUEUE'
+  var panelCode = 'static'
   this.closeAllshowingDialogs()
-  const subWindow = this.subWindowList.find(
-    p => p.panelType === panelType && p.panelCode === panelCode,
-  )
+  var subWindow = this.subWindowList.find(function (p) {
+    return p.panelType === panelType && p.panelCode === panelCode
+  })
   if (subWindow) {
     subWindow.window.focus()
     this.render()
@@ -6069,8 +6694,14 @@ uiData.prototype.webchatQueueShowAllLink_onClick = function (ev) {
     this.render()
   } else {
     this.updateTab({
-      open: { panelType: panelType, panelCode: panelCode },
-      select: { panelType: panelType, panelCode: panelCode },
+      open: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
+      select: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
     })
   }
 }
@@ -6082,25 +6713,34 @@ uiData.prototype.webchatQueueResizableBox_onResizeStop = function (rect) {
   }
 }
 uiData.prototype.webchatPickupButton_onClick = function (data, ev) {
-  const webchatQueue = this.ucUiStore
+  var _this35 = this
+  var webchatQueue = this.ucUiStore
     .getWebchatQueueList()
-    .find(webchatQueue => {
-      const conf_id = webchatQueue.conf_id
-      const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-      return conference.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT
+    .find(function (webchatQueue) {
+      var conf_id = webchatQueue.conf_id
+      var conference = _this35.ucUiStore.getChatClient().getConference(conf_id)
+      return (
+        conference.conf_status ===
+        _constants.default.CONF_STATUS_INVITED_WEBCHAT
+      )
     })
   if (webchatQueue) {
-    const conf_id = webchatQueue.conf_id
+    var conf_id = webchatQueue.conf_id
     data.conf_id = conf_id
     this.ucUiAction.joinWebchatRoom({
       conf_id: conf_id,
-      properties: { invisible: false, exclusive: true },
+      properties: {
+        invisible: false,
+        exclusive: true,
+      },
     })
     this.updateTab({
       select: {
         panelType: 'CONFERENCE',
-        panelCode: string(
-          this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+        panelCode: (0, _strings.string)(
+          this.ucUiStore.getChatCodeByConfId({
+            conf_id: conf_id,
+          }).chatCode,
         ),
       },
     })
@@ -6108,22 +6748,34 @@ uiData.prototype.webchatPickupButton_onClick = function (data, ev) {
   }
 }
 uiData.prototype.webchatRoomChatButton_onClick = function (conf_id, ev) {
-  const panelType = 'CONFERENCE'
-  const panelCode = string(
-    this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+  var panelType = 'CONFERENCE'
+  var panelCode = (0, _strings.string)(
+    this.ucUiStore.getChatCodeByConfId({
+      conf_id: conf_id,
+    }).chatCode,
   )
   this.closeAllshowingDialogs()
-  const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-  if (conference.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT) {
+  var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+  if (
+    conference.conf_status === _constants.default.CONF_STATUS_INVITED_WEBCHAT
+  ) {
     this.ucUiAction.joinWebchatRoom({
       conf_id: conf_id,
-      properties: { invisible: false, exclusive: true },
+      properties: {
+        invisible: false,
+        exclusive: true,
+      },
     })
-    this.updateTab({ select: { panelType: panelType, panelCode: panelCode } })
-  } else if (conference.conf_status === Constants.CONF_STATUS_JOINED) {
-    const subWindow = this.subWindowList.find(
-      p => p.panelType === panelType && p.panelCode === panelCode,
-    )
+    this.updateTab({
+      select: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
+    })
+  } else if (conference.conf_status === _constants.default.CONF_STATUS_JOINED) {
+    var subWindow = this.subWindowList.find(function (p) {
+      return p.panelType === panelType && p.panelCode === panelCode
+    })
     if (subWindow) {
       subWindow.window.focus()
       this.render()
@@ -6137,45 +6789,61 @@ uiData.prototype.webchatRoomChatButton_onClick = function (conf_id, ev) {
       this.render()
     } else {
       this.updateTab({
-        open: { panelType: panelType, panelCode: panelCode },
-        select: { panelType: panelType, panelCode: panelCode },
+        open: {
+          panelType: panelType,
+          panelCode: panelCode,
+        },
+        select: {
+          panelType: panelType,
+          panelCode: panelCode,
+        },
       })
     }
   }
 }
 uiData.prototype.webchatRoomJoinButton_onClick = function (conf_id, ev) {
-  const panelType = 'CONFERENCE'
-  const panelCode = string(
-    this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+  var panelType = 'CONFERENCE'
+  var panelCode = (0, _strings.string)(
+    this.ucUiStore.getChatCodeByConfId({
+      conf_id: conf_id,
+    }).chatCode,
   )
   this.ucUiAction.joinWebchatRoom({
     conf_id: conf_id,
-    properties: { invisible: false, exclusive: false },
+    properties: {
+      invisible: false,
+      exclusive: false,
+    },
   })
-  const subWindow = this.subWindowList.find(
-    p => p.panelType === panelType && p.panelCode === panelCode,
-  )
+  var subWindow = this.subWindowList.find(function (p) {
+    return p.panelType === panelType && p.panelCode === panelCode
+  })
   if (subWindow) {
     subWindow.window.focus()
   }
   this.closeAllshowingDialogs()
-  this.updateTab({ select: { panelType: 'CONFERENCE', panelCode: panelCode } })
+  this.updateTab({
+    select: {
+      panelType: 'CONFERENCE',
+      panelCode: panelCode,
+    },
+  })
   this.render()
 }
 uiData.prototype.webchatDropButton_onClick = function (data, ev) {
-  const panel = parsePanelKey(this.currentSelectedTab)
+  var panel = (0, _strings.parsePanelKey)(this.currentSelectedTab)
   if (panel.panelType === 'CONFERENCE') {
-    const conf_id = string(
+    var conf_id = (0, _strings.string)(
       this.ucUiStore.getChatHeaderInfo({
         chatType: panel.panelType,
         chatCode: panel.panelCode,
       }).conf_id,
     )
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-    if (conference.conf_status === Constants.CONF_STATUS_JOINED) {
+    var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+    if (conference.conf_status === _constants.default.CONF_STATUS_JOINED) {
       this.showModal({
-        title: uawMsgs.MSG_DROP_TALKING_WEBCHAT_CONFIRM_TITLE,
-        message: uawMsgs.MSG_DROP_TALKING_WEBCHAT_CONFIRM,
+        title: _uawmsgs.default.MSG_DROP_TALKING_WEBCHAT_CONFIRM_TITLE,
+        message: _uawmsgs.default.MSG_DROP_TALKING_WEBCHAT_CONFIRM,
         cancelable: true,
         onOk: this.ucUiAction.leaveConference.bind(this.ucUiAction, {
           conf_id: conf_id,
@@ -6185,18 +6853,20 @@ uiData.prototype.webchatDropButton_onClick = function (data, ev) {
   }
 }
 uiData.prototype.webchatRoomHideButton_onClick = function (conf_id, ev) {
-  this.ucUiAction.clearWebchatQueue({ conf_id: conf_id })
+  this.ucUiAction.clearWebchatQueue({
+    conf_id: conf_id,
+  })
 }
 uiData.prototype.buddylistBuddy_onClick = function (buddy, ev) {
-  const panelType = 'CHAT'
-  const panelCode = JSON.stringify({
+  var panelType = 'CHAT'
+  var panelCode = JSON.stringify({
     tenant: buddy.tenant,
     user_id: buddy.user_id,
   })
   this.closeAllshowingDialogs()
-  const subWindow = this.subWindowList.find(
-    p => p.panelType === panelType && p.panelCode === panelCode,
-  )
+  var subWindow = this.subWindowList.find(function (p) {
+    return p.panelType === panelType && p.panelCode === panelCode
+  })
   if (subWindow) {
     subWindow.window.focus()
     this.render()
@@ -6210,15 +6880,21 @@ uiData.prototype.buddylistBuddy_onClick = function (buddy, ev) {
     this.render()
   } else {
     this.updateTab({
-      open: { panelType: panelType, panelCode: panelCode },
-      select: { panelType: panelType, panelCode: panelCode },
+      open: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
+      select: {
+        panelType: panelType,
+        panelCode: panelCode,
+      },
     })
   }
 }
 // events from UcUiStore
 uiData.prototype.signedIn = function () {
   this.notifiedSignedOut = false
-  const signedInInfo = this.ucUiStore.getChatClient().getSignedInInfo()
+  var signedInInfo = this.ucUiStore.getChatClient().getSignedInInfo()
   if (signedInInfo.localMode === 1) {
     this.licenseMessageAppx = 'localhost'
   } else if (signedInInfo.localMode === 2) {
@@ -6233,15 +6909,15 @@ uiData.prototype.signedIn = function () {
 }
 uiData.prototype.signedOut = function () {
   this.shutdownPhone()
-  const lastSignOutReason = this.ucUiStore.getLastSignOutReason()
+  var lastSignOutReason = this.ucUiStore.getLastSignOutReason()
   if (lastSignOutReason.code !== 1 && !this.notifiedSignedOut) {
     // notification
-    const evObj = {
+    var evObj = {
       chatKeys: [],
       nonPanelNotification: true,
       notificationProperties: {
         title: 'UC',
-        body: uawMsgs.MSG_MESSAGEBAR_DISCONNECTED,
+        body: _uawmsgs.default.MSG_MESSAGEBAR_DISCONNECTED,
         bellAudioClass: '__DO_NOT_RING_BELL__',
         noisiness: 0,
       },
@@ -6256,9 +6932,9 @@ uiData.prototype.signedOut = function () {
 uiData.prototype.errorOccurred = function (ev) {
   if (ev) {
     this.showModal({
-      title: uawMsgs.CMN_ALERT,
+      title: _uawmsgs.default.CMN_ALERT,
       message:
-        uawMsgs[ev.errorType] +
+        _uawmsgs.default[ev.errorType] +
         (ev.errorDetail ? '\n(' + ev.errorDetail + ')' : ''),
     })
   }
@@ -6278,12 +6954,15 @@ uiData.prototype.newMessage = function (ev) {
       !this.isSubWindow
     ) {
       if (
-        !this.subWindowList.find(
-          p => p.panelType === ev.chatType && p.panelCode === ev.chatCode,
-        )
+        !this.subWindowList.find(function (p) {
+          return p.panelType === ev.chatType && p.panelCode === ev.chatCode
+        })
       ) {
         this.updateTab({
-          open: { panelType: ev.chatType, panelCode: ev.chatCode },
+          open: {
+            panelType: ev.chatType,
+            panelCode: ev.chatCode,
+          },
         })
       }
     }
@@ -6291,25 +6970,27 @@ uiData.prototype.newMessage = function (ev) {
 }
 uiData.prototype.newConference = function (ev) {
   if (ev) {
-    const conf_id = string(this.ucUiStore.getChatHeaderInfo(ev).conf_id)
-    const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-    const isWebchat =
+    var conf_id = (0, _strings.string)(
+      this.ucUiStore.getChatHeaderInfo(ev).conf_id,
+    )
+    var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+    var isWebchat =
       conference.invite_properties &&
       conference.invite_properties.webchatfromguest
-    const isWebchatFromGuest =
+    var isWebchatFromGuest =
       isWebchat && !conference.invite_properties.webchatfromguest.fromuser
-    const profile = this.ucUiStore.getChatClient().getProfile()
+    var profile = this.ucUiStore.getChatClient().getProfile()
     if (
       isWebchat &&
-      conference.conf_status !== Constants.CONF_STATUS_INACTIVE
+      conference.conf_status !== _constants.default.CONF_STATUS_INACTIVE
     ) {
-      const continuationInfo =
+      var continuationInfo =
         (conference.invite_properties &&
           conference.invite_properties.continuation_info) ||
         {}
-      let outgoingContinuationInfo = null
+      var outgoingContinuationInfo = null
       this.outgoingContinuationInfos = this.outgoingContinuationInfos.filter(
-        info => {
+        function (info) {
           if (
             info.conf_id === continuationInfo.conf_id &&
             info.yyyymm === continuationInfo.yyyymm
@@ -6324,7 +7005,10 @@ uiData.prototype.newConference = function (ev) {
         // answer automatically
         this.ucUiAction.joinWebchatRoom({
           conf_id: conf_id,
-          properties: { invisible: false, exclusive: true },
+          properties: {
+            invisible: false,
+            exclusive: true,
+          },
         })
       } else if (
         !this.iconName &&
@@ -6335,12 +7019,15 @@ uiData.prototype.newConference = function (ev) {
       ) {
         if (this.configurations.queuePanel) {
           if (
-            !this.subWindowList.find(
-              p => p.panelType === 'WEBCHATQUEUE' && p.panelCode === 'static',
-            )
+            !this.subWindowList.find(function (p) {
+              return p.panelType === 'WEBCHATQUEUE' && p.panelCode === 'static'
+            })
           ) {
             this.updateTab({
-              open: { panelType: 'WEBCHATQUEUE', panelCode: 'static' },
+              open: {
+                panelType: 'WEBCHATQUEUE',
+                panelCode: 'static',
+              },
             })
           }
         }
@@ -6348,8 +7035,8 @@ uiData.prototype.newConference = function (ev) {
     }
     if (
       (!isWebchatFromGuest &&
-        conference.conf_status === Constants.CONF_STATUS_INVITED) ||
-      conference.conf_status === Constants.CONF_STATUS_JOINED
+        conference.conf_status === _constants.default.CONF_STATUS_INVITED) ||
+      conference.conf_status === _constants.default.CONF_STATUS_JOINED
     ) {
       if (
         !this.iconName &&
@@ -6359,9 +7046,9 @@ uiData.prototype.newConference = function (ev) {
         !this.isSubWindow
       ) {
         if (
-          !this.subWindowList.find(
-            p => p.panelType === ev.chatType && p.panelCode === ev.chatCode,
-          )
+          !this.subWindowList.find(function (p) {
+            return p.panelType === ev.chatType && p.panelCode === ev.chatCode
+          })
         ) {
           if (
             conference.from &&
@@ -6370,12 +7057,21 @@ uiData.prototype.newConference = function (ev) {
             conference.from.user_id === profile.user_id
           ) {
             this.updateTab({
-              open: { panelType: ev.chatType, panelCode: ev.chatCode },
-              select: { panelType: ev.chatType, panelCode: ev.chatCode },
+              open: {
+                panelType: ev.chatType,
+                panelCode: ev.chatCode,
+              },
+              select: {
+                panelType: ev.chatType,
+                panelCode: ev.chatCode,
+              },
             })
           } else {
             this.updateTab({
-              open: { panelType: ev.chatType, panelCode: ev.chatCode },
+              open: {
+                panelType: ev.chatType,
+                panelCode: ev.chatCode,
+              },
             })
           }
         }
@@ -6400,9 +7096,9 @@ uiData.prototype.newWebchat = function (ev) {
       !this.isSubWindow
     ) {
       if (
-        !this.subWindowList.find(
-          p => p.panelType === ev.chatType && p.panelCode === ev.chatCode,
-        )
+        !this.subWindowList.find(function (p) {
+          return p.panelType === ev.chatType && p.panelCode === ev.chatCode
+        })
       ) {
         this.updateTab({
           open: {
@@ -6429,7 +7125,7 @@ uiData.prototype.webchatLeft = function (ev) {
   this.notifyCallStatus()
 }
 uiData.prototype.unansweredWebchatLeft = function (ev) {
-  const configProperties = this.ucUiStore.getConfigProperties()
+  var configProperties = this.ucUiStore.getConfigProperties()
   if (ev) {
     if (
       !this.iconName &&
@@ -6438,7 +7134,7 @@ uiData.prototype.unansweredWebchatLeft = function (ev) {
       !this.chatOnly &&
       !this.isSubWindow
     ) {
-      const chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
+      var chatHeaderInfo = this.ucUiStore.getChatHeaderInfo({
         chatType: ev.chatType,
         chatCode: ev.chatCode,
       })
@@ -6450,14 +7146,19 @@ uiData.prototype.unansweredWebchatLeft = function (ev) {
         })
         // just delete webchat queue
         this.ucUiStore.getChatClient().kickOutOfConference({
-          conf_id: string(chatHeaderInfo.conf_id),
-          tenant: string(chatHeaderInfo.guest && chatHeaderInfo.guest.tenant),
-          user_id: string(chatHeaderInfo.guest && chatHeaderInfo.guest.user_id),
+          conf_id: (0, _strings.string)(chatHeaderInfo.conf_id),
+          tenant: (0, _strings.string)(
+            chatHeaderInfo.guest && chatHeaderInfo.guest.tenant,
+          ),
+          user_id: (0, _strings.string)(
+            chatHeaderInfo.guest && chatHeaderInfo.guest.user_id,
+          ),
         })
       } else {
         // reply automatically
         if (
-          'TRUE' === string(chatHeaderInfo.webchatContinuable).toUpperCase()
+          'TRUE' ===
+          (0, _strings.string)(chatHeaderInfo.webchatContinuable).toUpperCase()
         ) {
           if (!chatHeaderInfo.replyTypes) {
             this.replyContinuation(
@@ -6479,10 +7180,9 @@ uiData.prototype.unansweredWebchatLeft = function (ev) {
                 (configProperties.optional_config &&
                   configProperties.optional_config.awsl) ||
                 []
-              ).some(
-                aws =>
-                  aws.id === chatHeaderInfo.webchatServiceId && aws.senders,
-              )
+              ).some(function (aws) {
+                return aws.id === chatHeaderInfo.webchatServiceId && aws.senders
+              })
             ) {
               this.replyContinuation(
                 chatHeaderInfo.yyyymm,
@@ -6506,20 +7206,25 @@ uiData.prototype.unansweredWebchatLeft = function (ev) {
         }
         // keep information to delete webchat queue
         this.unansweredWebchatsToKick[ev.chatCode] = {
-          conf_id: string(chatHeaderInfo.conf_id),
-          tenant: string(chatHeaderInfo.guest && chatHeaderInfo.guest.tenant),
-          user_id: string(chatHeaderInfo.guest && chatHeaderInfo.guest.user_id),
+          conf_id: (0, _strings.string)(chatHeaderInfo.conf_id),
+          tenant: (0, _strings.string)(
+            chatHeaderInfo.guest && chatHeaderInfo.guest.tenant,
+          ),
+          user_id: (0, _strings.string)(
+            chatHeaderInfo.guest && chatHeaderInfo.guest.user_id,
+          ),
         }
       }
     }
   }
 }
 uiData.prototype.checkRequiresNotification = function (evObj) {
+  var _this36 = this
   // const doc = this.ownerDocument
   // Not use ownerDocument
   if (evObj) {
-    const chatKeys = (evObj && evObj.chatKeys) || []
-    const lampTypeOptions = this.getlampTypeOptions()
+    var chatKeys = (evObj && evObj.chatKeys) || []
+    var lampTypeOptions = this.getlampTypeOptions()
     if (
       this.currentSelectedTabScrolledToBottom &&
       chatKeys.indexOf(this.currentSelectedTab) >= 0 &&
@@ -6532,15 +7237,15 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
       )
     ) {
       // no need to notify (document has focus and panel is selected and not fullscreened)
-      evObj.notificationFunction = () => {
+      evObj.notificationFunction = function () {
         if (evObj.funcOnSelected) {
           evObj.funcOnSelected()
-          this.ucUiStore
+          _this36.ucUiStore
             .getLogger()
             .log(
               'debug',
               'dbg u1898 3 ' +
-                (this.ucUiStore.getChatClient() || {})._user_id +
+                (_this36.ucUiStore.getChatClient() || {})._user_id +
                 ' evObj.funcOnSelected() at evObj.notificationFunction()',
             )
         }
@@ -6548,14 +7253,17 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
     } else if (!evObj.notificationFunction) {
       // notification function not prepared yet
       // check panel exists
-      let panelToNotify = null
-      for (let i = 0; i < chatKeys.length; i++) {
-        panelToNotify = this.mainPanelList.find(
-          p => p.panelType + '_' + p.panelCode === chatKeys[i],
-        )
+      var panelToNotify = null
+      var _loop = function _loop(i) {
+        panelToNotify = _this36.mainPanelList.find(function (p) {
+          return p.panelType + '_' + p.panelCode === chatKeys[i]
+        })
         if (panelToNotify) {
-          break
+          return 1 // break
         }
+      }
+      for (var i = 0; i < chatKeys.length; i++) {
+        if (_loop(i)) break
       }
       if (
         !panelToNotify &&
@@ -6563,7 +7271,10 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
         this.webchatNotificationTarget &&
         this.configurations.queuePanel
       ) {
-        panelToNotify = { panelType: 'WEBCHATQUEUE', panelCode: 'static' }
+        panelToNotify = {
+          panelType: 'WEBCHATQUEUE',
+          panelCode: 'static',
+        }
       }
       if (
         panelToNotify ||
@@ -6571,7 +7282,7 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
         evObj.nonPanelNotification
       ) {
         // must notify
-        evObj.notificationFunction = () => {
+        evObj.notificationFunction = function () {
           // ring bell
           /* TODO: Implement audios */
           // if (
@@ -6642,18 +7353,19 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
             lampTypeOptions.notification !== false
           ) {
             // web notification
-            let skipsWebNotification = false
+            var skipsWebNotification = false
             if (evObj.webchatNotification && evObj.continuation_info) {
               skipsWebNotification |= (
-                (this.getAgentComponentInstance() || {})
+                (_this36.getAgentComponentInstance() || {})
                   .replyingContinuationInfos || []
-              ).some(
-                info =>
+              ).some(function (info) {
+                return (
                   info.conf_id === evObj.continuation_info.conf_id &&
-                  info.yyyymm === evObj.continuation_info.yyyymm,
-              )
+                  info.yyyymm === evObj.continuation_info.yyyymm
+                )
+              })
             }
-            const settings = this.ucUiStore.getChatClient().getSettings()
+            var settings = _this36.ucUiStore.getChatClient().getSettings()
             skipsWebNotification |=
               settings.optional_settings &&
               settings.optional_settings.webnotif_status === 'off'
@@ -6729,10 +7441,10 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
                   //   })
                   // this.showingNotificationTable[notificationId] = true
                 } catch (ex) {
-                  this.ucUiStore.getLogger().log('warn', ex)
+                  _this36.ucUiStore.getLogger().log('warn', ex)
                 }
               } else {
-                this.ucUiStore
+                _this36.ucUiStore
                   .getLogger()
                   .log('warn', 'Brekeke.WebNotification not found')
               }
@@ -6741,74 +7453,74 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
           if (
             panelToNotify &&
             !evObj.doNotBlink &&
-            this.currentSelectedTab !==
+            _this36.currentSelectedTab !==
               panelToNotify.panelType + '_' + panelToNotify.panelCode
           ) {
             // blinking
             if (
-              this.blinkingTabs[
+              _this36.blinkingTabs[
                 panelToNotify.panelType + '_' + panelToNotify.panelCode
               ]
             ) {
-              this.blinkingTabs[
+              _this36.blinkingTabs[
                 panelToNotify.panelType + '_' + panelToNotify.panelCode
               ]++
             } else {
-              this.blinkingTabs[
+              _this36.blinkingTabs[
                 panelToNotify.panelType + '_' + panelToNotify.panelCode
               ] = 1
             }
             if (evObj.funcOnSelected) {
-              this.funcOnSelectedQueue.push(evObj.funcOnSelected)
-              this.ucUiStore
+              _this36.funcOnSelectedQueue.push(evObj.funcOnSelected)
+              _this36.ucUiStore
                 .getLogger()
                 .log(
                   'debug',
                   'dbg u1898 4 ' +
-                    (this.ucUiStore.getChatClient() || {})._user_id +
+                    (_this36.ucUiStore.getChatClient() || {})._user_id +
                     ' funcOnSelectedQueue.push() at checkRequiresNotification()',
                 )
             }
           } else if (
             panelToNotify &&
             evObj.mustScroll &&
-            this.currentSelectedTab ===
+            _this36.currentSelectedTab ===
               panelToNotify.panelType + '_' + panelToNotify.panelCode &&
-            !this.currentSelectedTabScrolledToBottom
+            !_this36.currentSelectedTabScrolledToBottom
           ) {
             // unscrolled
             if (
-              this.unscrolledTabs[
+              _this36.unscrolledTabs[
                 panelToNotify.panelType + '_' + panelToNotify.panelCode
               ]
             ) {
-              this.unscrolledTabs[
+              _this36.unscrolledTabs[
                 panelToNotify.panelType + '_' + panelToNotify.panelCode
               ]++
             } else {
-              this.unscrolledTabs[
+              _this36.unscrolledTabs[
                 panelToNotify.panelType + '_' + panelToNotify.panelCode
               ] = 1
             }
             if (evObj.funcOnSelected) {
               if (
-                !this.funcOnScrolledQueues[
+                !_this36.funcOnScrolledQueues[
                   panelToNotify.panelType + '_' + panelToNotify.panelCode
                 ]
               ) {
-                this.funcOnScrolledQueues[
+                _this36.funcOnScrolledQueues[
                   panelToNotify.panelType + '_' + panelToNotify.panelCode
                 ] = []
               }
-              this.funcOnScrolledQueues[
+              _this36.funcOnScrolledQueues[
                 panelToNotify.panelType + '_' + panelToNotify.panelCode
               ].push(evObj.funcOnSelected)
-              this.ucUiStore
+              _this36.ucUiStore
                 .getLogger()
                 .log(
                   'debug',
                   'dbg u1898 5 ' +
-                    (this.ucUiStore.getChatClient() || {})._user_id +
+                    (_this36.ucUiStore.getChatClient() || {})._user_id +
                     ' funcOnScrolledQueues["' +
                     panelToNotify.panelType +
                     '_' +
@@ -6819,12 +7531,12 @@ uiData.prototype.checkRequiresNotification = function (evObj) {
           } else {
             if (evObj.funcOnSelected) {
               evObj.funcOnSelected()
-              this.ucUiStore
+              _this36.ucUiStore
                 .getLogger()
                 .log(
                   'debug',
                   'dbg u1898 6 ' +
-                    (this.ucUiStore.getChatClient() || {})._user_id +
+                    (_this36.ucUiStore.getChatClient() || {})._user_id +
                     ' evObj.funcOnSelected() at checkRequiresNotification()',
                 )
             }
@@ -6852,7 +7564,7 @@ uiData.prototype.chatClient_conferenceMemberChanged = function (ev) {
     this.configurations.doNotReplyUnanswered &&
     ev &&
     ev.conference &&
-    ev.conference.conf_status === Constants.CONF_STATUS_INACTIVE
+    ev.conference.conf_status === _constants.default.CONF_STATUS_INACTIVE
   ) {
     // do not reply, do not continue by replying
     this.ucUiStore.setDoNotContinue({
@@ -6906,26 +7618,30 @@ uiData.prototype.phoneStatusChanged = function (ev) {
   this.render()
 }
 uiData.prototype.sessionCreated = function (ev) {
-  const session = ev
-  const rtcSession = session && session.rtcSession
+  var _this37 = this
+  var session = ev
+  var rtcSession = session && session.rtcSession
   if (rtcSession) {
-    const address = string(
+    var address = (0, _strings.string)(
       rtcSession.remote_identity &&
         rtcSession.remote_identity.uri &&
         rtcSession.remote_identity.uri.user,
     )
     if (rtcSession.direction === 'outgoing') {
       // outgoing
-      let foundPanelKey = null
+      var foundPanelKey = null
       if (address) {
         foundPanelKey = Object.keys(this.panelSessionTable).filter(
-          panelKey =>
-            this.panelSessionTable[panelKey].target === address &&
-            !this.panelSessionTable[panelKey].sessionId,
+          function (panelKey) {
+            return (
+              _this37.panelSessionTable[panelKey].target === address &&
+              !_this37.panelSessionTable[panelKey].sessionId
+            )
+          },
         )[0]
       }
       if (foundPanelKey) {
-        this.panelSessionTable[foundPanelKey].sessionId = string(
+        this.panelSessionTable[foundPanelKey].sessionId = (0, _strings.string)(
           session.sessionId,
         )
         this.phone.setMuted(
@@ -6945,8 +7661,8 @@ uiData.prototype.sessionCreated = function (ev) {
       }
     } else {
       // incoming
-      let buddy, panelType, panelCode, webchatQueue, fromDisplay
-      const display_name = string(
+      var buddy, panelType, panelCode, webchatQueue, fromDisplay
+      var display_name = (0, _strings.string)(
         session.incomingMessage &&
           session.incomingMessage.from &&
           session.incomingMessage.from.display_name,
@@ -6959,38 +7675,41 @@ uiData.prototype.sessionCreated = function (ev) {
         (buddy =
           address &&
           (this.ucUiStore.getChatClient().getBuddylist().user || []).find(
-            b => address === string(b && b.user_id),
+            function (b) {
+              return address === (0, _strings.string)(b && b.user_id)
+            },
           ))
       ) {
         panelType = 'CHAT'
         panelCode = JSON.stringify({
-          tenant: string(buddy.tenant),
-          user_id: string(buddy.user_id),
+          tenant: (0, _strings.string)(buddy.tenant),
+          user_id: (0, _strings.string)(buddy.user_id),
         })
         fromDisplay =
           this.ucUiStore.getBuddyUserForUi(buddy).name || fromDisplay
       } else if (
         (webchatQueue =
           address &&
-          this.ucUiStore
-            .getWebchatQueueList()
-            .find(
-              q =>
-                address ===
-                  string(q.webchatinfo && q.webchatinfo.call_target) &&
-                q.conf_status !== Constants.CONF_STATUS_INACTIVE,
-            ))
+          this.ucUiStore.getWebchatQueueList().find(function (q) {
+            return (
+              address ===
+                (0, _strings.string)(
+                  q.webchatinfo && q.webchatinfo.call_target,
+                ) && q.conf_status !== _constants.default.CONF_STATUS_INACTIVE
+            )
+          }))
       ) {
         panelType = 'CONFERENCE'
-        panelCode = string(
-          this.ucUiStore.getChatCodeByConfId({ conf_id: webchatQueue.conf_id })
-            .chatCode,
+        panelCode = (0, _strings.string)(
+          this.ucUiStore.getChatCodeByConfId({
+            conf_id: webchatQueue.conf_id,
+          }).chatCode,
         )
       } else {
         panelType = 'EXTERNALCALL'
-        panelCode = string(address)
+        panelCode = (0, _strings.string)(address)
       }
-      const panelKey = panelType + '_' + panelCode
+      var panelKey = panelType + '_' + panelCode
       if (this.panelSessionTable[panelKey]) {
         this.ucUiStore
           .getLogger()
@@ -6999,7 +7718,7 @@ uiData.prototype.sessionCreated = function (ev) {
         return
       }
       this.panelSessionTable[panelKey] = {
-        sessionId: string(session.sessionId),
+        sessionId: (0, _strings.string)(session.sessionId),
         target: '',
         isVideo: false,
         isScreen: false,
@@ -7025,15 +7744,20 @@ uiData.prototype.sessionCreated = function (ev) {
         this.externalCallWorkTable[panelCode].display_name = display_name
       }
       // open tab
-      this.updateTab({ open: { panelType: panelType, panelCode: panelCode } })
+      this.updateTab({
+        open: {
+          panelType: panelType,
+          panelCode: panelCode,
+        },
+      })
       // notification
-      const evObj = {
+      var evObj = {
         chatKeys: [panelKey],
         notificationProperties: {
           title: fromDisplay,
           body: session.remoteWithVideo
-            ? uawMsgs.MSG_CALL_NOTIFICATION_WITH_VIDEO
-            : uawMsgs.MSG_CALL_NOTIFICATION,
+            ? _uawmsgs.default.MSG_CALL_NOTIFICATION_WITH_VIDEO
+            : _uawmsgs.default.MSG_CALL_NOTIFICATION,
           bellAudioClass: '__DO_NOT_RING_BELL__',
           noisiness: 0,
         },
@@ -7048,10 +7772,11 @@ uiData.prototype.sessionCreated = function (ev) {
   this.render()
 }
 uiData.prototype.sessionRejected = function (ev) {
-  const session = ev
-  const rtcSession = session && session.rtcSession
+  var _this38 = this
+  var session = ev
+  var rtcSession = session && session.rtcSession
   if (rtcSession) {
-    const address = string(
+    var address = (0, _strings.string)(
       rtcSession.remote_identity &&
         rtcSession.remote_identity.uri &&
         rtcSession.remote_identity.uri.user,
@@ -7060,17 +7785,20 @@ uiData.prototype.sessionRejected = function (ev) {
       // outgoing
       if (address) {
         Object.keys(this.panelSessionTable)
-          .filter(
-            panelKey =>
-              this.panelSessionTable[panelKey].target === address &&
-              !this.panelSessionTable[panelKey].sessionId,
-          )
-          .forEach(panelKey => delete this.panelSessionTable[panelKey])
+          .filter(function (panelKey) {
+            return (
+              _this38.panelSessionTable[panelKey].target === address &&
+              !_this38.panelSessionTable[panelKey].sessionId
+            )
+          })
+          .forEach(function (panelKey) {
+            return delete _this38.panelSessionTable[panelKey]
+          })
       }
     } else {
       // incoming
-      let panelType, panelCode, fromDisplay
-      const display_name = string(
+      var panelType, panelCode, fromDisplay
+      var display_name = (0, _strings.string)(
         session.incomingMessage &&
           session.incomingMessage.from &&
           session.incomingMessage.from.display_name,
@@ -7082,29 +7810,32 @@ uiData.prototype.sessionRejected = function (ev) {
       if (
         address &&
         (this.ucUiStore.getChatClient().getBuddylist().user || []).find(
-          b => address === string(b && b.user_id),
+          function (b) {
+            return address === (0, _strings.string)(b && b.user_id)
+          },
         )
       ) {
         // CHAT
         return
       } else if (
         address &&
-        this.ucUiStore
-          .getWebchatQueueList()
-          .find(
-            q =>
-              address === string(q.webchatinfo && q.webchatinfo.call_target) &&
-              q.conf_status !== Constants.CONF_STATUS_INACTIVE,
+        this.ucUiStore.getWebchatQueueList().find(function (q) {
+          return (
+            address ===
+              (0, _strings.string)(
+                q.webchatinfo && q.webchatinfo.call_target,
+              ) && q.conf_status !== _constants.default.CONF_STATUS_INACTIVE
           )
+        })
       ) {
         // CONFERENCE
         return
       } else {
         // EXTERNALCALL
         panelType = 'EXTERNALCALL'
-        panelCode = string(address)
+        panelCode = (0, _strings.string)(address)
       }
-      const panelKey = panelType + '_' + panelCode
+      var panelKey = panelType + '_' + panelCode
       if (panelType === 'EXTERNALCALL') {
         if (!this.externalCallWorkTable[panelCode]) {
           this.externalCallWorkTable[panelCode] = {}
@@ -7112,13 +7843,18 @@ uiData.prototype.sessionRejected = function (ev) {
         this.externalCallWorkTable[panelCode].display_name = display_name
       }
       // open tab
-      this.updateTab({ open: { panelType: panelType, panelCode: panelCode } })
+      this.updateTab({
+        open: {
+          panelType: panelType,
+          panelCode: panelCode,
+        },
+      })
       // notification
-      const evObj = {
+      var evObj = {
         chatKeys: [panelKey],
         notificationProperties: {
           title: fromDisplay,
-          body: uawMsgs.MSG_CALL_MISSED_NOTIFICATION,
+          body: _uawmsgs.default.MSG_CALL_MISSED_NOTIFICATION,
         },
       }
       this.checkRequiresNotification(evObj)
@@ -7130,7 +7866,10 @@ uiData.prototype.sessionRejected = function (ev) {
         this.ucUiAction.sendCallResult({
           chatType: panelType,
           chatCode: panelCode,
-          text: JSON.stringify({ talklen: 0, externalincoming: true }),
+          text: JSON.stringify({
+            talklen: 0,
+            externalincoming: true,
+          }),
         })
       }
     }
@@ -7138,47 +7877,58 @@ uiData.prototype.sessionRejected = function (ev) {
   this.render()
 }
 uiData.prototype.sessionStatusChanged = function (ev) {
-  const session = ev
-  const rtcSession = session && session.rtcSession
+  var _this39 = this
+  var session = ev
+  var rtcSession = session && session.rtcSession
   if (session && session.sessionStatus === 'terminated') {
     Object.keys(this.panelSessionTable)
-      .filter(
-        panelKey =>
-          this.panelSessionTable[panelKey].sessionId === session.sessionId,
-      )
-      .forEach(panelKey => {
-        const panel = parsePanelKey(panelKey)
+      .filter(function (panelKey) {
+        return (
+          _this39.panelSessionTable[panelKey].sessionId === session.sessionId
+        )
+      })
+      .forEach(function (panelKey) {
+        var panel = (0, _strings.parsePanelKey)(panelKey)
         if (
           rtcSession &&
           rtcSession.direction === 'outgoing' &&
           (panel.panelType === 'CHAT' || panel.panelType === 'CONFERENCE')
         ) {
           // send call result
-          this.ucUiAction.sendCallResult({
+          _this39.ucUiAction.sendCallResult({
             chatType: panel.panelType,
             chatCode: panel.panelCode,
             text: JSON.stringify({
-              talklen: int(+rtcSession.end_time) - int(+rtcSession.start_time),
+              talklen:
+                (0, _strings.int)(+rtcSession.end_time) -
+                (0, _strings.int)(+rtcSession.start_time),
             }),
           })
         } else if (rtcSession && panel.panelType === 'EXTERNALCALL') {
           // add call result (only to local chatList if chatType === 'EXTERNALCALL')
-          this.ucUiAction.sendCallResult({
+          _this39.ucUiAction.sendCallResult({
             chatType: panel.panelType,
             chatCode: panel.panelCode,
             text: JSON.stringify({
-              talklen: int(+rtcSession.end_time) - int(+rtcSession.start_time),
+              talklen:
+                (0, _strings.int)(+rtcSession.end_time) -
+                (0, _strings.int)(+rtcSession.start_time),
               externalincoming: rtcSession.direction !== 'outgoing',
             }),
           })
         }
         if (
-          int(this.ucUiStore.getOptionalSetting({ key: 'dbgopt' })) % 2 ===
+          (0, _strings.int)(
+            _this39.ucUiStore.getOptionalSetting({
+              key: 'dbgopt',
+            }),
+          ) %
+            2 ===
           1
         ) {
           if (session.incomingMessage) {
             if (session.incomingMessage.status_code >= 400) {
-              this.ucUiAction.addSysmsgChat({
+              _this39.ucUiAction.addSysmsgChat({
                 chatType: panel.panelType,
                 chatCode: panel.panelCode,
                 sysmsg: {
@@ -7193,17 +7943,19 @@ uiData.prototype.sessionStatusChanged = function (ev) {
               session.incomingMessage.method === 'CANCEL' ||
               session.incomingMessage.method === 'BYE'
             ) {
-              const reasonHeaders =
+              var reasonHeaders =
                 session.incomingMessage.getHeaders &&
                 session.incomingMessage.getHeaders('Reason')
               if (reasonHeaders && reasonHeaders.length) {
-                this.ucUiAction.addSysmsgChat({
+                _this39.ucUiAction.addSysmsgChat({
                   chatType: panel.panelType,
                   chatCode: panel.panelCode,
                   sysmsg: {
                     sysmsgLevel: 'info',
                     sysmsgData: reasonHeaders
-                      .map(h => 'Reason: ' + h)
+                      .map(function (h) {
+                        return 'Reason: ' + h
+                      })
                       .join('\n'),
                   },
                 })
@@ -7212,54 +7964,58 @@ uiData.prototype.sessionStatusChanged = function (ev) {
           }
         }
         // delete
-        delete this.panelSessionTable[panelKey]
+        delete _this39.panelSessionTable[panelKey]
       })
     this.notifyCallStatus()
   }
   this.render()
 }
 uiData.prototype.videoClientSessionCreated = function (ev) {
-  const session = this.phone && this.phone.getSession(ev && ev.sessionId)
+  var _this40 = this
+  var session = this.phone && this.phone.getSession(ev && ev.sessionId)
   if (session) {
     Object.keys(this.panelSessionTable)
-      .filter(
-        panelKey =>
-          this.panelSessionTable[panelKey].sessionId === session.sessionId,
-      )
-      .forEach(panelKey => {
-        if (this.panelSessionTable[panelKey].isScreen) {
-          const tracks =
+      .filter(function (panelKey) {
+        return (
+          _this40.panelSessionTable[panelKey].sessionId === session.sessionId
+        )
+      })
+      .forEach(function (panelKey) {
+        if (_this40.panelSessionTable[panelKey].isScreen) {
+          var tracks =
             session.localVideoStreamObject &&
             session.localVideoStreamObject.getVideoTracks &&
             session.localVideoStreamObject.getVideoTracks()
-          const track = tracks && tracks[0]
+          var track = tracks && tracks[0]
           if (track) {
-            track.onended = () => {
-              if (this.panelSessionTable[panelKey]) {
-                const session = this.phone.getSession(
-                  this.panelSessionTable[panelKey].sessionId,
+            track.onended = function () {
+              if (_this40.panelSessionTable[panelKey]) {
+                var _session = _this40.phone.getSession(
+                  _this40.panelSessionTable[panelKey].sessionId,
                 )
-                if (session && session.sessionStatus === 'connected') {
-                  if (this.panelSessionTable[panelKey].isScreen) {
+                if (_session && _session.sessionStatus === 'connected') {
+                  if (_this40.panelSessionTable[panelKey].isScreen) {
                     // change screen off
-                    this.panelSessionTable[panelKey].isScreen = false
+                    _this40.panelSessionTable[panelKey].isScreen = false
                     // disconnect existing video session
-                    this.phone.setWithVideo(session.sessionId, false)
+                    _this40.phone.setWithVideo(_session.sessionId, false)
                     // set muted of video client
-                    this.phone.setMuted(
+                    _this40.phone.setMuted(
                       {
                         videoClient:
-                          this.panelSessionTable[panelKey].cameraMuted &&
-                          !this.panelSessionTable[panelKey].isScreen,
+                          _this40.panelSessionTable[panelKey].cameraMuted &&
+                          !_this40.panelSessionTable[panelKey].isScreen,
                       },
-                      session.sessionId,
+                      _session.sessionId,
                     )
                     // start video session
-                    this.phone.setWithVideo(
-                      session.sessionId,
+                    _this40.phone.setWithVideo(
+                      _session.sessionId,
                       true,
-                      this.getVideoOptions(panelKey),
-                      JSON.stringify({ soundOnly: false }),
+                      _this40.getVideoOptions(panelKey),
+                      JSON.stringify({
+                        soundOnly: false,
+                      }),
                     )
                   }
                 }
@@ -7275,30 +8031,32 @@ uiData.prototype.videoClientSessionEnded = function (ev) {
   this.render()
 }
 uiData.prototype.remoteUserOptionsChanged = function (ev) {
-  const session = ev
+  var _this41 = this
+  var session = ev
   if (session) {
     Object.keys(this.panelSessionTable)
-      .filter(
-        panelKey =>
-          this.panelSessionTable[panelKey].sessionId === session.sessionId,
-      )
-      .forEach(panelKey => {
+      .filter(function (panelKey) {
+        return (
+          _this41.panelSessionTable[panelKey].sessionId === session.sessionId
+        )
+      })
+      .forEach(function (panelKey) {
         // sound only
-        if (!this.panelSessionTable[panelKey].isVideo) {
-          const panel = parsePanelKey(panelKey)
-          const panelType = string(panel && panel.panelType)
-          const dontMakeVideo = new RegExp(
+        if (!_this41.panelSessionTable[panelKey].isVideo) {
+          var panel = (0, _strings.parsePanelKey)(panelKey)
+          var panelType = (0, _strings.string)(panel && panel.panelType)
+          var dontMakeVideo = new RegExp(
             '^' +
-              this.ucUiStore.getLocalStoragePreference({
+              _this41.ucUiStore.getLocalStoragePreference({
                 keyList: ['noVideoMode'],
               })[0] +
               '$',
           ).test(panelType)
-          const newWithVideo =
+          var newWithVideo =
             !dontMakeVideo &&
             session.remoteUserOptionsTable &&
-            Object.keys(session.remoteUserOptionsTable).some(user => {
-              let remoteSoundOnly = false
+            Object.keys(session.remoteUserOptionsTable).some(function (user) {
+              var remoteSoundOnly = false
               try {
                 remoteSoundOnly = JSON.parse(
                   session.remoteUserOptionsTable[user].exInfo,
@@ -7311,11 +8069,13 @@ uiData.prototype.remoteUserOptionsChanged = function (ev) {
               )
             })
           if (session.withVideo !== newWithVideo) {
-            this.phone.setWithVideo(
+            _this41.phone.setWithVideo(
               session.sessionId,
               newWithVideo,
-              this.getVideoOptions(panelKey),
-              JSON.stringify({ soundOnly: true }),
+              _this41.getVideoOptions(panelKey),
+              JSON.stringify({
+                soundOnly: true,
+              }),
             )
           }
         }
@@ -7324,6 +8084,7 @@ uiData.prototype.remoteUserOptionsChanged = function (ev) {
   this.render()
 }
 uiData.prototype.rtcErrorOccurred = function (ev) {
+  var _this42 = this
   this.ucUiStore
     .getLogger()
     .log(
@@ -7342,26 +8103,29 @@ uiData.prototype.rtcErrorOccurred = function (ev) {
             ', error=' +
             ev.error),
     )
-  const isVideo = ev && ev.client === 'video'
-  let panelKey = null
-  let warningMessageKey = null
+  var isVideo = ev && ev.client === 'video'
+  var panelKey = null
+  var warningMessageKey = null
   if (ev && ev.target && !ev.sessionId) {
     // makeCall error
     Object.keys(this.panelSessionTable)
-      .filter(
-        panelKey =>
-          this.panelSessionTable[panelKey].target === ev.target &&
-          !this.panelSessionTable[panelKey].sessionId,
-      )
-      .forEach(panelKey => delete this.panelSessionTable[panelKey])
+      .filter(function (panelKey) {
+        return (
+          _this42.panelSessionTable[panelKey].target === ev.target &&
+          !_this42.panelSessionTable[panelKey].sessionId
+        )
+      })
+      .forEach(function (panelKey) {
+        return delete _this42.panelSessionTable[panelKey]
+      })
     warningMessageKey = 'MSG_CALL_RTC_ERROR'
   } else if (ev && ev.sessionId) {
     panelKey = Object.keys(this.panelSessionTable)
-      .filter(
-        panelKey => this.panelSessionTable[panelKey].sessionId === ev.sessionId,
-      )
+      .filter(function (panelKey) {
+        return _this42.panelSessionTable[panelKey].sessionId === ev.sessionId
+      })
       .pop()
-    const session = this.phone && this.phone.getSession(ev.sessionId)
+    var session = this.phone && this.phone.getSession(ev.sessionId)
     if (session && session.sessionStatus === 'progress') {
       // answer error
       warningMessageKey = 'MSG_CALL_RTC_ANSWER_ERROR'
@@ -7384,21 +8148,26 @@ uiData.prototype.rtcErrorOccurred = function (ev) {
   this.render()
 }
 uiData.prototype.icegatheringstatechange = function (ev) {
-  const sessionId = string(ev && ev.sessionId)
-  const panelKey =
+  var _this43 = this
+  var sessionId = (0, _strings.string)(ev && ev.sessionId)
+  var panelKey =
     sessionId &&
     Object.keys(this.panelSessionTable)
-      .filter(
-        panelKey => this.panelSessionTable[panelKey].sessionId === sessionId,
-      )
+      .filter(function (panelKey) {
+        return _this43.panelSessionTable[panelKey].sessionId === sessionId
+      })
       .pop()
-  const iceGatheringState = string(ev && ev.iceGatheringState)
-  const videoClientSessionId = string(ev && ev.videoClientSessionId)
-  const iceGatheringWarning1 = string(this.configurations.iceGatheringWarning)
+  var iceGatheringState = (0, _strings.string)(ev && ev.iceGatheringState)
+  var videoClientSessionId = (0, _strings.string)(ev && ev.videoClientSessionId)
+  var iceGatheringWarning1 = (0, _strings.string)(
+    this.configurations.iceGatheringWarning,
+  )
     .split('|')[0]
     .split(',')
-  const iceGatheringWarning2 = (
-    string(this.configurations.iceGatheringWarning).split('|')[1] || ''
+  var iceGatheringWarning2 = (
+    (0, _strings.string)(this.configurations.iceGatheringWarning).split(
+      '|',
+    )[1] || ''
   ).split(',')
   if (!sessionId || !iceGatheringState) {
     return
@@ -7470,21 +8239,26 @@ uiData.prototype.icegatheringstatechange = function (ev) {
   }
 }
 uiData.prototype.iceconnectionstatechange = function (ev) {
-  const sessionId = string(ev && ev.sessionId)
-  const panelKey =
+  var _this44 = this
+  var sessionId = (0, _strings.string)(ev && ev.sessionId)
+  var panelKey =
     sessionId &&
     Object.keys(this.panelSessionTable)
-      .filter(
-        panelKey => this.panelSessionTable[panelKey].sessionId === sessionId,
-      )
+      .filter(function (panelKey) {
+        return _this44.panelSessionTable[panelKey].sessionId === sessionId
+      })
       .pop()
-  const iceConnectionState = string(ev && ev.iceConnectionState)
-  const videoClientSessionId = string(ev && ev.videoClientSessionId)
-  const iceConnectionWarning1 = string(this.configurations.iceConnectionWarning)
+  var iceConnectionState = (0, _strings.string)(ev && ev.iceConnectionState)
+  var videoClientSessionId = (0, _strings.string)(ev && ev.videoClientSessionId)
+  var iceConnectionWarning1 = (0, _strings.string)(
+    this.configurations.iceConnectionWarning,
+  )
     .split('|')[0]
     .split(',')
-  const iceConnectionWarning2 = (
-    string(this.configurations.iceConnectionWarning).split('|')[1] || ''
+  var iceConnectionWarning2 = (
+    (0, _strings.string)(this.configurations.iceConnectionWarning).split(
+      '|',
+    )[1] || ''
   ).split(',')
   if (!sessionId || !iceConnectionState) {
     return
@@ -7573,7 +8347,7 @@ uiData.prototype.iceconnectionstatechange = function (ev) {
 /**
  * AgentComponent class
  */
-const AgentComponent = function () {
+var AgentComponent = function AgentComponent() {
   // data
   this.initializeStatus = 0
   this.option = {}
@@ -7630,7 +8404,7 @@ AgentComponent.prototype.initComponent = function (option) {
     return
   }
   this.initializeStatus = 1
-  let defaultConsoleLogType = 0
+  var defaultConsoleLogType = 0
   try {
     // defaultConsoleLogType = await RnAsyncStorage.getItem(
     //   'UC.ucagentwidget.agentcomponent.defaultconsolelogtype',
@@ -7642,7 +8416,7 @@ AgentComponent.prototype.initComponent = function (option) {
   this.option.iconParents = option.iconParents || {}
   this.option.loggerLevel = option.loggerLevel || 'all'
   this.option.consoleLogType =
-    int(option.consoleLogType || defaultConsoleLogType) || 2
+    (0, _strings.int)(option.consoleLogType || defaultConsoleLogType) || 2
   this.option.widgetParent = option.widgetParent || null
   this.option.offline = false
   this.option.language = option.language || ''
@@ -7682,12 +8456,16 @@ AgentComponent.prototype.initComponent = function (option) {
   // init logger
   this._logger = new Brekeke.UCClient.Logger(
     this.option.loggerLevel,
-    this.option.consoleLogType === 1 ? () => true : null,
+    this.option.consoleLogType === 1
+      ? function () {
+          return true
+        }
+      : null,
   )
   // init language
   if (!this.option.language || this.option.language === 'auto') {
     this.option.language = (
-      string(
+      (0, _strings.string)(
         navigator.browserLanguage ||
           navigator.language ||
           navigator.userLanguage,
@@ -7697,7 +8475,10 @@ AgentComponent.prototype.initComponent = function (option) {
   if (this.option.language === 'en') {
     this.option.language = 'default'
   }
-  uawMsgs.loadLanguage(this.option.language, this.languageLoaded.bind(this))
+  _uawmsgs.default.loadLanguage(
+    this.option.language,
+    this.languageLoaded.bind(this),
+  )
   // TODO: Check css and move to stylesheet
   //  init css
   //   if (
@@ -7746,7 +8527,11 @@ AgentComponent.prototype.initComponent = function (option) {
   }
   this._dummyChatClient = new Brekeke.UCClient.ChatClient(
     this._logger,
-    this.option.consoleLogType === 3 ? {} : { report_console_categories: '' },
+    this.option.consoleLogType === 3
+      ? {}
+      : {
+          report_console_categories: '',
+        },
   )
   this._dummyUcUiAction = new UcUiAction() // dummy, do not link to UcUiStore
   this._dummyUcUiStore = new UcUiStore({
@@ -7754,8 +8539,8 @@ AgentComponent.prototype.initComponent = function (option) {
     ucUiAction: null,
     chatClient: this._dummyChatClient,
   }) // dummy, never sign-in
-  for (let iconName in this.option.iconParents) {
-    const iconUiData = new uiData({
+  for (var iconName in this.option.iconParents) {
+    var iconUiData = new uiData({
       parentElement: this.option.iconParents[iconName],
       ucUiAction: this._dummyUcUiAction,
       ucUiStore: this._dummyUcUiStore,
@@ -7778,7 +8563,6 @@ AgentComponent.prototype.initComponent = function (option) {
     splitterTop_onChange: this.dialogSplitterTop_onChange.bind(this),
   }
   this.dialogUcUiAction = new UcUiAction()
-
   this.dialogUcUiStore = new UcUiStore({
     logger: this._logger,
     ucUiAction: this.dialogUcUiAction,
@@ -7803,7 +8587,7 @@ AgentComponent.prototype.destroyComponent = function () {
   this.chatTable = {}
   this.popupFailedCount = 0
   // terminate dialogs
-  for (let dialogName in this.dialogUiDataTable) {
+  for (var dialogName in this.dialogUiDataTable) {
     this.dialogUiDataTable[dialogName].destroyApp()
     try {
     } catch (e) {
@@ -7825,7 +8609,7 @@ AgentComponent.prototype.destroyComponent = function () {
   this.dialogHandler = null
   // terminate icon uiData
   if (this.iconUiDataTable) {
-    for (let iconName in this.iconUiDataTable) {
+    for (var iconName in this.iconUiDataTable) {
       this.iconUiDataTable[iconName].destroyApp()
     }
   }
@@ -7858,7 +8642,7 @@ AgentComponent.prototype.destroyComponent = function () {
   this._conferenceCaches = {}
   this.conferenceCaches = this._conferenceCaches
   // remove elements
-  this.elementsAddedToOwner.forEach(element => {
+  this.elementsAddedToOwner.forEach(function (element) {
     try {
       element.parentNode.removeChild(element)
     } catch (e) {}
@@ -7909,7 +8693,7 @@ AgentComponent.prototype.startUCClient = function (option) {
     } catch (e) {}
   }
   if (option.offline) {
-    this.option.signInOption.status = Constants.STATUS_OFFLINE
+    this.option.signInOption.status = _constants.default.STATUS_OFFLINE
   }
   if (typeof this.option.signInOption.auth_timeout === 'undefined') {
     this.option.signInOption.auth_timeout = 5000
@@ -7972,7 +8756,7 @@ AgentComponent.prototype.startUCClient = function (option) {
     console.log('#Duy Phan console startUCClient', this.option.widgetParent)
     if (this.option.widgetParent && !this.option.offline) {
       // init main widget uiData
-      const signInOptionUrl = string(this.option.signInOption.url)
+      var signInOptionUrl = (0, _strings.string)(this.option.signInOption.url)
       this.mainWidgetUiData = new uiData({
         parentElement: this.option.widgetParent,
         ucUiAction: this.ucUiAction,
@@ -8070,7 +8854,10 @@ AgentComponent.prototype.stopUCClient = function () {
   this.logQueuedLog()
   this.initializeStatus = 1
   // close static dialog
-  this.hideSearchDialog({ dialogName: '_static', destroy: true })
+  this.hideSearchDialog({
+    dialogName: '_static',
+    destroy: true,
+  })
 }
 
 /**
@@ -8086,7 +8873,7 @@ AgentComponent.prototype.addHandler = function (handler) {
  * handler
  */
 AgentComponent.prototype.removeHandler = function (handler) {
-  const index = this.handlers.indexOf(handler)
+  var index = this.handlers.indexOf(handler)
   if (index !== -1) {
     this.handlers.splice(index, 1)
   }
@@ -8094,11 +8881,12 @@ AgentComponent.prototype.removeHandler = function (handler) {
 
 //
 AgentComponent.prototype.fire = function (eventName) {
-  this.handlers.forEach(handler => {
+  var _arguments2 = arguments
+  this.handlers.forEach(function (handler) {
     if (handler[eventName]) {
       handler[eventName].apply(
         handler,
-        Array.prototype.slice.call(arguments, 1),
+        Array.prototype.slice.call(_arguments2, 1),
       )
     }
   })
@@ -8109,7 +8897,7 @@ AgentComponent.prototype.fire = function (eventName) {
  * webchatId
  */
 AgentComponent.prototype.getWebchat = function (webchatId) {
-  const conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
+  var conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
   if (this.chatTable[conf_id]) {
     try {
       return JSON.parse(JSON.stringify(this.chatTable[conf_id]))
@@ -8122,153 +8910,194 @@ AgentComponent.prototype.getWebchat = function (webchatId) {
 }
 //
 AgentComponent.prototype.newChat = function (conf_id) {
-  let conference =
+  var conference =
     this.ucUiStore &&
     this.ucUiStore.getChatClient() &&
     this.ucUiStore.getChatClient().getConference(conf_id)
-  let conferenceCache
+  var conferenceCache
   if (
     conference &&
     conference.conf_status &&
-    conference.conf_status !== Constants.CONF_STATUS_INACTIVE
+    conference.conf_status !== _constants.default.CONF_STATUS_INACTIVE
   ) {
-    conferenceCache = this.cacheConference(conf_id, { conference: conference })
+    conferenceCache = this.cacheConference(conf_id, {
+      conference: conference,
+    })
   } else {
     conferenceCache =
       (this.conferenceCaches && this.conferenceCaches[conf_id]) || {}
     conference = conferenceCache.conference || conference || {}
   }
-  let yyyymm = conference.yyyymm
+  var yyyymm = conference.yyyymm
   if (!yyyymm) {
-    const now = new Date()
+    var now = new Date()
     yyyymm = now.getFullYear() + ('0' + (now.getMonth() + 1)).slice(-2)
   }
-  const isTalking =
+  var isTalking =
     conference.conf_type === 'webchat'
       ? this.ucUiStore &&
-        this.ucUiStore.getWebchatQueue({ conf_id: conf_id }).isTalking
-      : conference.conf_status === Constants.CONF_STATUS_JOINED
-  const webchatId = yyyymm + '_' + conf_id
-  const lastConfType = string(
+        this.ucUiStore.getWebchatQueue({
+          conf_id: conf_id,
+        }).isTalking
+      : conference.conf_status === _constants.default.CONF_STATUS_JOINED
+  var webchatId = yyyymm + '_' + conf_id
+  var lastConfType = (0, _strings.string)(
     conference.conf_tags &&
       conference.conf_tags
-        .filter(
-          tag => tag.tag_type === '_webchat' && tag.tag_key === 'lastConfType',
-        )
-        .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-        .map(tag => tag.tag_value)
+        .filter(function (tag) {
+          return tag.tag_type === '_webchat' && tag.tag_key === 'lastConfType'
+        })
+        .sort(function (tag1, tag2) {
+          return tag1.tstamp - tag2.tstamp
+        })
+        .map(function (tag) {
+          return tag.tag_value
+        })
         .pop(),
   )
   this.chatTable[conf_id] = {
     webchatId: webchatId,
-    chatType: string(conference.conf_type),
-    customerName: string(conference.creator && conference.creator.user_name),
-    customerEmail: string(conference.webchatinfo.email),
-    customerNote: string(conference.webchatinfo.profinfo_json),
-    mediaType: string(
+    chatType: (0, _strings.string)(conference.conf_type),
+    customerName: (0, _strings.string)(
+      conference.creator && conference.creator.user_name,
+    ),
+    customerEmail: (0, _strings.string)(conference.webchatinfo.email),
+    customerNote: (0, _strings.string)(conference.webchatinfo.profinfo_json),
+    mediaType: (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag => tag.tag_type === '_webchat' && tag.tag_key === 'mediaType',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'mediaType'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     ),
     isOutgoing: lastConfType === 'emptylast' || lastConfType === 'webchat',
     originalWebchatId:
       lastConfType === 'webchat'
-        ? string(
+        ? (0, _strings.string)(
             conference.conf_tags &&
               conference.conf_tags
-                .filter(
-                  tag =>
+                .filter(function (tag) {
+                  return (
                     tag.tag_type === '_relation' &&
-                    tag.tag_key === '_originalWebchatId',
-                )
-                .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-                .map(tag => tag.tag_value)
+                    tag.tag_key === '_originalWebchatId'
+                  )
+                })
+                .sort(function (tag1, tag2) {
+                  return tag1.tstamp - tag2.tstamp
+                })
+                .map(function (tag) {
+                  return tag.tag_value
+                })
                 .pop(),
           )
         : '',
-    outgoingId: string(
+    outgoingId: (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag => tag.tag_type === '_webchat' && tag.tag_key === 'outgoingId',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'outgoingId'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     ),
-    appUrl: string(conference.webchatinfo.app_url),
+    appUrl: (0, _strings.string)(conference.webchatinfo.app_url),
     primaryAppInfo:
       conference.webchatinfo.primary_app_info &&
-      typeof conference.webchatinfo.primary_app_info === 'object'
+      _typeof(conference.webchatinfo.primary_app_info) === 'object'
         ? conference.webchatinfo.primary_app_info
         : {},
     secondaryAppInfo:
       conference.webchatinfo.secondary_app_info &&
-      typeof conference.webchatinfo.secondary_app_info === 'object'
+      _typeof(conference.webchatinfo.secondary_app_info) === 'object'
         ? conference.webchatinfo.secondary_app_info
         : {},
-    webchatServiceId: string(conference.webchatinfo.webchat_service_id),
-    webchatServiceCode: string(
+    webchatServiceId: (0, _strings.string)(
+      conference.webchatinfo.webchat_service_id,
+    ),
+    webchatServiceCode: (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag =>
+          .filter(function (tag) {
+            return (
               tag.tag_type === '_webchat' &&
-              tag.tag_key === 'webchatServiceCode',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+              tag.tag_key === 'webchatServiceCode'
+            )
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     ),
-    acd: string(
+    acd: (0, _strings.string)(
       conference.invite_properties.webchatfromguest &&
         conference.invite_properties.webchatfromguest.acd_id,
     ),
-    contactId: string(
+    contactId: (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag => tag.tag_type === '_webchat' && tag.tag_key === 'contactId',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'contactId'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     ),
-    projectId: string(
+    projectId: (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag => tag.tag_type === '_webchat' && tag.tag_key === 'projectId',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'projectId'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     ),
     extWebchatInfo:
       (conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag =>
+          .filter(function (tag) {
+            return (
               tag.tag_type === '_webchatext' ||
-              tag.tag_type === '_webchatcustomer',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .reduce((extWebchatInfo, tag) => {
+              tag.tag_type === '_webchatcustomer'
+            )
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .reduce(function (extWebchatInfo, tag) {
             extWebchatInfo[tag.tag_key] = tag.tag_value
             return extWebchatInfo
           }, {})) ||
       {},
     callEnabled: Boolean(conference.webchatinfo.call_enabled),
-    callTarget: string(conference.webchatinfo.call_target),
-    startTime: int(conferenceCache.startTime),
-    firstStartTime: int(conferenceCache.firstStartTime),
-    stateUpdateTime: int(conferenceCache.stateUpdateTime),
-    customerStartTime: int(conference.created_tstamp),
+    callTarget: (0, _strings.string)(conference.webchatinfo.call_target),
+    startTime: (0, _strings.int)(conferenceCache.startTime),
+    firstStartTime: (0, _strings.int)(conferenceCache.firstStartTime),
+    stateUpdateTime: (0, _strings.int)(conferenceCache.stateUpdateTime),
+    customerStartTime: (0, _strings.int)(conference.created_tstamp),
     opened: true,
     webchatState: isTalking ? this.WEBCHAT_STATE_TALK : this.WEBCHAT_STATE_NONE,
   }
@@ -8276,6 +9105,7 @@ AgentComponent.prototype.newChat = function (conf_id) {
 }
 //
 AgentComponent.prototype.cacheConference = function (conf_id, data) {
+  var _this45 = this
   if (!this.conferenceCaches) {
     this.conferenceCaches = {}
   }
@@ -8283,8 +9113,8 @@ AgentComponent.prototype.cacheConference = function (conf_id, data) {
     this.conferenceCaches[conf_id] = {}
   }
   data &&
-    Object.keys(data).forEach(key => {
-      this.conferenceCaches[conf_id][key] = data[key]
+    Object.keys(data).forEach(function (key) {
+      _this45.conferenceCaches[conf_id][key] = data[key]
     })
   return this.conferenceCaches[conf_id]
 }
@@ -8293,9 +9123,9 @@ AgentComponent.prototype.cacheConference = function (conf_id, data) {
  * getOpenedWebchats function
  */
 AgentComponent.prototype.getOpenedWebchats = function () {
-  const openedChats = []
+  var openedChats = []
   if (this.chatTable) {
-    for (let conf_id in this.chatTable) {
+    for (var conf_id in this.chatTable) {
       if (this.chatTable[conf_id].opened) {
         try {
           openedChats.push(JSON.parse(JSON.stringify(this.chatTable[conf_id])))
@@ -8311,7 +9141,7 @@ AgentComponent.prototype.getOpenedWebchats = function () {
  * webchatId
  */
 AgentComponent.prototype.focusWebchat = function (webchatId) {
-  const conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
+  var conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
   if (this.chatTable[conf_id] && this.chatTable[conf_id].opened) {
     this.focusWebchatInner(conf_id, false)
   }
@@ -8323,25 +9153,29 @@ AgentComponent.prototype.focusWebchat = function (webchatId) {
  * option
  */
 AgentComponent.prototype.closeWebchat = function (webchatId, option) {
-  const conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
+  var conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
   if (this.chatTable[conf_id] && this.chatTable[conf_id].opened) {
     // close
     if (!this.option.offline) {
       if (!this.option.widgetParent) {
         this.mainWindowHeartbeat.nextCloseTab = {
           panelType: 'CONFERENCE',
-          panelCode: string(
+          panelCode: (0, _strings.string)(
             this.ucUiStore &&
-              this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+              this.ucUiStore.getChatCodeByConfId({
+                conf_id: conf_id,
+              }).chatCode,
           ),
           force: (option && option.force) || false,
         }
       } else if (this.mainWidgetUiData) {
         this.mainWidgetUiData.closeTab({
           panelType: 'CONFERENCE',
-          panelCode: string(
+          panelCode: (0, _strings.string)(
             this.ucUiStore &&
-              this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+              this.ucUiStore.getChatCodeByConfId({
+                conf_id: conf_id,
+              }).chatCode,
           ),
           force: (option && option.force) || false,
         })
@@ -8357,21 +9191,21 @@ AgentComponent.prototype.closeWebchat = function (webchatId, option) {
  * properties
  */
 AgentComponent.prototype.changeWebchatInfo = function (webchatId, properties) {
-  const conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
+  var conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
   if (this.chatTable[conf_id] && this.chatTable[conf_id].opened) {
     if (this.ucUiStore && this.ucUiStore.getChatClient()) {
-      const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-      const conf_tags_org = conference.conf_tags || []
-      const adds = []
-      const removes = []
+      var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+      var conf_tags_org = conference.conf_tags || []
+      var adds = []
+      var removes = []
       if (properties && typeof properties.contactId !== 'undefined') {
         adds.push({
           tag_key: 'contactId',
-          tag_value: string(properties.contactId),
+          tag_value: (0, _strings.string)(properties.contactId),
           tag_type: '_webchat',
-          permission: Constants.USER_TYPE_TENANT_USER,
+          permission: _constants.default.USER_TYPE_TENANT_USER,
         })
-        conf_tags_org.forEach(tag_org => {
+        conf_tags_org.forEach(function (tag_org) {
           if (
             tag_org.tag_key === 'contactId' &&
             tag_org.tag_type === '_webchat'
@@ -8385,11 +9219,11 @@ AgentComponent.prototype.changeWebchatInfo = function (webchatId, properties) {
       if (properties && typeof properties.projectId !== 'undefined') {
         adds.push({
           tag_key: 'projectId',
-          tag_value: string(properties.projectId),
+          tag_value: (0, _strings.string)(properties.projectId),
           tag_type: '_webchat',
-          permission: Constants.USER_TYPE_TENANT_USER,
+          permission: _constants.default.USER_TYPE_TENANT_USER,
         })
-        conf_tags_org.forEach(tag_org => {
+        conf_tags_org.forEach(function (tag_org) {
           if (
             tag_org.tag_key === 'projectId' &&
             tag_org.tag_type === '_webchat'
@@ -8426,23 +9260,23 @@ AgentComponent.prototype.changeExtWebchatInfo = function (
   webchatId,
   properties,
 ) {
-  const conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
+  var conf_id = webchatId.substr(webchatId.indexOf('_') + 1)
   if (this.chatTable[conf_id] && this.chatTable[conf_id].opened) {
     if (this.ucUiStore && this.ucUiStore.getChatClient()) {
-      const conference = this.ucUiStore.getChatClient().getConference(conf_id)
-      const conf_tags_org = conference.conf_tags || []
-      const adds = []
-      const removes = []
+      var conference = this.ucUiStore.getChatClient().getConference(conf_id)
+      var conf_tags_org = conference.conf_tags || []
+      var adds = []
+      var removes = []
       if (properties) {
-        Object.keys(properties).forEach(key => {
+        Object.keys(properties).forEach(function (key) {
           adds.push({
-            tag_key: string(key),
-            tag_value: string(properties[key]),
+            tag_key: (0, _strings.string)(key),
+            tag_value: (0, _strings.string)(properties[key]),
             tag_type: '_webchatext',
-            permission: Constants.USER_TYPE_TENANT_USER,
+            permission: _constants.default.USER_TYPE_TENANT_USER,
           })
         })
-        conf_tags_org.forEach(tag_org => {
+        conf_tags_org.forEach(function (tag_org) {
           if (
             tag_org.tag_key in properties &&
             tag_org.tag_type === '_webchatext'
@@ -8476,8 +9310,8 @@ AgentComponent.prototype.changeExtWebchatInfo = function (
  */
 AgentComponent.prototype.showSearchDialog = function (option) {
   option = option || {}
-  const dialogName = string(option.dialogName)
-  const visibleOrg = Boolean(this.dialogUiDataTable[dialogName])
+  var dialogName = (0, _strings.string)(option.dialogName)
+  var visibleOrg = Boolean(this.dialogUiDataTable[dialogName])
   if (!this.dialogUcUiStore) {
     this._logger.log('warn', 'dialogUcUiStore not initialized')
     return
@@ -8487,8 +9321,8 @@ AgentComponent.prototype.showSearchDialog = function (option) {
   }
   //   const parentElement = this.option.ownerDocument.createElement('div')
   //   this.option.ownerDocument.body.appendChild(parentElement)
-  const parentElement = `dialogPanel_top`
-  const dialogOption = clone(option)
+  var parentElement = 'dialogPanel_top'
+  var dialogOption = (0, _strings.clone)(option)
   if (!this.dialogWorkDataTable[dialogName]) {
     this.dialogWorkDataTable[dialogName] = {}
   }
@@ -8524,11 +9358,12 @@ AgentComponent.prototype.showSearchDialog = function (option) {
     this.dialogWorkDataTable[dialogName].splitterTop =
       dialogOption.panelOption.initialSplitterTop
   } else {
-    dialogOption.panelOption = clone(dialogOption.panelOption) || {}
+    dialogOption.panelOption =
+      (0, _strings.clone)(dialogOption.panelOption) || {}
     dialogOption.panelOption.initialSplitterTop =
       this.dialogWorkDataTable[dialogName].splitterTop
   }
-  const dialogUiData = new uiData({
+  var dialogUiData = new uiData({
     parentElement: parentElement,
     ucUiAction: this.dialogUcUiAction,
     ucUiStore: this.dialogUcUiStore,
@@ -8541,7 +9376,10 @@ AgentComponent.prototype.showSearchDialog = function (option) {
   dialogUiData.render()
   if (!visibleOrg) {
     // raise searchDialogChanged event
-    this.fire('searchDialogChanged', { dialogName: dialogName, visible: true })
+    this.fire('searchDialogChanged', {
+      dialogName: dialogName,
+      visible: true,
+    })
   }
   // TODO: yano test
   if (this.ucUiStore) {
@@ -8556,8 +9394,8 @@ AgentComponent.prototype.showSearchDialog = function (option) {
  */
 AgentComponent.prototype.hideSearchDialog = function (option) {
   option = option || {}
-  const dialogName = string(option.dialogName)
-  const visibleOrg = Boolean(this.dialogUiDataTable[dialogName])
+  var dialogName = (0, _strings.string)(option.dialogName)
+  var visibleOrg = Boolean(this.dialogUiDataTable[dialogName])
   if (!this.dialogUcUiStore || !this.dialogUcUiAction) {
     this._logger.log('warn', 'dialogUcUiStore not initialized')
     return
@@ -8571,11 +9409,11 @@ AgentComponent.prototype.hideSearchDialog = function (option) {
       chatType: 'HISTORYSEARCH',
       chatCode: dialogName,
     })
-    const searchConditions = this.dialogUcUiStore.getSearchConditions({
+    var searchConditions = this.dialogUcUiStore.getSearchConditions({
       chatType: 'HISTORYSEARCH',
       chatCode: dialogName,
     })
-    const searchConditionsNew = searchConditions.map(searchCondition => {
+    var searchConditionsNew = searchConditions.map(function (searchCondition) {
       if (typeof searchCondition.defaultValue === 'string') {
         searchCondition.conditionValue = searchCondition.defaultValue
       }
@@ -8604,7 +9442,10 @@ AgentComponent.prototype.hideSearchDialog = function (option) {
   }
   if (visibleOrg) {
     // raise searchDialogChanged event
-    this.fire('searchDialogChanged', { dialogName: dialogName, visible: false })
+    this.fire('searchDialogChanged', {
+      dialogName: dialogName,
+      visible: false,
+    })
   }
 }
 
@@ -8614,7 +9455,7 @@ AgentComponent.prototype.hideSearchDialog = function (option) {
  */
 AgentComponent.prototype.getSearchConditions = function (option) {
   option = option || {}
-  const dialogName = string(option.dialogName)
+  var dialogName = (0, _strings.string)(option.dialogName)
   return (
     (this.dialogUcUiStore &&
       this.dialogUcUiStore.getSearchConditions({
@@ -8631,8 +9472,8 @@ AgentComponent.prototype.getSearchConditions = function (option) {
  */
 AgentComponent.prototype.setSearchConditions = function (option) {
   option = option || {}
-  const dialogName = string(option.dialogName)
-  const searchConditions = option.searchConditions || []
+  var dialogName = (0, _strings.string)(option.dialogName)
+  var searchConditions = option.searchConditions || []
   if (!this.dialogUcUiStore || !this.dialogUcUiAction) {
     this._logger.log('warn', 'dialogUcUiStore not initialized')
     return
@@ -8650,8 +9491,8 @@ AgentComponent.prototype.setSearchConditions = function (option) {
  */
 AgentComponent.prototype.doSearch = function (option) {
   option = option || {}
-  const dialogName = string(option.dialogName)
-  const searchMore = Boolean(option.searchMore)
+  var dialogName = (0, _strings.string)(option.dialogName)
+  var searchMore = Boolean(option.searchMore)
   if (!this.dialogUcUiStore || !this.dialogUcUiAction) {
     this._logger.log('warn', 'dialogUcUiStore not initialized')
     return
@@ -8674,7 +9515,7 @@ AgentComponent.prototype.doSearch = function (option) {
  */
 AgentComponent.prototype.getSearchResults = function (option) {
   option = option || {}
-  const dialogName = string(option.dialogName)
+  var dialogName = (0, _strings.string)(option.dialogName)
   return (
     (this.dialogUcUiStore &&
       this.dialogUcUiStore.getSearchResults({
@@ -8692,55 +9533,66 @@ AgentComponent.prototype.getSearchResults = function (option) {
  * option
  */
 AgentComponent.prototype.replyWebchat = function (webchatId, option) {
-  return new Promise((resolve, reject) => {
+  var _this46 = this
+  return new Promise(function (resolve, reject) {
     if (!webchatId) {
-      this._logger.log('warn', 'empty webchatId')
+      _this46._logger.log('warn', 'empty webchatId')
       return reject(new Error('empty webchatId'))
     }
-    if (this.option.offline) {
-      this._logger.log('warn', 'cannot reply (offline)')
+    if (_this46.option.offline) {
+      _this46._logger.log('warn', 'cannot reply (offline)')
       return reject(new Error('cannot reply (offline)'))
     }
-    if (!this.ucUiStore || !this.ucUiAction) {
-      this._logger.log('warn', 'cannot reply (uc client not started)')
+    if (!_this46.ucUiStore || !_this46.ucUiAction) {
+      _this46._logger.log('warn', 'cannot reply (uc client not started)')
       return reject(new Error('cannot reply (uc client not started)'))
     }
-    if (this.option.widgetParent && !this.mainWidgetUiData) {
-      this._logger.log('warn', 'cannot reply (uc widget not started)')
+    if (_this46.option.widgetParent && !_this46.mainWidgetUiData) {
+      _this46._logger.log('warn', 'cannot reply (uc widget not started)')
       return reject(new Error('cannot reply (uc widget not started)'))
     }
 
     // memory webchat info
-    this.replyingWebchatInfos[webchatId] = { replyTime: +new Date() }
+    _this46.replyingWebchatInfos[webchatId] = {
+      replyTime: +new Date(),
+    }
 
     // get (search) webchat information
-    const workChatType = 'WORKFORREPLYING'
-    const workChatCode = string(++this.workForReplyingCounter)
-    this.ucUiAction.setSearchConditions({
+    var workChatType = 'WORKFORREPLYING'
+    var workChatCode = (0, _strings.string)(++_this46.workForReplyingCounter)
+    _this46.ucUiAction.setSearchConditions({
       chatType: workChatType,
       chatCode: workChatCode,
       searchConditions: [
-        { conditionKey: '_webchatIds', conditionValue: webchatId },
-        { conditionKey: '_chatType', conditionValue: 'webchat' },
+        {
+          conditionKey: '_webchatIds',
+          conditionValue: webchatId,
+        },
+        {
+          conditionKey: '_chatType',
+          conditionValue: 'webchat',
+        },
       ],
     })
-    this.workForReplyingFunctions[workChatCode] = ev => {
+    _this46.workForReplyingFunctions[workChatCode] = function (ev) {
       // searchResultChanged event handler
       if (!ev.searching) {
-        const configProperties = this.ucUiStore.getConfigProperties()
-        const searchResult = this.ucUiStore.getSearchResults(ev)[0] || {}
+        var configProperties = _this46.ucUiStore.getConfigProperties()
+        var searchResult = _this46.ucUiStore.getSearchResults(ev)[0] || {}
         if (
           (
             (configProperties.optional_config &&
               configProperties.optional_config.awsl) ||
             []
-          ).some(aws => aws.id === searchResult.webchatServiceId && aws.senders)
+          ).some(function (aws) {
+            return aws.id === searchResult.webchatServiceId && aws.senders
+          })
         ) {
-          let replyType = null
+          var replyType = null
           if (option && typeof option.replyType !== 'undefined') {
             if (option.replyType !== '') {
               if (
-                string(searchResult.replyTypes)
+                (0, _strings.string)(searchResult.replyTypes)
                   .split(',')
                   .indexOf(option.replyType) !== -1
               ) {
@@ -8748,17 +9600,25 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
               }
             } else {
               if (
-                'TRUE' === string(searchResult.webchatContinuable).toUpperCase()
+                'TRUE' ===
+                (0, _strings.string)(
+                  searchResult.webchatContinuable,
+                ).toUpperCase()
               ) {
                 replyType = ''
               }
             }
           } else {
             if (searchResult.replyTypes) {
-              replyType = string(searchResult.replyTypes).split(',')[0]
+              replyType = (0, _strings.string)(searchResult.replyTypes).split(
+                ',',
+              )[0]
             } else {
               if (
-                'TRUE' === string(searchResult.webchatContinuable).toUpperCase()
+                'TRUE' ===
+                (0, _strings.string)(
+                  searchResult.webchatContinuable,
+                ).toUpperCase()
               ) {
                 replyType = ''
               }
@@ -8767,13 +9627,13 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
           if (replyType !== null) {
             // if replyable
             // get detail (chatList) of searchResult
-            this.ucUiAction.expandSearchResult({
+            _this46.ucUiAction.expandSearchResult({
               chatType: workChatType,
               chatCode: workChatCode,
               searchResultIds: [searchResult.searchResultId],
             })
             // memory continuation info
-            const replyingContinuationInfo = {
+            var replyingContinuationInfo = {
               conf_id: searchResult._conf_id,
               yyyymm: searchResult._yyyymm,
               searchResultId: searchResult.searchResultId,
@@ -8781,15 +9641,15 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
               resolve: resolve,
               reject: reject,
             }
-            this.replyingContinuationInfos.push(replyingContinuationInfo)
-            setTimeout(() => {
+            _this46.replyingContinuationInfos.push(replyingContinuationInfo)
+            setTimeout(function () {
               while (
-                this.replyingContinuationInfos[0] &&
-                this.replyingContinuationInfos[0].replyTime + 60000 <
+                _this46.replyingContinuationInfos[0] &&
+                _this46.replyingContinuationInfos[0].replyTime + 60000 <
                   +new Date()
               ) {
-                const info = this.replyingContinuationInfos.shift()
-                this._logger.log(
+                var info = _this46.replyingContinuationInfos.shift()
+                _this46._logger.log(
                   'warn',
                   'replying timeout ' + JSON.stringify(info),
                 )
@@ -8800,8 +9660,8 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
               }
             }, 60000 + 1000)
             // reply continuation
-            if (!this.option.offline) {
-              const nextWebchatTags = []
+            if (!_this46.option.offline) {
+              var nextWebchatTags = []
               if (
                 option &&
                 option.webchatInfo &&
@@ -8809,9 +9669,9 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
               ) {
                 nextWebchatTags.push({
                   tag_key: 'contactId',
-                  tag_value: string(option.webchatInfo.contactId),
+                  tag_value: (0, _strings.string)(option.webchatInfo.contactId),
                   tag_type: '_webchat',
-                  permission: Constants.USER_TYPE_TENANT_USER,
+                  permission: _constants.default.USER_TYPE_TENANT_USER,
                 })
               }
               if (
@@ -8821,39 +9681,39 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
               ) {
                 nextWebchatTags.push({
                   tag_key: 'projectId',
-                  tag_value: string(option.webchatInfo.projectId),
+                  tag_value: (0, _strings.string)(option.webchatInfo.projectId),
                   tag_type: '_webchat',
-                  permission: Constants.USER_TYPE_TENANT_USER,
+                  permission: _constants.default.USER_TYPE_TENANT_USER,
                 })
               }
               if (option && option.extWebchatInfo) {
-                Object.keys(option.extWebchatInfo).forEach(key => {
+                Object.keys(option.extWebchatInfo).forEach(function (key) {
                   nextWebchatTags.push({
-                    tag_key: string(key),
-                    tag_value: string(option.extWebchatInfo[key]),
+                    tag_key: (0, _strings.string)(key),
+                    tag_value: (0, _strings.string)(option.extWebchatInfo[key]),
                     tag_type: '_webchatext',
-                    permission: Constants.USER_TYPE_TENANT_USER,
+                    permission: _constants.default.USER_TYPE_TENANT_USER,
                   })
                 })
               }
               if (option && option.outgoingId) {
                 nextWebchatTags.push({
                   tag_key: 'outgoingId',
-                  tag_value: string(option.outgoingId),
+                  tag_value: (0, _strings.string)(option.outgoingId),
                   tag_type: '_webchat',
-                  permission: Constants.USER_TYPE_TENANT_USER,
+                  permission: _constants.default.USER_TYPE_TENANT_USER,
                 })
               }
-              if (!this.option.widgetParent) {
-                this.mainWindowHeartbeat.mustReplyContinuation = {
+              if (!_this46.option.widgetParent) {
+                _this46.mainWindowHeartbeat.mustReplyContinuation = {
                   searchResult: searchResult,
                   replyType: replyType,
                   nextWebchatTags: nextWebchatTags,
                   resolve: resolve,
                   reject: reject,
                 }
-              } else if (this.mainWidgetUiData) {
-                this.mainWidgetUiData
+              } else if (_this46.mainWidgetUiData) {
+                _this46.mainWidgetUiData
                   .replyContinuation(
                     searchResult._yyyymm,
                     searchResult._conf_id,
@@ -8865,7 +9725,7 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
                   .catch(reject)
               }
             } else {
-              this._logger.log(
+              _this46._logger.log(
                 'warn',
                 'cannot reply (offline after searchResultChanged)',
               )
@@ -8874,21 +9734,21 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
               )
             }
           } else {
-            this._logger.log(
+            _this46._logger.log(
               'warn',
               'cannot reply (replyType not found) : ' +
                 webchatId +
                 ', ' +
                 (option && JSON.stringify(option)),
             )
-            if (!this.option.widgetParent && !this.option.offline) {
-              this.mainWindowHeartbeat.mustShowModal = {
-                title: uawMsgs.CMN_ALERT,
+            if (!_this46.option.widgetParent && !_this46.option.offline) {
+              _this46.mainWindowHeartbeat.mustShowModal = {
+                title: _uawmsgs.default.CMN_ALERT,
                 message: 'cannot reply (replyType not found) : ' + webchatId,
               }
-            } else if (this.mainWidgetUiData) {
-              this.mainWidgetUiData.showModal({
-                title: uawMsgs.CMN_ALERT,
+            } else if (_this46.mainWidgetUiData) {
+              _this46.mainWidgetUiData.showModal({
+                title: _uawmsgs.default.CMN_ALERT,
                 message: 'cannot reply (replyType not found) : ' + webchatId,
               })
             }
@@ -8902,7 +9762,7 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
             )
           }
         } else {
-          this._logger.log(
+          _this46._logger.log(
             'warn',
             'cannot reply (check senders of webchatServiceId=' +
               searchResult.webchatServiceId +
@@ -8911,18 +9771,18 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
               ', ' +
               (option && JSON.stringify(option)),
           )
-          if (!this.option.widgetParent && !this.option.offline) {
-            this.mainWindowHeartbeat.mustShowModal = {
-              title: uawMsgs.CMN_ALERT,
+          if (!_this46.option.widgetParent && !_this46.option.offline) {
+            _this46.mainWindowHeartbeat.mustShowModal = {
+              title: _uawmsgs.default.CMN_ALERT,
               message:
                 'cannot reply (check senders of webchatServiceId=' +
                 searchResult.webchatServiceId +
                 ') : ' +
                 webchatId,
             }
-          } else if (this.mainWidgetUiData) {
-            this.mainWidgetUiData.showModal({
-              title: uawMsgs.CMN_ALERT,
+          } else if (_this46.mainWidgetUiData) {
+            _this46.mainWidgetUiData.showModal({
+              title: _uawmsgs.default.CMN_ALERT,
               message:
                 'cannot reply (check senders of webchatServiceId=' +
                 searchResult.webchatServiceId +
@@ -8944,7 +9804,7 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
         return true
       }
     }
-    this.ucUiAction.doSearch({
+    _this46.ucUiAction.doSearch({
       chatType: workChatType,
       chatCode: workChatCode,
     })
@@ -8956,13 +9816,14 @@ AgentComponent.prototype.replyWebchat = function (webchatId, option) {
  * option
  */
 AgentComponent.prototype.createOutgoingWebchat = function (option) {
-  return new Promise((resolve, reject) => {
-    if (this.option.offline) {
-      this._logger.log('warn', 'cannot create outgoing webchat (offline)')
+  var _this47 = this
+  return new Promise(function (resolve, reject) {
+    if (_this47.option.offline) {
+      _this47._logger.log('warn', 'cannot create outgoing webchat (offline)')
       return reject(new Error('cannot create outgoing webchat (offline)'))
     }
-    if (!this.ucUiStore || !this.ucUiAction) {
-      this._logger.log(
+    if (!_this47.ucUiStore || !_this47.ucUiAction) {
+      _this47._logger.log(
         'warn',
         'cannot create outgoing webchat (uc client not started)',
       )
@@ -8970,8 +9831,8 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
         new Error('cannot create outgoing webchat (uc client not started)'),
       )
     }
-    if (this.option.widgetParent && !this.mainWidgetUiData) {
-      this._logger.log(
+    if (_this47.option.widgetParent && !_this47.mainWidgetUiData) {
+      _this47._logger.log(
         'warn',
         'cannot create outgoing webchat (uc widget not started)',
       )
@@ -8979,26 +9840,27 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
         new Error('cannot create outgoing webchat (uc widget not started)'),
       )
     }
-
-    this.ucUiStore.getChatClient().createOutgoingWebchat(
+    _this47.ucUiStore.getChatClient().createOutgoingWebchat(
       option,
-      ev => {
-        const replyType = ev.replyType
-        const conf_id = ev.conf_id
-        const yyyymm = ev.yyyymm
-
-        const configProperties = this.ucUiStore.getConfigProperties()
+      function (ev) {
+        var replyType = ev.replyType
+        var conf_id = ev.conf_id
+        var yyyymm = ev.yyyymm
+        var configProperties = _this47.ucUiStore.getConfigProperties()
 
         // publish continuation code
-        const continuation_code = this.ucUiStore
+        var continuation_code = _this47.ucUiStore
           .getChatClient()
-          .publishContinuationCode({ yyyymm: yyyymm, conf_id: conf_id })
-        this.ucUiStore
+          .publishContinuationCode({
+            yyyymm: yyyymm,
+            conf_id: conf_id,
+          })
+        _this47.ucUiStore
           .getLogger()
           .log('debug', 'published continuation_code=' + continuation_code)
 
         // memory continuation info
-        const replyingContinuationInfo = {
+        var replyingContinuationInfo = {
           conf_id: conf_id,
           yyyymm: yyyymm,
           searchResultId: null,
@@ -9006,33 +9868,37 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
           resolve: resolve,
           reject: reject,
         }
-        this.replyingContinuationInfos.push(replyingContinuationInfo)
-        setTimeout(() => {
+        _this47.replyingContinuationInfos.push(replyingContinuationInfo)
+        setTimeout(function () {
           while (
-            this.replyingContinuationInfos[0] &&
-            this.replyingContinuationInfos[0].replyTime + 60000 < +new Date()
+            _this47.replyingContinuationInfos[0] &&
+            _this47.replyingContinuationInfos[0].replyTime + 60000 < +new Date()
           ) {
-            const info = this.replyingContinuationInfos.shift()
-            this._logger.log('warn', 'replying timeout ' + JSON.stringify(info))
+            var info = _this47.replyingContinuationInfos.shift()
+            _this47._logger.log(
+              'warn',
+              'replying timeout ' + JSON.stringify(info),
+            )
             info.reject &&
               info.reject(new Error('replying timeout ' + JSON.stringify(info)))
           }
         }, 60000 + 1000)
-
         if (replyType === '') {
           // show continuation code
-          if (!this.option.widgetParent && !this.option.offline) {
-            this.mainWindowHeartbeat.mustShowModal = {
-              title: uawMsgs.MSG_REPLY_MANUAL_CONTINUATION_DIALOG_TITLE,
+          if (!_this47.option.widgetParent && !_this47.option.offline) {
+            _this47.mainWindowHeartbeat.mustShowModal = {
+              title:
+                _uawmsgs.default.MSG_REPLY_MANUAL_CONTINUATION_DIALOG_TITLE,
               message:
                 '<input type="text" value="' +
                 continuation_code +
                 '" class="brTextBox brReplyReentryCode" readonly onfocus="this.select();" />',
               asHTML: true,
             }
-          } else if (this.mainWidgetUiData) {
-            this.mainWidgetUiData.showModal({
-              title: uawMsgs.MSG_REPLY_MANUAL_CONTINUATION_DIALOG_TITLE,
+          } else if (_this47.mainWidgetUiData) {
+            _this47.mainWidgetUiData.showModal({
+              title:
+                _uawmsgs.default.MSG_REPLY_MANUAL_CONTINUATION_DIALOG_TITLE,
               message:
                 '<input type="text" value="' +
                 continuation_code +
@@ -9043,11 +9909,11 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
           resolve({})
         } else {
           // invite guest
-          const optional_ev = {
+          var optional_ev = {
             agent_operation: 'create',
           }
           if (option && option.optional_ev) {
-            for (let key in option.optional_ev) {
+            for (var key in option.optional_ev) {
               optional_ev[key] = option.optional_ev[key]
             }
           }
@@ -9064,8 +9930,8 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
           ) {
             optional_ev.webchat_service_id = option.webchatServiceId
           }
-          const inviteGuestFunc = () => {
-            this.ucUiStore.getChatClient().inviteGuest(
+          var inviteGuestFunc = function inviteGuestFunc() {
+            _this47.ucUiStore.getChatClient().inviteGuest(
               {
                 conf_id: conf_id,
                 yyyymm: yyyymm,
@@ -9073,9 +9939,9 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
                 continuation_code: continuation_code,
                 optional_ev: optional_ev,
               },
-              ev => {},
-              ev => {
-                this.ucUiStore
+              function (ev) {},
+              function (ev) {
+                _this47.ucUiStore
                   .getLogger()
                   .log(
                     'warn',
@@ -9084,9 +9950,9 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
                       ', message=' +
                       ev.message,
                   )
-                if (!this.option.widgetParent && !this.option.offline) {
-                  this.mainWindowHeartbeat.mustShowModal = {
-                    title: uawMsgs.CMN_ALERT,
+                if (!_this47.option.widgetParent && !_this47.option.offline) {
+                  _this47.mainWindowHeartbeat.mustShowModal = {
+                    title: _uawmsgs.default.CMN_ALERT,
                     message:
                       'Failed to reply.' +
                       '\n(' +
@@ -9095,9 +9961,9 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
                       ev.message +
                       ')',
                   }
-                } else if (this.mainWidgetUiData) {
-                  this.mainWidgetUiData.showModal({
-                    title: uawMsgs.CMN_ALERT,
+                } else if (_this47.mainWidgetUiData) {
+                  _this47.mainWidgetUiData.showModal({
+                    title: _uawmsgs.default.CMN_ALERT,
                     message:
                       'Failed to reply.' +
                       '\n(' +
@@ -9119,12 +9985,12 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
             )
           }
           if (!optional_ev.webchat_service_id) {
-            const awsl = (
+            var awsl = (
               (configProperties &&
                 configProperties.optional_config &&
                 configProperties.optional_config.awsl) ||
               []
-            ).filter(aws => {
+            ).filter(function (aws) {
               if (aws.og && aws.og.disabled) {
                 return false
               }
@@ -9134,7 +10000,9 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
               if (option && option.acd) {
                 if (
                   aws.type === '1' &&
-                  string(aws.senders).split(',').indexOf(option.acd) !== -1
+                  (0, _strings.string)(aws.senders)
+                    .split(',')
+                    .indexOf(option.acd) !== -1
                 ) {
                   return true
                 }
@@ -9143,63 +10011,75 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
               return true
             })
             if (awsl.length === 1) {
-              optional_ev.webchat_service_id = string(awsl[0].id)
+              optional_ev.webchat_service_id = (0, _strings.string)(awsl[0].id)
               inviteGuestFunc()
             } else if (awsl.length > 1) {
-              this.ucUiStore
+              _this47.ucUiStore
                 .getLogger()
                 .log('info', 'ambiguous webchat_service_id')
-              if (!this.option.widgetParent && !this.option.offline) {
-                this.mainWindowHeartbeat.mustShowModal = {
-                  title: uawMsgs.CMN_ALERT,
-                  message: uawMsgs.MSG_CREATE_OUTGOING_AMBIGUOUS,
-                  selectItemList: awsl.map((aws, i) => ({
-                    label: aws.id + (aws.descr ? ' (' + aws.descr + ')' : ''),
-                    selected: i === 0,
-                    id: aws.id,
-                  })),
+              if (!_this47.option.widgetParent && !_this47.option.offline) {
+                _this47.mainWindowHeartbeat.mustShowModal = {
+                  title: _uawmsgs.default.CMN_ALERT,
+                  message: _uawmsgs.default.MSG_CREATE_OUTGOING_AMBIGUOUS,
+                  selectItemList: awsl.map(function (aws, i) {
+                    return {
+                      label: aws.id + (aws.descr ? ' (' + aws.descr + ')' : ''),
+                      selected: i === 0,
+                      id: aws.id,
+                    }
+                  }),
                   cancelable: true,
-                  onOk: ev => {
+                  onOk: function onOk(ev) {
                     optional_ev.webchat_service_id =
                       ev.modalInfo &&
                       ev.modalInfo.selectItemList &&
                       ev.modalInfo.selectItemList.filter &&
                       ev.modalInfo.selectItemList
-                        .filter(item => item.selected)
-                        .map(item => item.id)
+                        .filter(function (item) {
+                          return item.selected
+                        })
+                        .map(function (item) {
+                          return item.id
+                        })
                         .pop()
                     inviteGuestFunc()
                   },
-                  onCancel: ev => {
-                    this.ucUiStore
+                  onCancel: function onCancel(ev) {
+                    _this47.ucUiStore
                       .getLogger()
                       .log('info', 'CREATE_OUTGOING_AMBIGUOUS onCancel')
                     reject(new Error('CREATE_OUTGOING_AMBIGUOUS onCancel'))
                   },
                 }
-              } else if (this.mainWidgetUiData) {
-                this.mainWidgetUiData.showModal({
-                  title: uawMsgs.CMN_ALERT,
-                  message: uawMsgs.MSG_CREATE_OUTGOING_AMBIGUOUS,
-                  selectItemList: awsl.map((aws, i) => ({
-                    label: aws.id + (aws.descr ? ' (' + aws.descr + ')' : ''),
-                    selected: i === 0,
-                    id: aws.id,
-                  })),
+              } else if (_this47.mainWidgetUiData) {
+                _this47.mainWidgetUiData.showModal({
+                  title: _uawmsgs.default.CMN_ALERT,
+                  message: _uawmsgs.default.MSG_CREATE_OUTGOING_AMBIGUOUS,
+                  selectItemList: awsl.map(function (aws, i) {
+                    return {
+                      label: aws.id + (aws.descr ? ' (' + aws.descr + ')' : ''),
+                      selected: i === 0,
+                      id: aws.id,
+                    }
+                  }),
                   cancelable: true,
-                  onOk: ev => {
+                  onOk: function onOk(ev) {
                     optional_ev.webchat_service_id =
                       ev.modalInfo &&
                       ev.modalInfo.selectItemList &&
                       ev.modalInfo.selectItemList.filter &&
                       ev.modalInfo.selectItemList
-                        .filter(item => item.selected)
-                        .map(item => item.id)
+                        .filter(function (item) {
+                          return item.selected
+                        })
+                        .map(function (item) {
+                          return item.id
+                        })
                         .pop()
                     inviteGuestFunc()
                   },
-                  onCancel: ev => {
-                    this.ucUiStore
+                  onCancel: function onCancel(ev) {
+                    _this47.ucUiStore
                       .getLogger()
                       .log('info', 'CREATE_OUTGOING_AMBIGUOUS onCancel')
                     reject(new Error('CREATE_OUTGOING_AMBIGUOUS onCancel'))
@@ -9207,18 +10087,18 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
                 })
               }
             } else {
-              this.ucUiStore
+              _this47.ucUiStore
                 .getLogger()
                 .log('warn', 'no webchat services for outgoing')
-              if (!this.option.widgetParent && !this.option.offline) {
-                this.mainWindowHeartbeat.mustShowModal = {
-                  title: uawMsgs.CMN_ALERT,
+              if (!_this47.option.widgetParent && !_this47.option.offline) {
+                _this47.mainWindowHeartbeat.mustShowModal = {
+                  title: _uawmsgs.default.CMN_ALERT,
                   message:
                     'Failed to reply.' + '\n(no webchat services for outgoing)',
                 }
-              } else if (this.mainWidgetUiData) {
-                this.mainWidgetUiData.showModal({
-                  title: uawMsgs.CMN_ALERT,
+              } else if (_this47.mainWidgetUiData) {
+                _this47.mainWidgetUiData.showModal({
+                  title: _uawmsgs.default.CMN_ALERT,
                   message:
                     'Failed to reply.' + '\n(no webchat services for outgoing)',
                 })
@@ -9230,26 +10110,26 @@ AgentComponent.prototype.createOutgoingWebchat = function (option) {
           }
         }
       },
-      ev => {
-        this._logger.log(
+      function (ev) {
+        _this47._logger.log(
           'warn',
           'chatClient.createOutgoingWebchat error code=' +
             ev.code +
             ', message=' +
             ev.message,
         )
-        if (!this.option.widgetParent && !this.option.offline) {
-          this.mainWindowHeartbeat.mustShowModal = {
-            title: uawMsgs.CMN_ALERT,
+        if (!_this47.option.widgetParent && !_this47.option.offline) {
+          _this47.mainWindowHeartbeat.mustShowModal = {
+            title: _uawmsgs.default.CMN_ALERT,
             message:
               'chatClient.createOutgoingWebchat error code=' +
               ev.code +
               ', message=' +
               ev.message,
           }
-        } else if (this.mainWidgetUiData) {
-          this.mainWidgetUiData.showModal({
-            title: uawMsgs.CMN_ALERT,
+        } else if (_this47.mainWidgetUiData) {
+          _this47.mainWidgetUiData.showModal({
+            title: _uawmsgs.default.CMN_ALERT,
             message:
               'chatClient.createOutgoingWebchat error code=' +
               ev.code +
@@ -9281,7 +10161,7 @@ AgentComponent.prototype.getOutgoingWebchatServices = function (option) {
         .optional_config || {}
     ).awsl || []
   )
-    .filter(aws => {
+    .filter(function (aws) {
       if (aws.og && aws.og.disabled) {
         return false
       }
@@ -9291,9 +10171,11 @@ AgentComponent.prototype.getOutgoingWebchatServices = function (option) {
       if (option && option.acds) {
         if (
           aws.type !== '1' ||
-          !string(aws.senders)
+          !(0, _strings.string)(aws.senders)
             .split(',')
-            .some(acd => Array.prototype.indexOf.call(option.acds, acd) !== -1)
+            .some(function (acd) {
+              return Array.prototype.indexOf.call(option.acds, acd) !== -1
+            })
         ) {
           return false
         }
@@ -9302,28 +10184,32 @@ AgentComponent.prototype.getOutgoingWebchatServices = function (option) {
         if (
           aws.og &&
           aws.og.reply_types &&
-          !Array.prototype.some.call(aws.og.reply_types, reply_type =>
-            Array.prototype.some.call(
+          !Array.prototype.some.call(aws.og.reply_types, function (reply_type) {
+            return Array.prototype.some.call(
               option.replyTypes,
-              replyType =>
-                string(replyType).toUpperCase() ===
-                string(reply_type).toUpperCase(),
-            ),
-          )
+              function (replyType) {
+                return (
+                  (0, _strings.string)(replyType).toUpperCase() ===
+                  (0, _strings.string)(reply_type).toUpperCase()
+                )
+              },
+            )
+          })
         ) {
           return false
         }
       }
       return true
     })
-    .map(aws => {
+    .map(function (aws) {
       return {
-        webchatServiceId: string(aws.id),
-        description: string(aws.descr),
-        type: string(aws.type),
-        target: string(aws.target),
-        senders: string(aws.senders),
-        acds: aws.type === '1' ? string(aws.senders).split(',') : [],
+        webchatServiceId: (0, _strings.string)(aws.id),
+        description: (0, _strings.string)(aws.descr),
+        type: (0, _strings.string)(aws.type),
+        target: (0, _strings.string)(aws.target),
+        senders: (0, _strings.string)(aws.senders),
+        acds:
+          aws.type === '1' ? (0, _strings.string)(aws.senders).split(',') : [],
         replyTypes: (aws.og && aws.og.reply_types) || null,
       }
     })
@@ -9336,162 +10222,257 @@ AgentComponent.prototype.heartBeatMainWindow = function () {
 }
 
 //
-AgentComponent.prototype.checkAndShowSubWindow = async function () {
-  if (this.initializeStatus !== 2) {
-    return
-  }
-  const windowName =
-    'UC_' +
-    JSON.stringify({
-      tenant: string((this.option.signInOption || {}).tenant),
-      user_id: string((this.option.signInOption || {}).user),
-    })
-  const windowBox = { l: 0, t: 0, w: 300, h: 400 }
-  try {
-    let windowBoxStr = ''
-    try {
-      windowBoxStr = await RnAsyncStorage.getItem(
-        'UC.ucagentwidget.agentcomponent.subwindowbox',
+AgentComponent.prototype.checkAndShowSubWindow =
+  /*#__PURE__*/ _asyncToGenerator(
+    /*#__PURE__*/ _regenerator().m(function _callee() {
+      var windowName,
+        windowBox,
+        windowBoxStr,
+        newWindowBox,
+        windowFeatures,
+        writableSubwindow,
+        meta,
+        script,
+        _t,
+        _t2,
+        _t3,
+        _t4,
+        _t5
+      return _regenerator().w(
+        function (_context) {
+          while (1)
+            switch (_context.n) {
+              case 0:
+                if (!(this.initializeStatus !== 2)) {
+                  _context.n = 1
+                  break
+                }
+                return _context.a(2)
+              case 1:
+                windowName =
+                  'UC_' +
+                  JSON.stringify({
+                    tenant: (0, _strings.string)(
+                      (this.option.signInOption || {}).tenant,
+                    ),
+                    user_id: (0, _strings.string)(
+                      (this.option.signInOption || {}).user,
+                    ),
+                  })
+                windowBox = {
+                  l: 0,
+                  t: 0,
+                  w: 300,
+                  h: 400,
+                }
+                _context.p = 2
+                windowBoxStr = ''
+                _context.p = 3
+                _context.n = 4
+                return _asyncStorage.default.getItem(
+                  'UC.ucagentwidget.agentcomponent.subwindowbox',
+                )
+              case 4:
+                windowBoxStr = _context.v
+                _context.n = 6
+                break
+              case 5:
+                _context.p = 5
+                _t = _context.v
+              case 6:
+                if (!windowBoxStr) {
+                  // windowBoxStr = cookie('brekeke.ucagentwidget.agentcomponent.subwindowbox')
+                }
+                if (windowBoxStr) {
+                  newWindowBox = JSON.parse(windowBoxStr)
+                  if (newWindowBox) {
+                    windowBox.l =
+                      typeof newWindowBox.l === 'number'
+                        ? newWindowBox.l
+                        : windowBox.l
+                    windowBox.t =
+                      typeof newWindowBox.t === 'number'
+                        ? newWindowBox.t
+                        : windowBox.t
+                    windowBox.w =
+                      typeof newWindowBox.w === 'number'
+                        ? newWindowBox.w
+                        : windowBox.w
+                    windowBox.h =
+                      typeof newWindowBox.h === 'number'
+                        ? newWindowBox.h
+                        : windowBox.h
+                  }
+                }
+                _context.n = 8
+                break
+              case 7:
+                _context.p = 7
+                _t2 = _context.v
+              case 8:
+                windowFeatures = (0, _strings.formatStr)(
+                  'width={0}, height={1}, left={2}, top={3}',
+                  windowBox.w,
+                  windowBox.h,
+                  windowBox.l,
+                  windowBox.t,
+                )
+                if (
+                  !this.subWindow &&
+                  Brekeke.UCAgentWidget.startingUCData &&
+                  Brekeke.UCAgentWidget.startingUCData.subWindowAlive
+                ) {
+                  // reconnect new main window to existing sub window
+                  this.subWindow =
+                    Brekeke.UCAgentWidget.startingUCData.subWindowAlive
+                  // do not call subWindowConnected here (call subWindowConnected in SubWindowModule.checkMainWindowAlive after set ucUiStore, ...)
+                } else if (!this.subWindow || this.subWindow.closed) {
+                  // call subWindowDisconnected
+                  this.subWindowDisconnected()
+                  // open new sub window
+                  this.subWindow = window.open('', windowName, windowFeatures)
+                  // do not call subWindowConnected here (call subWindowConnected in SubWindowModule.onload after init sub window)
+                }
+                delete Brekeke.UCAgentWidget.startingUCData
+                if (
+                  !(
+                    !this.subWindow ||
+                    !this.subWindow.location ||
+                    !this.subWindow.document
+                  )
+                ) {
+                  _context.n = 9
+                  break
+                }
+                this.popupFailedCount++
+                this._logger.log(
+                  'info',
+                  (0, _strings.formatStr)(
+                    'window.open failed ({0})',
+                    this.popupFailedCount,
+                  ),
+                )
+                if (this.popupFailedCount === 3) {
+                  this._logger.log('warn', 'window.open may be blocked')
+                  // raise errorOccurred event
+                  this.fire('errorOccurred', {
+                    errorCode: this.ERROR_POPUP_BLOCKED,
+                    errorMessage: _uawmsgs.default.MSG_ERROR_POPUP_BLOCKED,
+                  })
+                }
+                _context.n = 15
+                break
+              case 9:
+                if (!(this.subWindow.location.href === 'about:blank')) {
+                  _context.n = 14
+                  break
+                }
+                // init sub window
+                this.subWindow.Brekeke = {
+                  UCAgentWidgetSubWindow: {
+                    AgentComponentInstanceOfMainWindow: this,
+                    WindowBox: windowBox,
+                    WindowTitle: _uawmsgs.default.LBL_SUB_WINDOW_MODULE_TITLE,
+                  },
+                }
+                writableSubwindow = 0
+                _context.p = 10
+                _t3 = _strings.int
+                _context.n = 11
+                return _asyncStorage.default.getItem(
+                  'UC.ucagentwidget.agentcomponent.writablesubwindow',
+                )
+              case 11:
+                _t4 = _context.v
+                writableSubwindow = _t3(_t4)
+                _context.n = 13
+                break
+              case 12:
+                _context.p = 12
+                _t5 = _context.v
+              case 13:
+                if (writableSubwindow === 1) {
+                  this.subWindow.document.open()
+                  this.subWindow.document.write('<!doctype html>')
+                  this.subWindow.document.write('<html>')
+                  this.subWindow.document.write('<head>')
+                  this.subWindow.document.write('<meta charset="utf-8">')
+                  this.subWindow.document.write('<title>')
+                  this.subWindow.document.write('.')
+                  this.subWindow.document.write('</title>')
+                  this.subWindow.document.write(
+                    '<link rel="stylesheet" href="' +
+                      _currentscript.default.DIR +
+                      '../../../css/ucagentwidget.css' +
+                      _currentscript.default.QUERY +
+                      '" />',
+                  )
+                  this.subWindow.document.write(
+                    '<link rel="stylesheet" href="' +
+                      _currentscript.default.DIR +
+                      '../../../css/react-datepicker.css' +
+                      _currentscript.default.QUERY +
+                      '" />',
+                  )
+                  this.subWindow.document.write('</head>')
+                  this.subWindow.document.write('<body>')
+                  this.subWindow.document.write('<div id="content">')
+                  this.subWindow.document.write('</div>')
+                  this.subWindow.document.write(
+                    '<script charset="utf-8" src="' +
+                      _currentscript.default.DIR +
+                      _currentscript.default.FILE +
+                      _currentscript.default.QUERY +
+                      '"></script>',
+                  )
+                  this.subWindow.document.write('<script>')
+                  this.subWindow.document.write(
+                    'var subWindowModule = new Brekeke.UCAgentWidget.SubWindowModule();',
+                  )
+                  this.subWindow.document.write('</script>')
+                  this.subWindow.document.write('</body>')
+                  this.subWindow.document.write('</html>')
+                  this.subWindow.document.close()
+                } else {
+                  this.subWindow.document.open() // this.subWindow.location.href to be same as main window
+                  this.subWindow.document.close()
+                  meta = this.subWindow.document.createElement('meta')
+                  meta.setAttribute('charset', 'utf-8')
+                  this.subWindow.document.head.appendChild(meta)
+                  script = this.subWindow.document.createElement('script')
+                  script.async = 1
+                  script.setAttribute('charset', 'utf-8')
+                  script.src =
+                    _currentscript.default.DIR +
+                    _currentscript.default.FILE +
+                    '?newsubwindowmodule' +
+                    (_currentscript.default.QUERY &&
+                    _currentscript.default.QUERY[0] === '?'
+                      ? '&' + _currentscript.default.QUERY.substring(1)
+                      : '')
+                  this.subWindow.document.body.appendChild(script)
+                }
+                _context.n = 15
+                break
+              case 14:
+                // sub window already initialized
+                // update main window reference
+                this.subWindow.Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow =
+                  this
+              case 15:
+                return _context.a(2)
+            }
+        },
+        _callee,
+        this,
+        [
+          [10, 12],
+          [3, 5],
+          [2, 7],
+        ],
       )
-    } catch (e) {}
-    if (!windowBoxStr) {
-      // windowBoxStr = cookie('brekeke.ucagentwidget.agentcomponent.subwindowbox')
-    }
-    if (windowBoxStr) {
-      const newWindowBox = JSON.parse(windowBoxStr)
-      if (newWindowBox) {
-        windowBox.l =
-          typeof newWindowBox.l === 'number' ? newWindowBox.l : windowBox.l
-        windowBox.t =
-          typeof newWindowBox.t === 'number' ? newWindowBox.t : windowBox.t
-        windowBox.w =
-          typeof newWindowBox.w === 'number' ? newWindowBox.w : windowBox.w
-        windowBox.h =
-          typeof newWindowBox.h === 'number' ? newWindowBox.h : windowBox.h
-      }
-    }
-  } catch (e) {}
-  const windowFeatures = formatStr(
-    'width={0}, height={1}, left={2}, top={3}',
-    windowBox.w,
-    windowBox.h,
-    windowBox.l,
-    windowBox.t,
+    }),
   )
-  if (
-    !this.subWindow &&
-    Brekeke.UCAgentWidget.startingUCData &&
-    Brekeke.UCAgentWidget.startingUCData.subWindowAlive
-  ) {
-    // reconnect new main window to existing sub window
-    this.subWindow = Brekeke.UCAgentWidget.startingUCData.subWindowAlive
-    // do not call subWindowConnected here (call subWindowConnected in SubWindowModule.checkMainWindowAlive after set ucUiStore, ...)
-  } else if (!this.subWindow || this.subWindow.closed) {
-    // call subWindowDisconnected
-    this.subWindowDisconnected()
-    // open new sub window
-    this.subWindow = window.open('', windowName, windowFeatures)
-    // do not call subWindowConnected here (call subWindowConnected in SubWindowModule.onload after init sub window)
-  }
-  delete Brekeke.UCAgentWidget.startingUCData
-  if (!this.subWindow || !this.subWindow.location || !this.subWindow.document) {
-    this.popupFailedCount++
-    this._logger.log(
-      'info',
-      formatStr('window.open failed ({0})', this.popupFailedCount),
-    )
-    if (this.popupFailedCount === 3) {
-      this._logger.log('warn', 'window.open may be blocked')
-      // raise errorOccurred event
-      this.fire('errorOccurred', {
-        errorCode: this.ERROR_POPUP_BLOCKED,
-        errorMessage: uawMsgs.MSG_ERROR_POPUP_BLOCKED,
-      })
-    }
-  } else if (this.subWindow.location.href === 'about:blank') {
-    // init sub window
-    this.subWindow.Brekeke = {
-      UCAgentWidgetSubWindow: {
-        AgentComponentInstanceOfMainWindow: this,
-        WindowBox: windowBox,
-        WindowTitle: uawMsgs.LBL_SUB_WINDOW_MODULE_TITLE,
-      },
-    }
-    let writableSubwindow = 0
-    try {
-      writableSubwindow = int(
-        await RnAsyncStorage.getItem(
-          'UC.ucagentwidget.agentcomponent.writablesubwindow',
-        ),
-      )
-    } catch (e) {}
-    if (writableSubwindow === 1) {
-      this.subWindow.document.open()
-      this.subWindow.document.write('<!doctype html>')
-      this.subWindow.document.write('<html>')
-      this.subWindow.document.write('<head>')
-      this.subWindow.document.write('<meta charset="utf-8">')
-      this.subWindow.document.write('<title>')
-      this.subWindow.document.write('.')
-      this.subWindow.document.write('</title>')
-      this.subWindow.document.write(
-        '<link rel="stylesheet" href="' +
-          CURRENT_SCRIPT_URL.DIR +
-          '../../../css/ucagentwidget.css' +
-          CURRENT_SCRIPT_URL.QUERY +
-          '" />',
-      )
-      this.subWindow.document.write(
-        '<link rel="stylesheet" href="' +
-          CURRENT_SCRIPT_URL.DIR +
-          '../../../css/react-datepicker.css' +
-          CURRENT_SCRIPT_URL.QUERY +
-          '" />',
-      )
-      this.subWindow.document.write('</head>')
-      this.subWindow.document.write('<body>')
-      this.subWindow.document.write('<div id="content">')
-      this.subWindow.document.write('</div>')
-      this.subWindow.document.write(
-        '<script charset="utf-8" src="' +
-          CURRENT_SCRIPT_URL.DIR +
-          CURRENT_SCRIPT_URL.FILE +
-          CURRENT_SCRIPT_URL.QUERY +
-          '"></script>',
-      )
-      this.subWindow.document.write('<script>')
-      this.subWindow.document.write(
-        'var subWindowModule = new Brekeke.UCAgentWidget.SubWindowModule();',
-      )
-      this.subWindow.document.write('</script>')
-      this.subWindow.document.write('</body>')
-      this.subWindow.document.write('</html>')
-      this.subWindow.document.close()
-    } else {
-      this.subWindow.document.open() // this.subWindow.location.href to be same as main window
-      this.subWindow.document.close()
-      var meta = this.subWindow.document.createElement('meta')
-      meta.setAttribute('charset', 'utf-8')
-      this.subWindow.document.head.appendChild(meta)
-      var script = this.subWindow.document.createElement('script')
-      script.async = 1
-      script.setAttribute('charset', 'utf-8')
-      script.src =
-        CURRENT_SCRIPT_URL.DIR +
-        CURRENT_SCRIPT_URL.FILE +
-        '?newsubwindowmodule' +
-        (CURRENT_SCRIPT_URL.QUERY && CURRENT_SCRIPT_URL.QUERY[0] === '?'
-          ? '&' + CURRENT_SCRIPT_URL.QUERY.substring(1)
-          : '')
-      this.subWindow.document.body.appendChild(script)
-    }
-  } else {
-    // sub window already initialized
-    // update main window reference
-    this.subWindow.Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow =
-      this
-  }
-}
 
 //
 AgentComponent.prototype.subWindowConnected = function () {
@@ -9519,11 +10500,11 @@ AgentComponent.prototype.subWindowDisconnected = function () {
 AgentComponent.prototype.updateIconUiData = function () {
   // terminate and init icon uiData if ucUiStore changed
   if (this.iconUiDataTable && !this.option.offline) {
-    let webchatNotificationTarget = true
-    for (let iconName in this.iconUiDataTable) {
-      const iconUiDataOrg = this.iconUiDataTable[iconName]
+    var webchatNotificationTarget = true
+    for (var iconName in this.iconUiDataTable) {
+      var iconUiDataOrg = this.iconUiDataTable[iconName]
       if (iconUiDataOrg.ucUiStore !== this.ucUiStore) {
-        const iconUiData = new uiData({
+        var iconUiData = new uiData({
           parentElement: iconUiDataOrg.parentElement,
           ucUiAction: this.ucUiAction,
           ucUiStore: this.ucUiStore,
@@ -9547,7 +10528,7 @@ AgentComponent.prototype.updateIconUiData = function () {
 //
 AgentComponent.prototype.logQueuedLog = function () {
   // output log from sub window
-  let args
+  var args
   while ((args = this.logQueue.shift())) {
     if (this._logger) {
       this._logger.outputLog(
@@ -9563,7 +10544,7 @@ AgentComponent.prototype.logQueuedLog = function () {
 //
 AgentComponent.prototype.languageLoaded = function (lang) {
   if (this.iconUiDataTable) {
-    for (let iconName in this.iconUiDataTable) {
+    for (var iconName in this.iconUiDataTable) {
       this.iconUiDataTable[iconName].render()
     }
   }
@@ -9574,21 +10555,21 @@ AgentComponent.prototype.languageLoaded = function (lang) {
 
 // events from UcUiStore
 AgentComponent.prototype.ucUiStore_signedIn = function (ev) {
-  const configProperties =
+  var configProperties =
     this && this.ucUiStore && this.ucUiStore.getConfigProperties()
-  const dclt = string(
+  var dclt = (0, _strings.string)(
     configProperties &&
       configProperties.optional_config &&
       configProperties.optional_config.dclt,
   )
   try {
     if (dclt) {
-      RnAsyncStorage.setItem(
+      _asyncStorage.default.setItem(
         'UC.ucagentwidget.agentcomponent.defaultconsolelogtype',
         dclt,
       )
     } else {
-      RnAsyncStorage.removeItem(
+      _asyncStorage.default.removeItem(
         'UC.ucagentwidget.agentcomponent.defaultconsolelogtype',
       )
     }
@@ -9596,15 +10577,20 @@ AgentComponent.prototype.ucUiStore_signedIn = function (ev) {
   // raise signedIn event
   this.fire(
     'signedIn',
-    Object.assign({ signInOption: this.option.signInOption }, ev),
+    Object.assign(
+      {
+        signInOption: this.option.signInOption,
+      },
+      ev,
+    ),
   )
 }
 AgentComponent.prototype.ucUiStore_signedOut = function (ev) {
   if (this.chatTable) {
-    for (let conf_id in this.chatTable) {
+    for (var conf_id in this.chatTable) {
       if (this.chatTable[conf_id].webchatState !== this.WEBCHAT_STATE_NONE) {
         this.chatTable[conf_id].webchatState = this.WEBCHAT_STATE_NONE
-        this.chatTable[conf_id].stateUpdateTime = int(ev.tstamp)
+        this.chatTable[conf_id].stateUpdateTime = (0, _strings.int)(ev.tstamp)
         this.cacheConference(conf_id, {
           stateUpdateTime: this.chatTable[conf_id].stateUpdateTime,
         })
@@ -9621,13 +10607,13 @@ AgentComponent.prototype.ucUiStore_signedOut = function (ev) {
 }
 AgentComponent.prototype.ucUiStore_webchatLeft = function (ev) {
   if (ev.chatType === 'CONFERENCE') {
-    const conf_id = string(
+    var conf_id = (0, _strings.string)(
       this.ucUiStore && this.ucUiStore.getChatHeaderInfo(ev).conf_id,
     )
     if (conf_id && this.chatTable[conf_id]) {
       if (this.chatTable[conf_id].webchatState !== this.WEBCHAT_STATE_NONE) {
         this.chatTable[conf_id].webchatState = this.WEBCHAT_STATE_NONE
-        this.chatTable[conf_id].stateUpdateTime = int(ev.tstamp)
+        this.chatTable[conf_id].stateUpdateTime = (0, _strings.int)(ev.tstamp)
         this.cacheConference(conf_id, {
           stateUpdateTime: this.chatTable[conf_id].stateUpdateTime,
         })
@@ -9652,29 +10638,31 @@ AgentComponent.prototype.ucUiStore_searchResultChanged = function (ev) {
 
 // events from ChatClient
 AgentComponent.prototype.chatClient_conferenceMemberChanged = function (ev) {
-  const conference = ev && ev.conference
-  const conf_id = conference && conference.conf_id
+  var conference = ev && ev.conference
+  var conf_id = conference && conference.conf_id
   if (conf_id && this.chatTable[conf_id]) {
-    const webchatId = this.chatTable[conf_id].webchatId
-    const isTalking =
+    var webchatId = this.chatTable[conf_id].webchatId
+    var isTalking =
       conference.conf_type === 'webchat'
         ? (this.ucUiStore &&
-            this.ucUiStore.getWebchatQueue({ conf_id: conf_id }).isTalking) ||
+            this.ucUiStore.getWebchatQueue({
+              conf_id: conf_id,
+            }).isTalking) ||
           (conference.creator &&
             conference.creator.conf_status ===
-              Constants.CONF_STATUS_LEFT_UNANSWERED)
-        : conference.conf_status === Constants.CONF_STATUS_JOINED
+              _constants.default.CONF_STATUS_LEFT_UNANSWERED)
+        : conference.conf_status === _constants.default.CONF_STATUS_JOINED
     if (
       isTalking &&
       this.chatTable[conf_id].webchatState !== this.WEBCHAT_STATE_TALK
     ) {
       this.chatTable[conf_id].webchatState = this.WEBCHAT_STATE_TALK
-      this.chatTable[conf_id].startTime = int(ev.tstamp)
+      this.chatTable[conf_id].startTime = (0, _strings.int)(ev.tstamp)
       if (!this.chatTable[conf_id].firstStartTime) {
         this.chatTable[conf_id].firstStartTime =
           this.chatTable[conf_id].startTime
       }
-      this.chatTable[conf_id].stateUpdateTime = int(ev.tstamp)
+      this.chatTable[conf_id].stateUpdateTime = (0, _strings.int)(ev.tstamp)
       this.cacheConference(conf_id, {
         conference: conference,
         startTime: this.chatTable[conf_id].startTime,
@@ -9690,7 +10678,7 @@ AgentComponent.prototype.chatClient_conferenceMemberChanged = function (ev) {
       this.chatTable[conf_id].webchatState !== this.WEBCHAT_STATE_NONE
     ) {
       this.chatTable[conf_id].webchatState = this.WEBCHAT_STATE_NONE
-      this.chatTable[conf_id].stateUpdateTime = int(ev.tstamp)
+      this.chatTable[conf_id].stateUpdateTime = (0, _strings.int)(ev.tstamp)
       this.cacheConference(conf_id, {
         conference: conference,
         stateUpdateTime: this.chatTable[conf_id].stateUpdateTime,
@@ -9701,117 +10689,146 @@ AgentComponent.prototype.chatClient_conferenceMemberChanged = function (ev) {
   }
 }
 AgentComponent.prototype.chatClient_confTagUpdated = function (ev) {
-  const conference = ev && ev.conference
-  const conf_id = conference && conference.conf_id
+  var conference = ev && ev.conference
+  var conf_id = conference && conference.conf_id
   if (conf_id && this.chatTable[conf_id]) {
-    const webchatId = this.chatTable[conf_id].webchatId
-    const webchatJsonStrOrg = JSON.stringify(this.chatTable[conf_id])
-    const lastConfType = string(
+    var webchatId = this.chatTable[conf_id].webchatId
+    var webchatJsonStrOrg = JSON.stringify(this.chatTable[conf_id])
+    var lastConfType = (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag =>
-              tag.tag_type === '_webchat' && tag.tag_key === 'lastConfType',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'lastConfType'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     )
-    this.chatTable[conf_id].mediaType = string(
+    this.chatTable[conf_id].mediaType = (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag => tag.tag_type === '_webchat' && tag.tag_key === 'mediaType',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'mediaType'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     )
     this.chatTable[conf_id].isOutgoing =
       lastConfType === 'emptylast' || lastConfType === 'webchat'
     this.chatTable[conf_id].originalWebchatId =
       lastConfType === 'webchat'
-        ? string(
+        ? (0, _strings.string)(
             conference.conf_tags &&
               conference.conf_tags
-                .filter(
-                  tag =>
+                .filter(function (tag) {
+                  return (
                     tag.tag_type === '_relation' &&
-                    tag.tag_key === '_originalWebchatId',
-                )
-                .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-                .map(tag => tag.tag_value)
+                    tag.tag_key === '_originalWebchatId'
+                  )
+                })
+                .sort(function (tag1, tag2) {
+                  return tag1.tstamp - tag2.tstamp
+                })
+                .map(function (tag) {
+                  return tag.tag_value
+                })
                 .pop(),
           )
         : ''
-    this.chatTable[conf_id].contactId = string(
+    this.chatTable[conf_id].contactId = (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag => tag.tag_type === '_webchat' && tag.tag_key === 'contactId',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'contactId'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     )
-    this.chatTable[conf_id].projectId = string(
+    this.chatTable[conf_id].projectId = (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag => tag.tag_type === '_webchat' && tag.tag_key === 'projectId',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return tag.tag_type === '_webchat' && tag.tag_key === 'projectId'
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     )
     this.chatTable[conf_id].extWebchatInfo =
       (conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag =>
+          .filter(function (tag) {
+            return (
               tag.tag_type === '_webchatext' ||
-              tag.tag_type === '_webchatcustomer',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .reduce((extWebchatInfo, tag) => {
+              tag.tag_type === '_webchatcustomer'
+            )
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .reduce(function (extWebchatInfo, tag) {
             extWebchatInfo[tag.tag_key] = tag.tag_value
             return extWebchatInfo
           }, {})) ||
       {}
-    this.cacheConference(conf_id, { conference: conference })
+    this.cacheConference(conf_id, {
+      conference: conference,
+    })
     if (webchatJsonStrOrg !== JSON.stringify(this.chatTable[conf_id])) {
       // raise webchatInfoChanged event
       this.fire('webchatInfoChanged', this.getWebchat(webchatId))
     }
   }
-
   if (
     conf_id &&
-    conference.conf_status === Constants.CONF_STATUS_INVITED_WEBCHAT &&
+    conference.conf_status === _constants.default.CONF_STATUS_INVITED_WEBCHAT &&
     conference.conf_tags &&
-    conference.conf_tags.filter(
-      tag => tag.tag_type === '_webchat' && tag.tag_key === 'mediaType',
-    ).length
+    conference.conf_tags.filter(function (tag) {
+      return tag.tag_type === '_webchat' && tag.tag_key === 'mediaType'
+    }).length
   ) {
-    const continuationInfoStr = string(
+    var continuationInfoStr = (0, _strings.string)(
       conference.conf_tags &&
         conference.conf_tags
-          .filter(
-            tag =>
-              tag.tag_type === '_webchat' && tag.tag_key === 'continuationInfo',
-          )
-          .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-          .map(tag => tag.tag_value)
+          .filter(function (tag) {
+            return (
+              tag.tag_type === '_webchat' && tag.tag_key === 'continuationInfo'
+            )
+          })
+          .sort(function (tag1, tag2) {
+            return tag1.tstamp - tag2.tstamp
+          })
+          .map(function (tag) {
+            return tag.tag_value
+          })
           .pop(),
     )
-    let continuationInfo = {}
+    var continuationInfo = {}
     try {
       continuationInfo = JSON.parse(continuationInfoStr)
     } catch (e) {}
     if (continuationInfo.conf_id) {
-      let replyingContinuationInfo = null
+      var replyingContinuationInfo = null
       this.replyingContinuationInfos = this.replyingContinuationInfos.filter(
-        info => {
+        function (info) {
           if (
             info.conf_id === continuationInfo.conf_id &&
             info.yyyymm === continuationInfo.yyyymm
@@ -9829,15 +10846,20 @@ AgentComponent.prototype.chatClient_confTagUpdated = function (ev) {
             chatTypeSource: 'SEARCHRESULTDETAIL',
             chatCodeSource: replyingContinuationInfo.searchResultId,
             chatTypeTarget: 'CONFERENCE',
-            chatCodeTarget: string(
-              this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+            chatCodeTarget: (0, _strings.string)(
+              this.ucUiStore.getChatCodeByConfId({
+                conf_id: conf_id,
+              }).chatCode,
             ),
           })
         }
         // answer automatically
         this.ucUiAction.joinWebchatRoom({
           conf_id: conf_id,
-          properties: { invisible: false, exclusive: true },
+          properties: {
+            invisible: false,
+            exclusive: true,
+          },
         })
         this.focusWebchatInner(conf_id, true)
         // fulfill promise
@@ -9895,8 +10917,8 @@ AgentComponent.prototype.focusWebchatInner = function (
   focusesSubWindow,
 ) {
   this.focusedChat = conf_id
-  let webchatId
-  let webchat
+  var webchatId
+  var webchat
   if (!this.chatTable[conf_id]) {
     webchatId = this.newChat(conf_id)
     webchat = this.getWebchat(webchatId)
@@ -9926,17 +10948,21 @@ AgentComponent.prototype.focusWebchatInner = function (
       this.mainWindowHeartbeat.nextSelectedTab =
         'CONFERENCE' +
         '_' +
-        string(
+        (0, _strings.string)(
           this.ucUiStore &&
-            this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+            this.ucUiStore.getChatCodeByConfId({
+              conf_id: conf_id,
+            }).chatCode,
         )
     } else if (this.mainWidgetUiData) {
       this.mainWidgetUiData.updateTab({
         select: {
           panelType: 'CONFERENCE',
-          panelCode: string(
+          panelCode: (0, _strings.string)(
             this.ucUiStore &&
-              this.ucUiStore.getChatCodeByConfId({ conf_id: conf_id }).chatCode,
+              this.ucUiStore.getChatCodeByConfId({
+                conf_id: conf_id,
+              }).chatCode,
           ),
         },
       })
@@ -9948,7 +10974,9 @@ AgentComponent.prototype.iconSearchDialogButton_onClick = function (data, ev) {
   this.fire('iconClicked', {
     iconName: 'search',
     iconPosition: 'tool',
-    data: { visible: Boolean(!this.dialogUiDataTable['_static']) },
+    data: {
+      visible: Boolean(!this.dialogUiDataTable['_static']),
+    },
   })
   if (!this.dialogUiDataTable['_static']) {
     this.showSearchDialog({
@@ -9960,7 +10988,7 @@ AgentComponent.prototype.iconSearchDialogButton_onClick = function (data, ev) {
       selectable: false,
       allSelectable: false,
       emphasize: true,
-      title: uawMsgs.LBL_SEARCH_DIALOG_TITLE,
+      title: _uawmsgs.default.LBL_SEARCH_DIALOG_TITLE,
     })
   } else {
     this.hideSearchDialog({
@@ -9972,17 +11000,17 @@ AgentComponent.prototype.iconSearchDialogButton_onClick = function (data, ev) {
 // events from sub window or main widget uiData
 AgentComponent.prototype.subWindowTabOpened = function (ev, alreadyOpened) {
   if (ev) {
-    const panel = parsePanelKey(ev.panelKey)
+    var panel = (0, _strings.parsePanelKey)(ev.panelKey)
     if (panel.panelType === 'CONFERENCE') {
-      const conf_id = string(
+      var conf_id = (0, _strings.string)(
         this.ucUiStore &&
           this.ucUiStore.getChatHeaderInfo({
             chatType: panel.panelType,
             chatCode: panel.panelCode,
           }).conf_id,
       )
-      let webchatId
-      let webchat
+      var webchatId
+      var webchat
       if (!this.chatTable[conf_id]) {
         webchatId = this.newChat(conf_id)
         webchat = this.getWebchat(webchatId)
@@ -10009,9 +11037,9 @@ AgentComponent.prototype.subWindowTabOpened = function (ev, alreadyOpened) {
 }
 AgentComponent.prototype.subWindowTabClosing = function (ev) {
   if (ev) {
-    const panel = parsePanelKey(ev.panelKey)
+    var panel = (0, _strings.parsePanelKey)(ev.panelKey)
     if (panel.panelType === 'CONFERENCE') {
-      const conf_id = string(
+      var conf_id = (0, _strings.string)(
         this.ucUiStore &&
           this.ucUiStore.getChatHeaderInfo({
             chatType: panel.panelType,
@@ -10035,9 +11063,9 @@ AgentComponent.prototype.subWindowTabClosing = function (ev) {
 }
 AgentComponent.prototype.subWindowTabClosed = function (ev) {
   if (ev) {
-    const panel = parsePanelKey(ev.panelKey)
+    var panel = (0, _strings.parsePanelKey)(ev.panelKey)
     if (panel.panelType === 'CONFERENCE') {
-      const conf_id = string(
+      var conf_id = (0, _strings.string)(
         this.ucUiStore &&
           this.ucUiStore.getChatHeaderInfo({
             chatType: panel.panelType,
@@ -10064,9 +11092,9 @@ AgentComponent.prototype.subWindowTabClosed = function (ev) {
 }
 AgentComponent.prototype.subWindowTabSelected = function (ev) {
   if (ev) {
-    const panel = parsePanelKey(ev.panelKey)
+    var panel = (0, _strings.parsePanelKey)(ev.panelKey)
     if (panel.panelType === 'CONFERENCE') {
-      const conf_id = string(
+      var conf_id = (0, _strings.string)(
         this.ucUiStore &&
           this.ucUiStore.getChatHeaderInfo({
             chatType: panel.panelType,
@@ -10132,15 +11160,15 @@ AgentComponent.prototype.subWindowBuddylistButton_onClick = function (
 }
 AgentComponent.prototype.subWindowChatOptionButtonsReplyWebchatButton_onClick =
   function (panelType, panelCode, ev) {
-    const option = {}
-    const chatHeaderInfo =
+    var option = {}
+    var chatHeaderInfo =
       (this.ucUiStore &&
         this.ucUiStore.getChatHeaderInfo({
           chatType: panelType,
           chatCode: panelCode,
         })) ||
       {}
-    const webchatId = chatHeaderInfo.yyyymm + '_' + chatHeaderInfo.conf_id
+    var webchatId = chatHeaderInfo.yyyymm + '_' + chatHeaderInfo.conf_id
     if (
       this.replyingWebchatInfos[webchatId] &&
       +new Date() < this.replyingWebchatInfos[webchatId].replyTime + 10000
@@ -10148,18 +11176,22 @@ AgentComponent.prototype.subWindowChatOptionButtonsReplyWebchatButton_onClick =
       this._logger.log('warn', 'Processing, please wait.')
       if (!this.option.widgetParent && !this.option.offline) {
         this.mainWindowHeartbeat.mustShowModal = {
-          title: uawMsgs.CMN_ALERT,
+          title: _uawmsgs.default.CMN_ALERT,
           message: 'Processing, please wait.',
         }
       } else if (this.mainWidgetUiData) {
         this.mainWidgetUiData.showModal({
-          title: uawMsgs.CMN_ALERT,
+          title: _uawmsgs.default.CMN_ALERT,
           message: 'Processing, please wait.',
         })
       }
       return
     }
-    const e = { webchatId: webchatId, cancel: false, option: option }
+    var e = {
+      webchatId: webchatId,
+      cancel: false,
+      option: option,
+    }
     this.fire('replyButtonClicked', e, this.replyWebchat.bind(this, webchatId))
     if (!e.cancel) {
       this.replyWebchat(webchatId, e.option)
@@ -10174,7 +11206,10 @@ AgentComponent.prototype.dialogDialogCloseButton_onClick = function (
 ) {
   if (panelType === 'HISTORYSEARCH') {
     setTimeout(
-      this.hideSearchDialog.bind(this, { dialogName: panelCode, clear: true }),
+      this.hideSearchDialog.bind(this, {
+        dialogName: panelCode,
+        clear: true,
+      }),
       0,
     )
   }
@@ -10185,7 +11220,12 @@ AgentComponent.prototype.dialogDialogHideButton_onClick = function (
   ev,
 ) {
   if (panelType === 'HISTORYSEARCH') {
-    setTimeout(this.hideSearchDialog.bind(this, { dialogName: panelCode }), 0)
+    setTimeout(
+      this.hideSearchDialog.bind(this, {
+        dialogName: panelCode,
+      }),
+      0,
+    )
   }
 }
 AgentComponent.prototype.dialogDialogButton_onClick = function (
@@ -10210,7 +11250,7 @@ AgentComponent.prototype.dialogDialogResizableBox_onStop = function (
   rect,
 ) {
   if (panelType === 'HISTORYSEARCH') {
-    const dialogName = panelCode
+    var dialogName = panelCode
     if (!this.dialogWorkDataTable[dialogName]) {
       this.dialogWorkDataTable[dialogName] = {}
     }
@@ -10223,7 +11263,7 @@ AgentComponent.prototype.dialogSplitterTop_onChange = function (
   splitterTop,
 ) {
   if (panelType === 'HISTORYSEARCH') {
-    const dialogName = panelCode
+    var dialogName = panelCode
     if (!this.dialogWorkDataTable[dialogName]) {
       this.dialogWorkDataTable[dialogName] = {}
     }
@@ -10263,10 +11303,8 @@ AgentComponent.prototype.dialogUcUiStore_searchResultSelected = function (ev) {
  * consts
  */
 AgentComponent.prototype.ERROR_POPUP_BLOCKED = 550
-
 AgentComponent.prototype.WEBCHAT_STATE_NONE = 0
 AgentComponent.prototype.WEBCHAT_STATE_TALK = 10
-
 AgentComponent.prototype.MAIN_WINDOW_HEARTBEAT_DELAY_DEF = 100
 AgentComponent.prototype.SUB_WINDOW_CHECK_MAIN_DELAY_DEF = 10
 AgentComponent.prototype.SUB_WINDOW_TIMEOUT_DEF = 10000
@@ -10275,7 +11313,7 @@ AgentComponent.prototype.SUB_WINDOW_TIMER_DELAY_DEF = 1000
 /**
  * SubWindowModule class
  */
-const SubWindowModule = function () {
+var SubWindowModule = function SubWindowModule() {
   this._loaded = false
   this._timer = null
   this._logger = null
@@ -10294,10 +11332,10 @@ SubWindowModule.prototype.onload = function () {
     return
   }
   this._loaded = true
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent) {
-    const option = agentComponent.option || {}
+    var option = agentComponent.option || {}
     // main window life/death monitoring timer
     this._timer = setInterval(
       this.checkMainWindowAlive.bind(this),
@@ -10309,7 +11347,10 @@ SubWindowModule.prototype.onload = function () {
       this.logFunction.bind(this),
     )
     // init language
-    uawMsgs.loadLanguage(option.language, this.languageLoaded.bind(this))
+    _uawmsgs.default.loadLanguage(
+      option.language,
+      this.languageLoaded.bind(this),
+    )
     // init UcUiStore
     this._ucUiAction = new UcUiAction()
     this._ucUiStore = new UcUiStore({
@@ -10333,17 +11374,18 @@ SubWindowModule.prototype.onload = function () {
         this.chatClient_conferenceMemberChanged.bind(this),
       confTagUpdated: this.chatClient_confTagUpdated.bind(this),
     })
-    const signInOption = option.signInOption || {}
+    var signInOption = option.signInOption || {}
     this._ucUiAction.signIn(signInOption)
     // update icon uiData of main window
     agentComponent.updateIconUiData()
     // init uiData
-    const signInOptionUrl = string(signInOption.url)
+    var signInOptionUrl = (0, _strings.string)(signInOption.url)
     this.uiData = new uiData({
       parentElement: 'content',
       ucUiAction: agentComponent.ucUiAction,
       ucUiStore: agentComponent.ucUiStore,
-      agentComponentInstance: null, // do not memory the instance now (to get a living AgentComponentInstanceOfMainWindow every time in getAgentComponentInstance())
+      agentComponentInstance: null,
+      // do not memory the instance now (to get a living AgentComponentInstanceOfMainWindow every time in getAgentComponentInstance())
       configurations: option.configurations,
       dndEnabled: true,
       bindsFunctions: true,
@@ -10386,18 +11428,22 @@ SubWindowModule.prototype.onload = function () {
 SubWindowModule.prototype.onbeforeunload = function (e) {
   // save position and size of window
   try {
-    const windowBoxStr = JSON.stringify({
-      l: window.screenX + int(this._diffWindowBox && this._diffWindowBox.l),
-      t: window.screenY + int(this._diffWindowBox && this._diffWindowBox.t),
+    var windowBoxStr = JSON.stringify({
+      l:
+        window.screenX +
+        (0, _strings.int)(this._diffWindowBox && this._diffWindowBox.l),
+      t:
+        window.screenY +
+        (0, _strings.int)(this._diffWindowBox && this._diffWindowBox.t),
       w:
         document.documentElement.clientWidth +
-        int(this._diffWindowBox && this._diffWindowBox.w),
+        (0, _strings.int)(this._diffWindowBox && this._diffWindowBox.w),
       h:
         document.documentElement.clientHeight +
-        int(this._diffWindowBox && this._diffWindowBox.h),
+        (0, _strings.int)(this._diffWindowBox && this._diffWindowBox.h),
     })
     try {
-      RnAsyncStorage.setItem(
+      _asyncStorage.default.setItem(
         'UC.ucagentwidget.agentcomponent.subwindowbox',
         windowBoxStr,
       )
@@ -10417,11 +11463,11 @@ SubWindowModule.prototype.onbeforeunload = function (e) {
   }
 }
 SubWindowModule.prototype.onunload = function () {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   // raise tab closed event to main window
   if (this.uiData && agentComponent && agentComponent.subWindowTabClosed) {
-    this.uiData.mainPanelList.forEach(panel => {
+    this.uiData.mainPanelList.forEach(function (panel) {
       agentComponent.subWindowTabClosed({
         panelKey: panel.panelType + '_' + panel.panelCode,
       })
@@ -10455,7 +11501,7 @@ SubWindowModule.prototype.onunload = function () {
   }
 }
 SubWindowModule.prototype.checkMainWindowAlive = function () {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (
     agentComponent &&
@@ -10475,13 +11521,15 @@ SubWindowModule.prototype.checkMainWindowAlive = function () {
     agentComponent.updateIconUiData()
     // update selected tab of sub window
     if (this.uiData && agentComponent.mainWindowHeartbeat.nextSelectedTab) {
-      const panelKey = agentComponent.mainWindowHeartbeat.nextSelectedTab
+      var panelKey = agentComponent.mainWindowHeartbeat.nextSelectedTab
       agentComponent.mainWindowHeartbeat.nextSelectedTab = ''
-      this.uiData.updateTab({ select: parsePanelKey(panelKey) })
+      this.uiData.updateTab({
+        select: (0, _strings.parsePanelKey)(panelKey),
+      })
       this.uiData.render()
     }
     if (this.uiData && agentComponent.mainWindowHeartbeat.nextCloseTab) {
-      const closeTabOption = agentComponent.mainWindowHeartbeat.nextCloseTab
+      var closeTabOption = agentComponent.mainWindowHeartbeat.nextCloseTab
       agentComponent.mainWindowHeartbeat.nextCloseTab = null
       this.uiData.closeTab(closeTabOption)
     }
@@ -10491,9 +11539,11 @@ SubWindowModule.prototype.checkMainWindowAlive = function () {
       agentComponent.mainWindowHeartbeat.requestsTabOpenedEvents
     ) {
       agentComponent.mainWindowHeartbeat.requestsTabOpenedEvents = false
-      this.uiData.mainPanelList.forEach(panel => {
+      this.uiData.mainPanelList.forEach(function (panel) {
         agentComponent.subWindowTabOpened(
-          { panelKey: panel.panelType + '_' + panel.panelCode },
+          {
+            panelKey: panel.panelType + '_' + panel.panelCode,
+          },
           true,
         )
       })
@@ -10502,19 +11552,19 @@ SubWindowModule.prototype.checkMainWindowAlive = function () {
       this.uiData &&
       agentComponent.mainWindowHeartbeat.mustReplyContinuation
     ) {
-      const searchResult =
+      var searchResult =
         agentComponent.mainWindowHeartbeat.mustReplyContinuation.searchResult
-      const replyType =
+      var replyType =
         agentComponent.mainWindowHeartbeat.mustReplyContinuation.replyType
-      const nextWebchatTags =
+      var nextWebchatTags =
         agentComponent.mainWindowHeartbeat.mustReplyContinuation.nextWebchatTags
-      const resolve =
+      var resolve =
         agentComponent.mainWindowHeartbeat.mustReplyContinuation.resolve
-      const reject =
+      var reject =
         agentComponent.mainWindowHeartbeat.mustReplyContinuation.reject
       agentComponent.mainWindowHeartbeat.mustReplyContinuation = null
       if (searchResult) {
-        const promise = this.uiData.replyContinuation(
+        var promise = this.uiData.replyContinuation(
           searchResult._yyyymm,
           searchResult._conf_id,
           replyType,
@@ -10573,7 +11623,7 @@ SubWindowModule.prototype.logFunction = function (
   stackTrace,
   date,
 ) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.logQueue) {
     // enqueue logQueue in main window
@@ -10594,28 +11644,28 @@ SubWindowModule.prototype.languageLoaded = function (lang) {
 }
 // events from UcUiStore
 SubWindowModule.prototype.ucUiStore_signedIn = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.ucUiStore_signedIn) {
     agentComponent.ucUiStore_signedIn(ev)
   }
 }
 SubWindowModule.prototype.ucUiStore_signedOut = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.ucUiStore_signedOut) {
     agentComponent.ucUiStore_signedOut(ev)
   }
 }
 SubWindowModule.prototype.ucUiStore_webchatLeft = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.ucUiStore_webchatLeft) {
     agentComponent.ucUiStore_webchatLeft(ev)
   }
 }
 SubWindowModule.prototype.ucUiStore_searchResultChanged = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.ucUiStore_searchResultChanged) {
     agentComponent.ucUiStore_searchResultChanged(ev)
@@ -10623,14 +11673,14 @@ SubWindowModule.prototype.ucUiStore_searchResultChanged = function (ev) {
 }
 // events from ChatClient
 SubWindowModule.prototype.chatClient_conferenceMemberChanged = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.chatClient_conferenceMemberChanged) {
     agentComponent.chatClient_conferenceMemberChanged(ev)
   }
 }
 SubWindowModule.prototype.chatClient_confTagUpdated = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.chatClient_confTagUpdated) {
     agentComponent.chatClient_confTagUpdated(ev)
@@ -10638,56 +11688,56 @@ SubWindowModule.prototype.chatClient_confTagUpdated = function (ev) {
 }
 // events from uiData
 SubWindowModule.prototype.tabOpened = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowTabOpened) {
     agentComponent.subWindowTabOpened(ev, false)
   }
 }
 SubWindowModule.prototype.tabClosing = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowTabClosing) {
     agentComponent.subWindowTabClosing(ev)
   }
 }
 SubWindowModule.prototype.tabClosed = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowTabClosed) {
     agentComponent.subWindowTabClosed(ev)
   }
 }
 SubWindowModule.prototype.tabSelected = function (ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowTabSelected) {
     agentComponent.subWindowTabSelected(ev)
   }
 }
 SubWindowModule.prototype.webchatQueueButton_onClick = function (data, ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowWebchatQueueButton_onClick) {
     agentComponent.subWindowWebchatQueueButton_onClick(data, ev)
   }
 }
 SubWindowModule.prototype.webchatPickupButton_onClick = function (data, ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowWebchatPickupButton_onClick) {
     agentComponent.subWindowWebchatPickupButton_onClick(data, ev)
   }
 }
 SubWindowModule.prototype.webchatDropButton_onClick = function (data, ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowWebchatDropButton_onClick) {
     agentComponent.subWindowWebchatDropButton_onClick(data, ev)
   }
 }
 SubWindowModule.prototype.buddylistButton_onClick = function (data, ev) {
-  const agentComponent =
+  var agentComponent =
     Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
   if (agentComponent && agentComponent.subWindowBuddylistButton_onClick) {
     agentComponent.subWindowBuddylistButton_onClick(data, ev)
@@ -10695,7 +11745,7 @@ SubWindowModule.prototype.buddylistButton_onClick = function (data, ev) {
 }
 SubWindowModule.prototype.chatOptionButtonsReplyWebchatButton_onClick =
   function (panelType, panelCode, ev) {
-    const agentComponent =
+    var agentComponent =
       Brekeke.UCAgentWidgetSubWindow.AgentComponentInstanceOfMainWindow
     if (
       agentComponent &&
@@ -10708,22 +11758,26 @@ SubWindowModule.prototype.chatOptionButtonsReplyWebchatButton_onClick =
       )
     }
   }
-if (string(CURRENT_SCRIPT_URL.QUERY).indexOf('?newsubwindowmodule') === 0) {
-  const linkWidget = document.createElement('link')
+if (
+  (0, _strings.string)(_currentscript.default.QUERY).indexOf(
+    '?newsubwindowmodule',
+  ) === 0
+) {
+  var linkWidget = document.createElement('link')
   linkWidget.rel = 'stylesheet'
   linkWidget.href =
-    CURRENT_SCRIPT_URL.DIR +
+    _currentscript.default.DIR +
     '../../../css/ucagentwidget.css' +
-    CURRENT_SCRIPT_URL.QUERY
+    _currentscript.default.QUERY
   document.head.appendChild(linkWidget)
-  const linkPicker = document.createElement('link')
+  var linkPicker = document.createElement('link')
   linkPicker.rel = 'stylesheet'
   linkPicker.href =
-    CURRENT_SCRIPT_URL.DIR +
+    _currentscript.default.DIR +
     '../../../css/react-datepicker.css' +
-    CURRENT_SCRIPT_URL.QUERY
+    _currentscript.default.QUERY
   document.head.appendChild(linkPicker)
-  const divContent = document.createElement('div')
+  var divContent = document.createElement('div')
   divContent.id = 'content'
   document.body.appendChild(divContent)
   window.subWindowModule = new SubWindowModule()
@@ -10733,7 +11787,7 @@ if (string(CURRENT_SCRIPT_URL.QUERY).indexOf('?newsubwindowmodule') === 0) {
 /**
  * OfflineChatClient class
  */
-const OfflineChatClient = function (logger) {
+var OfflineChatClient = function OfflineChatClient(logger) {
   Brekeke.UCClient.ChatClient.apply(this, arguments)
   this._offlineCurrentTenant = null
   this._offlineSignInArgumentsOrg = null
@@ -10758,12 +11812,12 @@ OfflineChatClient.prototype.signIn = function (
   funcError,
 ) {
   this._offlineAgentComponent = true
-  const newArguments = Array.prototype.concat.call(arguments)
+  var newArguments = Array.prototype.concat.call(arguments)
   if (host && !user && !pass && !option && !funcOK && !funcError) {
     // memory sign-in parameters
-    this._offlineSignInArgumentsOrg = [clone(host)]
+    this._offlineSignInArgumentsOrg = [(0, _strings.clone)(host)]
     // empty tenant
-    const newHost = clone(host)
+    var newHost = (0, _strings.clone)(host)
     newArguments[0] = newHost
     newHost.tenant = ''
     this._offlineCurrentTenant = ''
@@ -10777,7 +11831,7 @@ OfflineChatClient.prototype.signIn = function (
       tenant,
       user,
       pass,
-      clone(option),
+      (0, _strings.clone)(option),
     ]
     // empty tenant
     newArguments[2] = ''
@@ -10792,16 +11846,17 @@ OfflineChatClient.prototype.searchTopicsByCondition = function (
   funcOK,
   funcError,
 ) {
+  var _this48 = this
   if (
     this._offlineSignInArgumentsOrg &&
     this._offlineSignInArgumentsOrg.length
   ) {
-    const tenantOrg = string(
+    var tenantOrg = (0, _strings.string)(
       this._offlineSignInArgumentsOrg.length === 1
         ? (this._offlineSignInArgumentsOrg[0] || {}).tenant
         : this._offlineSignInArgumentsOrg[2],
     )
-    const tenantMe =
+    var tenantMe =
       (condition && condition.tenant_me && condition.tenant_me) ||
       tenantOrg ||
       this._offlineCurrentTenant
@@ -10810,25 +11865,25 @@ OfflineChatClient.prototype.searchTopicsByCondition = function (
       if (this._signInStatus === 2 || this._signInStatus === 3) {
         Brekeke.UCClient.ChatClient.prototype.signOut.call(this)
       }
-      const signInArguments = this._offlineSignInArgumentsOrg.concat()
+      var signInArguments = this._offlineSignInArgumentsOrg.concat()
       if (signInArguments.length === 1) {
-        signInArguments[0] = clone(signInArguments[0])
-        signInArguments[0].tenant = string(tenantMe)
+        signInArguments[0] = (0, _strings.clone)(signInArguments[0])
+        signInArguments[0].tenant = (0, _strings.string)(tenantMe)
       } else {
-        signInArguments[2] = string(tenantMe)
+        signInArguments[2] = (0, _strings.string)(tenantMe)
       }
-      signInArguments.push(ev => {
+      signInArguments.push(function (ev) {
         // funcOK of signIn
         // search
         Brekeke.UCClient.ChatClient.prototype.searchTopicsByCondition.call(
-          this,
+          _this48,
           condition,
           funcOK,
           funcError,
         )
       })
       signInArguments.push(funcError) // funcError of signIn
-      this._offlineCurrentTenant = string(tenantMe)
+      this._offlineCurrentTenant = (0, _strings.string)(tenantMe)
       Brekeke.UCClient.ChatClient.prototype.signIn.apply(this, signInArguments)
       return
     }
@@ -10852,7 +11907,7 @@ Brekeke.UCAgentWidget.uiData = uiData
 /**
  * uawMsgs global object
  */
-Brekeke.UCAgentWidget.uawMsgs = uawMsgs
+Brekeke.UCAgentWidget.uawMsgs = _uawmsgs.default
 /**
  * AgentComponent global class
  */

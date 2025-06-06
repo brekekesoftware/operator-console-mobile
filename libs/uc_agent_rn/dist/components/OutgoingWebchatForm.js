@@ -1,144 +1,400 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import DropDownMenu from './DropDownMenu.js'
-import MenuItem from './MenuItem.js'
-import TextBox from './TextBox.js'
+'use strict'
 
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _reactNative = require('react-native')
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _strings = require('../utilities/strings')
+var _DropDownMenu = _interopRequireDefault(require('./DropDownMenu'))
+var _MenuItem = _interopRequireDefault(require('./MenuItem'))
+var _TextBox = _interopRequireDefault(require('./TextBox'))
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n))
+    throw new TypeError('Cannot call a class as a function')
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t]
+    ;(o.enumerable = o.enumerable || !1),
+      (o.configurable = !0),
+      'value' in o && (o.writable = !0),
+      Object.defineProperty(e, _toPropertyKey(o.key), o)
+  }
+}
+function _createClass(e, r, t) {
+  return (
+    r && _defineProperties(e.prototype, r),
+    t && _defineProperties(e, t),
+    Object.defineProperty(e, 'prototype', { writable: !1 }),
+    e
+  )
+}
+function _callSuper(t, o, e) {
+  return (
+    (o = _getPrototypeOf(o)),
+    _possibleConstructorReturn(
+      t,
+      _isNativeReflectConstruct()
+        ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
+        : o.apply(t, e),
+    )
+  )
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ('object' == _typeof(e) || 'function' == typeof e)) return e
+  if (void 0 !== e)
+    throw new TypeError(
+      'Derived constructors may only return object or undefined',
+    )
+  return _assertThisInitialized(t)
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called",
+    )
+  return e
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(
+      Reflect.construct(Boolean, [], function () {}),
+    )
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct() {
+    return !!t
+  })()
+}
+function _getPrototypeOf(t) {
+  return (
+    (_getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf.bind()
+      : function (t) {
+          return t.__proto__ || Object.getPrototypeOf(t)
+        }),
+    _getPrototypeOf(t)
+  )
+}
+function _inherits(t, e) {
+  if ('function' != typeof e && null !== e)
+    throw new TypeError('Super expression must either be null or a function')
+  ;(t.prototype = Object.create(e && e.prototype, {
+    constructor: { value: t, writable: !0, configurable: !0 },
+  })),
+    Object.defineProperty(t, 'prototype', { writable: !1 }),
+    e && _setPrototypeOf(t, e)
+}
+function _setPrototypeOf(t, e) {
+  return (
+    (_setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function (t, e) {
+          return (t.__proto__ = e), t
+        }),
+    _setPrototypeOf(t, e)
+  )
+}
+function _defineProperty(e, r, t) {
+  return (
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
 /**
  * OutgoingWebchatForm
  * props.uiData
  * props.params
  */
-export default class OutgoingWebchatForm extends React.Component {
-  constructor(props) {
-    super(props)
-    const defaultReplyType = string(props?.params?.replyTypes?.[0])
-    this.state = {
+var OutgoingWebchatForm = (exports.default = /*#__PURE__*/ (function (
+  _React$Component,
+) {
+  function OutgoingWebchatForm(_props) {
+    var _props$params2, _props$params3
+    var _this
+    _classCallCheck(this, OutgoingWebchatForm)
+    _this = _callSuper(this, OutgoingWebchatForm, [_props])
+    _defineProperty(
+      _this,
+      'handleOutgoingWebchatReplyTypeItemClick',
+      function (replyType) {
+        var _this2 = _this,
+          props = _this2.props
+        if (_this.state.replyType !== replyType) {
+          var _props$params
+          _this.setState({
+            replyType: replyType,
+            serviceId: (0, _strings.string)(
+              props === null ||
+                props === void 0 ||
+                (_props$params = props.params) === null ||
+                _props$params === void 0 ||
+                (_props$params = _props$params.webchatServiceIds) === null ||
+                _props$params === void 0 ||
+                (_props$params = _props$params[replyType]) === null ||
+                _props$params === void 0
+                ? void 0
+                : _props$params[0],
+            ),
+          })
+        }
+      },
+    )
+    _defineProperty(
+      _this,
+      'handleOutgoingWebchatServiceIdItemClick',
+      function (serviceId) {
+        if (_this.state.serviceId !== serviceId) {
+          _this.setState({
+            serviceId: serviceId,
+          })
+        }
+      },
+    )
+    _defineProperty(
+      _this,
+      'handleOutgoingWebchatTextInputChange',
+      function (text) {
+        _this.setState({
+          text: (0, _strings.string)(text),
+        })
+      },
+    )
+    var defaultReplyType = (0, _strings.string)(
+      _props === null ||
+        _props === void 0 ||
+        (_props$params2 = _props.params) === null ||
+        _props$params2 === void 0 ||
+        (_props$params2 = _props$params2.replyTypes) === null ||
+        _props$params2 === void 0
+        ? void 0
+        : _props$params2[0],
+    )
+    _this.state = {
       replyType: defaultReplyType,
-      serviceId: string(
-        props?.params?.webchatServiceIds?.[defaultReplyType]?.[0],
+      serviceId: (0, _strings.string)(
+        _props === null ||
+          _props === void 0 ||
+          (_props$params3 = _props.params) === null ||
+          _props$params3 === void 0 ||
+          (_props$params3 = _props$params3.webchatServiceIds) === null ||
+          _props$params3 === void 0 ||
+          (_props$params3 = _props$params3[defaultReplyType]) === null ||
+          _props$params3 === void 0
+          ? void 0
+          : _props$params3[0],
       ),
       text: '',
     }
-    this.outgoingWebchatTextInputRef = React.createRef()
+    _this.outgoingWebchatTextInputRef = /*#__PURE__*/ _react.default.createRef()
+    return _this
   }
-
-  componentDidMount() {
-    setTimeout(() => {
-      if (this.outgoingWebchatTextInputRef.current) {
-        this.outgoingWebchatTextInputRef.current.focus()
-      }
-    }, 0)
-  }
-
-  handleOutgoingWebchatReplyTypeItemClick = replyType => {
-    const { props } = this
-    if (this.state.replyType !== replyType) {
-      this.setState({
-        replyType: replyType,
-        serviceId: string(props?.params?.webchatServiceIds?.[replyType]?.[0]),
-      })
-    }
-  }
-
-  handleOutgoingWebchatServiceIdItemClick = serviceId => {
-    if (this.state.serviceId !== serviceId) {
-      this.setState({ serviceId })
-    }
-  }
-
-  handleOutgoingWebchatTextInputChange = text => {
-    this.setState({ text: string(text) })
-  }
-
-  render() {
-    const { props } = this
-    const replyTypes = props?.params?.replyTypes || []
-    const webchatServiceIds =
-      props?.params?.webchatServiceIds?.[this.state.replyType] || []
-
-    return (
-      <View style={styles.brOutgoingWebchatForm}>
-        <View style={styles.brOutgoingWebchatTable}>
-          <View style={styles.tableRow}>
-            <Text style={styles.brOutgoingWebchatLabelCell}>
-              {uawMsgs.LBL_OUTGOING_WEBCHAT_REPLY_TYPE}
-            </Text>
-            <View style={styles.brOutgoingWebchatInputCell}>
-              <DropDownMenu
-                uiData={props.uiData}
-                style={styles.brOutgoingWebchatReplyTypeMenu}
-                text={this.state.replyType}
-              >
-                {replyTypes.map(replyType => (
-                  <MenuItem
-                    key={replyType}
-                    style={[
-                      styles.brOutgoingWebchatFormMenuItem,
-                      styles.brOutgoingWebchatReplyTypeItem,
-                    ]}
-                    dropDown={true}
-                    onPress={() =>
-                      this.handleOutgoingWebchatReplyTypeItemClick(replyType)
-                    }
-                  >
-                    {replyType}
-                  </MenuItem>
-                ))}
-              </DropDownMenu>
-            </View>
-          </View>
-          {webchatServiceIds.length >= 2 && (
-            <View style={styles.tableRow}>
-              <Text style={styles.brOutgoingWebchatLabelCell}>
-                {uawMsgs.LBL_OUTGOING_WEBCHAT_SERVICE_ID}
-              </Text>
-              <View style={styles.brOutgoingWebchatInputCell}>
-                <DropDownMenu
-                  uiData={props.uiData}
-                  style={styles.brOutgoingWebchatServiceIdMenu}
-                  text={this.state.serviceId}
-                >
-                  {webchatServiceIds.map(serviceId => (
-                    <MenuItem
-                      key={serviceId}
-                      style={[
-                        styles.brOutgoingWebchatFormMenuItem,
-                        styles.brOutgoingWebchatServiceIdItem,
-                      ]}
-                      dropDown={true}
-                      onPress={() =>
-                        this.handleOutgoingWebchatServiceIdItemClick(serviceId)
-                      }
-                    >
-                      {serviceId}
-                    </MenuItem>
-                  ))}
-                </DropDownMenu>
-              </View>
-            </View>
-          )}
-
-          <View style={styles.tableRow}>
-            <TextBox
-              ref={this.outgoingWebchatTextInputRef}
-              style={styles.brOutgoingWebchatTextInput}
-              value={this.state.text}
-              placeholder={uawMsgs.LBL_OUTGOING_WEBCHAT_TEXT_PLACEHOLDER}
-              autoCapitalize='none'
-              onChangeText={this.handleOutgoingWebchatTextInputChange}
-            />
-          </View>
-        </View>
-      </View>
-    )
-  }
-}
-
-const styles = StyleSheet.create({
+  _inherits(OutgoingWebchatForm, _React$Component)
+  return _createClass(OutgoingWebchatForm, [
+    {
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var _this3 = this
+        setTimeout(function () {
+          if (_this3.outgoingWebchatTextInputRef.current) {
+            _this3.outgoingWebchatTextInputRef.current.focus()
+          }
+        }, 0)
+      },
+    },
+    {
+      key: 'render',
+      value: function render() {
+        var _props$params4,
+          _props$params5,
+          _this4 = this
+        var props = this.props
+        var replyTypes =
+          (props === null ||
+          props === void 0 ||
+          (_props$params4 = props.params) === null ||
+          _props$params4 === void 0
+            ? void 0
+            : _props$params4.replyTypes) || []
+        var webchatServiceIds =
+          (props === null ||
+          props === void 0 ||
+          (_props$params5 = props.params) === null ||
+          _props$params5 === void 0 ||
+          (_props$params5 = _props$params5.webchatServiceIds) === null ||
+          _props$params5 === void 0
+            ? void 0
+            : _props$params5[this.state.replyType]) || []
+        return /*#__PURE__*/ _react.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.brOutgoingWebchatForm,
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.brOutgoingWebchatTable,
+            },
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.tableRow,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.brOutgoingWebchatLabelCell,
+                },
+                _uawmsgs.default.LBL_OUTGOING_WEBCHAT_REPLY_TYPE,
+              ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brOutgoingWebchatInputCell,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _DropDownMenu.default,
+                  {
+                    uiData: props.uiData,
+                    style: styles.brOutgoingWebchatReplyTypeMenu,
+                    text: this.state.replyType,
+                  },
+                  replyTypes.map(function (replyType) {
+                    return /*#__PURE__*/ _react.default.createElement(
+                      _MenuItem.default,
+                      {
+                        key: replyType,
+                        style: [
+                          styles.brOutgoingWebchatFormMenuItem,
+                          styles.brOutgoingWebchatReplyTypeItem,
+                        ],
+                        dropDown: true,
+                        onPress: function onPress() {
+                          return _this4.handleOutgoingWebchatReplyTypeItemClick(
+                            replyType,
+                          )
+                        },
+                      },
+                      replyType,
+                    )
+                  }),
+                ),
+              ),
+            ),
+            webchatServiceIds.length >= 2 &&
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.tableRow,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brOutgoingWebchatLabelCell,
+                  },
+                  _uawmsgs.default.LBL_OUTGOING_WEBCHAT_SERVICE_ID,
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: styles.brOutgoingWebchatInputCell,
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _DropDownMenu.default,
+                    {
+                      uiData: props.uiData,
+                      style: styles.brOutgoingWebchatServiceIdMenu,
+                      text: this.state.serviceId,
+                    },
+                    webchatServiceIds.map(function (serviceId) {
+                      return /*#__PURE__*/ _react.default.createElement(
+                        _MenuItem.default,
+                        {
+                          key: serviceId,
+                          style: [
+                            styles.brOutgoingWebchatFormMenuItem,
+                            styles.brOutgoingWebchatServiceIdItem,
+                          ],
+                          dropDown: true,
+                          onPress: function onPress() {
+                            return _this4.handleOutgoingWebchatServiceIdItemClick(
+                              serviceId,
+                            )
+                          },
+                        },
+                        serviceId,
+                      )
+                    }),
+                  ),
+                ),
+              ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.tableRow,
+              },
+              /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
+                ref: this.outgoingWebchatTextInputRef,
+                style: styles.brOutgoingWebchatTextInput,
+                value: this.state.text,
+                placeholder:
+                  _uawmsgs.default.LBL_OUTGOING_WEBCHAT_TEXT_PLACEHOLDER,
+                autoCapitalize: 'none',
+                onChangeText: this.handleOutgoingWebchatTextInputChange,
+              }),
+            ),
+          ),
+        )
+      },
+    },
+  ])
+})(_react.default.Component))
+var styles = _reactNative.StyleSheet.create({
   brOutgoingWebchatForm: {
     flex: 1,
     paddingTop: 8,

@@ -19,6 +19,10 @@ module.exports = {
         'react-native-share': nullAlias,
         'react-native-splash-screen': nullAlias,
         'react-native-background-timer': nullAlias,
+        'react-native-sound': nullAlias,
+        'react-native-video': nullAlias,
+        'react-native/Libraries/vendor/emitter/EventEmitter':
+          require.resolve('eventemitter3'),
       }
       c.resolve.fallback = {
         os: false,
@@ -30,6 +34,7 @@ module.exports = {
         '.web.ts',
         '.web.tsx',
         '.js',
+        '.jsx',
         '.ts',
         '.tsx',
       ]

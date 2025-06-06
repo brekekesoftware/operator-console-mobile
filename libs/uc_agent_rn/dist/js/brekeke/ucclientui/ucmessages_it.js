@@ -1,3 +1,5 @@
+'use strict'
+
 if (!window.Brekeke) {
   window.Brekeke = {}
 }
@@ -57,7 +59,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     CMN_LANGUAGE_IT: 'Italiano',
     CMN_LANGUAGE_JA: 'Giaponese',
     CMN_LANGUAGE_ZH: 'Cinese',
-
     MSG_AUTHENTICATION_FAILED:
       'Impossibile accedere. Utilizza la password corretta.',
     MSG_IP_NOT_ALLOWED: 'Accesso non consentito',
@@ -65,45 +66,36 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
       'Hai superato il numero massimo di accessi degli utenti',
     MSG_VERSION_INVALID: 'Si prega di ricaricare la pagina.',
     MSG_SIGN_IN_FAILED: 'Impossibile accedere.',
-
     MSG_GROUP_EXISTS: "Il gruppo '{0}' esiste già.",
     MSG_CREATE_GROUP_FAILED: 'Impossibile creare il gruppo.',
     MSG_GROUP_NOT_EMPTY: "Il gruppo '{0}' non è vuoto.",
     MSG_REMOVE_GROUP_FAILED: 'Impossibile rimuovere il gruppo.',
     MSG_MOVE_BUDDY_FAILED: "Non sei riuscito a spostare l'amico.",
-
     MSG_ME_OFFLINE: 'Al momento, sei disconnesso per {0}.',
     MSG_ME_BUSY: 'Al momento sei occupato per {0}.',
     MSG_BUDDY_OFFLINE: '{0} appare disconnesso.',
     MSG_BUDDY_BUSY: '{0} appare occupato.',
-
     MSG_SIP_FAILED: 'Impossibile connettersi al server SIP.',
-
     MSG_TOO_LONG: 'Messaggio troppo lungo',
     MSG_SEND_TEXT_FAILED: 'Impossibile inviare il testo.',
     MSG_SEARCH_FAILED: 'Ricerca non possibile',
     MSG_SEND_TEXT_CONFIRM: 'Sei sicuro di voler inviare il messaggio?',
-
     MSG_JOIN_CONFERENCE_FAILED: 'Impossibile partecipare alla conferenza.',
     MSG_CREATE_CONFERENCE_FAILED: 'Impossibile creare una conferenza.',
     MSG_LEAVE_CONFERENCE_FAILED: 'Impossibile lasciare la conferenza.',
     MSG_INVITE_TO_CONFERENCE_FAILED: 'Impossibile invitare alla conferenza.',
     MSG_LEAVE_CONFERENCE_CONFIRM: 'Sei sicuro di voler lasciare la conferenza?',
-
     MSG_MULTIPLE_SENDING: "L'invio multiplo non è supportato nel tuo browser.",
     MSG_SEND_FILE_FAILED: 'Impossibile inviare il file',
     MSG_DOWNLOAD_FILE_FAILED: 'Download non riuscito.',
     MSG_CANCEL_FILE_FAILED: 'Annullamento non riuscito.',
-
     MSG_WEBRTC_UNAVAILABLE_1: 'Non hai un ID  del telefono  WebRTC.',
     MSG_WEBRTC_UNAVAILABLE_2:
       'Vorresti aggiungere un nuovo numero di telefono?',
     MSG_MAKE_CALL_FAILED: 'Impossibile effettuare la chiamata.',
     MSG_MAKE_CALL_UNSUPPORTED: 'Browser non supportato.',
-
     MSG_SEARCH_TOPICS_FAILED: 'Ricerca non possibile',
     MSG_SEARCH_TOPIC_TEXTS_FAILED: 'Ricerca non possibile',
-
     MSG_UPLOAD_PROFILE_IMAGE_FAILED:
       "Impossibile caricare l'immagine del profilo.",
     MSG_SAVE_PREFERENCE_TRANSFERRING: 'Trasferimento file.',
@@ -116,7 +108,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
       "Frequenza dei fotogrammi dell'anteprima video non valida.",
     MSG_SAVE_PREFERENCE_SUCCESSFUL: 'Salvato con successo.',
     MSG_SAVE_PREFERENCE_FAILED: 'Impossibile salvare le preferenze.',
-
     MSG_DB_INITIALIZE_SCHEMA_EXISTS:
       "Schema '{0}' already exists. Press OK again to delete it and continue.",
     MSG_DB_INITIALIZE_USER_EXISTS:
@@ -136,7 +127,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     MSG_SAVE_SERVER_SUCCESSFUL: 'Salvato con successo.',
     MSG_SAVE_SERVER_SUCCESSFUL_DB: 'Database settings have been saved.',
     MSG_SAVE_SERVER_FAILED: 'Impossibile salvare le impostazioni del server.',
-
     MSG_NOTIFIED_USER_SEARCH_CANCELED: 'Canceled.',
     MSG_START_USER_DELETE_EMPTY: "'Users to delete' list is empty.",
     MSG_START_USER_DELETE_CONFIRM:
@@ -147,7 +137,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
       'The deletion process has been finished.',
     MSG_NOTIFIED_USER_DELETE_ERROR:
       'Some errors have occurred during the process.',
-
     MSG_SAVE_TENANT_INVALID: 'Valore non valido.',
     MSG_SAVE_TENANT_MAX_LOGIN: 'Numero massimo di utenti di accesso superato.',
     MSG_SAVE_TENANT_SUCCESSFUL: 'Salvato con successo.',
@@ -155,17 +144,14 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     MSG_LOAD_TENANT_CONFIRM: 'Caricare i tenants dal PBX?',
     MSG_LOAD_TENANT_FAILED: 'Impossibile caricare i tenants',
     MSG_DELETE_TENANT_CONFIRM: 'Eliminare il tenant?',
-
     MSG_UPLOAD_AUTO_MESSAGE_IMAGE_FAILED:
       "Impossibile caricare l'immagine del profilo.",
     MSG_SAVE_TENANT_PROPERTY_TRANSFERRING: 'Trasferimento  file.',
     MSG_SAVE_TENANT_PROPERTY_SUCCESSFUL: 'Salvato con successo.',
     MSG_SAVE_TENANT_PROPERTY_FAILED: 'Impossibile salvare le impostazioni.',
     MSG_LOAD_TENANT_PROPERTY_FAILED: 'Failed to load settings.',
-
     MSG_SAVE_ADVANCED_SUCCESSFUL: 'Salvato con successo.',
     MSG_SAVE_ADVANCED_FAILED: 'Impossibile salvare le impostazioni.',
-
     MSG_SIGNED_OUT_MAINTENANCE:
       'Il servizio è ora interrotto a causa della manutenzione del sistema.',
     MSG_SIGNED_OUT_PLEONASTIC:
@@ -173,7 +159,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     MSG_SIGNED_OUT_DISCONNECTED: 'Sei stato disconnesso dal server.',
     MSG_SECURITY_CHECK_NG:
       'La connessione a {0} è bloccata. Controlla le impostazioni di sicurezza del tuo browser, quindi accedi di nuovo.',
-
     TAB_BROADCAST: 'Trasmissione',
     TAB_PREFERENCE: 'Preferenze',
     TAB_HISTORY: 'Cronologia',
@@ -188,7 +173,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     TAB_ACTIVATE_LICENSE: 'Attiva la licenza',
     TAB_SOCIAL_SETTINGS: '{0} settings',
     TAB_TARGET_NOT_ENTERED: 'Target non inserito',
-
     MNU_SERVER_SETTINGS: 'Impostazioni del server',
     MNU_TENANT_SETTINGS: 'Impostazioni tenant',
     MNU_TENANT_PROPERTIES: 'Proprietà',
@@ -202,34 +186,28 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     MNU_HISTORY: 'Cronologia',
     MNU_WEBCHAT_REQUESTS: 'Richieste Webchat',
     MNU_SERVER_PROPERTIES: 'Impostazioni del server',
-
     CTX_OPEN_CHAT: 'Apri chat',
     CTX_INVITE_TO_CONFERENCE: 'Invita alla conferenza',
     CTX_SEND_FILE: 'Invia file',
     CTX_VOICE_CALL: 'Chiamata voce',
     CTX_VIDEO_CALL: 'Chiamata video',
     CTX_REMOVE_GROUP: 'Rimuovi gruppo',
-
     LBL_LOGIN_TITLE: 'Registrati',
     LBL_LOGIN_USERID: 'Utente',
     LBL_LOGIN_PASSWORD: 'Password',
     LBL_LOGIN_TENANT: 'Tenant',
     LBL_LOGIN_REMEMBERME: 'Ricordami',
     LBL_LOGIN_SIGNIN: 'Registrati',
-
     LBL_TYPE_STATUS: 'Nota di stato',
     LBL_CLEAR_STATUS_DISPLAY: 'Pulisci',
     LBL_FILTER: 'Filtra',
     LBL_ONLINE_ONLY: 'Solo online',
     LBL_SHOW_MORE_ITEM: 'Mostra di più',
-
     LBL_SEND_TEXT_TITLE: 'Invia testo',
-
     LBL_DND_TO_INVITE: 'Trascina e rilascia qui per invitare amici',
     LBL_DND_BUDDIES: 'Trascina e rilascia amici qui',
     LBL_TARGET: 'Target',
     LBL_LEAVE_CONFERENCE_TITLE: 'Lascia la conferenza',
-
     LBL_SHOW_FROM: 'Mostra messaggi da:',
     LBL_SHOW_TODAY: 'oggi',
     LBL_SHOW_YESTERDAY: 'ieri',
@@ -237,7 +215,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_SHOW_MORE: 'Mostra messaggi non letti',
     LBL_CHAT_LIST_PROFINFO: 'Informazioni sulla webchat',
     LBL_IS_TYPING: '{0} sta digitando…',
-
     LBL_FILE: 'File:',
     LBL_STATUS: 'Stato:',
     LBL_FILE_STATUS_REQUESTING: 'Attendi per iniziare',
@@ -246,7 +223,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_FILE_STATUS_CANCELED: 'Annullato da {0}',
     LBL_FILE_STATUS_ERROR: 'Errore',
     LBL_FILE_STATUS_UNKNOWN: 'Sconosciuto',
-
     LBL_INCOMING_CALL: 'Chiamata in arrivo…',
     LBL_INCOMING_SCREEN: 'Chiamata in arrivo… (Schermo)',
     LBL_INCOMING_CALL_HIGHLIGHT: 'Chiamata in arrivo…',
@@ -261,9 +237,7 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_DEVICE_SOUND_ONLY: 'Solo suono',
     LBL_AUDIENCE_VIEWERS: 'Spettatori:',
     LBL_AUDIENCE_LISTENERS: 'Ascoltatori:',
-
     LBL_WEBCHAT_ROOM_ALREADY_CLOSED: 'Fine chat',
-
     LBL_SEARCH_ALL_USERS: 'Tutti',
     LBL_CONDITION_SIMPLE: 'Cerca',
     LBL_SHOW_ADVANCED_SEARCH: 'Ricerca avanzata',
@@ -272,7 +246,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_SEARCH_BEGIN_END: 'Data',
     LBL_SEARCH_CONTENT: 'Contenuto',
     LBL_SEARCH_NO_RESULTS: 'Nessun risultato',
-
     LBL_CATEGORY_USER: 'Impostazioni utente',
     LBL_CATEGORY_WEBCHAT_SETTINGS: 'Impostazioni webchat',
     LBL_CATEGORY_TERMINAL: 'Impostazioni del terminale',
@@ -324,7 +297,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_SENDING_CONFIRMATION_CHECK: 'Conferma prima di inviare il messaggio',
     LBL_USER_LANGUAGE: 'Lingua',
     LBL_USER_LANGUAGE_AUTO: 'automatico',
-
     LBL_CATEGORY_UC: 'UC',
     LBL_IP_ALLOWED: 'Modello IP client valido',
     LBL_BUDDY_MODE: 'Modalità amico',
@@ -408,7 +380,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_LOG_CATEGORY_SERVER: 'Registro del server',
     LBL_LOG_CATEGORY_CLIENT: 'Registro del cliente',
     LBL_LOG_CATEGORY_GUEST: 'Registro del cliente ospite',
-
     LBL_CATEGORY_DELETE_USER_DATA: 'Delete user data and chat histories',
     LBL_START_USER_SEARCH_TENANT: 'Tenant',
     LBL_START_USER_SEARCH_USER: 'User',
@@ -418,7 +389,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
       'Automatically select users not present in PBX',
     LBL_START_USER_DELETE_TITLE: 'Delete user data and chat histories',
     LBL_NOTIFIED_USER_DELETE_TITLE: 'Delete user data and chat histories',
-
     LBL_TOTAL_MAX_LOGIN: 'Totale massimo di accessi degli utenti:',
     LBL_TENANT_COLUMN: 'Tenant',
     LBL_MAX_LOGIN_COLUMN: 'Massimo di accessi degli utenti',
@@ -427,7 +397,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_NEW_TENANT_NAME: 'Nome tenant',
     LBL_LOAD_TENANT_TITLE: 'Carica tenant',
     LBL_DELETE_TENANT_TITLE: 'Elimina',
-
     LBL_CATEGORY_RESOURCE: 'Risorsa',
     LBL_LIMIT_GUEST_COLUMN: 'Max guest sessions',
     LBL_CATEGORY_UC_TENANT: 'UC',
@@ -512,22 +481,18 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     LBL_FILE_SENDING_NAME_ALLOWED: 'Allowed file name pattern (RegExp)',
     LBL_CATEGORY_CLIENT_SCRIPT: 'Client script',
     LBL_CLIENT_SCRIPT_CLIENT_SCRIPT: 'Client script',
-
     LBL_CATEGORY_ADVANCED: 'Impostazioni avanzate',
-
     LBL_ABOUT_TITLE: 'Informazioni su {0}',
     LBL_ADD_GROUP_TITLE: 'Crea un nuovo gruppo',
     LBL_ADD_GROUP_NAME: 'Nome gruppo',
     LBL_CREATE_CONFERENCE_TITLE: 'Crea una sala conferenze',
     LBL_CREATE_CONFERENCE_SUBJECT: 'Sogetto',
-
     LBL_MESSAGE_BAR_STOP: 'Stop',
     LBL_MESSAGE_BAR_HIDE: 'Nascondere',
     LBL_MESSAGE_BAR_CONNECTING: 'Connessione…',
     LBL_MESSAGE_BAR_TIME: 'in {0} secondi',
     LBL_MESSAGE_BAR_SIGN_IN: 'Registrati',
     LBL_MESSAGE_BAR_RETRY: 'Riprova',
-
     BTN_CHANGE_STATUS_TOOLTIP: 'Stato chat',
     BTN_STATUS_DISPLAY_HISTORY_TOOLTIP: 'Cronologia delle note di stato',
     BTN_DELETE_STATUS_DISPLAY_HISTORY_TOOLTIP: 'Elimina',
@@ -538,7 +503,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     BTN_MAKE_CALL_TOOLTIP: 'Telefono',
     BTN_SPLIT_UD_TOOLTIP: 'Dividi orizzontalmente',
     BTN_SPLIT_LR_TOOLTIP: 'Dividi verticalmente',
-
     BTN_JOIN_CONFERENCE_TOOLTIP: 'Unisci conferenza',
     BTN_JOIN_CONFERENCE: 'Aderisci',
     BTN_REJECT_CONFERENCE_TOOLTIP: 'Rifiuta',
@@ -591,16 +555,13 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     BTN_CLEAR_CALL: 'Termina',
     BTN_SEND_TEXT_TOOLTIP: 'Invia testo',
     BTN_SEND_TEXT: 'Invia',
-
     BTN_DIALOG_SEND_FILE: 'Invia file',
     BTN_DOWNLOAD_FILE: 'Scarica',
     BTN_CANCEL_FILE: 'Annulla',
     BTN_SAVE_IMAGE_FILE: 'Salva',
-
     BTN_ADD_PHONE_ID_YES: 'Sì',
     BTN_ADD_PHONE_ID_NO: 'Non ora',
     BTN_ADD_PHONE_ID_NEVER: 'Non usare WebRTC',
-
     BTN_CHAT_WEBCHAT_ROOM_TOOLTIP: 'Rispondi',
     BTN_CHAT_WEBCHAT_ROOM: 'Rispondi',
     BTN_JOIN_WEBCHAT_ROOM_TOOLTIP: 'Aderisci',
@@ -608,7 +569,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     BTN_REJECT_WEBCHAT_ROOM_TOOLTIP: 'Rifiuta',
     BTN_HIDE_WEBCHAT_ROOM_TOOLTIP: 'Fine',
     BTN_HIDE_WEBCHAT_ROOM: 'Fine',
-
     BTN_SEARCH_SIMPLE_TOOLTIP: 'Cerca',
     BTN_SEARCH_SIMPLE: 'Cerca',
     BTN_SEARCH_ADVANCED_TOOLTIP: 'Cerca',
@@ -619,7 +579,6 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     BTN_SHOW_MORE: 'Mostra di più',
     BTN_SEARCH_PREV_TOPIC_TOOLTIP: 'Mostra messaggi precedenti',
     BTN_SEARCH_NEXT_TOPIC_TOOLTIP: 'Mostra messaggi successivi',
-
     BTN_INITIAL_STATUS_TOOLTIP: 'Stato iniziale',
     BTN_PROFILE_SELECT_TOOLTIP: 'Seleziona',
     BTN_PROFILE_SELECT: 'Seleziona',
@@ -628,14 +587,12 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     BTN_DIALOG_SELECT_PROFILE_IMAGE: 'Seleziona file',
     BTN_WEBRTC_TYPE_TOOLTIP: 'Tipo WebRTC',
     BTN_VIDEO_SOURCE_TOOLTIP: 'Fonte video',
-
     BTN_LOGDOWNLOAD_PREPARE_TOOLTIP: 'Scarica',
     BTN_LOGDOWNLOAD_PREPARE: 'Scarica',
     BTN_LOGDOWNLOAD_CANCEL_TOOLTIP: 'Annulla',
     BTN_LOGDOWNLOAD_CANCEL: 'Annulla',
     BTN_LOGDOWNLOAD_FILE_TOOLTIP: 'Registro file {0}',
     BTN_LOGDOWNLOAD_FILE: 'Registro file {0}',
-
     BTN_START_USER_SEARCH_TOOLTIP: 'Search user',
     BTN_START_USER_SEARCH: 'Search user',
     BTN_CANCEL_USER_SEARCH_TOOLTIP: 'Cancel',
@@ -646,12 +603,10 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     BTN_MOVE_LEFT_DELETE_USER_DATA: '&#x2190;',
     BTN_START_USER_DELETE_TOOLTIP: 'Delete user data and chat histories',
     BTN_START_USER_DELETE: 'Delete',
-
     BTN_NEW_TENANT_TOOLTIP: 'Nuovo tenant',
     BTN_NEW_TENANT: 'Nuovo tenant',
     BTN_PBX_TENANT_TOOLTIP: 'Carica tenant da PBX',
     BTN_PBX_TENANT: 'Carica tenant da PBX',
-
     BTN_NEW_WEBRTC_TYPE_TOOLTIP: 'Nuovo tipo WebRTC',
     BTN_NEW_WEBRTC_TYPE: 'Nuovo tipo WebRTC',
     BTN_NEW_WEBCHAT_SERVICE_TOOLTIP: 'Nuovo servizio',
@@ -666,6 +621,5 @@ window.Brekeke.UCClientUI.UCMessages = window.Brekeke.UCClientUI.UCMessages_it =
     BTN_NEW_WEBCHAT_WIDGET: 'Nuovo widget',
     BTN_NEW_LAMP_TYPE_TOOLTIP: 'New notification type',
     BTN_NEW_LAMP_TYPE: 'New notification type',
-
     DUMMY: '',
   }

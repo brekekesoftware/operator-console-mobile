@@ -1,39 +1,246 @@
-import React from 'react'
-import uawMsgs from '../utilities/uawmsgs.js'
-import Constants from '../utilities/constants.js'
-import { int, string } from '../utilities/strings.js'
-import ButtonIconic from './ButtonIconic.js'
-import DropDownMenu from './DropDownMenu.js'
-import HistoryDetailArea from './HistoryDetailArea.js'
-import MenuBalloonDialog from './MenuBalloonDialog.js'
-import MenuItem from './MenuItem.js'
-import NameEmbeddedSpan from './NameEmbeddedSpan.js'
-import { formatMessageDateTime } from '../utilities/strings.js'
-import moment from 'moment'
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Platform,
-  Modal,
-  Animated,
-  Easing,
-} from 'react-native'
-import DateTimePicker from 'react-native-date-picker'
-import NewWindowIcon from '../icons/NewWindowIcon.js'
-import ReplyIcon from '../icons/ReplyIcon.js'
-import InternetIcon from '../icons/InternetIcon.js'
-import ConferenceIcon from '../icons/ConferenceForegroundSelectedIcon.js'
-import UserIcon from '../icons/UserIcon.js'
-import ChevronUpIcon from '../icons/ChevronUpIcon.js'
-import ChevronDownIcon from '../icons/ChevronDownIcon.js'
-import UploadIcon from '../icons/UploadIcon.js'
-import DownloadIcon from '../icons/DownloadIcon.js'
-import PhoneIcon from '../icons/PhoneIcon.js'
-import JobIcon from '../icons/JobIcon.js'
+'use strict'
+
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = void 0
+var _react = _interopRequireDefault(require('react'))
+var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
+var _constants = _interopRequireDefault(require('../utilities/constants'))
+var _strings = require('../utilities/strings')
+var _ButtonIconic = _interopRequireDefault(require('./ButtonIconic'))
+var _DropDownMenu = _interopRequireDefault(require('./DropDownMenu'))
+var _HistoryDetailArea = _interopRequireDefault(require('./HistoryDetailArea'))
+var _MenuBalloonDialog = _interopRequireDefault(require('./MenuBalloonDialog'))
+var _MenuItem = _interopRequireDefault(require('./MenuItem'))
+var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+var _moment = _interopRequireDefault(require('moment'))
+var _reactNative = require('react-native')
+var _reactNativeDatePicker = _interopRequireDefault(
+  require('react-native-date-picker'),
+)
+var _NewWindowIcon = _interopRequireDefault(require('../icons/NewWindowIcon'))
+var _ReplyIcon = _interopRequireDefault(require('../icons/ReplyIcon'))
+var _InternetIcon = _interopRequireDefault(require('../icons/InternetIcon'))
+var _ConferenceForegroundSelectedIcon = _interopRequireDefault(
+  require('../icons/ConferenceForegroundSelectedIcon'),
+)
+var _UserIcon = _interopRequireDefault(require('../icons/UserIcon'))
+var _ChevronUpIcon = _interopRequireDefault(require('../icons/ChevronUpIcon'))
+var _ChevronDownIcon = _interopRequireDefault(
+  require('../icons/ChevronDownIcon'),
+)
+var _UploadIcon = _interopRequireDefault(require('../icons/UploadIcon'))
+var _DownloadIcon = _interopRequireDefault(require('../icons/DownloadIcon'))
+var _PhoneIcon = _interopRequireDefault(require('../icons/PhoneIcon'))
+var _JobIcon = _interopRequireDefault(require('../icons/JobIcon'))
+function _interopRequireDefault(e) {
+  return e && e.__esModule ? e : { default: e }
+}
+function _slicedToArray(r, e) {
+  return (
+    _arrayWithHoles(r) ||
+    _iterableToArrayLimit(r, e) ||
+    _unsupportedIterableToArray(r, e) ||
+    _nonIterableRest()
+  )
+}
+function _nonIterableRest() {
+  throw new TypeError(
+    'Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.',
+  )
+}
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ('string' == typeof r) return _arrayLikeToArray(r, a)
+    var t = {}.toString.call(r).slice(8, -1)
+    return (
+      'Object' === t && r.constructor && (t = r.constructor.name),
+      'Map' === t || 'Set' === t
+        ? Array.from(r)
+        : 'Arguments' === t ||
+            /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)
+          ? _arrayLikeToArray(r, a)
+          : void 0
+    )
+  }
+}
+function _arrayLikeToArray(r, a) {
+  ;(null == a || a > r.length) && (a = r.length)
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]
+  return n
+}
+function _iterableToArrayLimit(r, l) {
+  var t =
+    null == r
+      ? null
+      : ('undefined' != typeof Symbol && r[Symbol.iterator]) || r['@@iterator']
+  if (null != t) {
+    var e,
+      n,
+      i,
+      u,
+      a = [],
+      f = !0,
+      o = !1
+    try {
+      if (((i = (t = t.call(r)).next), 0 === l)) {
+        if (Object(t) !== t) return
+        f = !1
+      } else
+        for (
+          ;
+          !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l);
+          f = !0
+        );
+    } catch (r) {
+      ;(o = !0), (n = r)
+    } finally {
+      try {
+        if (!f && null != t.return && ((u = t.return()), Object(u) !== u))
+          return
+      } finally {
+        if (o) throw n
+      }
+    }
+    return a
+  }
+}
+function _arrayWithHoles(r) {
+  if (Array.isArray(r)) return r
+}
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
+function _classCallCheck(a, n) {
+  if (!(a instanceof n))
+    throw new TypeError('Cannot call a class as a function')
+}
+function _defineProperties(e, r) {
+  for (var t = 0; t < r.length; t++) {
+    var o = r[t]
+    ;(o.enumerable = o.enumerable || !1),
+      (o.configurable = !0),
+      'value' in o && (o.writable = !0),
+      Object.defineProperty(e, _toPropertyKey(o.key), o)
+  }
+}
+function _createClass(e, r, t) {
+  return (
+    r && _defineProperties(e.prototype, r),
+    t && _defineProperties(e, t),
+    Object.defineProperty(e, 'prototype', { writable: !1 }),
+    e
+  )
+}
+function _callSuper(t, o, e) {
+  return (
+    (o = _getPrototypeOf(o)),
+    _possibleConstructorReturn(
+      t,
+      _isNativeReflectConstruct()
+        ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor)
+        : o.apply(t, e),
+    )
+  )
+}
+function _possibleConstructorReturn(t, e) {
+  if (e && ('object' == _typeof(e) || 'function' == typeof e)) return e
+  if (void 0 !== e)
+    throw new TypeError(
+      'Derived constructors may only return object or undefined',
+    )
+  return _assertThisInitialized(t)
+}
+function _assertThisInitialized(e) {
+  if (void 0 === e)
+    throw new ReferenceError(
+      "this hasn't been initialised - super() hasn't been called",
+    )
+  return e
+}
+function _isNativeReflectConstruct() {
+  try {
+    var t = !Boolean.prototype.valueOf.call(
+      Reflect.construct(Boolean, [], function () {}),
+    )
+  } catch (t) {}
+  return (_isNativeReflectConstruct = function _isNativeReflectConstruct() {
+    return !!t
+  })()
+}
+function _getPrototypeOf(t) {
+  return (
+    (_getPrototypeOf = Object.setPrototypeOf
+      ? Object.getPrototypeOf.bind()
+      : function (t) {
+          return t.__proto__ || Object.getPrototypeOf(t)
+        }),
+    _getPrototypeOf(t)
+  )
+}
+function _inherits(t, e) {
+  if ('function' != typeof e && null !== e)
+    throw new TypeError('Super expression must either be null or a function')
+  ;(t.prototype = Object.create(e && e.prototype, {
+    constructor: { value: t, writable: !0, configurable: !0 },
+  })),
+    Object.defineProperty(t, 'prototype', { writable: !1 }),
+    e && _setPrototypeOf(t, e)
+}
+function _setPrototypeOf(t, e) {
+  return (
+    (_setPrototypeOf = Object.setPrototypeOf
+      ? Object.setPrototypeOf.bind()
+      : function (t, e) {
+          return (t.__proto__ = e), t
+        }),
+    _setPrototypeOf(t, e)
+  )
+}
+function _defineProperty(e, r, t) {
+  return (
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
+  )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
+}
 /**
  * HistorySummariesPanel
  * props.uiData
@@ -46,454 +253,598 @@ import JobIcon from '../icons/JobIcon.js'
  * props.panelCode
  * props.withHeader
  */
-export default class extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
+var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
+  function _default(props) {
+    var _this
+    _classCallCheck(this, _default)
+    _this = _callSuper(this, _default, [props])
+    // componentDidUpdate() {
+    //   if (this.historySummariesAreaRef.current) {
+    //     this.historySummariesAreaRef.current.measure((x, y, width, height) => {
+    //       if (this.state.areaHeight !== height) {
+    //         this.setState({ areaHeight: height })
+    //         return
+    //       }
+    //       this.checkAndSearchMore()
+    //     })
+    //   }
+    // }
+    _defineProperty(
+      _this,
+      'handleContentSizeChange',
+      function (contentWidth, height) {
+        _this.setState({
+          areaHeight: height,
+        })
+      },
+    )
+    _defineProperty(_this, 'handleHistorySummariesAreaScroll', function () {
+      _this.checkAndSearchMore()
+    })
+    _defineProperty(
+      _this,
+      'handleHistorySummaryExpandButtonClick',
+      function (searchResultId) {
+        _this.props.uiData.ucUiAction.expandSearchResult({
+          chatType: _this.props.panelType,
+          chatCode: _this.props.panelCode,
+          searchResultIds: [searchResultId],
+        })
+      },
+    )
+    _defineProperty(
+      _this,
+      'handleHistoryReplyWebchatButtonClick',
+      function (searchResultId, ev) {
+        if (
+          _this.props.uiData.showingDialogVersion !==
+            _this.state.showingReplyDialogVersion ||
+          searchResultId !== _this.state.showingReplyDialogSearchResultId
+        ) {
+          _this.setState({
+            showingReplyDialogVersion: ++_this.props.uiData
+              .showingDialogVersion,
+            showingReplyDialogSearchResultId: searchResultId,
+          })
+          _this.props.uiData.fire('showingDialog_update')
+        }
+      },
+    )
+    _defineProperty(
+      _this,
+      'handleSearchConditionsDatePickerChange',
+      function (isEnd, moment) {
+        var searchConditions =
+          _this.props.uiData.ucUiStore.getSearchConditions({
+            chatType: _this.props.panelType,
+            chatCode: _this.props.panelCode,
+          }) || []
+        if (
+          !searchConditions.some(function (condition) {
+            if (condition.conditionKey === '_datetime') {
+              var startEnd = (0, _strings.string)(
+                condition.conditionValue,
+              ).split('-')
+              if (!isEnd) {
+                startEnd[0] = (0, _strings.string)(
+                  moment && moment.startOf('day').valueOf(),
+                )
+                startEnd[1] = (0, _strings.string)(startEnd[1])
+              } else {
+                startEnd[0] = (0, _strings.string)(startEnd[0])
+                startEnd[1] = (0, _strings.string)(
+                  moment && moment.endOf('day').valueOf(),
+                )
+              }
+              condition.conditionValue = startEnd.join('-')
+              return true
+            }
+            return false
+          })
+        ) {
+          searchConditions.push({
+            conditionKey: '_datetime',
+            conditionValue: isEnd
+              ? '-' +
+                (0, _strings.string)(moment && moment.endOf('day').valueOf())
+              : (0, _strings.string)(
+                  moment && moment.startOf('day').valueOf(),
+                ) + '-',
+          })
+        }
+        _this.props.uiData.ucUiAction.setSearchConditions({
+          chatType: _this.props.panelType,
+          chatCode: _this.props.panelCode,
+          searchConditions: searchConditions,
+        })
+        _this.props.uiData.ucUiAction.doSearch({
+          chatType: _this.props.panelType,
+          chatCode: _this.props.panelCode,
+          emphasize: true,
+          queueing: true,
+        })
+      },
+    )
+    _defineProperty(
+      _this,
+      'handleSearchConditionsWebchatItemClick',
+      function (index) {
+        var searchConditions =
+          _this.props.uiData.ucUiStore.getSearchConditions({
+            chatType: _this.props.panelType,
+            chatCode: _this.props.panelCode,
+          }) || []
+        _this.props.uiData.ucUiAction.setSearchConditions({
+          chatType: _this.props.panelType,
+          chatCode: _this.props.panelCode,
+          searchConditions: searchConditions
+            .filter(function (condition) {
+              return (
+                condition.conditionKey !== '_onlyMe' &&
+                condition.conditionKey !== '_chatType'
+              )
+            })
+            .concat(
+              index === 1
+                ? {
+                    conditionKey: '_chatType',
+                    conditionValue: 'webchat',
+                  }
+                : {
+                    conditionKey: '_onlyMe',
+                    conditionValue: '2',
+                  },
+            ),
+        })
+        _this.props.uiData.ucUiAction.doSearch({
+          chatType: _this.props.panelType,
+          chatCode: _this.props.panelCode,
+          emphasize: true,
+          queueing: true,
+        })
+      },
+    )
+    _defineProperty(_this, 'checkAndSearchMore', function () {
+      if (
+        _this.historySummariesAreaRef.current &&
+        _this.historyProgressRef.current
+      ) {
+        _this.historySummariesAreaRef.current.measure(
+          function (x, y, width, height, pageX, pageY) {
+            _this.historyProgressRef.current.measure(
+              function (x2, y2, width2, height2) {
+                var scrollInfo = {
+                  scrollTop: pageY,
+                  scrollHeight: height,
+                  offsetHeight: height2,
+                }
+                if (
+                  scrollInfo.scrollTop >
+                  scrollInfo.scrollHeight - scrollInfo.offsetHeight - height2
+                ) {
+                  var searchWorkData =
+                    _this.props.uiData.ucUiStore.getSearchWorkData({
+                      chatType: _this.props.panelType,
+                      chatCode: _this.props.panelCode,
+                    }) || {}
+                  if (searchWorkData.hasMore && !searchWorkData.searching) {
+                    _this.props.uiData.ucUiAction.doSearch({
+                      chatType: _this.props.panelType,
+                      chatCode: _this.props.panelCode,
+                      searchMore: true,
+                      emphasize: true,
+                    })
+                  }
+                }
+              },
+            )
+          },
+        )
+      }
+    })
+    _defineProperty(_this, 'startProgressAnimation', function () {
+      _reactNative.Animated.loop(
+        _reactNative.Animated.sequence([
+          _reactNative.Animated.timing(_this.progressAnimation, {
+            toValue: 1,
+            duration: 1500,
+            easing: _reactNative.Easing.linear,
+            useNativeDriver: true,
+          }),
+        ]),
+      ).start()
+    })
+    _defineProperty(_this, 'convertSummary', function (summary, isMe) {
+      var parts = summary.split(/(<span[^>]*>.*?<\/span>)/g)
+      return /*#__PURE__*/ _react.default.createElement(
+        _reactNative.View,
+        {
+          style: {
+            flexDirection: 'row',
+            alignItems: 'center',
+          },
+        },
+        parts.map(function (part, index) {
+          if (!part) return null
+          if (!part.trim()) return null
+          console.log('#Duy Phan console part', part)
+          if (part.startsWith('<span')) {
+            var content = part.replace(/<span[^>]*>|<\/span>/g, '')
+            var isEmphasized = /class="[^"]*brEmphasized[^"]*"/.test(part)
+            var isFileRequest = /class="[^"]*brFileRequest[^"]*"/.test(part)
+            var isCallResult = /class="[^"]*brCallResult[^"]*"/.test(part)
+            var isObject = /class="[^"]*brObject[^"]*"/.test(part)
+            if (isEmphasized) {
+              return /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                {
+                  key: index,
+                  style: styles.brEmphasized,
+                },
+                content,
+              )
+            }
+            if (isFileRequest) {
+              return /*#__PURE__*/ _react.default.createElement(
+                _react.default.Fragment,
+                null,
+                isMe
+                  ? /*#__PURE__*/ _react.default.createElement(
+                      _UploadIcon.default,
+                      null,
+                    )
+                  : /*#__PURE__*/ _react.default.createElement(
+                      _DownloadIcon.default,
+                      null,
+                    ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  content,
+                ),
+              )
+            }
+            if (isCallResult) {
+              return /*#__PURE__*/ _react.default.createElement(
+                _react.default.Fragment,
+                null,
+                /*#__PURE__*/ _react.default.createElement(
+                  _PhoneIcon.default,
+                  null,
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  content,
+                ),
+              )
+            }
+            if (isObject) {
+              return /*#__PURE__*/ _react.default.createElement(
+                _react.default.Fragment,
+                null,
+                /*#__PURE__*/ _react.default.createElement(
+                  _JobIcon.default,
+                  null,
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  content,
+                ),
+              )
+            }
+          } else {
+            return /*#__PURE__*/ _react.default.createElement(
+              _reactNative.Text,
+              null,
+              part,
+            )
+          }
+        }),
+      )
+    })
+    _this.state = {
       areaHeight: 0,
       showingReplyDialogVersion: null,
       showingReplyDialogSearchResultId: null,
     }
-    this.historySummariesAreaRef = React.createRef()
-    this.historyProgressRef = React.createRef()
-    this.progressAnimation = new Animated.Value(0)
+    _this.historySummariesAreaRef = /*#__PURE__*/ _react.default.createRef()
+    _this.historyProgressRef = /*#__PURE__*/ _react.default.createRef()
+    _this.progressAnimation = new _reactNative.Animated.Value(0)
+    return _this
   }
-
-  // componentDidUpdate() {
-  //   if (this.historySummariesAreaRef.current) {
-  //     this.historySummariesAreaRef.current.measure((x, y, width, height) => {
-  //       if (this.state.areaHeight !== height) {
-  //         this.setState({ areaHeight: height })
-  //         return
-  //       }
-  //       this.checkAndSearchMore()
-  //     })
-  //   }
-  // }
-
-  handleContentSizeChange = (contentWidth, height) => {
-    this.setState({ areaHeight: height })
-  }
-
-  handleHistorySummariesAreaScroll = () => {
-    this.checkAndSearchMore()
-  }
-
-  handleHistorySummaryExpandButtonClick = searchResultId => {
-    this.props.uiData.ucUiAction.expandSearchResult({
-      chatType: this.props.panelType,
-      chatCode: this.props.panelCode,
-      searchResultIds: [searchResultId],
-    })
-  }
-
-  handleHistoryReplyWebchatButtonClick = (searchResultId, ev) => {
-    if (
-      this.props.uiData.showingDialogVersion !==
-        this.state.showingReplyDialogVersion ||
-      searchResultId !== this.state.showingReplyDialogSearchResultId
-    ) {
-      this.setState({
-        showingReplyDialogVersion: ++this.props.uiData.showingDialogVersion,
-        showingReplyDialogSearchResultId: searchResultId,
-      })
-      this.props.uiData.fire('showingDialog_update')
-    }
-  }
-
-  handleSearchConditionsDatePickerChange = (isEnd, moment) => {
-    const searchConditions =
-      this.props.uiData.ucUiStore.getSearchConditions({
-        chatType: this.props.panelType,
-        chatCode: this.props.panelCode,
-      }) || []
-
-    if (
-      !searchConditions.some(condition => {
-        if (condition.conditionKey === '_datetime') {
-          const startEnd = string(condition.conditionValue).split('-')
-          if (!isEnd) {
-            startEnd[0] = string(moment && moment.startOf('day').valueOf())
-            startEnd[1] = string(startEnd[1])
-          } else {
-            startEnd[0] = string(startEnd[0])
-            startEnd[1] = string(moment && moment.endOf('day').valueOf())
-          }
-          condition.conditionValue = startEnd.join('-')
-          return true
-        }
-        return false
-      })
-    ) {
-      searchConditions.push({
-        conditionKey: '_datetime',
-        conditionValue: isEnd
-          ? '-' + string(moment && moment.endOf('day').valueOf())
-          : string(moment && moment.startOf('day').valueOf()) + '-',
-      })
-    }
-
-    this.props.uiData.ucUiAction.setSearchConditions({
-      chatType: this.props.panelType,
-      chatCode: this.props.panelCode,
-      searchConditions: searchConditions,
-    })
-
-    this.props.uiData.ucUiAction.doSearch({
-      chatType: this.props.panelType,
-      chatCode: this.props.panelCode,
-      emphasize: true,
-      queueing: true,
-    })
-  }
-
-  handleSearchConditionsWebchatItemClick = index => {
-    const searchConditions =
-      this.props.uiData.ucUiStore.getSearchConditions({
-        chatType: this.props.panelType,
-        chatCode: this.props.panelCode,
-      }) || []
-
-    this.props.uiData.ucUiAction.setSearchConditions({
-      chatType: this.props.panelType,
-      chatCode: this.props.panelCode,
-      searchConditions: searchConditions
-        .filter(
-          condition =>
-            condition.conditionKey !== '_onlyMe' &&
-            condition.conditionKey !== '_chatType',
-        )
-        .concat(
-          index === 1
-            ? { conditionKey: '_chatType', conditionValue: 'webchat' }
-            : { conditionKey: '_onlyMe', conditionValue: '2' },
-        ),
-    })
-
-    this.props.uiData.ucUiAction.doSearch({
-      chatType: this.props.panelType,
-      chatCode: this.props.panelCode,
-      emphasize: true,
-      queueing: true,
-    })
-  }
-
-  checkAndSearchMore = () => {
-    if (
-      this.historySummariesAreaRef.current &&
-      this.historyProgressRef.current
-    ) {
-      this.historySummariesAreaRef.current.measure(
-        (x, y, width, height, pageX, pageY) => {
-          this.historyProgressRef.current.measure((x2, y2, width2, height2) => {
-            const scrollInfo = {
-              scrollTop: pageY,
-              scrollHeight: height,
-              offsetHeight: height2,
-            }
-
-            if (
-              scrollInfo.scrollTop >
-              scrollInfo.scrollHeight - scrollInfo.offsetHeight - height2
-            ) {
-              const searchWorkData =
-                this.props.uiData.ucUiStore.getSearchWorkData({
-                  chatType: this.props.panelType,
-                  chatCode: this.props.panelCode,
-                }) || {}
-
-              if (searchWorkData.hasMore && !searchWorkData.searching) {
-                this.props.uiData.ucUiAction.doSearch({
-                  chatType: this.props.panelType,
-                  chatCode: this.props.panelCode,
-                  searchMore: true,
-                  emphasize: true,
-                })
-              }
-            }
-          })
-        },
-      )
-    }
-  }
-
-  startProgressAnimation = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(this.progressAnimation, {
-          toValue: 1,
-          duration: 1500,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }),
-      ]),
-    ).start()
-  }
-
-  convertSummary = (summary, isMe) => {
-    const parts = summary.split(/(<span[^>]*>.*?<\/span>)/g)
-
-    return (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {parts.map((part, index) => {
-          if (!part) return null
-          if (!part.trim()) return null
-          console.log('#Duy Phan console part', part)
-
-          if (part.startsWith('<span')) {
-            const content = part.replace(/<span[^>]*>|<\/span>/g, '')
-
-            const isEmphasized = /class="[^"]*brEmphasized[^"]*"/.test(part)
-            const isFileRequest = /class="[^"]*brFileRequest[^"]*"/.test(part)
-            const isCallResult = /class="[^"]*brCallResult[^"]*"/.test(part)
-            const isObject = /class="[^"]*brObject[^"]*"/.test(part)
-
-            if (isEmphasized) {
-              return (
-                <Text key={index} style={styles.brEmphasized}>
-                  {content}
-                </Text>
-              )
-            }
-            if (isFileRequest) {
-              return (
-                <>
-                  {isMe ? <UploadIcon /> : <DownloadIcon />}
-                  <Text>{content}</Text>
-                </>
-              )
-            }
-            if (isCallResult) {
-              return (
-                <>
-                  <PhoneIcon />
-                  <Text>{content}</Text>
-                </>
-              )
-            }
-            if (isObject) {
-              return (
-                <>
-                  <JobIcon />
-                  <Text>{content}</Text>
-                </>
-              )
-            }
-          } else {
-            return <Text>{part}</Text>
-          }
-        })}
-      </View>
-    )
-  }
-
-  render() {
-    const { props } = this
-    console.log('#Duy Phan console areaHeight', this.state.areaHeight)
-    const configProperties = props.uiData.ucUiStore.getConfigProperties()
-    const searchConditions =
-      props.uiData.ucUiStore.getSearchConditions({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
-      }) || []
-    const searchResults =
-      props.uiData.ucUiStore.getSearchResults({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
-      }) || []
-    const searchWorkData =
-      props.uiData.ucUiStore.getSearchWorkData({
-        chatType: props.panelType,
-        chatCode: props.panelCode,
-      }) || {}
-    let profile_image_url = ''
-    // results
-    const entries = searchResults.map(searchResult => {
-      const replyOptions = []
-      const replyTypes = string(searchResult.replyTypes).split(',')
-      if ('TRUE' === string(searchResult.webchatContinuable).toUpperCase()) {
-        replyOptions.push({
-          className: 'brManualContinuation',
-          event: props.uiData.fire.bind(
-            props.uiData,
-            'historySummariesPanelContinuationButton_onClick',
-            props.panelType,
-            props.panelCode,
-            searchResult.searchResultId,
-            '',
-          ),
-          label: uawMsgs.LBL_HISTORY_REPLY_MANUAL_CONTINUATION_MENU,
-        })
-      }
-      if (
-        (
-          (configProperties.optional_config &&
-            configProperties.optional_config.awsl) ||
-          []
-        ).some(aws => aws.id === searchResult.webchatServiceId && aws.senders)
-      ) {
-        replyTypes.forEach((replyType, i) => {
-          if (replyType) {
+  _inherits(_default, _React$Component)
+  return _createClass(_default, [
+    {
+      key: 'render',
+      value: function render() {
+        var _this2 = this
+        var props = this.props
+        console.log('#Duy Phan console areaHeight', this.state.areaHeight)
+        var configProperties = props.uiData.ucUiStore.getConfigProperties()
+        var searchConditions =
+          props.uiData.ucUiStore.getSearchConditions({
+            chatType: props.panelType,
+            chatCode: props.panelCode,
+          }) || []
+        var searchResults =
+          props.uiData.ucUiStore.getSearchResults({
+            chatType: props.panelType,
+            chatCode: props.panelCode,
+          }) || []
+        var searchWorkData =
+          props.uiData.ucUiStore.getSearchWorkData({
+            chatType: props.panelType,
+            chatCode: props.panelCode,
+          }) || {}
+        var profile_image_url = ''
+        // results
+        var entries = searchResults.map(function (searchResult) {
+          var replyOptions = []
+          var replyTypes = (0, _strings.string)(searchResult.replyTypes).split(
+            ',',
+          )
+          if (
+            'TRUE' ===
+            (0, _strings.string)(searchResult.webchatContinuable).toUpperCase()
+          ) {
             replyOptions.push({
-              className: 'brContinuation',
+              className: 'brManualContinuation',
               event: props.uiData.fire.bind(
                 props.uiData,
                 'historySummariesPanelContinuationButton_onClick',
                 props.panelType,
                 props.panelCode,
                 searchResult.searchResultId,
-                replyType,
+                '',
               ),
-              label: replyType,
+              label:
+                _uawmsgs.default.LBL_HISTORY_REPLY_MANUAL_CONTINUATION_MENU,
             })
           }
-        })
-      }
-
-      return (
-        <View
-          key={string(searchResult.searchResultId)}
-          style={styles.brHistorySummaryEntry}
-        >
-          <View style={styles.brHistoryOpenDetailArea}>
-            <ButtonIconic
-              style={styles.brHistoryOpenDetailButton}
-              iconSource={<NewWindowIcon />}
-              accessibilityLabel={
-                uawMsgs.LBL_HISTORY_OPEN_DETAIL_BUTTON_TOOLTIP
+          if (
+            (
+              (configProperties.optional_config &&
+                configProperties.optional_config.awsl) ||
+              []
+            ).some(function (aws) {
+              return aws.id === searchResult.webchatServiceId && aws.senders
+            })
+          ) {
+            replyTypes.forEach(function (replyType, i) {
+              if (replyType) {
+                replyOptions.push({
+                  className: 'brContinuation',
+                  event: props.uiData.fire.bind(
+                    props.uiData,
+                    'historySummariesPanelContinuationButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                    searchResult.searchResultId,
+                    replyType,
+                  ),
+                  label: replyType,
+                })
               }
-              onPress={props.uiData.fire.bind(
-                props.uiData,
-                'historySummariesPanelOpenDetailButton_onClick',
-                props.panelType,
-                props.panelCode,
-                searchResult.searchResultId,
-                searchResult._topic && searchResult._topic.peer,
-                searchResult.chatType === 'webchat'
-                  ? string(searchResult.customerName)
-                  : searchResult.chatType === 'userchatconf'
-                    ? string(
-                        searchResult._topic &&
-                          searchResult._topic.peer &&
-                          searchResult._topic.peer.subject,
-                      )
-                    : string(
-                        searchResult._topic &&
-                          searchResult._topic.peer &&
-                          (searchResult._topic.peer.user_name ||
-                            searchResult._topic.peer.user_id),
-                      ),
-              )}
-            />
-
-            {replyOptions.length > 0 && (
-              <ButtonIconic
-                style={styles.brHistoryReplyWebchatButton}
-                iconSource={<ReplyIcon />}
-                accessibilityLabel={uawMsgs.LBL_HISTORY_REPLY_BUTTON_TOOLTIP}
-                onPress={
-                  replyOptions.length === 1
-                    ? replyOptions[0].event
-                    : () =>
-                        this.handleHistoryReplyWebchatButtonClick(
-                          searchResult.searchResultId,
-                        )
-                }
-              />
-            )}
-
-            <MenuBalloonDialog
-              style={styles.brHistoryReplyWebchatBalloonDialog}
-              showing={
-                props.uiData.showingDialogVersion ===
-                  this.state.showingReplyDialogVersion &&
-                searchResult.searchResultId ===
-                  this.state.showingReplyDialogSearchResultId
-              }
-            >
-              {replyOptions.map((option, i) => (
-                <MenuItem
-                  key={i}
-                  style={[
-                    styles.brHistoryReplyWebchatMenuItem,
-                    styles[option.className],
-                  ]}
-                  accessibilityLabel={option.label}
-                  onPress={option.event}
-                >
-                  <Text>{option.label}</Text>
-                </MenuItem>
-              ))}
-            </MenuBalloonDialog>
-          </View>
-          <View
-            style={[
-              styles.brHistorySummary,
-              searchResult._expanded && styles.brExpanded,
-            ]}
-            // onClick={
-            //   searchResult._expanded
-            //     ? () => {}
-            //     : this.handleHistorySummaryExpandButtonClick.bind(
-            //         this,
-            //         searchResult.searchResultId,
-            //       )
-            // }
-          >
-            <View
-              style={[
+            })
+          }
+          return /*#__PURE__*/ _react.default.createElement(
+            _reactNative.View,
+            {
+              key: (0, _strings.string)(searchResult.searchResultId),
+              style: styles.brHistorySummaryEntry,
+            },
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brHistoryOpenDetailArea,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _ButtonIconic.default,
                 {
-                  flexDirection: 'row',
-                  position: 'relative',
-                },
-              ]}
-            >
-              <View style={{ alignItems: 'flex-start', gap: 3 }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={styles.brHistorySummaryName}>
-                    {searchResult.chatType === 'webchat'
-                      ? string(searchResult.customerName)
+                  style: styles.brHistoryOpenDetailButton,
+                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                    _NewWindowIcon.default,
+                    null,
+                  ),
+                  accessibilityLabel:
+                    _uawmsgs.default.LBL_HISTORY_OPEN_DETAIL_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'historySummariesPanelOpenDetailButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                    searchResult.searchResultId,
+                    searchResult._topic && searchResult._topic.peer,
+                    searchResult.chatType === 'webchat'
+                      ? (0, _strings.string)(searchResult.customerName)
                       : searchResult.chatType === 'userchatconf'
-                        ? string(
+                        ? (0, _strings.string)(
                             searchResult._topic &&
                               searchResult._topic.peer &&
                               searchResult._topic.peer.subject,
                           )
-                        : string(
+                        : (0, _strings.string)(
                             searchResult._topic &&
                               searchResult._topic.peer &&
                               (searchResult._topic.peer.user_name ||
                                 searchResult._topic.peer.user_id),
-                          )}
-                  </Text>
-                  <Text style={styles.brHistorySummaryTime}>
-                    {searchResult.customerStartTime
-                      ? formatMessageDateTime(searchResult.customerStartTime)
-                      : ''}
-                  </Text>
-                </View>
-
-                {searchResult._profinfoFormatted ? (
-                  <Text style={styles.brHistorySummaryProfinfo}>
-                    {string(searchResult._profinfoFormatted)}
-                  </Text>
-                ) : null}
-
-                {(searchResult.chatType === 'webchat' &&
-                  searchResult._topic &&
-                  searchResult.customerTenant ===
-                    searchResult._topic.content_sender_tenant &&
-                  searchResult.customerUserId ===
-                    searchResult._topic.content_sender_user_id) ||
-                (searchResult.chatType === '' &&
-                  searchResult._topic &&
-                  searchResult._topic.peer &&
-                  searchResult._topic.peer.tenant ===
-                    searchResult._topic.content_sender_tenant &&
-                  searchResult._topic.peer.user_id ===
-                    searchResult._topic.content_sender_user_id) ? null : (
-                  <Text>
-                    {string(
+                          ),
+                  ),
+                },
+              ),
+              replyOptions.length > 0 &&
+                /*#__PURE__*/ _react.default.createElement(
+                  _ButtonIconic.default,
+                  {
+                    style: styles.brHistoryReplyWebchatButton,
+                    iconSource: /*#__PURE__*/ _react.default.createElement(
+                      _ReplyIcon.default,
+                      null,
+                    ),
+                    accessibilityLabel:
+                      _uawmsgs.default.LBL_HISTORY_REPLY_BUTTON_TOOLTIP,
+                    onPress:
+                      replyOptions.length === 1
+                        ? replyOptions[0].event
+                        : function () {
+                            return _this2.handleHistoryReplyWebchatButtonClick(
+                              searchResult.searchResultId,
+                            )
+                          },
+                  },
+                ),
+              /*#__PURE__*/ _react.default.createElement(
+                _MenuBalloonDialog.default,
+                {
+                  style: styles.brHistoryReplyWebchatBalloonDialog,
+                  showing:
+                    props.uiData.showingDialogVersion ===
+                      _this2.state.showingReplyDialogVersion &&
+                    searchResult.searchResultId ===
+                      _this2.state.showingReplyDialogSearchResultId,
+                },
+                replyOptions.map(function (option, i) {
+                  return /*#__PURE__*/ _react.default.createElement(
+                    _MenuItem.default,
+                    {
+                      key: i,
+                      style: [
+                        styles.brHistoryReplyWebchatMenuItem,
+                        styles[option.className],
+                      ],
+                      accessibilityLabel: option.label,
+                      onPress: option.event,
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.Text,
+                      null,
+                      option.label,
+                    ),
+                  )
+                }),
+              ),
+            ),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: [
+                  styles.brHistorySummary,
+                  searchResult._expanded && styles.brExpanded,
+                ],
+                // onClick={
+                //   searchResult._expanded
+                //     ? () => {}
+                //     : this.handleHistorySummaryExpandButtonClick.bind(
+                //         this,
+                //         searchResult.searchResultId,
+                //       )
+                // }
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: [
+                    {
+                      flexDirection: 'row',
+                      position: 'relative',
+                    },
+                  ],
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: {
+                      alignItems: 'flex-start',
+                      gap: 3,
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.View,
+                    {
+                      style: {
+                        flexDirection: 'row',
+                      },
+                    },
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.Text,
+                      {
+                        style: styles.brHistorySummaryName,
+                      },
+                      searchResult.chatType === 'webchat'
+                        ? (0, _strings.string)(searchResult.customerName)
+                        : searchResult.chatType === 'userchatconf'
+                          ? (0, _strings.string)(
+                              searchResult._topic &&
+                                searchResult._topic.peer &&
+                                searchResult._topic.peer.subject,
+                            )
+                          : (0, _strings.string)(
+                              searchResult._topic &&
+                                searchResult._topic.peer &&
+                                (searchResult._topic.peer.user_name ||
+                                  searchResult._topic.peer.user_id),
+                            ),
+                    ),
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.Text,
+                      {
+                        style: styles.brHistorySummaryTime,
+                      },
+                      searchResult.customerStartTime
+                        ? (0, _strings.formatMessageDateTime)(
+                            searchResult.customerStartTime,
+                          )
+                        : '',
+                    ),
+                  ),
+                  searchResult._profinfoFormatted
+                    ? /*#__PURE__*/ _react.default.createElement(
+                        _reactNative.Text,
+                        {
+                          style: styles.brHistorySummaryProfinfo,
+                        },
+                        (0, _strings.string)(searchResult._profinfoFormatted),
+                      )
+                    : null,
+                  (searchResult.chatType === 'webchat' &&
+                    searchResult._topic &&
+                    searchResult.customerTenant ===
+                      searchResult._topic.content_sender_tenant &&
+                    searchResult.customerUserId ===
+                      searchResult._topic.content_sender_user_id) ||
+                    (searchResult.chatType === '' &&
+                      searchResult._topic &&
+                      searchResult._topic.peer &&
+                      searchResult._topic.peer.tenant ===
+                        searchResult._topic.content_sender_tenant &&
+                      searchResult._topic.peer.user_id ===
+                        searchResult._topic.content_sender_user_id)
+                    ? null
+                    : /*#__PURE__*/ _react.default.createElement(
+                        _reactNative.Text,
+                        null,
+                        (0, _strings.string)(
+                          (
+                            (searchResult._topic &&
+                              props.uiData.ucUiStore.getBuddyUserForUi({
+                                tenant:
+                                  searchResult._topic.content_sender_tenant,
+                                user_id:
+                                  searchResult._topic.content_sender_user_id,
+                              })) ||
+                            {}
+                          ).name,
+                        ),
+                      ),
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    {
+                      style: styles.brHistorySummarySummary,
+                    },
+                    _this2.convertSummary(
+                      searchResult.summary,
                       (
                         (searchResult._topic &&
                           props.uiData.ucUiStore.getBuddyUserForUi({
@@ -501,337 +852,414 @@ export default class extends React.Component {
                             user_id: searchResult._topic.content_sender_user_id,
                           })) ||
                         {}
-                      ).name,
-                    )}
-                  </Text>
-                )}
-
-                <Text style={styles.brHistorySummarySummary}>
-                  {/* {string(searchResult.summary)
-                    .replace(
-                      /brFileRequest">/g,
-                      'brFileRequest ' +
-                        ((
-                          (searchResult._topic &&
-                            props.uiData.ucUiStore.getBuddyUserForUi({
-                              tenant: searchResult._topic.content_sender_tenant,
-                              user_id:
-                                searchResult._topic.content_sender_user_id,
-                            })) ||
-                          {}
-                        ).isMe
-                          ? 'br_bi_icon_upload_svg'
-                          : 'br_bi_icon_download_svg') +
-                        '" title="' +
-                        uawMsgs.LBL_HISTORY_SUMMARY_FILE +
-                        '">',
-                    )
-                    .replace(
-                      /brCallResult">/g,
-                      'brCallResult br_bi_icon_phone_svg" title="' +
-                        uawMsgs.LBL_HISTORY_SUMMARY_CALL +
-                        '">',
-                    )
-                    .replace(
-                      /brObject">/g,
-                      'brObject br_bi_icon_job_svg" title="' +
-                        uawMsgs.LBL_HISTORY_SUMMARY_OBJECT +
-                        '">',
-                    )} */}
-                  {this.convertSummary(
-                    searchResult.summary,
-                    (
-                      (searchResult._topic &&
-                        props.uiData.ucUiStore.getBuddyUserForUi({
-                          tenant: searchResult._topic.content_sender_tenant,
-                          user_id: searchResult._topic.content_sender_user_id,
-                        })) ||
-                      {}
-                    ).isMe,
-                  )}
-                </Text>
-              </View>
-
-              {/* <View style={styles.brHistorySummaryExpandDummy} /> */}
-            </View>
-            {searchResult._expanded && (
-              <View style={styles.brHistorySummaryMarker} />
-            )}
-
-            {searchResult.chatType === 'webchat' ? (
-              ((profile_image_url = string(
-                searchResult._topic &&
-                  searchResult._topic.tags &&
-                  searchResult._topic.tags
-                    .filter(
-                      tag =>
-                        tag.tag_type === '_webchat' &&
-                        tag.tag_key === 'myProfileImageUrl',
-                    )
-                    .sort((tag1, tag2) => tag1.tstamp - tag2.tstamp)
-                    .map(tag => tag.tag_value)
-                    .pop(),
-              )) &&
-                false) || (
-                <View
-                  style={[
-                    styles.brHistorySummaryImage,
-                    profile_image_url
-                      ? string(profile_image_url).indexOf(
-                          Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-                        ) === -1
-                        ? styles.brMyProfileImageUrl
-                        : {}
-                      : styles.brWithIcon,
-                  ]}
-                >
-                  <View style={styles.brIcon}>
-                    <InternetIcon />
-                  </View>
-                </View>
-              )
-            ) : searchResult.chatType === 'userchatconf' ? (
-              <View style={styles.brHistorySummaryImage}>
-                <View style={styles.brIcon}>
-                  <ConferenceIcon />
-                </View>
-              </View>
-            ) : (
-              ((profile_image_url = string(
-                (
-                  props.uiData.ucUiStore.getBuddyUserForUi(
-                    searchResult._topic && searchResult._topic.peer,
-                  ) || {}
-                ).profile_image_url,
-              )) &&
-                false) || (
-                <View
-                  style={[
-                    styles.brHistorySummaryImage,
-                    profile_image_url
-                      ? string(profile_image_url).indexOf(
-                          Constants.PROFILE_IMAGE_URL_DOWNLOAD,
-                        ) === -1
-                        ? styles.brMyProfileImageUrl
-                        : {}
-                      : styles.brNoImage,
-                  ]}
-                >
-                  <Image
-                    source={{ uri: profile_image_url }}
-                    style={styles.brHistorySummaryImage}
-                  />
-                </View>
-              )
-            )}
-            <ButtonIconic
-              style={styles.brHistorySummaryExpandButton}
-              iconSource={
-                searchResult._expanded ? <ChevronUpIcon /> : <ChevronDownIcon />
-              }
-              accessibilityLabel={uawMsgs.LBL_HISTORY_SUMMARY_EXPAND_BUTTON}
-              onPress={this.handleHistorySummaryExpandButtonClick.bind(
-                this,
-                searchResult.searchResultId,
-              )}
-            />
-
-            {searchResult._expanded && (
-              <View style={{ flex: 1 }}>
-                <HistoryDetailArea
-                  uiData={props.uiData}
-                  hasMore={searchWorkData.hasMore}
-                  panelType='SEARCHRESULTDETAIL'
-                  panelCode={searchResult.searchResultId}
-                />
-              </View>
-            )}
-          </View>
-        </View>
-      )
-    })
-    // conditions
-    const conditions = { _datetime: {}, _onlyMe: {}, _chatType: {} }
-    searchConditions.forEach(
-      condition => (conditions[condition.conditionKey] = condition),
-    )
-    const startEnd = string(conditions._datetime.conditionValue).split('-')
-    const startMoment = startEnd[0] ? moment(int(startEnd[0])) : null
-    const endMoment = startEnd[1] ? moment(int(startEnd[1])) : null
-    console.log('#Duy Phan console count expands', entries.length)
-    return (
-      <View
-        style={[
-          styles.brHistorySummariesPanel,
-          props.withHeader && styles.brWithHeader,
-        ]}
-      >
-        <ScrollView
-          ref={this.historySummariesAreaRef}
-          style={[
-            styles.brHistorySummariesArea,
-            props.uiData.currentSelectedTab ===
-              props.panelType + '_' + props.panelCode && styles.brSelected,
-            searchResults.some(result => result._expanded) &&
-              styles.brDetailClosed,
-
-            searchWorkData.searching && styles.brSearching,
-            searchWorkData.hasMore && styles.brHasMore,
-            searchWorkData.errorType && styles.brError,
-          ]}
-          contentContainerStyle={[entries.length === 0 && styles.brNoEntries]}
-          onScroll={this.handleHistorySummariesAreaScroll}
-          onContentSizeChange={this.handleContentSizeChange}
-          nestedScrollEnabled
-        >
-          {entries.length > 0 && (
-            <View
-              style={[
-                styles.brHistorySummariesAreaMarker,
-                { height: this.state.areaHeight },
-              ]}
-            />
-          )}
-
-          <View style={styles.brHistorySummariesList}>
-            {entries}
-
-            {entries.length === 0 && (
-              <Text style={styles.brHistoryNoResults}>
-                {uawMsgs.LBL_HISTORY_NO_RESULTS}
-              </Text>
-            )}
-
-            {searchWorkData.errorType && (
-              <Text style={styles.brHistoryError}>
-                {(uawMsgs[searchWorkData.errorType] ||
-                  searchWorkData.errorType) +
-                  (searchWorkData.errorDetail
-                    ? ` (${searchWorkData.errorDetail})`
-                    : '')}
-              </Text>
-            )}
-
-            <View
-              ref={this.historyProgressRef}
-              style={styles.brHistoryProgress}
-            >
-              <Animated.View
-                style={[
-                  styles.brHistoryProgressInner,
-                  {
-                    transform: [
+                      ).isMe,
+                    ),
+                  ),
+                ),
+              ),
+              searchResult._expanded &&
+                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+                  style: styles.brHistorySummaryMarker,
+                }),
+              searchResult.chatType === 'webchat'
+                ? ((profile_image_url = (0, _strings.string)(
+                    searchResult._topic &&
+                      searchResult._topic.tags &&
+                      searchResult._topic.tags
+                        .filter(function (tag) {
+                          return (
+                            tag.tag_type === '_webchat' &&
+                            tag.tag_key === 'myProfileImageUrl'
+                          )
+                        })
+                        .sort(function (tag1, tag2) {
+                          return tag1.tstamp - tag2.tstamp
+                        })
+                        .map(function (tag) {
+                          return tag.tag_value
+                        })
+                        .pop(),
+                  )) &&
+                    false) ||
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.View,
                       {
-                        rotate: this.progressAnimation.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: ['0deg', '360deg'],
-                        }),
+                        style: [
+                          styles.brHistorySummaryImage,
+                          profile_image_url
+                            ? (0, _strings.string)(profile_image_url).indexOf(
+                                _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
+                              ) === -1
+                              ? styles.brMyProfileImageUrl
+                              : {}
+                            : styles.brWithIcon,
+                        ],
+                      },
+                      /*#__PURE__*/ _react.default.createElement(
+                        _reactNative.View,
+                        {
+                          style: styles.brIcon,
+                        },
+                        /*#__PURE__*/ _react.default.createElement(
+                          _InternetIcon.default,
+                          null,
+                        ),
+                      ),
+                    )
+                : searchResult.chatType === 'userchatconf'
+                  ? /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.View,
+                      {
+                        style: styles.brHistorySummaryImage,
+                      },
+                      /*#__PURE__*/ _react.default.createElement(
+                        _reactNative.View,
+                        {
+                          style: styles.brIcon,
+                        },
+                        /*#__PURE__*/ _react.default.createElement(
+                          _ConferenceForegroundSelectedIcon.default,
+                          null,
+                        ),
+                      ),
+                    )
+                  : ((profile_image_url = (0, _strings.string)(
+                      (
+                        props.uiData.ucUiStore.getBuddyUserForUi(
+                          searchResult._topic && searchResult._topic.peer,
+                        ) || {}
+                      ).profile_image_url,
+                    )) &&
+                      false) ||
+                    /*#__PURE__*/ _react.default.createElement(
+                      _reactNative.View,
+                      {
+                        style: [
+                          styles.brHistorySummaryImage,
+                          profile_image_url
+                            ? (0, _strings.string)(profile_image_url).indexOf(
+                                _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
+                              ) === -1
+                              ? styles.brMyProfileImageUrl
+                              : {}
+                            : styles.brNoImage,
+                        ],
+                      },
+                      /*#__PURE__*/ _react.default.createElement(
+                        _reactNative.Image,
+                        {
+                          source: {
+                            uri: profile_image_url,
+                          },
+                          style: styles.brHistorySummaryImage,
+                        },
+                      ),
+                    ),
+              /*#__PURE__*/ _react.default.createElement(
+                _ButtonIconic.default,
+                {
+                  style: styles.brHistorySummaryExpandButton,
+                  iconSource: searchResult._expanded
+                    ? /*#__PURE__*/ _react.default.createElement(
+                        _ChevronUpIcon.default,
+                        null,
+                      )
+                    : /*#__PURE__*/ _react.default.createElement(
+                        _ChevronDownIcon.default,
+                        null,
+                      ),
+                  accessibilityLabel:
+                    _uawmsgs.default.LBL_HISTORY_SUMMARY_EXPAND_BUTTON,
+                  onPress: _this2.handleHistorySummaryExpandButtonClick.bind(
+                    _this2,
+                    searchResult.searchResultId,
+                  ),
+                },
+              ),
+              searchResult._expanded &&
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.View,
+                  {
+                    style: {
+                      flex: 1,
+                    },
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _HistoryDetailArea.default,
+                    {
+                      uiData: props.uiData,
+                      hasMore: searchWorkData.hasMore,
+                      panelType: 'SEARCHRESULTDETAIL',
+                      panelCode: searchResult.searchResultId,
+                    },
+                  ),
+                ),
+            ),
+          )
+        })
+        // conditions
+        var conditions = {
+          _datetime: {},
+          _onlyMe: {},
+          _chatType: {},
+        }
+        searchConditions.forEach(function (condition) {
+          return (conditions[condition.conditionKey] = condition)
+        })
+        var startEnd = (0, _strings.string)(
+          conditions._datetime.conditionValue,
+        ).split('-')
+        var startMoment = startEnd[0]
+          ? (0, _moment.default)((0, _strings.int)(startEnd[0]))
+          : null
+        var endMoment = startEnd[1]
+          ? (0, _moment.default)((0, _strings.int)(startEnd[1]))
+          : null
+        console.log('#Duy Phan console count expands', entries.length)
+        return /*#__PURE__*/ _react.default.createElement(
+          _reactNative.View,
+          {
+            style: [
+              styles.brHistorySummariesPanel,
+              props.withHeader && styles.brWithHeader,
+            ],
+          },
+          /*#__PURE__*/ _react.default.createElement(
+            _reactNative.ScrollView,
+            {
+              ref: this.historySummariesAreaRef,
+              style: [
+                styles.brHistorySummariesArea,
+                props.uiData.currentSelectedTab ===
+                  props.panelType + '_' + props.panelCode && styles.brSelected,
+                searchResults.some(function (result) {
+                  return result._expanded
+                }) && styles.brDetailClosed,
+                searchWorkData.searching && styles.brSearching,
+                searchWorkData.hasMore && styles.brHasMore,
+                searchWorkData.errorType && styles.brError,
+              ],
+              contentContainerStyle: [
+                entries.length === 0 && styles.brNoEntries,
+              ],
+              onScroll: this.handleHistorySummariesAreaScroll,
+              onContentSizeChange: this.handleContentSizeChange,
+              nestedScrollEnabled: true,
+            },
+            entries.length > 0 &&
+              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+                style: [
+                  styles.brHistorySummariesAreaMarker,
+                  {
+                    height: this.state.areaHeight,
+                  },
+                ],
+              }),
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brHistorySummariesList,
+              },
+              entries,
+              entries.length === 0 &&
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brHistoryNoResults,
+                  },
+                  _uawmsgs.default.LBL_HISTORY_NO_RESULTS,
+                ),
+              searchWorkData.errorType &&
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  {
+                    style: styles.brHistoryError,
+                  },
+                  (_uawmsgs.default[searchWorkData.errorType] ||
+                    searchWorkData.errorType) +
+                    (searchWorkData.errorDetail
+                      ? ' ('.concat(searchWorkData.errorDetail, ')')
+                      : ''),
+                ),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  ref: this.historyProgressRef,
+                  style: styles.brHistoryProgress,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Animated.View,
+                  {
+                    style: [
+                      styles.brHistoryProgressInner,
+                      {
+                        transform: [
+                          {
+                            rotate: this.progressAnimation.interpolate({
+                              inputRange: [0, 1],
+                              outputRange: ['0deg', '360deg'],
+                            }),
+                          },
+                        ],
                       },
                     ],
                   },
-                ]}
-              />
-            </View>
-          </View>
-        </ScrollView>
-        {props.withHeader && (
-          <View style={styles.brHistorySummariesHeader}>
-            <Text style={styles.brHistorySummariesHeaderDateLabel}>
-              {uawMsgs.LBL_HISTORY_DATE}
-            </Text>
-            <CustomDatePicker
-              style={[styles.brSearchConditionsDatePicker]}
-              value={startMoment ? startMoment.toDate() : null}
-              onChange={date => {
-                this.handleSearchConditionsDatePickerChange(
-                  false,
-                  date ? moment(date) : null,
-                )
-              }}
-            />
-            <View style={styles.brHistorySummariesHeaderDateSeparator}>
-              <Text>-</Text>
-            </View>
-            <CustomDatePicker
-              style={[styles.brSearchConditionsDatePicker]}
-              value={endMoment ? endMoment.toDate() : null}
-              onChange={date => {
-                this.handleSearchConditionsDatePickerChange(
-                  true,
-                  date ? moment(date) : null,
-                )
-              }}
-            />
-            <DropDownMenu
-              uiData={props.uiData}
-              style={styles.brSearchConditionsWebchatMenu}
-              dialogStyle={{ minWidth: 160, left: 16, top: 32 }}
-              dia
-              text={
-                string(conditions._onlyMe.conditionValue) === '2'
-                  ? uawMsgs.LBL_HISTORY_YOUR_CHATS
-                  : string(conditions._chatType.conditionValue) === 'webchat'
-                    ? uawMsgs.LBL_HISTORY_WEBCHATS
-                    : ''
-              }
-            >
-              <MenuItem
-                style={styles.brSearchConditionsWebchatItem}
-                dropDown={true}
-                onPress={this.handleSearchConditionsWebchatItemClick.bind(
-                  this,
-                  0,
-                )}
-              >
-                <Text>{uawMsgs.LBL_HISTORY_YOUR_CHATS}</Text>
-              </MenuItem>
-              <MenuItem
-                style={styles.brSearchConditionsWebchatItem}
-                dropDown={true}
-                onPress={this.handleSearchConditionsWebchatItemClick.bind(
-                  this,
-                  1,
-                )}
-              >
-                <Text>{uawMsgs.LBL_HISTORY_WEBCHATS}</Text>
-              </MenuItem>
-            </DropDownMenu>
-          </View>
-        )}
-      </View>
-    )
-  }
-}
-
-const CustomDatePicker = ({ value, onChange, style }) => {
-  const [show, setShow] = React.useState(false)
-  const displayDate = value ? moment(value).format('YYYY-MM-DD') : 'Select date'
-
-  return (
-    <View style={style}>
-      <TouchableOpacity
-        onPress={() => setShow(true)}
-        style={styles.datePickerButton}
-      >
-        <Text style={styles.datePickerButtonText}>{displayDate}</Text>
-      </TouchableOpacity>
-
-      <DateTimePicker
-        date={value || new Date()}
-        open={show}
-        mode='date'
-        modal
-        onConfirm={selectedDate => {
-          setShow(false)
-          onChange(selectedDate)
-        }}
-        onCancel={() => setShow(false)}
-      />
-    </View>
+                ),
+              ),
+            ),
+          ),
+          props.withHeader &&
+            /*#__PURE__*/ _react.default.createElement(
+              _reactNative.View,
+              {
+                style: styles.brHistorySummariesHeader,
+              },
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.Text,
+                {
+                  style: styles.brHistorySummariesHeaderDateLabel,
+                },
+                _uawmsgs.default.LBL_HISTORY_DATE,
+              ),
+              /*#__PURE__*/ _react.default.createElement(CustomDatePicker, {
+                style: [styles.brSearchConditionsDatePicker],
+                value: startMoment ? startMoment.toDate() : null,
+                onChange: function onChange(date) {
+                  _this2.handleSearchConditionsDatePickerChange(
+                    false,
+                    date ? (0, _moment.default)(date) : null,
+                  )
+                },
+              }),
+              /*#__PURE__*/ _react.default.createElement(
+                _reactNative.View,
+                {
+                  style: styles.brHistorySummariesHeaderDateSeparator,
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _reactNative.Text,
+                  null,
+                  '-',
+                ),
+              ),
+              /*#__PURE__*/ _react.default.createElement(CustomDatePicker, {
+                style: [styles.brSearchConditionsDatePicker],
+                value: endMoment ? endMoment.toDate() : null,
+                onChange: function onChange(date) {
+                  _this2.handleSearchConditionsDatePickerChange(
+                    true,
+                    date ? (0, _moment.default)(date) : null,
+                  )
+                },
+              }),
+              /*#__PURE__*/ _react.default.createElement(
+                _DropDownMenu.default,
+                {
+                  uiData: props.uiData,
+                  style: styles.brSearchConditionsWebchatMenu,
+                  dialogStyle: {
+                    minWidth: 160,
+                    left: 16,
+                    top: 32,
+                  },
+                  dia: true,
+                  text:
+                    (0, _strings.string)(conditions._onlyMe.conditionValue) ===
+                    '2'
+                      ? _uawmsgs.default.LBL_HISTORY_YOUR_CHATS
+                      : (0, _strings.string)(
+                            conditions._chatType.conditionValue,
+                          ) === 'webchat'
+                        ? _uawmsgs.default.LBL_HISTORY_WEBCHATS
+                        : '',
+                },
+                /*#__PURE__*/ _react.default.createElement(
+                  _MenuItem.default,
+                  {
+                    style: styles.brSearchConditionsWebchatItem,
+                    dropDown: true,
+                    onPress: this.handleSearchConditionsWebchatItemClick.bind(
+                      this,
+                      0,
+                    ),
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    null,
+                    _uawmsgs.default.LBL_HISTORY_YOUR_CHATS,
+                  ),
+                ),
+                /*#__PURE__*/ _react.default.createElement(
+                  _MenuItem.default,
+                  {
+                    style: styles.brSearchConditionsWebchatItem,
+                    dropDown: true,
+                    onPress: this.handleSearchConditionsWebchatItemClick.bind(
+                      this,
+                      1,
+                    ),
+                  },
+                  /*#__PURE__*/ _react.default.createElement(
+                    _reactNative.Text,
+                    null,
+                    _uawmsgs.default.LBL_HISTORY_WEBCHATS,
+                  ),
+                ),
+              ),
+            ),
+        )
+      },
+    },
+  ])
+})(_react.default.Component))
+var CustomDatePicker = function CustomDatePicker(_ref) {
+  var value = _ref.value,
+    onChange = _ref.onChange,
+    style = _ref.style
+  var _React$useState = _react.default.useState(false),
+    _React$useState2 = _slicedToArray(_React$useState, 2),
+    show = _React$useState2[0],
+    setShow = _React$useState2[1]
+  var displayDate = value
+    ? (0, _moment.default)(value).format('YYYY-MM-DD')
+    : 'Select date'
+  return /*#__PURE__*/ _react.default.createElement(
+    _reactNative.View,
+    {
+      style: style,
+    },
+    /*#__PURE__*/ _react.default.createElement(
+      _reactNative.TouchableOpacity,
+      {
+        onPress: function onPress() {
+          return setShow(true)
+        },
+        style: styles.datePickerButton,
+      },
+      /*#__PURE__*/ _react.default.createElement(
+        _reactNative.Text,
+        {
+          style: styles.datePickerButtonText,
+        },
+        displayDate,
+      ),
+    ),
+    /*#__PURE__*/ _react.default.createElement(_reactNativeDatePicker.default, {
+      date: value || new Date(),
+      open: show,
+      mode: 'date',
+      modal: true,
+      onConfirm: function onConfirm(selectedDate) {
+        setShow(false)
+        onChange(selectedDate)
+      },
+      onCancel: function onCancel() {
+        return setShow(false)
+      },
+    }),
   )
 }
-
-const styles = StyleSheet.create({
+var styles = _reactNative.StyleSheet.create({
   brHistorySummariesPanel: {
     position: 'absolute',
     left: 0,
@@ -839,7 +1267,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-
   brHistorySummariesArea: {
     position: 'absolute',
     left: 0,
@@ -849,19 +1276,15 @@ const styles = StyleSheet.create({
     padding: 4,
     backgroundColor: '#F5F5F5',
   },
-
   brWithHeader: {
     paddingTop: 48,
   },
-
   brSelected: {
     backgroundColor: '#FFFFFF',
   },
-
   brDetailClosed: {
     backgroundColor: '#FFFFFF',
   },
-
   brHistorySummariesAreaMarker: {
     position: 'absolute',
     width: 40,
@@ -870,17 +1293,14 @@ const styles = StyleSheet.create({
     marginLeft: -4,
     marginTop: -4,
   },
-
   brHistorySummaryEntry: {
     position: 'relative',
   },
-
   brHistoryOpenDetailArea: {
     position: 'relative',
     zIndex: 1,
     height: 0,
   },
-
   brHistoryOpenDetailButton: {
     position: 'absolute',
     right: 48,
@@ -888,7 +1308,6 @@ const styles = StyleSheet.create({
     top: 8,
     height: 32,
   },
-
   brHistoryReplyWebchatButton: {
     position: 'absolute',
     right: 88,
@@ -896,13 +1315,11 @@ const styles = StyleSheet.create({
     top: 8,
     height: 32,
   },
-
   brHistoryReplyWebchatBalloonDialog: {
     position: 'absolute',
     right: 120,
     top: 8,
   },
-
   brHistorySummary: {
     position: 'relative',
     minHeight: 64,
@@ -913,7 +1330,6 @@ const styles = StyleSheet.create({
     paddingLeft: 65,
     // backgroundColor: 'blue',
   },
-
   brExpanded: {
     borderTopWidth: 1,
     borderRightWidth: 1,
@@ -921,7 +1337,6 @@ const styles = StyleSheet.create({
     borderColor: '#E5E5E5',
     backgroundColor: '#FFFFFF',
   },
-
   brHistorySummaryMarker: {
     position: 'absolute',
     left: -8,
@@ -932,7 +1347,6 @@ const styles = StyleSheet.create({
     borderRightColor: '#40E0D0',
     backgroundColor: '#F5F5F5',
   },
-
   brHistorySummaryImage: {
     position: 'absolute',
     left: 4,
@@ -941,33 +1355,27 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
   },
-
   brNoImage: {
     backgroundColor: '#F5F5F5',
   },
-
   brMyProfileImageUrl: {
     backgroundColor: 'transparent',
   },
-
   brWithIcon: {
     backgroundColor: '#E5E5E5',
   },
-
   brIcon: {
     width: 40,
     height: 40,
     borderRadius: 20,
     opacity: 4.79,
   },
-
   brHistorySummaryName: {
     fontSize: 13,
     fontWeight: '500',
     // lineHeight: 1.6 * 13,
     letterSpacing: 0.3,
   },
-
   brHistorySummaryProfinfo: {
     fontSize: 9,
     fontWeight: '400',
@@ -976,7 +1384,6 @@ const styles = StyleSheet.create({
     paddingLeft: 26,
     color: '#666666',
   },
-
   brHistorySummaryTime: {
     fontSize: 9,
     fontWeight: '400',
@@ -985,14 +1392,12 @@ const styles = StyleSheet.create({
     paddingLeft: 26,
     color: '#666666',
   },
-
   brHistorySummarySenderName: {
     fontSize: 13,
     fontWeight: '500',
     // lineHeight: 1.6 * 13,
     letterSpacing: 0.3,
   },
-
   brHistorySummarySummary: {
     fontSize: 13,
     fontWeight: '400',
@@ -1000,7 +1405,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
     paddingVertical: 1,
   },
-
   brHistorySummariesHeader: {
     position: 'absolute',
     right: 0,
@@ -1016,7 +1420,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     zIndex: 0,
   },
-
   brHistorySummariesHeaderDateLabel: {
     paddingRight: 16,
     fontSize: 16,
@@ -1024,7 +1427,6 @@ const styles = StyleSheet.create({
     // lineHeight: 1.6 * 16,
     letterSpacing: 0.3,
   },
-
   brHistorySummariesHeaderDateSeparator: {
     paddingHorizontal: 8,
     fontSize: 16,
@@ -1032,7 +1434,6 @@ const styles = StyleSheet.create({
     lineHeight: 1.6 * 16,
     letterSpacing: 0.3,
   },
-
   brSearchConditionsDatePicker: {
     width: 120,
     height: 32,
@@ -1045,93 +1446,74 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
     color: '#1A2421',
   },
-
   brSearchConditionsStartDatePicker: {
     right: 300,
   },
-
   brSearchConditionsEndDatePicker: {
     right: 50,
   },
-
   brSearchConditionsWebchatMenu: {
     width: 160,
     marginLeft: 16,
     // alignItems: 'flex-start',
   },
-
   brHistoryProgress: {
     height: 28,
     alignItems: 'center',
     display: 'none',
   },
-
   brHistoryProgressInner: {
     width: 6,
     height: 6,
     borderRadius: 3,
     backgroundColor: '#40E0D0',
   },
-
   brEmphasized: {
     fontWeight: 'bold',
     color: '#40E0D0',
   },
-
   brHistoryDetailArea: {
     overflow: 'hidden',
     maxHeight: 0,
   },
-
   brHistoryDetailAreaExpanded: {
     maxHeight: '50%',
   },
-
   brNoEntries: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   brSearching: {
     opacity: 0.5,
   },
-
   brHasMore: {
     paddingBottom: 32,
   },
-
   brError: {
     backgroundColor: '#FFE4E1',
   },
-
   brHistorySummariesList: {
     padding: 8,
   },
-
   brHistoryNoResults: {
     textAlign: 'center',
     padding: 16,
     marginTop: 30,
     color: '#666666',
   },
-
   brHistoryError: {
     padding: 16,
     color: '#FF0000',
   },
-
   brManualContinuation: {
     backgroundColor: '#82C341', // @mantis color
   },
-
   brContinuation: {
     backgroundColor: '#4CAF50', // @green color
   },
-
   brHistorySummaryExpandDummy: {
     height: 32,
   },
-
   brHistorySummaryExpandButton: {
     position: 'absolute',
     right: 8,
@@ -1143,13 +1525,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   brHistoryReplyWebchatMenuItem: {
     padding: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5E5',
   },
-
   datePickerButton: {
     height: 32,
     // paddingHorizontal: 8,
@@ -1159,12 +1539,10 @@ const styles = StyleSheet.create({
     // borderRadius: 4,
     justifyContent: 'center',
   },
-
   datePickerButtonText: {
     fontSize: 14,
     color: '#212121',
   },
-
   datePickerIOS: {
     height: 120,
     width: 320,

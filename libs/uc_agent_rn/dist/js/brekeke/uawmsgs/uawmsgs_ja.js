@@ -1,11 +1,36 @@
+'use strict'
+
+function _typeof(o) {
+  '@babel/helpers - typeof'
+  return (
+    (_typeof =
+      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+        ? function (o) {
+            return typeof o
+          }
+        : function (o) {
+            return o &&
+              'function' == typeof Symbol &&
+              o.constructor === Symbol &&
+              o !== Symbol.prototype
+              ? 'symbol'
+              : typeof o
+          }),
+    _typeof(o)
+  )
+}
 ;(function (root, factory) {
-  if (typeof module === 'object' && module.exports) {
+  if (
+    (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
+      'object' &&
+    module.exports
+  ) {
     module.exports = factory()
   } else {
     root.Brekeke = root.Brekeke || {}
     root.Brekeke.UAWMsgs = root.Brekeke.UAWMsgs_ja = factory()
   }
-})(this, function () {
+})(void 0, function () {
   return {
     CMN_OK: 'OK',
     CMN_CANCEL: 'キャンセル',
@@ -61,7 +86,6 @@
     CMN_LANGUAGE_JA: '日本語',
     CMN_LANGUAGE_ZH: '中国語',
     CMN_MOMENT_LOCALE: 'ja',
-
     MSG_ABOUT_DIALOG_TITLE: '{0} について',
     MSG_CALL_DEVICE_WARNING:
       'マイクまたはカメラに問題がないか確認してください。',
@@ -190,12 +214,10 @@
     MSG_USER_LIST_DIALOG_TITLE: 'ユーザー一覧の編集',
     MSG_WEBRTC_UNAVAILABLE_1: 'WebRTC の端末 ID がありません。',
     MSG_WEBRTC_UNAVAILABLE_2: '新しい端末 ID を追加しますか?',
-
     TAB_HISTORYDETAIL: '履歴 - ',
     TAB_HISTORYSUMMARIES: '履歴',
     TAB_PREFERENCE: '設定',
     TAB_WEBCHATQUEUE: 'ウェブチャット',
-
     LBL_BROADCAST_BUDDIES: 'メンバー',
     LBL_BROADCAST_GROUP: 'グループ',
     LBL_BROADCAST_GROUP_NONE: '(なし)',
@@ -548,7 +570,6 @@
     LBL_WEBRTC_UNAVAILABLE_NEVER: 'WebRTC を無効にする',
     LBL_WEBRTC_UNAVAILABLE_NO: '今は使わない',
     LBL_WEBRTC_UNAVAILABLE_YES: 'はい',
-
     DUMMY: '',
   }
 })

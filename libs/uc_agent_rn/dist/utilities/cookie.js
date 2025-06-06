@@ -1,4 +1,10 @@
-const regexp = {
+'use strict'
+
+Object.defineProperty(exports, '__esModule', {
+  value: true,
+})
+exports.default = _default
+var regexp = {
   // summary:
   //		Regular expressions and Builder resources
 }
@@ -15,7 +21,7 @@ regexp.escapeString = function (/*String*/ str, /*String?*/ except) {
     return '\\' + ch
   }) // String
 }
-export default function (
+function _default(
   /*String*/ name,
   /*String?*/ value,
   /*__cookieProps?*/ props,
@@ -68,7 +74,6 @@ export default function (
     if (exp && exp.toUTCString) {
       props.expires = exp.toUTCString()
     }
-
     value = encodeURIComponent(value)
     var updatedCookie = name + '=' + value,
       propName
