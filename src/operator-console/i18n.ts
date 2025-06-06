@@ -19,4 +19,4 @@ i18n.translations = {
 
 export const isValidLocale = locale => ['en', 'ja'].includes(locale)
 
-export const DEFAULT_LOCALE = RNLocalize.getLocales()[0]?.languageTag || 'en'
+export const DEFAULT_LOCALE = 'en'
