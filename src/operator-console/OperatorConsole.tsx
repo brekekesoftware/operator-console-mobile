@@ -3890,6 +3890,13 @@ export class BrekekeOperatorConsole extends React.Component<
     language,
   ) {
     this._loggedinPal = loggedinPal
+    console.log(
+      '#Duy Phan console language',
+      language,
+      isValidLocale(language),
+      DEFAULT_LOCALE,
+    )
+
     i18n.locale = isValidLocale(language) ? language : DEFAULT_LOCALE
     const this_ = this
     const loginUser = {

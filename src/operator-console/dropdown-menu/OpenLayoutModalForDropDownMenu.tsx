@@ -36,7 +36,11 @@ export const OpenLayoutModalForDropDownMenu = props => {
       footer={footer}
     >
       <ScrollView contentContainerStyle={{ gap: 10 }}>
-        {noteNamesContent}
+        {typeof noteNamesContent === 'string' ? (
+          <Text>{noteNamesContent}</Text>
+        ) : (
+          noteNamesContent
+        )}
       </ScrollView>
     </Modal>
   )
