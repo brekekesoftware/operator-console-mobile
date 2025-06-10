@@ -10,6 +10,7 @@ var _reactNativeDocumentPicker = _interopRequireDefault(
   require('react-native-document-picker'),
 )
 var _reactNativeFs = _interopRequireDefault(require('react-native-fs'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -335,8 +336,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * FileDndable - React Native version
  * A component that handles file selection functionality
  *
@@ -575,13 +575,13 @@ var FileDndable = (exports.default = /*#__PURE__*/ (function (
           style = _this$props2.style,
           children = _this$props2.children
         var isActive = this.state.isActive
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.TouchableOpacity,
           {
             style: [styles.fileDndable, isActive && styles.active, style],
             onPress: this.handlePress,
+            children: children,
           },
-          children,
         )
       },
     },

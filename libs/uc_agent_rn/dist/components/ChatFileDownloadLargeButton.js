@@ -9,6 +9,7 @@ var _reactNative = require('react-native')
 var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _constants = _interopRequireDefault(require('../utilities/constants'))
 var _DownloadIcon = _interopRequireDefault(require('../icons/DownloadIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -143,8 +144,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-// import Icon from './Icon'
+} // import Icon from './Icon'
 // TODO: Add icon component
 /**
  * ChatFileDownloadLargeButton - React Native version
@@ -269,7 +269,7 @@ var ChatFileDownloadLargeButton = (exports.default = /*#__PURE__*/ (function (
         var tooltipText = isEnabled
           ? message.messageFile.name
           : _uawmsgs.default.LBL_CHAT_FILE_ICON_TOOLTIP
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.TouchableOpacity,
           {
             style: [
@@ -281,38 +281,35 @@ var ChatFileDownloadLargeButton = (exports.default = /*#__PURE__*/ (function (
             disabled: !isEnabled,
             accessibilityLabel: tooltipText,
             activeOpacity: isEnabled ? 0.7 : 1,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: styles.iconContainer,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Animated.View,
-              {
-                style: [
-                  styles.iconInner,
-                  {
-                    transform: [
-                      {
-                        translateY: this.state.animationValue,
-                      },
-                    ],
-                  },
-                ],
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.Animated.View,
                 {
-                  style: styles.downloadIcon,
+                  style: [
+                    styles.iconInner,
+                    {
+                      transform: [
+                        {
+                          translateY: this.state.animationValue,
+                        },
+                      ],
+                    },
+                  ],
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.downloadIcon,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _DownloadIcon.default,
+                        {},
+                      ),
+                    },
+                  ),
                 },
-                /*#__PURE__*/ _react.default.createElement(
-                  _DownloadIcon.default,
-                  null,
-                ),
               ),
-            ),
-          ),
+            }),
+          },
         )
       },
     },

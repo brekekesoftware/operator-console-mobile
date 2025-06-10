@@ -313,9 +313,9 @@ export class CallStore {
       }
 
       // emit to embed api
-      if (!window._BrekekePhoneWebRoot) {
-        embedApi.emit('call_update', e)
-      }
+      // if (!window._BrekekePhoneWebRoot) {
+      embedApi.emit('call_update', e)
+      // }
       return
     }
     //
@@ -355,9 +355,9 @@ export class CallStore {
     // update java and embed api
     BrekekeUtils.setJsCallsSize(this.calls.length)
     // emit to embed api
-    if (!window._BrekekePhoneWebRoot) {
-      embedApi.emit('call', c)
-    }
+    // if (!window._BrekekePhoneWebRoot) {
+    embedApi.emit('call', c)
+    // }
     // desktop notification
     if (Platform.OS === 'web' && c.incoming && !c.answered) {
       webShowNotification(
@@ -448,9 +448,9 @@ export class CallStore {
       IncallManager.stop()
     }
     // emit to embed api
-    if (!window._BrekekePhoneWebRoot) {
-      embedApi.emit('call_end', c)
-    }
+    // if (!window._BrekekePhoneWebRoot) {
+    embedApi.emit('call_end', c)
+    // }
   }
 
   @action onSelectBackgroundCall = async (c: Immutable<Call>) => {

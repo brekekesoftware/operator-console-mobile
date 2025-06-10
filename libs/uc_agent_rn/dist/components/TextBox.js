@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -26,20 +27,6 @@ function _typeof(o) {
               : typeof o
           }),
     _typeof(o)
-  )
-}
-function _extends() {
-  return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
   )
 }
 function _classCallCheck(a, n) {
@@ -181,8 +168,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-// Define colors based on variables from CSS
+} // Define colors based on variables from CSS
 var colors = {
   platinum: '#dcdcd5',
   mediumTurquoise: '#40E0D0',
@@ -335,9 +321,9 @@ var TextBox = /*#__PURE__*/ (function (_React$Component) {
           },
           default: {},
         })
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.TextInput,
-          _extends(
+          _objectSpread(
             {
               ref: function ref(input) {
                 return (_this2.input = input)
@@ -374,11 +360,15 @@ var TextBox = /*#__PURE__*/ (function (_React$Component) {
 })(_react.default.Component)
 var _default = (exports.default = /*#__PURE__*/ _react.default.forwardRef(
   function (props, ref) {
-    return /*#__PURE__*/ _react.default.createElement(
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
       TextBox,
-      _extends({}, props, {
-        ref: ref,
-      }),
+      _objectSpread(
+        _objectSpread({}, props),
+        {},
+        {
+          ref: ref,
+        },
+      ),
     )
   },
 ))

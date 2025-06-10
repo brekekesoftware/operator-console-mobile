@@ -11,6 +11,7 @@ var _TriangleUpIcon = _interopRequireDefault(require('../icons/TriangleUpIcon'))
 var _TriangleDownIcon = _interopRequireDefault(
   require('../icons/TriangleDownIcon'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -172,8 +173,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * DropDownMenu - React Native version
  * A dropdown menu component
  *
@@ -354,14 +354,10 @@ var DropDownMenu = (exports.default = /*#__PURE__*/ (function (
         if (props.hidden) {
           return null
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.container,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.TouchableOpacity,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.container,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.TouchableOpacity, {
               ref: this.dropdownRef,
               style: [
                 styles.dropDownMenu,
@@ -373,52 +369,45 @@ var DropDownMenu = (exports.default = /*#__PURE__*/ (function (
               disabled: props.disabled,
               accessibilityLabel: this.extractTitle(),
               activeOpacity: props.disabled ? 1 : 0.7,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: [
-                  styles.dropDownText,
-                  props.disabled && styles.disabledText,
-                ],
-                numberOfLines: 1,
-                ellipsizeMode: 'tail',
-              },
-              props.text,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.iconContainer,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.icon,
-                },
-                isShowing
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _TriangleUpIcon.default,
-                      {
-                        width: 18,
-                        height: 18,
-                        color: '#000000',
-                      },
-                    )
-                  : /*#__PURE__*/ _react.default.createElement(
-                      _TriangleDownIcon.default,
-                      {
-                        width: 18,
-                        height: 18,
-                        color: '#000000',
-                      },
-                    ),
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: [
+                    styles.dropDownText,
+                    props.disabled && styles.disabledText,
+                  ],
+                  numberOfLines: 1,
+                  ellipsizeMode: 'tail',
+                  children: props.text,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.iconContainer,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.icon,
+                      children: isShowing
+                        ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _TriangleUpIcon.default,
+                            {
+                              width: 18,
+                              height: 18,
+                              color: '#000000',
+                            },
+                          )
+                        : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _TriangleDownIcon.default,
+                            {
+                              width: 18,
+                              height: 18,
+                              color: '#000000',
+                            },
+                          ),
+                    },
+                  ),
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuBalloonDialog.default, {
               showing: isShowing,
               style: [
                 styles.dialog,
@@ -439,10 +428,10 @@ var DropDownMenu = (exports.default = /*#__PURE__*/ (function (
                   isVisible: false,
                 })
               },
-            },
-            props.children,
-          ),
-        )
+              children: props.children,
+            }),
+          ],
+        })
       },
     },
   ])

@@ -13,6 +13,7 @@ var _TextBox = _interopRequireDefault(require('./TextBox'))
 var _DownloadIcon = _interopRequireDefault(require('../icons/DownloadIcon'))
 var _CloseIcon = _interopRequireDefault(require('../icons/CloseIcon'))
 var _EditIcon = _interopRequireDefault(require('../icons/EditIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -341,141 +342,126 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           _settings$optional_se === void 0
             ? void 0
             : _settings$optional_se.status_display_history) || []
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.container,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.container,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: styles.tableCell,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: styles.inputArea,
-              },
-              /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-                ref: this.inputRef,
-                style: styles.input,
-                value: this.state.inputValue,
-                onChangeText: this.handleInputChange,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_TextBox.default, {
+                    ref: this.inputRef,
+                    style: styles.input,
+                    value: this.state.inputValue,
+                    onChangeText: this.handleInputChange,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                    style: styles.useLaterButton,
+                    iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _DownloadIcon.default,
+                      {},
+                    ),
+                    title:
+                      _uawmsgs.default
+                        .LBL_STATUS_DISPLAY_USE_LATER_BUTTON_TOOLTIP,
+                    onPress: this.handleUseLaterPress,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                    style: styles.clearButton,
+                    iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _CloseIcon.default,
+                      {},
+                    ),
+                    title:
+                      _uawmsgs.default.LBL_STATUS_DISPLAY_CLEAR_BUTTON_TOOLTIP,
+                    onPress: this.handleClearPress,
+                  }),
+                ],
               }),
-              /*#__PURE__*/ _react.default.createElement(
-                _ButtonIconic.default,
-                {
-                  style: styles.useLaterButton,
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
-                    _DownloadIcon.default,
-                    null,
-                  ),
-                  title:
-                    _uawmsgs.default
-                      .LBL_STATUS_DISPLAY_USE_LATER_BUTTON_TOOLTIP,
-                  onPress: this.handleUseLaterPress,
-                },
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _ButtonIconic.default,
-                {
-                  style: styles.clearButton,
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
-                    _CloseIcon.default,
-                    null,
-                  ),
-                  title:
-                    _uawmsgs.default.LBL_STATUS_DISPLAY_CLEAR_BUTTON_TOOLTIP,
-                  onPress: this.handleClearPress,
-                },
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: styles.tableCell,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: styles.itemsContainer,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.ScrollView,
-                {
-                  style: styles.scrollView,
-                },
-                statusDisplayHistory.map(function (item, i) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      key: i,
-                      style: [
-                        styles.item,
-                        _this3.state.hoveredItemIndex === i &&
-                          styles.itemHovered,
-                      ],
-                      onPress: function onPress() {
-                        return _this3.handleItemPress(item)
-                      },
-                      onPressIn: function onPressIn() {
-                        return _this3.setState({
-                          hoveredItemIndex: i,
-                        })
-                      },
-                      onPressOut: function onPressOut() {
-                        return _this3.setState({
-                          hoveredItemIndex: null,
-                        })
-                      },
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      {
-                        style: styles.itemText,
-                        numberOfLines: 1,
-                      },
-                      item,
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _ButtonIconic.default,
-                      {
-                        style: styles.editButton,
-                        iconSource: /*#__PURE__*/ _react.default.createElement(
-                          _EditIcon.default,
-                          null,
-                        ),
-                        title:
-                          _uawmsgs.default
-                            .LBL_STATUS_DISPLAY_ITEM_EDIT_BUTTON_TOOLTIP,
-                        onPress: function onPress() {
-                          return _this3.handleItemEdit(item)
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.ScrollView,
+                  {
+                    style: styles.scrollView,
+                    children: statusDisplayHistory.map(function (item, i) {
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          style: [
+                            styles.item,
+                            _this3.state.hoveredItemIndex === i &&
+                              styles.itemHovered,
+                          ],
+                          onPress: function onPress() {
+                            return _this3.handleItemPress(item)
+                          },
+                          onPressIn: function onPressIn() {
+                            return _this3.setState({
+                              hoveredItemIndex: i,
+                            })
+                          },
+                          onPressOut: function onPressOut() {
+                            return _this3.setState({
+                              hoveredItemIndex: null,
+                            })
+                          },
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                style: styles.itemText,
+                                numberOfLines: 1,
+                                children: item,
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonIconic.default,
+                              {
+                                style: styles.editButton,
+                                iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _EditIcon.default,
+                                  {},
+                                ),
+                                title:
+                                  _uawmsgs.default
+                                    .LBL_STATUS_DISPLAY_ITEM_EDIT_BUTTON_TOOLTIP,
+                                onPress: function onPress() {
+                                  return _this3.handleItemEdit(item)
+                                },
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonIconic.default,
+                              {
+                                style: styles.deleteButton,
+                                iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _CloseIcon.default,
+                                  {},
+                                ),
+                                title:
+                                  _uawmsgs.default
+                                    .LBL_STATUS_DISPLAY_ITEM_DELETE_BUTTON_TOOLTIP,
+                                onPress: function onPress() {
+                                  return _this3.handleItemDelete(item)
+                                },
+                              },
+                            ),
+                          ],
                         },
-                      },
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _ButtonIconic.default,
-                      {
-                        style: styles.deleteButton,
-                        iconSource: /*#__PURE__*/ _react.default.createElement(
-                          _CloseIcon.default,
-                          null,
-                        ),
-                        title:
-                          _uawmsgs.default
-                            .LBL_STATUS_DISPLAY_ITEM_DELETE_BUTTON_TOOLTIP,
-                        onPress: function onPress() {
-                          return _this3.handleItemDelete(item)
-                        },
-                      },
-                    ),
-                  )
-                }),
-              ),
-            ),
-          ),
-        )
+                        i,
+                      )
+                    }),
+                  },
+                ),
+              }),
+            }),
+          ],
+        })
       },
     },
   ])

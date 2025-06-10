@@ -26,6 +26,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _FlyweightAudio = _interopRequireDefault(require('./FlyweightAudio'))
 var _MultipleAudio = _interopRequireDefault(require('./MultipleAudio'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -128,8 +129,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * SoundAudio
  * props.uiData
  * props.uiData.configurations
@@ -162,33 +162,27 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               ).test(navigator.userAgent)
             : false
         if (isSafari) {
-          return /*#__PURE__*/ _react.default.createElement(
-            _FlyweightAudio.default,
-            {
-              uiData: props.uiData,
-              src: props.src,
-              loop: props.loop,
-              playing: props.playing,
-              deviceId: props.deviceId,
-              localStoragePreferenceKey: props.localStoragePreferenceKey,
-              className: props.className,
-              selectors: props.selectors,
-            },
-          )
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_FlyweightAudio.default, {
+            uiData: props.uiData,
+            src: props.src,
+            loop: props.loop,
+            playing: props.playing,
+            deviceId: props.deviceId,
+            localStoragePreferenceKey: props.localStoragePreferenceKey,
+            className: props.className,
+            selectors: props.selectors,
+          })
         } else {
-          return /*#__PURE__*/ _react.default.createElement(
-            _MultipleAudio.default,
-            {
-              uiData: props.uiData,
-              src: props.src,
-              loop: props.loop,
-              playing: props.playing,
-              deviceId: props.deviceId,
-              localStoragePreferenceKey: props.localStoragePreferenceKey,
-              className: props.className,
-              audioClassName: props.audioClassName,
-            },
-          )
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MultipleAudio.default, {
+            uiData: props.uiData,
+            src: props.src,
+            loop: props.loop,
+            playing: props.playing,
+            deviceId: props.deviceId,
+            localStoragePreferenceKey: props.localStoragePreferenceKey,
+            className: props.className,
+            audioClassName: props.audioClassName,
+          })
         }
       },
     },

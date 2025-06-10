@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _ChatMessage = _interopRequireDefault(require('./ChatMessage'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -18,17 +19,18 @@ function _interopRequireDefault(e) {
  */
 var _default = (exports.default = function _default(props) {
   var messageNodes = props.messageList.map(function (message, index, array) {
-    return /*#__PURE__*/ React.createElement(_ChatMessage.default, {
-      key: message.key,
-      uiData: props.uiData,
-      message: message,
-      isLastOfLast: props.isLast && index === array.length - 1,
-    })
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+      _ChatMessage.default,
+      {
+        uiData: props.uiData,
+        message: message,
+        isLastOfLast: props.isLast && index === array.length - 1,
+      },
+      message.key,
+    )
   })
   console.log('#Duy Phan console messageNodes', messageNodes.length)
-  return /*#__PURE__*/ React.createElement(
-    _reactNative.View,
-    null,
-    messageNodes,
-  )
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+    children: messageNodes,
+  })
 })

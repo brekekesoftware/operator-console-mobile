@@ -28,6 +28,7 @@ var _reactNative = require('react-native')
 var _WidgetBody = _interopRequireDefault(require('../components/WidgetBody'))
 var _PanelArea = _interopRequireDefault(require('../components/PanelArea'))
 var _RnAudioPlayer = require('../components/RnAudioPlayer')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -153,31 +154,24 @@ var UndockedPanelSubWindowApp = /*#__PURE__*/ (function (_React$Component) {
           uiData = _this$props.uiData,
           panelType = _this$props.panelType,
           panelCode = _this$props.panelCode
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [styles.brUCAgentApp, styles.brUndockedPanelSubWindowApp],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _WidgetBody.default,
-            {
-              uiData: uiData,
-              modalOverlayStyle: styles.brUCAgentApp,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _RnAudioPlayer.RnAudioPlayer,
-              {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [styles.brUCAgentApp, styles.brUndockedPanelSubWindowApp],
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_WidgetBody.default, {
+            uiData: uiData,
+            modalOverlayStyle: styles.brUCAgentApp,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_RnAudioPlayer.RnAudioPlayer, {
                 audioStyle: styles.brBellAudio,
                 src: sound,
-              },
-            ),
-            /*#__PURE__*/ _react.default.createElement(_PanelArea.default, {
-              uiData: uiData,
-              panelType: panelType,
-              panelCode: panelCode,
-            }),
-          ),
-        )
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_PanelArea.default, {
+                uiData: uiData,
+                panelType: panelType,
+                panelCode: panelCode,
+              }),
+            ],
+          }),
+        })
       },
     },
   ])

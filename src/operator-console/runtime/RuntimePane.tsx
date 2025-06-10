@@ -1,6 +1,7 @@
 import { createRef } from 'react'
 import {
   InteractionManager,
+  Platform,
   ScrollView,
   StyleProp,
   Text,
@@ -173,13 +174,21 @@ export class RuntimePane extends BasePane {
     const { width: w, height: h } = Util.caculateCanvasSize(widgetDataArray)
     InteractionManager.runAfterInteractions(() => {
       this._refEditor?.current?.measure((fx, fy, width, height, px, py) => {
-        console.log('#Duy Phan console 1122', w, h, width, height)
-        this._refScroll.current?.setNativeProps({
-          style: {
-            width: w < width ? width : w,
-            height: h < height ? height : h,
-          },
-        })
+        if (this._refScroll.current) {
+          if (Platform.OS !== 'web') {
+            const el = this._refScroll.current as View
+            el.setNativeProps({
+              style: {
+                width: w < width ? width : w,
+                height: h < height ? height : h,
+              },
+            })
+          } else {
+            const el = this._refScroll.current as HTMLElement
+            el.style.width = w < width ? `${width}px` : `${w}px`
+            el.style.height = h < height ? `${height}px` : `${h}px`
+          }
+        }
       })
     })
   }

@@ -14,6 +14,7 @@ var _BalloonDialog = _interopRequireDefault(require('./BalloonDialog'))
 var _DialogResizableBox = _interopRequireDefault(
   require('./DialogResizableBox'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -310,107 +311,105 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           this.state.showingDialogVersion,
           props.uiData.showingDialogVersion,
         )
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.container,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _BalloonDialog.default,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.container,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_BalloonDialog.default, {
               shows:
                 props.uiData.showingDialogVersion ===
                 this.state.showingDialogVersion,
               indicator: true,
               anchor: 'left',
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _DialogResizableBox.default,
-              {
-                style: styles.resizableBox,
-                initialWidth:
-                  props.uiData.dialogSizeTable['webchatqueue'].width,
-                initialHeight:
-                  props.uiData.dialogSizeTable['webchatqueue'].height,
-                resizableOpts: {
-                  minConstraints: [200, 50],
-                  maxConstraints: [600, 600],
-                },
-                ownerDocument: props.uiData.ownerDocument,
-                onStop: props.uiData.fire.bind(
-                  props.uiData,
-                  'webchatQueueResizableBox_onResizeStop',
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                _DialogResizableBox.default,
                 {
-                  style: styles.webchatQueueInBalloon,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _WebchatQueueTable.default,
-                  {
-                    uiData: props.uiData,
-                    filter: props.uiData.configurations.queuePanel
-                      ? 'INVITED_WEBCHAT'
-                      : null,
-                    resizerName: 'webchatQueueInBalloon',
+                  style: styles.resizableBox,
+                  initialWidth:
+                    props.uiData.dialogSizeTable['webchatqueue'].width,
+                  initialHeight:
+                    props.uiData.dialogSizeTable['webchatqueue'].height,
+                  resizableOpts: {
+                    minConstraints: [200, 50],
+                    maxConstraints: [600, 600],
                   },
-                ),
-              ),
-              props.uiData.configurations.queuePanel &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
-                    style: styles.showAllLink,
-                    onPress: function onPress() {
-                      return props.uiData.fire(
-                        'webchatQueueShowAllLink_onClick',
-                      )
-                    },
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    _uawmsgs.default.LBL_WEBCHAT_QUEUE_SHOW_ALL_LINK,
+                  ownerDocument: props.uiData.ownerDocument,
+                  onStop: props.uiData.fire.bind(
+                    props.uiData,
+                    'webchatQueueResizableBox_onResizeStop',
                   ),
-                ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            null,
-            /*#__PURE__*/ _react.default.createElement(_ToolbarButton.default, {
-              iconSource: this.getIconSource(iconClass),
-              title: title,
-              disabled: props.disabled,
-              dropDown: true,
-              onPress: this.handleWebchatQueueButtonPress,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.webchatQueueInBalloon,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _WebchatQueueTable.default,
+                        {
+                          uiData: props.uiData,
+                          filter: props.uiData.configurations.queuePanel
+                            ? 'INVITED_WEBCHAT'
+                            : null,
+                          resizerName: 'webchatQueueInBalloon',
+                        },
+                      ),
+                    }),
+                    props.uiData.configurations.queuePanel &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          style: styles.showAllLink,
+                          onPress: function onPress() {
+                            return props.uiData.fire(
+                              'webchatQueueShowAllLink_onClick',
+                            )
+                          },
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              children:
+                                _uawmsgs.default
+                                  .LBL_WEBCHAT_QUEUE_SHOW_ALL_LINK,
+                            },
+                          ),
+                        },
+                      ),
+                  ],
+                },
+              ),
             }),
-            iconClass === 'brIconWebchatQueueStarting' &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.progressOverlay,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-                  style: styles.overlayImage,
-                  source: require('../images/progress.gif'),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ToolbarButton.default, {
+                  iconSource: this.getIconSource(iconClass),
+                  title: title,
+                  disabled: props.disabled,
+                  dropDown: true,
+                  onPress: this.handleWebchatQueueButtonPress,
                 }),
-              ),
-            iconClass === 'brIconWebchatQueueOffline' &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.iconOverlay,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-                  style: styles.overlayImage,
-                  source: require('../images/delete.png'),
-                }),
-              ),
-          ),
-        )
+                iconClass === 'brIconWebchatQueueStarting' &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: styles.progressOverlay,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Image,
+                      {
+                        style: styles.overlayImage,
+                        source: require('../images/progress.gif'),
+                      },
+                    ),
+                  }),
+                iconClass === 'brIconWebchatQueueOffline' &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: styles.iconOverlay,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Image,
+                      {
+                        style: styles.overlayImage,
+                        source: require('../images/delete.png'),
+                      },
+                    ),
+                  }),
+              ],
+            }),
+          ],
+        })
       },
     },
   ])

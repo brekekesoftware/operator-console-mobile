@@ -23,6 +23,7 @@ var _CancelIcon = _interopRequireDefault(require('../icons/CancelIcon'))
 var _reactNativeDraggableFlatlist = _interopRequireWildcard(
   require('react-native-draggable-flatlist'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
     var r = new WeakMap(),
@@ -211,8 +212,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * MainTabs
  * props.uiData
  * props.uiData.ucUiStore
@@ -303,79 +303,80 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               outputRange: [colors.whiteSmoke, colors.mediumTurquoise],
             })
         : undefined
-      return /*#__PURE__*/ _react.default.createElement(
+      return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
         _reactNativeDraggableFlatlist.ScaleDecorator,
-        null,
-        /*#__PURE__*/ _react.default.createElement(
-          _reactNative.TouchableOpacity,
-          {
-            ref: _this.tabRefs[key],
-            key: 'span_' + key,
-            onPress: function onPress() {
-              return _this.handleTabSelect(key)
-            },
-            onLongPress: drag,
-            // delayLongPress={150}
-            activeOpacity: 1,
-            style: [
-              styles.brMainTabLinkSpan,
-              // this.state.activeTab === key ? styles.brSelected : {},
-              // item.bgColorTable?.[key] && { backgroundColor: item.bgColorTable[key] },
-              // isActive && styles.dragging,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Animated.View,
+        {
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+            _reactNative.TouchableOpacity,
             {
+              ref: _this.tabRefs[key],
+              onPress: function onPress() {
+                return _this.handleTabSelect(key)
+              },
+              onLongPress: drag,
+              // delayLongPress={150}
+              activeOpacity: 1,
               style: [
-                styles.tabLink,
-                _this.state.activeTab === key
-                  ? styles.tabLinkActiveSelected
-                  : {},
-                ((_item$bgColorTable = item.bgColorTable) === null ||
-                _item$bgColorTable === void 0
-                  ? void 0
-                  : _item$bgColorTable[key]) && {
-                  backgroundColor: item.bgColorTable[key],
-                },
-                isActive && styles.dragging,
-                isBlinking && {
-                  backgroundColor: backgroundColor,
-                },
+                styles.brMainTabLinkSpan,
+                // this.state.activeTab === key ? styles.brSelected : {},
+                // item.bgColorTable?.[key] && { backgroundColor: item.bgColorTable[key] },
+                // isActive && styles.dragging,
               ],
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                _reactNative.Animated.View,
+                {
+                  style: [
+                    styles.tabLink,
+                    _this.state.activeTab === key
+                      ? styles.tabLinkActiveSelected
+                      : {},
+                    ((_item$bgColorTable = item.bgColorTable) === null ||
+                    _item$bgColorTable === void 0
+                      ? void 0
+                      : _item$bgColorTable[key]) && {
+                      backgroundColor: item.bgColorTable[key],
+                    },
+                    isActive && styles.dragging,
+                    isBlinking && {
+                      backgroundColor: backgroundColor,
+                    },
+                  ],
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_StatusIcon.default, {
+                      status: item.status,
+                      degree: item.degree,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.brTabLinkTitle,
+                      numberOfLines: 1,
+                      ellipsizeMode: 'tail',
+                      children: item.tabTitle || '\u2002',
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _ButtonIconic.default,
+                      // style={{marginLeft: 2, width: 18, height: 18}}
+                      {
+                        title:
+                          _uawmsgs.default.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP,
+                        onPress: props.uiData.fire.bind(
+                          props.uiData,
+                          'tabLinkHideButton_onClick',
+                          item.panel.panelType,
+                          item.panel.panelCode,
+                        ),
+                        iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _CancelIcon.default,
+                          {},
+                        ),
+                      },
+                    ),
+                  ],
+                },
+              ),
             },
-            /*#__PURE__*/ _react.default.createElement(_StatusIcon.default, {
-              status: item.status,
-              degree: item.degree,
-            }),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: styles.brTabLinkTitle,
-                numberOfLines: 1,
-                ellipsizeMode: 'tail',
-              },
-              item.tabTitle || '\u2002',
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonIconic.default,
-              // style={{marginLeft: 2, width: 18, height: 18}}
-              {
-                title: _uawmsgs.default.LBL_TAB_LINK_HIDE_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'tabLinkHideButton_onClick',
-                  item.panel.panelType,
-                  item.panel.panelCode,
-                ),
-                iconSource: /*#__PURE__*/ _react.default.createElement(
-                  _CancelIcon.default,
-                  null,
-                ),
-              },
-            ),
+            'span_' + key,
           ),
-        ),
+        },
       )
     })
     _this.currentFrontTab = ''
@@ -849,10 +850,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               bgColorTable: bgColorTable,
             })
             tabMenuItemList.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                 _MenuItem.default,
                 {
-                  key: key,
                   className:
                     'brMainTabMenuItem' +
                     (props.uiData.blinkingTabs[key] ? ' brBlinking' : '') +
@@ -878,22 +878,19 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                       activeTab: key,
                     })
                   },
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_StatusIcon.default, {
+                      status: status,
+                      degree: degree,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.brMainTabMenuItemTitle,
+                      numberOfLines: 1,
+                      children: tabTitle || '\u2002',
+                    }),
+                  ],
                 },
-                /*#__PURE__*/ _react.default.createElement(
-                  _StatusIcon.default,
-                  {
-                    status: status,
-                    degree: degree,
-                  },
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brMainTabMenuItemTitle,
-                    numberOfLines: 1,
-                  },
-                  tabTitle || '\u2002',
-                ),
+                key,
               ),
             )
             console.log(
@@ -901,22 +898,25 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               _this5.state.activeTab === key,
             )
             tabContentList.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.View,
                 {
-                  key: key,
                   style: [
                     styles.tabContent,
                     _this5.state.activeTab === key
                       ? styles.tabContentActive
                       : styles.tabContentInactive,
                   ],
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _PanelArea.default,
+                    {
+                      uiData: props.uiData,
+                      panelType: panel.panelType,
+                      panelCode: panel.panelCode,
+                    },
+                  ),
                 },
-                /*#__PURE__*/ _react.default.createElement(_PanelArea.default, {
-                  uiData: props.uiData,
-                  panelType: panel.panelType,
-                  panelCode: panel.panelCode,
-                }),
+                key,
               ),
             )
           })
@@ -934,16 +934,12 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         }
         this.currentFrontTab = frontTab
         console.log('#Duy Phan console tabContentList', tabContentList.length)
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            ref: this.mainTabsRef,
-            style: [styles.brMainTabs],
-            // pointerEvents='box-none'
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.TouchableOpacity,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          ref: this.mainTabsRef,
+          style: [styles.brMainTabs],
+          // pointerEvents='box-none'
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TouchableOpacity, {
               style: [
                 styles.brMainTabMenu,
                 this.state.showsTabMenu ? {} : styles.brMainTabMenuHidden,
@@ -952,15 +948,12 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               onPress: this.state.showsTabMenu
                 ? this.handleMainTabMenuClick.bind(this)
                 : function () {},
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _TriangleDownIcon.default,
-              null,
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _TriangleDownIcon.default,
+                {},
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.brMainTabContent,
                 hasSelectedTab && bgColorTable[frontTab]
@@ -972,12 +965,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               onTouchStart: this.handleMainTabContentTouchStart.bind(this),
               onTouchEnd: this.handleMainTabContentTouchEnd.bind(this),
               pointerEvents: 'box-none',
-            },
-            tabContentList,
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.ScrollView,
-            {
+              children: tabContentList,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.ScrollView, {
               ref: this.mainTabLinksRef,
               style: styles.brMainTabLinks,
               horizontal: true,
@@ -988,100 +978,91 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               scrollEnabled: !this.state.isDragging,
               bounces: false,
               decelerationRate: 'fast',
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNativeDraggableFlatlist.default,
-              {
-                data: tabLinkList,
-                keyExtractor: function keyExtractor(item) {
-                  return item.key
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNativeDraggableFlatlist.default,
+                {
+                  data: tabLinkList,
+                  keyExtractor: function keyExtractor(item) {
+                    return item.key
+                  },
+                  renderItem: this.renderItem,
+                  horizontal: true,
+                  onDragStart: this.handleDragStart,
+                  onDragEnd: this.handleDragEnd,
+                  activationDistance: 15,
+                  containerStyle: styles.draggableList,
+                  scrollEnabled: false,
+                  dragHitSlop: {
+                    top: 10,
+                    bottom: 10,
+                    left: 15,
+                    right: 15,
+                  },
                 },
-                renderItem: this.renderItem,
-                horizontal: true,
-                onDragStart: this.handleDragStart,
-                onDragEnd: this.handleDragEnd,
-                activationDistance: 15,
-                containerStyle: styles.draggableList,
-                scrollEnabled: false,
-                dragHitSlop: {
-                  top: 10,
-                  bottom: 10,
-                  left: 15,
-                  right: 15,
-                },
-              },
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                 this.state.tabMenuShowingDialogVersion,
               style: styles.brMainTabMenuBalloonDialog,
-            },
-            tabMenuItemList,
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+              children: tabMenuItemList,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                 this.state.tabLinkContextMenuShowingDialogVersion,
               className: 'brMainTabLinkContextMenuBalloonDialog',
               style: this.state.mainTabLinkContextMenuBalloonDialogStyle,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _MenuItem.default,
-              {
-                className: 'brMainTabLinkContextMenuItem',
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'tabLinkHideButton_onClick',
-                  this.state.mainTabLinkContextMenuPanelType,
-                  this.state.mainTabLinkContextMenuPanelCode,
-                ),
-              },
-              _uawmsgs.default.LBL_TAB_LINK_HIDE_MENU,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _MenuItem.default,
-              {
-                className:
-                  'brMainTabLinkContextMenuItem brTabLinkMoveHContextMenuItem',
-                hidden: props.uiData.mainAreaSplitters === 0,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'tabLinkMoveHContextMenuItem_onClick',
-                  this.state.mainTabLinkContextMenuPanelType,
-                  this.state.mainTabLinkContextMenuPanelCode,
-                ),
-              },
-              (0, _strings.string)(props.position).indexOf('east') !== -1 ||
-                (0, _strings.string)(props.position).indexOf('se') !== -1
-                ? _uawmsgs.default.LBL_TAB_LINK_MOVE_LEFT_MENU
-                : _uawmsgs.default.LBL_TAB_LINK_MOVE_RIGHT_MENU,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _MenuItem.default,
-              {
-                className:
-                  'brMainTabLinkContextMenuItem brTabLinkMoveVContextMenuItem',
-                hidden: props.uiData.mainAreaSplitters !== 2,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'tabLinkMoveVContextMenuItem_onClick',
-                  this.state.mainTabLinkContextMenuPanelType,
-                  this.state.mainTabLinkContextMenuPanelCode,
-                ),
-              },
-              (0, _strings.string)(props.position).indexOf('south') !== -1 ||
-                (0, _strings.string)(props.position).indexOf('se') !== -1
-                ? _uawmsgs.default.LBL_TAB_LINK_MOVE_UP_MENU
-                : _uawmsgs.default.LBL_TAB_LINK_MOVE_DOWN_MENU,
-            ),
-          ),
-        )
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuItem.default, {
+                  className: 'brMainTabLinkContextMenuItem',
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'tabLinkHideButton_onClick',
+                    this.state.mainTabLinkContextMenuPanelType,
+                    this.state.mainTabLinkContextMenuPanelCode,
+                  ),
+                  children: _uawmsgs.default.LBL_TAB_LINK_HIDE_MENU,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuItem.default, {
+                  className:
+                    'brMainTabLinkContextMenuItem brTabLinkMoveHContextMenuItem',
+                  hidden: props.uiData.mainAreaSplitters === 0,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'tabLinkMoveHContextMenuItem_onClick',
+                    this.state.mainTabLinkContextMenuPanelType,
+                    this.state.mainTabLinkContextMenuPanelCode,
+                  ),
+                  children:
+                    (0, _strings.string)(props.position).indexOf('east') !==
+                      -1 ||
+                    (0, _strings.string)(props.position).indexOf('se') !== -1
+                      ? _uawmsgs.default.LBL_TAB_LINK_MOVE_LEFT_MENU
+                      : _uawmsgs.default.LBL_TAB_LINK_MOVE_RIGHT_MENU,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuItem.default, {
+                  className:
+                    'brMainTabLinkContextMenuItem brTabLinkMoveVContextMenuItem',
+                  hidden: props.uiData.mainAreaSplitters !== 2,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'tabLinkMoveVContextMenuItem_onClick',
+                    this.state.mainTabLinkContextMenuPanelType,
+                    this.state.mainTabLinkContextMenuPanelCode,
+                  ),
+                  children:
+                    (0, _strings.string)(props.position).indexOf('south') !==
+                      -1 ||
+                    (0, _strings.string)(props.position).indexOf('se') !== -1
+                      ? _uawmsgs.default.LBL_TAB_LINK_MOVE_UP_MENU
+                      : _uawmsgs.default.LBL_TAB_LINK_MOVE_DOWN_MENU,
+                }),
+              ],
+            }),
+          ],
+        })
       },
     },
   ])

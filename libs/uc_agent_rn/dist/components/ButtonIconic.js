@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -140,8 +141,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * ButtonIconic
  * props.style - Additional style for the button
  * props.disabled
@@ -179,16 +179,13 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         if (props.hidden) {
           return null
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.brButtonIconic,
-              props.disabled && styles.brDisabled,
-              props.style,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [
+            styles.brButtonIconic,
+            props.disabled && styles.brDisabled,
+            props.style,
+          ],
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _reactNative.TouchableOpacity,
             {
               style: {
@@ -198,16 +195,13 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               onPress: this.handlePress,
               disabled: props.disabled,
               // accessibilityLabel={props.accessibilityLabel}
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: styles.iconContainer,
-              },
-              props.children || props.iconSource,
-            ),
+                children: props.children || props.iconSource,
+              }),
+            },
           ),
-        )
+        })
       },
     },
   ])

@@ -12,6 +12,7 @@ var _ChevronDownIcon = _interopRequireDefault(
   require('../icons/ChevronDownIcon'),
 )
 var _ErrorIcon = _interopRequireDefault(require('../icons/ErrorIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -404,16 +405,12 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
       key: 'renderLoadingAnimation',
       value: function renderLoadingAnimation() {
         var _this4 = this
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.loadingContainer,
-          },
-          this.loadingDots.map(function (dot, index) {
-            return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: styles.loadingContainer,
+          children: this.loadingDots.map(function (dot, index) {
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _reactNative.Animated.View,
               {
-                key: index,
                 style: [
                   styles.loadingDot,
                   {
@@ -429,9 +426,10 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   },
                 ],
               },
+              index,
             )
           }),
-        )
+        })
       },
     },
     {
@@ -464,20 +462,20 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var iconSource = null
         if (isIconic && !isError && !isProgress) {
           if (isFirst) {
-            iconSource = /*#__PURE__*/ _react.default.createElement(
+            iconSource = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _ChevronUpIcon.default,
-              null,
+              {},
             )
           } else {
-            iconSource = /*#__PURE__*/ _react.default.createElement(
+            iconSource = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _ChevronDownIcon.default,
-              null,
+              {},
             )
           }
         } else if (isError) {
-          iconSource = /*#__PURE__*/ _react.default.createElement(
+          iconSource = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _ErrorIcon.default,
-            null,
+            {},
           )
         }
         var linkStyles = [
@@ -492,7 +490,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               ? ' (' + showmorelinkEntry.errorDetail + ')'
               : '')
           : ''
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
           _reactNative.TouchableOpacity,
           {
             style: containerStyles,
@@ -509,46 +507,43 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             },
             disabled: isError || isProgress,
             activeOpacity: 1,
+            children: [
+              isIconic &&
+                !isError &&
+                !isProgress &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Image, {
+                  source: iconSource,
+                  style: [
+                    styles.iconicImage,
+                    !this.state.isHovered && styles.iconicImageDimmed,
+                  ],
+                }),
+              isError &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Image, {
+                  source: iconSource,
+                  style: styles.errorIcon,
+                }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                style: linkStyles,
+                children: _uawmsgs.default.LBL_CHAT_SHOWMORELINK_CONTENT,
+              }),
+              isUnread &&
+                !isFirst &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.unreadBadge,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      style: styles.unreadText,
+                      children: _uawmsgs.default.LBL_CHAT_UNREAD_CONTENT,
+                    },
+                  ),
+                }),
+              ((isFirst && !isIconic && !isError) ||
+                (isIconic && isProgress)) &&
+                this.renderLoadingAnimation(),
+            ],
           },
-          isIconic &&
-            !isError &&
-            !isProgress &&
-            /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-              source: iconSource,
-              style: [
-                styles.iconicImage,
-                !this.state.isHovered && styles.iconicImageDimmed,
-              ],
-            }),
-          isError &&
-            /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-              source: iconSource,
-              style: styles.errorIcon,
-            }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
-              style: linkStyles,
-            },
-            _uawmsgs.default.LBL_CHAT_SHOWMORELINK_CONTENT,
-          ),
-          isUnread &&
-            !isFirst &&
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.unreadBadge,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.unreadText,
-                },
-                _uawmsgs.default.LBL_CHAT_UNREAD_CONTENT,
-              ),
-            ),
-          ((isFirst && !isIconic && !isError) || (isIconic && isProgress)) &&
-            this.renderLoadingAnimation(),
         )
       },
     },

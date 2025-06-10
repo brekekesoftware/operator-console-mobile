@@ -50,21 +50,48 @@ var _TriangleDownIcon = _interopRequireDefault(
 var _SendIcon = _interopRequireDefault(require('../icons/SendIcon'))
 var _ChatIcon = _interopRequireDefault(require('../icons/ChatIcon'))
 var _CustomTextInput = _interopRequireDefault(require('./CustomTextInput'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
-function _extends() {
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
+}
+function _defineProperty(e, r, t) {
   return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
   )
 }
 function _classCallCheck(a, n) {
@@ -166,8 +193,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * EditorArea
  * props.uiData
  * props.uiData.ucUiStore
@@ -673,9 +699,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'leave',
               label: _uawmsgs.default.LBL_EDITOR_LEAVE_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _LogOutIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderLeaveButton_onClick',
               enabled:
@@ -685,9 +711,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'invite',
               label: _uawmsgs.default.LBL_EDITOR_INVITE_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _EnvelopeIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderInviteButton_onClick',
               enabled:
@@ -707,9 +733,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'file',
               label: _uawmsgs.default.LBL_EDITOR_FILE_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _UploadIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderFileButton_onClick',
               enabled:
@@ -719,9 +745,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'voice',
               label: _uawmsgs.default.LBL_EDITOR_VOICE_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _PhoneIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderVoiceButton_onClick',
               enabled:
@@ -734,9 +760,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'video',
               label: _uawmsgs.default.LBL_EDITOR_VIDEO_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _VideoCallIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderVideoButton_onClick',
               enabled:
@@ -749,9 +775,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'screen',
               label: _uawmsgs.default.LBL_EDITOR_SCREEN_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ChannelMosaic1Icon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderScreenButton_onClick',
               enabled:
@@ -766,9 +792,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             menuOptions.splice(1, 0, {
               headerButtonName: 'reply',
               label: _uawmsgs.default.LBL_EDITOR_REPLY_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ReplyIcon.default,
-                null,
+                {},
               ),
               event:
                 replyOptions.length === 1
@@ -792,9 +818,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'file',
               label: _uawmsgs.default.LBL_EDITOR_FILE_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _UploadIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderFileButton_onClick',
               enabled: true,
@@ -802,9 +828,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'voice',
               label: _uawmsgs.default.LBL_EDITOR_VOICE_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _PhoneIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderVoiceButton_onClick',
               enabled:
@@ -815,9 +841,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'video',
               label: _uawmsgs.default.LBL_EDITOR_VIDEO_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _VideoCallIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderVideoButton_onClick',
               enabled:
@@ -828,9 +854,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'screen',
               label: _uawmsgs.default.LBL_EDITOR_SCREEN_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ChannelMosaic1Icon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderScreenButton_onClick',
               enabled:
@@ -841,9 +867,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             {
               headerButtonName: 'history',
               label: _uawmsgs.default.LBL_EDITOR_HISTORY_LINK,
-              iconClass: /*#__PURE__*/ _react.default.createElement(
+              iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _HistoryIcon.default,
-                null,
+                {},
               ),
               eventName: 'panelHeaderHistoryButton_onClick',
               enabled: true,
@@ -861,9 +887,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         if (editorTypes.length >= 2) {
           menuOptions.push({
             label: 'Change editor',
-            iconClass: /*#__PURE__*/ _react.default.createElement(
+            iconClass: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _EditIcon.default,
-              null,
+              {},
             ),
             event: this.handleChangeEditorTypeMenuClick.bind(this),
             enabled: true,
@@ -896,187 +922,166 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           className += ' brMenuOptionsLength'
         }
         console.log('#Duy Phan console check cond', disabled)
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles[className.split(' ')[0]],
-              styles[className.split(' ')[1]],
-              props.uiData.currentSelectedTab ===
-              props.panelType + '_' + props.panelCode
-                ? styles.brSelected
-                : null,
-              (props.uiData.configurations &&
-                props.uiData.configurations.sendButton) ||
-              isEmail
-                ? styles.brWithSendButton
-                : null,
-              props.uiData.configurations &&
-              props.uiData.configurations.withMenuOptions
-                ? styles.brWithMenuOptions
-                : null,
-              isEmail && chatHeaderInfo.lastConfType === 'emptylast'
-                ? styles.brMaximized
-                : null,
-              this.hidden ? styles.brHidden : null,
-              disabled ? styles.brDisabled : null,
-              menuOptions.length ? styles.brMenuOptionsLength : null,
-              isEmail && chatHeaderInfo.lastConfType === 'webchat'
-                ? {
-                    height: 70 - Math.min(0, splitterHeight),
-                  }
-                : {},
-              // { zIndex: 100 },
-            ],
-            ref: this.editorAreaRef,
-            onTouchEnd: function onTouchEnd() {
-              console.log('#Duy Phan console onTouchEnd3')
-            },
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles[className.split(' ')[0]],
+            styles[className.split(' ')[1]],
+            props.uiData.currentSelectedTab ===
+            props.panelType + '_' + props.panelCode
+              ? styles.brSelected
+              : null,
+            (props.uiData.configurations &&
+              props.uiData.configurations.sendButton) ||
+            isEmail
+              ? styles.brWithSendButton
+              : null,
+            props.uiData.configurations &&
+            props.uiData.configurations.withMenuOptions
+              ? styles.brWithMenuOptions
+              : null,
+            isEmail && chatHeaderInfo.lastConfType === 'emptylast'
+              ? styles.brMaximized
+              : null,
+            this.hidden ? styles.brHidden : null,
+            disabled ? styles.brDisabled : null,
+            menuOptions.length ? styles.brMenuOptionsLength : null,
+            isEmail && chatHeaderInfo.lastConfType === 'webchat'
+              ? {
+                  height: 70 - Math.min(0, splitterHeight),
+                }
+              : {},
+            // { zIndex: 100 },
+          ],
+          ref: this.editorAreaRef,
+          onTouchEnd: function onTouchEnd() {
+            console.log('#Duy Phan console onTouchEnd3')
           },
-          /*#__PURE__*/ _react.default.createElement(_CustomTextInput.default, {
-            ref: this.subjectTextBoxRef,
-            style: styles.brSubjectTextBox,
-            placeholder: _uawmsgs.default.LBL_EDITOR_SUBJECT_PLACEHOLDER,
-            disabled: disabled,
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CustomTextInput.default, {
+              ref: this.subjectTextBoxRef,
+              style: styles.brSubjectTextBox,
+              placeholder: _uawmsgs.default.LBL_EDITOR_SUBJECT_PLACEHOLDER,
+              disabled: disabled,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: styles.brEditorTextareaContainer,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _CustomTextInput.default,
-              {
-                ref: this.editorTextareaRef,
-                style: styles.brEditorTextarea,
-                placeholder:
-                  disabled || isEmail
-                    ? ''
-                    : _uawmsgs.default.LBL_EDITOR_TEXTAREA_PLACEHOLDER,
-                onKeyPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'editorTextarea_onKeyDown',
-                  props.panelType,
-                  props.panelCode,
-                  disabled,
-                  isEmail,
-                ),
-                multiline: true,
-              },
-            ),
-          ),
-          isEmail &&
-            chatHeaderInfo.lastConfType === 'webchat' &&
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Animated.View,
-              _extends(
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _CustomTextInput.default,
                 {
-                  style: [
-                    styles.brSplitterHeight,
-                    {
-                      transform: [
-                        {
-                          translateY: this.splitterPosition,
-                        },
-                      ],
-                    },
-                  ],
+                  ref: this.editorTextareaRef,
+                  style: styles.brEditorTextarea,
+                  placeholder:
+                    disabled || isEmail
+                      ? ''
+                      : _uawmsgs.default.LBL_EDITOR_TEXTAREA_PLACEHOLDER,
+                  onKeyPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'editorTextarea_onKeyDown',
+                    props.panelType,
+                    props.panelCode,
+                    disabled,
+                    isEmail,
+                  ),
+                  multiline: true,
                 },
-                this.panResponder.panHandlers,
               ),
-            ),
-          /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-            style: [styles.brEditorSendButton],
-            title: _uawmsgs.default.LBL_EDITOR_SEND_BUTTON_TOOLTIP,
-            iconSource: isEmail
-              ? /*#__PURE__*/ _react.default.createElement(
-                  _SendIcon.default,
-                  null,
-                )
-              : /*#__PURE__*/ _react.default.createElement(_ChatIcon.default, {
-                  color: '#b9b9b9',
-                }),
-            disabled: disabled,
-            onPress: this.handleSendButtonClick.bind(this),
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.TouchableOpacity,
-            {
+            }),
+            isEmail &&
+              chatHeaderInfo.lastConfType === 'webchat' &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.Animated.View,
+                _objectSpread(
+                  {
+                    style: [
+                      styles.brSplitterHeight,
+                      {
+                        transform: [
+                          {
+                            translateY: this.splitterPosition,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  this.panResponder.panHandlers,
+                ),
+              ),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+              style: [styles.brEditorSendButton],
+              title: _uawmsgs.default.LBL_EDITOR_SEND_BUTTON_TOOLTIP,
+              iconSource: isEmail
+                ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(_SendIcon.default, {})
+                : /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatIcon.default, {
+                    color: '#b9b9b9',
+                  }),
+              disabled: disabled,
+              onPress: this.handleSendButtonClick.bind(this),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TouchableOpacity, {
               style: styles.brEditorOptionsButton,
               onPress: this.handleOptionsLinkClick.bind(this),
               pointerEvents: 'auto',
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: [styles.brEditorOptionsIcon],
-              },
-              props.uiData.showingDialogVersion ===
-                this.state.showingDialogVersion
-                ? /*#__PURE__*/ _react.default.createElement(
-                    _TriangleUpIcon.default,
-                    {
-                      color: '#ffffff',
-                      width: 30,
-                      height: 30,
-                    },
-                  )
-                : /*#__PURE__*/ _react.default.createElement(
-                    _TriangleDownIcon.default,
-                    {
-                      color: '#ffffff',
-                      width: 30,
-                      height: 30,
-                    },
-                  ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+                children:
+                  props.uiData.showingDialogVersion ===
+                  this.state.showingDialogVersion
+                    ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _TriangleUpIcon.default,
+                        {
+                          color: '#ffffff',
+                          width: 30,
+                          height: 30,
+                        },
+                      )
+                    : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _TriangleDownIcon.default,
+                        {
+                          color: '#ffffff',
+                          width: 30,
+                          height: 30,
+                        },
+                      ),
+              }),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuBalloonDialog.default, {
               ref: this.editorOptionsBalloonRef,
               showing:
                 props.uiData.showingDialogVersion ===
                 this.state.showingDialogVersion,
               style: styles.brEditorOptionsBalloon,
               onPress: this.handleOptionsLinkClick.bind(this),
-            },
-            menuOptions.map(function (s, i) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _MenuItem.default,
-                {
-                  key: i,
-                  style: [styles.brEditorOptionsItem],
-                  disabled: !s.enabled,
-                  onPress:
-                    s.event ||
-                    props.uiData.fire.bind(
-                      props.uiData,
-                      s.eventName,
-                      props.panelType,
-                      props.panelCode,
-                    ),
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
+              children: menuOptions.map(function (s, i) {
+                return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                  _MenuItem.default,
                   {
-                    style: {
-                      marginRight: 10,
-                    },
+                    style: [styles.brEditorOptionsItem],
+                    disabled: !s.enabled,
+                    onPress:
+                      s.event ||
+                      props.uiData.fire.bind(
+                        props.uiData,
+                        s.eventName,
+                        props.panelType,
+                        props.panelCode,
+                      ),
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: {
+                          marginRight: 10,
+                        },
+                        children: s.iconClass,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        children: s.label,
+                      }),
+                    ],
                   },
-                  s.iconClass,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  s.label,
-                ),
-              )
+                  i,
+                )
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                   this.state.showingDialogVersion &&
@@ -1086,29 +1091,27 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 styles.brEditorOptionsReplyWebchatBalloon,
                 this.state.replyDialogStyle,
               ],
-            },
-            replyOptions.map(function (s, i) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _MenuItem.default,
-                {
-                  key: i,
-                  style: [
-                    styles.brEditorOptionsReplyWebchatMenuItem,
-                    styles[s.className],
-                  ],
-                  onPress: s.event,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  s.label,
-                ),
-              )
+              children: replyOptions.map(function (s, i) {
+                return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _MenuItem.default,
+                  {
+                    style: [
+                      styles.brEditorOptionsReplyWebchatMenuItem,
+                      styles[s.className],
+                    ],
+                    onPress: s.event,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        children: s.label,
+                      },
+                    ),
+                  },
+                  i,
+                )
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                   this.state.showingDialogVersion &&
@@ -1118,31 +1121,32 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 styles.brEditorOptionsChangeEditorTypeBalloon,
                 this.state.changeEditorTypeDialogStyle,
               ],
-            },
-            editorTypes.map(function (t, i) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _MenuItem.default,
-                {
-                  key: i,
-                  style: [
-                    styles.brEditorOptionsChangeEditorTypeMenuItem,
-                    styles['brEditorType' + t],
-                  ],
-                  onPress: function onPress() {
-                    return _this4.setState({
-                      selectedEditorType: t,
-                    })
+              children: editorTypes.map(function (t, i) {
+                return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _MenuItem.default,
+                  {
+                    style: [
+                      styles.brEditorOptionsChangeEditorTypeMenuItem,
+                      styles['brEditorType' + t],
+                    ],
+                    onPress: function onPress() {
+                      return _this4.setState({
+                        selectedEditorType: t,
+                      })
+                    },
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        children: _uawmsgs.default['LBL_EDITOR_TYPE_' + t] || t,
+                      },
+                    ),
                   },
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  _uawmsgs.default['LBL_EDITOR_TYPE_' + t] || t,
-                ),
-              )
+                  i,
+                )
+              }),
             }),
-          ),
-        )
+          ],
+        })
       },
     },
   ])

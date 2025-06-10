@@ -43,6 +43,7 @@ var _dialoghide = _interopRequireDefault(require('../images/dialoghide.png'))
 var _reactNativeLinearGradient = _interopRequireDefault(
   require('react-native-linear-gradient'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -145,8 +146,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * DialogApp
  * props.uiData
  * props.uiData.dialogCloseButton_onClick
@@ -222,23 +222,20 @@ var DialogApp = /*#__PURE__*/ (function (_React$Component) {
         var contents = null
         console.log('#Duy Phan console panelType', panelType)
         if (panelType === 'CONFERENCE' || panelType === 'CHAT') {
-          contents = /*#__PURE__*/ _react.default.createElement(
-            _ChatPanel.default,
-            {
-              uiData: uiData,
-              panelType: panelType,
-              panelCode: panelCode,
-            },
-          )
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatPanel.default, {
+            uiData: uiData,
+            panelType: panelType,
+            panelCode: panelCode,
+          })
         } else if (panelType === 'WEBCHATQUEUE') {
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _WebchatQueuePanel.default,
             {
               uiData: uiData,
             },
           )
         } else if (panelType === 'HISTORYSEARCH') {
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _HistorySearchPanel.default,
             {
               uiData: uiData,
@@ -259,10 +256,8 @@ var DialogApp = /*#__PURE__*/ (function (_React$Component) {
             ? void 0
             : _option$buttons.length) && styles.brWithButtons,
         ]
-        return /*#__PURE__*/ _react.default.createElement(
-          _react.default.Fragment,
-          null,
-          /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_jsxRuntime.Fragment, {
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _DialogResizableBox.default,
             {
               style: [
@@ -294,10 +289,7 @@ var DialogApp = /*#__PURE__*/ (function (_React$Component) {
                   panelCode,
                 )
               },
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: {
                   width: '100%',
                   height: '100%',
@@ -306,138 +298,132 @@ var DialogApp = /*#__PURE__*/ (function (_React$Component) {
                   flexDirection: 'column',
                   position: 'relative',
                 },
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [
-                    styles.brDialogTitle,
-                    option.draggable && styles.brDraggable,
-                  ],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: {
-                      flex: 1,
-                    },
-                  },
-                  (0, _strings.string)(option.title),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                     style: [
-                      styles.brDialogCloseButton,
-                      !option.closeable && styles.brHidden,
+                      styles.brDialogTitle,
+                      option.draggable && styles.brDraggable,
                     ],
-                    onPress: function onPress() {
-                      return uiData.fire(
-                        'dialogCloseButton_onClick',
-                        panelType,
-                        panelCode,
-                      )
-                    },
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Image,
-                    {
-                      source: _dialogCloseIcon.default,
-                      style: {
-                        width: 21,
-                        height: 15,
-                      },
-                    },
-                  ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
-                    style: [
-                      styles.brDialogHideButton,
-                      !option.hideable && styles.brHidden,
-                    ],
-                    onPress: function onPress() {
-                      return uiData.fire(
-                        'dialogHideButton_onClick',
-                        panelType,
-                        panelCode,
-                      )
-                    },
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Image,
-                    {
-                      source: _dialoghide.default,
-                      style: {
-                        width: 21,
-                        height: 15,
-                      },
-                    },
-                  ),
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.brDialogButtons,
-                },
-                (_option$buttons2 = option.buttons) === null ||
-                  _option$buttons2 === void 0
-                  ? void 0
-                  : _option$buttons2.map(function (button, i) {
-                      return /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Pressable,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: {
+                          flex: 1,
+                        },
+                        children: (0, _strings.string)(option.title),
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.TouchableOpacity,
                         {
-                          key: i,
+                          style: [
+                            styles.brDialogCloseButton,
+                            !option.closeable && styles.brHidden,
+                          ],
                           onPress: function onPress() {
                             return uiData.fire(
-                              'dialogButton_onClick',
+                              'dialogCloseButton_onClick',
                               panelType,
                               panelCode,
-                              button.name,
                             )
                           },
-                          style: function style(_ref) {
-                            var pressed = _ref.pressed
-                            return [
-                              styles.brDialogButtonWrapper,
-                              pressed && styles.brDialogButtonActive,
-                            ]
-                          },
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNativeLinearGradient.default,
-                          {
-                            colors: pressed
-                              ? ['#FFFFFF1A', '#FFFFFF73', '#FFFFFFA6']
-                              : ['#FFFFFFA6', '#FFFFFF73', '#FFFFFF1A'],
-                            style: styles.brDialogButton,
-                          },
-                          /*#__PURE__*/ _react.default.createElement(
-                            _reactNative.Text,
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Image,
                             {
-                              style: [
-                                styles.brDialogButtonText,
-                                pressed && styles.brDialogButtonTextActive,
-                              ],
+                              source: _dialogCloseIcon.default,
+                              style: {
+                                width: 21,
+                                height: 15,
+                              },
                             },
-                            (0, _strings.string)(button.caption),
                           ),
-                        ),
-                      )
-                    }),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: contentStyle,
-                },
-                contents,
-              ),
-            ),
+                        },
+                      ),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          style: [
+                            styles.brDialogHideButton,
+                            !option.hideable && styles.brHidden,
+                          ],
+                          onPress: function onPress() {
+                            return uiData.fire(
+                              'dialogHideButton_onClick',
+                              panelType,
+                              panelCode,
+                            )
+                          },
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Image,
+                            {
+                              source: _dialoghide.default,
+                              style: {
+                                width: 21,
+                                height: 15,
+                              },
+                            },
+                          ),
+                        },
+                      ),
+                    ],
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: styles.brDialogButtons,
+                    children:
+                      (_option$buttons2 = option.buttons) === null ||
+                      _option$buttons2 === void 0
+                        ? void 0
+                        : _option$buttons2.map(function (button, i) {
+                            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Pressable,
+                              {
+                                onPress: function onPress() {
+                                  return uiData.fire(
+                                    'dialogButton_onClick',
+                                    panelType,
+                                    panelCode,
+                                    button.name,
+                                  )
+                                },
+                                style: function style(_ref) {
+                                  var pressed = _ref.pressed
+                                  return [
+                                    styles.brDialogButtonWrapper,
+                                    pressed && styles.brDialogButtonActive,
+                                  ]
+                                },
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNativeLinearGradient.default,
+                                  {
+                                    colors: pressed
+                                      ? ['#FFFFFF1A', '#FFFFFF73', '#FFFFFFA6']
+                                      : ['#FFFFFFA6', '#FFFFFF73', '#FFFFFF1A'],
+                                    style: styles.brDialogButton,
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_reactNative.Text, {
+                                      style: [
+                                        styles.brDialogButtonText,
+                                        pressed &&
+                                          styles.brDialogButtonTextActive,
+                                      ],
+                                      children: (0, _strings.string)(
+                                        button.caption,
+                                      ),
+                                    }),
+                                  },
+                                ),
+                              },
+                              i,
+                            )
+                          }),
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: contentStyle,
+                    children: contents,
+                  }),
+                ],
+              }),
+            },
           ),
-        )
+        })
       },
     },
   ])

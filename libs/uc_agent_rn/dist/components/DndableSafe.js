@@ -8,6 +8,7 @@ var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _Dndable = _interopRequireDefault(require('./Dndable'))
 var _FileDndable = _interopRequireDefault(require('./FileDndable'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -30,19 +31,32 @@ function _typeof(o) {
     _typeof(o)
   )
 }
-function _extends() {
-  return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
-  )
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
 }
 function _regenerator() {
   /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e,
@@ -347,8 +361,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * DndableSafe - React Native version
  * A wrapper component that provides safe drag and drop functionality
  *
@@ -503,63 +516,70 @@ var DndableSafe = (exports.default = /*#__PURE__*/ (function (
         if (dndEnabled) {
           // Use the appropriate Dndable component
           if (props.dndableClass === 'FileDndable') {
-            return /*#__PURE__*/ _react.default.createElement(
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _FileDndable.default,
-              _extends(
+              _objectSpread(
+                _objectSpread(
+                  {
+                    style: [
+                      styles.dndableSafe,
+                      props.style,
+                      isDragging && styles.dragging,
+                      isOver && styles.over,
+                      props.canDrop && styles.canDrop,
+                    ],
+                    onDrop: props.onDrop,
+                    onClick: props.onClick,
+                  },
+                  this.panResponder.panHandlers,
+                ),
+                {},
                 {
-                  style: [
-                    styles.dndableSafe,
-                    props.style,
-                    isDragging && styles.dragging,
-                    isOver && styles.over,
-                    props.canDrop && styles.canDrop,
-                  ],
-                  onDrop: props.onDrop,
-                  onClick: props.onClick,
+                  children: props.children,
                 },
-                this.panResponder.panHandlers,
               ),
-              props.children,
             )
           } else {
-            return /*#__PURE__*/ _react.default.createElement(
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _Dndable.default,
-              _extends(
+              _objectSpread(
+                _objectSpread(
+                  {
+                    style: [
+                      styles.dndableSafe,
+                      props.style,
+                      isDragging && styles.dragging,
+                      isOver && styles.over,
+                      props.canDrop && styles.canDrop,
+                    ],
+                    dragSourceInfo: props.dragSourceInfo,
+                    onCheckCanDrop: props.onCheckCanDrop,
+                    onDrop: props.onDrop,
+                    onClick: props.onClick,
+                  },
+                  this.panResponder.panHandlers,
+                ),
+                {},
                 {
-                  style: [
-                    styles.dndableSafe,
-                    props.style,
-                    isDragging && styles.dragging,
-                    isOver && styles.over,
-                    props.canDrop && styles.canDrop,
-                  ],
-                  dragSourceInfo: props.dragSourceInfo,
-                  onCheckCanDrop: props.onCheckCanDrop,
-                  onDrop: props.onDrop,
-                  onClick: props.onClick,
+                  children: props.children,
                 },
-                this.panResponder.panHandlers,
               ),
-              props.children,
             )
           }
         } else {
           // Fallback for when drag and drop is not enabled
           // In legacy mode, we still need to handle file drops
-          return /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [styles.dndableSafe, styles.legacy, props.style],
-            },
-            /*#__PURE__*/ _react.default.createElement(
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+            style: [styles.dndableSafe, styles.legacy, props.style],
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _reactNative.TouchableOpacity,
               {
                 style: styles.touchableArea,
                 onPress: this.handlePress,
+                children: props.children,
               },
-              props.children,
             ),
-          )
+          })
         }
       },
     },

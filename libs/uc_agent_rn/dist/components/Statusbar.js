@@ -12,6 +12,7 @@ var _ButtonIconic = _interopRequireDefault(require('./ButtonIconic'))
 var _StatusIcon = _interopRequireDefault(require('./StatusIcon'))
 var _OokIcon = _interopRequireDefault(require('../icons/OokIcon'))
 var _CloseIcon = _interopRequireDefault(require('../icons/CloseIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -333,91 +334,71 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         if (!shouldShow) {
           return null
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.Animated.View,
-          {
-            style: [
-              styles.statusbar,
-              {
-                opacity: this.fadeAnim,
-              },
-              this.props.style,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.Animated.View, {
+          style: [
+            styles.statusbar,
             {
+              opacity: this.fadeAnim,
+            },
+            this.props.style,
+          ],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: styles.statusbarMessage,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: styles.row,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.statusbarMessageHeader,
+                    children: _uawmsgs.default.MSG_STATUSBAR_MESSAGE_HEADER,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.statusbarMessageStatusIconArea,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_StatusIcon.default, {
+                        style: styles.statusbarMessageStatusIcon,
+                        status: statusMe.status,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.statusbarMessageStatusChecked,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _OokIcon.default,
+                          {},
+                        ),
+                      }),
+                    ],
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.statusbarMessageStatusLabel,
+                    children:
+                      statusMe.status === _constants.default.STATUS_AVAILABLE
+                        ? _uawmsgs.default.CMN_OWN_STATUS_STRING_AVAILABLE
+                        : statusMe.status === _constants.default.STATUS_OFFLINE
+                          ? _uawmsgs.default.CMN_OWN_STATUS_STRING_INVISIBLE
+                          : statusMe.status === _constants.default.STATUS_BUSY
+                            ? _uawmsgs.default.CMN_OWN_STATUS_STRING_BUSY
+                            : '',
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.statusbarMessageStatusDisplay,
+                    children: statusMe.display,
+                  }),
+                ],
+              }),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+              style: styles.statusbarCloseButton,
+              iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _CloseIcon.default,
+                {},
+              ),
+              title: _uawmsgs.default.CMN_CLOSE,
+              onPress: function onPress() {
+                return props.uiData.fire('statusbarCloseButton_onClick')
               },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.statusbarMessageHeader,
-                },
-                _uawmsgs.default.MSG_STATUSBAR_MESSAGE_HEADER,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.statusbarMessageStatusIconArea,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _StatusIcon.default,
-                  {
-                    style: styles.statusbarMessageStatusIcon,
-                    status: statusMe.status,
-                  },
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.statusbarMessageStatusChecked,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _OokIcon.default,
-                    null,
-                  ),
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.statusbarMessageStatusLabel,
-                },
-                statusMe.status === _constants.default.STATUS_AVAILABLE
-                  ? _uawmsgs.default.CMN_OWN_STATUS_STRING_AVAILABLE
-                  : statusMe.status === _constants.default.STATUS_OFFLINE
-                    ? _uawmsgs.default.CMN_OWN_STATUS_STRING_INVISIBLE
-                    : statusMe.status === _constants.default.STATUS_BUSY
-                      ? _uawmsgs.default.CMN_OWN_STATUS_STRING_BUSY
-                      : '',
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.statusbarMessageStatusDisplay,
-                },
-                statusMe.display,
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-            style: styles.statusbarCloseButton,
-            iconSource: /*#__PURE__*/ _react.default.createElement(
-              _CloseIcon.default,
-              null,
-            ),
-            title: _uawmsgs.default.CMN_CLOSE,
-            onPress: function onPress() {
-              return props.uiData.fire('statusbarCloseButton_onClick')
-            },
-          }),
-        )
+            }),
+          ],
+        })
       },
     },
   ])

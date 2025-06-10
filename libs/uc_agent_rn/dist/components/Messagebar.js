@@ -10,6 +10,7 @@ var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _strings = require('../utilities/strings')
 var _ButtonLabeled = _interopRequireDefault(require('./ButtonLabeled'))
 var _errors = _interopRequireDefault(require('../utilities/errors'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -144,8 +145,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * Messagebar - React Native version
  * A component that displays connection status messages and actions
  *
@@ -298,62 +298,49 @@ var Messagebar = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             lastSignOutReason.code === _errors.default.VERSION_INVALID ||
             lastSignOutReason.code === _errors.default.CANNOT_START_MFA
           )
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.messagebar,
-              this.state.someDragging && styles.someDragging,
-              props.style,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.messagebar,
+            this.state.someDragging && styles.someDragging,
+            props.style,
+          ],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
               style: styles.messagebarMessage,
-            },
-            messageText,
-          ),
-          showCancelButton &&
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
+              children: messageText,
+            }),
+            showCancelButton &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
                 style: [styles.messagebarButton, styles.cancelButton],
                 title: _uawmsgs.default.LBL_MESSAGEBAR_CANCEL_BUTTON_TOOLTIP,
                 onClick: props.uiData.fire.bind(
                   props.uiData,
                   'messagebarCancelButton_onClick',
                 ),
-              },
-              _uawmsgs.default.LBL_MESSAGEBAR_CANCEL_BUTTON,
-            ),
-          showReloadButton &&
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
+                children: _uawmsgs.default.LBL_MESSAGEBAR_CANCEL_BUTTON,
+              }),
+            showReloadButton &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
                 style: [styles.messagebarButton, styles.reloadButton],
                 title: _uawmsgs.default.LBL_MESSAGEBAR_RELOAD_BUTTON_TOOLTIP,
                 onClick: props.uiData.fire.bind(
                   props.uiData,
                   'messagebarReloadButton_onClick',
                 ),
-              },
-              _uawmsgs.default.LBL_MESSAGEBAR_RELOAD_BUTTON,
-            ),
-          showRetryButton &&
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
+                children: _uawmsgs.default.LBL_MESSAGEBAR_RELOAD_BUTTON,
+              }),
+            showRetryButton &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
                 style: [styles.messagebarButton, styles.retryButton],
                 title: _uawmsgs.default.LBL_MESSAGEBAR_RETRY_BUTTON_TOOLTIP,
                 onClick: props.uiData.fire.bind(
                   props.uiData,
                   'messagebarRetryButton_onClick',
                 ),
-              },
-              _uawmsgs.default.LBL_MESSAGEBAR_RETRY_BUTTON,
-            ),
-        )
+                children: _uawmsgs.default.LBL_MESSAGEBAR_RETRY_BUTTON,
+              }),
+          ],
+        })
       },
     },
   ])

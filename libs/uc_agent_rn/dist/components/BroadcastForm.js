@@ -30,6 +30,7 @@ var _strings = require('../utilities/strings')
 var _DropDownMenu = _interopRequireDefault(require('./DropDownMenu'))
 var _MenuItem = _interopRequireDefault(require('./MenuItem'))
 var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -132,8 +133,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * BroadcastForm
  * props.uiData
  * props.uiData.ucUiAction
@@ -345,194 +345,185 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 _this5.state.selectedBuddyTable[buddy.tenant][buddy.user_id],
             }
           })
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.brBroadcastForm,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brBroadcastTable,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: styles.brBroadcastForm,
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+            style: styles.brBroadcastTable,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: styles.row,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.label,
-                },
-                _uawmsgs.default.LBL_BROADCAST_GROUP,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.dropdownContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _DropDownMenu.default,
-                  {
-                    uiData: props.uiData,
-                    style: styles.brBroadcastGroupMenu,
-                    text:
-                      this.state.selectedGroupName ||
-                      _uawmsgs.default.LBL_BROADCAST_GROUP_NONE,
-                  },
-                  Object.keys(groupTable)
-                    .sort(function (groupName1, groupName2) {
-                      return groupTable[groupName1] - groupTable[groupName2]
-                    })
-                    .map(function (groupName) {
-                      return /*#__PURE__*/ _react.default.createElement(
-                        _MenuItem.default,
-                        {
-                          key: groupName,
-                          style: styles.brBroadcastFormMenuItem,
-                          dropDown: true,
-                          onPress: function onPress() {
-                            return _this5.handleBroadcastGroupItemClick(
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.label,
+                    children: _uawmsgs.default.LBL_BROADCAST_GROUP,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: styles.dropdownContainer,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _DropDownMenu.default,
+                      {
+                        uiData: props.uiData,
+                        style: styles.brBroadcastGroupMenu,
+                        text:
+                          this.state.selectedGroupName ||
+                          _uawmsgs.default.LBL_BROADCAST_GROUP_NONE,
+                        children: Object.keys(groupTable)
+                          .sort(function (groupName1, groupName2) {
+                            return (
+                              groupTable[groupName1] - groupTable[groupName2]
+                            )
+                          })
+                          .map(function (groupName) {
+                            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuItem.default,
+                              {
+                                style: styles.brBroadcastFormMenuItem,
+                                dropDown: true,
+                                onPress: function onPress() {
+                                  return _this5.handleBroadcastGroupItemClick(
+                                    groupName,
+                                  )
+                                },
+                                children:
+                                  groupName ||
+                                  _uawmsgs.default.LBL_BROADCAST_GROUP_NONE,
+                              },
                               groupName,
                             )
-                          },
-                        },
-                        groupName || _uawmsgs.default.LBL_BROADCAST_GROUP_NONE,
-                      )
-                    }),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.row,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.brBroadcastBuddiesCaptionArea,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.caption,
-                  },
-                  _uawmsgs.default.LBL_BROADCAST_BUDDIES,
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.TouchableOpacity,
-                {
-                  style: styles.brBroadcastMarkArea,
-                  onPress: function onPress() {
-                    return _this5.handleBroadcastMarkCheckClick()
-                  },
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.brBroadcastMarkCheck,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: [
-                        styles.checkIcon,
-                        this.state.broadcastMark && styles.checkIconSelected,
-                      ],
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.checkText,
-                    },
-                    _uawmsgs.default.LBL_BROADCAST_MARK_CHECK_CAPTION,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.broadcastIcon,
-                      accessibilityLabel:
-                        _uawmsgs.default.LBL_BROADCAST_MARK_ICON_TOOLTIP,
-                    },
-                  ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.row,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.ScrollView,
-                {
-                  style: styles.brBroadcastBuddies,
-                },
-                buddies.map(function (buddy) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      key: JSON.stringify({
-                        tenant: buddy.tenant,
-                        user_id: buddy.user_id,
-                      }),
-                      style: [
-                        styles.brBroadcastBuddyItem,
-                        buddy.selected && styles.brBroadcastBuddyItemSelected,
-                      ],
-                      onPress: function onPress() {
-                        return _this5.handleBroadcastBuddyItemClick(buddy)
-                      },
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _NameEmbeddedSpan.default,
-                      {
-                        ucUiStore: props.uiData.ucUiStore,
-                        format: '{0}',
-                        title: '{0}',
-                        buddy: buddy,
+                          }),
                       },
                     ),
-                  )
-                }),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+                  }),
+                ],
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: styles.row,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.brBroadcastTextArea,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TextInput,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: styles.brBroadcastBuddiesCaptionArea,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        style: styles.caption,
+                        children: _uawmsgs.default.LBL_BROADCAST_BUDDIES,
+                      },
+                    ),
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.TouchableOpacity,
+                    {
+                      style: styles.brBroadcastMarkArea,
+                      onPress: function onPress() {
+                        return _this5.handleBroadcastMarkCheckClick()
+                      },
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _reactNative.View,
+                        {
+                          style: styles.brBroadcastMarkCheck,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.View,
+                              {
+                                style: [
+                                  styles.checkIcon,
+                                  this.state.broadcastMark &&
+                                    styles.checkIconSelected,
+                                ],
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                style: styles.checkText,
+                                children:
+                                  _uawmsgs.default
+                                    .LBL_BROADCAST_MARK_CHECK_CAPTION,
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.View,
+                              {
+                                style: styles.broadcastIcon,
+                                accessibilityLabel:
+                                  _uawmsgs.default
+                                    .LBL_BROADCAST_MARK_ICON_TOOLTIP,
+                              },
+                            ),
+                          ],
+                        },
+                      ),
+                    },
+                  ),
+                ],
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: styles.row,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.ScrollView,
                   {
-                    ref: this.textInputRef,
-                    style: styles.brBroadcastTextInput,
-                    placeholder:
-                      _uawmsgs.default.LBL_BROADCAST_TEXT_TEXTAREA_PLACEHOLDER,
-                    value: this.state.text,
-                    onChangeText: function onChangeText(text) {
-                      return _this5.handleBroadcastTextChange(text)
-                    },
-                    onSubmitEditing: function onSubmitEditing() {
-                      return _this5.handleBroadcastTextSubmit()
-                    },
-                    multiline: true,
-                    textAlignVertical: 'top',
+                    style: styles.brBroadcastBuddies,
+                    children: buddies.map(function (buddy) {
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          style: [
+                            styles.brBroadcastBuddyItem,
+                            buddy.selected &&
+                              styles.brBroadcastBuddyItemSelected,
+                          ],
+                          onPress: function onPress() {
+                            return _this5.handleBroadcastBuddyItemClick(buddy)
+                          },
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _NameEmbeddedSpan.default,
+                            {
+                              ucUiStore: props.uiData.ucUiStore,
+                              format: '{0}',
+                              title: '{0}',
+                              buddy: buddy,
+                            },
+                          ),
+                        },
+                        JSON.stringify({
+                          tenant: buddy.tenant,
+                          user_id: buddy.user_id,
+                        }),
+                      )
+                    }),
                   },
                 ),
-              ),
-            ),
-          ),
-        )
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: styles.row,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.View,
+                  {
+                    style: styles.brBroadcastTextArea,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.TextInput,
+                      {
+                        ref: this.textInputRef,
+                        style: styles.brBroadcastTextInput,
+                        placeholder:
+                          _uawmsgs.default
+                            .LBL_BROADCAST_TEXT_TEXTAREA_PLACEHOLDER,
+                        value: this.state.text,
+                        onChangeText: function onChangeText(text) {
+                          return _this5.handleBroadcastTextChange(text)
+                        },
+                        onSubmitEditing: function onSubmitEditing() {
+                          return _this5.handleBroadcastTextSubmit()
+                        },
+                        multiline: true,
+                        textAlignVertical: 'top',
+                      },
+                    ),
+                  },
+                ),
+              }),
+            ],
+          }),
+        })
       },
     },
   ])

@@ -41,6 +41,7 @@ var _BuddylistButton = _interopRequireDefault(
 var _Toolbar = _interopRequireDefault(require('../components/Toolbar'))
 var _reactNative = require('react-native')
 var _RnAudioPlayer = require('../components/RnAudioPlayer')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -161,63 +162,53 @@ var App = /*#__PURE__*/ (function (_React$Component) {
       key: 'render',
       value: function render() {
         var props = this.props
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: {
-              flex: 1,
-            },
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: {
+            flex: 1,
           },
-          /*#__PURE__*/ _react.default.createElement(
-            _WidgetBody.default,
-            {
-              uiData: props.uiData,
-              modalOverlayClassName: 'brUCAgentApp',
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _RnAudioPlayer.RnAudioPlayer,
-              {
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_WidgetBody.default, {
+            uiData: props.uiData,
+            modalOverlayClassName: 'brUCAgentApp',
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_RnAudioPlayer.RnAudioPlayer, {
                 source: sound,
-              },
-            ),
-            /*#__PURE__*/ _react.default.createElement(_MainArea.default, {
-              className: 'brWithToolbar',
-              uiData: props.uiData,
-            }),
-            /*#__PURE__*/ _react.default.createElement(
-              _Toolbar.default,
-              null,
-              /*#__PURE__*/ _react.default.createElement(
-                _WebchatQueueButton.default,
-                {
-                  uiData: props.uiData,
-                  disabled: false,
-                },
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _WebchatPickupButton.default,
-                {
-                  uiData: props.uiData,
-                  disabled: false,
-                },
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _WebchatDropButton.default,
-                {
-                  uiData: props.uiData,
-                  disabled: false,
-                },
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _BuddylistButton.default,
-                {
-                  uiData: props.uiData,
-                  disabled: false,
-                },
-              ),
-            ),
-          ),
-        )
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainArea.default, {
+                className: 'brWithToolbar',
+                uiData: props.uiData,
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_Toolbar.default, {
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _WebchatQueueButton.default,
+                    {
+                      uiData: props.uiData,
+                      disabled: false,
+                    },
+                  ),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _WebchatPickupButton.default,
+                    {
+                      uiData: props.uiData,
+                      disabled: false,
+                    },
+                  ),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _WebchatDropButton.default,
+                    {
+                      uiData: props.uiData,
+                      disabled: false,
+                    },
+                  ),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_BuddylistButton.default, {
+                    uiData: props.uiData,
+                    disabled: false,
+                  }),
+                ],
+              }),
+            ],
+          }),
+        })
       },
     },
   ])

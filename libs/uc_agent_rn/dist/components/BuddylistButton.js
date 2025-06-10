@@ -31,6 +31,7 @@ var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
 var _StatusIcon = _interopRequireDefault(require('./StatusIcon'))
 var _ToolbarButton = _interopRequireDefault(require('./ToolbarButton'))
 var _BalloonDialog = _interopRequireDefault(require('./BalloonDialog'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -133,8 +134,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * BuddylistButton
  * props.uiData
  * props.uiData.ucUiStore
@@ -210,77 +210,72 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           var currentBuddyStatus =
             props.uiData.getCurrentBuddyStatus(buddy) || {}
           console.log('#Duy Phan console buddy', buddy)
-          return /*#__PURE__*/ _react.default.createElement(
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _reactNative.TouchableOpacity,
             {
-              key: buddy.user_id,
               style: styles.brBuddylistBuddy,
               onPress: function onPress() {
                 return props.uiData.fire('buddylistBuddy_onClick', buddy)
               },
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: styles.buddyContent,
-              },
-              /*#__PURE__*/ _react.default.createElement(_StatusIcon.default, {
-                style: styles.brStatusIcon,
-                status: currentBuddyStatus.status,
-                degree: currentBuddyStatus.degree,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_StatusIcon.default, {
+                    style: styles.brStatusIcon,
+                    status: currentBuddyStatus.status,
+                    degree: currentBuddyStatus.degree,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _NameEmbeddedSpan.default,
+                    {
+                      style: styles.brNameEmbeddedSpan,
+                      ucUiStore: props.uiData.ucUiStore,
+                      format: '{0}',
+                      title: '{0}',
+                      buddy: buddy,
+                    },
+                  ),
+                ],
               }),
-              /*#__PURE__*/ _react.default.createElement(
-                _NameEmbeddedSpan.default,
-                {
-                  style: styles.brNameEmbeddedSpan,
-                  ucUiStore: props.uiData.ucUiStore,
-                  format: '{0}',
-                  title: '{0}',
-                  buddy: buddy,
-                },
-              ),
-            ),
+            },
+            buddy.user_id,
           )
         })
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.brBuddylistButton,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _BalloonDialog.default,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.brBuddylistButton,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_BalloonDialog.default, {
               shows:
                 props.uiData.showingDialogVersion ===
                 this.state.showingDialogVersion,
               anchor: 'left',
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.ScrollView,
-              {
-                style: styles.brBuddylistArea,
-              },
-              buddyNodes,
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(_ToolbarButton.default, {
-            iconStyle: styles.brIconBuddylist,
-            iconSource: require('../images/buddylist.png'),
-            title: _uawmsgs.default.LBL_BUDDYLIST_BUTON_TOOLTIP,
-            disabled:
-              props.disabled ||
-              buddyNodes.length === 0 ||
-              ((0, _strings.int)(
-                props.uiData.ucUiStore.getOptionalSetting({
-                  key: 'buddylist_button_type',
-                }),
-              ) &
-                myUcCimUserType) ===
-                myUcCimUserType,
-            dropDown: true,
-            onPress: this.handleBuddylistButtonClick.bind(this),
-          }),
-        )
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.ScrollView,
+                {
+                  style: styles.brBuddylistArea,
+                  children: buddyNodes,
+                },
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ToolbarButton.default, {
+              iconStyle: styles.brIconBuddylist,
+              iconSource: require('../images/buddylist.png'),
+              title: _uawmsgs.default.LBL_BUDDYLIST_BUTON_TOOLTIP,
+              disabled:
+                props.disabled ||
+                buddyNodes.length === 0 ||
+                ((0, _strings.int)(
+                  props.uiData.ucUiStore.getOptionalSetting({
+                    key: 'buddylist_button_type',
+                  }),
+                ) &
+                  myUcCimUserType) ===
+                  myUcCimUserType,
+              dropDown: true,
+              onPress: this.handleBuddylistButtonClick.bind(this),
+            }),
+          ],
+        })
       },
     },
   ])

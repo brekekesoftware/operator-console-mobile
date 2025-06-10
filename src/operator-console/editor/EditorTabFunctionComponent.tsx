@@ -3,6 +3,7 @@ import { forwardRef, useEffect, useRef } from 'react'
 import type { LayoutRectangle } from 'react-native'
 import {
   InteractionManager,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -121,19 +122,27 @@ const EditorTabChildren = ({
   paneData,
 }) => {
   const refLayout = useRef<View | null>(null)
-  const refScroll = useRef<View | null>(null)
+  const refScroll = useRef<View | HTMLElement | null>(null)
 
   useEffect(() => {
     const { width: w, height: h } = Util.caculateCanvasSize(widgetDataArray)
     InteractionManager.runAfterInteractions(() => {
       refLayout?.current?.measure((fx, fy, width, height, px, py) => {
-        console.log('#Duy Phan console wh1', w, h, width, height)
-        refScroll.current?.setNativeProps({
-          style: {
-            width: w < width ? width : w,
-            height: h < height ? height : h,
-          },
-        })
+        if (refScroll.current) {
+          if (Platform.OS !== 'web') {
+            const el = refScroll.current as View
+            el.setNativeProps({
+              style: {
+                width: w < width ? width : w,
+                height: h < height ? height : h,
+              },
+            })
+          } else {
+            const el = refScroll.current as HTMLElement
+            el.style.width = w < width ? `${width}px` : `${w}px`
+            el.style.height = h < height ? `${height}px` : `${h}px`
+          }
+        }
       })
     })
   })

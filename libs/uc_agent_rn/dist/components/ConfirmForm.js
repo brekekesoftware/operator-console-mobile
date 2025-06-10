@@ -8,6 +8,7 @@ var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _strings = require('../utilities/strings')
 var _TextBox = _interopRequireDefault(require('./TextBox'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -202,29 +203,27 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
       key: 'render',
       value: function render() {
         var props = this.props
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.confirmForm,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.confirmForm,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
               style: styles.confirmMessage,
-            },
-            (0, _strings.string)(props.params && props.params.message),
-          ),
-          /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-            ref: this.textInputRef,
-            style: styles.textInput,
-            value: this.state.text,
-            placeholder: (0, _strings.string)(
-              props.params && props.params.placeholder,
-            ),
-            autoCapitalize: props.params && props.params.autoCapitalize,
-            onChangeText: this.handleTextChange,
-          }),
-        )
+              children: (0, _strings.string)(
+                props.params && props.params.message,
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_TextBox.default, {
+              ref: this.textInputRef,
+              style: styles.textInput,
+              value: this.state.text,
+              placeholder: (0, _strings.string)(
+                props.params && props.params.placeholder,
+              ),
+              autoCapitalize: props.params && props.params.autoCapitalize,
+              onChangeText: this.handleTextChange,
+            }),
+          ],
+        })
       },
     },
   ])

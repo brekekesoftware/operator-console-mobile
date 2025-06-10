@@ -44,6 +44,7 @@ var _ChevronDownIcon = _interopRequireDefault(
 )
 var _CheckIcon = _interopRequireDefault(require('../icons/CheckIcon'))
 var _SquareIcon = _interopRequireDefault(require('../icons/SquareIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -159,8 +160,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * UserListForm
  * props.uiData
  * props.uiData.ucUiStore
@@ -777,508 +777,532 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           }, null)
         }
         var currentGroupId = null
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.brUserListForm,
-              styles[
-                'brBuddyMode'.concat(
-                  (0, _strings.int)(props.params && props.params.buddy_mode),
-                )
-              ],
-              this.state.buddylist.screened && styles.brScreened,
-              this.state.saveOrder && styles.brSaveOrder,
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.brUserListForm,
+            styles[
+              'brBuddyMode'.concat(
+                (0, _strings.int)(props.params && props.params.buddy_mode),
+              )
             ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+            this.state.buddylist.screened && styles.brScreened,
+            this.state.saveOrder && styles.brSaveOrder,
+          ],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
               style: styles.brUserListTable,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brUserListAllUsersCheck,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.TouchableOpacity,
-                {
-                  style: [
-                    styles.brUserListAllUsersCheck,
-                    ((_props$params = props.params) === null ||
-                    _props$params === void 0
-                      ? void 0
-                      : _props$params.allUsersCheckDisabled) &&
-                      styles.brDisabled,
-                    ((_props$params2 = props.params) === null ||
-                    _props$params2 === void 0
-                      ? void 0
-                      : _props$params2.allUsersCheckHidden) && styles.brHidden,
-                  ],
-                  onPress: this.handleUserListAllUsersCheckClick.bind(this),
-                  disabled:
-                    (_props$params3 = props.params) === null ||
-                    _props$params3 === void 0
-                      ? void 0
-                      : _props$params3.allUsersCheckDisabled,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.brUserListAllUsersCheckIcon,
-                  },
-                  this.state.buddylist.screened
-                    ? /*#__PURE__*/ _react.default.createElement(
-                        _SquareIcon.default,
-                        {
-                          color: this.state.buddylist.screened ? null : 'white',
-                        },
-                      )
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _CheckIcon.default,
-                        {
-                          color: this.state.buddylist.screened ? null : 'white',
-                        },
-                      ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brUserListAllUsersCheckLabel,
-                  },
-                  _uawmsgs.default.LBL_USER_LIST_ALL_USERS_CHECK,
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brUserListSaveOrderCheck,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.TouchableOpacity,
-                {
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.brUserListAllUsersCheck,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _reactNative.TouchableOpacity,
+                    {
+                      style: [
+                        styles.brUserListAllUsersCheck,
+                        ((_props$params = props.params) === null ||
+                        _props$params === void 0
+                          ? void 0
+                          : _props$params.allUsersCheckDisabled) &&
+                          styles.brDisabled,
+                        ((_props$params2 = props.params) === null ||
+                        _props$params2 === void 0
+                          ? void 0
+                          : _props$params2.allUsersCheckHidden) &&
+                          styles.brHidden,
+                      ],
+                      onPress: this.handleUserListAllUsersCheckClick.bind(this),
+                      disabled:
+                        (_props$params3 = props.params) === null ||
+                        _props$params3 === void 0
+                          ? void 0
+                          : _props$params3.allUsersCheckDisabled,
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: styles.brUserListAllUsersCheckIcon,
+                          children: this.state.buddylist.screened
+                            ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _SquareIcon.default,
+                                {
+                                  color: this.state.buddylist.screened
+                                    ? null
+                                    : 'white',
+                                },
+                              )
+                            : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _CheckIcon.default,
+                                {
+                                  color: this.state.buddylist.screened
+                                    ? null
+                                    : 'white',
+                                },
+                              ),
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          style: styles.brUserListAllUsersCheckLabel,
+                          children:
+                            _uawmsgs.default.LBL_USER_LIST_ALL_USERS_CHECK,
+                        }),
+                      ],
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                   style: styles.brUserListSaveOrderCheck,
-                  onPress: this.handleUserListSaveOrderCheckClick.bind(this),
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.brUserListSaveOrderCheckIcon,
-                  },
-                  this.state.saveOrder
-                    ? /*#__PURE__*/ _react.default.createElement(
-                        _CheckIcon.default,
-                        {
-                          color: this.state.saveOrder ? null : 'white',
-                        },
-                      )
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _SquareIcon.default,
-                        {
-                          color: this.state.saveOrder ? null : 'white',
-                        },
-                      ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brUserListSaveOrderCheckLabel,
-                  },
-                  _uawmsgs.default.LBL_USER_LIST_SAVE_ORDER_CHECK,
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.TouchableOpacity,
-                {
-                  style: styles.brUserListSortOrderGroupCheck,
-                  onPress:
-                    this.handleUserListSortOrderGroupCheckClick.bind(this),
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.brUserListSortOrderGroupCheckIcon,
-                  },
-                  this.state.selectedSortOrderKey === '_group'
-                    ? /*#__PURE__*/ _react.default.createElement(
-                        _CheckIcon.default,
-                        {
-                          color:
-                            this.state.selectedSortOrderKey === '_group'
-                              ? null
-                              : 'white',
-                        },
-                      )
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _SquareIcon.default,
-                        {
-                          color:
-                            this.state.selectedSortOrderKey === '_group'
-                              ? null
-                              : 'white',
-                        },
-                      ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brUserListSortOrderGroupCheckLabel,
-                  },
-                  _uawmsgs.default.LBL_USER_LIST_SORT_ORDER_GROUP_CHECK,
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brUserListCaptionArea,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                _uawmsgs.default.LBL_USER_LIST_CAPTION,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brUserListCapacityArea,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.brUserListCapacityLabel,
-                },
-                _uawmsgs.default.LBL_USER_LIST_CAPACITY,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.brUserListCapacityValue,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: [
-                      styles.brUserListCapacityUsed,
-                      this.state.usedCount > props.params.buddy_max &&
-                        styles.brOver,
-                    ],
-                  },
-                  this.state.usedCount,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  ' / ',
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brUserListCapacityMax,
-                  },
-                  props.params.buddy_max,
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.ScrollView,
-              {
-                style: styles.brUserListBuddies,
-              },
-              buddies.map(function (buddy, i) {
-                if (buddy && buddy.user_id) {
-                  var key = JSON.stringify({
-                    tenant: buddy.tenant,
-                    user_id: buddy.user_id,
-                  })
-                  var label =
-                    (buddy.name || buddy.user_id) +
-                    (nameDisplayMode === 1
-                      ? ' ('.concat(buddy.user_id, ')')
-                      : '')
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _DndableSafe.default,
-                    {
-                      key: key,
-                      uiData: props.uiData,
-                      style: [
-                        styles.brUserListBuddyItem,
-                        _this3.state.selectedSortOrderKey === '_group' &&
-                          !_this3.state.expandedGroupIds[currentGroupId] &&
-                          styles.brCollapsed,
-                        {
-                          zIndex: buddies.length - 1,
-                        },
-                      ],
-                      dragSourceInfo: {
-                        dragSourceInfoType: 'userListBuddyItem',
-                        dragSourceInfoCode: key,
-                      },
-                      onCheckCanDrop: function onCheckCanDrop(ev) {
-                        return (
-                          _this3.state.saveOrder &&
-                          _this3.state.selectedSortOrderKey === '_group' &&
-                          ev.dragSourceInfo &&
-                          ev.dragSourceInfo.dragSourceInfoType ===
-                            'userListBuddyItem' &&
-                          ev.dragSourceInfo.dragSourceInfoCode !== key
-                        )
-                      },
-                      onDrop: _this3.handleUserListDrop.bind(_this3, {
-                        dropTargetInfoType: 'userListBuddyItem',
-                        dropTargetInfoCode: key,
-                      }),
-                      onPress: _this3.handleUserListBuddyItemClick.bind(
-                        _this3,
-                        buddy,
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brUserListBuddyItemIcon,
-                      },
-                      _this3.state.buddylist.screened && buddy.delete
-                        ? /*#__PURE__*/ _react.default.createElement(
-                            _SquareIcon.default,
-                            {
-                              color:
-                                _this3.state.buddylist.screened && buddy.delete
-                                  ? null
-                                  : 'white',
-                            },
-                          )
-                        : /*#__PURE__*/ _react.default.createElement(
-                            _CheckIcon.default,
-                            {
-                              color:
-                                _this3.state.buddylist.screened && buddy.delete
-                                  ? null
-                                  : 'white',
-                            },
-                          ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      {
-                        style: styles.brUserListBuddyItemLabel,
-                        numberOfLines: 1,
-                      },
-                      label,
-                    ),
-                  )
-                } else if (buddy) {
-                  currentGroupId = buddy.id
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _DndableSafe.default,
-                    {
-                      key: currentGroupId,
-                      uiData: props.uiData,
-                      style: [
-                        styles.brUserListGroupArea,
-                        buddy.id && styles.brGroupId,
-                        {
-                          zIndex: buddies.length - i,
-                        },
-                      ],
-                      dragSourceInfo: {
-                        dragSourceInfoType: 'userListGroupArea',
-                        dragSourceInfoCode: buddy.id,
-                      },
-                      onCheckCanDrop: function onCheckCanDrop(ev) {
-                        return (
-                          _this3.state.saveOrder &&
-                          _this3.state.selectedSortOrderKey === '_group' &&
-                          ev.dragSourceInfo &&
-                          (ev.dragSourceInfo.dragSourceInfoType ===
-                            'userListBuddyItem' ||
-                            (ev.dragSourceInfo.dragSourceInfoType ===
-                              'userListGroupArea' &&
-                              ev.dragSourceInfo.dragSourceInfoCode !==
-                                buddy.id &&
-                              ev.dragSourceInfo.dragSourceInfoCode &&
-                              buddy.id))
-                        )
-                      },
-                      onDrop: _this3.handleUserListDrop.bind(_this3, {
-                        dropTargetInfoType: 'userListGroupArea',
-                        dropTargetInfoCode: buddy.id,
-                      }),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brUserListGroupMenuArea,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _ButtonIconic.default,
-                        {
-                          style: styles.brUserListGroupMenuButton,
-                          iconSource:
-                            /*#__PURE__*/ _react.default.createElement(
-                              _MoreIcon.default,
-                              null,
-                            ),
-                          onPress:
-                            _this3.handleUserListGroupMenuButtonClick.bind(
-                              _this3,
-                              buddy,
-                            ),
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _MenuBalloonDialog.default,
-                          {
-                            showing:
-                              props.uiData.showingDialogVersion ===
-                                _this3.state.groupMenuShowingDialogVersion &&
-                              buddy.id ===
-                                _this3.state.groupMenuShowingDialogId,
-                            style: styles.brUserListGroupMenuBalloonDialog,
-                          },
-                          /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
-                            {
-                              style: [
-                                styles.brUserListGroupMenuItem,
-                                styles.brCheckAll,
-                              ],
-                              disabled: !_this3.state.buddylist.screened,
-                              onPress:
-                                _this3.handleUserListGroupCheckAllMenuItemClick.bind(
-                                  _this3,
-                                  buddies.slice(i + 1),
-                                  true,
-                                ),
-                            },
-                            _uawmsgs.default.LBL_USER_LIST_GROUP_CHECK_ALL_MENU,
-                          ),
-                          /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
-                            {
-                              style: [
-                                styles.brUserListGroupMenuItem,
-                                styles.brUncheckAll,
-                              ],
-                              disabled: !_this3.state.buddylist.screened,
-                              onPress:
-                                _this3.handleUserListGroupCheckAllMenuItemClick.bind(
-                                  _this3,
-                                  buddies.slice(i + 1),
-                                  false,
-                                ),
-                            },
-                            _uawmsgs.default
-                              .LBL_USER_LIST_GROUP_UNCHECK_ALL_MENU,
-                          ),
-                          /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
-                            {
-                              style: [
-                                styles.brUserListGroupMenuItem,
-                                styles.brRemoveGroup,
-                              ],
-                              disabled: !(_this3.state.saveOrder && buddy.id),
-                              onPress:
-                                _this3.handleUserListGroupRemoveGroupMenuItemClick.bind(
-                                  _this3,
-                                  buddy.id,
-                                ),
-                            },
-                            _uawmsgs.default
-                              .LBL_USER_LIST_GROUP_REMOVE_GROUP_MENU,
-                          ),
-                        ),
-                      ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                       _reactNative.TouchableOpacity,
                       {
-                        style: styles.brUserListGroupItem,
-                        onPress: _this3.handleUserListGroupItemClick.bind(
-                          _this3,
-                          buddy,
-                        ),
+                        style: styles.brUserListSaveOrderCheck,
+                        onPress:
+                          this.handleUserListSaveOrderCheckClick.bind(this),
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.brUserListSaveOrderCheckIcon,
+                              children: this.state.saveOrder
+                                ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _CheckIcon.default,
+                                    {
+                                      color: this.state.saveOrder
+                                        ? null
+                                        : 'white',
+                                    },
+                                  )
+                                : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _SquareIcon.default,
+                                    {
+                                      color: this.state.saveOrder
+                                        ? null
+                                        : 'white',
+                                    },
+                                  ),
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              style: styles.brUserListSaveOrderCheckLabel,
+                              children:
+                                _uawmsgs.default.LBL_USER_LIST_SAVE_ORDER_CHECK,
+                            },
+                          ),
+                        ],
                       },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: styles.brGroupIcon,
-                        },
-                        _this3.state.expandedGroupIds[buddy.id]
-                          ? /*#__PURE__*/ _react.default.createElement(
-                              _ChevronUpIcon.default,
-                              null,
-                            )
-                          : /*#__PURE__*/ _react.default.createElement(
-                              _ChevronDownIcon.default,
-                              null,
-                            ),
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        (0, _strings.string)(
-                          groupUserCountTable[buddy.id] &&
-                            buddy.name +
-                              ' ' +
-                              (_this3.state.buddylist.screened
-                                ? groupUserCountTable[buddy.id].activeCount
-                                : groupUserCountTable[buddy.id].totalCount) +
-                              '/' +
-                              groupUserCountTable[buddy.id].totalCount,
-                        ),
-                      ),
                     ),
-                  )
-                }
-                return /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    key: i,
-                  },
-                )
-              }),
-            ),
-          ),
-          this.state.saveOrder &&
-            this.state.selectedSortOrderKey === '_group' &&
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: styles.brUserListCreateGroupButton,
-              iconSource: /*#__PURE__*/ _react.default.createElement(
-                _AddFolderIcon.default,
-                null,
-              ),
-              onPress: this.handleUserListCreateGroupButtonClick.bind(this),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                      _reactNative.TouchableOpacity,
+                      {
+                        style: styles.brUserListSortOrderGroupCheck,
+                        onPress:
+                          this.handleUserListSortOrderGroupCheckClick.bind(
+                            this,
+                          ),
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.brUserListSortOrderGroupCheckIcon,
+                              children:
+                                this.state.selectedSortOrderKey === '_group'
+                                  ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _CheckIcon.default,
+                                      {
+                                        color:
+                                          this.state.selectedSortOrderKey ===
+                                          '_group'
+                                            ? null
+                                            : 'white',
+                                      },
+                                    )
+                                  : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _SquareIcon.default,
+                                      {
+                                        color:
+                                          this.state.selectedSortOrderKey ===
+                                          '_group'
+                                            ? null
+                                            : 'white',
+                                      },
+                                    ),
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              style: styles.brUserListSortOrderGroupCheckLabel,
+                              children:
+                                _uawmsgs.default
+                                  .LBL_USER_LIST_SORT_ORDER_GROUP_CHECK,
+                            },
+                          ),
+                        ],
+                      },
+                    ),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.brUserListCaptionArea,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      children: _uawmsgs.default.LBL_USER_LIST_CAPTION,
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.brUserListCapacityArea,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.brUserListCapacityLabel,
+                      children: _uawmsgs.default.LBL_USER_LIST_CAPACITY,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: styles.brUserListCapacityValue,
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          style: [
+                            styles.brUserListCapacityUsed,
+                            this.state.usedCount > props.params.buddy_max &&
+                              styles.brOver,
+                          ],
+                          children: this.state.usedCount,
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          children: ' / ',
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          style: styles.brUserListCapacityMax,
+                          children: props.params.buddy_max,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.ScrollView, {
+                  style: styles.brUserListBuddies,
+                  children: buddies.map(function (buddy, i) {
+                    if (buddy && buddy.user_id) {
+                      var key = JSON.stringify({
+                        tenant: buddy.tenant,
+                        user_id: buddy.user_id,
+                      })
+                      var label =
+                        (buddy.name || buddy.user_id) +
+                        (nameDisplayMode === 1
+                          ? ' ('.concat(buddy.user_id, ')')
+                          : '')
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _DndableSafe.default,
+                        {
+                          uiData: props.uiData,
+                          style: [
+                            styles.brUserListBuddyItem,
+                            _this3.state.selectedSortOrderKey === '_group' &&
+                              !_this3.state.expandedGroupIds[currentGroupId] &&
+                              styles.brCollapsed,
+                            {
+                              zIndex: buddies.length - 1,
+                            },
+                          ],
+                          dragSourceInfo: {
+                            dragSourceInfoType: 'userListBuddyItem',
+                            dragSourceInfoCode: key,
+                          },
+                          onCheckCanDrop: function onCheckCanDrop(ev) {
+                            return (
+                              _this3.state.saveOrder &&
+                              _this3.state.selectedSortOrderKey === '_group' &&
+                              ev.dragSourceInfo &&
+                              ev.dragSourceInfo.dragSourceInfoType ===
+                                'userListBuddyItem' &&
+                              ev.dragSourceInfo.dragSourceInfoCode !== key
+                            )
+                          },
+                          onDrop: _this3.handleUserListDrop.bind(_this3, {
+                            dropTargetInfoType: 'userListBuddyItem',
+                            dropTargetInfoCode: key,
+                          }),
+                          onPress: _this3.handleUserListBuddyItemClick.bind(
+                            _this3,
+                            buddy,
+                          ),
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.View,
+                              {
+                                style: styles.brUserListBuddyItemIcon,
+                                children:
+                                  _this3.state.buddylist.screened &&
+                                  buddy.delete
+                                    ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _SquareIcon.default,
+                                        {
+                                          color:
+                                            _this3.state.buddylist.screened &&
+                                            buddy.delete
+                                              ? null
+                                              : 'white',
+                                        },
+                                      )
+                                    : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _CheckIcon.default,
+                                        {
+                                          color:
+                                            _this3.state.buddylist.screened &&
+                                            buddy.delete
+                                              ? null
+                                              : 'white',
+                                        },
+                                      ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                style: styles.brUserListBuddyItemLabel,
+                                numberOfLines: 1,
+                                children: label,
+                              },
+                            ),
+                          ],
+                        },
+                        key,
+                      )
+                    } else if (buddy) {
+                      currentGroupId = buddy.id
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _DndableSafe.default,
+                        {
+                          uiData: props.uiData,
+                          style: [
+                            styles.brUserListGroupArea,
+                            buddy.id && styles.brGroupId,
+                            {
+                              zIndex: buddies.length - i,
+                            },
+                          ],
+                          dragSourceInfo: {
+                            dragSourceInfoType: 'userListGroupArea',
+                            dragSourceInfoCode: buddy.id,
+                          },
+                          onCheckCanDrop: function onCheckCanDrop(ev) {
+                            return (
+                              _this3.state.saveOrder &&
+                              _this3.state.selectedSortOrderKey === '_group' &&
+                              ev.dragSourceInfo &&
+                              (ev.dragSourceInfo.dragSourceInfoType ===
+                                'userListBuddyItem' ||
+                                (ev.dragSourceInfo.dragSourceInfoType ===
+                                  'userListGroupArea' &&
+                                  ev.dragSourceInfo.dragSourceInfoCode !==
+                                    buddy.id &&
+                                  ev.dragSourceInfo.dragSourceInfoCode &&
+                                  buddy.id))
+                            )
+                          },
+                          onDrop: _this3.handleUserListDrop.bind(_this3, {
+                            dropTargetInfoType: 'userListGroupArea',
+                            dropTargetInfoCode: buddy.id,
+                          }),
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.View,
+                              {
+                                style: styles.brUserListGroupMenuArea,
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _ButtonIconic.default,
+                                  {
+                                    style: styles.brUserListGroupMenuButton,
+                                    iconSource: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_MoreIcon.default, {}),
+                                    onPress:
+                                      _this3.handleUserListGroupMenuButtonClick.bind(
+                                        _this3,
+                                        buddy,
+                                      ),
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsxs)(
+                                      _MenuBalloonDialog.default,
+                                      {
+                                        showing:
+                                          props.uiData.showingDialogVersion ===
+                                            _this3.state
+                                              .groupMenuShowingDialogVersion &&
+                                          buddy.id ===
+                                            _this3.state
+                                              .groupMenuShowingDialogId,
+                                        style:
+                                          styles.brUserListGroupMenuBalloonDialog,
+                                        children: [
+                                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _MenuItem.default,
+                                            {
+                                              style: [
+                                                styles.brUserListGroupMenuItem,
+                                                styles.brCheckAll,
+                                              ],
+                                              disabled:
+                                                !_this3.state.buddylist
+                                                  .screened,
+                                              onPress:
+                                                _this3.handleUserListGroupCheckAllMenuItemClick.bind(
+                                                  _this3,
+                                                  buddies.slice(i + 1),
+                                                  true,
+                                                ),
+                                              children:
+                                                _uawmsgs.default
+                                                  .LBL_USER_LIST_GROUP_CHECK_ALL_MENU,
+                                            },
+                                          ),
+                                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _MenuItem.default,
+                                            {
+                                              style: [
+                                                styles.brUserListGroupMenuItem,
+                                                styles.brUncheckAll,
+                                              ],
+                                              disabled:
+                                                !_this3.state.buddylist
+                                                  .screened,
+                                              onPress:
+                                                _this3.handleUserListGroupCheckAllMenuItemClick.bind(
+                                                  _this3,
+                                                  buddies.slice(i + 1),
+                                                  false,
+                                                ),
+                                              children:
+                                                _uawmsgs.default
+                                                  .LBL_USER_LIST_GROUP_UNCHECK_ALL_MENU,
+                                            },
+                                          ),
+                                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _MenuItem.default,
+                                            {
+                                              style: [
+                                                styles.brUserListGroupMenuItem,
+                                                styles.brRemoveGroup,
+                                              ],
+                                              disabled: !(
+                                                _this3.state.saveOrder &&
+                                                buddy.id
+                                              ),
+                                              onPress:
+                                                _this3.handleUserListGroupRemoveGroupMenuItemClick.bind(
+                                                  _this3,
+                                                  buddy.id,
+                                                ),
+                                              children:
+                                                _uawmsgs.default
+                                                  .LBL_USER_LIST_GROUP_REMOVE_GROUP_MENU,
+                                            },
+                                          ),
+                                        ],
+                                      },
+                                    ),
+                                  },
+                                ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                              _reactNative.TouchableOpacity,
+                              {
+                                style: styles.brUserListGroupItem,
+                                onPress:
+                                  _this3.handleUserListGroupItemClick.bind(
+                                    _this3,
+                                    buddy,
+                                  ),
+                                children: [
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: styles.brGroupIcon,
+                                      children: _this3.state.expandedGroupIds[
+                                        buddy.id
+                                      ]
+                                        ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _ChevronUpIcon.default,
+                                            {},
+                                          )
+                                        : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _ChevronDownIcon.default,
+                                            {},
+                                          ),
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      children: (0, _strings.string)(
+                                        groupUserCountTable[buddy.id] &&
+                                          buddy.name +
+                                            ' ' +
+                                            (_this3.state.buddylist.screened
+                                              ? groupUserCountTable[buddy.id]
+                                                  .activeCount
+                                              : groupUserCountTable[buddy.id]
+                                                  .totalCount) +
+                                            '/' +
+                                            groupUserCountTable[buddy.id]
+                                              .totalCount,
+                                      ),
+                                    },
+                                  ),
+                                ],
+                              },
+                            ),
+                          ],
+                        },
+                        currentGroupId,
+                      )
+                    }
+                    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.View,
+                      {},
+                      i,
+                    )
+                  }),
+                }),
+              ],
             }),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+            this.state.saveOrder &&
+              this.state.selectedSortOrderKey === '_group' &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                style: styles.brUserListCreateGroupButton,
+                iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _AddFolderIcon.default,
+                  {},
+                ),
+                onPress: this.handleUserListCreateGroupButtonClick.bind(this),
+              }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                 this.state.createGroupShowingDialogVersion,
               style: styles.brUserListCreateGroupBalloonDialog,
-            },
-            /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-              ref: this.userListCreateGroupInputRef,
-              style: styles.brUserListCreateGroupInput,
-              placeholder:
-                _uawmsgs.default.LBL_USER_LIST_CREATE_GROUP_INPUT_PLACEHOLDER,
-              onKeyPress: this.handleUserListCreateGroupInputKeyDown.bind(this),
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_TextBox.default, {
+                  ref: this.userListCreateGroupInputRef,
+                  style: styles.brUserListCreateGroupInput,
+                  placeholder:
+                    _uawmsgs.default
+                      .LBL_USER_LIST_CREATE_GROUP_INPUT_PLACEHOLDER,
+                  onKeyPress:
+                    this.handleUserListCreateGroupInputKeyDown.bind(this),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
+                  style: styles.brUserListCreateGroupSubmitButton,
+                  onPress:
+                    this.handleUserListCreateGroupSubmitButtonClick.bind(this),
+                  children:
+                    _uawmsgs.default.LBL_USER_LIST_CREATE_GROUP_SUBMIT_BUTTON,
+                }),
+              ],
             }),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: styles.brUserListCreateGroupSubmitButton,
-                onPress:
-                  this.handleUserListCreateGroupSubmitButtonClick.bind(this),
-              },
-              _uawmsgs.default.LBL_USER_LIST_CREATE_GROUP_SUBMIT_BUTTON,
-            ),
-          ),
-        )
+          ],
+        })
       },
     },
   ])

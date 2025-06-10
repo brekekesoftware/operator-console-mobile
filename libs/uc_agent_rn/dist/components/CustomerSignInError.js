@@ -7,6 +7,7 @@ exports.default = void 0
 var _reactNative = require('react-native')
 var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _strings = require('../utilities/strings')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -36,25 +37,19 @@ var _default = (exports.default = function _default(props) {
   var customMessageStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInErrorMessage
-  return /*#__PURE__*/ React.createElement(
-    _reactNative.View,
-    {
-      style: [
-        styles.signInErrorArea,
-        hasErrorMessage && styles.withErrorMessage,
-        hasSignInFailed && styles.signInFailed,
-        hasSignInFailed && isErrorReenterConf && styles.errorReenterConf,
-        customStyle,
-      ],
-    },
-    /*#__PURE__*/ React.createElement(
-      _reactNative.Text,
-      {
-        style: [styles.signInErrorMessage, customMessageStyle],
-      },
-      errorMessage || _uawmsgs.default.MSG_SIGN_IN_FAILED,
-    ),
-  )
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+    style: [
+      styles.signInErrorArea,
+      hasErrorMessage && styles.withErrorMessage,
+      hasSignInFailed && styles.signInFailed,
+      hasSignInFailed && isErrorReenterConf && styles.errorReenterConf,
+      customStyle,
+    ],
+    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+      style: [styles.signInErrorMessage, customMessageStyle],
+      children: errorMessage || _uawmsgs.default.MSG_SIGN_IN_FAILED,
+    }),
+  })
 })
 var colors = {
   errorBorder: '#bb7755',

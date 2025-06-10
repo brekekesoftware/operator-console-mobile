@@ -23,6 +23,7 @@ var _currentscript = _interopRequireDefault(
   require('../utilities/currentscript'),
 )
 var _reactNativeGestureHandler = require('react-native-gesture-handler')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -228,61 +229,60 @@ var UCApp = /*#__PURE__*/ (function (_React$Component) {
           .map(function (s) {
             return _currentscript.default.DIR + '../sounds/' + s + '.mp3'
           })
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.container,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _WidgetBody.default,
-            {
-              uiData: uiData,
-              modalOverlayStyle: styles.modalOverlay,
-            },
-            /*#__PURE__*/ _react.default.createElement(_MainArea.default, {
-              style: {
-                left: this.state.splitterLeft,
-              },
-              uiData: uiData,
-            }),
-            /*#__PURE__*/ _react.default.createElement(_Sidebar.default, {
-              uiData: uiData,
-              style: {
-                width: this.state.splitterLeft + 1,
-              },
-            }),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNativeGestureHandler.PanGestureHandler,
-              {
-                onGestureEvent: this.handleLeftDrag,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: [
-                  styles.splitterLeft,
-                  {
-                    left: this.state.splitterLeft,
-                  },
-                ],
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: styles.container,
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_WidgetBody.default, {
+            uiData: uiData,
+            modalOverlayStyle: styles.modalOverlay,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainArea.default, {
+                style: {
+                  left: this.state.splitterLeft,
+                },
+                uiData: uiData,
               }),
-            ),
-            /*#__PURE__*/ _react.default.createElement(_Licensebar.default, {
-              uiData: uiData,
-              style: styles.licensebar,
-            }),
-            /*#__PURE__*/ _react.default.createElement(_Statusbar.default, {
-              uiData: uiData,
-              style: styles.statusbar,
-            }),
-            /*#__PURE__*/ _react.default.createElement(_Incomingbar.default, {
-              uiData: uiData,
-              style: styles.incomingbar,
-            }),
-            /*#__PURE__*/ _react.default.createElement(_Messagebar.default, {
-              uiData: uiData,
-              style: styles.messagebar,
-            }),
-          ),
-        )
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_Sidebar.default, {
+                uiData: uiData,
+                style: {
+                  width: this.state.splitterLeft + 1,
+                },
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNativeGestureHandler.PanGestureHandler,
+                {
+                  onGestureEvent: this.handleLeftDrag,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: [
+                        styles.splitterLeft,
+                        {
+                          left: this.state.splitterLeft,
+                        },
+                      ],
+                    },
+                  ),
+                },
+              ),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_Licensebar.default, {
+                uiData: uiData,
+                style: styles.licensebar,
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_Statusbar.default, {
+                uiData: uiData,
+                style: styles.statusbar,
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_Incomingbar.default, {
+                uiData: uiData,
+                style: styles.incomingbar,
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_Messagebar.default, {
+                uiData: uiData,
+                style: styles.messagebar,
+              }),
+            ],
+          }),
+        })
       },
     },
   ])

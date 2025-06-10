@@ -14,6 +14,7 @@ var _ChevronDownIcon = _interopRequireDefault(
   require('../icons/ChevronDownIcon'),
 )
 var _ErrorIcon = _interopRequireDefault(require('../icons/ErrorIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -148,8 +149,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * HistoryDetailArea
  * props.uiData
  * props.uiData.ucUiAction
@@ -158,7 +158,6 @@ function _toPrimitive(t, r) {
  * props.panelType
  * props.panelCode
  */
-
 var colors = {
   white: '#FFFFFF',
   platinum: '#E0E0E0',
@@ -326,10 +325,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 }
               }
               chatNodes.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _ChatParagraph.default,
                   {
-                    key: chat.key,
                     ref: chat.key,
                     uiData: props.uiData,
                     panelType: props.panelType,
@@ -337,6 +335,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     paragraph: chat,
                     previousParagraph: previousParagraph,
                   },
+                  chat.key,
                 ),
               )
               previousParagraph = chat
@@ -364,58 +363,49 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   : '')
               var icon = null
               if (isClickable) {
-                icon = /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.showmorelinkIcon,
-                  },
-                  index === 0
-                    ? /*#__PURE__*/ _react.default.createElement(
-                        _ChevronUpIcon.default,
-                        {
-                          color: colors.darkGray,
-                        },
-                      )
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _ChevronDownIcon.default,
-                        {
-                          color: colors.darkGray,
-                        },
-                      ),
-                )
+                icon = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.showmorelinkIcon,
+                  children:
+                    index === 0
+                      ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _ChevronUpIcon.default,
+                          {
+                            color: colors.darkGray,
+                          },
+                        )
+                      : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _ChevronDownIcon.default,
+                          {
+                            color: colors.darkGray,
+                          },
+                        ),
+                })
               } else if (isError) {
-                icon = /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.showmorelinkIcon,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
+                icon = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.showmorelinkIcon,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _ErrorIcon.default,
                     {
                       color: colors.errorColor,
                     },
                   ),
-                )
+                })
               } else if (isProgress && _this2.props.hasMore) {
-                icon = /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.loadingSpinnerContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
+                icon = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.loadingSpinnerContainer,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _reactNative.ActivityIndicator,
                     {
                       size: 'small',
                       color: colors.mediumTurquoise,
                     },
                   ),
-                )
+                })
               }
               chatNodes.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNative.TouchableOpacity,
                   {
-                    key: chat.key,
                     ref: chat.key,
                     style: [
                       styles.showMoreLink,
@@ -432,26 +422,24 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                       )
                     },
                     disabled: showmorelinkEntry.nowReceiving,
+                    children: icon,
                   },
-                  icon,
+                  chat.key,
                 ),
               )
             }
           })
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.ScrollView,
-          {
-            ref: this.scrollViewRef,
-            style: [
-              styles.historyDetailArea,
-              this.autoReceiveMore && styles.autoReceiveMore,
-            ],
-            onScroll: this.handleScroll,
-            scrollEventThrottle: 16,
-            nestedScrollEnabled: true,
-          },
-          chatNodes,
-        )
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.ScrollView, {
+          ref: this.scrollViewRef,
+          style: [
+            styles.historyDetailArea,
+            this.autoReceiveMore && styles.autoReceiveMore,
+          ],
+          onScroll: this.handleScroll,
+          scrollEventThrottle: 16,
+          nestedScrollEnabled: true,
+          children: chatNodes,
+        })
       },
     },
   ])

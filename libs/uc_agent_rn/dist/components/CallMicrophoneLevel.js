@@ -28,6 +28,7 @@ var _reactNative = require('react-native')
 var _reactNativeLinearGradient = _interopRequireDefault(
   require('react-native-linear-gradient'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -130,8 +131,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * CallMicrophoneLevel
  * props.uiData
  * props.uiData.ucUiStore
@@ -241,38 +241,34 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           inputRange: [0, 100],
           outputRange: ['100%', '0%'],
         })
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [styles.brCallMicrophoneLevel, this.props.style],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNativeLinearGradient.default,
-            {
-              style: styles.brCallMicrophoneLevelBackground,
-              colors: ['#80ff80', '#ffff80', '#ff8080'],
-              start: {
-                x: 0,
-                y: 0,
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [styles.brCallMicrophoneLevel, this.props.style],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+              _reactNativeLinearGradient.default,
+              {
+                style: styles.brCallMicrophoneLevelBackground,
+                colors: ['#80ff80', '#ffff80', '#ff8080'],
+                start: {
+                  x: 0,
+                  y: 0,
+                },
+                end: {
+                  x: 1,
+                  y: 0,
+                },
               },
-              end: {
-                x: 1,
-                y: 0,
-              },
-            },
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Animated.View,
-            {
+            ),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Animated.View, {
               style: [
                 styles.brCallMicrophoneLevelIndicator,
                 {
                   left: indicatorLeft,
                 },
               ],
-            },
-          ),
-        )
+            }),
+          ],
+        })
       },
     },
   ])

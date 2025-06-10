@@ -26,6 +26,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _reactNativeSound = _interopRequireDefault(require('react-native-sound'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -128,8 +129,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * FlyweightAudio
  * props.uiData
  * props.uiData.ucUiStore
@@ -249,7 +249,7 @@ var FlyweightAudio = (exports.default = /*#__PURE__*/ (function (
     {
       key: 'render',
       value: function render() {
-        return /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
           style: styles.brFlyweightAudio,
         })
       },

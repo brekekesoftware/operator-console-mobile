@@ -7,6 +7,7 @@ exports.default = void 0
 var _reactNative = require('react-native')
 var _picker = require('@react-native-picker/picker')
 var _strings = require('../utilities/strings')
+var _jsxRuntime = require('react/jsx-runtime')
 function _typeof(o) {
   '@babel/helpers - typeof'
   return (
@@ -79,8 +80,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * CustomerSignInWebchatOptionsSelect
  * props.uiData
  * props.uiData.configurations
@@ -130,53 +130,39 @@ var _default = (exports.default = function _default(props) {
     if (props.uiData.configurations.webchatOptions.length < 2) {
       return null
     }
-    return /*#__PURE__*/ React.createElement(
-      _reactNative.View,
-      {
-        style: [
-          styles.brSignInWebchatOptionsArea,
-          props.uiData.configurations.webchatOptions.length >= 2
-            ? styles.brWebchatOptionsMandatory
-            : styles.brWebchatOptionsFixed,
-          areaStyles,
-        ],
-      },
-      /*#__PURE__*/ React.createElement(
-        _reactNative.View,
-        {
+    return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+      style: [
+        styles.brSignInWebchatOptionsArea,
+        props.uiData.configurations.webchatOptions.length >= 2
+          ? styles.brWebchatOptionsMandatory
+          : styles.brWebchatOptionsFixed,
+        areaStyles,
+      ],
+      children: [
+        /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
           style: styles.labelContainer,
-        },
-        /*#__PURE__*/ React.createElement(
-          _reactNative.Text,
-          {
-            style: [styles.brSignInWebchatOptionsLabel, labelStyles],
-          },
-          props.uiData.configurations.webchatOptionsInnerHTML
-            ? props.uiData.configurations.webchatOptionsInnerHTML.replace(
-                /<[^>]*>/g,
-                '',
-              )
-            : (0, _strings.string)(
-                props.uiData.configurations.webchatOptionsLabel,
-              ),
-        ),
-        props.uiData.configurations.webchatOptions.length >= 2 &&
-          /*#__PURE__*/ React.createElement(
-            _reactNative.Text,
-            {
-              style: styles.mandatoryIndicator,
-            },
-            '*',
-          ),
-      ),
-      /*#__PURE__*/ React.createElement(
-        _reactNative.View,
-        {
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+              style: [styles.brSignInWebchatOptionsLabel, labelStyles],
+              children: props.uiData.configurations.webchatOptionsInnerHTML
+                ? props.uiData.configurations.webchatOptionsInnerHTML.replace(
+                    /<[^>]*>/g,
+                    '',
+                  )
+                : (0, _strings.string)(
+                    props.uiData.configurations.webchatOptionsLabel,
+                  ),
+            }),
+            props.uiData.configurations.webchatOptions.length >= 2 &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                style: styles.mandatoryIndicator,
+                children: '*',
+              }),
+          ],
+        }),
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
           style: styles.pickerContainer,
-        },
-        /*#__PURE__*/ React.createElement(
-          _picker.Picker,
-          {
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_picker.Picker, {
             style: [styles.brSignInWebchatOptionsSelect, selectStyles],
             selectedValue: props.uiData.signInWebchatOptionsSelectIndex,
             onValueChange: function onValueChange(itemValue) {
@@ -186,33 +172,38 @@ var _default = (exports.default = function _default(props) {
                 },
               })
             },
-          },
-          props.uiData.configurations.webchatOptions.map(function (o, index) {
-            return /*#__PURE__*/ React.createElement(_picker.Picker.Item, {
-              key: index,
-              label: o.innerHTML
-                ? o.innerHTML.replace(/<[^>]*>/g, '')
-                : (0, _strings.string)(o.label),
-              value: index,
-            })
-          }),
-        ),
-      ),
-      op &&
-        op.value &&
-        op.value.indexOf('{0}') !== -1 &&
-        /*#__PURE__*/ React.createElement(_reactNative.TextInput, {
-          style: [styles.brSignInWebchatOptionsInput, inputStyles],
-          value: props.uiData.signInWebchatOptionsInputValue,
-          onChangeText: function onChangeText(text) {
-            props.uiData.fire('signInWebchatOptionsInput_onChange', {
-              target: {
-                value: text,
+            children: props.uiData.configurations.webchatOptions.map(
+              function (o, index) {
+                return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _picker.Picker.Item,
+                  {
+                    label: o.innerHTML
+                      ? o.innerHTML.replace(/<[^>]*>/g, '')
+                      : (0, _strings.string)(o.label),
+                    value: index,
+                  },
+                  index,
+                )
               },
-            })
-          },
+            ),
+          }),
         }),
-    )
+        op &&
+          op.value &&
+          op.value.indexOf('{0}') !== -1 &&
+          /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TextInput, {
+            style: [styles.brSignInWebchatOptionsInput, inputStyles],
+            value: props.uiData.signInWebchatOptionsInputValue,
+            onChangeText: function onChangeText(text) {
+              props.uiData.fire('signInWebchatOptionsInput_onChange', {
+                target: {
+                  value: text,
+                },
+              })
+            },
+          }),
+      ],
+    })
   } else {
     return null
   }

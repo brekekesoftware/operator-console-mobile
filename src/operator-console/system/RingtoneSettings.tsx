@@ -1,8 +1,9 @@
-import { IconOutline } from '@ant-design/icons-react-native'
 import { Button, Flex, Form } from '@ant-design/react-native'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, TouchableWithoutFeedback, View } from 'react-native'
 
+import { mdiMinusCircleOutline, mdiPlus } from '../../assets/icons'
+import { RnIcon } from '../../components/RnIcon'
 import { Input } from '../common/Input'
 import { Space } from '../common/Space'
 import { i18n } from '../i18n'
@@ -82,13 +83,9 @@ export class RingtoneSettings extends React.Component {
                     style={{ flex: 1 }}
                   />
                 </Form.Item>
-                <View>
-                  <IconOutline
-                    name='minus-circle'
-                    size={25}
-                    onPress={() => remove(name)}
-                  />
-                </View>
+                <TouchableWithoutFeedback onPress={() => remove(name)}>
+                  <RnIcon path={mdiMinusCircleOutline} size={25} />
+                </TouchableWithoutFeedback>
               </Space>
             ))}
             <Form.Item
@@ -110,7 +107,7 @@ export class RingtoneSettings extends React.Component {
                 // icon={}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <IconOutline name='plus' size={20} />
+                  <RnIcon path={mdiPlus} size={20} />
                   <Text style={{ fontSize: 16 }}> {i18n.t('addField')}</Text>
                 </View>
               </Button>

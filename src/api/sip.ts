@@ -97,9 +97,9 @@ export class SIP extends EventEmitter {
     this.phone = phone
 
     // emit to embed api
-    if (!window._BrekekePhoneWebRoot) {
-      embedApi.emit('webrtcclient', phone)
-    }
+    // if (!window._BrekekePhoneWebRoot) {
+    embedApi.emit('webrtcclient', phone)
+    // }
 
     const h = (ev: { phoneStatus: string }) => {
       if (!ev) {

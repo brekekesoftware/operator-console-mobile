@@ -1,7 +1,13 @@
 import { Tabs } from '@ant-design/react-native'
 import type { TabData } from '@ant-design/react-native/lib/tabs/PropsType'
 import { forwardRef, useCallback, useEffect, useRef } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Platform,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist'
@@ -17,18 +23,27 @@ const _onTabClick = (tabKey, runtimePaneAsParent) => {
 
 const RuntimeTabChildren = ({ widgetDataArray, runtimePaneAsParent }) => {
   const refLayout = useRef<View | null>(null)
-  const refScroll = useRef<View | null>(null)
+  const refScroll = useRef<View | HTMLElement | null>(null)
 
   useEffect(() => {
     const { width: w, height: h } = Util.caculateCanvasSize(widgetDataArray)
     refLayout?.current?.measure((fx, fy, width, height, px, py) => {
       console.log('#Duy Phan console wh12', w, h, width, height)
-      refScroll.current?.setNativeProps({
-        style: {
-          width: w < width ? width : w,
-          height: h < height ? height : h,
-        },
-      })
+      if (refScroll.current) {
+        if (Platform.OS !== 'web') {
+          const el = refScroll.current as View
+          el.setNativeProps({
+            style: {
+              width: w < width ? width : w,
+              height: h < height ? height : h,
+            },
+          })
+        } else {
+          const el = refScroll.current as HTMLElement
+          el.style.width = w < width ? `${width}px` : `${w}px`
+          el.style.height = h < height ? `${height}px` : `${h}px`
+        }
+      }
     })
   })
 

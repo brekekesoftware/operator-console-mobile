@@ -25,6 +25,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -127,8 +128,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * ButtonLabeled
  * props.className
  * props.disabled
@@ -162,7 +162,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
       key: 'render',
       value: function render() {
         var props = this.props
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.TouchableOpacity,
           {
             className:
@@ -184,16 +184,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               props.style,
             ],
             onPress: this.handleClick.bind(this),
+            children:
+              typeof props.children === 'string'
+                ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(Text, {
+                    style: styles.brButtonLabeledText,
+                    children: props.children,
+                  })
+                : props.children,
           },
-          typeof props.children === 'string'
-            ? /*#__PURE__*/ _react.default.createElement(
-                Text,
-                {
-                  style: styles.brButtonLabeledText,
-                },
-                props.children,
-              )
-            : props.children,
         )
       },
     },

@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useRef } from 'react'
 import {
   Keyboard,
+  Platform,
   ScrollView,
   TouchableWithoutFeedback,
   View,
@@ -13,7 +14,7 @@ import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 
 export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
   const refEditor = useRef<View | null>()
-  const refScroll = useRef<View | null>(null)
+  const refScroll = useRef<View | HTMLElement | null>(null)
 
   const isDropZone = (gesture, measure) => {
     if (measure) {
@@ -51,13 +52,21 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
       props.widgetDataArray,
     )
     refEditor?.current?.measure((fx, fy, width, height, px, py) => {
-      console.log('#Duy Phan console2', width, height)
-      refScroll.current?.setNativeProps({
-        style: {
-          width: w < width ? width : w,
-          height: h < height ? height : h,
-        },
-      })
+      if (refScroll.current) {
+        if (Platform.OS !== 'web') {
+          const el = refScroll.current as View
+          el.setNativeProps({
+            style: {
+              width: w < width ? width : w,
+              height: h < height ? height : h,
+            },
+          })
+        } else {
+          const el = refScroll.current as HTMLElement
+          el.style.width = w < width ? `${width}px` : `${w}px`
+          el.style.height = h < height ? `${height}px` : `${h}px`
+        }
+      }
     })
   })
 

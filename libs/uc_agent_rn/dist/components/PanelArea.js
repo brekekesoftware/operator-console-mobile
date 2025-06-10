@@ -82,6 +82,7 @@ var _LogOutIcon = _interopRequireDefault(require('../icons/LogOutIcon'))
 var _ReplyIcon = _interopRequireDefault(require('../icons/ReplyIcon'))
 var _HistoryIcon = _interopRequireDefault(require('../icons/HistoryIcon'))
 var _ChatIcon = _interopRequireDefault(require('../icons/ChatIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -184,8 +185,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * PanelArea
  * props.uiData
  * props.uiData.ucUiAction
@@ -697,10 +697,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 chatCode: props.panelCode,
               })
               .map(function (member, i) {
-                return /*#__PURE__*/ _react.default.createElement(
+                return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNative.Text,
                   {
-                    key: i,
                     style: [
                       styles.brConfStatus1,
                       {
@@ -717,8 +716,11 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                             : undefined,
                       },
                     ],
+                    children:
+                      props.uiData.ucUiStore.getBuddyUserForUi(member).name +
+                      '\n',
                   },
-                  props.uiData.ucUiStore.getBuddyUserForUi(member).name + '\n',
+                  i,
                 )
               })
             headerMembersTitle = props.uiData.ucUiStore
@@ -741,10 +743,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'leave',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     conference.conf_status !==
@@ -756,13 +757,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _LogOutIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'leave',
               ),
             )
           }
@@ -776,10 +778,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               )
             ) {
               headerButtons.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _ButtonIconic.default,
                   {
-                    key: 'reply',
                     style: styles.brPanelHeaderButton,
                     disabled: !replyOptions.length,
                     title:
@@ -788,13 +789,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                       replyOptions.length === 1
                         ? replyOptions[0].event
                         : this.handleReplyWebchatButtonClick.bind(this),
-                    iconSource: /*#__PURE__*/ _react.default.createElement(
+                    iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                       _ReplyIcon.default,
                       {
                         color: '#ffffff',
                       },
                     ),
                   },
+                  'reply',
                 ),
               )
             }
@@ -806,10 +808,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'invite',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     conference.conf_status !==
@@ -832,13 +833,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _EnvelopeIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'invite',
               ),
             )
           }
@@ -858,10 +860,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               )
             ) {
               headerButtons.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _ButtonIconic.default,
                   {
-                    key: 'file',
                     style: styles.brPanelHeaderButton,
                     disabled:
                       conference.conf_status !==
@@ -875,13 +876,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                       props.panelType,
                       props.panelCode,
                     ),
-                    iconSource: /*#__PURE__*/ _react.default.createElement(
+                    iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                       _UploadIcon.default,
                       {
                         color: '#ffffff',
                       },
                     ),
                   },
+                  'file',
                 ),
               )
             }
@@ -893,10 +895,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'voice',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     conference.conf_status !==
@@ -911,13 +912,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _PhoneIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'voice',
               ),
             )
           }
@@ -928,10 +930,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'video',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     conference.conf_status !==
@@ -946,13 +947,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _VideoCallIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'video',
               ),
             )
           }
@@ -963,10 +965,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'screen',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     conference.conf_status !==
@@ -982,22 +983,22 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _ChannelMosaic1Icon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'screen',
               ),
             )
           }
           if (!props.uiData.isSubWindow) {
             headerSimpleButtons.unshift(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _PanelHeaderHideButton.default,
                 {
-                  key: 'hide',
                   uiData: props.uiData,
                   panelType: props.panelType,
                   panelCode: props.panelCode,
@@ -1006,27 +1007,27 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     conference.conf_status ===
                       _constants.default.CONF_STATUS_JOINED,
                 },
+                'hide',
               ),
             )
             if (props.uiData.configurations.undockable) {
               headerSimpleButtons.unshift(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _PanelHeaderUndockButton.default,
                   {
-                    key: 'undock',
                     uiData: props.uiData,
                     panelType: props.panelType,
                     panelCode: props.panelCode,
                   },
+                  'undock',
                 ),
               )
             }
           } else {
             headerSimpleButtons.unshift(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _PanelHeaderHideSubButton.default,
                 {
-                  key: 'hidesub',
                   uiData: props.uiData,
                   panelType: props.panelType,
                   panelCode: props.panelCode,
@@ -1035,27 +1036,27 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     conference.conf_status ===
                       _constants.default.CONF_STATUS_JOINED,
                 },
+                'hidesub',
               ),
             )
             if (props.uiData.configurations.undockable) {
               headerSimpleButtons.unshift(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _PanelHeaderDockButton.default,
                   {
-                    key: 'dock',
                     uiData: props.uiData,
                     panelType: props.panelType,
                     panelCode: props.panelCode,
                   },
+                  'dock',
                 ),
               )
             }
           }
           headerSimpleButtons.unshift(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _PanelHeaderCloseChatButton.default,
               {
-                key: 'closechat',
                 uiData: props.uiData,
                 panelType: props.panelType,
                 panelCode: props.panelCode,
@@ -1063,13 +1064,13 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   conference.conf_status !==
                   _constants.default.CONF_STATUS_JOINED,
               },
+              'closechat',
             ),
           )
           headerSimpleButtons.unshift(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _PanelHeaderRejoinButton.default,
               {
-                key: 'rejoin',
                 uiData: props.uiData,
                 panelType: props.panelType,
                 panelCode: props.panelCode,
@@ -1077,16 +1078,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   conference.conf_status !==
                   _constants.default.CONF_STATUS_INVITED,
               },
+              'rejoin',
             ),
           )
-          contents = /*#__PURE__*/ _react.default.createElement(
-            _ChatPanel.default,
-            {
-              uiData: props.uiData,
-              panelType: props.panelType,
-              panelCode: props.panelCode,
-            },
-          )
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatPanel.default, {
+            uiData: props.uiData,
+            panelType: props.panelType,
+            panelCode: props.panelCode,
+          })
         } else if (props.panelType === 'CHAT') {
           console.log(
             '#Duy Phan console configurations',
@@ -1121,10 +1120,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               )
             ) {
               headerButtons.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _ButtonIconic.default,
                   {
-                    key: 'file',
                     style: styles.brPanelHeaderButton,
                     title:
                       _uawmsgs.default.LBL_PANEL_HEADER_FILE_BUTTON_TOOLTIP,
@@ -1134,13 +1132,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                       props.panelType,
                       props.panelCode,
                     ),
-                    iconSource: /*#__PURE__*/ _react.default.createElement(
+                    iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                       _UploadIcon.default,
                       {
                         color: '#ffffff',
                       },
                     ),
                   },
+                  'file',
                 ),
               )
             }
@@ -1152,10 +1151,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'voice',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     !props.uiData.phone ||
@@ -1168,13 +1166,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _PhoneIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'voice',
               ),
             )
           }
@@ -1185,10 +1184,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'video',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     !props.uiData.phone ||
@@ -1201,13 +1199,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _VideoCallIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'video',
               ),
             )
           }
@@ -1218,10 +1217,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'screen',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     !props.uiData.phone ||
@@ -1235,13 +1233,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _ChannelMosaic1Icon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'screen',
               ),
             )
           }
@@ -1253,10 +1252,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'history',
                   style: styles.brPanelHeaderButton,
                   title:
                     _uawmsgs.default.LBL_PANEL_HEADER_HISTORY_BUTTON_TOOLTIP,
@@ -1266,75 +1264,73 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _HistoryIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'history',
               ),
             )
           }
           if (!props.uiData.isSubWindow) {
             headerSimpleButtons.unshift(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _PanelHeaderHideButton.default,
                 {
-                  key: 'hide',
                   uiData: props.uiData,
                   panelType: props.panelType,
                   panelCode: props.panelCode,
                 },
+                'hide',
               ),
             )
             if (props.uiData.configurations.undockable) {
               headerSimpleButtons.unshift(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _PanelHeaderUndockButton.default,
                   {
-                    key: 'undock',
                     uiData: props.uiData,
                     panelType: props.panelType,
                     panelCode: props.panelCode,
                   },
+                  'undock',
                 ),
               )
             }
           } else {
             headerSimpleButtons.unshift(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _PanelHeaderHideSubButton.default,
                 {
-                  key: 'hidesub',
                   uiData: props.uiData,
                   panelType: props.panelType,
                   panelCode: props.panelCode,
                 },
+                'hidesub',
               ),
             )
             if (props.uiData.configurations.undockable) {
               headerSimpleButtons.unshift(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _PanelHeaderDockButton.default,
                   {
-                    key: 'dock',
                     uiData: props.uiData,
                     panelType: props.panelType,
                     panelCode: props.panelCode,
                   },
+                  'dock',
                 ),
               )
             }
           }
-          contents = /*#__PURE__*/ _react.default.createElement(
-            _ChatPanel.default,
-            {
-              uiData: props.uiData,
-              panelType: props.panelType,
-              panelCode: props.panelCode,
-            },
-          )
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatPanel.default, {
+            uiData: props.uiData,
+            panelType: props.panelType,
+            panelCode: props.panelCode,
+          })
         } else if (props.panelType === 'EXTERNALCALL') {
           panelTypeClassName = 'brExternalCall'
           headerTitle = props.panelCode
@@ -1345,10 +1341,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'voice',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     !props.uiData.phone ||
@@ -1361,13 +1356,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _PhoneIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'voice',
               ),
             )
           }
@@ -1378,10 +1374,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'video',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     !props.uiData.phone ||
@@ -1394,13 +1389,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _VideoCallIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'video',
               ),
             )
           }
@@ -1411,10 +1407,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'screen',
                   style: styles.brPanelHeaderButton,
                   disabled:
                     !props.uiData.phone ||
@@ -1428,24 +1423,22 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _ChannelMosaic1Icon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'screen',
               ),
             )
           }
-          contents = /*#__PURE__*/ _react.default.createElement(
-            _ChatPanel.default,
-            {
-              uiData: props.uiData,
-              panelType: props.panelType,
-              panelCode: props.panelCode,
-            },
-          )
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatPanel.default, {
+            uiData: props.uiData,
+            panelType: props.panelType,
+            panelCode: props.panelCode,
+          })
         } else if (props.panelType === 'PREFERENCE') {
           panelTypeClassName = 'brPreference'
           headerTitle = _uawmsgs.default.LBL_PANEL_HEADER_PREFERENCE_TITLE
@@ -1456,7 +1449,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               {}
             ).saveMessage,
           )
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _PreferencePanel.default,
             {
               uiData: props.uiData,
@@ -1468,17 +1461,17 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           panelTypeClassName = 'brWebchatQueue'
           headerTitle = _uawmsgs.default.TAB_WEBCHATQUEUE
           headerSimpleButtons.unshift(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _PanelHeaderHideButton.default,
               {
-                key: 'hide',
                 uiData: props.uiData,
                 panelType: props.panelType,
                 panelCode: props.panelCode,
               },
+              'hide',
             ),
           )
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _WebchatQueuePanel.default,
             {
               uiData: props.uiData,
@@ -1486,7 +1479,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           )
         } else if (props.panelType === 'HISTORYSEARCH') {
           panelTypeClassName = 'brHistorySearch'
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _HistorySearchPanel.default,
             {
               uiData: props.uiData,
@@ -1540,13 +1533,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 .indexOf(groupName) !== -1
             ) {
               groupTable[groupName].buddyNodes.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _MenuItem.default,
                   {
-                    key: JSON.stringify({
-                      tenant: buddy.tenant,
-                      user_id: buddy.user_id,
-                    }),
                     style: styles.brHeaderSearchConditionsUserItem,
                     dropDown: true,
                     onPress:
@@ -1554,21 +1543,25 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                         _this4,
                         buddy.user_id,
                       ),
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _NameEmbeddedSpan.default,
+                      {
+                        ucUiStore: props.uiData.ucUiStore,
+                        format: '{0}',
+                        title: '{0}',
+                        buddy: buddy,
+                      },
+                    ),
                   },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _NameEmbeddedSpan.default,
-                    {
-                      ucUiStore: props.uiData.ucUiStore,
-                      format: '{0}',
-                      title: '{0}',
-                      buddy: buddy,
-                    },
-                  ),
+                  JSON.stringify({
+                    tenant: buddy.tenant,
+                    user_id: buddy.user_id,
+                  }),
                 ),
               )
             }
           })
-          headerSearchConditions = /*#__PURE__*/ _react.default.createElement(
+          headerSearchConditions = /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
             _reactNative.View,
             {
               style: {
@@ -1580,148 +1573,154 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 height: '100%',
                 marginLeft: 5,
               },
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brHeaderSearchConditionsContentArea,
-              },
-              /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-                ref: this.headerSearchConditionsContentInputRef,
-                style: styles.brHeaderSearchConditionsContentInput,
-                value:
-                  this.state.headerSearchConditionsContentCache === null
-                    ? (0, _strings.string)(conditions._any.conditionValue)
-                    : this.state.headerSearchConditionsContentCache,
-                placeholder:
-                  _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_INPUT_PLACEHOLDER,
-                onChange:
-                  this.handleHeaderSearchConditionsContentInputChange.bind(
-                    this,
-                  ),
-                // onBlur={this.handleHeaderSearchConditionsContentInputBlur.bind(
-                //   this,
-                // )}
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _ButtonIconic.default,
-                {
-                  style: styles.brHeaderSearchConditionsSearchButton,
-                  title:
-                    _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_BUTTON_TOOLTIP,
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
-                    _SearchIcon.default,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.brHeaderSearchConditionsContentArea,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_TextBox.default, {
+                      ref: this.headerSearchConditionsContentInputRef,
+                      style: styles.brHeaderSearchConditionsContentInput,
+                      value:
+                        this.state.headerSearchConditionsContentCache === null
+                          ? (0, _strings.string)(conditions._any.conditionValue)
+                          : this.state.headerSearchConditionsContentCache,
+                      placeholder:
+                        _uawmsgs.default
+                          .LBL_PANEL_HEADER_SEARCH_INPUT_PLACEHOLDER,
+                      onChange:
+                        this.handleHeaderSearchConditionsContentInputChange.bind(
+                          this,
+                        ),
+                      // onBlur={this.handleHeaderSearchConditionsContentInputBlur.bind(
+                      //   this,
+                      // )}
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                      style: styles.brHeaderSearchConditionsSearchButton,
+                      title:
+                        _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_BUTTON_TOOLTIP,
+                      iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _SearchIcon.default,
+                        {
+                          width: 20,
+                          height: 20,
+                        },
+                      ),
+                      onPress:
+                        this.handleHeaderSearchConditionsSearchButtonClick.bind(
+                          this,
+                        ),
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.brHeaderSearchConditionsUserArea,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _DropDownMenu.default,
                     {
-                      width: 20,
-                      height: 20,
+                      uiData: props.uiData,
+                      style: styles.brHeaderSearchConditionsUserMenu,
+                      dialogStyle: styles.brPanelAreaDialog,
+                      text: conditions._userId.conditionValue
+                        ? (0, _strings.string)(
+                            (
+                              buddyTable[conditions._userId.conditionValue] ||
+                              {}
+                            ).name || conditions._userId.conditionValue,
+                          )
+                        : _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_USER_ALL,
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuItem.default, {
+                          style: styles.brHeaderSearchConditionsUserItem,
+                          dropDown: true,
+                          onPress:
+                            this.handleHeaderSearchConditionsUserAllClick.bind(
+                              this,
+                            ),
+                          children:
+                            _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_USER_ALL,
+                        }),
+                        Object.keys(groupTable)
+                          .sort(function (groupName1, groupName2) {
+                            return (
+                              (groupTable[groupName1].groupIndex >>> 0) -
+                              (groupTable[groupName2].groupIndex >>> 0)
+                            )
+                          })
+                          .map(function (groupName) {
+                            return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                              _reactNative.View,
+                              {
+                                style: [
+                                  styles.brHeaderSearchConditionsUserGroup,
+                                  groupName ? styles.brGroupName : null,
+                                ],
+                                title: groupName,
+                                onPress:
+                                  _this4.handleHeaderSearchConditionsUserGroupClick.bind(
+                                    _this4,
+                                    groupName,
+                                  ),
+                                children: [
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: [
+                                        styles.brHeaderSearchConditionsUserGroupIcon,
+                                        _this4.state.headerSearchConditionsUserGroupOpen
+                                          .split(',')
+                                          .indexOf(groupName) !== -1
+                                          ? styles.br_bi_icon_chevron_up_svg
+                                          : styles.br_bi_icon_chevron_down_svg,
+                                      ],
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      style:
+                                        styles.brHeaderSearchConditionsUserGroupName,
+                                      children: groupName,
+                                    },
+                                  ),
+                                  groupTable[groupName].buddyNodes,
+                                ],
+                              },
+                              groupName,
+                            )
+                          }),
+                      ],
                     },
                   ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: {
+                    flex: 1,
+                  },
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: [styles.brHeaderSearchConditionsDetailButton],
+                  title:
+                    _uawmsgs.default
+                      .LBL_PANEL_HEADER_SEARCH_DETAIL_BUTTON_TOOLTIP,
                   onPress:
-                    this.handleHeaderSearchConditionsSearchButtonClick.bind(
+                    this.handleHeaderSearchConditionsDetailButtonClick.bind(
                       this,
                     ),
-                },
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brHeaderSearchConditionsUserArea,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _DropDownMenu.default,
-                {
-                  uiData: props.uiData,
-                  style: styles.brHeaderSearchConditionsUserMenu,
-                  dialogStyle: styles.brPanelAreaDialog,
-                  text: conditions._userId.conditionValue
-                    ? (0, _strings.string)(
-                        (buddyTable[conditions._userId.conditionValue] || {})
-                          .name || conditions._userId.conditionValue,
+                  iconSource: this.state.historySummariesWithHeader
+                    ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ChevronUpIcon.default,
+                        {},
                       )
-                    : _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_USER_ALL,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _MenuItem.default,
-                  {
-                    style: styles.brHeaderSearchConditionsUserItem,
-                    dropDown: true,
-                    onPress:
-                      this.handleHeaderSearchConditionsUserAllClick.bind(this),
-                  },
-                  _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_USER_ALL,
-                ),
-                Object.keys(groupTable)
-                  .sort(function (groupName1, groupName2) {
-                    return (
-                      (groupTable[groupName1].groupIndex >>> 0) -
-                      (groupTable[groupName2].groupIndex >>> 0)
-                    )
-                  })
-                  .map(function (groupName) {
-                    return /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        key: groupName,
-                        style: [
-                          styles.brHeaderSearchConditionsUserGroup,
-                          groupName ? styles.brGroupName : null,
-                        ],
-                        title: groupName,
-                        onPress:
-                          _this4.handleHeaderSearchConditionsUserGroupClick.bind(
-                            _this4,
-                            groupName,
-                          ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: [
-                            styles.brHeaderSearchConditionsUserGroupIcon,
-                            _this4.state.headerSearchConditionsUserGroupOpen
-                              .split(',')
-                              .indexOf(groupName) !== -1
-                              ? styles.br_bi_icon_chevron_up_svg
-                              : styles.br_bi_icon_chevron_down_svg,
-                          ],
-                        },
+                    : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ChevronDownIcon.default,
+                        {},
                       ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: styles.brHeaderSearchConditionsUserGroupName,
-                        },
-                        groupName,
-                      ),
-                      groupTable[groupName].buddyNodes,
-                    )
-                  }),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-              style: {
-                flex: 1,
-              },
-            }),
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: [styles.brHeaderSearchConditionsDetailButton],
-              title:
-                _uawmsgs.default.LBL_PANEL_HEADER_SEARCH_DETAIL_BUTTON_TOOLTIP,
-              onPress:
-                this.handleHeaderSearchConditionsDetailButtonClick.bind(this),
-              iconSource: this.state.historySummariesWithHeader
-                ? /*#__PURE__*/ _react.default.createElement(
-                    _ChevronUpIcon.default,
-                    null,
-                  )
-                : /*#__PURE__*/ _react.default.createElement(
-                    _ChevronDownIcon.default,
-                    null,
-                  ),
-            }),
+                }),
+              ],
+            },
           )
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _HistorySummariesPanel.default,
             {
               uiData: props.uiData,
@@ -1760,10 +1759,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'chat',
                   style: styles.brPanelHeaderButton,
                   disabled: !isBuddy,
                   title: _uawmsgs.default.LBL_PANEL_HEADER_CHAT_BUTTON_TOOLTIP,
@@ -1773,13 +1771,14 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _ChatIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'chat',
               ),
             )
           }
@@ -1791,10 +1790,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             headerButtons.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonIconic.default,
                 {
-                  key: 'history',
                   style: styles.brPanelHeaderButton,
                   disabled: !(
                     props.uiData.historyDetailWorkTable &&
@@ -1810,17 +1808,18 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     props.panelType,
                     props.panelCode,
                   ),
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _HistoryIcon.default,
                     {
                       color: '#ffffff',
                     },
                   ),
                 },
+                'history',
               ),
             )
           }
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _HistoryDetailPanel.default,
             {
               uiData: props.uiData,
@@ -1829,28 +1828,24 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             },
           )
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            ref: this.panelHeaderAreaRef,
-            style: [
-              styles.brPanelArea,
-              styles[panelTypeClassName],
-              props.uiData.currentSelectedTab ===
-              props.panelType + '_' + props.panelCode
-                ? styles.brSelected
-                : null,
-              this.state.headerButtonsCollapsible
-                ? styles.brHeaderButtonsCollapsible
-                : null,
-              // props.uiData.configurations.headerButtonsVisible
-              //   ? styles.brHeaderButtonsVisible
-              //   : null,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          ref: this.panelHeaderAreaRef,
+          style: [
+            styles.brPanelArea,
+            styles[panelTypeClassName],
+            props.uiData.currentSelectedTab ===
+            props.panelType + '_' + props.panelCode
+              ? styles.brSelected
+              : null,
+            this.state.headerButtonsCollapsible
+              ? styles.brHeaderButtonsCollapsible
+              : null,
+            // props.uiData.configurations.headerButtonsVisible
+            //   ? styles.brHeaderButtonsVisible
+            //   : null,
+          ],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.brPanelAreaInner,
                 props.panelType === 'CONFERENCE' || props.panelType === 'CHAT'
@@ -1859,12 +1854,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     }
                   : {},
               ],
-            },
-            contents,
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+              children: contents,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
               ref: this.panelHeaderAreaRef,
               style: [
                 styles.brPanelHeaderArea,
@@ -1874,154 +1866,138 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     }
                   : {},
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                ref: this.panelHeaderTitleRef,
-                style: [
-                  styles.brPanelHeaderTitle,
-                  headerTitle ? null : styles.brPanelHeaderTitleHidden,
-                ],
-                numberOfLines: 1,
-                // ellipsizeMode='tail'
-              },
-              headerTitle,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                ref: this.panelHeaderInfoRef,
-                style: [
-                  styles.brPanelHeaderInfo,
-                  headerInfo ? null : styles.brPanelHeaderInfoHidden,
-                  props.panelType === 'PREFERENCE'
-                    ? styles.brPreferencePanelHeaderInfo
-                    : null,
-                ],
-                numberOfLines: 1,
-                ellipsizeMode: 'tail',
-              },
-              headerInfo,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                ref: this.panelHeaderMembersRef,
-                style: [
-                  styles.brPanelHeaderMembers,
-                  headerMembers.length
-                    ? null
-                    : styles.brPanelHeaderMembersHidden,
-                ],
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.ScrollView,
-                // horizontal
-                {
-                  showsHorizontalScrollIndicator: false,
-                  contentContainerStyle: styles.headerMembersScrollContent,
-                  nestedScrollEnabled: true,
-                },
-                headerMembers,
-              ),
-            ),
-            props.uiData.configurations.headerButtonsVisible &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  ref: this.panelHeaderButtonsAreaRef,
-                  style: styles.brPanelHeaderButtonsArea,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: {
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'flex-start',
-                      flex: 1,
-                    },
-                  },
-                  headerButtons,
-                ),
-              ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.TouchableOpacity,
-              {
-                style: [
-                  styles.brPanelHeaderButtonsMenu,
-                  headerButtons.length ? null : styles.brHidden,
-                ],
-                onPress: this.handlePanelHeaderButtonsMenuClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  ref: this.panelHeaderTitleRef,
                   style: [
-                    styles.brPanelHeaderButtonsBalloonDialog,
-                    props.uiData.showingDialogVersion ===
-                    this.state.showingDialogVersion
-                      ? null
-                      : styles.brPanelHeaderButtonsBalloonDialogHidden,
+                    styles.brPanelHeaderTitle,
+                    headerTitle ? null : styles.brPanelHeaderTitleHidden,
                   ],
-                },
-                headerButtons,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _MenuBalloonDialog.default,
-              {
-                style: [
-                  styles.brReplyWebchatBalloonDialog,
-                  this.state.replyDialogStyle,
-                ],
-                showing:
-                  props.uiData.showingDialogVersion ===
-                    this.state.showingDialogVersion &&
-                  props.uiData.showingDialogVersion ===
-                    this.state.showingReplyDialogVersion,
-              },
-              replyOptions.map(function (s, i) {
-                return /*#__PURE__*/ _react.default.createElement(
-                  _MenuItem.default,
+                  numberOfLines: 1,
+                  // ellipsizeMode='tail'
+                  children: headerTitle,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  ref: this.panelHeaderInfoRef,
+                  style: [
+                    styles.brPanelHeaderInfo,
+                    headerInfo ? null : styles.brPanelHeaderInfoHidden,
+                    props.panelType === 'PREFERENCE'
+                      ? styles.brPreferencePanelHeaderInfo
+                      : null,
+                  ],
+                  numberOfLines: 1,
+                  ellipsizeMode: 'tail',
+                  children: headerInfo,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  ref: this.panelHeaderMembersRef,
+                  style: [
+                    styles.brPanelHeaderMembers,
+                    headerMembers.length
+                      ? null
+                      : styles.brPanelHeaderMembersHidden,
+                  ],
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.ScrollView,
+                    // horizontal
+                    {
+                      showsHorizontalScrollIndicator: false,
+                      contentContainerStyle: styles.headerMembersScrollContent,
+                      nestedScrollEnabled: true,
+                      children: headerMembers,
+                    },
+                  ),
+                }),
+                props.uiData.configurations.headerButtonsVisible &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    ref: this.panelHeaderButtonsAreaRef,
+                    style: styles.brPanelHeaderButtonsArea,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.View,
+                      {
+                        style: {
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'flex-start',
+                          flex: 1,
+                        },
+                        children: headerButtons,
+                      },
+                    ),
+                  }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.TouchableOpacity,
                   {
-                    key: i,
-                    style: [styles.brReplyWebchatMenuItem, styles[s.className]],
-                    onPress: s.event,
+                    style: [
+                      styles.brPanelHeaderButtonsMenu,
+                      headerButtons.length ? null : styles.brHidden,
+                    ],
+                    onPress: this.handlePanelHeaderButtonsMenuClick.bind(this),
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.View,
+                      {
+                        style: [
+                          styles.brPanelHeaderButtonsBalloonDialog,
+                          props.uiData.showingDialogVersion ===
+                          this.state.showingDialogVersion
+                            ? null
+                            : styles.brPanelHeaderButtonsBalloonDialogHidden,
+                        ],
+                        children: headerButtons,
+                      },
+                    ),
                   },
-                  s.label,
-                )
-              }),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: [
-                  styles.brPanelHeaderSimpleButtonsArea,
-                  props.uiData.configurations.panelHeader
-                    ? styles.brPanelHeaderSimpleButtonsAreaVisible
-                    : null,
-                ],
-              },
-              headerSimpleButtons,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                ref: this.panelHeaderSearchConditionsRef,
-                style: [
-                  styles.brHeaderSearchConditions,
-                  headerSearchConditions
-                    ? null
-                    : styles.brHeaderSearchConditionsHidden,
-                  // { width: this.state.headerSearchConditionsWidth },
-                ],
-              },
-              headerSearchConditions,
-            ),
-          ),
-        )
+                ),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuBalloonDialog.default, {
+                  style: [
+                    styles.brReplyWebchatBalloonDialog,
+                    this.state.replyDialogStyle,
+                  ],
+                  showing:
+                    props.uiData.showingDialogVersion ===
+                      this.state.showingDialogVersion &&
+                    props.uiData.showingDialogVersion ===
+                      this.state.showingReplyDialogVersion,
+                  children: replyOptions.map(function (s, i) {
+                    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _MenuItem.default,
+                      {
+                        style: [
+                          styles.brReplyWebchatMenuItem,
+                          styles[s.className],
+                        ],
+                        onPress: s.event,
+                        children: s.label,
+                      },
+                      i,
+                    )
+                  }),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: [
+                    styles.brPanelHeaderSimpleButtonsArea,
+                    props.uiData.configurations.panelHeader
+                      ? styles.brPanelHeaderSimpleButtonsAreaVisible
+                      : null,
+                  ],
+                  children: headerSimpleButtons,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  ref: this.panelHeaderSearchConditionsRef,
+                  style: [
+                    styles.brHeaderSearchConditions,
+                    headerSearchConditions
+                      ? null
+                      : styles.brHeaderSearchConditionsHidden,
+                    // { width: this.state.headerSearchConditionsWidth },
+                  ],
+                  children: headerSearchConditions,
+                }),
+              ],
+            }),
+          ],
+        })
       },
     },
   ])

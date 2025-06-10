@@ -10,6 +10,7 @@ var _ChatTyping = _interopRequireDefault(require('./ChatTyping'))
 var _ChatInvitation = _interopRequireDefault(require('./ChatInvitation'))
 var _ChatList = _interopRequireDefault(require('./ChatList'))
 var _ChatOptionButtons = _interopRequireDefault(require('./ChatOptionButtons'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -144,8 +145,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * ChatArea
  * props.uiData
  * props.uiData.currentSelectedTab
@@ -261,51 +261,47 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var isSelected =
           props.uiData.currentSelectedTab ===
           props.panelType + '_' + props.panelCode
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.ScrollView,
-          {
-            ref: this.scrollViewRef,
-            style: [
-              styles.brChatArea,
-              isSelected && styles.brSelected,
-              props.hidden && styles.brHidden,
-              props.style,
-            ],
-            onScroll: this.handleScroll,
-            // contentContainerStyle={{ flexGrow: 1 }}
-            // scrollEventThrottle={16}
-            showsVerticalScrollIndicator: true,
-            showsHorizontalScrollIndicator: false,
-            nestedScrollEnabled: true,
-          },
-          /*#__PURE__*/ _react.default.createElement(_ChatList.default, {
-            ref: function ref(_ref) {
-              return (_this2.chatListRef = _ref)
-            },
-            uiData: props.uiData,
-            panelType: props.panelType,
-            panelCode: props.panelCode,
-            onScrollRequested: this.handleChatListScrollRequested,
-          }),
-          /*#__PURE__*/ _react.default.createElement(_ChatInvitation.default, {
-            uiData: props.uiData,
-            panelType: props.panelType,
-            panelCode: props.panelCode,
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _ChatOptionButtons.default,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.ScrollView, {
+          ref: this.scrollViewRef,
+          style: [
+            styles.brChatArea,
+            isSelected && styles.brSelected,
+            props.hidden && styles.brHidden,
+            props.style,
+          ],
+          onScroll: this.handleScroll,
+          // contentContainerStyle={{ flexGrow: 1 }}
+          // scrollEventThrottle={16}
+          showsVerticalScrollIndicator: true,
+          showsHorizontalScrollIndicator: false,
+          nestedScrollEnabled: true,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatList.default, {
+              ref: function ref(_ref) {
+                return (_this2.chatListRef = _ref)
+              },
               uiData: props.uiData,
               panelType: props.panelType,
               panelCode: props.panelCode,
-            },
-          ),
-          /*#__PURE__*/ _react.default.createElement(_ChatTyping.default, {
-            uiData: props.uiData,
-            panelType: props.panelType,
-            panelCode: props.panelCode,
-          }),
-        )
+              onScrollRequested: this.handleChatListScrollRequested,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatInvitation.default, {
+              uiData: props.uiData,
+              panelType: props.panelType,
+              panelCode: props.panelCode,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatOptionButtons.default, {
+              uiData: props.uiData,
+              panelType: props.panelType,
+              panelCode: props.panelCode,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatTyping.default, {
+              uiData: props.uiData,
+              panelType: props.panelType,
+              panelCode: props.panelCode,
+            }),
+          ],
+        })
       },
     },
   ])

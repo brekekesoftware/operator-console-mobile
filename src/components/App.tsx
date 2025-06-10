@@ -357,6 +357,7 @@ export const App = observer(() => {
             placement='top'
             successIcon={IconSuccess}
             warningIcon={IconWarning}
+            style={{ flex: 1 }}
             renderToast={toast => {
               let icon
               switch (toast.type) {
@@ -400,13 +401,15 @@ export const App = observer(() => {
               )
             }}
           >
-            <Provider>
-              <GestureHandlerRootView>
-                <ViewRegistryProvider>
-                  <BrekekeOperatorConsole />
-                </ViewRegistryProvider>
-              </GestureHandlerRootView>
-            </Provider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <ViewRegistryProvider>
+                <View style={{ flex: 1, overflow: 'hidden' }}>
+                  <Provider>
+                    <BrekekeOperatorConsole />
+                  </Provider>
+                </View>
+              </ViewRegistryProvider>
+            </GestureHandlerRootView>
           </ToastProvider>
         </AutocompleteDropdownContextProvider>
       </View>

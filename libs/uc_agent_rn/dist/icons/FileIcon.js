@@ -25,6 +25,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNativeSvg = _interopRequireWildcard(require('react-native-svg'))
+var _jsxRuntime = require('react/jsx-runtime')
 var _excluded = ['width', 'height', 'color']
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
@@ -56,19 +57,59 @@ function _interopRequireWildcard(e, t) {
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
-function _extends() {
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
+}
+function _defineProperty(e, r, t) {
   return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
   )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
 }
 function _objectWithoutProperties(e, t) {
   if (null == e) return {}
@@ -103,76 +144,82 @@ var FileIcon = function FileIcon(_ref) {
     _ref$color = _ref.color,
     color = _ref$color === void 0 ? '#212121' : _ref$color,
     props = _objectWithoutProperties(_ref, _excluded)
-  return /*#__PURE__*/ _react.default.createElement(
+  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
     _reactNativeSvg.default,
-    _extends(
-      {
-        width: width,
-        height: height,
-        viewBox: '0 0 24 24',
-      },
-      props,
-    ),
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNativeSvg.Defs,
-      null,
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Path, {
-        id: 'path-1',
-        d: 'M18.4,0 L1.6,0 C0.72,0 0,0.73125 0,1.625 L0,22.375 C0,23.26875 0.72,24 1.6,24 L22.4,24 C23.28,24 24,23.26875 24,22.375 L24,5.625 Q24,4.952 23.524,4.476 L19.549,0.476 Q19.073,0 18.4,0 Z M22.4,22.375 L1.6,22.375 L1.6,1.625 L18.4,1.625 L18.4,4 C18.4,4.89375 19.12,5.625 20,5.625 L22.4,5.625 L22.4,22.375 Z',
-      }),
-      /*#__PURE__*/ _react.default.createElement(
-        _reactNativeSvg.Mask,
+    _objectSpread(
+      _objectSpread(
         {
-          id: 'mask-2',
-          fill: 'white',
+          width: width,
+          height: height,
+          viewBox: '0 0 24 24',
         },
-        /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-          xlinkHref: '#path-1',
-        }),
+        props,
       ),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-        xlinkHref: '#path-1',
-      }),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-        id: 'Shape',
-        fill: '#191919',
-        fillRule: 'nonzero',
-        xlinkHref: '#path-1',
-      }),
-    ),
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNativeSvg.G,
+      {},
       {
-        id: 'icon/folder',
-        fill: 'none',
-        mask: 'url(#mask-2)',
-        fillRule: 'evenodd',
-        stroke: 'none',
-        strokeWidth: '1',
+        children: [
+          /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
+                id: 'path-1',
+                d: 'M18.4,0 L1.6,0 C0.72,0 0,0.73125 0,1.625 L0,22.375 C0,23.26875 0.72,24 1.6,24 L22.4,24 C23.28,24 24,23.26875 24,22.375 L24,5.625 Q24,4.952 23.524,4.476 L19.549,0.476 Q19.073,0 18.4,0 Z M22.4,22.375 L1.6,22.375 L1.6,1.625 L18.4,1.625 L18.4,4 C18.4,4.89375 19.12,5.625 20,5.625 L22.4,5.625 L22.4,22.375 Z',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
+                id: 'mask-2',
+                fill: 'white',
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNativeSvg.Use,
+                  {
+                    xlinkHref: '#path-1',
+                  },
+                ),
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
+                xlinkHref: '#path-1',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
+                id: 'Shape',
+                fill: '#191919',
+                fillRule: 'nonzero',
+                xlinkHref: '#path-1',
+              }),
+            ],
+          }),
+          /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
+            id: 'icon/folder',
+            fill: 'none',
+            mask: 'url(#mask-2)',
+            fillRule: 'evenodd',
+            stroke: 'none',
+            strokeWidth: '1',
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
+                id: 'mask-2',
+                fill: 'white',
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNativeSvg.Use,
+                  {
+                    xlinkHref: '#path-1',
+                  },
+                ),
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
+                id: 'Shape',
+                fill: '#191919',
+                fillRule: 'nonzero',
+                xlinkHref: '#path-1',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
+                id: 'Rectangle',
+                x: '0',
+                y: '0',
+                width: '24',
+                height: '24',
+              }),
+            ],
+          }),
+        ],
       },
-      /*#__PURE__*/ _react.default.createElement(
-        _reactNativeSvg.Mask,
-        {
-          id: 'mask-2',
-          fill: 'white',
-        },
-        /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-          xlinkHref: '#path-1',
-        }),
-      ),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-        id: 'Shape',
-        fill: '#191919',
-        fillRule: 'nonzero',
-        xlinkHref: '#path-1',
-      }),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Rect, {
-        id: 'Rectangle',
-        x: '0',
-        y: '0',
-        width: '24',
-        height: '24',
-      }),
     ),
   )
 }

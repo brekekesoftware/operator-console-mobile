@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _strings = require('../utilities/strings')
 var _picker = require('@react-native-picker/picker')
+var _jsxRuntime = require('react/jsx-runtime')
 function _typeof(o) {
   '@babel/helpers - typeof'
   return (
@@ -78,8 +79,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * CustomerSignInProfinfoInputSelect
  * props.uiData
  * props.uiData.configurations
@@ -110,42 +110,39 @@ var _default = (exports.default = function _default(props) {
       paddingRight: configStyles.paddingRight,
     },
   })
-  return /*#__PURE__*/ React.createElement(
-    View,
-    {
-      style: [styles.container, customStyles.dynamic],
-    },
-    /*#__PURE__*/ React.createElement(
-      _picker.Picker,
-      {
-        style: styles.picker,
-        selectedValue: (0, _strings.string)(
-          props.uiData.signInProfinfoInputsValue[props.profinfoInput.key],
-        ),
-        onValueChange: function onValueChange(itemValue) {
-          props.uiData.fire(
-            'signInProfileInfoInputSelect_onChange',
-            _objectSpread(
-              _objectSpread({}, props.profinfoInput),
-              {},
-              {
-                value: itemValue,
-              },
-            ),
-          )
-        },
-        mode: 'dropdown',
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(View, {
+    style: [styles.container, customStyles.dynamic],
+    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_picker.Picker, {
+      style: styles.picker,
+      selectedValue: (0, _strings.string)(
+        props.uiData.signInProfinfoInputsValue[props.profinfoInput.key],
+      ),
+      onValueChange: function onValueChange(itemValue) {
+        props.uiData.fire(
+          'signInProfileInfoInputSelect_onChange',
+          _objectSpread(
+            _objectSpread({}, props.profinfoInput),
+            {},
+            {
+              value: itemValue,
+            },
+          ),
+        )
       },
-      props.profinfoInput.options.map(function (o) {
-        return /*#__PURE__*/ React.createElement(_picker.Picker.Item, {
-          key: o,
-          label: o,
-          value: o,
-          style: styles.pickerItem,
-        })
+      mode: 'dropdown',
+      children: props.profinfoInput.options.map(function (o) {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+          _picker.Picker.Item,
+          {
+            label: o,
+            value: o,
+            style: styles.pickerItem,
+          },
+          o,
+        )
       }),
-    ),
-  )
+    }),
+  })
 })
 var styles = StyleSheet.create({
   container: _objectSpread(

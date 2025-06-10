@@ -25,6 +25,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -127,8 +128,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * CallVideo
  * props.uiData
  * props.uiData.phone
@@ -202,11 +202,11 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var style = this.props.style
         var stream = this.state.stream
         if (!stream) {
-          return /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
             style: [styles.brCallVideo, style],
           })
         }
-        return /*#__PURE__*/ _react.default.createElement('video', {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)('video', {
           streamURL: stream,
           style: [
             styles.brCallVideo,

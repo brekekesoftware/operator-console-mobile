@@ -27,6 +27,7 @@ var _react = _interopRequireDefault(require('react'))
 var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _strings = require('../utilities/strings')
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -129,8 +130,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * TimerSpan
  * props.baseTime
  */
@@ -213,13 +213,10 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           var sec = (0, _strings.int)(time / 1000) % 60
           output = ('0' + _min).slice(-2) + ':' + ('0' + sec).slice(-2)
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.Text,
-          {
-            title: (0, _strings.formatMessageDateTime)(props.baseTime),
-          },
-          output,
-        )
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+          title: (0, _strings.formatMessageDateTime)(props.baseTime),
+          children: output,
+        })
       },
     },
   ])

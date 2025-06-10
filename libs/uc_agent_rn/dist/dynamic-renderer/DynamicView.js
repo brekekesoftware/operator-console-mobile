@@ -26,6 +26,7 @@ exports.DynamicView = void 0
 var _react = _interopRequireWildcard(require('react'))
 var _reactNative = require('react-native')
 var _ViewRegistryProvider = require('./ViewRegistryProvider')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
     var r = new WeakMap(),
@@ -144,11 +145,8 @@ var DynamicView = (exports.DynamicView = function DynamicView(_ref) {
     },
     [viewId],
   )
-  return /*#__PURE__*/ _react.default.createElement(
-    _reactNative.View,
-    {
-      style: style,
-    },
-    child,
-  )
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+    style: style,
+    children: child,
+  })
 })

@@ -17,6 +17,7 @@ var _CheckIcon = _interopRequireDefault(require('../icons/CheckIcon'))
 var _SquareIcon = _interopRequireDefault(require('../icons/SquareIcon'))
 var _ErrorIcon = _interopRequireDefault(require('../icons/ErrorIcon'))
 var _CustomTextInput = _interopRequireDefault(require('./CustomTextInput'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -487,244 +488,230 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   .status === _constants.default.STATUS_OFFLINE,
             }
           })
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.container,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.container,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
               style: styles.tableRow,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.tableCell,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.tableCellLabel,
-                },
-                _uawmsgs.default.LBL_CONFERENCE_INVITE_SUBJECT,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.tableCellContent,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _CustomTextInput.default,
-                {
-                  ref: this.textInputRef,
-                  style: styles.subjectInput,
-                  value: conference ? conference.subject : this.state.subject,
-                  disabled: conference,
-                  onChangeText: this.handleSubjectChange,
-                  onBlur: this.handleSubjectBlur,
-                  onKeyPress: this.handleSubjectKeyPress,
-                },
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Animated.View,
-                {
-                  style: [
-                    styles.subjectErrorContainer,
-                    {
-                      height: this.errorHeight,
-                    },
-                  ],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.subjectError,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.subjectErrorIcon,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _ErrorIcon.default,
-                      null,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.tableCell,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _reactNative.Text,
                     {
-                      style: styles.subjectErrorText,
+                      style: styles.tableCellLabel,
+                      children: _uawmsgs.default.LBL_CONFERENCE_INVITE_SUBJECT,
                     },
-                    this.state.subjectError,
                   ),
-                ),
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.tableRow,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.tableCell,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.tableCellLabel,
-                },
-                _uawmsgs.default.LBL_CONFERENCE_INVITE_GROUP,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.tableCellContent,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _DropDownMenu.default,
-                {
-                  uiData: props.uiData,
-                  disabled: !!conference,
-                  text: conference
-                    ? ''
-                    : this.state.selectedGroupName ||
-                      _uawmsgs.default.LBL_CONFERENCE_INVITE_GROUP_NONE,
-                },
-                Object.keys(groupTable)
-                  .sort(function (groupName1, groupName2) {
-                    return groupTable[groupName1] - groupTable[groupName2]
-                  })
-                  .map(function (groupName) {
-                    return /*#__PURE__*/ _react.default.createElement(
-                      _MenuItem.default,
-                      {
-                        key: groupName,
-                        dropDown: true,
-                        onPress: function onPress() {
-                          return _this3.handleGroupSelect(groupName)
-                        },
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        groupName ||
-                          _uawmsgs.default.LBL_CONFERENCE_INVITE_GROUP_NONE,
-                      ),
-                    )
-                  }),
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.tableRow,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.tableCell,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.tableCellLabel,
-                },
-                _uawmsgs.default.LBL_CONFERENCE_INVITE_BUDDIES,
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.tableRow,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.tableCellContent,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.ScrollView,
-                {
-                  style: styles.buddiesContainer,
-                },
-                buddies.map(function (buddy, index) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      key: JSON.stringify({
-                        tenant: buddy.tenant,
-                        user_id: buddy.user_id,
-                      }),
-                      style: [
-                        styles.buddyItem,
-                        buddy.hidden && styles.buddyItemHidden,
-                        buddy.disabled && styles.buddyItemDisabled,
-                        !buddy.disabled &&
-                          _this3.state.hoveredBuddyIndex === index &&
-                          styles.buddyItemHovered,
-                      ],
-                      onPress: function onPress() {
-                        if (!buddy.disabled) {
-                          _this3.handleBuddySelect({
-                            tenant: buddy.tenant,
-                            user_id: buddy.user_id,
-                          })
-                        }
-                      },
-                      onPressIn: function onPressIn() {
-                        return _this3.setState({
-                          hoveredBuddyIndex: index,
-                        })
-                      },
-                      onPressOut: function onPressOut() {
-                        return _this3.setState({
-                          hoveredBuddyIndex: null,
-                        })
-                      },
-                      disabled: buddy.disabled,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.buddyItemTextContainer,
-                      },
-                      buddy.selected || buddy.disabled
-                        ? /*#__PURE__*/ _react.default.createElement(
-                            _CheckIcon.default,
-                            null,
-                          )
-                        : /*#__PURE__*/ _react.default.createElement(
-                            _SquareIcon.default,
-                            null,
-                          ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _NameEmbeddedSpan.default,
-                      {
-                        ucUiStore: props.uiData.ucUiStore,
-                        format: '{0}',
-                        title: '{0}',
-                        buddy: buddy,
-                        textStyle: [
-                          styles.buddyItemText,
-                          buddy.disabled && styles.buddyItemTextDisabled,
-                        ],
-                      },
-                    ),
-                  )
                 }),
-              ),
-            ),
-          ),
-        )
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.tableCellContent,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _CustomTextInput.default,
+                      {
+                        ref: this.textInputRef,
+                        style: styles.subjectInput,
+                        value: conference
+                          ? conference.subject
+                          : this.state.subject,
+                        disabled: conference,
+                        onChangeText: this.handleSubjectChange,
+                        onBlur: this.handleSubjectBlur,
+                        onKeyPress: this.handleSubjectKeyPress,
+                      },
+                    ),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Animated.View,
+                      {
+                        style: [
+                          styles.subjectErrorContainer,
+                          {
+                            height: this.errorHeight,
+                          },
+                        ],
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                          _reactNative.View,
+                          {
+                            style: styles.subjectError,
+                            children: [
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.View,
+                                {
+                                  style: styles.subjectErrorIcon,
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _ErrorIcon.default,
+                                    {},
+                                  ),
+                                },
+                              ),
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  style: styles.subjectErrorText,
+                                  children: this.state.subjectError,
+                                },
+                              ),
+                            ],
+                          },
+                        ),
+                      },
+                    ),
+                  ],
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+              style: styles.tableRow,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.tableCell,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      style: styles.tableCellLabel,
+                      children: _uawmsgs.default.LBL_CONFERENCE_INVITE_GROUP,
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.tableCellContent,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _DropDownMenu.default,
+                    {
+                      uiData: props.uiData,
+                      disabled: !!conference,
+                      text: conference
+                        ? ''
+                        : this.state.selectedGroupName ||
+                          _uawmsgs.default.LBL_CONFERENCE_INVITE_GROUP_NONE,
+                      children: Object.keys(groupTable)
+                        .sort(function (groupName1, groupName2) {
+                          return groupTable[groupName1] - groupTable[groupName2]
+                        })
+                        .map(function (groupName) {
+                          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _MenuItem.default,
+                            {
+                              dropDown: true,
+                              onPress: function onPress() {
+                                return _this3.handleGroupSelect(groupName)
+                              },
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  children:
+                                    groupName ||
+                                    _uawmsgs.default
+                                      .LBL_CONFERENCE_INVITE_GROUP_NONE,
+                                },
+                              ),
+                            },
+                            groupName,
+                          )
+                        }),
+                    },
+                  ),
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: styles.tableRow,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: styles.tableCell,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.Text,
+                  {
+                    style: styles.tableCellLabel,
+                    children: _uawmsgs.default.LBL_CONFERENCE_INVITE_BUDDIES,
+                  },
+                ),
+              }),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: styles.tableRow,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: styles.tableCellContent,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.ScrollView,
+                  {
+                    style: styles.buddiesContainer,
+                    children: buddies.map(function (buddy, index) {
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          style: [
+                            styles.buddyItem,
+                            buddy.hidden && styles.buddyItemHidden,
+                            buddy.disabled && styles.buddyItemDisabled,
+                            !buddy.disabled &&
+                              _this3.state.hoveredBuddyIndex === index &&
+                              styles.buddyItemHovered,
+                          ],
+                          onPress: function onPress() {
+                            if (!buddy.disabled) {
+                              _this3.handleBuddySelect({
+                                tenant: buddy.tenant,
+                                user_id: buddy.user_id,
+                              })
+                            }
+                          },
+                          onPressIn: function onPressIn() {
+                            return _this3.setState({
+                              hoveredBuddyIndex: index,
+                            })
+                          },
+                          onPressOut: function onPressOut() {
+                            return _this3.setState({
+                              hoveredBuddyIndex: null,
+                            })
+                          },
+                          disabled: buddy.disabled,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.View,
+                              {
+                                style: styles.buddyItemTextContainer,
+                                children:
+                                  buddy.selected || buddy.disabled
+                                    ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _CheckIcon.default,
+                                        {},
+                                      )
+                                    : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _SquareIcon.default,
+                                        {},
+                                      ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _NameEmbeddedSpan.default,
+                              {
+                                ucUiStore: props.uiData.ucUiStore,
+                                format: '{0}',
+                                title: '{0}',
+                                buddy: buddy,
+                                textStyle: [
+                                  styles.buddyItemText,
+                                  buddy.disabled &&
+                                    styles.buddyItemTextDisabled,
+                                ],
+                              },
+                            ),
+                          ],
+                        },
+                        JSON.stringify({
+                          tenant: buddy.tenant,
+                          user_id: buddy.user_id,
+                        }),
+                      )
+                    }),
+                  },
+                ),
+              }),
+            }),
+          ],
+        })
       },
     },
   ])

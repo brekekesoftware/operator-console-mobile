@@ -35,6 +35,7 @@ var _CustomerEditorArea = _interopRequireDefault(
   require('./CustomerEditorArea'),
 )
 var _DndableSafe = _interopRequireDefault(require('./DndableSafe'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -137,8 +138,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * CustomerMainArea
  * props.uiData
  * props.uiData.ucUiStore
@@ -199,18 +199,15 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var className = 'brMainArea'
         var withMenuOptions = false
         if (!conf_id) {
-          return /*#__PURE__*/ _react.default.createElement(
-            'div',
-            {
-              className: className,
-            },
-            /*#__PURE__*/ _react.default.createElement(
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)('div', {
+            className: className,
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _CustomerSignInArea.default,
               {
                 uiData: props.uiData,
               },
             ),
-          )
+          })
         } else {
           if (
             props.uiData.configurations &&
@@ -220,56 +217,46 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             className += ' brWithMenuOptions'
             withMenuOptions = true
           }
-          return /*#__PURE__*/ _react.default.createElement(
-            _DndableSafe.default,
-            {
-              uiData: props.uiData,
-              dndableClass:
-                ((0, _strings.int)(
-                  props.uiData.ucUiStore.getOptionalSetting({
-                    key: 'fsp',
-                  }),
-                ) &
-                  myUcCimUserType) !==
-                myUcCimUserType
-                  ? 'FileDndable'
-                  : '',
-              className: className,
-              onDrop: props.uiData.fire.bind(
-                props.uiData,
-                'mainArea_onDrop',
-                'CONFERENCE',
-                panelCode,
-              ),
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _CustomerCallArea.default,
-              {
+          return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_DndableSafe.default, {
+            uiData: props.uiData,
+            dndableClass:
+              ((0, _strings.int)(
+                props.uiData.ucUiStore.getOptionalSetting({
+                  key: 'fsp',
+                }),
+              ) &
+                myUcCimUserType) !==
+              myUcCimUserType
+                ? 'FileDndable'
+                : '',
+            className: className,
+            onDrop: props.uiData.fire.bind(
+              props.uiData,
+              'mainArea_onDrop',
+              'CONFERENCE',
+              panelCode,
+            ),
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CustomerCallArea.default, {
                 uiData: props.uiData,
                 withMenuOptions: withMenuOptions,
-              },
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _CustomerChatArea.default,
-              {
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CustomerChatArea.default, {
                 ref: 'chatArea',
                 uiData: props.uiData,
                 panelType: 'CONFERENCE',
                 panelCode: panelCode,
                 withMenuOptions: withMenuOptions,
-              },
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _CustomerEditorArea.default,
-              {
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CustomerEditorArea.default, {
                 uiData: props.uiData,
                 panelType: 'CONFERENCE',
                 panelCode: panelCode,
                 withMenuOptions: withMenuOptions,
                 disabled: this.state.editorAreaDisabled,
-              },
-            ),
-          )
+              }),
+            ],
+          })
         }
       },
     },

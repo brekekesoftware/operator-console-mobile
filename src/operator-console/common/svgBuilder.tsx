@@ -1,4 +1,5 @@
 // import { Base64 } from "js-base64";
+import { Platform } from 'react-native'
 import { SvgXml } from 'react-native-svg'
 
 const SIZES = {
@@ -142,5 +143,14 @@ export const buildGridSvg = (
   const svgW = page ? page.width : w
   const svgH = page ? page.height : h
   var svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${svgW}' height='${svgH}'>${pat}</svg>`
+
+  if (Platform.OS === 'web') {
+    return (
+      <div
+        dangerouslySetInnerHTML={{ __html: svg }}
+        style={{ width: '100%', height: '100%', overflow: 'hidden' }}
+      />
+    )
+  }
   return <SvgXml xml={svg} width='100%' height='100%' />
 }

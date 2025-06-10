@@ -26,6 +26,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _strings = require('../utilities/strings')
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -128,8 +129,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * CallTimer
  * props.startTime
  */
@@ -179,18 +179,16 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
       value: function render() {
         var props = this.props
         if (props.startTime) {
-          return /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
-              style: styles.brCallTimer,
-            },
-            (this.state.secondsElapsed < 600 ? '0' : '') +
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+            style: styles.brCallTimer,
+            children:
+              (this.state.secondsElapsed < 600 ? '0' : '') +
               (0, _strings.int)(this.state.secondsElapsed / 60) +
               ':' +
               ('0' + (this.state.secondsElapsed % 60)).slice(-2),
-          )
+          })
         } else {
-          return /*#__PURE__*/ _react.default.createElement(_reactNative.Text, {
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
             style: styles.brCallTimer,
           })
         }

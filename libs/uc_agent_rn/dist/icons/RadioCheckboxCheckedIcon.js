@@ -26,6 +26,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _reactNativeSvg = _interopRequireWildcard(require('react-native-svg'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
     var r = new WeakMap(),
@@ -61,36 +62,32 @@ var RadioCheckboxCheckedIcon = function RadioCheckboxCheckedIcon(_ref) {
     size = _ref$size === void 0 ? 24 : _ref$size,
     _ref$color = _ref.color,
     color = _ref$color === void 0 ? '#4CAF50' : _ref$color
-  return /*#__PURE__*/ _react.default.createElement(
-    _reactNative.View,
-    {
-      style: {
-        width: size,
-        height: size,
-      },
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+    style: {
+      width: size,
+      height: size,
     },
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNativeSvg.default,
-      {
-        width: size,
-        height: size,
-        viewBox: '0 0 24 24',
-        fill: 'none',
-      },
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Circle, {
-        cx: '12',
-        cy: '12',
-        r: '10',
-        stroke: color,
-        strokeWidth: '2',
-      }),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Circle, {
-        cx: '12',
-        cy: '12',
-        r: '6',
-        fill: color,
-      }),
-    ),
-  )
+    children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.default, {
+      width: size,
+      height: size,
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      children: [
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Circle, {
+          cx: '12',
+          cy: '12',
+          r: '10',
+          stroke: color,
+          strokeWidth: '2',
+        }),
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Circle, {
+          cx: '12',
+          cy: '12',
+          r: '6',
+          fill: color,
+        }),
+      ],
+    }),
+  })
 }
 var _default = (exports.default = RadioCheckboxCheckedIcon)

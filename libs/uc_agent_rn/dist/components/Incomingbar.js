@@ -10,6 +10,7 @@ var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _constants = _interopRequireDefault(require('../utilities/constants'))
 var _strings = require('../utilities/strings')
 var _ButtonIconic = _interopRequireDefault(require('./ButtonIconic'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -144,8 +145,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * Incomingbar
  * props.uiData
  * props.uiData.ucUiStore
@@ -322,47 +322,40 @@ var Incomingbar = (exports.default = /*#__PURE__*/ (function (
         if (!session) {
           return null
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.brIncomingbar,
-              incomingProgress && styles.brIncomingProgress,
-              collapsed && styles.brCollapsed,
-              this.state.someDragging && styles.brSomeDragging,
-              this.props.style,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Animated.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.brIncomingbar,
+            incomingProgress && styles.brIncomingProgress,
+            collapsed && styles.brCollapsed,
+            this.state.someDragging && styles.brSomeDragging,
+            this.props.style,
+          ],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Animated.View, {
               style: [
                 styles.brIncomingbarAnimation,
                 {
                   opacity: this.state.animationValue,
                 },
               ],
-            },
-          ),
-          /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-            style: [
-              styles.brIncomingImage,
-              !buddy.profile_image_url && styles.brNoImage,
-              buddy.profile_image_url &&
-                (0, _strings.string)(buddy.profile_image_url).indexOf(
-                  _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
-                ) === -1 &&
-                styles.brMyProfileImageUrl,
-            ],
-            source: buddy.profile_image_url
-              ? {
-                  uri: buddy.profile_image_url,
-                }
-              : null,
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.TouchableOpacity,
-            {
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Image, {
+              style: [
+                styles.brIncomingImage,
+                !buddy.profile_image_url && styles.brNoImage,
+                buddy.profile_image_url &&
+                  (0, _strings.string)(buddy.profile_image_url).indexOf(
+                    _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
+                  ) === -1 &&
+                  styles.brMyProfileImageUrl,
+              ],
+              source: buddy.profile_image_url
+                ? {
+                    uri: buddy.profile_image_url,
+                  }
+                : null,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TouchableOpacity, {
               style: styles.brIncomingbarMessage,
               onPress: function onPress() {
                 return _this2.handleIncomingbarPanelLinkPress(
@@ -370,172 +363,164 @@ var Incomingbar = (exports.default = /*#__PURE__*/ (function (
                   panel.panelCode,
                 )
               },
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
                 style: styles.messageText,
-              },
-              incomingProgress
-                ? /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    (0, _strings.string)(
-                      session.remoteWithVideo
-                        ? _uawmsgs.default.MSG_INCOMINGBAR_MESSAGE_WITH_VIDEO
-                        : _uawmsgs.default.MSG_INCOMINGBAR_MESSAGE,
-                    ).replace('{0}', (0, _strings.string)(buddy.name)),
-                  )
-                : /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    (0, _strings.string)(buddy.name),
-                  ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.controlButtons,
-            },
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: styles.brVideoRefreshButton,
-              disabled: !session || !session.withVideo,
-              hidden:
-                incomingProgress ||
-                !(
-                  (0, _strings.int)(
-                    props.uiData.ucUiStore.getOptionalSetting({
-                      key: ['dbgopt'],
+                children: incomingProgress
+                  ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      children: (0, _strings.string)(
+                        session.remoteWithVideo
+                          ? _uawmsgs.default.MSG_INCOMINGBAR_MESSAGE_WITH_VIDEO
+                          : _uawmsgs.default.MSG_INCOMINGBAR_MESSAGE,
+                      ).replace('{0}', (0, _strings.string)(buddy.name)),
+                    })
+                  : /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      children: (0, _strings.string)(buddy.name),
                     }),
-                  ) & 2
-                ),
-              iconName: 'refresh',
-              onPress: function onPress() {
-                return props.uiData.fire(
-                  'callVideoRefreshButton_onClick',
-                  panel.panelType,
-                  panel.panelCode,
-                )
-              },
+              }),
             }),
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: [
-                styles.brMicrophoneMuteButton,
-                ((_session2 = session) === null ||
-                _session2 === void 0 ||
-                (_session2 = _session2.muted) === null ||
-                _session2 === void 0
-                  ? void 0
-                  : _session2.main) && styles.brMuted,
-              ],
-              disabled: !session,
-              hidden: incomingProgress,
-              iconName: 'block_microphone',
-              onPress: function onPress() {
-                return props.uiData.fire(
-                  'callMuteButton_onClick',
-                  panel.panelType,
-                  panel.panelCode,
-                  'main',
-                )
-              },
-            }),
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: [
-                styles.brCameraMuteButton,
-                panelSession.cameraMuted && styles.brMuted,
-              ],
-              disabled: !session,
-              hidden: incomingProgress,
-              iconName: 'no_video',
-              onPress: function onPress() {
-                return props.uiData.fire(
-                  'callCameraMuteButton_onClick',
-                  panel.panelType,
-                  panel.panelCode,
-                )
-              },
-            }),
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: [
-                styles.brScreenToggleButton,
-                panelSession.isScreen && styles.brIsScreen,
-              ],
-              disabled: !session,
-              hidden: incomingProgress,
-              iconName: 'channel_mosaic_1',
-              onPress: function onPress() {
-                return props.uiData.fire(
-                  'callScreenToggleButton_onClick',
-                  panel.panelType,
-                  panel.panelCode,
-                )
-              },
-            }),
-            incomingProgress &&
-              /*#__PURE__*/ _react.default.createElement(
-                _react.default.Fragment,
-                null,
-                /*#__PURE__*/ _react.default.createElement(
-                  _ButtonIconic.default,
-                  {
-                    style: styles.brCallAnswerButton,
-                    iconName: 'phone',
-                    onPress: function onPress() {
-                      return props.uiData.fire(
-                        'callAnswerButton_onClick',
-                        panel.panelType,
-                        panel.panelCode,
-                        false,
-                      )
-                    },
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+              style: styles.controlButtons,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: styles.brVideoRefreshButton,
+                  disabled: !session || !session.withVideo,
+                  hidden:
+                    incomingProgress ||
+                    !(
+                      (0, _strings.int)(
+                        props.uiData.ucUiStore.getOptionalSetting({
+                          key: ['dbgopt'],
+                        }),
+                      ) & 2
+                    ),
+                  iconName: 'refresh',
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'callVideoRefreshButton_onClick',
+                      panel.panelType,
+                      panel.panelCode,
+                    )
                   },
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _ButtonIconic.default,
-                  {
-                    style: styles.brCallAnswerWithVideoButton,
-                    iconName: 'video_call',
-                    onPress: function onPress() {
-                      return props.uiData.fire(
-                        'callAnswerButton_onClick',
-                        panel.panelType,
-                        panel.panelCode,
-                        true,
-                      )
-                    },
-                  },
-                ),
-              ),
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: styles.brCallDeclineButton,
-              iconName: 'end_call',
-              onPress: function onPress() {
-                return props.uiData.fire(
-                  'callHangUpButton_onClick',
-                  panel.panelType,
-                  panel.panelCode,
-                )
-              },
-            }),
-            /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-              style: styles.brIncomingbarCollapseButton,
-              iconName: collapsed ? 'phone_talking' : 'chevron_right',
-              onPress: function onPress() {
-                var _session3
-                return _this2.handleIncomingbarCollapseButtonPress(
-                  (0, _strings.string)(
-                    (_session3 = session) === null || _session3 === void 0
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: [
+                    styles.brMicrophoneMuteButton,
+                    ((_session2 = session) === null ||
+                    _session2 === void 0 ||
+                    (_session2 = _session2.muted) === null ||
+                    _session2 === void 0
                       ? void 0
-                      : _session3.sessionId,
-                  ),
-                  incomingProgress,
-                )
-              },
+                      : _session2.main) && styles.brMuted,
+                  ],
+                  disabled: !session,
+                  hidden: incomingProgress,
+                  iconName: 'block_microphone',
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'callMuteButton_onClick',
+                      panel.panelType,
+                      panel.panelCode,
+                      'main',
+                    )
+                  },
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: [
+                    styles.brCameraMuteButton,
+                    panelSession.cameraMuted && styles.brMuted,
+                  ],
+                  disabled: !session,
+                  hidden: incomingProgress,
+                  iconName: 'no_video',
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'callCameraMuteButton_onClick',
+                      panel.panelType,
+                      panel.panelCode,
+                    )
+                  },
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: [
+                    styles.brScreenToggleButton,
+                    panelSession.isScreen && styles.brIsScreen,
+                  ],
+                  disabled: !session,
+                  hidden: incomingProgress,
+                  iconName: 'channel_mosaic_1',
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'callScreenToggleButton_onClick',
+                      panel.panelType,
+                      panel.panelCode,
+                    )
+                  },
+                }),
+                incomingProgress &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ButtonIconic.default,
+                        {
+                          style: styles.brCallAnswerButton,
+                          iconName: 'phone',
+                          onPress: function onPress() {
+                            return props.uiData.fire(
+                              'callAnswerButton_onClick',
+                              panel.panelType,
+                              panel.panelCode,
+                              false,
+                            )
+                          },
+                        },
+                      ),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ButtonIconic.default,
+                        {
+                          style: styles.brCallAnswerWithVideoButton,
+                          iconName: 'video_call',
+                          onPress: function onPress() {
+                            return props.uiData.fire(
+                              'callAnswerButton_onClick',
+                              panel.panelType,
+                              panel.panelCode,
+                              true,
+                            )
+                          },
+                        },
+                      ),
+                    ],
+                  }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: styles.brCallDeclineButton,
+                  iconName: 'end_call',
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'callHangUpButton_onClick',
+                      panel.panelType,
+                      panel.panelCode,
+                    )
+                  },
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: styles.brIncomingbarCollapseButton,
+                  iconName: collapsed ? 'phone_talking' : 'chevron_right',
+                  onPress: function onPress() {
+                    var _session3
+                    return _this2.handleIncomingbarCollapseButtonPress(
+                      (0, _strings.string)(
+                        (_session3 = session) === null || _session3 === void 0
+                          ? void 0
+                          : _session3.sessionId,
+                      ),
+                      incomingProgress,
+                    )
+                  },
+                }),
+              ],
             }),
-          ),
-        )
+          ],
+        })
       },
     },
   ])

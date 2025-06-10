@@ -23,7 +23,7 @@ export class NoteEditorWidgetTemplate extends EditorWidgetTemplate {
   // !overload
   getRenderMainJsx() {
     return (
-      <LinearGradient colors={['#F9EFAF', '#F7E98D']}>
+      <LinearGradient colors={['#F9EFAF', '#F7E98D']} style={{ flex: 1 }}>
         <View
           style={{
             borderRadius: 3,

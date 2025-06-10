@@ -27,6 +27,7 @@ var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -228,35 +229,26 @@ var ChatSysmsg = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               }),
             }
           : {}
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.Animated.View,
-          {
-            style: [styles.brChatSysmsg, animatedStyle],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
-              style: [
-                styles.sysmsgText,
-                isError && styles.brChatError,
-                isOffline && isBeforeOnline && styles.brBeforeOnline,
-                isOnline &&
-                  isBeforeOnline &&
-                  styles.brConferenceMemberOnlineCollapsed,
-              ],
-            },
-            props.sysmsg.sysmsgData
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Animated.View, {
+          style: [styles.brChatSysmsg, animatedStyle],
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+            style: [
+              styles.sysmsgText,
+              isError && styles.brChatError,
+              isOffline && isBeforeOnline && styles.brBeforeOnline,
+              isOnline &&
+                isBeforeOnline &&
+                styles.brConferenceMemberOnlineCollapsed,
+            ],
+            children: props.sysmsg.sysmsgData
               ? format.split('{0}').join(props.sysmsg.sysmsgData)
-              : /*#__PURE__*/ _react.default.createElement(
-                  _NameEmbeddedSpan.default,
-                  {
-                    ucUiStore: props.uiData.ucUiStore,
-                    format: format,
-                    buddy: props.sysmsg.buddy,
-                  },
-                ),
-          ),
-        )
+              : /*#__PURE__*/ (0, _jsxRuntime.jsx)(_NameEmbeddedSpan.default, {
+                  ucUiStore: props.uiData.ucUiStore,
+                  format: format,
+                  buddy: props.sysmsg.buddy,
+                }),
+          }),
+        })
       },
     },
   ])

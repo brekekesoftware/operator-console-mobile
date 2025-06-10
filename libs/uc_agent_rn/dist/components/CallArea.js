@@ -74,21 +74,48 @@ var _TriangleRightIcon = _interopRequireDefault(
 var _NoVideoIcon = _interopRequireDefault(require('../icons/NoVideoIcon'))
 var _MoreIcon = _interopRequireDefault(require('../icons/MoreIcon'))
 var _VideoCallIcon = _interopRequireDefault(require('../icons/VideoCallIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
-function _extends() {
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
+}
+function _defineProperty(e, r, t) {
   return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
   )
 }
 function _classCallCheck(a, n) {
@@ -190,8 +217,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * CallArea
  * props.uiData
  * props.uiData.ucUiAction
@@ -1050,36 +1076,35 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 _constants.default.STATUS_OFFLINE
             ) {
               groupTable[groupName].buddyNodes.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                   _MenuItem.default,
                   {
-                    key: JSON.stringify({
-                      tenant: buddy.tenant,
-                      user_id: buddy.user_id,
-                    }),
                     className: 'brTransferTargetUserItem',
                     dropDown: true,
                     onClick: _this6.handleTransferTargetUserItemClick.bind(
                       _this6,
                       buddy.user_id,
                     ),
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_StatusIcon.default, {
+                        status: buddyStatus.status,
+                        degree: buddyStatus.degree,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _NameEmbeddedSpan.default,
+                        {
+                          ucUiStore: props.uiData.ucUiStore,
+                          format: '{0}',
+                          title: '{0}',
+                          buddy: buddy,
+                        },
+                      ),
+                    ],
                   },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _StatusIcon.default,
-                    {
-                      status: buddyStatus.status,
-                      degree: buddyStatus.degree,
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _NameEmbeddedSpan.default,
-                    {
-                      ucUiStore: props.uiData.ucUiStore,
-                      format: '{0}',
-                      title: '{0}',
-                      buddy: buddy,
-                    },
-                  ),
+                  JSON.stringify({
+                    tenant: buddy.tenant,
+                    user_id: buddy.user_id,
+                  }),
                 ),
               )
             }
@@ -1113,52 +1138,445 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             this.sessionEndTime = +new Date()
           }
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            ref: this.callAreaRef,
-            style: [
-              styles.brCallArea,
-              this.state.headerButtonsCollapsible &&
-                styles.brHeaderButtonsCollapsible,
-              panelSession && panelSession.target && styles.brWithTarget,
-              session && styles.brWithSession,
-              session && session.withVideo && styles.brWithVideo,
-              session &&
-                session.rtcSession &&
-                session.rtcSession.direction === 'outgoing' &&
-                session.sessionStatus === 'dialing' &&
-                styles.brOutgoingDialing,
-              session &&
-                session.rtcSession &&
-                session.rtcSession.direction === 'outgoing' &&
-                session.sessionStatus === 'progress' &&
-                styles.brOutgoingProgress,
-              session &&
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          ref: this.callAreaRef,
+          style: [
+            styles.brCallArea,
+            this.state.headerButtonsCollapsible &&
+              styles.brHeaderButtonsCollapsible,
+            panelSession && panelSession.target && styles.brWithTarget,
+            session && styles.brWithSession,
+            session && session.withVideo && styles.brWithVideo,
+            session &&
+              session.rtcSession &&
+              session.rtcSession.direction === 'outgoing' &&
+              session.sessionStatus === 'dialing' &&
+              styles.brOutgoingDialing,
+            session &&
+              session.rtcSession &&
+              session.rtcSession.direction === 'outgoing' &&
+              session.sessionStatus === 'progress' &&
+              styles.brOutgoingProgress,
+            session &&
+              session.rtcSession &&
+              session.rtcSession.direction === 'incoming' &&
+              session.sessionStatus === 'progress' &&
+              !session.answering &&
+              styles.brIncomingProgress,
+            callAreaTheaterPreference && styles.brTheater,
+            callMenuOpened ? styles.brOpened : styles.brClosed,
+            {
+              height: this.state.height,
+            },
+          ],
+          onLayout: this.handleTransitionEnd.bind(this),
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+              style: styles.brIncomingArea,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.brIncomingAnimation,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: [
+                    styles.brIncomingImage,
+                    !buddy.profile_image_url && styles.brNoImage,
+                    buddy.profile_image_url &&
+                      (0, _strings.string)(buddy.profile_image_url).indexOf(
+                        _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
+                      ) === -1 &&
+                      styles.brMyProfileImageUrl,
+                    buddy.profile_image_url
+                      ? {
+                          backgroundImage: 'url('.concat(
+                            buddy.profile_image_url,
+                            ')',
+                          ),
+                        }
+                      : {},
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: styles.brIncomingMessage,
+                  children:
+                    session && session.remoteWithVideo
+                      ? _uawmsgs.default.LBL_CALL_INCOMING_WITH_VIDEO
+                      : _uawmsgs.default.LBL_CALL_INCOMING,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: styles.brCallAnswerButton,
+                  title: _uawmsgs.default.LBL_CALL_ANSWER_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callAnswerButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                    false,
+                  ),
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _PhoneIcon.default,
+                    {},
+                  ),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.brCallAnswerButtonIcon,
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: styles.brCallAnswerWithVideoButton,
+                  title:
+                    _uawmsgs.default.LBL_CALL_ANSWER_WITH_VIDEO_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callAnswerButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                    true,
+                  ),
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _VideoCallIcon.default,
+                    {},
+                  ),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.brCallAnswerButtonIcon,
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                  style: styles.brCallDeclineButton,
+                  title: _uawmsgs.default.LBL_CALL_DECLINE_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callHangUpButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  ),
+                  iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _EndCallIcon.default,
+                    {},
+                  ),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.brCallDeclineButtonIcon,
+                    },
+                  ),
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_SoundAudio.default, {
+              uiData: props.uiData,
+              className: 'brRingSoundAudio',
+              src:
+                (props.uiData.configurations &&
+                  props.uiData.configurations.alternativeRingTone) ||
+                _currentscript.default.DIR + '../sounds/ring.mp3',
+              loop: true,
+              playing:
+                session &&
                 session.rtcSession &&
                 session.rtcSession.direction === 'incoming' &&
                 session.sessionStatus === 'progress' &&
                 !session.answering &&
-                styles.brIncomingProgress,
-              callAreaTheaterPreference && styles.brTheater,
-              callMenuOpened ? styles.brOpened : styles.brClosed,
-              {
-                height: this.state.height,
-              },
-            ],
-            onLayout: this.handleTransitionEnd.bind(this),
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brIncomingArea,
-            },
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-              style: styles.brIncomingAnimation,
+                (!_lampTypeOptionsCache().silent ||
+                  _lampTypeOptionsCache().ring === true) &&
+                _lampTypeOptionsCache().ring !== false,
             }),
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_SoundAudio.default, {
+              uiData: props.uiData,
+              className: 'brRingbackSoundAudio',
+              src: _currentscript.default.DIR + '../sounds/ringback.mp3',
+              loop: true,
+              playing:
+                session &&
+                !session.remoteStreamObject &&
+                session.rtcSession &&
+                session.rtcSession.direction === 'outgoing' &&
+                session.sessionStatus === 'progress',
+              localStoragePreferenceKey: 'audioTarget',
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_SoundAudio.default, {
+              uiData: props.uiData,
+              className: 'brBeginedSoundAudio',
+              src: _currentscript.default.DIR + '../sounds/tone1.mp3',
+              playing:
+                isSafari &&
+                session &&
+                +new Date() - this.sessionBeginTime < 5000,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_SoundAudio.default, {
+              uiData: props.uiData,
+              className: 'brTerminatedSoundAudio',
+              src: _currentscript.default.DIR + '../sounds/terminated.mp3',
+              playing: !session && +new Date() - this.sessionEndTime < 5000,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CallAudio.default, {
+              uiData: props.uiData,
+              sessionId: (0, _strings.string)(session && session.sessionId),
+              streamMarker: (0, _strings.string)(
+                session &&
+                  session.remoteStreamObject &&
+                  session.remoteStreamObject.id,
+              ),
+              isLocal: false,
+              deviceId: audioTargetPreference,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+              ref: this.callVideoAreaRef,
               style: [
-                styles.brIncomingImage,
+                styles.brCallVideoArea,
+                videoClientSessionIds.length >= 2 && styles.brMultiRemoteVideo,
+              ],
+              children: [
+                videoClientSessionIds.map(function (videoClientSessionId) {
+                  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _reactNative.TouchableOpacity,
+                    {
+                      ref: function ref(_ref) {
+                        return (_this6.callRemoteVideoRefs[
+                          videoClientSessionId
+                        ] = _ref)
+                      },
+                      style: [
+                        styles.brCallRemoteVideo,
+                        {
+                          width:
+                            Math.floor(
+                              100 /
+                                Math.ceil(
+                                  Math.sqrt(videoClientSessionIds.length),
+                                ),
+                            ) + '%',
+                          height:
+                            Math.floor(
+                              100 /
+                                Math.ceil(
+                                  (Math.sqrt(
+                                    4 * videoClientSessionIds.length + 1,
+                                  ) -
+                                    1) /
+                                    2,
+                                ),
+                            ) + '%',
+                        },
+                      ],
+                      onPress: _this6.handleCallRemoteVideoClick.bind(
+                        _this6,
+                        videoClientSessionId,
+                      ),
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CallVideo.default, {
+                          uiData: props.uiData,
+                          sessionId: (0, _strings.string)(
+                            session && session.sessionId,
+                          ),
+                          videoClientSessionId: videoClientSessionId,
+                          streamMarker: (0, _strings.string)(
+                            session &&
+                              session.videoClientSessionTable &&
+                              session.videoClientSessionTable[
+                                videoClientSessionId
+                              ] &&
+                              session.videoClientSessionTable[
+                                videoClientSessionId
+                              ].remoteStreamObject &&
+                              session.videoClientSessionTable[
+                                videoClientSessionId
+                              ].remoteStreamObject.id,
+                          ),
+                          isLocal: false,
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          style: styles.brCallVideoName,
+                          children: (function (user) {
+                            return (
+                              buddyForVideoNameTable[user] ||
+                              buddyForVideoNameTable[
+                                Object.keys(buddyForVideoNameTable).find(
+                                  function (user_id) {
+                                    return (
+                                      user.indexOf(
+                                        (0, _strings.string)(user_id).replace(
+                                          '#',
+                                          '',
+                                        ),
+                                      ) !== -1
+                                    )
+                                  },
+                                )
+                              ] ||
+                              user
+                            )
+                          })(
+                            (0, _strings.string)(
+                              session &&
+                                session.videoClientSessionTable &&
+                                session.videoClientSessionTable[
+                                  videoClientSessionId
+                                ] &&
+                                session.videoClientSessionTable[
+                                  videoClientSessionId
+                                ].user,
+                            ),
+                          ),
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                          style: [
+                            styles.brCallVideoOptionsPanel,
+                            callVideoOptionsHiddenPreference && styles.brHidden,
+                            +new Date() <
+                              (0, _strings.int)(
+                                _this6.state.videoOptionsPanelTime[
+                                  videoClientSessionId
+                                ],
+                              ) +
+                                1500 && styles.brVisible,
+                            +new Date() <
+                              (0, _strings.int)(
+                                _this6.state.videoOptionsPanelTime[
+                                  videoClientSessionId
+                                ],
+                              ) +
+                                2500 && styles.brEnabled,
+                          ],
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonIconic.default,
+                              {
+                                style: styles.brCallVideoOptionsOptionsButton,
+                                onPress:
+                                  _this6.handleCallVideoOptionsOptionsButtonClick.bind(
+                                    _this6,
+                                    videoClientSessionId,
+                                  ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.View,
+                                  {
+                                    style:
+                                      styles.brCallVideoOptionsOptionsButtonIcon,
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_MoreIcon.default, {}),
+                                  },
+                                ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuBalloonDialog.default,
+                              {
+                                showing:
+                                  props.uiData.showingDialogVersion ===
+                                    _this6.state
+                                      .callVideoOptionsMenuShowingDialogVersion &&
+                                  videoClientSessionId ===
+                                    _this6.state
+                                      .callVideoOptionsMenuShowingDialogVideoClientSessionId,
+                                style: styles.brCallVideoOptionsMenuBalloon,
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _MenuItem.default,
+                                  {
+                                    style: styles.brCallVideoOptionsMenuItem,
+                                    onPress:
+                                      _this6.handleCallVideoOptionsHideMenuItemClick.bind(
+                                        _this6,
+                                        videoClientSessionId,
+                                      ),
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_reactNative.Text, {
+                                      children:
+                                        _uawmsgs.default
+                                          .LBL_CALL_VIDEO_OPTIONS_HIDE_MENU,
+                                    }),
+                                  },
+                                ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonIconic.default,
+                              {
+                                style:
+                                  styles.brCallVideoOptionsFullscreenButton,
+                                onPress:
+                                  _this6.handleCallVideoOptionsFullscreenButtonClick.bind(
+                                    _this6,
+                                    videoClientSessionId,
+                                  ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.View,
+                                  {
+                                    style: [
+                                      styles.brCallVideoOptionsFullscreenButtonIcon,
+                                    ],
+                                    children:
+                                      props.uiData.ownerDocument &&
+                                      props.uiData.ownerDocument
+                                        .fullscreenElement &&
+                                      (0, _strings.string)(
+                                        props.uiData.ownerDocument
+                                          .fullscreenElement.className,
+                                      ).indexOf('brCallRemoteVideo') !== -1
+                                        ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            CollapseIcon,
+                                            {},
+                                          )
+                                        : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _ExpandIcon.default,
+                                            {},
+                                          ),
+                                  },
+                                ),
+                              },
+                            ),
+                          ],
+                        }),
+                      ],
+                    },
+                    videoClientSessionId,
+                  )
+                }),
+                session &&
+                  session.localVideoStreamObject &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: [
+                      styles.brCallLocalVideo,
+                      {
+                        transform: [
+                          {
+                            translateX: this.state.callLocalVideoX,
+                          },
+                          {
+                            translateY: this.state.callLocalVideoY,
+                          },
+                        ],
+                      },
+                    ],
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _CallVideo.default,
+                      {
+                        uiData: props.uiData,
+                        sessionId: (0, _strings.string)(
+                          session && session.sessionId,
+                        ),
+                        streamMarker: (0, _strings.string)(
+                          session &&
+                            session.localVideoStreamObject &&
+                            session.localVideoStreamObject.id,
+                        ),
+                        isLocal: true,
+                      },
+                    ),
+                  }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: styles.brOutgoingAnimation,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: [
+                styles.brOutgoingImage,
                 !buddy.profile_image_url && styles.brNoImage,
                 buddy.profile_image_url &&
                   (0, _strings.string)(buddy.profile_image_url).indexOf(
@@ -1175,396 +1593,16 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   : {},
               ],
             }),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: styles.brIncomingMessage,
-              },
-              session && session.remoteWithVideo
-                ? _uawmsgs.default.LBL_CALL_INCOMING_WITH_VIDEO
-                : _uawmsgs.default.LBL_CALL_INCOMING,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonIconic.default,
-              {
-                style: styles.brCallAnswerButton,
-                title: _uawmsgs.default.LBL_CALL_ANSWER_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callAnswerButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                  false,
-                ),
-                iconSource: /*#__PURE__*/ _react.default.createElement(
-                  _PhoneIcon.default,
-                  null,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.brCallAnswerButtonIcon,
-              }),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonIconic.default,
-              {
-                style: styles.brCallAnswerWithVideoButton,
-                title:
-                  _uawmsgs.default.LBL_CALL_ANSWER_WITH_VIDEO_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callAnswerButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                  true,
-                ),
-                iconSource: /*#__PURE__*/ _react.default.createElement(
-                  _VideoCallIcon.default,
-                  null,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.brCallAnswerButtonIcon,
-              }),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonIconic.default,
-              {
-                style: styles.brCallDeclineButton,
-                title: _uawmsgs.default.LBL_CALL_DECLINE_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callHangUpButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-                iconSource: /*#__PURE__*/ _react.default.createElement(
-                  _EndCallIcon.default,
-                  null,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.brCallDeclineButtonIcon,
-              }),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(_SoundAudio.default, {
-            uiData: props.uiData,
-            className: 'brRingSoundAudio',
-            src:
-              (props.uiData.configurations &&
-                props.uiData.configurations.alternativeRingTone) ||
-              _currentscript.default.DIR + '../sounds/ring.mp3',
-            loop: true,
-            playing:
-              session &&
-              session.rtcSession &&
-              session.rtcSession.direction === 'incoming' &&
-              session.sessionStatus === 'progress' &&
-              !session.answering &&
-              (!_lampTypeOptionsCache().silent ||
-                _lampTypeOptionsCache().ring === true) &&
-              _lampTypeOptionsCache().ring !== false,
-          }),
-          /*#__PURE__*/ _react.default.createElement(_SoundAudio.default, {
-            uiData: props.uiData,
-            className: 'brRingbackSoundAudio',
-            src: _currentscript.default.DIR + '../sounds/ringback.mp3',
-            loop: true,
-            playing:
-              session &&
-              !session.remoteStreamObject &&
-              session.rtcSession &&
-              session.rtcSession.direction === 'outgoing' &&
-              session.sessionStatus === 'progress',
-            localStoragePreferenceKey: 'audioTarget',
-          }),
-          /*#__PURE__*/ _react.default.createElement(_SoundAudio.default, {
-            uiData: props.uiData,
-            className: 'brBeginedSoundAudio',
-            src: _currentscript.default.DIR + '../sounds/tone1.mp3',
-            playing:
-              isSafari && session && +new Date() - this.sessionBeginTime < 5000,
-          }),
-          /*#__PURE__*/ _react.default.createElement(_SoundAudio.default, {
-            uiData: props.uiData,
-            className: 'brTerminatedSoundAudio',
-            src: _currentscript.default.DIR + '../sounds/terminated.mp3',
-            playing: !session && +new Date() - this.sessionEndTime < 5000,
-          }),
-          /*#__PURE__*/ _react.default.createElement(_CallAudio.default, {
-            uiData: props.uiData,
-            sessionId: (0, _strings.string)(session && session.sessionId),
-            streamMarker: (0, _strings.string)(
-              session &&
-                session.remoteStreamObject &&
-                session.remoteStreamObject.id,
-            ),
-            isLocal: false,
-            deviceId: audioTargetPreference,
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              ref: this.callVideoAreaRef,
-              style: [
-                styles.brCallVideoArea,
-                videoClientSessionIds.length >= 2 && styles.brMultiRemoteVideo,
-              ],
-            },
-            videoClientSessionIds.map(function (videoClientSessionId) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _reactNative.TouchableOpacity,
-                {
-                  key: videoClientSessionId,
-                  ref: function ref(_ref) {
-                    return (_this6.callRemoteVideoRefs[videoClientSessionId] =
-                      _ref)
-                  },
-                  style: [
-                    styles.brCallRemoteVideo,
-                    {
-                      width:
-                        Math.floor(
-                          100 /
-                            Math.ceil(Math.sqrt(videoClientSessionIds.length)),
-                        ) + '%',
-                      height:
-                        Math.floor(
-                          100 /
-                            Math.ceil(
-                              (Math.sqrt(4 * videoClientSessionIds.length + 1) -
-                                1) /
-                                2,
-                            ),
-                        ) + '%',
-                    },
-                  ],
-                  onPress: _this6.handleCallRemoteVideoClick.bind(
-                    _this6,
-                    videoClientSessionId,
-                  ),
-                },
-                /*#__PURE__*/ _react.default.createElement(_CallVideo.default, {
-                  uiData: props.uiData,
-                  sessionId: (0, _strings.string)(session && session.sessionId),
-                  videoClientSessionId: videoClientSessionId,
-                  streamMarker: (0, _strings.string)(
-                    session &&
-                      session.videoClientSessionTable &&
-                      session.videoClientSessionTable[videoClientSessionId] &&
-                      session.videoClientSessionTable[videoClientSessionId]
-                        .remoteStreamObject &&
-                      session.videoClientSessionTable[videoClientSessionId]
-                        .remoteStreamObject.id,
-                  ),
-                  isLocal: false,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brCallVideoName,
-                  },
-                  (function (user) {
-                    return (
-                      buddyForVideoNameTable[user] ||
-                      buddyForVideoNameTable[
-                        Object.keys(buddyForVideoNameTable).find(
-                          function (user_id) {
-                            return (
-                              user.indexOf(
-                                (0, _strings.string)(user_id).replace('#', ''),
-                              ) !== -1
-                            )
-                          },
-                        )
-                      ] ||
-                      user
-                    )
-                  })(
-                    (0, _strings.string)(
-                      session &&
-                        session.videoClientSessionTable &&
-                        session.videoClientSessionTable[videoClientSessionId] &&
-                        session.videoClientSessionTable[videoClientSessionId]
-                          .user,
-                    ),
-                  ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: [
-                      styles.brCallVideoOptionsPanel,
-                      callVideoOptionsHiddenPreference && styles.brHidden,
-                      +new Date() <
-                        (0, _strings.int)(
-                          _this6.state.videoOptionsPanelTime[
-                            videoClientSessionId
-                          ],
-                        ) +
-                          1500 && styles.brVisible,
-                      +new Date() <
-                        (0, _strings.int)(
-                          _this6.state.videoOptionsPanelTime[
-                            videoClientSessionId
-                          ],
-                        ) +
-                          2500 && styles.brEnabled,
-                    ],
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonIconic.default,
-                    {
-                      style: styles.brCallVideoOptionsOptionsButton,
-                      onPress:
-                        _this6.handleCallVideoOptionsOptionsButtonClick.bind(
-                          _this6,
-                          videoClientSessionId,
-                        ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brCallVideoOptionsOptionsButtonIcon,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _MoreIcon.default,
-                        null,
-                      ),
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _MenuBalloonDialog.default,
-                    {
-                      showing:
-                        props.uiData.showingDialogVersion ===
-                          _this6.state
-                            .callVideoOptionsMenuShowingDialogVersion &&
-                        videoClientSessionId ===
-                          _this6.state
-                            .callVideoOptionsMenuShowingDialogVideoClientSessionId,
-                      style: styles.brCallVideoOptionsMenuBalloon,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _MenuItem.default,
-                      {
-                        style: styles.brCallVideoOptionsMenuItem,
-                        onPress:
-                          _this6.handleCallVideoOptionsHideMenuItemClick.bind(
-                            _this6,
-                            videoClientSessionId,
-                          ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        _uawmsgs.default.LBL_CALL_VIDEO_OPTIONS_HIDE_MENU,
-                      ),
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonIconic.default,
-                    {
-                      style: styles.brCallVideoOptionsFullscreenButton,
-                      onPress:
-                        _this6.handleCallVideoOptionsFullscreenButtonClick.bind(
-                          _this6,
-                          videoClientSessionId,
-                        ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: [styles.brCallVideoOptionsFullscreenButtonIcon],
-                      },
-                      props.uiData.ownerDocument &&
-                        props.uiData.ownerDocument.fullscreenElement &&
-                        (0, _strings.string)(
-                          props.uiData.ownerDocument.fullscreenElement
-                            .className,
-                        ).indexOf('brCallRemoteVideo') !== -1
-                        ? /*#__PURE__*/ _react.default.createElement(
-                            CollapseIcon,
-                            null,
-                          )
-                        : /*#__PURE__*/ _react.default.createElement(
-                            _ExpandIcon.default,
-                            null,
-                          ),
-                    ),
-                  ),
-                ),
-              )
-            }),
-            session &&
-              session.localVideoStreamObject &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [
-                    styles.brCallLocalVideo,
-                    {
-                      transform: [
-                        {
-                          translateX: this.state.callLocalVideoX,
-                        },
-                        {
-                          translateY: this.state.callLocalVideoY,
-                        },
-                      ],
-                    },
-                  ],
-                },
-                /*#__PURE__*/ _react.default.createElement(_CallVideo.default, {
-                  uiData: props.uiData,
-                  sessionId: (0, _strings.string)(session && session.sessionId),
-                  streamMarker: (0, _strings.string)(
-                    session &&
-                      session.localVideoStreamObject &&
-                      session.localVideoStreamObject.id,
-                  ),
-                  isLocal: true,
-                }),
-              ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-            style: styles.brOutgoingAnimation,
-          }),
-          /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-            style: [
-              styles.brOutgoingImage,
-              !buddy.profile_image_url && styles.brNoImage,
-              buddy.profile_image_url &&
-                (0, _strings.string)(buddy.profile_image_url).indexOf(
-                  _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
-                ) === -1 &&
-                styles.brMyProfileImageUrl,
-              buddy.profile_image_url
-                ? {
-                    backgroundImage: 'url('.concat(
-                      buddy.profile_image_url,
-                      ')',
-                    ),
-                  }
-                : {},
-            ],
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
               style: styles.brOutgoingMessage,
-            },
-            _uawmsgs.default.LBL_CALL_OUTGOING,
-          ),
-          /*#__PURE__*/ _react.default.createElement(_CallTimer.default, {
-            startTime: (0, _strings.int)(
-              session && session.rtcSession && +session.rtcSession.start_time,
-            ),
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _ButtonIconic.default,
-            {
+              children: _uawmsgs.default.LBL_CALL_OUTGOING,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CallTimer.default, {
+              startTime: (0, _strings.int)(
+                session && session.rtcSession && +session.rtcSession.start_time,
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
               style: styles.brTheaterButton,
               hidden: !(session && session.withVideo),
               onPress: props.uiData.fire.bind(
@@ -1573,940 +1611,873 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 props.panelType,
                 props.panelCode,
               ),
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: [styles.brTheaterButtonIcon],
-              },
-              callAreaTheaterPreference
-                ? /*#__PURE__*/ _react.default.createElement(
-                    _ChevronUpIcon.default,
-                    null,
-                  )
-                : /*#__PURE__*/ _react.default.createElement(
-                    _ChevronUpIcon.default,
-                    null,
-                  ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Animated.View,
-            _extends(
-              {
-                style: [
-                  styles.splitterHeight,
-                  {
-                    transform: [
-                      {
-                        translateY: this.splitterPosition,
-                      },
-                    ],
-                  },
-                ],
-              },
-              this.panResponder.panHandlers,
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brCallMenuItemButtonArea,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brTransferMenuButton,
-                  !(
-                    session &&
-                    session.sessionStatus === 'connected' &&
-                    panelSession &&
-                    (panelSession.holded || panelSession.transferring)
-                  ) && styles.brDisabled,
-                ],
-                title: _uawmsgs.default.LBL_CALL_TRANSFER_MENU_BUTTON_TOOLTIP,
-                onPress: this.handleTransferMenuButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brCallMenuItemIcon],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _PhoneIcon.default,
-                  null,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: [styles.brCallMenuItemIconIcon],
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ArrowRightIcon.default,
-                    null,
-                  ),
-                ),
-              ),
-              !this.state.headerButtonsCollapsible &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  _uawmsgs.default.LBL_CALL_TRANSFER_MENU_BUTTON,
-                ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brCallMenuItemMenuIcon],
-                },
-                props.uiData.showingDialogVersion !==
-                  this.state.transferMenuShowingDialogVersion
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _TriangleRightIcon.default,
-                      null,
+                children: callAreaTheaterPreference
+                  ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _ChevronUpIcon.default,
+                      {},
                     )
-                  : /*#__PURE__*/ _react.default.createElement(
-                      _TriangleLeftIcon.default,
-                      null,
+                  : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _ChevronUpIcon.default,
+                      {},
                     ),
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brCallMenuItemButtonArea,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brHoldButton,
-                  !(session && session.sessionStatus === 'connected') &&
-                    styles.brDisabled,
-                ],
-                title:
-                  panelSession && panelSession.holded
-                    ? _uawmsgs.default.LBL_CALL_UNHOLD_BUTTON_TOOLTIP
-                    : _uawmsgs.default.LBL_CALL_HOLD_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callHoldButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [
-                    styles.brCallMenuItemIcon,
-                    panelSession && panelSession.holded && styles.brHolded,
-                  ],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _HoldIcon.default,
-                  null,
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                !this.state.headerButtonsCollapsible &&
-                  (panelSession && panelSession.holded
-                    ? _uawmsgs.default.LBL_CALL_UNHOLD_BUTTON
-                    : _uawmsgs.default.LBL_CALL_HOLD_BUTTON),
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brCallMenuItemButtonArea,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brDtmfMenuButton,
-                  !session && styles.brDisabled,
-                ],
-                title: _uawmsgs.default.LBL_CALL_DTMF_MENU_BUTTON_TOOLTIP,
-                onPress: this.handleDtmfMenuButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brCallMenuItemIcon],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _KeypadIcon.default,
-                  null,
-                ),
-              ),
-              !this.state.headerButtonsCollapsible &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  _uawmsgs.default.LBL_CALL_DTMF_MENU_BUTTON,
-                ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brCallMenuItemMenuIcon],
-                },
-                props.uiData.showingDialogVersion !==
-                  this.state.dtmfMenuShowingDialogVersion
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _TriangleRightIcon.default,
-                      null,
-                    )
-                  : /*#__PURE__*/ _react.default.createElement(
-                      _TriangleLeftIcon.default,
-                      null,
-                    ),
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brCallMenuItemButtonArea,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brFullscreenButton,
-                  !(session && session.withVideo) && styles.brDisabled,
-                ],
-                title: _uawmsgs.default.LBL_CALL_FULLSCREEN_BUTTON_TOOLTIP,
-                onPress: this.handleFullscreenButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brCallMenuItemIcon],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _ExpandIcon.default,
-                  null,
-                ),
-              ),
-              !this.state.headerButtonsCollapsible &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  _uawmsgs.default.LBL_CALL_FULLSCREEN_BUTTON,
-                ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brCallMenuItemButtonArea,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brCameraMuteButton,
-                  !session && styles.brDisabled,
-                ],
-                title:
-                  panelSession && panelSession.cameraMuted
-                    ? _uawmsgs.default.LBL_CALL_CAMERA_UNMUTE_BUTTON_TOOLTIP
-                    : _uawmsgs.default.LBL_CALL_CAMERA_MUTE_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callCameraMuteButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [
-                    styles.brCallMenuItemIcon,
-                    panelSession && panelSession.cameraMuted && styles.brMuted,
-                  ],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _NoVideoIcon.default,
-                  null,
-                ),
-              ),
-              !this.state.headerButtonsCollapsible &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  panelSession && panelSession.cameraMuted
-                    ? _uawmsgs.default.LBL_CALL_CAMERA_UNMUTE_BUTTON
-                    : _uawmsgs.default.LBL_CALL_CAMERA_MUTE_BUTTON,
-                ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brCameraMenuButton,
-                  !session && styles.brDisabled,
-                ],
-                title: _uawmsgs.default.LBL_CALL_CAMERA_MENU_BUTTON_TOOLTIP,
-                onPress: this.handleCameraMenuButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brCallMenuItemMenuIcon],
-                },
-                props.uiData.showingDialogVersion !==
-                  this.state.cameraMenuShowingDialogVersion
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _TriangleRightIcon.default,
-                      null,
-                    )
-                  : /*#__PURE__*/ _react.default.createElement(
-                      _TriangleLeftIcon.default,
-                      null,
-                    ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-              style: styles.brCallMenuItemButtonAreaSeparator,
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brCallMenuItemButtonArea,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brMicrophoneMuteButton,
-                  !session && styles.brDisabled,
-                ],
-                title:
-                  session && session.muted && session.muted.main
-                    ? _uawmsgs.default.LBL_CALL_MICROPHONE_UNMUTE_BUTTON_TOOLTIP
-                    : _uawmsgs.default.LBL_CALL_MICROPHONE_MUTE_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callMuteButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                  'main',
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+              _reactNative.Animated.View,
+              _objectSpread(
                 {
                   style: [
-                    styles.brCallMenuItemIcon,
-                    session &&
-                      session.muted &&
-                      session.muted.main &&
-                      styles.brMuted,
+                    styles.splitterHeight,
+                    {
+                      transform: [
+                        {
+                          translateY: this.splitterPosition,
+                        },
+                      ],
+                    },
                   ],
                 },
-                /*#__PURE__*/ _react.default.createElement(
-                  _BlockMicrophoneIcon.default,
-                  null,
-                ),
-              ),
-              !this.state.headerButtonsCollapsible &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  session && session.muted && session.muted.main
-                    ? _uawmsgs.default.LBL_CALL_MICROPHONE_UNMUTE_BUTTON
-                    : _uawmsgs.default.LBL_CALL_MICROPHONE_MUTE_BUTTON,
-                ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brCallMenuItemButton,
-                  styles.brMicrophoneMenuButton,
-                  !session && styles.brDisabled,
-                ],
-                title: _uawmsgs.default.LBL_CALL_MICROPHONE_MENU_BUTTON_TOOLTIP,
-                onPress: this.handleMicrophoneMenuButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brCallMenuItemMenuIcon],
-                },
-                props.uiData.showingDialogVersion !==
-                  this.state.microphoneMenuShowingDialogVersion
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _TriangleRightIcon.default,
-                      null,
-                    )
-                  : /*#__PURE__*/ _react.default.createElement(
-                      _TriangleLeftIcon.default,
-                      null,
-                    ),
+                this.panResponder.panHandlers,
               ),
             ),
-            session &&
-              session.analyser &&
-              /*#__PURE__*/ _react.default.createElement(
-                _CallMicrophoneLevel.default,
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: styles.brCallMenuItemButtonArea,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                _ButtonLabeled.default,
                 {
-                  uiData: props.uiData,
-                  sessionId: (0, _strings.string)(session && session.sessionId),
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brTransferMenuButton,
+                    !(
+                      session &&
+                      session.sessionStatus === 'connected' &&
+                      panelSession &&
+                      (panelSession.holded || panelSession.transferring)
+                    ) && styles.brDisabled,
+                  ],
+                  title: _uawmsgs.default.LBL_CALL_TRANSFER_MENU_BUTTON_TOOLTIP,
+                  onPress: this.handleTransferMenuButtonClick.bind(this),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: [styles.brCallMenuItemIcon],
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _PhoneIcon.default,
+                          {},
+                        ),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [styles.brCallMenuItemIconIcon],
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _ArrowRightIcon.default,
+                            {},
+                          ),
+                        }),
+                      ],
+                    }),
+                    !this.state.headerButtonsCollapsible &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        children:
+                          _uawmsgs.default.LBL_CALL_TRANSFER_MENU_BUTTON,
+                      }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [styles.brCallMenuItemMenuIcon],
+                      children:
+                        props.uiData.showingDialogVersion !==
+                        this.state.transferMenuShowingDialogVersion
+                          ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleRightIcon.default,
+                              {},
+                            )
+                          : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleLeftIcon.default,
+                              {},
+                            ),
+                    }),
+                  ],
                 },
               ),
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-              style: styles.brCallMenuItemButtonAreaSeparator,
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: styles.brCallMenuItemButtonArea,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                _ButtonLabeled.default,
+                {
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brHoldButton,
+                    !(session && session.sessionStatus === 'connected') &&
+                      styles.brDisabled,
+                  ],
+                  title:
+                    panelSession && panelSession.holded
+                      ? _uawmsgs.default.LBL_CALL_UNHOLD_BUTTON_TOOLTIP
+                      : _uawmsgs.default.LBL_CALL_HOLD_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callHoldButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  ),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [
+                        styles.brCallMenuItemIcon,
+                        panelSession && panelSession.holded && styles.brHolded,
+                      ],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _HoldIcon.default,
+                        {},
+                      ),
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      children:
+                        !this.state.headerButtonsCollapsible &&
+                        (panelSession && panelSession.holded
+                          ? _uawmsgs.default.LBL_CALL_UNHOLD_BUTTON
+                          : _uawmsgs.default.LBL_CALL_HOLD_BUTTON),
+                    }),
+                  ],
+                },
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: styles.brCallMenuItemButtonArea,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                _ButtonLabeled.default,
+                {
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brDtmfMenuButton,
+                    !session && styles.brDisabled,
+                  ],
+                  title: _uawmsgs.default.LBL_CALL_DTMF_MENU_BUTTON_TOOLTIP,
+                  onPress: this.handleDtmfMenuButtonClick.bind(this),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [styles.brCallMenuItemIcon],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _KeypadIcon.default,
+                        {},
+                      ),
+                    }),
+                    !this.state.headerButtonsCollapsible &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        children: _uawmsgs.default.LBL_CALL_DTMF_MENU_BUTTON,
+                      }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [styles.brCallMenuItemMenuIcon],
+                      children:
+                        props.uiData.showingDialogVersion !==
+                        this.state.dtmfMenuShowingDialogVersion
+                          ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleRightIcon.default,
+                              {},
+                            )
+                          : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleLeftIcon.default,
+                              {},
+                            ),
+                    }),
+                  ],
+                },
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              style: styles.brCallMenuItemButtonArea,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                _ButtonLabeled.default,
+                {
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brFullscreenButton,
+                    !(session && session.withVideo) && styles.brDisabled,
+                  ],
+                  title: _uawmsgs.default.LBL_CALL_FULLSCREEN_BUTTON_TOOLTIP,
+                  onPress: this.handleFullscreenButtonClick.bind(this),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [styles.brCallMenuItemIcon],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ExpandIcon.default,
+                        {},
+                      ),
+                    }),
+                    !this.state.headerButtonsCollapsible &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        children: _uawmsgs.default.LBL_CALL_FULLSCREEN_BUTTON,
+                      }),
+                  ],
+                },
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+              style: styles.brCallMenuItemButtonArea,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_ButtonLabeled.default, {
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brCameraMuteButton,
+                    !session && styles.brDisabled,
+                  ],
+                  title:
+                    panelSession && panelSession.cameraMuted
+                      ? _uawmsgs.default.LBL_CALL_CAMERA_UNMUTE_BUTTON_TOOLTIP
+                      : _uawmsgs.default.LBL_CALL_CAMERA_MUTE_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callCameraMuteButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  ),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [
+                        styles.brCallMenuItemIcon,
+                        panelSession &&
+                          panelSession.cameraMuted &&
+                          styles.brMuted,
+                      ],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _NoVideoIcon.default,
+                        {},
+                      ),
+                    }),
+                    !this.state.headerButtonsCollapsible &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        children:
+                          panelSession && panelSession.cameraMuted
+                            ? _uawmsgs.default.LBL_CALL_CAMERA_UNMUTE_BUTTON
+                            : _uawmsgs.default.LBL_CALL_CAMERA_MUTE_BUTTON,
+                      }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brCameraMenuButton,
+                    !session && styles.brDisabled,
+                  ],
+                  title: _uawmsgs.default.LBL_CALL_CAMERA_MENU_BUTTON_TOOLTIP,
+                  onPress: this.handleCameraMenuButtonClick.bind(this),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: [styles.brCallMenuItemMenuIcon],
+                      children:
+                        props.uiData.showingDialogVersion !==
+                        this.state.cameraMenuShowingDialogVersion
+                          ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleRightIcon.default,
+                              {},
+                            )
+                          : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleLeftIcon.default,
+                              {},
+                            ),
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.brCallMenuItemButtonAreaSeparator,
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+              style: styles.brCallMenuItemButtonArea,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_ButtonLabeled.default, {
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brMicrophoneMuteButton,
+                    !session && styles.brDisabled,
+                  ],
+                  title:
+                    session && session.muted && session.muted.main
+                      ? _uawmsgs.default
+                          .LBL_CALL_MICROPHONE_UNMUTE_BUTTON_TOOLTIP
+                      : _uawmsgs.default
+                          .LBL_CALL_MICROPHONE_MUTE_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callMuteButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                    'main',
+                  ),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [
+                        styles.brCallMenuItemIcon,
+                        session &&
+                          session.muted &&
+                          session.muted.main &&
+                          styles.brMuted,
+                      ],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _BlockMicrophoneIcon.default,
+                        {},
+                      ),
+                    }),
+                    !this.state.headerButtonsCollapsible &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        children:
+                          session && session.muted && session.muted.main
+                            ? _uawmsgs.default.LBL_CALL_MICROPHONE_UNMUTE_BUTTON
+                            : _uawmsgs.default.LBL_CALL_MICROPHONE_MUTE_BUTTON,
+                      }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
+                  style: [
+                    styles.brCallMenuItemButton,
+                    styles.brMicrophoneMenuButton,
+                    !session && styles.brDisabled,
+                  ],
+                  title:
+                    _uawmsgs.default.LBL_CALL_MICROPHONE_MENU_BUTTON_TOOLTIP,
+                  onPress: this.handleMicrophoneMenuButtonClick.bind(this),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: [styles.brCallMenuItemMenuIcon],
+                      children:
+                        props.uiData.showingDialogVersion !==
+                        this.state.microphoneMenuShowingDialogVersion
+                          ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleRightIcon.default,
+                              {},
+                            )
+                          : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _TriangleLeftIcon.default,
+                              {},
+                            ),
+                    },
+                  ),
+                }),
+                session &&
+                  session.analyser &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _CallMicrophoneLevel.default,
+                    {
+                      uiData: props.uiData,
+                      sessionId: (0, _strings.string)(
+                        session && session.sessionId,
+                      ),
+                    },
+                  ),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.brCallMenuItemButtonAreaSeparator,
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                   this.state.transferMenuShowingDialogVersion && callMenuOpened,
               style: styles.brTransferMenuBalloon,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brTransferTargetArea,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _DropDownMenu.default,
-                {
-                  uiData: props.uiData,
-                  style: styles.brTransferTargetUserMenu,
-                  dialogStyle: styles.brCallAreaDialog,
-                  onShowingDialogUpdate:
-                    this.handleTransferMenuDropDownMenuShowingDialogUpdate.bind(
-                      this,
-                    ),
-                },
-                Object.keys(groupTable)
-                  .sort(function (groupName1, groupName2) {
-                    return (
-                      (groupTable[groupName1].groupIndex >>> 0) -
-                      (groupTable[groupName2].groupIndex >>> 0)
-                    )
-                  })
-                  .map(function (groupName) {
-                    return /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.TouchableOpacity,
-                      {
-                        key: groupName,
-                        style: [
-                          styles.brTransferTargetUserGroup,
-                          groupName && styles.brGroupName,
-                        ],
-                        onPress: _this6.handleTransferTargetUserGroupClick.bind(
-                          _this6,
-                          groupName,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.brTransferTargetArea,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DropDownMenu.default, {
+                      uiData: props.uiData,
+                      style: styles.brTransferTargetUserMenu,
+                      dialogStyle: styles.brCallAreaDialog,
+                      onShowingDialogUpdate:
+                        this.handleTransferMenuDropDownMenuShowingDialogUpdate.bind(
+                          this,
                         ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: [styles.brTransferTargetUserGroupIcon],
-                        },
-                        _this6.state.transferTargetUserGroupOpen
-                          .split(',')
-                          .indexOf(groupName) !== -1
-                          ? /*#__PURE__*/ _react.default.createElement(
-                              _ChevronUpIcon.default,
-                              null,
-                            )
-                          : /*#__PURE__*/ _react.default.createElement(
-                              _ChevronDownIcon.default,
-                              null,
-                            ),
+                      children: Object.keys(groupTable)
+                        .sort(function (groupName1, groupName2) {
+                          return (
+                            (groupTable[groupName1].groupIndex >>> 0) -
+                            (groupTable[groupName2].groupIndex >>> 0)
+                          )
+                        })
+                        .map(function (groupName) {
+                          return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                            _reactNative.TouchableOpacity,
+                            {
+                              style: [
+                                styles.brTransferTargetUserGroup,
+                                groupName && styles.brGroupName,
+                              ],
+                              onPress:
+                                _this6.handleTransferTargetUserGroupClick.bind(
+                                  _this6,
+                                  groupName,
+                                ),
+                              children: [
+                                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.View,
+                                  {
+                                    style: [
+                                      styles.brTransferTargetUserGroupIcon,
+                                    ],
+                                    children:
+                                      _this6.state.transferTargetUserGroupOpen
+                                        .split(',')
+                                        .indexOf(groupName) !== -1
+                                        ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _ChevronUpIcon.default,
+                                            {},
+                                          )
+                                        : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _ChevronDownIcon.default,
+                                            {},
+                                          ),
+                                  },
+                                ),
+                                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    style: styles.brTransferTargetUserGroupName,
+                                    children: groupName,
+                                  },
+                                ),
+                                groupTable[groupName].buddyNodes,
+                              ],
+                            },
+                            groupName,
+                          )
+                        }),
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_TextBox.default, {
+                      ref: this.transferTargetInputRef,
+                      style: styles.brTransferTargetInput,
+                      autoCapitalize: 'off',
+                      onKeyPress:
+                        this.handleTransferTargetInputKeyDown.bind(this),
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
+                  ref: this.transferTargetButtonRef,
+                  style: [
+                    styles.brTransferButton,
+                    styles.brTransferTargetButton,
+                  ],
+                  disabled: !(
+                    session &&
+                    session.sessionStatus === 'connected' &&
+                    panelSession &&
+                    panelSession.holded &&
+                    !panelSession.transferring
+                  ),
+                  ghost: true,
+                  title:
+                    _uawmsgs.default.LBL_CALL_TRANSFER_TARGET_BUTTON_TOOLTIP,
+                  onPress: this.handleTransferTargetButtonClick.bind(this),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _reactNative.View,
+                    {
+                      style: [styles.brTransferIcon],
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _PhoneIcon.default,
+                          {},
+                        ),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [styles.brTransferIconIcon],
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _ArrowRightIcon.default,
+                            {},
+                          ),
+                        }),
+                      ],
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_ButtonLabeled.default, {
+                  style: [
+                    styles.brTransferButton,
+                    styles.brTransferCompleteButton,
+                  ],
+                  disabled: !(
+                    session &&
+                    session.sessionStatus === 'connected' &&
+                    panelSession &&
+                    panelSession.transferring
+                  ),
+                  vivid: true,
+                  title:
+                    _uawmsgs.default.LBL_CALL_TRANSFER_COMPLETE_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callHangUpButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  ),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: [styles.brTransferIcon],
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _PhoneIcon.default,
+                          {},
+                        ),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [styles.brTransferIconIcon],
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _ArrowRightIcon.default,
+                            {},
+                          ),
+                        }),
+                      ],
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      children:
+                        _uawmsgs.default.LBL_CALL_TRANSFER_COMPLETE_BUTTON,
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_ButtonLabeled.default, {
+                  style: [
+                    styles.brTransferButton,
+                    styles.brTransferConferenceButton,
+                  ],
+                  disabled: !(
+                    session &&
+                    session.sessionStatus === 'connected' &&
+                    panelSession &&
+                    panelSession.transferring
+                  ),
+                  hidden: !(dtmfShortcutPreference & 8),
+                  ghost: true,
+                  title:
+                    _uawmsgs.default
+                      .LBL_CALL_TRANSFER_CONFERENCE_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callTransferConferenceButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  ),
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [styles.brTransferIcon],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ConferenceForegroundSelectedIcon.default,
+                        {},
                       ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: styles.brTransferTargetUserGroupName,
-                        },
-                        groupName,
-                      ),
-                      groupTable[groupName].buddyNodes,
-                    )
-                  }),
-              ),
-              /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-                ref: this.transferTargetInputRef,
-                style: styles.brTransferTargetInput,
-                autoCapitalize: 'off',
-                onKeyPress: this.handleTransferTargetInputKeyDown.bind(this),
-              }),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                ref: this.transferTargetButtonRef,
-                style: [styles.brTransferButton, styles.brTransferTargetButton],
-                disabled: !(
-                  session &&
-                  session.sessionStatus === 'connected' &&
-                  panelSession &&
-                  panelSession.holded &&
-                  !panelSession.transferring
-                ),
-                ghost: true,
-                title: _uawmsgs.default.LBL_CALL_TRANSFER_TARGET_BUTTON_TOOLTIP,
-                onPress: this.handleTransferTargetButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brTransferIcon],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _PhoneIcon.default,
-                  null,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: [styles.brTransferIconIcon],
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ArrowRightIcon.default,
-                    null,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      children:
+                        _uawmsgs.default.LBL_CALL_TRANSFER_CONFERENCE_BUTTON,
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_ButtonLabeled.default, {
+                  style: [
+                    styles.brTransferButton,
+                    styles.brTransferCancelButton,
+                  ],
+                  disabled: !(
+                    session &&
+                    session.sessionStatus === 'connected' &&
+                    panelSession &&
+                    panelSession.transferring
                   ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brTransferButton,
-                  styles.brTransferCompleteButton,
-                ],
-                disabled: !(
-                  session &&
-                  session.sessionStatus === 'connected' &&
-                  panelSession &&
-                  panelSession.transferring
-                ),
-                vivid: true,
-                title:
-                  _uawmsgs.default.LBL_CALL_TRANSFER_COMPLETE_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callHangUpButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brTransferIcon],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _PhoneIcon.default,
-                  null,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: [styles.brTransferIconIcon],
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ArrowRightIcon.default,
-                    null,
+                  ghost: true,
+                  title:
+                    _uawmsgs.default.LBL_CALL_TRANSFER_CANCEL_BUTTON_TOOLTIP,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'callHoldButton_onClick',
+                    props.panelType,
+                    props.panelCode,
                   ),
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                _uawmsgs.default.LBL_CALL_TRANSFER_COMPLETE_BUTTON,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [
-                  styles.brTransferButton,
-                  styles.brTransferConferenceButton,
-                ],
-                disabled: !(
-                  session &&
-                  session.sessionStatus === 'connected' &&
-                  panelSession &&
-                  panelSession.transferring
-                ),
-                hidden: !(dtmfShortcutPreference & 8),
-                ghost: true,
-                title:
-                  _uawmsgs.default.LBL_CALL_TRANSFER_CONFERENCE_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callTransferConferenceButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brTransferIcon],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _ConferenceForegroundSelectedIcon.default,
-                  null,
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                _uawmsgs.default.LBL_CALL_TRANSFER_CONFERENCE_BUTTON,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: [styles.brTransferButton, styles.brTransferCancelButton],
-                disabled: !(
-                  session &&
-                  session.sessionStatus === 'connected' &&
-                  panelSession &&
-                  panelSession.transferring
-                ),
-                ghost: true,
-                title: _uawmsgs.default.LBL_CALL_TRANSFER_CANCEL_BUTTON_TOOLTIP,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'callHoldButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.brTransferIcon],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _PhoneIcon.default,
-                  null,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: [styles.brTransferIconIcon],
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ArrowLeftIcon.default,
-                    null,
-                  ),
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                _uawmsgs.default.LBL_CALL_TRANSFER_CANCEL_BUTTON,
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: [styles.brTransferIcon],
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _PhoneIcon.default,
+                          {},
+                        ),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [styles.brTransferIconIcon],
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _ArrowLeftIcon.default,
+                            {},
+                          ),
+                        }),
+                      ],
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      children:
+                        _uawmsgs.default.LBL_CALL_TRANSFER_CANCEL_BUTTON,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                   this.state.dtmfMenuShowingDialogVersion && callMenuOpened,
               style: styles.brDtmfMenuBalloon,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: styles.brDtmfLog,
-              },
-              this.state.dtmfLog,
-            ),
-            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'].map(
-              function (tone, i) {
-                return /*#__PURE__*/ _react.default.createElement(
-                  _ButtonLabeled.default,
-                  {
-                    key: i,
-                    style: [
-                      styles.brCallDtmfButton,
-                      styles['brCallDtmfButton'.concat(i + 1)],
-                    ],
-                    ghost: true,
-                    title: tone,
-                    onPress: _this6.handleCallDtmfButtonClick.bind(
-                      _this6,
-                      tone,
-                    ),
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    tone,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _SoundAudio.default,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: styles.brDtmfLog,
+                  children: this.state.dtmfLog,
+                }),
+                [
+                  '1',
+                  '2',
+                  '3',
+                  '4',
+                  '5',
+                  '6',
+                  '7',
+                  '8',
+                  '9',
+                  '*',
+                  '0',
+                  '#',
+                ].map(function (tone, i) {
+                  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _ButtonLabeled.default,
                     {
-                      uiData: props.uiData,
-                      style: styles.brDtmfSoundAudio,
-                      src:
-                        _currentscript.default.DIR +
-                        '../sounds/' +
-                        (tone === '*'
-                          ? 'asterisk'
-                          : tone === '#'
-                            ? 'pound'
-                            : tone) +
-                        '.mp3',
-                      playing:
-                        tone ===
-                          (0, _strings.string)(_this6.state.dtmfLog).slice(
-                            -1,
-                          ) && +new Date() - _this6.state.dtmfTime < 100,
-                      localStoragePreferenceKey: 'audioTarget',
+                      style: [
+                        styles.brCallDtmfButton,
+                        styles['brCallDtmfButton'.concat(i + 1)],
+                      ],
+                      ghost: true,
+                      title: tone,
+                      onPress: _this6.handleCallDtmfButtonClick.bind(
+                        _this6,
+                        tone,
+                      ),
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          children: tone,
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _SoundAudio.default,
+                          {
+                            uiData: props.uiData,
+                            style: styles.brDtmfSoundAudio,
+                            src:
+                              _currentscript.default.DIR +
+                              '../sounds/' +
+                              (tone === '*'
+                                ? 'asterisk'
+                                : tone === '#'
+                                  ? 'pound'
+                                  : tone) +
+                              '.mp3',
+                            playing:
+                              tone ===
+                                (0, _strings.string)(
+                                  _this6.state.dtmfLog,
+                                ).slice(-1) &&
+                              +new Date() - _this6.state.dtmfTime < 100,
+                            localStoragePreferenceKey: 'audioTarget',
+                          },
+                        ),
+                      ],
                     },
-                  ),
-                )
-              },
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+                    i,
+                  )
+                }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                   this.state.cameraMenuShowingDialogVersion && callMenuOpened,
               style: styles.brCameraMenuBalloon,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: [
-                  styles.brChangeDeviceTitle,
-                  styles.brChangeVideoinputTitle,
-                ],
-              },
-              _uawmsgs.default.LBL_CALL_CAMERA_CHANGE,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _DropDownMenu.default,
-              {
-                uiData: props.uiData,
-                style: [
-                  styles.brChangeDeviceMenu,
-                  styles.brChangeVideoinputMenu,
-                ],
-                disabled: panelSession && panelSession.isScreen,
-                hidden: !callMenuOpened,
-                text: this.getDeviceLabel({
-                  deviceId: videoSourcePreference,
-                  kind: 'videoinput',
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: [
+                    styles.brChangeDeviceTitle,
+                    styles.brChangeVideoinputTitle,
+                  ],
+                  children: _uawmsgs.default.LBL_CALL_CAMERA_CHANGE,
                 }),
-                onShowingDialogUpdate:
-                  this.handleCameraMenuDropDownMenuShowingDialogUpdate.bind(
-                    this,
-                  ),
-              },
-              this.state.devices
-                .filter(function (device) {
-                  return device.kind === 'videoinput'
-                })
-                .map(function (device) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      key: device.deviceId,
-                      style: [
-                        styles.brChangeDeviceMenuItem,
-                        styles.brChangeVideoinputMenuItem,
-                      ],
-                      dropDown: true,
-                      onPress: props.uiData.fire.bind(
-                        props.uiData,
-                        'callAreaChangeDeviceMenuItem_onClick',
-                        props.panelType,
-                        props.panelCode,
-                        device,
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _this6.getDeviceLabel(device),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DropDownMenu.default, {
+                  uiData: props.uiData,
+                  style: [
+                    styles.brChangeDeviceMenu,
+                    styles.brChangeVideoinputMenu,
+                  ],
+                  disabled: panelSession && panelSession.isScreen,
+                  hidden: !callMenuOpened,
+                  text: this.getDeviceLabel({
+                    deviceId: videoSourcePreference,
+                    kind: 'videoinput',
+                  }),
+                  onShowingDialogUpdate:
+                    this.handleCameraMenuDropDownMenuShowingDialogUpdate.bind(
+                      this,
                     ),
-                  )
+                  children: this.state.devices
+                    .filter(function (device) {
+                      return device.kind === 'videoinput'
+                    })
+                    .map(function (device) {
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _MenuItem.default,
+                        {
+                          style: [
+                            styles.brChangeDeviceMenuItem,
+                            styles.brChangeVideoinputMenuItem,
+                          ],
+                          dropDown: true,
+                          onPress: props.uiData.fire.bind(
+                            props.uiData,
+                            'callAreaChangeDeviceMenuItem_onClick',
+                            props.panelType,
+                            props.panelCode,
+                            device,
+                          ),
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              children: _this6.getDeviceLabel(device),
+                            },
+                          ),
+                        },
+                        device.deviceId,
+                      )
+                    }),
                 }),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                   this.state.microphoneMenuShowingDialogVersion &&
                 callMenuOpened,
               style: styles.brMicrophoneMenuBalloon,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: [
-                  styles.brChangeDeviceTitle,
-                  styles.brChangeAudioinputTitle,
-                ],
-              },
-              _uawmsgs.default.LBL_CALL_MICROPHONE_CHANGE,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _DropDownMenu.default,
-              {
-                uiData: props.uiData,
-                style: [
-                  styles.brChangeDeviceMenu,
-                  styles.brChangeAudioinputMenu,
-                ],
-                hidden: !callMenuOpened,
-                text: this.getDeviceLabel({
-                  deviceId: audioSourcePreference,
-                  kind: 'audioinput',
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: [
+                    styles.brChangeDeviceTitle,
+                    styles.brChangeAudioinputTitle,
+                  ],
+                  children: _uawmsgs.default.LBL_CALL_MICROPHONE_CHANGE,
                 }),
-                onShowingDialogUpdate:
-                  this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate.bind(
-                    this,
-                  ),
-              },
-              this.state.devices
-                .filter(function (device) {
-                  return device.kind === 'audioinput'
-                })
-                .map(function (device) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      key: device.deviceId,
-                      style: [
-                        styles.brChangeDeviceMenuItem,
-                        styles.brChangeAudioinputMenuItem,
-                      ],
-                      dropDown: true,
-                      onPress: props.uiData.fire.bind(
-                        props.uiData,
-                        'callAreaChangeDeviceMenuItem_onClick',
-                        props.panelType,
-                        props.panelCode,
-                        device,
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _this6.getDeviceLabel(device),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DropDownMenu.default, {
+                  uiData: props.uiData,
+                  style: [
+                    styles.brChangeDeviceMenu,
+                    styles.brChangeAudioinputMenu,
+                  ],
+                  hidden: !callMenuOpened,
+                  text: this.getDeviceLabel({
+                    deviceId: audioSourcePreference,
+                    kind: 'audioinput',
+                  }),
+                  onShowingDialogUpdate:
+                    this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate.bind(
+                      this,
                     ),
-                  )
+                  children: this.state.devices
+                    .filter(function (device) {
+                      return device.kind === 'audioinput'
+                    })
+                    .map(function (device) {
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _MenuItem.default,
+                        {
+                          style: [
+                            styles.brChangeDeviceMenuItem,
+                            styles.brChangeAudioinputMenuItem,
+                          ],
+                          dropDown: true,
+                          onPress: props.uiData.fire.bind(
+                            props.uiData,
+                            'callAreaChangeDeviceMenuItem_onClick',
+                            props.panelType,
+                            props.panelCode,
+                            device,
+                          ),
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              children: _this6.getDeviceLabel(device),
+                            },
+                          ),
+                        },
+                        device.deviceId,
+                      )
+                    }),
                 }),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: [
-                  styles.brChangeDeviceTitle,
-                  styles.brChangeAudiooutputTitle,
-                ],
-              },
-              _uawmsgs.default.LBL_CALL_SPEAKER_CHANGE,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _DropDownMenu.default,
-              {
-                uiData: props.uiData,
-                style: [
-                  styles.brChangeDeviceMenu,
-                  styles.brChangeAudiooutputMenu,
-                ],
-                hidden: !callMenuOpened,
-                text: this.getDeviceLabel({
-                  deviceId: audioTargetPreference,
-                  kind: 'audiooutput',
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: [
+                    styles.brChangeDeviceTitle,
+                    styles.brChangeAudiooutputTitle,
+                  ],
+                  children: _uawmsgs.default.LBL_CALL_SPEAKER_CHANGE,
                 }),
-                onShowingDialogUpdate:
-                  this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate.bind(
-                    this,
-                  ),
-              },
-              this.state.devices
-                .filter(function (device) {
-                  return device.kind === 'audiooutput'
-                })
-                .map(function (device) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      key: device.deviceId,
-                      style: [
-                        styles.brChangeDeviceMenuItem,
-                        styles.brChangeAudiooutputMenuItem,
-                      ],
-                      dropDown: true,
-                      onPress: props.uiData.fire.bind(
-                        props.uiData,
-                        'callAreaChangeDeviceMenuItem_onClick',
-                        props.panelType,
-                        props.panelCode,
-                        device,
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _this6.getDeviceLabel(device),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DropDownMenu.default, {
+                  uiData: props.uiData,
+                  style: [
+                    styles.brChangeDeviceMenu,
+                    styles.brChangeAudiooutputMenu,
+                  ],
+                  hidden: !callMenuOpened,
+                  text: this.getDeviceLabel({
+                    deviceId: audioTargetPreference,
+                    kind: 'audiooutput',
+                  }),
+                  onShowingDialogUpdate:
+                    this.handleMicrophoneMenuDropDownMenuShowingDialogUpdate.bind(
+                      this,
                     ),
-                  )
+                  children: this.state.devices
+                    .filter(function (device) {
+                      return device.kind === 'audiooutput'
+                    })
+                    .map(function (device) {
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _MenuItem.default,
+                        {
+                          style: [
+                            styles.brChangeDeviceMenuItem,
+                            styles.brChangeAudiooutputMenuItem,
+                          ],
+                          dropDown: true,
+                          onPress: props.uiData.fire.bind(
+                            props.uiData,
+                            'callAreaChangeDeviceMenuItem_onClick',
+                            props.panelType,
+                            props.panelCode,
+                            device,
+                          ),
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              children: _this6.getDeviceLabel(device),
+                            },
+                          ),
+                        },
+                        device.deviceId,
+                      )
+                    }),
                 }),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _ButtonLabeled.default,
-            {
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
               style: styles.brCallMenuButton,
               disabled: !session,
               hidden: !((panelSession && panelSession.target) || session),
               vivid: true,
               title: _uawmsgs.default.LBL_CALL_MENU_BUTTON_TOOLTIP,
               onPress: this.handleCallMenuButtonClick.bind(this),
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: [styles.brCallMenuIcon],
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _ChevronDownIcon.default,
-                null,
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _ButtonLabeled.default,
-            {
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _ChevronDownIcon.default,
+                  {},
+                ),
+              }),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
               style: styles.brCallHangUpButton,
               hidden: !((panelSession && panelSession.target) || session),
               title: _uawmsgs.default.LBL_CALL_HANG_UP_BUTTON_TOOLTIP,
@@ -2516,19 +2487,16 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 props.panelType,
                 props.panelCode,
               ),
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: [styles.brCallHangUpIcon],
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _EndCallIcon.default,
-                null,
-              ),
-            ),
-          ),
-        )
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _EndCallIcon.default,
+                  {},
+                ),
+              }),
+            }),
+          ],
+        })
       },
     },
   ])

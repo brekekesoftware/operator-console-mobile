@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -140,8 +141,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/*
+} /*
  * props.style - Additional styles for the component
  * props.textStyle - Additional styles for the text
  * props.disabled - Whether the menu item is disabled
@@ -224,7 +224,7 @@ var MenuItem = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         ]
         // console.log('#Duy Phan console disabled',disabled)
 
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.TouchableOpacity,
           {
             style: containerStyles,
@@ -233,14 +233,13 @@ var MenuItem = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             // activeOpacity={0}
             disabled: disabled,
             accessibilityLabel: this.extractTitle(),
+            children:
+              typeof children === 'string'
+                ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    children: children,
+                  })
+                : children,
           },
-          typeof children === 'string'
-            ? /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                children,
-              )
-            : children,
         )
       },
     },

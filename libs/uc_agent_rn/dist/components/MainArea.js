@@ -7,6 +7,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _MainTabs = _interopRequireDefault(require('./MainTabs'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -29,19 +30,32 @@ function _typeof(o) {
     _typeof(o)
   )
 }
-function _extends() {
-  return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
-  )
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
 }
 function _classCallCheck(a, n) {
   if (!(a instanceof n))
@@ -155,8 +169,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * MainArea - React Native version
  * A component that manages a resizable tabbed area with splitters
  *
@@ -358,20 +371,16 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           isOverDrop = _this$state2.isOverDrop,
           canDrop = _this$state2.canDrop
         console.log('#Duy Phan console split', splitterRight, splitterBottom)
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.mainArea,
-              styles.splitters2,
-              isOverDrop && canDrop && styles.isOverCanDrop,
-              props.style,
-            ],
-            onLayout: this.onLayout,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.mainArea,
+            styles.splitters2,
+            isOverDrop && canDrop && styles.isOverCanDrop,
+            props.style,
+          ],
+          onLayout: this.onLayout,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.mainTabsArea,
                 {
@@ -382,15 +391,12 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   width: splitterRight + 1,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_MainTabs.default, {
-              uiData: props.uiData,
-              position: 'se',
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainTabs.default, {
+                uiData: props.uiData,
+                position: 'se',
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.mainTabsArea,
                 {
@@ -401,15 +407,12 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   right: splitterRight,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_MainTabs.default, {
-              uiData: props.uiData,
-              position: 'south',
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainTabs.default, {
+                uiData: props.uiData,
+                position: 'south',
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.mainTabsArea,
                 {
@@ -420,15 +423,12 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   width: splitterRight + 1,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_MainTabs.default, {
-              uiData: props.uiData,
-              position: 'east',
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainTabs.default, {
+                uiData: props.uiData,
+                position: 'east',
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.mainTabsArea,
                 {
@@ -439,51 +439,51 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   right: splitterRight,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_MainTabs.default, {
-              uiData: props.uiData,
-              position: 'center',
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainTabs.default, {
+                uiData: props.uiData,
+                position: 'center',
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Animated.View,
-            _extends(
-              {
-                style: [
-                  styles.mainAreaSplitterRight,
-                  {
-                    right: splitterRight,
-                    transform: [
-                      {
-                        translateX: this.rightSplitterPosition.x,
-                      },
-                    ],
-                  },
-                ],
-              },
-              this.rightSplitterPanResponder.panHandlers,
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+              _reactNative.Animated.View,
+              _objectSpread(
+                {
+                  style: [
+                    styles.mainAreaSplitterRight,
+                    {
+                      right: splitterRight,
+                      transform: [
+                        {
+                          translateX: this.rightSplitterPosition.x,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                this.rightSplitterPanResponder.panHandlers,
+              ),
             ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Animated.View,
-            _extends(
-              {
-                style: [
-                  styles.mainAreaSplitterBottom,
-                  {
-                    bottom: splitterBottom,
-                    transform: [
-                      {
-                        translateY: this.bottomSplitterPosition.y,
-                      },
-                    ],
-                  },
-                ],
-              },
-              this.bottomSplitterPanResponder.panHandlers,
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+              _reactNative.Animated.View,
+              _objectSpread(
+                {
+                  style: [
+                    styles.mainAreaSplitterBottom,
+                    {
+                      bottom: splitterBottom,
+                      transform: [
+                        {
+                          translateY: this.bottomSplitterPosition.y,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                this.bottomSplitterPanResponder.panHandlers,
+              ),
             ),
-          ),
-        )
+          ],
+        })
       },
     },
     {
@@ -494,20 +494,16 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           splitterRight = _this$state3.splitterRight,
           isOverDrop = _this$state3.isOverDrop,
           canDrop = _this$state3.canDrop
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.mainArea,
-              styles.splitters1,
-              isOverDrop && canDrop && styles.isOverCanDrop,
-              props.style,
-            ],
-            onLayout: this.onLayout,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.mainArea,
+            styles.splitters1,
+            isOverDrop && canDrop && styles.isOverCanDrop,
+            props.style,
+          ],
+          onLayout: this.onLayout,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.mainTabsArea,
                 {
@@ -518,15 +514,12 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   width: splitterRight + 1,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_MainTabs.default, {
-              uiData: props.uiData,
-              position: 'east se',
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainTabs.default, {
+                uiData: props.uiData,
+                position: 'east se',
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.mainTabsArea,
                 {
@@ -537,32 +530,32 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   right: splitterRight,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_MainTabs.default, {
-              uiData: props.uiData,
-              position: 'center south',
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainTabs.default, {
+                uiData: props.uiData,
+                position: 'center south',
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Animated.View,
-            _extends(
-              {
-                style: [
-                  styles.mainAreaSplitterRight,
-                  {
-                    right: splitterRight,
-                    transform: [
-                      {
-                        translateX: this.rightSplitterPosition.x,
-                      },
-                    ],
-                  },
-                ],
-              },
-              this.rightSplitterPanResponder.panHandlers,
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+              _reactNative.Animated.View,
+              _objectSpread(
+                {
+                  style: [
+                    styles.mainAreaSplitterRight,
+                    {
+                      right: splitterRight,
+                      transform: [
+                        {
+                          translateX: this.rightSplitterPosition.x,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                this.rightSplitterPanResponder.panHandlers,
+              ),
             ),
-          ),
-        )
+          ],
+        })
       },
     },
     {
@@ -572,41 +565,35 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var _this$state4 = this.state,
           isOverDrop = _this$state4.isOverDrop,
           canDrop = _this$state4.canDrop
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [
+            styles.mainArea,
+            styles.splitters0,
+            isOverDrop && canDrop && styles.isOverCanDrop,
+            props.style,
+          ],
+          onLayout: this.onLayout,
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
             style: [
-              styles.mainArea,
-              styles.splitters0,
-              isOverDrop && canDrop && styles.isOverCanDrop,
-              props.style,
-            ],
-            onLayout: this.onLayout,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [
-                styles.mainTabsArea,
-                {
-                  position: 'absolute',
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                },
-              ],
-              pointerEvents: 'box-none',
-              onTouchEnd: function onTouchEnd() {
-                console.log('#Duy Phan console onTouchEnd2')
+              styles.mainTabsArea,
+              {
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
               },
+            ],
+            pointerEvents: 'box-none',
+            onTouchEnd: function onTouchEnd() {
+              console.log('#Duy Phan console onTouchEnd2')
             },
-            /*#__PURE__*/ _react.default.createElement(_MainTabs.default, {
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainTabs.default, {
               uiData: props.uiData,
               position: 'center east south se',
             }),
-          ),
-        )
+          }),
+        })
       },
     },
     {

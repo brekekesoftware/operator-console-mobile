@@ -7,6 +7,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _reactNativeFs = _interopRequireDefault(require('react-native-fs'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -447,13 +448,13 @@ var FileDndable = (exports.default = /*#__PURE__*/ (function (
           style = _this$props2.style,
           children = _this$props2.children
         var isActive = this.state.isActive
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.TouchableOpacity,
           {
             style: [styles.fileDndable, isActive && styles.active, style],
             onPress: this.handlePress,
+            children: children,
           },
-          children,
         )
       },
     },

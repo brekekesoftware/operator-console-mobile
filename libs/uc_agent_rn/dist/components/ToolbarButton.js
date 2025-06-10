@@ -10,6 +10,7 @@ var _strings = require('../utilities/strings')
 var _TriangleDownIcon = _interopRequireDefault(
   require('../icons/TriangleDownIcon'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -306,7 +307,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           styles.arrowButtonInner,
           props.dropDown && styles.arrowButtonInnerVisible,
         ]
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
           _reactNative.TouchableOpacity,
           {
             style: buttonStyles,
@@ -315,27 +316,26 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             onPressOut: this.handlePressOut,
             disabled: props.disabled,
             activeOpacity: props.disabled ? 1 : 0.7,
+            children: [
+              props.iconSource &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Image, {
+                  source: props.iconSource,
+                  style: styles.icon,
+                }),
+              props.dropDown &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: arrowStyles,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _TriangleDownIcon.default,
+                    {
+                      color: '#b6b6b6',
+                      width: 30,
+                      height: 30,
+                    },
+                  ),
+                }),
+            ],
           },
-          props.iconSource &&
-            /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-              source: props.iconSource,
-              style: styles.icon,
-            }),
-          props.dropDown &&
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: arrowStyles,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _TriangleDownIcon.default,
-                {
-                  color: '#b6b6b6',
-                  width: 30,
-                  height: 30,
-                },
-              ),
-            ),
         )
       },
     },

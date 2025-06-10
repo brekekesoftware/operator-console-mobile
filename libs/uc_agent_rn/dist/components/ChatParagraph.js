@@ -28,6 +28,7 @@ var _reactNative = require('react-native')
 var _constants = _interopRequireDefault(require('../utilities/constants'))
 var _strings = require('../utilities/strings')
 var _ChatMessageList = _interopRequireDefault(require('./ChatMessageList'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -440,7 +441,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           outputRange: ['transparent', colors.mediumTurquoise],
         })
         console.log('#Duy Phan console showTopicSplitter', showTopicSplitter)
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
           _reactNative.TouchableOpacity,
           {
             style: paragraphStyles,
@@ -455,131 +456,123 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               })
             },
             activeOpacity: 1,
-          },
-          showTopicSplitter &&
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.topicSplitter,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: {
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  },
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: [
-                    styles.topicSplitterLine,
-                    styles.topicSplitterLineLeft,
-                  ],
-                }),
-                showDateInSplitter
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      {
-                        style: [
-                          styles.topicSplitterDate,
-                          styles.topicSplitterDateWithDate,
-                        ],
+            children: [
+              showTopicSplitter &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.topicSplitter,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _reactNative.View,
+                    {
+                      style: {
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       },
-                      (0, _strings.string)(
-                        messageTimeValue &&
-                          (0, _strings.formatMessageDate)(messageTimeValue),
-                      ),
-                    )
-                  : null,
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: [
-                    styles.topicSplitterLine,
-                    styles.topicSplitterLineRight,
-                  ],
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [
+                            styles.topicSplitterLine,
+                            styles.topicSplitterLineLeft,
+                          ],
+                        }),
+                        showDateInSplitter
+                          ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                style: [
+                                  styles.topicSplitterDate,
+                                  styles.topicSplitterDateWithDate,
+                                ],
+                                children: (0, _strings.string)(
+                                  messageTimeValue &&
+                                    (0, _strings.formatMessageDate)(
+                                      messageTimeValue,
+                                    ),
+                                ),
+                              },
+                            )
+                          : null,
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [
+                            styles.topicSplitterLine,
+                            styles.topicSplitterLineRight,
+                          ],
+                        }),
+                      ],
+                    },
+                  ),
                 }),
-              ),
-            ),
-          !callResult.externalincoming &&
-            /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-              source: imageSource,
-              style: styles.messageImage,
-            }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.headerRow,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: styles.messageName,
-              },
-              !callResult.externalincoming ? user_name : '',
-            ),
-            showUnreachedAnimation
-              ? /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.unreachedDotContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Animated.View,
-                    {
-                      style: [
-                        styles.unreachedDot,
-                        {
-                          backgroundColor: dot1Color,
-                        },
-                      ],
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Animated.View,
-                    {
-                      style: [
-                        styles.unreachedDot,
-                        {
-                          backgroundColor: dot2Color,
-                          marginLeft: 6,
-                        },
-                      ],
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Animated.View,
-                    {
-                      style: [
-                        styles.unreachedDot,
-                        {
-                          backgroundColor: dot3Color,
-                          marginLeft: 6,
-                        },
-                      ],
-                    },
-                  ),
-                )
-              : /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.messageTime,
-                  },
-                  messageTime,
-                ),
-          ),
-          this.mailSubject &&
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: styles.messageMailSubject,
-              },
-              (0, _strings.string)(this.mailSubject),
-            ),
-          /*#__PURE__*/ _react.default.createElement(_ChatMessageList.default, {
-            uiData: props.uiData,
-            messageList: props.paragraph.messageList,
-            isLast: props.isLast,
-          }),
+              !callResult.externalincoming &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Image, {
+                  source: imageSource,
+                  style: styles.messageImage,
+                }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                style: styles.headerRow,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.messageName,
+                    children: !callResult.externalincoming ? user_name : '',
+                  }),
+                  showUnreachedAnimation
+                    ? /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                        style: styles.unreachedDotContainer,
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Animated.View,
+                            {
+                              style: [
+                                styles.unreachedDot,
+                                {
+                                  backgroundColor: dot1Color,
+                                },
+                              ],
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Animated.View,
+                            {
+                              style: [
+                                styles.unreachedDot,
+                                {
+                                  backgroundColor: dot2Color,
+                                  marginLeft: 6,
+                                },
+                              ],
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Animated.View,
+                            {
+                              style: [
+                                styles.unreachedDot,
+                                {
+                                  backgroundColor: dot3Color,
+                                  marginLeft: 6,
+                                },
+                              ],
+                            },
+                          ),
+                        ],
+                      })
+                    : /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.messageTime,
+                        children: messageTime,
+                      }),
+                ],
+              }),
+              this.mailSubject &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: styles.messageMailSubject,
+                  children: (0, _strings.string)(this.mailSubject),
+                }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatMessageList.default, {
+                uiData: props.uiData,
+                messageList: props.paragraph.messageList,
+                isLast: props.isLast,
+              }),
+            ],
+          },
         )
       },
     },

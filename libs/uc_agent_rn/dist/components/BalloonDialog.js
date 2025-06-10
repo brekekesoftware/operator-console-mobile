@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -17,32 +18,21 @@ function _interopRequireDefault(e) {
  */
 var _default = (exports.default = function _default(props) {
   if (props.shows) {
-    return /*#__PURE__*/ _react.default.createElement(
-      _reactNative.View,
-      {
-        style: styles.brBalloonDialog,
-      },
-      /*#__PURE__*/ _react.default.createElement(
-        _reactNative.View,
-        {
-          style: [
-            styles.brBalloonDialogInner,
-            props.anchor === 'right'
-              ? styles.brAnchorRight
-              : styles.brAnchorLeft,
-          ],
-        },
-        /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.brBalloonDialogInnerInner,
-          },
-          props.children,
-        ),
-      ),
-    )
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+      style: styles.brBalloonDialog,
+      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+        style: [
+          styles.brBalloonDialogInner,
+          props.anchor === 'right' ? styles.brAnchorRight : styles.brAnchorLeft,
+        ],
+        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: styles.brBalloonDialogInnerInner,
+          children: props.children,
+        }),
+      }),
+    })
   } else {
-    return /*#__PURE__*/ _react.default.createElement(_reactNative.View, null)
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {})
   }
 })
 var styles = _reactNative.StyleSheet.create({

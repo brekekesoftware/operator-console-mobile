@@ -28,6 +28,7 @@ var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _strings = require('../utilities/strings')
 var _ButtonLabeled = _interopRequireDefault(require('./ButtonLabeled'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -130,8 +131,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * ChatOptionButtons
  * props.uiData
  * props.uiData.configurations
@@ -213,21 +213,18 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         if (!ev.buttonsInfo || !ev.buttonsInfo.length) {
           return null
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: {
-              paddingTop: 8,
-              paddingBottom: 8,
-              paddingLeft: 16,
-            },
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: {
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 16,
           },
-          ev.buttonsInfo &&
+          children:
+            ev.buttonsInfo &&
             ev.buttonsInfo.map(function (buttonInfo, i) {
-              return /*#__PURE__*/ _react.default.createElement(
+              return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _ButtonLabeled.default,
                 {
-                  key: i,
                   disabled: Boolean(buttonInfo.disabled),
                   hidden: Boolean(buttonInfo.hidden),
                   progress: Boolean(buttonInfo.progress),
@@ -242,22 +239,21 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     buttonInfo.style,
                   ],
                   onPress: buttonInfo.onClick,
+                  children:
+                    typeof buttonInfo.children === 'string'
+                      ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          style: {
+                            color: '#ffffff',
+                            fontWeight: 'bold',
+                          },
+                          children: buttonInfo.children,
+                        })
+                      : buttonInfo.children,
                 },
-                typeof buttonInfo.children === 'string'
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      {
-                        style: {
-                          color: '#ffffff',
-                          fontWeight: 'bold',
-                        },
-                      },
-                      buttonInfo.children,
-                    )
-                  : buttonInfo.children,
+                i,
               )
             }),
-        )
+        })
       },
     },
   ])

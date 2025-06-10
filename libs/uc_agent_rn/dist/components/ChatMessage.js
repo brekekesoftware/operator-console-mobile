@@ -44,6 +44,7 @@ var _DownloadIcon = _interopRequireDefault(require('../icons/DownloadIcon'))
 var _ExternallinkIcon = _interopRequireDefault(
   require('../icons/ExternallinkIcon'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -199,16 +200,19 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           // messageError
           if (props.message.errorType) {
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.View,
                 {
-                  key: 'error',
                   style: styles.chatMessageError,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Image,
+                    {
+                      source: require('../icons/ErrorIcon'),
+                      style: styles.errorIcon,
+                    },
+                  ),
                 },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-                  source: require('../icons/ErrorIcon'),
-                  style: styles.errorIcon,
-                }),
+                'error',
               ),
             )
           }
@@ -279,37 +283,41 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           }
           chatMessageInnerElements.push(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _reactNative.Text,
               {
-                key: 'text',
                 style: styles.textContainer,
+                children: messageText.split('<br />').map(function (line, i) {
+                  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _reactNative.Text,
+                    {
+                      children: [
+                        line
+                          .split(/<a[^>]*>([^<]*)<\/a>/)
+                          .map(function (part, j) {
+                            if (j % 2 === 1) {
+                              return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  style: styles.chatUrlLink,
+                                  onPress: function onPress() {
+                                    return _reactNative.Linking.openURL(part)
+                                  },
+                                  children: part,
+                                },
+                                j,
+                              )
+                            }
+                            return part
+                          }),
+                        i < messageText.split('<br />').length - 1 && '\n',
+                      ],
+                    },
+                    i,
+                  )
+                }),
               },
-              messageText.split('<br />').map(function (line, i) {
-                return /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    key: i,
-                  },
-                  line.split(/<a[^>]*>([^<]*)<\/a>/).map(function (part, j) {
-                    if (j % 2 === 1) {
-                      return /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          key: j,
-                          style: styles.chatUrlLink,
-                          onPress: function onPress() {
-                            return _reactNative.Linking.openURL(part)
-                          },
-                        },
-                        part,
-                      )
-                    }
-                    return part
-                  }),
-                  i < messageText.split('<br />').length - 1 && '\n',
-                )
-              }),
+              'text',
             ),
           )
         } else if (
@@ -328,42 +336,42 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           // messageError
           if (props.message.errorType) {
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.View,
                 {
-                  key: 'error',
                   style: styles.chatMessageError,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.errorIcon,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ErrorIcon.default,
-                    null,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.errorIcon,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ErrorIcon.default,
+                        {},
+                      ),
+                    },
                   ),
-                ),
+                },
+                'error',
               ),
             )
           } else if (props.message.messageFile.messageFileError) {
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.View,
                 {
-                  key: 'error',
                   style: styles.chatMessageError,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.errorIcon,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ErrorIcon.default,
-                    null,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.errorIcon,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ErrorIcon.default,
+                        {},
+                      ),
+                    },
                   ),
-                ),
+                },
+                'error',
               ),
             )
           } else if (
@@ -371,22 +379,22 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             _constants.default.FILE_STATUS_ERROR
           ) {
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.View,
                 {
-                  key: 'error',
                   style: styles.chatMessageError,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.errorIcon,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ErrorIcon.default,
-                    null,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.errorIcon,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ErrorIcon.default,
+                        {},
+                      ),
+                    },
                   ),
-                ),
+                },
+                'error',
               ),
             )
           }
@@ -403,78 +411,70 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             ) {
               // file download button
               chatMessageInnerElements.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _ChatFileDownloadButton.default,
                   {
-                    key: 'name',
                     uiData: props.uiData,
                     message: props.message,
                   },
+                  'name',
                 ),
               )
             } else {
               // display only file name
               chatMessageInnerElements.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                   _reactNative.View,
                   {
-                    key: 'name',
                     style: styles.fileContainer,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.fileIcon,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _DownloadIcon.default,
+                          {},
+                        ),
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.fileName,
+                        children: props.message.messageFile.name,
+                      }),
+                    ],
                   },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.fileIcon,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _DownloadIcon.default,
-                      null,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.fileName,
-                    },
-                    props.message.messageFile.name,
-                  ),
+                  'name',
                 ),
               )
             }
           } else {
             // display file name with receiver
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                 _reactNative.View,
                 {
-                  key: 'name',
                   style: styles.fileContainer,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.fileIcon,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _UploadIcon.default,
+                        {},
+                      ),
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.fileName,
+                      children: props.message.messageFile.name,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _NameEmbeddedSpan.default,
+                      {
+                        ucUiStore: props.uiData.ucUiStore,
+                        format: ' \u2192 {0}',
+                        buddy: props.message.messageFile.receiverInfo,
+                      },
+                    ),
+                  ],
                 },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.fileIcon,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _UploadIcon.default,
-                    null,
-                  ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.fileName,
-                  },
-                  props.message.messageFile.name,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _NameEmbeddedSpan.default,
-                  {
-                    ucUiStore: props.uiData.ucUiStore,
-                    format: ' \u2192 {0}',
-                    buddy: props.message.messageFile.receiverInfo,
-                  },
-                ),
+                'name',
               ),
             )
           }
@@ -503,107 +503,113 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             _constants.default.FILE_STATUS_UNPREPARED
           ) {
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.fileSize,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    key: 'size',
-                  },
-                  (0, _strings.formatFileSize)(props.message.messageFile.size),
-                  (props.message.messageFile.progress < 10 ? '\u2007' : '') +
-                    // &numsp; (figure space)
-                    ' (' +
-                    props.message.messageFile.progress +
-                    '%)',
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _ButtonIconic.default,
-                  {
-                    key: 'cancelbutton',
-                    style: {
-                      marginLeft: 8,
-                      width: 18,
-                      height: 18,
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                style: styles.fileSize,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _reactNative.Text,
+                    {
+                      children: [
+                        (0, _strings.formatFileSize)(
+                          props.message.messageFile.size,
+                        ),
+                        (props.message.messageFile.progress < 10
+                          ? '\u2007'
+                          : '') +
+                          // &numsp; (figure space)
+                          ' (' +
+                          props.message.messageFile.progress +
+                          '%)',
+                      ],
                     },
-                    hidden:
-                      props.message.messageFile.status !==
-                        _constants.default.FILE_STATUS_UNACCEPTED &&
-                      props.message.messageFile.status !==
-                        _constants.default.FILE_STATUS_TRANSFERRING,
-                    iconSource: /*#__PURE__*/ _react.default.createElement(
-                      _CancelIcon.default,
-                      null,
-                    ),
-                    title: _uawmsgs.default.LBL_CHAT_FILE_CANCEL_BUTTON_TOOLTIP,
-                    onPress: props.uiData.fire.bind(
-                      props.uiData,
-                      'chatFileCancelButton_onClick',
-                      props.message.messageFile,
-                    ),
-                  },
-                ),
-              ),
+                    'size',
+                  ),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _ButtonIconic.default,
+                    {
+                      style: {
+                        marginLeft: 8,
+                        width: 18,
+                        height: 18,
+                      },
+                      hidden:
+                        props.message.messageFile.status !==
+                          _constants.default.FILE_STATUS_UNACCEPTED &&
+                        props.message.messageFile.status !==
+                          _constants.default.FILE_STATUS_TRANSFERRING,
+                      iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _CancelIcon.default,
+                        {},
+                      ),
+                      title:
+                        _uawmsgs.default.LBL_CHAT_FILE_CANCEL_BUTTON_TOOLTIP,
+                      onPress: props.uiData.fire.bind(
+                        props.uiData,
+                        'chatFileCancelButton_onClick',
+                        props.message.messageFile,
+                      ),
+                    },
+                    'cancelbutton',
+                  ),
+                ],
+              }),
             )
           }
           // inlineImage
           if (props.message.messageFile.inlineImage) {
             if (props.message.messageFile.inlineImage.url) {
               chatMessageInnerElements.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNative.View,
                   {
-                    key: 'inlineimage',
                     style: styles.inlineImageArea,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      onPress: function onPress() {
-                        return props.uiData.fire(
-                          props.uiData,
-                          'chatInlineImage_onClick',
-                          props.message.messageFile.inlineImage.url,
-                        )
-                      },
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Image,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.TouchableOpacity,
                       {
-                        source: {
-                          uri: props.message.messageFile.inlineImage.url,
-                        },
-                        style: styles.inlineImage,
-                        onLoad: function onLoad() {
+                        onPress: function onPress() {
                           return props.uiData.fire(
                             props.uiData,
-                            'chatInlineImage_onLoad',
-                            props.message.messageFile,
+                            'chatInlineImage_onClick',
+                            props.message.messageFile.inlineImage.url,
                           )
                         },
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.Image,
+                          {
+                            source: {
+                              uri: props.message.messageFile.inlineImage.url,
+                            },
+                            style: styles.inlineImage,
+                            onLoad: function onLoad() {
+                              return props.uiData.fire(
+                                props.uiData,
+                                'chatInlineImage_onLoad',
+                                props.message.messageFile,
+                              )
+                            },
+                          },
+                        ),
                       },
                     ),
-                  ),
+                  },
+                  'inlineimage',
                 ),
               )
             } else if (props.message.messageFile.inlineImage.loading) {
               chatMessageInnerElements.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNative.View,
                   {
-                    key: 'inlineimage',
                     style: styles.inlineImageArea,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.ActivityIndicator,
+                      {
+                        size: 'small',
+                        color: colors.darkGray,
+                      },
+                    ),
                   },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.ActivityIndicator,
-                    {
-                      size: 'small',
-                      color: colors.darkGray,
-                    },
-                  ),
+                  'inlineimage',
                 ),
               )
             }
@@ -622,18 +628,18 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
           ) {
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.View,
                 {
-                  key: 'downloadlargebutton',
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _ChatFileDownloadLargeButton.default,
+                    {
+                      uiData: props.uiData,
+                      message: props.message,
+                    },
+                  ),
                 },
-                /*#__PURE__*/ _react.default.createElement(
-                  _ChatFileDownloadLargeButton.default,
-                  {
-                    uiData: props.uiData,
-                    message: props.message,
-                  },
-                ),
+                'downloadlargebutton',
               ),
             )
           }
@@ -663,76 +669,72 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             alignItems: 'center',
           })
           chatMessageInnerElements.push(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _reactNative.View,
               {
-                key: 'callresulticon',
                 style: styles.callResultIcon,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _PhoneIcon.default,
+                  {},
+                ),
               },
-              /*#__PURE__*/ _react.default.createElement(
-                _PhoneIcon.default,
-                null,
-              ),
+              'callresulticon',
             ),
           )
           // messageCallResultMessage
           chatMessageInnerElements.push(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
               _reactNative.View,
               {
-                key: 'callresultmessage',
                 style: {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 6,
                 },
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.brResultMessageText,
-                },
-                (0, _strings.string)(
-                  props.message.sentTimeValue &&
-                    (0, _strings.formatTime)(
-                      (0, _strings.int)(props.message.sentTimeValue) -
-                        (0, _strings.int)(callResult.talklen),
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.brResultMessageText,
+                    children: (0, _strings.string)(
+                      props.message.sentTimeValue &&
+                        (0, _strings.formatTime)(
+                          (0, _strings.int)(props.message.sentTimeValue) -
+                            (0, _strings.int)(callResult.talklen),
+                        ),
                     ),
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.brResultMessageText,
-                },
-                senderUser.isMe
-                  ? callResult.talklen
-                    ? _uawmsgs.default.LBL_CHAT_CALL_RESULT_DIRECTION_OUTGOING
-                    : _uawmsgs.default
-                        .LBL_CHAT_CALL_RESULT_DIRECTION_OUTGOING_MISSED
-                  : callResult.talklen
-                    ? _uawmsgs.default.LBL_CHAT_CALL_RESULT_DIRECTION_INCOMING
-                    : _uawmsgs.default
-                        .LBL_CHAT_CALL_RESULT_DIRECTION_INCOMING_MISSED,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.brResultMessageText,
-                },
-                min > 0
-                  ? (0, _strings.formatStr)(
-                      _uawmsgs.default.LBL_CHAT_CALL_RESULT_LENGTH_MIN,
-                      min,
-                      sec,
-                    )
-                  : sec > 0
-                    ? (0, _strings.formatStr)(
-                        _uawmsgs.default.LBL_CHAT_CALL_RESULT_LENGTH_SEC,
-                        sec,
-                      )
-                    : '',
-              ),
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.brResultMessageText,
+                    children: senderUser.isMe
+                      ? callResult.talklen
+                        ? _uawmsgs.default
+                            .LBL_CHAT_CALL_RESULT_DIRECTION_OUTGOING
+                        : _uawmsgs.default
+                            .LBL_CHAT_CALL_RESULT_DIRECTION_OUTGOING_MISSED
+                      : callResult.talklen
+                        ? _uawmsgs.default
+                            .LBL_CHAT_CALL_RESULT_DIRECTION_INCOMING
+                        : _uawmsgs.default
+                            .LBL_CHAT_CALL_RESULT_DIRECTION_INCOMING_MISSED,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.brResultMessageText,
+                    children:
+                      min > 0
+                        ? (0, _strings.formatStr)(
+                            _uawmsgs.default.LBL_CHAT_CALL_RESULT_LENGTH_MIN,
+                            min,
+                            sec,
+                          )
+                        : sec > 0
+                          ? (0, _strings.formatStr)(
+                              _uawmsgs.default.LBL_CHAT_CALL_RESULT_LENGTH_SEC,
+                              sec,
+                            )
+                          : '',
+                  }),
+                ],
+              },
+              'callresultmessage',
             ),
           )
         } else if (
@@ -742,92 +744,93 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           // messageError
           if (props.message.errorType) {
             chatMessageInnerElements.push(
-              /*#__PURE__*/ _react.default.createElement(
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.View,
                 {
-                  key: 'error',
                   style: styles.chatMessageError,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.errorIcon,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ErrorIcon.default,
-                    null,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.errorIcon,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ErrorIcon.default,
+                        {},
+                      ),
+                    },
                   ),
-                ),
+                },
+                'error',
               ),
             )
           }
           // messageText
           var _messageText = props.message.messageText
           chatMessageInnerElements.push(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _reactNative.Text,
               {
-                key: 'text',
                 style: styles.textContainer,
+                children: _messageText.split('<br />').map(function (line, i) {
+                  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                    _reactNative.Text,
+                    {
+                      children: [
+                        line
+                          .split(/<a[^>]*>([^<]*)<\/a>/)
+                          .map(function (part, j) {
+                            if (j % 2 === 1) {
+                              return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  style: styles.chatUrlLink,
+                                  onPress: function onPress() {
+                                    return _reactNative.Linking.openURL(part)
+                                  },
+                                  children: part,
+                                },
+                                j,
+                              )
+                            }
+                            return part
+                          }),
+                        i < _messageText.split('<br />').length - 1 && '\n',
+                      ],
+                    },
+                    i,
+                  )
+                }),
               },
-              _messageText.split('<br />').map(function (line, i) {
-                return /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    key: i,
-                  },
-                  line.split(/<a[^>]*>([^<]*)<\/a>/).map(function (part, j) {
-                    if (j % 2 === 1) {
-                      return /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          key: j,
-                          style: styles.chatUrlLink,
-                          onPress: function onPress() {
-                            return _reactNative.Linking.openURL(part)
-                          },
-                        },
-                        part,
-                      )
-                    }
-                    return part
-                  }),
-                  i < _messageText.split('<br />').length - 1 && '\n',
-                )
-              }),
+              'text',
             ),
           )
         } else {
           // messageError
           chatMessageInnerElements.push(
-            /*#__PURE__*/ _react.default.createElement(
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _reactNative.View,
               {
-                key: 'error',
                 style: styles.chatMessageError,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.errorIcon,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _ErrorIcon.default,
-                  null,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.View,
+                  {
+                    style: styles.errorIcon,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _ErrorIcon.default,
+                      {},
+                    ),
+                  },
                 ),
-              ),
+              },
+              'error',
             ),
           )
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [].concat(messageStyle, [
-              props.isLastOfLast && styles.lastOfLast,
-            ]),
-          },
-          chatMessageInnerElements,
-        )
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [].concat(messageStyle, [
+            props.isLastOfLast && styles.lastOfLast,
+          ]),
+          children: chatMessageInnerElements,
+        })
       },
     },
   ])

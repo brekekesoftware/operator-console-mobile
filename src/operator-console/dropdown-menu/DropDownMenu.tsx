@@ -1,9 +1,10 @@
-import { IconOutline } from '@ant-design/icons-react-native'
 import { ActivityIndicator, Form, Input } from '@ant-design/react-native'
 import { useState } from 'react'
 import type { TextStyle } from 'react-native'
 import { Text, TouchableOpacity, View } from 'react-native'
 
+import { mdiDotsVertical } from '../../assets/icons'
+import { RnIcon } from '../../components/RnIcon'
 import { Button } from '../common/Button'
 import { DropdownMenu } from '../common/DropdownMenu'
 import { Modal } from '../common/Modal'
@@ -224,7 +225,7 @@ export const DropDownMenu = ({ operatorConsole }) => {
             borderWidth: 1,
           }}
         >
-          <IconOutline name='more' size={20} />
+          <RnIcon path={mdiDotsVertical} size={20} />
         </View>
       </DropdownMenu>
     </>

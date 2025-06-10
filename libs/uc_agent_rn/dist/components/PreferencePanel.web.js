@@ -37,6 +37,7 @@ var _MenuItem = _interopRequireDefault(require('./MenuItem'))
 var _MultipleAudio = _interopRequireDefault(require('./MultipleAudio'))
 var _StatusIcon = _interopRequireDefault(require('./StatusIcon'))
 var _TextBox = _interopRequireDefault(require('./TextBox'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -139,9 +140,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-// import * as ImagePicker from 'react-native-image-picker'
-
+} // import * as ImagePicker from 'react-native-image-picker'
 var sound = require('../sounds/bell.mp3')
 
 /**
@@ -738,23 +737,19 @@ var PreferencePanel = (exports.default = /*#__PURE__*/ (function (
           _uawmsgs.default.LBL_PREFERENCE_LAMP_TYPE_STANDARD
         lampTypeNameDisplayTable['_silent'] =
           _uawmsgs.default.LBL_PREFERENCE_LAMP_TYPE_SILENT
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.brPreferencePanel,
-              props.uiData.currentSelectedTab ===
-                ''.concat(props.panelType, '_').concat(props.panelCode) &&
-                styles.brSelected,
-              preferenceWork.statusOptionsEnabled &&
-                styles.brStatusOptionsEnabled,
-              preferenceWork.statusOptionsEnabledLocked &&
-                styles.brStatusOptionsEnabledLocked,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.ScrollView,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.brPreferencePanel,
+            props.uiData.currentSelectedTab ===
+              ''.concat(props.panelType, '_').concat(props.panelCode) &&
+              styles.brSelected,
+            preferenceWork.statusOptionsEnabled &&
+              styles.brStatusOptionsEnabled,
+            preferenceWork.statusOptionsEnabledLocked &&
+              styles.brStatusOptionsEnabledLocked,
+          ],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.ScrollView, {
               ref: this.preferenceContentRef,
               style: styles.brPreferenceContent,
               onLayout: function onLayout(event) {
@@ -768,1929 +763,2005 @@ var PreferencePanel = (exports.default = /*#__PURE__*/ (function (
                   },
                 })
               },
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceSectionContainer,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.categoryText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_CATEGORY_USER,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_INITIAL_STATUS,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DropDownMenu.default,
-                    {
-                      uiData: props.uiData,
-                      style: styles.brInitialStatusMenu,
-                      text: /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: styles.brInitialStatusMenuText,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _StatusIcon.default,
-                          {
-                            status: (0, _strings.int)(
-                              preferenceWork.initialStatus,
-                            ),
-                          },
-                        ),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          null,
-                          (0, _strings.string)(
-                            (
-                              statusTable[
-                                (0, _strings.int)(preferenceWork.initialStatus)
-                              ] || {}
-                            ).label,
-                          ),
-                        ),
-                      ),
-                    },
-                    statusList.map(function (status) {
-                      return /*#__PURE__*/ _react.default.createElement(
-                        _MenuItem.default,
-                        {
-                          key: status,
-                          style: [
-                            styles.brPreferencePanelMenuItem,
-                            styles.brInitialStatusItem,
-                          ],
-                          dropDown: true,
-                          onPress: _this5.changePreferenceWork.bind(
-                            _this5,
-                            'initialStatus',
-                            function () {
-                              return status
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceSectionContainer,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: styles.preferenceRow,
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          style: styles.categoryText,
+                          children:
+                            _uawmsgs.default.LBL_PREFERENCE_CATEGORY_USER,
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                          style: styles.labelText,
+                          children:
+                            _uawmsgs.default.LBL_PREFERENCE_INITIAL_STATUS,
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: styles.controlContainer,
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _DropDownMenu.default,
+                            {
+                              uiData: props.uiData,
+                              style: styles.brInitialStatusMenu,
+                              text: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                                _reactNative.View,
+                                {
+                                  style: styles.brInitialStatusMenuText,
+                                  children: [
+                                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _StatusIcon.default,
+                                      {
+                                        status: (0, _strings.int)(
+                                          preferenceWork.initialStatus,
+                                        ),
+                                      },
+                                    ),
+                                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _reactNative.Text,
+                                      {
+                                        children: (0, _strings.string)(
+                                          (
+                                            statusTable[
+                                              (0, _strings.int)(
+                                                preferenceWork.initialStatus,
+                                              )
+                                            ] || {}
+                                          ).label,
+                                        ),
+                                      },
+                                    ),
+                                  ],
+                                },
+                              ),
+                              children: statusList.map(function (status) {
+                                return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                                  _MenuItem.default,
+                                  {
+                                    style: [
+                                      styles.brPreferencePanelMenuItem,
+                                      styles.brInitialStatusItem,
+                                    ],
+                                    dropDown: true,
+                                    onPress: _this5.changePreferenceWork.bind(
+                                      _this5,
+                                      'initialStatus',
+                                      function () {
+                                        return status
+                                      },
+                                    ),
+                                    children: [
+                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _StatusIcon.default,
+                                        {
+                                          status: status,
+                                        },
+                                      ),
+                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          children: statusTable[status].label,
+                                        },
+                                      ),
+                                    ],
+                                  },
+                                  status,
+                                )
+                              }),
                             },
                           ),
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _StatusIcon.default,
-                          {
-                            status: status,
-                          },
-                        ),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          null,
-                          statusTable[status].label,
-                        ),
-                      )
+                        }),
+                      ],
                     }),
-                  ),
-                ),
-              ),
-              !preferenceWork.statusOptionsEnabledLocked &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.preferenceRow,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.emptyCell,
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.brStatusOptionsBottomTd,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_STATUS_OPTIONS_ENABLED,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.brStatusOptionsBottomTd,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.TouchableOpacity,
-                      {
-                        style: [
-                          styles.brPreferencePanelCheckBox,
-                          styles.brStatusOptionsEnabledCheck,
-                          preferenceWork.statusOptionsEnabled
-                            ? styles.br_bi_icon_square_svg
-                            : [styles.brSelected, styles.br_bi_icon_check_svg],
-                        ],
-                        onPress: this.changePreferenceWork.bind(
-                          this,
-                          'statusOptionsEnabled',
-                          preferenceWork.statusOptionsEnabled
-                            ? function () {
-                                return false
-                              }
-                            : function () {
-                                return true
-                              },
-                        ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        _uawmsgs.default
-                          .LBL_PREFERENCE_STATUS_OPTIONS_ENABLED_CHECK,
-                      ),
-                    ),
-                  ),
-                ),
-              statusList.map(function (status, index) {
-                var statusOption = preferenceWork.statusOptions[status] || {}
-                return /*#__PURE__*/ _react.default.createElement(
-                  _react.default.Fragment,
-                  {
-                    key: 'status-option-'.concat(index),
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: [
-                        styles.preferenceRow,
-                        styles.brStatusOptionsStatusLabelTr,
-                      ],
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.emptyCell,
-                      },
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.statusLabelContainer,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: [
-                            styles.brStatusOptionsStatusLabel,
-                            styles.brStatusOptionsTdContent,
-                          ],
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _StatusIcon.default,
-                          {
-                            status: status,
-                          },
-                        ),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          null,
-                          statusTable[status].label,
-                        ),
-                      ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.emptyCell,
-                      },
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: [
-                        styles.preferenceRow,
-                        styles.brStatusOptionsLampTypeTr,
-                      ],
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.emptyCell,
-                      },
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brStatusOptionsBottomTd,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: [
-                            styles.brStatusOptionsLampTypeLabel,
-                            styles.brStatusOptionsTdContent,
-                          ],
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          null,
-                          _uawmsgs.default
-                            .LBL_PREFERENCE_STATUS_OPTIONS_LAMP_TYPE,
-                        ),
-                      ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brStatusOptionsBottomTd,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: styles.brStatusOptionsTdContent,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _DropDownMenu.default,
-                          {
-                            uiData: props.uiData,
-                            style: styles.brStatusOptionsLampTypeMenu,
-                            text:
-                              typeof statusOption.lampTypeName !== 'undefined'
-                                ? lampTypeNameDisplayTable[
-                                    (0, _strings.string)(
-                                      statusOption.lampTypeName,
-                                    )
-                                  ] ||
-                                  (0, _strings.string)(
-                                    statusOption.lampTypeName,
-                                  )
-                                : _uawmsgs.default
-                                    .LBL_PREFERENCE_STATUS_OPTIONS_LAMP_TYPE_DEFAULT,
-                          },
-                          /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
+                    !preferenceWork.statusOptionsEnabledLocked &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                        style: styles.preferenceRow,
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
                             {
-                              className:
-                                'brPreferencePanelMenuItem brStatusOptionsLampTypeItem brStatusOptionsLampTypeDefault',
-                              dropDown: true,
-                              onClick: _this5.changePreferenceWork.bind(
-                                _this5,
-                                'statusOptions',
-                                function (statusOptions) {
-                                  if (statusOptions[status]) {
-                                    delete statusOptions[status].lampTypeName
-                                  }
-                                  return statusOptions
+                              style: styles.emptyCell,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.brStatusOptionsBottomTd,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  children:
+                                    _uawmsgs.default
+                                      .LBL_PREFERENCE_STATUS_OPTIONS_ENABLED,
                                 },
                               ),
                             },
-                            _uawmsgs.default
-                              .LBL_PREFERENCE_STATUS_OPTIONS_LAMP_TYPE_DEFAULT,
                           ),
-                          (preferenceWork.lampTypes || []).map(function (type) {
-                            return /*#__PURE__*/ _react.default.createElement(
-                              _MenuItem.default,
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.brStatusOptionsBottomTd,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.TouchableOpacity,
+                                {
+                                  style: [
+                                    styles.brPreferencePanelCheckBox,
+                                    styles.brStatusOptionsEnabledCheck,
+                                    preferenceWork.statusOptionsEnabled
+                                      ? styles.br_bi_icon_square_svg
+                                      : [
+                                          styles.brSelected,
+                                          styles.br_bi_icon_check_svg,
+                                        ],
+                                  ],
+                                  onPress: this.changePreferenceWork.bind(
+                                    this,
+                                    'statusOptionsEnabled',
+                                    preferenceWork.statusOptionsEnabled
+                                      ? function () {
+                                          return false
+                                        }
+                                      : function () {
+                                          return true
+                                        },
+                                  ),
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      children:
+                                        _uawmsgs.default
+                                          .LBL_PREFERENCE_STATUS_OPTIONS_ENABLED_CHECK,
+                                    },
+                                  ),
+                                },
+                              ),
+                            },
+                          ),
+                        ],
+                      }),
+                    statusList.map(function (status, index) {
+                      var statusOption =
+                        preferenceWork.statusOptions[status] || {}
+                      return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _react.default.Fragment,
+                        {
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                              _reactNative.View,
                               {
-                                key: (0, _strings.string)(type.name),
-                                className:
-                                  'brPreferencePanelMenuItem brStatusOptionsLampTypeItem',
-                                dropDown: true,
-                                onClick: _this5.changePreferenceWork.bind(
-                                  _this5,
-                                  'statusOptions',
-                                  function (statusOptions) {
-                                    if (!statusOptions[status]) {
-                                      statusOptions[status] = {}
-                                    }
-                                    statusOptions[status].lampTypeName = (0,
-                                    _strings.string)(type.name)
-                                    return statusOptions
+                                style: [
+                                  styles.preferenceRow,
+                                  styles.brStatusOptionsStatusLabelTr,
+                                ],
+                                children: [
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: styles.emptyCell,
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: styles.statusLabelContainer,
+                                      children: /*#__PURE__*/ (0,
+                                      _jsxRuntime.jsxs)(_reactNative.View, {
+                                        style: [
+                                          styles.brStatusOptionsStatusLabel,
+                                          styles.brStatusOptionsTdContent,
+                                        ],
+                                        children: [
+                                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _StatusIcon.default,
+                                            {
+                                              status: status,
+                                            },
+                                          ),
+                                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                            _reactNative.Text,
+                                            {
+                                              children:
+                                                statusTable[status].label,
+                                            },
+                                          ),
+                                        ],
+                                      }),
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: styles.emptyCell,
+                                    },
+                                  ),
+                                ],
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                              _reactNative.View,
+                              {
+                                style: [
+                                  styles.preferenceRow,
+                                  styles.brStatusOptionsLampTypeTr,
+                                ],
+                                children: [
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: styles.emptyCell,
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: styles.brStatusOptionsBottomTd,
+                                      children: /*#__PURE__*/ (0,
+                                      _jsxRuntime.jsx)(_reactNative.View, {
+                                        style: [
+                                          styles.brStatusOptionsLampTypeLabel,
+                                          styles.brStatusOptionsTdContent,
+                                        ],
+                                        children: /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsx)(_reactNative.Text, {
+                                          children:
+                                            _uawmsgs.default
+                                              .LBL_PREFERENCE_STATUS_OPTIONS_LAMP_TYPE,
+                                        }),
+                                      }),
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.View,
+                                    {
+                                      style: styles.brStatusOptionsBottomTd,
+                                      children: /*#__PURE__*/ (0,
+                                      _jsxRuntime.jsx)(_reactNative.View, {
+                                        style: styles.brStatusOptionsTdContent,
+                                        children: /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsxs)(
+                                          _DropDownMenu.default,
+                                          {
+                                            uiData: props.uiData,
+                                            style:
+                                              styles.brStatusOptionsLampTypeMenu,
+                                            text:
+                                              typeof statusOption.lampTypeName !==
+                                              'undefined'
+                                                ? lampTypeNameDisplayTable[
+                                                    (0, _strings.string)(
+                                                      statusOption.lampTypeName,
+                                                    )
+                                                  ] ||
+                                                  (0, _strings.string)(
+                                                    statusOption.lampTypeName,
+                                                  )
+                                                : _uawmsgs.default
+                                                    .LBL_PREFERENCE_STATUS_OPTIONS_LAMP_TYPE_DEFAULT,
+                                            children: [
+                                              /*#__PURE__*/ (0,
+                                              _jsxRuntime.jsx)(
+                                                _MenuItem.default,
+                                                {
+                                                  className:
+                                                    'brPreferencePanelMenuItem brStatusOptionsLampTypeItem brStatusOptionsLampTypeDefault',
+                                                  dropDown: true,
+                                                  onClick:
+                                                    _this5.changePreferenceWork.bind(
+                                                      _this5,
+                                                      'statusOptions',
+                                                      function (statusOptions) {
+                                                        if (
+                                                          statusOptions[status]
+                                                        ) {
+                                                          delete statusOptions[
+                                                            status
+                                                          ].lampTypeName
+                                                        }
+                                                        return statusOptions
+                                                      },
+                                                    ),
+                                                  children:
+                                                    _uawmsgs.default
+                                                      .LBL_PREFERENCE_STATUS_OPTIONS_LAMP_TYPE_DEFAULT,
+                                                },
+                                              ),
+                                              (
+                                                preferenceWork.lampTypes || []
+                                              ).map(function (type) {
+                                                return /*#__PURE__*/ (0,
+                                                _jsxRuntime.jsx)(
+                                                  _MenuItem.default,
+                                                  {
+                                                    className:
+                                                      'brPreferencePanelMenuItem brStatusOptionsLampTypeItem',
+                                                    dropDown: true,
+                                                    onClick:
+                                                      _this5.changePreferenceWork.bind(
+                                                        _this5,
+                                                        'statusOptions',
+                                                        function (
+                                                          statusOptions,
+                                                        ) {
+                                                          if (
+                                                            !statusOptions[
+                                                              status
+                                                            ]
+                                                          ) {
+                                                            statusOptions[
+                                                              status
+                                                            ] = {}
+                                                          }
+                                                          statusOptions[
+                                                            status
+                                                          ].lampTypeName = (0,
+                                                          _strings.string)(
+                                                            type.name,
+                                                          )
+                                                          return statusOptions
+                                                        },
+                                                      ),
+                                                    children:
+                                                      lampTypeNameDisplayTable[
+                                                        (0, _strings.string)(
+                                                          type.name,
+                                                        )
+                                                      ] ||
+                                                      (0, _strings.string)(
+                                                        type.name,
+                                                      ),
+                                                  },
+                                                  (0, _strings.string)(
+                                                    type.name,
+                                                  ),
+                                                )
+                                              }),
+                                            ],
+                                          },
+                                        ),
+                                      }),
+                                    },
+                                  ),
+                                ],
+                              },
+                            ),
+                          ],
+                        },
+                        'status-option-'.concat(index),
+                      )
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_PROFILE_IMAGE,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.TouchableOpacity,
+                          {
+                            style: [
+                              styles.brProfileImagePreview,
+                              (!preferenceWork.profileImageUrl ||
+                                preferenceWork.profileImageTo === 'DELETE') &&
+                                styles.brNoImage,
+                              preferenceWork.profileImageUploading &&
+                                styles.brProgress,
+                            ],
+                            onPress: function onPress() {
+                              return props.uiData.fire(
+                                'preferenceProfileImagePreview_onClick',
+                                props.panelType,
+                                props.panelCode,
+                              )
+                            },
+                            children:
+                              preferenceWork.profileImageUrl &&
+                              preferenceWork.profileImageTo !== 'DELETE' &&
+                              !preferenceWork.profileImageUploading &&
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Image,
+                                {
+                                  source: {
+                                    uri: preferenceWork.profileImageUrl,
+                                  },
+                                  style: styles.profileImage,
+                                  resizeMode: 'cover',
+                                },
+                              ),
+                          },
+                        ),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                          style: styles.imageButtonsContainer,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonLabeled.default,
+                              {
+                                style: styles.brProfileImageUploadButton,
+                                disabled: preferenceWork.profileImageUploading,
+                                ghost: true,
+                                title:
+                                  _uawmsgs.default
+                                    .LBL_PREFERENCE_PROFILE_IMAGE_UPLOAD_BUTTON_TOOLTIP,
+                                onPress:
+                                  this.handleProfileImageUploadButtonClick.bind(
+                                    this,
+                                  ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_PROFILE_IMAGE_UPLOAD_BUTTON,
                                   },
                                 ),
                               },
-                              lampTypeNameDisplayTable[
-                                (0, _strings.string)(type.name)
-                              ] || (0, _strings.string)(type.name),
-                            )
-                          }),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              }),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_PROFILE_IMAGE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
-                    style: [
-                      styles.brProfileImagePreview,
-                      (!preferenceWork.profileImageUrl ||
-                        preferenceWork.profileImageTo === 'DELETE') &&
-                        styles.brNoImage,
-                      preferenceWork.profileImageUploading && styles.brProgress,
-                    ],
-                    onPress: function onPress() {
-                      return props.uiData.fire(
-                        'preferenceProfileImagePreview_onClick',
-                        props.panelType,
-                        props.panelCode,
-                      )
-                    },
-                  },
-                  preferenceWork.profileImageUrl &&
-                    preferenceWork.profileImageTo !== 'DELETE' &&
-                    !preferenceWork.profileImageUploading &&
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Image,
-                      {
-                        source: {
-                          uri: preferenceWork.profileImageUrl,
-                        },
-                        style: styles.profileImage,
-                        resizeMode: 'cover',
-                      },
-                    ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.imageButtonsContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonLabeled.default,
-                    {
-                      style: styles.brProfileImageUploadButton,
-                      disabled: preferenceWork.profileImageUploading,
-                      ghost: true,
-                      title:
-                        _uawmsgs.default
-                          .LBL_PREFERENCE_PROFILE_IMAGE_UPLOAD_BUTTON_TOOLTIP,
-                      onPress:
-                        this.handleProfileImageUploadButtonClick.bind(this),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default
-                        .LBL_PREFERENCE_PROFILE_IMAGE_UPLOAD_BUTTON,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonLabeled.default,
-                    {
-                      style: styles.brProfileImageDeleteButton,
-                      disabled: preferenceWork.profileImageUploading,
-                      ghost: true,
-                      title:
-                        _uawmsgs.default
-                          .LBL_PREFERENCE_PROFILE_IMAGE_DELETE_BUTTON_TOOLTIP,
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'profileImageTo',
-                        function () {
-                          return 'DELETE'
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonLabeled.default,
+                              {
+                                style: styles.brProfileImageDeleteButton,
+                                disabled: preferenceWork.profileImageUploading,
+                                ghost: true,
+                                title:
+                                  _uawmsgs.default
+                                    .LBL_PREFERENCE_PROFILE_IMAGE_DELETE_BUTTON_TOOLTIP,
+                                onPress: this.changePreferenceWork.bind(
+                                  this,
+                                  'profileImageTo',
+                                  function () {
+                                    return 'DELETE'
+                                  },
+                                ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_PROFILE_IMAGE_DELETE_BUTTON,
+                                  },
+                                ),
+                              },
+                            ),
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_LANGUAGE,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _DropDownMenu.default,
+                        {
+                          uiData: props.uiData,
+                          style: styles.brLanguageMenu,
+                          disabled: preferenceWork.languageDisabled,
+                          text: (0, _strings.string)(
+                            (
+                              languageTable[
+                                (0, _strings.string)(
+                                  preferenceWork.userLanguage,
+                                )
+                              ] || {}
+                            ).label,
+                          ),
+                          children: Object.keys(languageTable).map(
+                            function (key) {
+                              return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _MenuItem.default,
+                                {
+                                  style: [
+                                    styles.brPreferencePanelMenuItem,
+                                    styles.brLanguageItem,
+                                  ],
+                                  dropDown: true,
+                                  onPress: _this5.changePreferenceWork.bind(
+                                    _this5,
+                                    'userLanguage',
+                                    function () {
+                                      return key
+                                    },
+                                  ),
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      children: languageTable[key].label,
+                                    },
+                                  ),
+                                },
+                                key,
+                              )
+                            },
+                          ),
                         },
                       ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default
-                        .LBL_PREFERENCE_PROFILE_IMAGE_DELETE_BUTTON,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_LANGUAGE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _DropDownMenu.default,
-                  {
-                    uiData: props.uiData,
-                    style: styles.brLanguageMenu,
-                    disabled: preferenceWork.languageDisabled,
-                    text: (0, _strings.string)(
-                      (
-                        languageTable[
-                          (0, _strings.string)(preferenceWork.userLanguage)
-                        ] || {}
-                      ).label,
-                    ),
-                  },
-                  Object.keys(languageTable).map(function (key) {
-                    return /*#__PURE__*/ _react.default.createElement(
-                      _MenuItem.default,
-                      {
-                        key: key,
-                        style: [
-                          styles.brPreferencePanelMenuItem,
-                          styles.brLanguageItem,
+                    }),
+                  ],
+                }),
+                !preferenceWork.loginPasswordLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                        style: styles.preferenceRow,
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.emptyCell,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              style: styles.labelText,
+                              children:
+                                _uawmsgs.default.LBL_PREFERENCE_LOGIN_PASSWORD,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.controlContainer,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _TextBox.default,
+                                {
+                                  style: styles.brLoginPassword,
+                                  value: (0, _strings.string)(
+                                    preferenceWork.loginPassword,
+                                  ),
+                                  secureTextEntry: true,
+                                  onChangeText: function onChangeText(text) {
+                                    return _this5.changePreferenceWork(
+                                      'loginPassword',
+                                      function () {
+                                        return (0, _strings.string)(text)
+                                      },
+                                    )
+                                  },
+                                },
+                              ),
+                            },
+                          ),
                         ],
-                        dropDown: true,
-                        onPress: _this5.changePreferenceWork.bind(
-                          _this5,
-                          'userLanguage',
-                          function () {
-                            return key
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                        style: styles.preferenceRow,
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.emptyCell,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              style: styles.labelText,
+                              children:
+                                _uawmsgs.default
+                                  .LBL_PREFERENCE_LOGIN_PASSWORD_CONFIRM,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.controlContainer,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _TextBox.default,
+                                {
+                                  style: styles.brLoginPasswordConfirm,
+                                  value: (0, _strings.string)(
+                                    preferenceWork.loginPasswordConfirm,
+                                  ),
+                                  secureTextEntry: true,
+                                  onChangeText: function onChangeText(text) {
+                                    return _this5.changePreferenceWork(
+                                      'loginPasswordConfirm',
+                                      function () {
+                                        return (0, _strings.string)(text)
+                                      },
+                                    )
+                                  },
+                                },
+                              ),
+                            },
+                          ),
+                        ],
+                      }),
+                    ],
+                  }),
+                !preferenceWork.displayNameLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.preferenceRow,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.emptyCell,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children:
+                          _uawmsgs.default.LBL_PREFERENCE_WEBCHAT_DISPLAY_NAME,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.controlContainer,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _TextBox.default,
+                          {
+                            style: styles.brDisplayNameInput,
+                            value: (0, _strings.string)(
+                              preferenceWork.displayName,
+                            ),
+                            onChangeText: function onChangeText(text) {
+                              return _this5.changePreferenceWork(
+                                'displayName',
+                                function () {
+                                  return (0, _strings.string)(text)
+                                },
+                              )
+                            },
                           },
                         ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        languageTable[key].label,
-                      ),
-                    )
+                      }),
+                    ],
                   }),
-                ),
-              ),
-            ),
-            !preferenceWork.loginPasswordLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _react.default.Fragment,
-                null,
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
+                !preferenceWork.sendingConfirmationLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                     style: styles.preferenceRow,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.emptyCell,
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.labelText,
-                    },
-                    _uawmsgs.default.LBL_PREFERENCE_LOGIN_PASSWORD,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.controlContainer,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _TextBox.default,
-                      {
-                        style: styles.brLoginPassword,
-                        value: (0, _strings.string)(
-                          preferenceWork.loginPassword,
-                        ),
-                        secureTextEntry: true,
-                        onChangeText: function onChangeText(text) {
-                          return _this5.changePreferenceWork(
-                            'loginPassword',
-                            function () {
-                              return (0, _strings.string)(text)
-                            },
-                          )
-                        },
-                      },
-                    ),
-                  ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.preferenceRow,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.emptyCell,
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.labelText,
-                    },
-                    _uawmsgs.default.LBL_PREFERENCE_LOGIN_PASSWORD_CONFIRM,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.controlContainer,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _TextBox.default,
-                      {
-                        style: styles.brLoginPasswordConfirm,
-                        value: (0, _strings.string)(
-                          preferenceWork.loginPasswordConfirm,
-                        ),
-                        secureTextEntry: true,
-                        onChangeText: function onChangeText(text) {
-                          return _this5.changePreferenceWork(
-                            'loginPasswordConfirm',
-                            function () {
-                              return (0, _strings.string)(text)
-                            },
-                          )
-                        },
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            !preferenceWork.displayNameLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_WEBCHAT_DISPLAY_NAME,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-                    style: styles.brDisplayNameInput,
-                    value: (0, _strings.string)(preferenceWork.displayName),
-                    onChangeText: function onChangeText(text) {
-                      return _this5.changePreferenceWork(
-                        'displayName',
-                        function () {
-                          return (0, _strings.string)(text)
-                        },
-                      )
-                    },
-                  }),
-                ),
-              ),
-            !preferenceWork.sendingConfirmationLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_SENDING_CONFIRMATION,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      style: [
-                        styles.brPreferencePanelCheckBox,
-                        styles.brSendingConfirmationCheck,
-                        preferenceWork.sendingConfirmation
-                          ? [styles.brSelected, styles.br_bi_icon_check_svg]
-                          : styles.br_bi_icon_square_svg,
-                      ],
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'sendingConfirmation',
-                        preferenceWork.sendingConfirmation
-                          ? function () {
-                              return false
-                            }
-                          : function () {
-                              return true
-                            },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default
-                        .LBL_PREFERENCE_SENDING_CONFIRMATION_CHECK,
-                    ),
-                  ),
-                ),
-              ),
-            !preferenceWork.nameDisplayModeLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_NAME_DISPLAY_MODE,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      style: [
-                        styles.brPreferencePanelCheckBox,
-                        styles.brNameDisplayModeCheck,
-                        preferenceWork.nameDisplayMode === 1
-                          ? [styles.brSelected, styles.br_bi_icon_check_svg]
-                          : styles.br_bi_icon_square_svg,
-                      ],
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'nameDisplayMode',
-                        preferenceWork.nameDisplayMode === 1
-                          ? function () {
-                              return 0
-                            }
-                          : function () {
-                              return 1
-                            },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_NAME_DISPLAY_MODE_CHECK,
-                    ),
-                  ),
-                ),
-              ),
-            !preferenceWork.notifyCallStatusLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_NOTIFY_CALL_STATUS,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      style: [
-                        styles.brPreferencePanelCheckBox,
-                        styles.brNotifyCallStatusCheck,
-                        preferenceWork.notifyCallStatus
-                          ? [styles.brSelected, styles.br_bi_icon_check_svg]
-                          : styles.br_bi_icon_square_svg,
-                      ],
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'notifyCallStatus',
-                        preferenceWork.notifyCallStatus
-                          ? function () {
-                              return false
-                            }
-                          : function () {
-                              return true
-                            },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_NOTIFY_CALL_STATUS_CHECK,
-                    ),
-                  ),
-                ),
-              ),
-            !preferenceWork.notifyConfStatusLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_NOTIFY_CONF_STATUS,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.TouchableOpacity,
-                    {
-                      style: [
-                        styles.brPreferencePanelCheckBox,
-                        styles.brNotifyConfStatusCheck,
-                        preferenceWork.notifyConfStatus
-                          ? [styles.brSelected, styles.br_bi_icon_check_svg]
-                          : styles.br_bi_icon_square_svg,
-                      ],
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'notifyConfStatus',
-                        preferenceWork.notifyConfStatus
-                          ? function () {
-                              return false
-                            }
-                          : function () {
-                              return true
-                            },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_NOTIFY_CONF_STATUS_CHECK,
-                    ),
-                  ),
-                ),
-              ),
-            !preferenceWork.dtmfShortcutLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _react.default.Fragment,
-                null,
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.preferenceRow,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.emptyCell,
-                    },
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.labelText,
-                    },
-                    _uawmsgs.default.LBL_PREFERENCE_DTMF_SHORTCUT,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.controlContainer,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.TouchableOpacity,
-                      {
-                        style: [
-                          styles.brPreferencePanelCheckBox,
-                          styles.brDtmfShortcutCheck,
-                          styles.brDtmfShortcut0Check,
-                          preferenceWork.dtmfShortcut & 1
-                            ? [styles.brSelected, styles.br_bi_icon_check_svg]
-                            : styles.br_bi_icon_square_svg,
-                        ],
-                        onPress: this.changePreferenceWork.bind(
-                          this,
-                          'dtmfShortcut',
-                          preferenceWork.dtmfShortcut & 1
-                            ? function (p) {
-                                return p & ~1
-                              }
-                            : function (p) {
-                                return p | 1
-                              },
-                        ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        _uawmsgs.default.LBL_PREFERENCE_DTMF_SHORTCUT_0_CHECK,
-                      ),
-                    ),
-                  ),
-                ),
-                [
-                  {
-                    bit: 2,
-                    label:
-                      _uawmsgs.default.LBL_PREFERENCE_DTMF_SHORTCUT_1_CHECK,
-                  },
-                  {
-                    bit: 8,
-                    label:
-                      _uawmsgs.default.LBL_PREFERENCE_DTMF_SHORTCUT_3_CHECK,
-                  },
-                  {
-                    bit: 4,
-                    label:
-                      _uawmsgs.default.LBL_PREFERENCE_DTMF_SHORTCUT_2_CHECK,
-                  },
-                ].map(function (shortcut, index) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      key: 'dtmf-'.concat(index),
-                      style: styles.preferenceRow,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                         style: styles.emptyCell,
-                      },
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.emptyCell,
-                      },
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children:
+                          _uawmsgs.default.LBL_PREFERENCE_SENDING_CONFIRMATION,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                         style: styles.controlContainer,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.TouchableOpacity,
+                          {
+                            style: [
+                              styles.brPreferencePanelCheckBox,
+                              styles.brSendingConfirmationCheck,
+                              preferenceWork.sendingConfirmation
+                                ? [
+                                    styles.brSelected,
+                                    styles.br_bi_icon_check_svg,
+                                  ]
+                                : styles.br_bi_icon_square_svg,
+                            ],
+                            onPress: this.changePreferenceWork.bind(
+                              this,
+                              'sendingConfirmation',
+                              preferenceWork.sendingConfirmation
+                                ? function () {
+                                    return false
+                                  }
+                                : function () {
+                                    return true
+                                  },
+                            ),
+                            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                children:
+                                  _uawmsgs.default
+                                    .LBL_PREFERENCE_SENDING_CONFIRMATION_CHECK,
+                              },
+                            ),
+                          },
+                        ),
+                      }),
+                    ],
+                  }),
+                !preferenceWork.nameDisplayModeLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.preferenceRow,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.emptyCell,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children:
+                          _uawmsgs.default.LBL_PREFERENCE_NAME_DISPLAY_MODE,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.controlContainer,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.TouchableOpacity,
+                          {
+                            style: [
+                              styles.brPreferencePanelCheckBox,
+                              styles.brNameDisplayModeCheck,
+                              preferenceWork.nameDisplayMode === 1
+                                ? [
+                                    styles.brSelected,
+                                    styles.br_bi_icon_check_svg,
+                                  ]
+                                : styles.br_bi_icon_square_svg,
+                            ],
+                            onPress: this.changePreferenceWork.bind(
+                              this,
+                              'nameDisplayMode',
+                              preferenceWork.nameDisplayMode === 1
+                                ? function () {
+                                    return 0
+                                  }
+                                : function () {
+                                    return 1
+                                  },
+                            ),
+                            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                children:
+                                  _uawmsgs.default
+                                    .LBL_PREFERENCE_NAME_DISPLAY_MODE_CHECK,
+                              },
+                            ),
+                          },
+                        ),
+                      }),
+                    ],
+                  }),
+                !preferenceWork.notifyCallStatusLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.preferenceRow,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.emptyCell,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children:
+                          _uawmsgs.default.LBL_PREFERENCE_NOTIFY_CALL_STATUS,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.controlContainer,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.TouchableOpacity,
+                          {
+                            style: [
+                              styles.brPreferencePanelCheckBox,
+                              styles.brNotifyCallStatusCheck,
+                              preferenceWork.notifyCallStatus
+                                ? [
+                                    styles.brSelected,
+                                    styles.br_bi_icon_check_svg,
+                                  ]
+                                : styles.br_bi_icon_square_svg,
+                            ],
+                            onPress: this.changePreferenceWork.bind(
+                              this,
+                              'notifyCallStatus',
+                              preferenceWork.notifyCallStatus
+                                ? function () {
+                                    return false
+                                  }
+                                : function () {
+                                    return true
+                                  },
+                            ),
+                            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                children:
+                                  _uawmsgs.default
+                                    .LBL_PREFERENCE_NOTIFY_CALL_STATUS_CHECK,
+                              },
+                            ),
+                          },
+                        ),
+                      }),
+                    ],
+                  }),
+                !preferenceWork.notifyConfStatusLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.preferenceRow,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.emptyCell,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children:
+                          _uawmsgs.default.LBL_PREFERENCE_NOTIFY_CONF_STATUS,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.controlContainer,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.TouchableOpacity,
+                          {
+                            style: [
+                              styles.brPreferencePanelCheckBox,
+                              styles.brNotifyConfStatusCheck,
+                              preferenceWork.notifyConfStatus
+                                ? [
+                                    styles.brSelected,
+                                    styles.br_bi_icon_check_svg,
+                                  ]
+                                : styles.br_bi_icon_square_svg,
+                            ],
+                            onPress: this.changePreferenceWork.bind(
+                              this,
+                              'notifyConfStatus',
+                              preferenceWork.notifyConfStatus
+                                ? function () {
+                                    return false
+                                  }
+                                : function () {
+                                    return true
+                                  },
+                            ),
+                            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                children:
+                                  _uawmsgs.default
+                                    .LBL_PREFERENCE_NOTIFY_CONF_STATUS_CHECK,
+                              },
+                            ),
+                          },
+                        ),
+                      }),
+                    ],
+                  }),
+                !preferenceWork.dtmfShortcutLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                        style: styles.preferenceRow,
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.emptyCell,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              style: styles.labelText,
+                              children:
+                                _uawmsgs.default.LBL_PREFERENCE_DTMF_SHORTCUT,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.controlContainer,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.TouchableOpacity,
+                                {
+                                  style: [
+                                    styles.brPreferencePanelCheckBox,
+                                    styles.brDtmfShortcutCheck,
+                                    styles.brDtmfShortcut0Check,
+                                    preferenceWork.dtmfShortcut & 1
+                                      ? [
+                                          styles.brSelected,
+                                          styles.br_bi_icon_check_svg,
+                                        ]
+                                      : styles.br_bi_icon_square_svg,
+                                  ],
+                                  onPress: this.changePreferenceWork.bind(
+                                    this,
+                                    'dtmfShortcut',
+                                    preferenceWork.dtmfShortcut & 1
+                                      ? function (p) {
+                                          return p & ~1
+                                        }
+                                      : function (p) {
+                                          return p | 1
+                                        },
+                                  ),
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      children:
+                                        _uawmsgs.default
+                                          .LBL_PREFERENCE_DTMF_SHORTCUT_0_CHECK,
+                                    },
+                                  ),
+                                },
+                              ),
+                            },
+                          ),
+                        ],
+                      }),
+                      [
+                        {
+                          bit: 2,
+                          label:
+                            _uawmsgs.default
+                              .LBL_PREFERENCE_DTMF_SHORTCUT_1_CHECK,
+                        },
+                        {
+                          bit: 8,
+                          label:
+                            _uawmsgs.default
+                              .LBL_PREFERENCE_DTMF_SHORTCUT_3_CHECK,
+                        },
+                        {
+                          bit: 4,
+                          label:
+                            _uawmsgs.default
+                              .LBL_PREFERENCE_DTMF_SHORTCUT_2_CHECK,
+                        },
+                      ].map(function (shortcut, index) {
+                        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                          _reactNative.View,
+                          {
+                            style: styles.preferenceRow,
+                            children: [
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.View,
+                                {
+                                  style: styles.emptyCell,
+                                },
+                              ),
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.View,
+                                {
+                                  style: styles.emptyCell,
+                                },
+                              ),
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.View,
+                                {
+                                  style: styles.controlContainer,
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.TouchableOpacity,
+                                    {
+                                      style: [
+                                        styles.brPreferencePanelCheckBox,
+                                        styles.brDtmfShortcutCheck,
+                                        preferenceWork.dtmfShortcut &
+                                        shortcut.bit
+                                          ? [
+                                              styles.brSelected,
+                                              styles.br_bi_icon_check_svg,
+                                            ]
+                                          : styles.br_bi_icon_square_svg,
+                                      ],
+                                      onPress: _this5.changePreferenceWork.bind(
+                                        _this5,
+                                        'dtmfShortcut',
+                                        preferenceWork.dtmfShortcut &
+                                          shortcut.bit
+                                          ? function (p) {
+                                              return p & ~shortcut.bit
+                                            }
+                                          : function (p) {
+                                              return p | shortcut.bit
+                                            },
+                                      ),
+                                      children: /*#__PURE__*/ (0,
+                                      _jsxRuntime.jsx)(_reactNative.Text, {
+                                        children: shortcut.label,
+                                      }),
+                                    },
+                                  ),
+                                },
+                              ),
+                            ],
+                          },
+                          'dtmf-'.concat(index),
+                        )
+                      }),
+                    ],
+                  }),
+                !preferenceWork.displayPeriodLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.preferenceRow,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.emptyCell,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children:
+                          _uawmsgs.default.LBL_PREFERENCE_DISPLAY_PERIOD,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.controlContainer,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                          _reactNative.View,
+                          {
+                            style: styles.displayPeriodContainer,
+                            children: [
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  children: (0, _strings.string)(
+                                    _uawmsgs.default
+                                      .LBL_PREFERENCE_DISPLAY_PERIOD_LABEL,
+                                  ).split('{0}')[0],
+                                },
+                              ),
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _TextBox.default,
+                                {
+                                  style: styles.brDisplayPeriodInput,
+                                  value: (0, _strings.string)(
+                                    preferenceWork.displayPeriod,
+                                  ),
+                                  onChangeText: function onChangeText(text) {
+                                    return _this5.changePreferenceWork(
+                                      'displayPeriod',
+                                      function () {
+                                        return (0, _strings.string)(text)
+                                      },
+                                    )
+                                  },
+                                },
+                              ),
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  children: (0, _strings.string)(
+                                    _uawmsgs.default
+                                      .LBL_PREFERENCE_DISPLAY_PERIOD_LABEL,
+                                  ).split('{0}')[1],
+                                },
+                              ),
+                            ],
+                          },
+                        ),
+                      }),
+                    ],
+                  }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: styles.separator,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.categoryText,
+                      children:
+                        _uawmsgs.default.LBL_PREFERENCE_CATEGORY_TERMINAL,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_AUTO_SIGN_IN,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                         _reactNative.TouchableOpacity,
                         {
                           style: [
                             styles.brPreferencePanelCheckBox,
-                            styles.brDtmfShortcutCheck,
-                            preferenceWork.dtmfShortcut & shortcut.bit
+                            styles.brAutoSignInCheck,
+                            preferenceWork.autoSignIn
                               ? [styles.brSelected, styles.br_bi_icon_check_svg]
                               : styles.br_bi_icon_square_svg,
                           ],
-                          onPress: _this5.changePreferenceWork.bind(
-                            _this5,
-                            'dtmfShortcut',
-                            preferenceWork.dtmfShortcut & shortcut.bit
-                              ? function (p) {
-                                  return p & ~shortcut.bit
+                          onPress: this.changePreferenceWork.bind(
+                            this,
+                            'autoSignIn',
+                            preferenceWork.autoSignIn
+                              ? function () {
+                                  return false
                                 }
-                              : function (p) {
-                                  return p | shortcut.bit
+                              : function () {
+                                  return true
                                 },
                           ),
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          null,
-                          shortcut.label,
-                        ),
-                      ),
-                    ),
-                  )
-                }),
-              ),
-            !preferenceWork.displayPeriodLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_DISPLAY_PERIOD,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.displayPeriodContainer,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      (0, _strings.string)(
-                        _uawmsgs.default.LBL_PREFERENCE_DISPLAY_PERIOD_LABEL,
-                      ).split('{0}')[0],
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _TextBox.default,
-                      {
-                        style: styles.brDisplayPeriodInput,
-                        value: (0, _strings.string)(
-                          preferenceWork.displayPeriod,
-                        ),
-                        onChangeText: function onChangeText(text) {
-                          return _this5.changePreferenceWork(
-                            'displayPeriod',
-                            function () {
-                              return (0, _strings.string)(text)
-                            },
-                          )
-                        },
-                      },
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      (0, _strings.string)(
-                        _uawmsgs.default.LBL_PREFERENCE_DISPLAY_PERIOD_LABEL,
-                      ).split('{0}')[1],
-                    ),
-                  ),
-                ),
-              ),
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-              style: styles.separator,
-            }),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.categoryText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_CATEGORY_TERMINAL,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_AUTO_SIGN_IN,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
-                    style: [
-                      styles.brPreferencePanelCheckBox,
-                      styles.brAutoSignInCheck,
-                      preferenceWork.autoSignIn
-                        ? [styles.brSelected, styles.br_bi_icon_check_svg]
-                        : styles.br_bi_icon_square_svg,
-                    ],
-                    onPress: this.changePreferenceWork.bind(
-                      this,
-                      'autoSignIn',
-                      preferenceWork.autoSignIn
-                        ? function () {
-                            return false
-                          }
-                        : function () {
-                            return true
-                          },
-                    ),
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    _uawmsgs.default.LBL_PREFERENCE_AUTO_SIGN_IN_CHECK,
-                  ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_WEBRTC_ENABLED,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
-                    style: [
-                      styles.brPreferencePanelCheckBox,
-                      styles.brWebRTCEnabledCheck,
-                      preferenceWork.webRTCDisabled
-                        ? styles.br_bi_icon_square_svg
-                        : [styles.brSelected, styles.br_bi_icon_check_svg],
-                    ],
-                    onPress: this.changePreferenceWork.bind(
-                      this,
-                      'webRTCDisabled',
-                      preferenceWork.webRTCDisabled
-                        ? function () {
-                            return false
-                          }
-                        : function () {
-                            return true
-                          },
-                    ),
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    _uawmsgs.default.LBL_PREFERENCE_WEBRTC_ENABLED_CHECK,
-                  ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_WEBRTC_TYPE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _DropDownMenu.default,
-                  {
-                    uiData: props.uiData,
-                    style: styles.brWebRTCTypeMenu,
-                    disabled: preferenceWork.tenantWebRTCTypeNameLocked,
-                    text:
-                      !preferenceWork.webRTCTypeName ||
-                      preferenceWork.tenantWebRTCTypeNameLocked
-                        ? _uawmsgs.default.LBL_PREFERENCE_WEBRTC_TYPE_DEFAULT
-                        : preferenceWork.webRTCTypeName === '_standard'
-                          ? _uawmsgs.default.LBL_PREFERENCE_WEBRTC_TYPE_STANDARD
-                          : (0, _strings.string)(preferenceWork.webRTCTypeName),
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      style: [
-                        styles.brPreferencePanelMenuItem,
-                        styles.brWebRTCTypeItem,
-                      ],
-                      dropDown: true,
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'webRTCTypeName',
-                        function () {
-                          return ''
-                        },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_WEBRTC_TYPE_DEFAULT,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      style: [
-                        styles.brPreferencePanelMenuItem,
-                        styles.brWebRTCTypeItem,
-                      ],
-                      dropDown: true,
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'webRTCTypeName',
-                        function () {
-                          return '_standard'
-                        },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_WEBRTC_TYPE_STANDARD,
-                    ),
-                  ),
-                  (preferenceWork.webRTCTypes || []).map(function (type) {
-                    return /*#__PURE__*/ _react.default.createElement(
-                      _MenuItem.default,
-                      {
-                        key: (0, _strings.string)(type.name),
-                        style: [
-                          styles.brPreferencePanelMenuItem,
-                          styles.brWebRTCTypeItem,
-                        ],
-                        dropDown: true,
-                        onPress: _this5.changePreferenceWork.bind(
-                          _this5,
-                          'webRTCTypeName',
-                          function () {
-                            return (0, _strings.string)(type.name)
-                          },
-                        ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        (0, _strings.string)(type.name),
-                      ),
-                    )
-                  }),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_NO_VIDEO_MODE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _DropDownMenu.default,
-                  {
-                    uiData: props.uiData,
-                    style: styles.brNoVideoModeMenu,
-                    text:
-                      preferenceWork.noVideoMode === 'CONFERENCE'
-                        ? _uawmsgs.default
-                            .LBL_PREFERENCE_NO_VIDEO_MODE_CONFERENCE
-                        : preferenceWork.noVideoMode === '.*'
-                          ? _uawmsgs.default.LBL_PREFERENCE_NO_VIDEO_MODE_SOUND
-                          : _uawmsgs.default
-                              .LBL_PREFERENCE_NO_VIDEO_MODE_DISPLAY,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      style: [
-                        styles.brPreferencePanelMenuItem,
-                        styles.brNoVideoModeItem,
-                      ],
-                      dropDown: true,
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'noVideoMode',
-                        function () {
-                          return ''
-                        },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_NO_VIDEO_MODE_DISPLAY,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      style: [
-                        styles.brPreferencePanelMenuItem,
-                        styles.brNoVideoModeItem,
-                      ],
-                      dropDown: true,
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'noVideoMode',
-                        function () {
-                          return 'CONFERENCE'
-                        },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_NO_VIDEO_MODE_CONFERENCE,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      style: [
-                        styles.brPreferencePanelMenuItem,
-                        styles.brNoVideoModeItem,
-                      ],
-                      dropDown: true,
-                      onPress: this.changePreferenceWork.bind(
-                        this,
-                        'noVideoMode',
-                        function () {
-                          return '.*'
-                        },
-                      ),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default.LBL_PREFERENCE_NO_VIDEO_MODE_SOUND,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_AUDIO_SOURCE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.audioSourceContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DropDownMenu.default,
-                    {
-                      uiData: props.uiData,
-                      style: styles.brAudioSourceMenu,
-                      text: this.getDeviceLabel({
-                        deviceId: preferenceWork.audioSource,
-                        kind: 'audioinput',
-                      }),
-                    },
-                    this.state.devices
-                      .filter(function (device) {
-                        return device.kind === 'audioinput'
-                      })
-                      .map(function (device) {
-                        return /*#__PURE__*/ _react.default.createElement(
-                          _MenuItem.default,
-                          {
-                            key: device.deviceId,
-                            style: [
-                              styles.brPreferencePanelMenuItem,
-                              styles.brAudioSourceItem,
-                            ],
-                            dropDown: true,
-                            onPress: _this5.changePreferenceWork.bind(
-                              _this5,
-                              'audioSource',
-                              function () {
-                                return device.deviceId
-                              },
-                            ),
-                          },
-                          /*#__PURE__*/ _react.default.createElement(
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                             _reactNative.Text,
-                            null,
-                            _this5.getDeviceLabel(device),
+                            {
+                              children:
+                                _uawmsgs.default
+                                  .LBL_PREFERENCE_AUTO_SIGN_IN_CHECK,
+                            },
                           ),
-                        )
-                      }),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonLabeled.default,
-                    {
-                      style: styles.brAudioSourceTestButton,
-                      ghost: true,
-                      title: this.state.testingAudioSource
-                        ? _uawmsgs.default
-                            .LBL_PREFERENCE_AUDIO_SOURCE_STOP_BUTTON_TOOLTIP
-                        : _uawmsgs.default
-                            .LBL_PREFERENCE_AUDIO_SOURCE_TEST_BUTTON_TOOLTIP,
-                      onPress: this.handleAudioSourceTestButtonClick.bind(this),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      this.state.testingAudioSource
-                        ? _uawmsgs.default
-                            .LBL_PREFERENCE_AUDIO_SOURCE_STOP_BUTTON
-                        : _uawmsgs.default
-                            .LBL_PREFERENCE_AUDIO_SOURCE_TEST_BUTTON,
-                    ),
-                  ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: [
-                      styles.brAudioSourceTestArea,
-                      this.state.testingAudioSource && styles.brTesting,
-                    ],
-                  },
-                  this.state.testingAudioSource &&
-                    this.state.testingAudioSource.analyser
-                    ? /*#__PURE__*/ _react.default.createElement(
-                        _CallMicrophoneLevel.default,
+                        },
+                      ),
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_WEBRTC_ENABLED,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          style: [
+                            styles.brPreferencePanelCheckBox,
+                            styles.brWebRTCEnabledCheck,
+                            preferenceWork.webRTCDisabled
+                              ? styles.br_bi_icon_square_svg
+                              : [
+                                  styles.brSelected,
+                                  styles.br_bi_icon_check_svg,
+                                ],
+                          ],
+                          onPress: this.changePreferenceWork.bind(
+                            this,
+                            'webRTCDisabled',
+                            preferenceWork.webRTCDisabled
+                              ? function () {
+                                  return false
+                                }
+                              : function () {
+                                  return true
+                                },
+                          ),
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              children:
+                                _uawmsgs.default
+                                  .LBL_PREFERENCE_WEBRTC_ENABLED_CHECK,
+                            },
+                          ),
+                        },
+                      ),
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_WEBRTC_TYPE,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _DropDownMenu.default,
                         {
                           uiData: props.uiData,
-                          analyser: this.state.testingAudioSource.analyser,
-                        },
-                      )
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        (0, _strings.string)(
-                          this.state.testingAudioSource &&
-                            (this.state.testingAudioSource.message ||
-                              _uawmsgs.default
-                                .MSG_PREFERENCE_AUDIO_SOURCE_TESTING),
-                        ),
-                      ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_VIDEO_SOURCE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.videoSourceContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DropDownMenu.default,
-                    {
-                      uiData: props.uiData,
-                      style: styles.brVideoSourceMenu,
-                      text: this.getDeviceLabel({
-                        deviceId: preferenceWork.videoSource,
-                        kind: 'videoinput',
-                      }),
-                    },
-                    this.state.devices
-                      .filter(function (device) {
-                        return device.kind === 'videoinput'
-                      })
-                      .map(function (device) {
-                        return /*#__PURE__*/ _react.default.createElement(
-                          _MenuItem.default,
-                          {
-                            key: device.deviceId,
-                            style: [
-                              styles.brPreferencePanelMenuItem,
-                              styles.brVideoSourceItem,
-                            ],
-                            dropDown: true,
-                            onPress: _this5.changePreferenceWork.bind(
-                              _this5,
-                              'videoSource',
-                              function () {
-                                return device.deviceId
+                          style: styles.brWebRTCTypeMenu,
+                          disabled: preferenceWork.tenantWebRTCTypeNameLocked,
+                          text:
+                            !preferenceWork.webRTCTypeName ||
+                            preferenceWork.tenantWebRTCTypeNameLocked
+                              ? _uawmsgs.default
+                                  .LBL_PREFERENCE_WEBRTC_TYPE_DEFAULT
+                              : preferenceWork.webRTCTypeName === '_standard'
+                                ? _uawmsgs.default
+                                    .LBL_PREFERENCE_WEBRTC_TYPE_STANDARD
+                                : (0, _strings.string)(
+                                    preferenceWork.webRTCTypeName,
+                                  ),
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuItem.default,
+                              {
+                                style: [
+                                  styles.brPreferencePanelMenuItem,
+                                  styles.brWebRTCTypeItem,
+                                ],
+                                dropDown: true,
+                                onPress: this.changePreferenceWork.bind(
+                                  this,
+                                  'webRTCTypeName',
+                                  function () {
+                                    return ''
+                                  },
+                                ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_WEBRTC_TYPE_DEFAULT,
+                                  },
+                                ),
                               },
                             ),
-                          },
-                          /*#__PURE__*/ _react.default.createElement(
-                            _reactNative.Text,
-                            null,
-                            _this5.getDeviceLabel(device),
-                          ),
-                        )
-                      }),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonLabeled.default,
-                    {
-                      style: styles.brVideoSourceTestButton,
-                      ghost: true,
-                      title: this.state.testingVideoSource
-                        ? _uawmsgs.default
-                            .LBL_PREFERENCE_VIDEO_SOURCE_STOP_BUTTON_TOOLTIP
-                        : _uawmsgs.default
-                            .LBL_PREFERENCE_VIDEO_SOURCE_TEST_BUTTON_TOOLTIP,
-                      onPress: this.handleVideoSourceTestButtonClick.bind(this),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      this.state.testingVideoSource
-                        ? _uawmsgs.default
-                            .LBL_PREFERENCE_VIDEO_SOURCE_STOP_BUTTON
-                        : _uawmsgs.default
-                            .LBL_PREFERENCE_VIDEO_SOURCE_TEST_BUTTON,
-                    ),
-                  ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    ref: this.videoSourceTestAreaRef,
-                    style: [
-                      styles.brVideoSourceTestArea,
-                      {
-                        minWidth: this.state.preferenceContentLayout.width - 32,
-                        width: '100%',
-                        height: this.state.testingVideoSource
-                          ? (this.state.preferenceContentLayout.height + 88) / 2
-                          : 0,
-                      },
-                    ],
-                    onLayout: function onLayout(event) {
-                      var _event$nativeEvent$la2 = event.nativeEvent.layout,
-                        width = _event$nativeEvent$la2.width,
-                        height = _event$nativeEvent$la2.height
-                      _this5.setState({
-                        videoTestAreaLayout: {
-                          width: width,
-                          height: height,
-                        },
-                      })
-                    },
-                  },
-                  this.state.testingVideoSource &&
-                    this.state.testingVideoSource.streamObject
-                    ? /*#__PURE__*/ _react.default.createElement('video', {
-                        ref: function ref(video) {
-                          if (video) {
-                            video.srcObject = p.sourceObject
-                            _this5.videoSourceTestVideoRef = video
-                          }
-                        },
-                        style: styles.brVideoSourceTestVideo,
-                      })
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: styles.testMessage,
-                        },
-                        (0, _strings.string)(
-                          this.state.testingVideoSource &&
-                            this.state.testingVideoSource.message,
-                        ),
-                      ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_LAMP_TYPE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.lampTypeContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DropDownMenu.default,
-                    {
-                      uiData: props.uiData,
-                      style: styles.brLampTypeMenu,
-                      text:
-                        lampTypeNameDisplayTable[
-                          (0, _strings.string)(preferenceWork.lampTypeName)
-                        ] || (0, _strings.string)(preferenceWork.lampTypeName),
-                    },
-                    (preferenceWork.lampTypes || []).map(function (type) {
-                      return /*#__PURE__*/ _react.default.createElement(
-                        _MenuItem.default,
-                        {
-                          key: (0, _strings.string)(type.name),
-                          style: [
-                            styles.brPreferencePanelMenuItem,
-                            styles.brLampTypeItem,
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuItem.default,
+                              {
+                                style: [
+                                  styles.brPreferencePanelMenuItem,
+                                  styles.brWebRTCTypeItem,
+                                ],
+                                dropDown: true,
+                                onPress: this.changePreferenceWork.bind(
+                                  this,
+                                  'webRTCTypeName',
+                                  function () {
+                                    return '_standard'
+                                  },
+                                ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_WEBRTC_TYPE_STANDARD,
+                                  },
+                                ),
+                              },
+                            ),
+                            (preferenceWork.webRTCTypes || []).map(
+                              function (type) {
+                                return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _MenuItem.default,
+                                  {
+                                    style: [
+                                      styles.brPreferencePanelMenuItem,
+                                      styles.brWebRTCTypeItem,
+                                    ],
+                                    dropDown: true,
+                                    onPress: _this5.changePreferenceWork.bind(
+                                      _this5,
+                                      'webRTCTypeName',
+                                      function () {
+                                        return (0, _strings.string)(type.name)
+                                      },
+                                    ),
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_reactNative.Text, {
+                                      children: (0, _strings.string)(type.name),
+                                    }),
+                                  },
+                                  (0, _strings.string)(type.name),
+                                )
+                              },
+                            ),
                           ],
-                          dropDown: true,
-                          onPress: _this5.changePreferenceWork.bind(
-                            _this5,
-                            'lampTypeName',
-                            function () {
-                              return (0, _strings.string)(type.name)
-                            },
-                          ),
                         },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          null,
-                          lampTypeNameDisplayTable[
-                            (0, _strings.string)(type.name)
-                          ] || (0, _strings.string)(type.name),
-                        ),
-                      )
-                    }),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonLabeled.default,
-                    {
-                      style: styles.brLampTypeTestButton,
-                      disabled: this.state.testingLampType,
-                      ghost: true,
-                      title: this.state.testingLampType
-                        ? ''
-                        : _uawmsgs.default
-                            .LBL_PREFERENCE_LAMP_TYPE_TEST_BUTTON_TOOLTIP,
-                      onPress: this.handleLampTypeTestButtonClick.bind(this),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      (0, _strings.string)(
-                        this.state.testingLampType ||
-                          _uawmsgs.default.LBL_PREFERENCE_LAMP_TYPE_TEST_BUTTON,
                       ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.preferenceRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: styles.emptyCell,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.labelText,
-                },
-                _uawmsgs.default.LBL_PREFERENCE_BELL_AUDIO_TARGET,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.controlContainer,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.bellAudioTargetContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DropDownMenu.default,
-                    {
-                      uiData: props.uiData,
-                      style: styles.brBellAudioTargetMenu,
-                      text: this.getDeviceLabel({
-                        deviceId: preferenceWork.bellAudioTarget,
-                        kind: 'audiooutput',
-                      }),
-                    },
-                    this.state.devices
-                      .filter(function (device) {
-                        return device.kind === 'audiooutput'
-                      })
-                      .map(function (device) {
-                        return /*#__PURE__*/ _react.default.createElement(
-                          _MenuItem.default,
-                          {
-                            key: device.deviceId,
-                            style: [
-                              styles.brPreferencePanelMenuItem,
-                              styles.brBellAudioTargetItem,
-                            ],
-                            dropDown: true,
-                            onPress: _this5.changePreferenceWork.bind(
-                              _this5,
-                              'bellAudioTarget',
-                              function () {
-                                return device.deviceId
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_NO_VIDEO_MODE,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _DropDownMenu.default,
+                        {
+                          uiData: props.uiData,
+                          style: styles.brNoVideoModeMenu,
+                          text:
+                            preferenceWork.noVideoMode === 'CONFERENCE'
+                              ? _uawmsgs.default
+                                  .LBL_PREFERENCE_NO_VIDEO_MODE_CONFERENCE
+                              : preferenceWork.noVideoMode === '.*'
+                                ? _uawmsgs.default
+                                    .LBL_PREFERENCE_NO_VIDEO_MODE_SOUND
+                                : _uawmsgs.default
+                                    .LBL_PREFERENCE_NO_VIDEO_MODE_DISPLAY,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuItem.default,
+                              {
+                                style: [
+                                  styles.brPreferencePanelMenuItem,
+                                  styles.brNoVideoModeItem,
+                                ],
+                                dropDown: true,
+                                onPress: this.changePreferenceWork.bind(
+                                  this,
+                                  'noVideoMode',
+                                  function () {
+                                    return ''
+                                  },
+                                ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_NO_VIDEO_MODE_DISPLAY,
+                                  },
+                                ),
                               },
                             ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuItem.default,
+                              {
+                                style: [
+                                  styles.brPreferencePanelMenuItem,
+                                  styles.brNoVideoModeItem,
+                                ],
+                                dropDown: true,
+                                onPress: this.changePreferenceWork.bind(
+                                  this,
+                                  'noVideoMode',
+                                  function () {
+                                    return 'CONFERENCE'
+                                  },
+                                ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_NO_VIDEO_MODE_CONFERENCE,
+                                  },
+                                ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuItem.default,
+                              {
+                                style: [
+                                  styles.brPreferencePanelMenuItem,
+                                  styles.brNoVideoModeItem,
+                                ],
+                                dropDown: true,
+                                onPress: this.changePreferenceWork.bind(
+                                  this,
+                                  'noVideoMode',
+                                  function () {
+                                    return '.*'
+                                  },
+                                ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_NO_VIDEO_MODE_SOUND,
+                                  },
+                                ),
+                              },
+                            ),
+                          ],
+                        },
+                      ),
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_AUDIO_SOURCE,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                          style: styles.audioSourceContainer,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _DropDownMenu.default,
+                              {
+                                uiData: props.uiData,
+                                style: styles.brAudioSourceMenu,
+                                text: this.getDeviceLabel({
+                                  deviceId: preferenceWork.audioSource,
+                                  kind: 'audioinput',
+                                }),
+                                children: this.state.devices
+                                  .filter(function (device) {
+                                    return device.kind === 'audioinput'
+                                  })
+                                  .map(function (device) {
+                                    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _MenuItem.default,
+                                      {
+                                        style: [
+                                          styles.brPreferencePanelMenuItem,
+                                          styles.brAudioSourceItem,
+                                        ],
+                                        dropDown: true,
+                                        onPress:
+                                          _this5.changePreferenceWork.bind(
+                                            _this5,
+                                            'audioSource',
+                                            function () {
+                                              return device.deviceId
+                                            },
+                                          ),
+                                        children: /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsx)(_reactNative.Text, {
+                                          children:
+                                            _this5.getDeviceLabel(device),
+                                        }),
+                                      },
+                                      device.deviceId,
+                                    )
+                                  }),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonLabeled.default,
+                              {
+                                style: styles.brAudioSourceTestButton,
+                                ghost: true,
+                                title: this.state.testingAudioSource
+                                  ? _uawmsgs.default
+                                      .LBL_PREFERENCE_AUDIO_SOURCE_STOP_BUTTON_TOOLTIP
+                                  : _uawmsgs.default
+                                      .LBL_PREFERENCE_AUDIO_SOURCE_TEST_BUTTON_TOOLTIP,
+                                onPress:
+                                  this.handleAudioSourceTestButtonClick.bind(
+                                    this,
+                                  ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children: this.state.testingAudioSource
+                                      ? _uawmsgs.default
+                                          .LBL_PREFERENCE_AUDIO_SOURCE_STOP_BUTTON
+                                      : _uawmsgs.default
+                                          .LBL_PREFERENCE_AUDIO_SOURCE_TEST_BUTTON,
+                                  },
+                                ),
+                              },
+                            ),
+                          ],
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [
+                            styles.brAudioSourceTestArea,
+                            this.state.testingAudioSource && styles.brTesting,
+                          ],
+                          children:
+                            this.state.testingAudioSource &&
+                            this.state.testingAudioSource.analyser
+                              ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _CallMicrophoneLevel.default,
+                                  {
+                                    uiData: props.uiData,
+                                    analyser:
+                                      this.state.testingAudioSource.analyser,
+                                  },
+                                )
+                              : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children: (0, _strings.string)(
+                                      this.state.testingAudioSource &&
+                                        (this.state.testingAudioSource
+                                          .message ||
+                                          _uawmsgs.default
+                                            .MSG_PREFERENCE_AUDIO_SOURCE_TESTING),
+                                    ),
+                                  },
+                                ),
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_VIDEO_SOURCE,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: [
+                        /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                          style: styles.videoSourceContainer,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _DropDownMenu.default,
+                              {
+                                uiData: props.uiData,
+                                style: styles.brVideoSourceMenu,
+                                text: this.getDeviceLabel({
+                                  deviceId: preferenceWork.videoSource,
+                                  kind: 'videoinput',
+                                }),
+                                children: this.state.devices
+                                  .filter(function (device) {
+                                    return device.kind === 'videoinput'
+                                  })
+                                  .map(function (device) {
+                                    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _MenuItem.default,
+                                      {
+                                        style: [
+                                          styles.brPreferencePanelMenuItem,
+                                          styles.brVideoSourceItem,
+                                        ],
+                                        dropDown: true,
+                                        onPress:
+                                          _this5.changePreferenceWork.bind(
+                                            _this5,
+                                            'videoSource',
+                                            function () {
+                                              return device.deviceId
+                                            },
+                                          ),
+                                        children: /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsx)(_reactNative.Text, {
+                                          children:
+                                            _this5.getDeviceLabel(device),
+                                        }),
+                                      },
+                                      device.deviceId,
+                                    )
+                                  }),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonLabeled.default,
+                              {
+                                style: styles.brVideoSourceTestButton,
+                                ghost: true,
+                                title: this.state.testingVideoSource
+                                  ? _uawmsgs.default
+                                      .LBL_PREFERENCE_VIDEO_SOURCE_STOP_BUTTON_TOOLTIP
+                                  : _uawmsgs.default
+                                      .LBL_PREFERENCE_VIDEO_SOURCE_TEST_BUTTON_TOOLTIP,
+                                onPress:
+                                  this.handleVideoSourceTestButtonClick.bind(
+                                    this,
+                                  ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children: this.state.testingVideoSource
+                                      ? _uawmsgs.default
+                                          .LBL_PREFERENCE_VIDEO_SOURCE_STOP_BUTTON
+                                      : _uawmsgs.default
+                                          .LBL_PREFERENCE_VIDEO_SOURCE_TEST_BUTTON,
+                                  },
+                                ),
+                              },
+                            ),
+                          ],
+                        }),
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          ref: this.videoSourceTestAreaRef,
+                          style: [
+                            styles.brVideoSourceTestArea,
+                            {
+                              minWidth:
+                                this.state.preferenceContentLayout.width - 32,
+                              width: '100%',
+                              height: this.state.testingVideoSource
+                                ? (this.state.preferenceContentLayout.height +
+                                    88) /
+                                  2
+                                : 0,
+                            },
+                          ],
+                          onLayout: function onLayout(event) {
+                            var _event$nativeEvent$la2 =
+                                event.nativeEvent.layout,
+                              width = _event$nativeEvent$la2.width,
+                              height = _event$nativeEvent$la2.height
+                            _this5.setState({
+                              videoTestAreaLayout: {
+                                width: width,
+                                height: height,
+                              },
+                            })
                           },
-                          /*#__PURE__*/ _react.default.createElement(
-                            _reactNative.Text,
-                            null,
-                            _this5.getDeviceLabel(device),
-                          ),
-                        )
+                          children:
+                            this.state.testingVideoSource &&
+                            this.state.testingVideoSource.streamObject
+                              ? /*#__PURE__*/ (0, _jsxRuntime.jsx)('video', {
+                                  ref: function ref(video) {
+                                    if (video) {
+                                      video.srcObject = p.sourceObject
+                                      _this5.videoSourceTestVideoRef = video
+                                    }
+                                  },
+                                  style: styles.brVideoSourceTestVideo,
+                                })
+                              : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    style: styles.testMessage,
+                                    children: (0, _strings.string)(
+                                      this.state.testingVideoSource &&
+                                        this.state.testingVideoSource.message,
+                                    ),
+                                  },
+                                ),
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children: _uawmsgs.default.LBL_PREFERENCE_LAMP_TYPE,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _reactNative.View,
+                        {
+                          style: styles.lampTypeContainer,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _DropDownMenu.default,
+                              {
+                                uiData: props.uiData,
+                                style: styles.brLampTypeMenu,
+                                text:
+                                  lampTypeNameDisplayTable[
+                                    (0, _strings.string)(
+                                      preferenceWork.lampTypeName,
+                                    )
+                                  ] ||
+                                  (0, _strings.string)(
+                                    preferenceWork.lampTypeName,
+                                  ),
+                                children: (preferenceWork.lampTypes || []).map(
+                                  function (type) {
+                                    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _MenuItem.default,
+                                      {
+                                        style: [
+                                          styles.brPreferencePanelMenuItem,
+                                          styles.brLampTypeItem,
+                                        ],
+                                        dropDown: true,
+                                        onPress:
+                                          _this5.changePreferenceWork.bind(
+                                            _this5,
+                                            'lampTypeName',
+                                            function () {
+                                              return (0, _strings.string)(
+                                                type.name,
+                                              )
+                                            },
+                                          ),
+                                        children: /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsx)(_reactNative.Text, {
+                                          children:
+                                            lampTypeNameDisplayTable[
+                                              (0, _strings.string)(type.name)
+                                            ] ||
+                                            (0, _strings.string)(type.name),
+                                        }),
+                                      },
+                                      (0, _strings.string)(type.name),
+                                    )
+                                  },
+                                ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonLabeled.default,
+                              {
+                                style: styles.brLampTypeTestButton,
+                                disabled: this.state.testingLampType,
+                                ghost: true,
+                                title: this.state.testingLampType
+                                  ? ''
+                                  : _uawmsgs.default
+                                      .LBL_PREFERENCE_LAMP_TYPE_TEST_BUTTON_TOOLTIP,
+                                onPress:
+                                  this.handleLampTypeTestButtonClick.bind(this),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children: (0, _strings.string)(
+                                      this.state.testingLampType ||
+                                        _uawmsgs.default
+                                          .LBL_PREFERENCE_LAMP_TYPE_TEST_BUTTON,
+                                    ),
+                                  },
+                                ),
+                              },
+                            ),
+                          ],
+                        },
+                      ),
+                    }),
+                  ],
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.preferenceRow,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.emptyCell,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.labelText,
+                      children:
+                        _uawmsgs.default.LBL_PREFERENCE_BELL_AUDIO_TARGET,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.controlContainer,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _reactNative.View,
+                        {
+                          style: styles.bellAudioTargetContainer,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _DropDownMenu.default,
+                              {
+                                uiData: props.uiData,
+                                style: styles.brBellAudioTargetMenu,
+                                text: this.getDeviceLabel({
+                                  deviceId: preferenceWork.bellAudioTarget,
+                                  kind: 'audiooutput',
+                                }),
+                                children: this.state.devices
+                                  .filter(function (device) {
+                                    return device.kind === 'audiooutput'
+                                  })
+                                  .map(function (device) {
+                                    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                      _MenuItem.default,
+                                      {
+                                        style: [
+                                          styles.brPreferencePanelMenuItem,
+                                          styles.brBellAudioTargetItem,
+                                        ],
+                                        dropDown: true,
+                                        onPress:
+                                          _this5.changePreferenceWork.bind(
+                                            _this5,
+                                            'bellAudioTarget',
+                                            function () {
+                                              return device.deviceId
+                                            },
+                                          ),
+                                        children: /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsx)(_reactNative.Text, {
+                                          children:
+                                            _this5.getDeviceLabel(device),
+                                        }),
+                                      },
+                                      device.deviceId,
+                                    )
+                                  }),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _ButtonLabeled.default,
+                              {
+                                style: styles.brBellAudioTargetTestButton,
+                                ghost: true,
+                                title:
+                                  _uawmsgs.default
+                                    .LBL_PREFERENCE_BELL_AUDIO_TARGET_TEST_BUTTON_TOOLTIP,
+                                onPress:
+                                  this.handleBellAudioTargetTestButtonClick.bind(
+                                    this,
+                                  ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children:
+                                      _uawmsgs.default
+                                        .LBL_PREFERENCE_BELL_AUDIO_TARGET_TEST_BUTTON,
+                                  },
+                                ),
+                              },
+                            ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MultipleAudio.default,
+                              {
+                                ref: this.bellAudioTargetTestMultipleAudioRef,
+                                uiData: props.uiData,
+                                style:
+                                  styles.brBellAudioTargetTestMultipleAudio,
+                                audioClassName: 'brBellAudioTargetTestAudio',
+                                src: sound,
+                                deviceId: preferenceWork.bellAudioTarget,
+                              },
+                            ),
+                          ],
+                        },
+                      ),
+                    }),
+                  ],
+                }),
+                !preferenceWork.chatBgColorLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.preferenceRow,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.emptyCell,
                       }),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _ButtonLabeled.default,
-                    {
-                      style: styles.brBellAudioTargetTestButton,
-                      ghost: true,
-                      title:
-                        _uawmsgs.default
-                          .LBL_PREFERENCE_BELL_AUDIO_TARGET_TEST_BUTTON_TOOLTIP,
-                      onPress:
-                        this.handleBellAudioTargetTestButtonClick.bind(this),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      _uawmsgs.default
-                        .LBL_PREFERENCE_BELL_AUDIO_TARGET_TEST_BUTTON,
-                    ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _MultipleAudio.default,
-                    {
-                      ref: this.bellAudioTargetTestMultipleAudioRef,
-                      uiData: props.uiData,
-                      style: styles.brBellAudioTargetTestMultipleAudio,
-                      audioClassName: 'brBellAudioTargetTestAudio',
-                      src: sound,
-                      deviceId: preferenceWork.bellAudioTarget,
-                    },
-                  ),
-                ),
-              ),
-            ),
-            !preferenceWork.chatBgColorLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_CHAT_BG_COLOR,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DropDownMenu.default,
-                    {
-                      uiData: props.uiData,
-                      style: styles.brChatBgColorMenu,
-                      disabled: preferenceWork.chatBgColorLocked,
-                      text: !preferenceWork.chatBgColor
-                        ? _uawmsgs.default.LBL_PREFERENCE_CHAT_BG_COLOR_STANDARD
-                        : _uawmsgs.default.LBL_PREFERENCE_CHAT_BG_COLOR_CUSTOM,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _MenuItem.default,
-                      {
-                        style: [
-                          styles.brPreferencePanelMenuItem,
-                          styles.brChatBgColorItem,
-                        ],
-                        dropDown: true,
-                        onPress: function onPress() {
-                          return props.uiData.fire(
-                            'preferenceChatBgColorStandard_onClick',
-                            props.panelType,
-                            props.panelCode,
-                          )
-                        },
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        _uawmsgs.default.LBL_PREFERENCE_CHAT_BG_COLOR_STANDARD,
-                      ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _MenuItem.default,
-                      {
-                        style: [
-                          styles.brPreferencePanelMenuItem,
-                          styles.brChatBgColorItem,
-                        ],
-                        dropDown: true,
-                        onPress: function onPress() {
-                          return props.uiData.fire(
-                            'preferenceChatBgColorCustom_onClick',
-                            props.panelType,
-                            props.panelCode,
-                          )
-                        },
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        _uawmsgs.default.LBL_PREFERENCE_CHAT_BG_COLOR_CUSTOM,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            !preferenceWork.dbgoptLocked &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.preferenceRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.emptyCell,
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.labelText,
-                  },
-                  _uawmsgs.default.LBL_PREFERENCE_DBGOPT,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.controlContainer,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-                    style: styles.brDbgoptInput,
-                    value: (0, _strings.string)(preferenceWork.dbgopt),
-                    onChangeText: function onChangeText(text) {
-                      return _this5.changePreferenceWork('dbgopt', function () {
-                        return (0, _strings.string)(text)
-                      })
-                    },
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children: _uawmsgs.default.LBL_PREFERENCE_CHAT_BG_COLOR,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.controlContainer,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                          _DropDownMenu.default,
+                          {
+                            uiData: props.uiData,
+                            style: styles.brChatBgColorMenu,
+                            disabled: preferenceWork.chatBgColorLocked,
+                            text: !preferenceWork.chatBgColor
+                              ? _uawmsgs.default
+                                  .LBL_PREFERENCE_CHAT_BG_COLOR_STANDARD
+                              : _uawmsgs.default
+                                  .LBL_PREFERENCE_CHAT_BG_COLOR_CUSTOM,
+                            children: [
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _MenuItem.default,
+                                {
+                                  style: [
+                                    styles.brPreferencePanelMenuItem,
+                                    styles.brChatBgColorItem,
+                                  ],
+                                  dropDown: true,
+                                  onPress: function onPress() {
+                                    return props.uiData.fire(
+                                      'preferenceChatBgColorStandard_onClick',
+                                      props.panelType,
+                                      props.panelCode,
+                                    )
+                                  },
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      children:
+                                        _uawmsgs.default
+                                          .LBL_PREFERENCE_CHAT_BG_COLOR_STANDARD,
+                                    },
+                                  ),
+                                },
+                              ),
+                              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _MenuItem.default,
+                                {
+                                  style: [
+                                    styles.brPreferencePanelMenuItem,
+                                    styles.brChatBgColorItem,
+                                  ],
+                                  dropDown: true,
+                                  onPress: function onPress() {
+                                    return props.uiData.fire(
+                                      'preferenceChatBgColorCustom_onClick',
+                                      props.panelType,
+                                      props.panelCode,
+                                    )
+                                  },
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      children:
+                                        _uawmsgs.default
+                                          .LBL_PREFERENCE_CHAT_BG_COLOR_CUSTOM,
+                                    },
+                                  ),
+                                },
+                              ),
+                            ],
+                          },
+                        ),
+                      }),
+                    ],
                   }),
-                ),
-              ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+                !preferenceWork.dbgoptLocked &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: styles.preferenceRow,
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.emptyCell,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.labelText,
+                        children: _uawmsgs.default.LBL_PREFERENCE_DBGOPT,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.controlContainer,
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _TextBox.default,
+                          {
+                            style: styles.brDbgoptInput,
+                            value: (0, _strings.string)(preferenceWork.dbgopt),
+                            onChangeText: function onChangeText(text) {
+                              return _this5.changePreferenceWork(
+                                'dbgopt',
+                                function () {
+                                  return (0, _strings.string)(text)
+                                },
+                              )
+                            },
+                          },
+                        ),
+                      }),
+                    ],
+                  }),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
               style: styles.brPreferenceFooter,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: styles.brSaveButton,
-                disabled: preferenceWork.nowSaving,
-                progress: preferenceWork.nowSaving,
-                vivid: true,
-                title: _uawmsgs.default.CMN_SAVE,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'preferenceSaveButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                _uawmsgs.default.CMN_SAVE,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
-                style: styles.brCloseButton,
-                title: _uawmsgs.default.CMN_CLOSE,
-                onPress: props.uiData.fire.bind(
-                  props.uiData,
-                  'tabLinkHideButton_onClick',
-                  props.panelType,
-                  props.panelCode,
-                ),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                _uawmsgs.default.CMN_CLOSE,
-              ),
-            ),
-          ),
-        )
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
+                  style: styles.brSaveButton,
+                  disabled: preferenceWork.nowSaving,
+                  progress: preferenceWork.nowSaving,
+                  vivid: true,
+                  title: _uawmsgs.default.CMN_SAVE,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'preferenceSaveButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  ),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      children: _uawmsgs.default.CMN_SAVE,
+                    },
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
+                  style: styles.brCloseButton,
+                  title: _uawmsgs.default.CMN_CLOSE,
+                  onPress: props.uiData.fire.bind(
+                    props.uiData,
+                    'tabLinkHideButton_onClick',
+                    props.panelType,
+                    props.panelCode,
+                  ),
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      children: _uawmsgs.default.CMN_CLOSE,
+                    },
+                  ),
+                }),
+              ],
+            }),
+          ],
+        })
       },
     },
   ])

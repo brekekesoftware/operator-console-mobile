@@ -14,6 +14,7 @@ var _ButtonLabeled = _interopRequireDefault(require('./ButtonLabeled'))
 var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
 var _TimerSpan = _interopRequireDefault(require('./TimerSpan'))
 var _SimpleButton = _interopRequireDefault(require('./SimpleButton'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -36,19 +37,32 @@ function _typeof(o) {
     _typeof(o)
   )
 }
-function _extends() {
-  return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
-  )
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
 }
 function _classCallCheck(a, n) {
   if (!(a instanceof n))
@@ -162,8 +176,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * WebchatQueueTable - React Native version
  * A component that displays webchat queue information in a table-like layout
  */
@@ -286,90 +299,87 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
           commandWidth = _this$state2.commandWidth,
           agentWidth = _this$state2.agentWidth,
           nameWidth = _this$state2.nameWidth
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.headerRow,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.headerRow,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.headerCell,
                 {
                   width: commandWidth,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              _extends({}, this.commandPanResponder.panHandlers, {
-                style: styles.resizeHandle,
-              }),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.View,
+                _objectSpread(
+                  _objectSpread({}, this.commandPanResponder.panHandlers),
+                  {},
+                  {
+                    style: styles.resizeHandle,
+                  },
+                ),
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
               style: [
                 styles.headerCell,
                 {
                   width: agentWidth,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: styles.headerText,
-              },
-              _uawmsgs.default.LBL_WEBCHAT_QUEUE_TABLE_AGENT_COLUMN,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              _extends({}, this.agentPanResponder.panHandlers, {
-                style: styles.resizeHandle,
-              }),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: styles.headerText,
+                  children:
+                    _uawmsgs.default.LBL_WEBCHAT_QUEUE_TABLE_AGENT_COLUMN,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.View,
+                  _objectSpread(
+                    _objectSpread({}, this.agentPanResponder.panHandlers),
+                    {},
+                    {
+                      style: styles.resizeHandle,
+                    },
+                  ),
+                ),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
               style: [
                 styles.headerCell,
                 {
                   width: nameWidth,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: styles.headerText,
-              },
-              _uawmsgs.default.LBL_WEBCHAT_QUEUE_TABLE_NAME_COLUMN,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              _extends({}, this.namePanResponder.panHandlers, {
-                style: styles.resizeHandle,
-              }),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: styles.headerText,
+                  children:
+                    _uawmsgs.default.LBL_WEBCHAT_QUEUE_TABLE_NAME_COLUMN,
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.View,
+                  _objectSpread(
+                    _objectSpread({}, this.namePanResponder.panHandlers),
+                    {},
+                    {
+                      style: styles.resizeHandle,
+                    },
+                  ),
+                ),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: styles.headerCell,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
                 style: styles.headerText,
-              },
-              _uawmsgs.default.LBL_WEBCHAT_QUEUE_TABLE_MESSAGE_COLUMN,
-            ),
-          ),
-        )
+                children:
+                  _uawmsgs.default.LBL_WEBCHAT_QUEUE_TABLE_MESSAGE_COLUMN,
+              }),
+            }),
+          ],
+        })
       },
     },
     {
@@ -386,7 +396,7 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
         )
         var agent = null
         if (webchatQueue.assigned.user_id) {
-          agent = /*#__PURE__*/ _react.default.createElement(
+          agent = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _NameEmbeddedSpan.default,
             {
               ucUiStore: props.uiData.ucUiStore,
@@ -399,12 +409,9 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
           webchatQueue.conf_status ===
           _constants.default.CONF_STATUS_INVITED_WEBCHAT
         ) {
-          agent = /*#__PURE__*/ _react.default.createElement(
-            _TimerSpan.default,
-            {
-              baseTime: webchatQueue.baseTime,
-            },
-          )
+          agent = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_TimerSpan.default, {
+            baseTime: webchatQueue.baseTime,
+          })
         }
         var profinfo = (0, _strings.string)(
           webchatQueue.webchatinfo.profinfo_formatted,
@@ -432,70 +439,59 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
             '\n'
           )
         }, '')
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
           _reactNative.View,
           {
-            key: webchatQueue.conf_id,
             style: styles.row,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: [
+                  styles.cell,
+                  {
+                    width: commandWidth,
+                  },
+                ],
+                children: this.renderCommandButtons(webchatQueue),
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: [
+                  styles.cell,
+                  {
+                    width: agentWidth,
+                  },
+                ],
+                children: agent,
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: [
+                  styles.cell,
+                  {
+                    width: nameWidth,
+                  },
+                ],
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.Text,
+                  {
+                    numberOfLines: lines,
+                    style: styles.profinfoText,
+                    children: profinfoLines.join('\n'),
+                  },
+                ),
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                style: styles.cell,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    numberOfLines: lines,
+                    style: styles.messageText,
+                    children: messageTextLines.join('\n'),
+                  }),
+                  this.renderHideButton(webchatQueue),
+                ],
+              }),
+            ],
           },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [
-                styles.cell,
-                {
-                  width: commandWidth,
-                },
-              ],
-            },
-            this.renderCommandButtons(webchatQueue),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [
-                styles.cell,
-                {
-                  width: agentWidth,
-                },
-              ],
-            },
-            agent,
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [
-                styles.cell,
-                {
-                  width: nameWidth,
-                },
-              ],
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                numberOfLines: lines,
-                style: styles.profinfoText,
-              },
-              profinfoLines.join('\n'),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.cell,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                numberOfLines: lines,
-                style: styles.messageText,
-              },
-              messageTextLines.join('\n'),
-            ),
-            this.renderHideButton(webchatQueue),
-          ),
+          webchatQueue.conf_id,
         )
       },
     },
@@ -507,14 +503,10 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
           webchatQueue.conf_status ===
           _constants.default.CONF_STATUS_INVITED_WEBCHAT
         if (props.bigStyle) {
-          return /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.commandButtons,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
+          return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+            style: styles.commandButtons,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
                 style: styles.commandButton,
                 title: isInvited
                   ? _uawmsgs.default.LBL_WEBCHAT_ROOM_CHAT_BUTON_TOOLTIP
@@ -530,14 +522,11 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
                     webchatQueue.conf_id,
                   )
                 },
-              },
-              isInvited
-                ? _uawmsgs.default.LBL_WEBCHAT_ROOM_CHAT_BUTON
-                : _uawmsgs.default.LBL_WEBCHAT_ROOM_SHOW_BUTON,
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonLabeled.default,
-              {
+                children: isInvited
+                  ? _uawmsgs.default.LBL_WEBCHAT_ROOM_CHAT_BUTON
+                  : _uawmsgs.default.LBL_WEBCHAT_ROOM_SHOW_BUTON,
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
                 style: styles.commandButton,
                 title: _uawmsgs.default.LBL_WEBCHAT_ROOM_JOIN_BUTON_TOOLTIP,
                 disabled:
@@ -549,19 +538,15 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
                     webchatQueue.conf_id,
                   )
                 },
-              },
-              _uawmsgs.default.LBL_WEBCHAT_ROOM_JOIN_BUTON,
-            ),
-          )
+                children: _uawmsgs.default.LBL_WEBCHAT_ROOM_JOIN_BUTON,
+              }),
+            ],
+          })
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.commandButtons,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _SimpleButton.default,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.commandButtons,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_SimpleButton.default, {
               style: [
                 styles.simpleButton,
                 isInvited ? styles.chatButton : styles.showButton,
@@ -579,18 +564,15 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
                   webchatQueue.conf_id,
                 )
               },
-            },
-            isInvited
-              ? /*#__PURE__*/ _react.default.createElement(Image, {
-                  source: require('../images/webchatroomchat.png'),
-                })
-              : /*#__PURE__*/ _react.default.createElement(Image, {
-                  source: require('../images/webchatroomshow.png'),
-                }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _SimpleButton.default,
-            {
+              children: isInvited
+                ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(Image, {
+                    source: require('../images/webchatroomchat.png'),
+                  })
+                : /*#__PURE__*/ (0, _jsxRuntime.jsx)(Image, {
+                    source: require('../images/webchatroomshow.png'),
+                  }),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_SimpleButton.default, {
               style: [styles.simpleButton, styles.joinButton],
               title: _uawmsgs.default.LBL_WEBCHAT_ROOM_JOIN_BUTON_TOOLTIP,
               disabled:
@@ -602,12 +584,12 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
                   webchatQueue.conf_id,
                 )
               },
-            },
-            /*#__PURE__*/ _react.default.createElement(Image, {
-              source: require('../images/webchatroomjoin.png'),
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(Image, {
+                source: require('../images/webchatroomjoin.png'),
+              }),
             }),
-          ),
-        )
+          ],
+        })
       },
     },
     {
@@ -618,20 +600,17 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
           props.uiData.configurations.queueAll &&
           webchatQueue.conf_status === _constants.default.CONF_STATUS_INACTIVE
         ) {
-          return /*#__PURE__*/ _react.default.createElement(
-            _ButtonIconic.default,
-            {
-              style: styles.hideButton,
-              iconName: 'close',
-              title: _uawmsgs.default.LBL_WEBCHAT_ROOM_HIDE_BUTON_TOOLTIP,
-              onPress: function onPress() {
-                return props.uiData.fire(
-                  'webchatRoomHideButton_onClick',
-                  webchatQueue.conf_id,
-                )
-              },
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+            style: styles.hideButton,
+            iconName: 'close',
+            title: _uawmsgs.default.LBL_WEBCHAT_ROOM_HIDE_BUTON_TOOLTIP,
+            onPress: function onPress() {
+              return props.uiData.fire(
+                'webchatRoomHideButton_onClick',
+                webchatQueue.conf_id,
+              )
             },
-          )
+          })
         }
         return null
       },
@@ -663,25 +642,22 @@ var WebchatQueueTable = (exports.default = /*#__PURE__*/ (function (
             )
           })
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.container,
-              props.bigStyle && styles.bigStyle,
-              props.resizerName && styles.columnResizable,
-            ],
-            onLayout: this.onLayout,
-          },
-          this.renderHeader(),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.ScrollView,
-            null,
-            queueList.map(function (queue) {
-              return _this3.renderQueueRow(queue)
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.container,
+            props.bigStyle && styles.bigStyle,
+            props.resizerName && styles.columnResizable,
+          ],
+          onLayout: this.onLayout,
+          children: [
+            this.renderHeader(),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.ScrollView, {
+              children: queueList.map(function (queue) {
+                return _this3.renderQueueRow(queue)
+              }),
             }),
-          ),
-        )
+          ],
+        })
       },
     },
   ])

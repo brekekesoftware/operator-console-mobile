@@ -1,19 +1,16 @@
 import React, { createRef } from 'react'
 import type { ImageSourcePropType } from 'react-native'
 import { Dimensions, Image, Text, View } from 'react-native'
-import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import logo from '../logo.png'
 
 import { Button } from '../common/Button'
 import { ColorPicker } from '../common/ColorPicker'
 import { DropdownOverlay } from '../common/DropdownOverlay'
-import { Input } from '../common/Input'
 import { InputNumber } from '../common/InputNumber'
 import { Notification } from '../common/Notification'
 import { Popconfirm } from '../common/Popconfirm'
-import { Select, SelectOption } from '../common/Select'
+import { Select } from '../common/Select'
 import { Space } from '../common/Space'
 import { BaseDividerData } from '../data/BaseDividerData'
 import { i18n } from '../i18n'
@@ -374,7 +371,7 @@ export class EditScreenView extends React.Component<Props, State> {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
-          height: '100%',
+          flex: 1,
         }}
       >
         <View
@@ -493,7 +490,7 @@ export class EditScreenView extends React.Component<Props, State> {
         <View
           style={{
             display: 'flex',
-            height: Dimensions.get('screen').height - 47,
+            height: Dimensions.get('window').height - 47,
             flexDirection: 'row',
           }}
         >

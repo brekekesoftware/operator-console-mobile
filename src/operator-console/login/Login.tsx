@@ -239,6 +239,7 @@ class LoginC extends React.Component<Props, State> {
                 width={158}
                 height={39}
                 source={Logo as ImageSourcePropType}
+                style={{ width: 158, height: 39 }}
               />
               <View
                 style={{

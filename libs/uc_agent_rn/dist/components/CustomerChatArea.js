@@ -10,6 +10,7 @@ var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _ButtonLabeled = _interopRequireDefault(require('./ButtonLabeled'))
 var _ChatTyping = _interopRequireDefault(require('./ChatTyping'))
 var _ChatList = _interopRequireDefault(require('./ChatList'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -302,14 +303,10 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var showReconnectButton =
           props.uiData.ucUiStore.getSignInStatus() === 0 &&
           (props.uiData.ucUiStore.getLastSignOutReason() || {}).reSignInTime
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: containerStyles,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.ScrollView,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: containerStyles,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.ScrollView, {
               ref: this.scrollViewRef,
               style: styles.scrollView,
               contentContainerStyle: styles.scrollContent,
@@ -318,26 +315,27 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               onTouchStart: this.handleTouchStart,
               onTouchMove: this.handleTouchMove,
               onTouchEnd: this.handleTouchEnd,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.TouchableWithoutFeedback,
-              {
-                onPress: this.handlePress,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                null,
-                /*#__PURE__*/ _react.default.createElement(_ChatList.default, {
-                  uiData: props.uiData,
-                  panelType: props.panelType,
-                  panelCode: props.panelCode,
-                }),
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.TouchableWithoutFeedback,
+                {
+                  onPress: this.handlePress,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ChatList.default,
+                        {
+                          uiData: props.uiData,
+                          panelType: props.panelType,
+                          panelCode: props.panelCode,
+                        },
+                      ),
+                    },
+                  ),
+                },
               ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _ButtonLabeled.default,
-            {
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
               hidden: !showReconnectButton,
               vivid: true,
               title:
@@ -349,15 +347,15 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   props.panelCode,
                 )
               },
-            },
-            _uawmsgs.default.LBL_CUSTOMER_CHAT_RECONNECT_BUTTON,
-          ),
-          /*#__PURE__*/ _react.default.createElement(_ChatTyping.default, {
-            uiData: props.uiData,
-            panelType: props.panelType,
-            panelCode: props.panelCode,
-          }),
-        )
+              children: _uawmsgs.default.LBL_CUSTOMER_CHAT_RECONNECT_BUTTON,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatTyping.default, {
+              uiData: props.uiData,
+              panelType: props.panelType,
+              panelCode: props.panelCode,
+            }),
+          ],
+        })
       },
     },
   ])

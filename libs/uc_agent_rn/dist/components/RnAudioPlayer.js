@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.RnAudioPlayer = void 0
 var _reactNative = require('react-native')
 var _reactNativeVideo = _interopRequireDefault(require('react-native-video'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -21,7 +22,7 @@ var css = _reactNative.StyleSheet.create({
 })
 var RnAudioPlayer = (exports.RnAudioPlayer = function RnAudioPlayer(_ref) {
   var source = _ref.source
-  return /*#__PURE__*/ React.createElement(_reactNativeVideo.default, {
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeVideo.default, {
     source: source,
     style: css.video,
   })

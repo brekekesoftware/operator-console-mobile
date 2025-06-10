@@ -11,6 +11,7 @@ var _strings = require('../utilities/strings')
 var _DropDownMenu = _interopRequireDefault(require('./DropDownMenu'))
 var _MenuItem = _interopRequireDefault(require('./MenuItem'))
 var _TextBox = _interopRequireDefault(require('./TextBox'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -145,8 +146,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * OutgoingWebchatForm
  * props.uiData
  * props.params
@@ -270,126 +270,106 @@ var OutgoingWebchatForm = (exports.default = /*#__PURE__*/ (function (
           _props$params5 === void 0
             ? void 0
             : _props$params5[this.state.replyType]) || []
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.brOutgoingWebchatForm,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brOutgoingWebchatTable,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: styles.brOutgoingWebchatForm,
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+            style: styles.brOutgoingWebchatTable,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: styles.tableRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.brOutgoingWebchatLabelCell,
-                },
-                _uawmsgs.default.LBL_OUTGOING_WEBCHAT_REPLY_TYPE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.brOutgoingWebchatInputCell,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _DropDownMenu.default,
-                  {
-                    uiData: props.uiData,
-                    style: styles.brOutgoingWebchatReplyTypeMenu,
-                    text: this.state.replyType,
-                  },
-                  replyTypes.map(function (replyType) {
-                    return /*#__PURE__*/ _react.default.createElement(
-                      _MenuItem.default,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.brOutgoingWebchatLabelCell,
+                    children: _uawmsgs.default.LBL_OUTGOING_WEBCHAT_REPLY_TYPE,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: styles.brOutgoingWebchatInputCell,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _DropDownMenu.default,
                       {
-                        key: replyType,
-                        style: [
-                          styles.brOutgoingWebchatFormMenuItem,
-                          styles.brOutgoingWebchatReplyTypeItem,
-                        ],
-                        dropDown: true,
-                        onPress: function onPress() {
-                          return _this4.handleOutgoingWebchatReplyTypeItemClick(
+                        uiData: props.uiData,
+                        style: styles.brOutgoingWebchatReplyTypeMenu,
+                        text: this.state.replyType,
+                        children: replyTypes.map(function (replyType) {
+                          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _MenuItem.default,
+                            {
+                              style: [
+                                styles.brOutgoingWebchatFormMenuItem,
+                                styles.brOutgoingWebchatReplyTypeItem,
+                              ],
+                              dropDown: true,
+                              onPress: function onPress() {
+                                return _this4.handleOutgoingWebchatReplyTypeItemClick(
+                                  replyType,
+                                )
+                              },
+                              children: replyType,
+                            },
                             replyType,
                           )
-                        },
+                        }),
                       },
-                      replyType,
-                    )
+                    ),
                   }),
-                ),
-              ),
-            ),
-            webchatServiceIds.length >= 2 &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
+                ],
+              }),
+              webchatServiceIds.length >= 2 &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                   style: styles.tableRow,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brOutgoingWebchatLabelCell,
-                  },
-                  _uawmsgs.default.LBL_OUTGOING_WEBCHAT_SERVICE_ID,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: styles.brOutgoingWebchatInputCell,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DropDownMenu.default,
-                    {
-                      uiData: props.uiData,
-                      style: styles.brOutgoingWebchatServiceIdMenu,
-                      text: this.state.serviceId,
-                    },
-                    webchatServiceIds.map(function (serviceId) {
-                      return /*#__PURE__*/ _react.default.createElement(
-                        _MenuItem.default,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: styles.brOutgoingWebchatLabelCell,
+                      children:
+                        _uawmsgs.default.LBL_OUTGOING_WEBCHAT_SERVICE_ID,
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.brOutgoingWebchatInputCell,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _DropDownMenu.default,
                         {
-                          key: serviceId,
-                          style: [
-                            styles.brOutgoingWebchatFormMenuItem,
-                            styles.brOutgoingWebchatServiceIdItem,
-                          ],
-                          dropDown: true,
-                          onPress: function onPress() {
-                            return _this4.handleOutgoingWebchatServiceIdItemClick(
+                          uiData: props.uiData,
+                          style: styles.brOutgoingWebchatServiceIdMenu,
+                          text: this.state.serviceId,
+                          children: webchatServiceIds.map(function (serviceId) {
+                            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _MenuItem.default,
+                              {
+                                style: [
+                                  styles.brOutgoingWebchatFormMenuItem,
+                                  styles.brOutgoingWebchatServiceIdItem,
+                                ],
+                                dropDown: true,
+                                onPress: function onPress() {
+                                  return _this4.handleOutgoingWebchatServiceIdItemClick(
+                                    serviceId,
+                                  )
+                                },
+                                children: serviceId,
+                              },
                               serviceId,
                             )
-                          },
+                          }),
                         },
-                        serviceId,
-                      )
+                      ),
                     }),
-                  ),
-                ),
-              ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+                  ],
+                }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: styles.tableRow,
-              },
-              /*#__PURE__*/ _react.default.createElement(_TextBox.default, {
-                ref: this.outgoingWebchatTextInputRef,
-                style: styles.brOutgoingWebchatTextInput,
-                value: this.state.text,
-                placeholder:
-                  _uawmsgs.default.LBL_OUTGOING_WEBCHAT_TEXT_PLACEHOLDER,
-                autoCapitalize: 'none',
-                onChangeText: this.handleOutgoingWebchatTextInputChange,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_TextBox.default, {
+                  ref: this.outgoingWebchatTextInputRef,
+                  style: styles.brOutgoingWebchatTextInput,
+                  value: this.state.text,
+                  placeholder:
+                    _uawmsgs.default.LBL_OUTGOING_WEBCHAT_TEXT_PLACEHOLDER,
+                  autoCapitalize: 'none',
+                  onChangeText: this.handleOutgoingWebchatTextInputChange,
+                }),
               }),
-            ),
-          ),
-        )
+            ],
+          }),
+        })
       },
     },
   ])

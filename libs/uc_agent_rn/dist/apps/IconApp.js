@@ -34,6 +34,7 @@ var _WebchatPickupButton = _interopRequireDefault(
 var _SearchDialogButton = _interopRequireDefault(
   require('../components/SearchDialogButton'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -136,8 +137,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * IconApp
  * props.uiData
  * props.iconName
@@ -158,49 +158,40 @@ var IconApp = /*#__PURE__*/ (function (_React$Component) {
           iconName = _this$props.iconName,
           iconDisabled = _this$props.iconDisabled
         if (iconName === 'webchatqueue') {
-          return /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [styles.brUCAgentApp, styles.brIconApp],
-            },
-            /*#__PURE__*/ _react.default.createElement(
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+            style: [styles.brUCAgentApp, styles.brIconApp],
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _WebchatQueueButton.default,
               {
                 uiData: uiData,
                 disabled: iconDisabled,
               },
             ),
-          )
+          })
         } else if (iconName === 'webchatpickup') {
-          return /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [styles.brUCAgentApp, styles.brIconApp],
-            },
-            /*#__PURE__*/ _react.default.createElement(
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+            style: [styles.brUCAgentApp, styles.brIconApp],
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _WebchatPickupButton.default,
               {
                 uiData: uiData,
                 disabled: iconDisabled,
               },
             ),
-          )
+          })
         } else if (iconName === 'search') {
-          return /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [styles.brUCAgentApp, styles.brIconApp],
-            },
-            /*#__PURE__*/ _react.default.createElement(
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+            style: [styles.brUCAgentApp, styles.brIconApp],
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _SearchDialogButton.default,
               {
                 uiData: uiData,
                 disabled: iconDisabled,
               },
             ),
-          )
+          })
         } else {
-          return /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
+          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
             style: [styles.brUCAgentApp, styles.brIconApp],
           })
         }

@@ -25,6 +25,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -127,8 +128,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * Licensebar - React Native version
  * A component that displays license information
  *
@@ -155,23 +155,18 @@ var Licensebar = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         if (isHidden) {
           return null
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [styles.licensebar, this.props.style],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
-              style: styles.licensebarMessage,
-              numberOfLines: 2,
-              ellipsizeMode: 'tail',
-            },
-            props.uiData.configurations.licenseMessage +
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [styles.licensebar, this.props.style],
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+            style: styles.licensebarMessage,
+            numberOfLines: 2,
+            ellipsizeMode: 'tail',
+            children:
+              props.uiData.configurations.licenseMessage +
               ' ' +
               props.uiData.licenseMessageAppx,
-          ),
-        )
+          }),
+        })
       },
     },
   ])

@@ -25,6 +25,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.useViewRenderer = exports.ViewRegistryProvider = void 0
 var _react = _interopRequireWildcard(require('react'))
 var _globalRenderer = require('./globalRenderer')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
     var r = new WeakMap(),
@@ -76,17 +77,14 @@ var ViewRegistryProvider = (exports.ViewRegistryProvider =
     ;(0, _react.useEffect)(function () {
       ;(0, _globalRenderer.setGlobalRenderer)(renderTo)
     }, [])
-    return /*#__PURE__*/ _react.default.createElement(
-      ViewRegistryContext.Provider,
-      {
-        value: {
-          register: register,
-          unregister: unregister,
-          renderTo: renderTo,
-        },
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(ViewRegistryContext.Provider, {
+      value: {
+        register: register,
+        unregister: unregister,
+        renderTo: renderTo,
       },
-      children,
-    )
+      children: children,
+    })
   })
 var useViewRenderer = (exports.useViewRenderer = function useViewRenderer() {
   var context = (0, _react.useContext)(ViewRegistryContext)

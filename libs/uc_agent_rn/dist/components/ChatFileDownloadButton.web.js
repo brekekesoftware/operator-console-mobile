@@ -8,6 +8,7 @@ var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _constants = _interopRequireDefault(require('../utilities/constants'))
 var _DownloadIcon = _interopRequireDefault(require('../icons/DownloadIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -608,12 +609,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         ]
         var iconStyles = [styles.icon, !isEnabled && styles.iconDisabled]
         var textStyles = [styles.fileName, isEnabled && styles.fileNameEnabled]
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.container,
-          },
-          /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: styles.container,
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
             _reactNative.TouchableOpacity,
             {
               onPress: this.handleDownload,
@@ -621,27 +619,23 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               onPressOut: this.handlePressOut,
               disabled: !isEnabled || isUnclickable,
               style: buttonStyles,
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                  style: iconStyles,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _DownloadIcon.default,
+                    {},
+                  ),
+                }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                  style: textStyles,
+                  numberOfLines: 1,
+                  children: messageFile.name,
+                }),
+              ],
             },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: iconStyles,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _DownloadIcon.default,
-                null,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              {
-                style: textStyles,
-                numberOfLines: 1,
-              },
-              messageFile.name,
-            ),
           ),
-        )
+        })
       },
     },
   ])

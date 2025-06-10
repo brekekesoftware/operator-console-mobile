@@ -25,6 +25,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNativeSvg = _interopRequireWildcard(require('react-native-svg'))
+var _jsxRuntime = require('react/jsx-runtime')
 var _excluded = ['width', 'height', 'color']
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
@@ -56,19 +57,59 @@ function _interopRequireWildcard(e, t) {
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
-function _extends() {
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
+}
+function _defineProperty(e, r, t) {
   return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
+    (r = _toPropertyKey(r)) in e
+      ? Object.defineProperty(e, r, {
+          value: t,
+          enumerable: !0,
+          configurable: !0,
+          writable: !0,
+        })
+      : (e[r] = t),
+    e
   )
+}
+function _toPropertyKey(t) {
+  var i = _toPrimitive(t, 'string')
+  return 'symbol' == _typeof(i) ? i : i + ''
+}
+function _toPrimitive(t, r) {
+  if ('object' != _typeof(t) || !t) return t
+  var e = t[Symbol.toPrimitive]
+  if (void 0 !== e) {
+    var i = e.call(t, r || 'default')
+    if ('object' != _typeof(i)) return i
+    throw new TypeError('@@toPrimitive must return a primitive value.')
+  }
+  return ('string' === r ? String : Number)(t)
 }
 function _objectWithoutProperties(e, t) {
   if (null == e) return {}
@@ -103,76 +144,82 @@ var ShareAndroidIcon = function ShareAndroidIcon(_ref) {
     _ref$color = _ref.color,
     color = _ref$color === void 0 ? '#212121' : _ref$color,
     props = _objectWithoutProperties(_ref, _excluded)
-  return /*#__PURE__*/ _react.default.createElement(
+  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
     _reactNativeSvg.default,
-    _extends(
-      {
-        width: width,
-        height: height,
-        viewBox: '0 0 24 24',
-      },
-      props,
-    ),
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNativeSvg.Defs,
-      null,
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Path, {
-        id: 'path-1',
-        d: 'M16.6666667,4 C15.3780023,4 14.3333333,5.0745166 14.3333333,6.4 C14.3338086,6.55052039 14.3480497,6.70066103 14.3758684,6.84843752 L8.84179686,10.16875 C8.42028577,9.80147542 7.88575741,9.59993723 7.33333333,9.6 C6.04466892,9.6 5,10.6745166 5,12 C5,13.3254834 6.04466892,14.4 7.33333333,14.4 C7.884904,14.398887 8.41825821,14.196832 8.8387587,13.8296872 L14.3758684,17.1515624 C14.3480497,17.2993389 14.3338086,17.4494796 14.3333333,17.6 C14.3333333,18.9254834 15.3780023,20 16.6666667,20 C17.9553311,20 19,18.9254834 19,17.6 C19,16.2745166 17.9553311,15.2 16.6666667,15.2 C16.1145734,15.2007436 15.5806212,15.4028212 15.1597222,15.7703128 L9.62413194,12.4484376 C9.65195056,12.3006611 9.66619154,12.1505204 9.66666667,12 C9.66619154,11.8494796 9.65195056,11.6993389 9.62413194,11.5515624 L15.1582032,8.23125 C15.5797143,8.59852456 16.1142426,8.80006275 16.6666667,8.8 C17.9553311,8.8 19,7.7254834 19,6.4 C19,5.0745166 17.9553311,4 16.6666667,4 Z',
-      }),
-      /*#__PURE__*/ _react.default.createElement(
-        _reactNativeSvg.Mask,
+    _objectSpread(
+      _objectSpread(
         {
-          id: 'mask-2',
-          fill: 'white',
+          width: width,
+          height: height,
+          viewBox: '0 0 24 24',
         },
-        /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-          xlinkHref: '#path-1',
-        }),
+        props,
       ),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-        xlinkHref: '#path-1',
-      }),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-        id: 'Shape',
-        fill: '#191919',
-        fillRule: 'nonzero',
-        xlinkHref: '#path-1',
-      }),
-    ),
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNativeSvg.G,
+      {},
       {
-        id: 'icon/share-android',
-        fill: 'none',
-        mask: 'url(#mask-2)',
-        fillRule: 'evenodd',
-        stroke: 'none',
-        strokeWidth: '1',
+        children: [
+          /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
+                id: 'path-1',
+                d: 'M16.6666667,4 C15.3780023,4 14.3333333,5.0745166 14.3333333,6.4 C14.3338086,6.55052039 14.3480497,6.70066103 14.3758684,6.84843752 L8.84179686,10.16875 C8.42028577,9.80147542 7.88575741,9.59993723 7.33333333,9.6 C6.04466892,9.6 5,10.6745166 5,12 C5,13.3254834 6.04466892,14.4 7.33333333,14.4 C7.884904,14.398887 8.41825821,14.196832 8.8387587,13.8296872 L14.3758684,17.1515624 C14.3480497,17.2993389 14.3338086,17.4494796 14.3333333,17.6 C14.3333333,18.9254834 15.3780023,20 16.6666667,20 C17.9553311,20 19,18.9254834 19,17.6 C19,16.2745166 17.9553311,15.2 16.6666667,15.2 C16.1145734,15.2007436 15.5806212,15.4028212 15.1597222,15.7703128 L9.62413194,12.4484376 C9.65195056,12.3006611 9.66619154,12.1505204 9.66666667,12 C9.66619154,11.8494796 9.65195056,11.6993389 9.62413194,11.5515624 L15.1582032,8.23125 C15.5797143,8.59852456 16.1142426,8.80006275 16.6666667,8.8 C17.9553311,8.8 19,7.7254834 19,6.4 C19,5.0745166 17.9553311,4 16.6666667,4 Z',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
+                id: 'mask-2',
+                fill: 'white',
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNativeSvg.Use,
+                  {
+                    xlinkHref: '#path-1',
+                  },
+                ),
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
+                xlinkHref: '#path-1',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
+                id: 'Shape',
+                fill: '#191919',
+                fillRule: 'nonzero',
+                xlinkHref: '#path-1',
+              }),
+            ],
+          }),
+          /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
+            id: 'icon/share-android',
+            fill: 'none',
+            mask: 'url(#mask-2)',
+            fillRule: 'evenodd',
+            stroke: 'none',
+            strokeWidth: '1',
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
+                id: 'mask-2',
+                fill: 'white',
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNativeSvg.Use,
+                  {
+                    xlinkHref: '#path-1',
+                  },
+                ),
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
+                id: 'Shape',
+                fill: '#191919',
+                fillRule: 'nonzero',
+                xlinkHref: '#path-1',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
+                id: 'Rectangle',
+                x: '0',
+                y: '0',
+                width: '24',
+                height: '24',
+              }),
+            ],
+          }),
+        ],
       },
-      /*#__PURE__*/ _react.default.createElement(
-        _reactNativeSvg.Mask,
-        {
-          id: 'mask-2',
-          fill: 'white',
-        },
-        /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-          xlinkHref: '#path-1',
-        }),
-      ),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Use, {
-        id: 'Shape',
-        fill: '#191919',
-        fillRule: 'nonzero',
-        xlinkHref: '#path-1',
-      }),
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Rect, {
-        id: 'Rectangle',
-        x: '0',
-        y: '0',
-        width: '24',
-        height: '24',
-      }),
     ),
   )
 }

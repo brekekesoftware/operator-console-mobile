@@ -10,6 +10,7 @@ var _SearchConditionsArea = _interopRequireDefault(
   require('./SearchConditionsArea'),
 )
 var _SearchResultsArea = _interopRequireDefault(require('./SearchResultsArea'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -32,19 +33,32 @@ function _typeof(o) {
     _typeof(o)
   )
 }
-function _extends() {
-  return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
-  )
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
 }
 function _classCallCheck(a, n) {
   if (!(a instanceof n))
@@ -158,8 +172,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * HistorySearchPanel
  * props.uiData
  * props.uiData.splitterTop_onChange
@@ -296,15 +309,11 @@ var HistorySearchPanel = (exports.default = /*#__PURE__*/ (function (
         var _this$state = this.state,
           splitterTop = _this$state.splitterTop,
           isDragging = _this$state.isDragging
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.brHistorySearchPanel,
-            onLayout: this.onLayout,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.brHistorySearchPanel,
+          onLayout: this.onLayout,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.brHistorySearchPanelUpper,
                 {
@@ -312,65 +321,71 @@ var HistorySearchPanel = (exports.default = /*#__PURE__*/ (function (
                 },
               ],
               ref: this.upperPanelRef,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _SearchConditionsArea.default,
-              {
-                uiData: props.uiData,
-                panelType: props.panelType,
-                panelCode: props.panelCode,
-              },
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            _extends({}, this.panResponder.panHandlers, {
-              style: [
-                styles.brHistorySearchPanelSplitter,
-                isDragging && styles.brHistorySearchPanelSplitterActive,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _SearchConditionsArea.default,
                 {
-                  top: splitterTop,
+                  uiData: props.uiData,
+                  panelType: props.panelType,
+                  panelCode: props.panelCode,
                 },
-              ],
-              onStartShouldSetResponder: function onStartShouldSetResponder() {
-                return true
-              },
-              onResponderTerminationRequest:
-                function onResponderTerminationRequest() {
-                  return false
+              ),
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+              _reactNative.View,
+              _objectSpread(
+                _objectSpread({}, this.panResponder.panHandlers),
+                {},
+                {
+                  style: [
+                    styles.brHistorySearchPanelSplitter,
+                    isDragging && styles.brHistorySearchPanelSplitterActive,
+                    {
+                      top: splitterTop,
+                    },
+                  ],
+                  onStartShouldSetResponder:
+                    function onStartShouldSetResponder() {
+                      return true
+                    },
+                  onResponderTerminationRequest:
+                    function onResponderTerminationRequest() {
+                      return false
+                    },
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: [
+                        styles.brHistorySearchPanelSplitterThumb,
+                        isDragging &&
+                          styles.brHistorySearchPanelSplitterThumbActive,
+                      ],
+                    },
+                  ),
                 },
-            }),
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-              style: [
-                styles.brHistorySearchPanelSplitterThumb,
-                isDragging && styles.brHistorySearchPanelSplitterThumbActive,
-              ],
-            }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+              ),
+            ),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: [
                 styles.brHistorySearchPanelLower,
                 {
                   top: splitterTop + 10,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _SearchResultsArea.default,
-              {
-                uiData: props.uiData,
-                panelType: props.panelType,
-                panelCode: props.panelCode,
-                selectable: Boolean(props.selectable),
-                allSelectable: Boolean(props.allSelectable),
-                checkBox: Boolean(props.checkBox),
-                emphasize: Boolean(props.emphasize),
-              },
-            ),
-          ),
-        )
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _SearchResultsArea.default,
+                {
+                  uiData: props.uiData,
+                  panelType: props.panelType,
+                  panelCode: props.panelCode,
+                  selectable: Boolean(props.selectable),
+                  allSelectable: Boolean(props.allSelectable),
+                  checkBox: Boolean(props.checkBox),
+                  emphasize: Boolean(props.emphasize),
+                },
+              ),
+            }),
+          ],
+        })
       },
     },
   ])

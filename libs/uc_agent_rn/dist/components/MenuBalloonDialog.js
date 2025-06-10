@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -140,8 +141,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * MenuBalloonDialog - React Native version
  * A popup dialog component for menus
  *
@@ -207,16 +207,13 @@ var MenuBalloonDialog = (exports.default = /*#__PURE__*/ (function (
           width = _Dimensions$get.width,
           height = _Dimensions$get.height
         var maxDimension = Math.min(width, height) * 0.7
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.menuBalloonDialog,
-              // { maxWidth: maxDimension, maxHeight: maxDimension },
-              style,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [
+            styles.menuBalloonDialog,
+            // { maxWidth: maxDimension, maxHeight: maxDimension },
+            style,
+          ],
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _reactNative.ScrollView,
             {
               style: styles.scrollView,
@@ -241,20 +238,21 @@ var MenuBalloonDialog = (exports.default = /*#__PURE__*/ (function (
                   })
                 }, 1500)
               },
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.TouchableWithoutFeedback,
-              {
-                onPress: this.handlePress,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                null,
-                children,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.TouchableWithoutFeedback,
+                {
+                  onPress: this.handlePress,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      children: children,
+                    },
+                  ),
+                },
               ),
-            ),
+            },
           ),
-        )
+        })
       },
     },
   ])

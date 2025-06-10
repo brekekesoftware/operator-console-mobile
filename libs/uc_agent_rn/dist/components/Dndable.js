@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = exports.DndableSafe = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -28,19 +29,32 @@ function _typeof(o) {
     _typeof(o)
   )
 }
-function _extends() {
-  return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
-  )
+function ownKeys(e, r) {
+  var t = Object.keys(e)
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e)
+    r &&
+      (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable
+      })),
+      t.push.apply(t, o)
+  }
+  return t
+}
+function _objectSpread(e) {
+  for (var r = 1; r < arguments.length; r++) {
+    var t = null != arguments[r] ? arguments[r] : {}
+    r % 2
+      ? ownKeys(Object(t), !0).forEach(function (r) {
+          _defineProperty(e, r, t[r])
+        })
+      : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t))
+        : ownKeys(Object(t)).forEach(function (r) {
+            Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r))
+          })
+  }
+  return e
 }
 function _createForOfIteratorHelper(r, e) {
   var t =
@@ -224,8 +238,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * Dndable - React Native version
  * A component that supports drag and drop functionality
  *
@@ -495,24 +508,27 @@ var Dndable = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           transform: pan.getTranslateTransform(),
           opacity: opacity,
         }
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.Animated.View,
-          _extends(
-            {
-              ref: function ref(_ref) {
-                return (_this4.viewRef = _ref)
+          _objectSpread(
+            _objectSpread(
+              {
+                ref: function ref(_ref) {
+                  return (_this4.viewRef = _ref)
+                },
+                style: [containerStyles, isDragging ? animatedStyles : null],
               },
-              style: [containerStyles, isDragging ? animatedStyles : null],
-            },
-            this.panResponder.panHandlers,
+              this.panResponder.panHandlers,
+            ),
+            {},
             {
               onStartShouldSetResponder: function onStartShouldSetResponder() {
                 return true
               },
               onResponderRelease: this.handlePress,
+              children: children,
             },
           ),
-          children,
         )
       },
     },
@@ -530,14 +546,11 @@ var DndableSafe = (exports.DndableSafe = /*#__PURE__*/ (function (
     {
       key: 'render',
       value: function render() {
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [styles.dndable, this.props.style],
-            onTouchEnd: this.props.onClick,
-          },
-          this.props.children,
-        )
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [styles.dndable, this.props.style],
+          onTouchEnd: this.props.onClick,
+          children: this.props.children,
+        })
       },
     },
   ])

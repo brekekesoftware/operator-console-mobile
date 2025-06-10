@@ -23,6 +23,7 @@ var _OutgoingWebchatForm = _interopRequireDefault(
 )
 var _StatusDisplayForm = _interopRequireDefault(require('./StatusDisplayForm'))
 var _UserListForm = _interopRequireDefault(require('./UserListForm'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -184,8 +185,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * WidgetBody - React Native version
  * A component that displays modal dialogs and content
  */
@@ -279,7 +279,7 @@ var WidgetBody = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         if (!modalInfo) return null
         switch (modalInfo.contentClass) {
           case 'ConferenceInviteForm':
-            return /*#__PURE__*/ _react.default.createElement(
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _ConferenceInviteForm.default,
               {
                 ref: function ref(_ref) {
@@ -290,18 +290,15 @@ var WidgetBody = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               },
             )
           case 'BroadcastForm':
-            return /*#__PURE__*/ _react.default.createElement(
-              _BroadcastForm.default,
-              {
-                ref: function ref(_ref2) {
-                  return (_this8.contentRef = _ref2)
-                },
-                uiData: props.uiData,
-                params: modalInfo.contentParams,
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_BroadcastForm.default, {
+              ref: function ref(_ref2) {
+                return (_this8.contentRef = _ref2)
               },
-            )
+              uiData: props.uiData,
+              params: modalInfo.contentParams,
+            })
           case 'BgColorEditForm':
-            return /*#__PURE__*/ _react.default.createElement(
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _BgColorEditForm.default,
               {
                 ref: function ref(_ref3) {
@@ -312,18 +309,15 @@ var WidgetBody = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               },
             )
           case 'ConfirmForm':
-            return /*#__PURE__*/ _react.default.createElement(
-              _ConfirmForm.default,
-              {
-                ref: function ref(_ref4) {
-                  return (_this8.contentRef = _ref4)
-                },
-                uiData: props.uiData,
-                params: modalInfo.contentParams,
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ConfirmForm.default, {
+              ref: function ref(_ref4) {
+                return (_this8.contentRef = _ref4)
               },
-            )
+              uiData: props.uiData,
+              params: modalInfo.contentParams,
+            })
           case 'OutgoingWebchatForm':
-            return /*#__PURE__*/ _react.default.createElement(
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _OutgoingWebchatForm.default,
               {
                 ref: function ref(_ref5) {
@@ -334,7 +328,7 @@ var WidgetBody = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               },
             )
           case 'StatusDisplayForm':
-            return /*#__PURE__*/ _react.default.createElement(
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _StatusDisplayForm.default,
               {
                 ref: function ref(_ref6) {
@@ -345,40 +339,31 @@ var WidgetBody = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               },
             )
           case 'UserListForm':
-            return /*#__PURE__*/ _react.default.createElement(
-              _UserListForm.default,
-              {
-                ref: function ref(_ref7) {
-                  return (_this8.contentRef = _ref7)
-                },
-                uiData: props.uiData,
-                params: modalInfo.contentParams,
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_UserListForm.default, {
+              ref: function ref(_ref7) {
+                return (_this8.contentRef = _ref7)
               },
-            )
+              uiData: props.uiData,
+              params: modalInfo.contentParams,
+            })
           default:
             if (
               (_modalInfo$contentPar = modalInfo.contentParams) !== null &&
               _modalInfo$contentPar !== void 0 &&
               _modalInfo$contentPar.content
             ) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  ref: function ref(_ref8) {
-                    return (_this8.contentRef = _ref8)
-                  },
+              return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                ref: function ref(_ref8) {
+                  return (_this8.contentRef = _ref8)
                 },
-                modalInfo.contentParams.content,
-              )
+                children: modalInfo.contentParams.content,
+              })
             }
-            return /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                ref: function ref(_ref9) {
-                  return (_this8.contentRef = _ref9)
-                },
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+              ref: function ref(_ref9) {
+                return (_this8.contentRef = _ref9)
               },
-            )
+            })
         }
       },
     },
@@ -391,26 +376,19 @@ var WidgetBody = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var props = this.props
         var modalInfo = props.uiData.modalInfo
         var content = this.renderModalContent()
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [styles.widgetBody, props.style],
-            onTouchEnd: function onTouchEnd() {
-              return props.uiData.fire('widgetBody_onClick')
-            },
-            // pointerEvents='box-none'
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [styles.widgetBody, props.style],
+          onTouchEnd: function onTouchEnd() {
+            return props.uiData.fire('widgetBody_onClick')
           },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Modal,
-            {
+          // pointerEvents='box-none'
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Modal, {
               visible: modalInfo !== null,
               transparent: true,
               onShow: this.handleModalShow,
               animationType: 'fade',
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: [
                   styles.modalOverlay,
                   props.modalOverlayClassName &&
@@ -420,246 +398,275 @@ var WidgetBody = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     : modalInfo.overlayClassName) &&
                     styles[modalInfo.overlayClassName],
                 ],
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Animated.View,
-                {
-                  style: [
-                    styles.modal,
-                    (modalInfo === null || modalInfo === void 0
-                      ? void 0
-                      : modalInfo.modalClassName) &&
-                      styles[modalInfo.modalClassName],
-                    {
-                      height: this.state.modalHeight,
-                    },
-                    modalInfo === null || modalInfo === void 0
-                      ? void 0
-                      : modalInfo.modalStyle,
-                  ],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.Animated.View,
                   {
                     style: [
-                      styles.modalTable,
+                      styles.modal,
                       (modalInfo === null || modalInfo === void 0
                         ? void 0
-                        : modalInfo.tableClassName) &&
-                        styles[modalInfo.tableClassName],
-                      (modalInfo === null || modalInfo === void 0
-                        ? void 0
-                        : modalInfo.expandInlineImage) &&
-                        styles.expandInlineImage,
-                    ],
-                    onLayout: this.onModalContentLayout,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.modalTitle,
-                    },
-                    modalInfo === null || modalInfo === void 0
-                      ? void 0
-                      : modalInfo.title,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: styles.modalContent,
-                    },
-                    content,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.ScrollView,
-                    {
-                      style: styles.modalMessage,
-                    },
-                    (modalInfo === null || modalInfo === void 0
-                      ? void 0
-                      : modalInfo.message) &&
-                      (modalInfo.asHTML
-                        ? /*#__PURE__*/ _react.default.createElement(
-                            _reactNative.Text,
-                            null,
-                            modalInfo.message,
-                          ) // TODO: Handle HTML content
-                        : /*#__PURE__*/ _react.default.createElement(
-                            _reactNative.Text,
-                            null,
-                            modalInfo.message,
-                          )),
-                    (modalInfo === null || modalInfo === void 0
-                      ? void 0
-                      : modalInfo.checkBoxLabel) &&
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.TouchableOpacity,
-                        {
-                          style: styles.modalCheckBox,
-                          onPress: this.handleModalCheckBoxClick,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          null,
-                          modalInfo.checkBoxLabel,
-                        ),
-                      ),
-                    (modalInfo === null ||
-                    modalInfo === void 0 ||
-                    (_modalInfo$selectItem2 = modalInfo.selectItemList) ===
-                      null ||
-                    _modalInfo$selectItem2 === void 0
-                      ? void 0
-                      : _modalInfo$selectItem2.length) > 0 &&
-                      /*#__PURE__*/ _react.default.createElement(
-                        _DropDownMenu.default,
-                        {
-                          uiData: props.uiData,
-                          style: styles.modalMenu,
-                          text: (0, _strings.string)(
-                            (_modalInfo$selectItem3 =
-                              modalInfo.selectItemList.find(function (item) {
-                                return item.selected
-                              })) === null || _modalInfo$selectItem3 === void 0
-                              ? void 0
-                              : _modalInfo$selectItem3.label,
-                          ),
-                        },
-                        modalInfo.selectItemList.map(function (item, i) {
-                          return /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
-                            {
-                              key: i,
-                              dropDown: true,
-                              onPress: function onPress() {
-                                return _this9.handleModalMenuItemClick(i)
-                              },
-                            },
-                            /*#__PURE__*/ _react.default.createElement(
-                              _reactNative.Text,
-                              null,
-                              item.label,
-                            ),
-                          )
-                        }),
-                      ),
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: {
-                        flexDirection: 'row',
-                        justifyContent: 'flex-start',
-                      },
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _ButtonLabeled.default,
+                        : modalInfo.modalClassName) &&
+                        styles[modalInfo.modalClassName],
                       {
-                        ref: function ref(_ref0) {
-                          return (_this9.okButtonRef = _ref0)
-                        },
-                        style: [
-                          styles.modalOKButton,
-                          (modalInfo === null || modalInfo === void 0
-                            ? void 0
-                            : modalInfo.okClassName) &&
-                            styles[modalInfo.okClassName],
-                        ],
-                        vivid: true,
-                        title:
-                          (modalInfo === null || modalInfo === void 0
-                            ? void 0
-                            : modalInfo.okCaption) || _uawmsgs.default.CMN_OK,
-                        onPress: this.handleModalOKButtonClick,
+                        height: this.state.modalHeight,
                       },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: {
-                            color: '#ffffff',
-                            fontWeight: 'bold',
-                          },
-                        },
-                        (modalInfo === null || modalInfo === void 0
-                          ? void 0
-                          : modalInfo.okCaption) || _uawmsgs.default.CMN_OK,
-                      ),
+                      modalInfo === null || modalInfo === void 0
+                        ? void 0
+                        : modalInfo.modalStyle,
+                    ],
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                      _reactNative.View,
+                      {
+                        style: [
+                          styles.modalTable,
+                          (modalInfo === null || modalInfo === void 0
+                            ? void 0
+                            : modalInfo.tableClassName) &&
+                            styles[modalInfo.tableClassName],
+                          (modalInfo === null || modalInfo === void 0
+                            ? void 0
+                            : modalInfo.expandInlineImage) &&
+                            styles.expandInlineImage,
+                        ],
+                        onLayout: this.onModalContentLayout,
+                        children: [
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              style: styles.modalTitle,
+                              children:
+                                modalInfo === null || modalInfo === void 0
+                                  ? void 0
+                                  : modalInfo.title,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.modalContent,
+                              children: content,
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                            _reactNative.ScrollView,
+                            {
+                              style: styles.modalMessage,
+                              children: [
+                                (modalInfo === null || modalInfo === void 0
+                                  ? void 0
+                                  : modalInfo.message) &&
+                                  (modalInfo.asHTML
+                                    ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          children: modalInfo.message,
+                                        },
+                                      ) // TODO: Handle HTML content
+                                    : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          children: modalInfo.message,
+                                        },
+                                      )),
+                                (modalInfo === null || modalInfo === void 0
+                                  ? void 0
+                                  : modalInfo.checkBoxLabel) &&
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.TouchableOpacity,
+                                    {
+                                      style: styles.modalCheckBox,
+                                      onPress: this.handleModalCheckBoxClick,
+                                      children: /*#__PURE__*/ (0,
+                                      _jsxRuntime.jsx)(_reactNative.Text, {
+                                        children: modalInfo.checkBoxLabel,
+                                      }),
+                                    },
+                                  ),
+                                (modalInfo === null ||
+                                modalInfo === void 0 ||
+                                (_modalInfo$selectItem2 =
+                                  modalInfo.selectItemList) === null ||
+                                _modalInfo$selectItem2 === void 0
+                                  ? void 0
+                                  : _modalInfo$selectItem2.length) > 0 &&
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _DropDownMenu.default,
+                                    {
+                                      uiData: props.uiData,
+                                      style: styles.modalMenu,
+                                      text: (0, _strings.string)(
+                                        (_modalInfo$selectItem3 =
+                                          modalInfo.selectItemList.find(
+                                            function (item) {
+                                              return item.selected
+                                            },
+                                          )) === null ||
+                                          _modalInfo$selectItem3 === void 0
+                                          ? void 0
+                                          : _modalInfo$selectItem3.label,
+                                      ),
+                                      children: modalInfo.selectItemList.map(
+                                        function (item, i) {
+                                          return /*#__PURE__*/ (0,
+                                          _jsxRuntime.jsx)(
+                                            _MenuItem.default,
+                                            {
+                                              dropDown: true,
+                                              onPress: function onPress() {
+                                                return _this9.handleModalMenuItemClick(
+                                                  i,
+                                                )
+                                              },
+                                              children: /*#__PURE__*/ (0,
+                                              _jsxRuntime.jsx)(
+                                                _reactNative.Text,
+                                                {
+                                                  children: item.label,
+                                                },
+                                              ),
+                                            },
+                                            i,
+                                          )
+                                        },
+                                      ),
+                                    },
+                                  ),
+                              ],
+                            },
+                          ),
+                          /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                            _reactNative.View,
+                            {
+                              style: {
+                                flexDirection: 'row',
+                                justifyContent: 'flex-start',
+                              },
+                              children: [
+                                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _ButtonLabeled.default,
+                                  {
+                                    ref: function ref(_ref0) {
+                                      return (_this9.okButtonRef = _ref0)
+                                    },
+                                    style: [
+                                      styles.modalOKButton,
+                                      (modalInfo === null ||
+                                      modalInfo === void 0
+                                        ? void 0
+                                        : modalInfo.okClassName) &&
+                                        styles[modalInfo.okClassName],
+                                    ],
+                                    vivid: true,
+                                    title:
+                                      (modalInfo === null ||
+                                      modalInfo === void 0
+                                        ? void 0
+                                        : modalInfo.okCaption) ||
+                                      _uawmsgs.default.CMN_OK,
+                                    onPress: this.handleModalOKButtonClick,
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_reactNative.Text, {
+                                      style: {
+                                        color: '#ffffff',
+                                        fontWeight: 'bold',
+                                      },
+                                      children:
+                                        (modalInfo === null ||
+                                        modalInfo === void 0
+                                          ? void 0
+                                          : modalInfo.okCaption) ||
+                                        _uawmsgs.default.CMN_OK,
+                                    }),
+                                  },
+                                ),
+                                (modalInfo === null || modalInfo === void 0
+                                  ? void 0
+                                  : modalInfo.cancelable) &&
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _ButtonLabeled.default,
+                                    {
+                                      style: [
+                                        styles.modalCancelButton,
+                                        (modalInfo === null ||
+                                        modalInfo === void 0
+                                          ? void 0
+                                          : modalInfo.cancelClassName) &&
+                                          styles[modalInfo.cancelClassName],
+                                      ],
+                                      title:
+                                        (modalInfo === null ||
+                                        modalInfo === void 0
+                                          ? void 0
+                                          : modalInfo.cancelCaption) ||
+                                        _uawmsgs.default.CMN_CANCEL,
+                                      onPress:
+                                        this.handleModalCancelButtonClick,
+                                      children: /*#__PURE__*/ (0,
+                                      _jsxRuntime.jsx)(_reactNative.Text, {
+                                        style: {
+                                          color: '#ffffff',
+                                          fontWeight: 'bold',
+                                        },
+                                        children:
+                                          (modalInfo === null ||
+                                          modalInfo === void 0
+                                            ? void 0
+                                            : modalInfo.cancelCaption) ||
+                                          _uawmsgs.default.CMN_CANCEL,
+                                      }),
+                                    },
+                                  ),
+                                (modalInfo === null || modalInfo === void 0
+                                  ? void 0
+                                  : modalInfo.thirdButton) &&
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _ButtonLabeled.default,
+                                    {
+                                      style: [
+                                        styles.modalThirdButtonButton,
+                                        (modalInfo === null ||
+                                        modalInfo === void 0
+                                          ? void 0
+                                          : modalInfo.thirdButtonClassName) &&
+                                          styles[
+                                            modalInfo.thirdButtonClassName
+                                          ],
+                                      ],
+                                      title:
+                                        (modalInfo === null ||
+                                        modalInfo === void 0
+                                          ? void 0
+                                          : modalInfo.thirdButtonCaption) ||
+                                        _uawmsgs.default.CMN_CLOSE,
+                                      onPress: this.handleModalThirdButtonClick,
+                                      children: /*#__PURE__*/ (0,
+                                      _jsxRuntime.jsx)(_reactNative.Text, {
+                                        style: {
+                                          color: '#ffffff',
+                                          fontWeight: 'bold',
+                                        },
+                                        children:
+                                          (modalInfo === null ||
+                                          modalInfo === void 0
+                                            ? void 0
+                                            : modalInfo.thirdButtonCaption) ||
+                                          _uawmsgs.default.CMN_CLOSE,
+                                      }),
+                                    },
+                                  ),
+                              ],
+                            },
+                          ),
+                        ],
+                      },
                     ),
-                    (modalInfo === null || modalInfo === void 0
-                      ? void 0
-                      : modalInfo.cancelable) &&
-                      /*#__PURE__*/ _react.default.createElement(
-                        _ButtonLabeled.default,
-                        {
-                          style: [
-                            styles.modalCancelButton,
-                            (modalInfo === null || modalInfo === void 0
-                              ? void 0
-                              : modalInfo.cancelClassName) &&
-                              styles[modalInfo.cancelClassName],
-                          ],
-                          title:
-                            (modalInfo === null || modalInfo === void 0
-                              ? void 0
-                              : modalInfo.cancelCaption) ||
-                            _uawmsgs.default.CMN_CANCEL,
-                          onPress: this.handleModalCancelButtonClick,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: {
-                              color: '#ffffff',
-                              fontWeight: 'bold',
-                            },
-                          },
-                          (modalInfo === null || modalInfo === void 0
-                            ? void 0
-                            : modalInfo.cancelCaption) ||
-                            _uawmsgs.default.CMN_CANCEL,
-                        ),
-                      ),
-                    (modalInfo === null || modalInfo === void 0
-                      ? void 0
-                      : modalInfo.thirdButton) &&
-                      /*#__PURE__*/ _react.default.createElement(
-                        _ButtonLabeled.default,
-                        {
-                          style: [
-                            styles.modalThirdButtonButton,
-                            (modalInfo === null || modalInfo === void 0
-                              ? void 0
-                              : modalInfo.thirdButtonClassName) &&
-                              styles[modalInfo.thirdButtonClassName],
-                          ],
-                          title:
-                            (modalInfo === null || modalInfo === void 0
-                              ? void 0
-                              : modalInfo.thirdButtonCaption) ||
-                            _uawmsgs.default.CMN_CLOSE,
-                          onPress: this.handleModalThirdButtonClick,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: {
-                              color: '#ffffff',
-                              fontWeight: 'bold',
-                            },
-                          },
-                          (modalInfo === null || modalInfo === void 0
-                            ? void 0
-                            : modalInfo.thirdButtonCaption) ||
-                            _uawmsgs.default.CMN_CLOSE,
-                        ),
-                      ),
-                  ),
+                  },
                 ),
-              ),
-            ),
-          ),
-          props.children,
-        )
+              }),
+            }),
+            props.children,
+          ],
+        })
       },
     },
   ])

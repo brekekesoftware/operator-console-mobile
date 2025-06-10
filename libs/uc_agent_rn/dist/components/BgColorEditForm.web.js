@@ -34,6 +34,7 @@ var _DropDownMenu = _interopRequireDefault(require('./DropDownMenu'))
 var _DndableSafe = _interopRequireDefault(require('./DndableSafe'))
 var _MenuItem = _interopRequireDefault(require('./MenuItem'))
 var _TextBox = _interopRequireDefault(require('./TextBox'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
     var r = new WeakMap(),
@@ -354,8 +355,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * BgColorEditForm
  * props.uiData
  * props.uiData.ucUiStore
@@ -1055,56 +1055,54 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               colorCands.unshift(bgInfo.color)
             }
           })
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.brBgColorEditForm,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.brBgColorEditForm,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
               style: styles.brBgColorEditButtons,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.TouchableOpacity,
-              {
-                style: [styles.brBgColorEditButton, styles.addButton],
-                onPress: this.handleBgColorEditAddButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                '+',
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.TouchableOpacity,
-              {
-                style: [styles.brBgColorEditButton, styles.importButton],
-                onPress: this.handleBgColorEditImportButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                '\u2191',
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.TouchableOpacity,
-              {
-                style: [styles.brBgColorEditButton, styles.exportButton],
-                onPress: this.handleBgColorEditExportButtonClick.bind(this),
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                '\u2193',
-              ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.ScrollView,
-            {
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [styles.brBgColorEditButton, styles.addButton],
+                    onPress: this.handleBgColorEditAddButtonClick.bind(this),
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        children: '+',
+                      },
+                    ),
+                  },
+                ),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [styles.brBgColorEditButton, styles.importButton],
+                    onPress: this.handleBgColorEditImportButtonClick.bind(this),
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        children: '\u2191',
+                      },
+                    ),
+                  },
+                ),
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _reactNative.TouchableOpacity,
+                  {
+                    style: [styles.brBgColorEditButton, styles.exportButton],
+                    onPress: this.handleBgColorEditExportButtonClick.bind(this),
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        children: '\u2193',
+                      },
+                    ),
+                  },
+                ),
+              ],
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.ScrollView, {
               ref: this.entriesRef,
               style: styles.brBgColorEditEntries,
               showsVerticalScrollIndicator: true,
@@ -1119,346 +1117,392 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     })
                 }
               },
-            },
-            chatBgColorList.map(function (element, i) {
-              var bgInfo = element || {}
-              if (_this2.state.nowEditing !== i) {
-                return /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    key: i,
-                    style: styles.brBgColorEditEntryItem,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _DndableSafe.default,
-                    {
-                      uiData: props.uiData,
-                      className:
-                        'brBgColorEditEntryItem brBgInfoType_' + bgInfo.type,
-                      dragSourceInfo: {
-                        dragSourceInfoType: 'bgColorEditEntryItem',
-                        dragSourceInfoCode: i,
-                      },
-                      onCheckCanDrop: function onCheckCanDrop(ev) {
-                        return (
-                          _this2.state.nowEditing === null &&
-                          ev.dragSourceInfo &&
-                          ev.dragSourceInfo.dragSourceInfoType ===
-                            'bgColorEditEntryItem' &&
-                          ev.dragSourceInfo.dragSourceInfoCode !== i
-                        )
-                      },
-                      onDrop: _this2.handleBgColorEditDrop.bind(_this2, {
-                        dropTargetInfoType: 'bgColorEditEntryItem',
-                        dropTargetInfoCode: i,
-                      }),
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brBgColorEditEntryItemArea,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: styles.brBgColorEditEntryItemLabelArea,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: styles.brBgColorEditEntryItemType,
-                          },
-                          _this2.localizeType(bgInfo.type),
-                        ),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: styles.brBr1,
-                          },
-                        ),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: styles.brBgColorEditEntryItemFormat,
-                          },
-                          _this2.localizeFormat(_this2.getFormat(bgInfo)),
-                        ),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: styles.brBr2,
-                          },
-                        ),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: styles.brBgColorEditEntryItemData,
-                          },
-                          _this2.getData(bgInfo),
-                        ),
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: styles.brBgColorEditEntryItemColorContainer,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.View,
-                          {
-                            style: [
-                              styles.colorSwatch,
-                              {
-                                backgroundColor: bgInfo.color,
-                              },
-                            ],
-                          },
-                        ),
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.TouchableOpacity,
-                        {
-                          style: styles.editButton,
-                          onPress:
-                            _this2.handleBgColorEditEntryItemEditButtonClick.bind(
-                              _this2,
-                              i,
-                            ),
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: styles.editButtonText,
-                          },
-                          '\u270E',
-                        ),
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.TouchableOpacity,
-                        {
-                          style: styles.deleteButton,
-                          onPress:
-                            _this2.handleBgColorEditEntryItemDeleteButtonClick.bind(
-                              _this2,
-                              i,
-                            ),
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _reactNative.Text,
-                          {
-                            style: styles.deleteButtonText,
-                          },
-                          '\u2717',
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              } else {
-                return /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    key: i,
-                    style: styles.brBgColorEditEntryItem,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
+              children: chatBgColorList.map(function (element, i) {
+                var bgInfo = element || {}
+                if (_this2.state.nowEditing !== i) {
+                  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _reactNative.View,
                     {
-                      style: styles.brBgColorEditEntryItemArea,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brBgColorEditEntryItemInputArea,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _DropDownMenu.default,
+                      style: styles.brBgColorEditEntryItem,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _DndableSafe.default,
                         {
                           uiData: props.uiData,
-                          className: 'brBgColorEditEntryItemTypeMenu',
-                          dialogClassName: 'brBgColorEditEntryItemDialog',
-                          text: _this2.localizeType(_this2.state.editingType),
-                        },
-                        [
-                          'conf_type',
-                          'subject',
-                          'group',
-                          'user_id',
-                          'name',
-                          'tag',
-                        ].map(function (type) {
-                          return /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
-                            {
-                              key: type,
-                              className: 'brBgColorEditEntryItemTypeMenuItem',
-                              dropDown: true,
-                              onClick:
-                                _this2.handleBgColorEditEntryItemTypeMenuItemClick.bind(
-                                  _this2,
-                                  type,
-                                ),
-                            },
-                            _this2.localizeType(type),
-                          )
-                        }),
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: styles.brBr1,
-                        },
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _DropDownMenu.default,
-                        {
-                          uiData: props.uiData,
-                          className: 'brBgColorEditEntryItemFormatMenu',
-                          dialogClassName: 'brBgColorEditEntryItemDialog',
-                          text: _this2.localizeFormat(
-                            _this2.state.editingFormat,
-                          ),
-                        },
-                        (_this2.state.editingType === 'conf_type'
-                          ? ['^userchatconf$', '^webchat$']
-                          : ['exact', 'forward', 'backward', 'partial']
-                        ).map(function (format) {
-                          return /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
-                            {
-                              key: format,
-                              className: 'brBgColorEditEntryItemFormatMenuItem',
-                              dropDown: true,
-                              onClick:
-                                _this2.handleBgColorEditEntryItemFormatMenuItemClick.bind(
-                                  _this2,
-                                  format,
-                                ),
-                            },
-                            _this2.localizeFormat(format),
-                          )
-                        }),
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: styles.brBr2,
-                        },
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _TextBox.default,
-                        {
-                          className: 'brBgColorEditEntryItemDataInput',
-                          value: _this2.state.editingData,
-                          onChange:
-                            _this2.handleBgColorEditEntryItemDataInputChange.bind(
-                              _this2,
-                            ),
-                        },
-                      ),
-                      /*#__PURE__*/ _react.default.createElement(
-                        _DropDownMenu.default,
-                        {
-                          uiData: props.uiData,
-                          className: 'brBgColorEditEntryItemColorMenu',
-                          dialogClassName: 'brBgColorEditEntryItemDialog',
-                          text: /*#__PURE__*/ _react.default.createElement(
+                          className:
+                            'brBgColorEditEntryItem brBgInfoType_' +
+                            bgInfo.type,
+                          dragSourceInfo: {
+                            dragSourceInfoType: 'bgColorEditEntryItem',
+                            dragSourceInfoCode: i,
+                          },
+                          onCheckCanDrop: function onCheckCanDrop(ev) {
+                            return (
+                              _this2.state.nowEditing === null &&
+                              ev.dragSourceInfo &&
+                              ev.dragSourceInfo.dragSourceInfoType ===
+                                'bgColorEditEntryItem' &&
+                              ev.dragSourceInfo.dragSourceInfoCode !== i
+                            )
+                          },
+                          onDrop: _this2.handleBgColorEditDrop.bind(_this2, {
+                            dropTargetInfoType: 'bgColorEditEntryItem',
+                            dropTargetInfoCode: i,
+                          }),
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                             _reactNative.View,
                             {
-                              style: styles.colorSwatch,
+                              style: styles.brBgColorEditEntryItemArea,
+                              children: [
+                                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                                  _reactNative.View,
+                                  {
+                                    style:
+                                      styles.brBgColorEditEntryItemLabelArea,
+                                    children: [
+                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          style:
+                                            styles.brBgColorEditEntryItemType,
+                                          children: _this2.localizeType(
+                                            bgInfo.type,
+                                          ),
+                                        },
+                                      ),
+                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          style: styles.brBr1,
+                                        },
+                                      ),
+                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          style:
+                                            styles.brBgColorEditEntryItemFormat,
+                                          children: _this2.localizeFormat(
+                                            _this2.getFormat(bgInfo),
+                                          ),
+                                        },
+                                      ),
+                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          style: styles.brBr2,
+                                        },
+                                      ),
+                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.Text,
+                                        {
+                                          style:
+                                            styles.brBgColorEditEntryItemData,
+                                          children: _this2.getData(bgInfo),
+                                        },
+                                      ),
+                                    ],
+                                  },
+                                ),
+                                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.View,
+                                  {
+                                    style:
+                                      styles.brBgColorEditEntryItemColorContainer,
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_reactNative.View, {
+                                      style: [
+                                        styles.colorSwatch,
+                                        {
+                                          backgroundColor: bgInfo.color,
+                                        },
+                                      ],
+                                    }),
+                                  },
+                                ),
+                                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.TouchableOpacity,
+                                  {
+                                    style: styles.editButton,
+                                    onPress:
+                                      _this2.handleBgColorEditEntryItemEditButtonClick.bind(
+                                        _this2,
+                                        i,
+                                      ),
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_reactNative.Text, {
+                                      style: styles.editButtonText,
+                                      children: '\u270E',
+                                    }),
+                                  },
+                                ),
+                                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.TouchableOpacity,
+                                  {
+                                    style: styles.deleteButton,
+                                    onPress:
+                                      _this2.handleBgColorEditEntryItemDeleteButtonClick.bind(
+                                        _this2,
+                                        i,
+                                      ),
+                                    children: /*#__PURE__*/ (0,
+                                    _jsxRuntime.jsx)(_reactNative.Text, {
+                                      style: styles.deleteButtonText,
+                                      children: '\u2717',
+                                    }),
+                                  },
+                                ),
+                              ],
                             },
                           ),
                         },
-                        colorCands.map(function (color) {
-                          return /*#__PURE__*/ _react.default.createElement(
-                            _MenuItem.default,
-                            {
-                              key: color,
-                              className: 'brBgColorEditEntryItemColorMenuItem',
-                              dropDown: true,
-                              onClick:
-                                _this2.handleBgColorEditEntryItemColorMenuItemClick.bind(
-                                  _this2,
-                                  color,
-                                ),
-                            },
-                            /*#__PURE__*/ _react.default.createElement(
+                      ),
+                    },
+                    i,
+                  )
+                } else {
+                  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.View,
+                    {
+                      style: styles.brBgColorEditEntryItem,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                        _reactNative.View,
+                        {
+                          style: styles.brBgColorEditEntryItemArea,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                               _reactNative.View,
                               {
-                                style: [
-                                  styles.colorSwatch,
-                                  {
-                                    backgroundColor: color,
-                                  },
+                                style: styles.brBgColorEditEntryItemInputArea,
+                                children: [
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _DropDownMenu.default,
+                                    {
+                                      uiData: props.uiData,
+                                      className:
+                                        'brBgColorEditEntryItemTypeMenu',
+                                      dialogClassName:
+                                        'brBgColorEditEntryItemDialog',
+                                      text: _this2.localizeType(
+                                        _this2.state.editingType,
+                                      ),
+                                      children: [
+                                        'conf_type',
+                                        'subject',
+                                        'group',
+                                        'user_id',
+                                        'name',
+                                        'tag',
+                                      ].map(function (type) {
+                                        return /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsx)(
+                                          _MenuItem.default,
+                                          {
+                                            className:
+                                              'brBgColorEditEntryItemTypeMenuItem',
+                                            dropDown: true,
+                                            onClick:
+                                              _this2.handleBgColorEditEntryItemTypeMenuItemClick.bind(
+                                                _this2,
+                                                type,
+                                              ),
+                                            children: _this2.localizeType(type),
+                                          },
+                                          type,
+                                        )
+                                      }),
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      style: styles.brBr1,
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _DropDownMenu.default,
+                                    {
+                                      uiData: props.uiData,
+                                      className:
+                                        'brBgColorEditEntryItemFormatMenu',
+                                      dialogClassName:
+                                        'brBgColorEditEntryItemDialog',
+                                      text: _this2.localizeFormat(
+                                        _this2.state.editingFormat,
+                                      ),
+                                      children: (_this2.state.editingType ===
+                                      'conf_type'
+                                        ? ['^userchatconf$', '^webchat$']
+                                        : [
+                                            'exact',
+                                            'forward',
+                                            'backward',
+                                            'partial',
+                                          ]
+                                      ).map(function (format) {
+                                        return /*#__PURE__*/ (0,
+                                        _jsxRuntime.jsx)(
+                                          _MenuItem.default,
+                                          {
+                                            className:
+                                              'brBgColorEditEntryItemFormatMenuItem',
+                                            dropDown: true,
+                                            onClick:
+                                              _this2.handleBgColorEditEntryItemFormatMenuItemClick.bind(
+                                                _this2,
+                                                format,
+                                              ),
+                                            children:
+                                              _this2.localizeFormat(format),
+                                          },
+                                          format,
+                                        )
+                                      }),
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      style: styles.brBr2,
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _TextBox.default,
+                                    {
+                                      className:
+                                        'brBgColorEditEntryItemDataInput',
+                                      value: _this2.state.editingData,
+                                      onChange:
+                                        _this2.handleBgColorEditEntryItemDataInputChange.bind(
+                                          _this2,
+                                        ),
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                                    _DropDownMenu.default,
+                                    {
+                                      uiData: props.uiData,
+                                      className:
+                                        'brBgColorEditEntryItemColorMenu',
+                                      dialogClassName:
+                                        'brBgColorEditEntryItemDialog',
+                                      text: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                        _reactNative.View,
+                                        {
+                                          style: styles.colorSwatch,
+                                        },
+                                      ),
+                                      children: [
+                                        colorCands.map(function (color) {
+                                          return /*#__PURE__*/ (0,
+                                          _jsxRuntime.jsx)(
+                                            _MenuItem.default,
+                                            {
+                                              className:
+                                                'brBgColorEditEntryItemColorMenuItem',
+                                              dropDown: true,
+                                              onClick:
+                                                _this2.handleBgColorEditEntryItemColorMenuItemClick.bind(
+                                                  _this2,
+                                                  color,
+                                                ),
+                                              children: /*#__PURE__*/ (0,
+                                              _jsxRuntime.jsx)(
+                                                _reactNative.View,
+                                                {
+                                                  style: [
+                                                    styles.colorSwatch,
+                                                    {
+                                                      backgroundColor: color,
+                                                    },
+                                                  ],
+                                                },
+                                              ),
+                                            },
+                                            color,
+                                          )
+                                        }),
+                                        /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                                          _MenuItem.default,
+                                          {
+                                            className:
+                                              'brBgColorEditEntryItemColorMenuItem',
+                                            dropDown: true,
+                                            children: [
+                                              /*#__PURE__*/ (0,
+                                              _jsxRuntime.jsx)(
+                                                _reactNative.TouchableOpacity,
+                                                {
+                                                  style: styles.colorMenuItem,
+                                                  onPress:
+                                                    _this2.handleBgColorEditEntryItemColorMenuItemCustomColorColorClick.bind(
+                                                      _this2,
+                                                    ),
+                                                  children: /*#__PURE__*/ (0,
+                                                  _jsxRuntime.jsx)(
+                                                    _reactNative.View,
+                                                    {
+                                                      style:
+                                                        styles.colorMenuItemColor,
+                                                    },
+                                                  ),
+                                                },
+                                              ),
+                                              /*#__PURE__*/ (0,
+                                              _jsxRuntime.jsx)(
+                                                _TextBox.default,
+                                                {
+                                                  className:
+                                                    'brBgColorEditEntryItemColorMenuItemCustomColorInput',
+                                                  value:
+                                                    _this2.state
+                                                      .editingCustomColor,
+                                                  onChange:
+                                                    _this2.handleBgColorEditEntryItemColorMenuItemCustomColorInputChange.bind(
+                                                      _this2,
+                                                    ),
+                                                  onKeyDown:
+                                                    _this2.handleBgColorEditEntryItemColorMenuItemCustomColorInputKeyDown.bind(
+                                                      _this2,
+                                                    ),
+                                                },
+                                              ),
+                                            ],
+                                          },
+                                        ),
+                                      ],
+                                    },
+                                  ),
                                 ],
                               },
                             ),
-                          )
-                        }),
-                        /*#__PURE__*/ _react.default.createElement(
-                          _MenuItem.default,
-                          {
-                            className: 'brBgColorEditEntryItemColorMenuItem',
-                            dropDown: true,
-                          },
-                          /*#__PURE__*/ _react.default.createElement(
-                            _reactNative.TouchableOpacity,
-                            {
-                              style: styles.colorMenuItem,
-                              onPress:
-                                _this2.handleBgColorEditEntryItemColorMenuItemCustomColorColorClick.bind(
-                                  _this2,
-                                ),
-                            },
-                            /*#__PURE__*/ _react.default.createElement(
-                              _reactNative.View,
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.TouchableOpacity,
                               {
-                                style: styles.colorMenuItemColor,
+                                style: styles.editButton,
+                                onPress:
+                                  _this2.handleBgColorEditEntryItemEditButtonClick.bind(
+                                    _this2,
+                                    i,
+                                  ),
+                                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    style: styles.editButtonText,
+                                    children: '\u270E',
+                                  },
+                                ),
                               },
                             ),
-                          ),
-                          /*#__PURE__*/ _react.default.createElement(
-                            _TextBox.default,
-                            {
-                              className:
-                                'brBgColorEditEntryItemColorMenuItemCustomColorInput',
-                              value: _this2.state.editingCustomColor,
-                              onChange:
-                                _this2.handleBgColorEditEntryItemColorMenuItemCustomColorInputChange.bind(
-                                  _this2,
-                                ),
-                              onKeyDown:
-                                _this2.handleBgColorEditEntryItemColorMenuItemCustomColorInputKeyDown.bind(
-                                  _this2,
-                                ),
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.TouchableOpacity,
-                      {
-                        style: styles.editButton,
-                        onPress:
-                          _this2.handleBgColorEditEntryItemEditButtonClick.bind(
-                            _this2,
-                            i,
-                          ),
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: styles.editButtonText,
+                          ],
                         },
-                        '\u270E',
                       ),
-                    ),
-                  ),
-                )
-              }
+                    },
+                    i,
+                  )
+                }
+              }),
             }),
-          ),
-        )
+          ],
+        })
       },
     },
   ])

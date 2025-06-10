@@ -12,6 +12,7 @@ var _CustomerSignInProfinfoInputSelect = _interopRequireDefault(
 var _CustomerSignInProfinfoInputInput = _interopRequireDefault(
   require('./CustomerSignInProfinfoInputInput'),
 )
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -54,73 +55,67 @@ var _default = (exports.default = function _default(props) {
       _props$uiData$configu4 === void 0
         ? void 0
         : _props$uiData$configu4.brSignInProfinfoInputLabel) || {}
-    return /*#__PURE__*/ React.createElement(
-      _reactNative.View,
-      {
-        style: [styles.brSignInProfinfoInputsArea, areaStyles],
-      },
-      /*#__PURE__*/ React.createElement(
-        _reactNative.Text,
-        {
+    return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+      style: [styles.brSignInProfinfoInputsArea, areaStyles],
+      children: [
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
           style: [styles.brSignInProfinfoInputsLabel, labelStyles],
-        },
-        props.uiData.configurations.profinfoInputsInnerHTML
-          ? props.uiData.configurations.profinfoInputsInnerHTML.replace(
-              /<[^>]*>/g,
-              '',
-            )
-          : (0, _strings.string)(
-              props.uiData.configurations.profinfoInputsLabel,
-            ),
-      ),
-      props.uiData.configurations.profinfoInputs.map(function (o) {
-        return /*#__PURE__*/ React.createElement(
-          _reactNative.View,
-          {
-            key: o.key,
-            style: [styles.brSignInProfinfoInputArea, inputAreaStyles],
-          },
-          /*#__PURE__*/ React.createElement(
+          children: props.uiData.configurations.profinfoInputsInnerHTML
+            ? props.uiData.configurations.profinfoInputsInnerHTML.replace(
+                /<[^>]*>/g,
+                '',
+              )
+            : (0, _strings.string)(
+                props.uiData.configurations.profinfoInputsLabel,
+              ),
+        }),
+        props.uiData.configurations.profinfoInputs.map(function (o) {
+          return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
             _reactNative.View,
             {
-              style: styles.labelContainer,
+              style: [styles.brSignInProfinfoInputArea, inputAreaStyles],
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.labelContainer,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                      style: [
+                        styles.brSignInProfinfoInputLabel,
+                        inputLabelStyles,
+                      ],
+                      children: o.innerHTML
+                        ? o.innerHTML.replace(/<[^>]*>/g, '')
+                        : (0, _strings.string)(o.label),
+                    }),
+                    o.mandatory &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.mandatoryIndicator,
+                        children: '*',
+                      }),
+                  ],
+                }),
+                o.options && o.options.length
+                  ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _CustomerSignInProfinfoInputSelect.default,
+                      {
+                        uiData: props.uiData,
+                        profinfoInput: o,
+                      },
+                    )
+                  : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _CustomerSignInProfinfoInputInput.default,
+                      {
+                        uiData: props.uiData,
+                        profinfoInput: o,
+                      },
+                    ),
+              ],
             },
-            /*#__PURE__*/ React.createElement(
-              _reactNative.Text,
-              {
-                style: [styles.brSignInProfinfoInputLabel, inputLabelStyles],
-              },
-              o.innerHTML
-                ? o.innerHTML.replace(/<[^>]*>/g, '')
-                : (0, _strings.string)(o.label),
-            ),
-            o.mandatory &&
-              /*#__PURE__*/ React.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.mandatoryIndicator,
-                },
-                '*',
-              ),
-          ),
-          o.options && o.options.length
-            ? /*#__PURE__*/ React.createElement(
-                _CustomerSignInProfinfoInputSelect.default,
-                {
-                  uiData: props.uiData,
-                  profinfoInput: o,
-                },
-              )
-            : /*#__PURE__*/ React.createElement(
-                _CustomerSignInProfinfoInputInput.default,
-                {
-                  uiData: props.uiData,
-                  profinfoInput: o,
-                },
-              ),
-        )
-      }),
-    )
+            o.key,
+          )
+        }),
+      ],
+    })
   } else {
     return null
   }

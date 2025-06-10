@@ -29,6 +29,7 @@ var _CustomerMainArea = _interopRequireDefault(
   require('../components/CustomerMainArea'),
 )
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -131,8 +132,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * CustomerApp
  * props.uiData
  */
@@ -147,23 +147,18 @@ var CustomerApp = /*#__PURE__*/ (function (_React$Component) {
       key: 'render',
       value: function render() {
         var props = this.props
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          null,
-          /*#__PURE__*/ _react.default.createElement(
-            _WidgetBody.default,
-            {
-              uiData: props.uiData,
-              modalOverlayClassName: 'brUCCustomerApp',
-            },
-            /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_WidgetBody.default, {
+            uiData: props.uiData,
+            modalOverlayClassName: 'brUCCustomerApp',
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _CustomerMainArea.default,
               {
                 uiData: props.uiData,
               },
             ),
-          ),
-        )
+          }),
+        })
       },
     },
   ])

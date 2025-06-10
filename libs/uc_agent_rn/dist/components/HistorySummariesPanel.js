@@ -34,6 +34,7 @@ var _UploadIcon = _interopRequireDefault(require('../icons/UploadIcon'))
 var _DownloadIcon = _interopRequireDefault(require('../icons/DownloadIcon'))
 var _PhoneIcon = _interopRequireDefault(require('../icons/PhoneIcon'))
 var _JobIcon = _interopRequireDefault(require('../icons/JobIcon'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -240,8 +241,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * HistorySummariesPanel
  * props.uiData
  * props.uiData.ucUiAction
@@ -456,15 +456,12 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
     })
     _defineProperty(_this, 'convertSummary', function (summary, isMe) {
       var parts = summary.split(/(<span[^>]*>.*?<\/span>)/g)
-      return /*#__PURE__*/ _react.default.createElement(
-        _reactNative.View,
-        {
-          style: {
-            flexDirection: 'row',
-            alignItems: 'center',
-          },
+      return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+        style: {
+          flexDirection: 'row',
+          alignItems: 'center',
         },
-        parts.map(function (part, index) {
+        children: parts.map(function (part, index) {
           if (!part) return null
           if (!part.trim()) return null
           console.log('#Duy Phan console part', part)
@@ -475,74 +472,60 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             var isCallResult = /class="[^"]*brCallResult[^"]*"/.test(part)
             var isObject = /class="[^"]*brObject[^"]*"/.test(part)
             if (isEmphasized) {
-              return /*#__PURE__*/ _react.default.createElement(
+              return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNative.Text,
                 {
-                  key: index,
                   style: styles.brEmphasized,
+                  children: content,
                 },
-                content,
+                index,
               )
             }
             if (isFileRequest) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _react.default.Fragment,
-                null,
-                isMe
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _UploadIcon.default,
-                      null,
-                    )
-                  : /*#__PURE__*/ _react.default.createElement(
-                      _DownloadIcon.default,
-                      null,
-                    ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  content,
-                ),
-              )
+              return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+                children: [
+                  isMe
+                    ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _UploadIcon.default,
+                        {},
+                      )
+                    : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _DownloadIcon.default,
+                        {},
+                      ),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    children: content,
+                  }),
+                ],
+              })
             }
             if (isCallResult) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _react.default.Fragment,
-                null,
-                /*#__PURE__*/ _react.default.createElement(
-                  _PhoneIcon.default,
-                  null,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  content,
-                ),
-              )
+              return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_PhoneIcon.default, {}),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    children: content,
+                  }),
+                ],
+              })
             }
             if (isObject) {
-              return /*#__PURE__*/ _react.default.createElement(
-                _react.default.Fragment,
-                null,
-                /*#__PURE__*/ _react.default.createElement(
-                  _JobIcon.default,
-                  null,
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  content,
-                ),
-              )
+              return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_JobIcon.default, {}),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    children: content,
+                  }),
+                ],
+              })
             }
           } else {
-            return /*#__PURE__*/ _react.default.createElement(
-              _reactNative.Text,
-              null,
-              part,
-            )
+            return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+              children: part,
+            })
           }
         }),
-      )
+      })
     })
     _this.state = {
       areaHeight: 0,
@@ -629,372 +612,384 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               }
             })
           }
-          return /*#__PURE__*/ _react.default.createElement(
+          return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
             _reactNative.View,
             {
-              key: (0, _strings.string)(searchResult.searchResultId),
               style: styles.brHistorySummaryEntry,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brHistoryOpenDetailArea,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _ButtonIconic.default,
-                {
-                  style: styles.brHistoryOpenDetailButton,
-                  iconSource: /*#__PURE__*/ _react.default.createElement(
-                    _NewWindowIcon.default,
-                    null,
-                  ),
-                  accessibilityLabel:
-                    _uawmsgs.default.LBL_HISTORY_OPEN_DETAIL_BUTTON_TOOLTIP,
-                  onPress: props.uiData.fire.bind(
-                    props.uiData,
-                    'historySummariesPanelOpenDetailButton_onClick',
-                    props.panelType,
-                    props.panelCode,
-                    searchResult.searchResultId,
-                    searchResult._topic && searchResult._topic.peer,
-                    searchResult.chatType === 'webchat'
-                      ? (0, _strings.string)(searchResult.customerName)
-                      : searchResult.chatType === 'userchatconf'
-                        ? (0, _strings.string)(
-                            searchResult._topic &&
-                              searchResult._topic.peer &&
-                              searchResult._topic.peer.subject,
-                          )
-                        : (0, _strings.string)(
-                            searchResult._topic &&
-                              searchResult._topic.peer &&
-                              (searchResult._topic.peer.user_name ||
-                                searchResult._topic.peer.user_id),
+              children: [
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.brHistoryOpenDetailArea,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                      style: styles.brHistoryOpenDetailButton,
+                      iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _NewWindowIcon.default,
+                        {},
+                      ),
+                      accessibilityLabel:
+                        _uawmsgs.default.LBL_HISTORY_OPEN_DETAIL_BUTTON_TOOLTIP,
+                      onPress: props.uiData.fire.bind(
+                        props.uiData,
+                        'historySummariesPanelOpenDetailButton_onClick',
+                        props.panelType,
+                        props.panelCode,
+                        searchResult.searchResultId,
+                        searchResult._topic && searchResult._topic.peer,
+                        searchResult.chatType === 'webchat'
+                          ? (0, _strings.string)(searchResult.customerName)
+                          : searchResult.chatType === 'userchatconf'
+                            ? (0, _strings.string)(
+                                searchResult._topic &&
+                                  searchResult._topic.peer &&
+                                  searchResult._topic.peer.subject,
+                              )
+                            : (0, _strings.string)(
+                                searchResult._topic &&
+                                  searchResult._topic.peer &&
+                                  (searchResult._topic.peer.user_name ||
+                                    searchResult._topic.peer.user_id),
+                              ),
+                      ),
+                    }),
+                    replyOptions.length > 0 &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _ButtonIconic.default,
+                        {
+                          style: styles.brHistoryReplyWebchatButton,
+                          iconSource: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _ReplyIcon.default,
+                            {},
                           ),
-                  ),
-                },
-              ),
-              replyOptions.length > 0 &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _ButtonIconic.default,
-                  {
-                    style: styles.brHistoryReplyWebchatButton,
-                    iconSource: /*#__PURE__*/ _react.default.createElement(
-                      _ReplyIcon.default,
-                      null,
+                          accessibilityLabel:
+                            _uawmsgs.default.LBL_HISTORY_REPLY_BUTTON_TOOLTIP,
+                          onPress:
+                            replyOptions.length === 1
+                              ? replyOptions[0].event
+                              : function () {
+                                  return _this2.handleHistoryReplyWebchatButtonClick(
+                                    searchResult.searchResultId,
+                                  )
+                                },
+                        },
+                      ),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _MenuBalloonDialog.default,
+                      {
+                        style: styles.brHistoryReplyWebchatBalloonDialog,
+                        showing:
+                          props.uiData.showingDialogVersion ===
+                            _this2.state.showingReplyDialogVersion &&
+                          searchResult.searchResultId ===
+                            _this2.state.showingReplyDialogSearchResultId,
+                        children: replyOptions.map(function (option, i) {
+                          return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _MenuItem.default,
+                            {
+                              style: [
+                                styles.brHistoryReplyWebchatMenuItem,
+                                styles[option.className],
+                              ],
+                              accessibilityLabel: option.label,
+                              onPress: option.event,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Text,
+                                {
+                                  children: option.label,
+                                },
+                              ),
+                            },
+                            i,
+                          )
+                        }),
+                      },
                     ),
-                    accessibilityLabel:
-                      _uawmsgs.default.LBL_HISTORY_REPLY_BUTTON_TOOLTIP,
-                    onPress:
-                      replyOptions.length === 1
-                        ? replyOptions[0].event
-                        : function () {
-                            return _this2.handleHistoryReplyWebchatButtonClick(
-                              searchResult.searchResultId,
-                            )
-                          },
-                  },
-                ),
-              /*#__PURE__*/ _react.default.createElement(
-                _MenuBalloonDialog.default,
-                {
-                  style: styles.brHistoryReplyWebchatBalloonDialog,
-                  showing:
-                    props.uiData.showingDialogVersion ===
-                      _this2.state.showingReplyDialogVersion &&
-                    searchResult.searchResultId ===
-                      _this2.state.showingReplyDialogSearchResultId,
-                },
-                replyOptions.map(function (option, i) {
-                  return /*#__PURE__*/ _react.default.createElement(
-                    _MenuItem.default,
-                    {
-                      key: i,
-                      style: [
-                        styles.brHistoryReplyWebchatMenuItem,
-                        styles[option.className],
-                      ],
-                      accessibilityLabel: option.label,
-                      onPress: option.event,
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      null,
-                      option.label,
-                    ),
-                  )
-                }),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: [
-                  styles.brHistorySummary,
-                  searchResult._expanded && styles.brExpanded,
-                ],
-                // onClick={
-                //   searchResult._expanded
-                //     ? () => {}
-                //     : this.handleHistorySummaryExpandButtonClick.bind(
-                //         this,
-                //         searchResult.searchResultId,
-                //       )
-                // }
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [
-                    {
-                      flexDirection: 'row',
-                      position: 'relative',
-                    },
                   ],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: {
-                      alignItems: 'flex-start',
-                      gap: 3,
-                    },
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.View,
-                    {
-                      style: {
-                        flexDirection: 'row',
-                      },
-                    },
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      {
-                        style: styles.brHistorySummaryName,
-                      },
-                      searchResult.chatType === 'webchat'
-                        ? (0, _strings.string)(searchResult.customerName)
-                        : searchResult.chatType === 'userchatconf'
-                          ? (0, _strings.string)(
-                              searchResult._topic &&
-                                searchResult._topic.peer &&
-                                searchResult._topic.peer.subject,
-                            )
-                          : (0, _strings.string)(
-                              searchResult._topic &&
-                                searchResult._topic.peer &&
-                                (searchResult._topic.peer.user_name ||
-                                  searchResult._topic.peer.user_id),
-                            ),
-                    ),
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.Text,
-                      {
-                        style: styles.brHistorySummaryTime,
-                      },
-                      searchResult.customerStartTime
-                        ? (0, _strings.formatMessageDateTime)(
-                            searchResult.customerStartTime,
-                          )
-                        : '',
-                    ),
-                  ),
-                  searchResult._profinfoFormatted
-                    ? /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        {
-                          style: styles.brHistorySummaryProfinfo,
-                        },
-                        (0, _strings.string)(searchResult._profinfoFormatted),
-                      )
-                    : null,
-                  (searchResult.chatType === 'webchat' &&
-                    searchResult._topic &&
-                    searchResult.customerTenant ===
-                      searchResult._topic.content_sender_tenant &&
-                    searchResult.customerUserId ===
-                      searchResult._topic.content_sender_user_id) ||
-                    (searchResult.chatType === '' &&
-                      searchResult._topic &&
-                      searchResult._topic.peer &&
-                      searchResult._topic.peer.tenant ===
-                        searchResult._topic.content_sender_tenant &&
-                      searchResult._topic.peer.user_id ===
-                        searchResult._topic.content_sender_user_id)
-                    ? null
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Text,
-                        null,
-                        (0, _strings.string)(
-                          (
-                            (searchResult._topic &&
-                              props.uiData.ucUiStore.getBuddyUserForUi({
-                                tenant:
-                                  searchResult._topic.content_sender_tenant,
-                                user_id:
-                                  searchResult._topic.content_sender_user_id,
-                              })) ||
-                            {}
-                          ).name,
-                        ),
-                      ),
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.brHistorySummarySummary,
-                    },
-                    _this2.convertSummary(
-                      searchResult.summary,
-                      (
-                        (searchResult._topic &&
-                          props.uiData.ucUiStore.getBuddyUserForUi({
-                            tenant: searchResult._topic.content_sender_tenant,
-                            user_id: searchResult._topic.content_sender_user_id,
-                          })) ||
-                        {}
-                      ).isMe,
-                    ),
-                  ),
-                ),
-              ),
-              searchResult._expanded &&
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: styles.brHistorySummaryMarker,
                 }),
-              searchResult.chatType === 'webchat'
-                ? ((profile_image_url = (0, _strings.string)(
-                    searchResult._topic &&
-                      searchResult._topic.tags &&
-                      searchResult._topic.tags
-                        .filter(function (tag) {
-                          return (
-                            tag.tag_type === '_webchat' &&
-                            tag.tag_key === 'myProfileImageUrl'
-                          )
-                        })
-                        .sort(function (tag1, tag2) {
-                          return tag1.tstamp - tag2.tstamp
-                        })
-                        .map(function (tag) {
-                          return tag.tag_value
-                        })
-                        .pop(),
-                  )) &&
-                    false) ||
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: [
-                          styles.brHistorySummaryImage,
-                          profile_image_url
-                            ? (0, _strings.string)(profile_image_url).indexOf(
-                                _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
-                              ) === -1
-                              ? styles.brMyProfileImageUrl
-                              : {}
-                            : styles.brWithIcon,
-                        ],
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: [
+                    styles.brHistorySummary,
+                    searchResult._expanded && styles.brExpanded,
+                  ],
+                  // onClick={
+                  //   searchResult._expanded
+                  //     ? () => {}
+                  //     : this.handleHistorySummaryExpandButtonClick.bind(
+                  //         this,
+                  //         searchResult.searchResultId,
+                  //       )
+                  // }
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [
+                        {
+                          flexDirection: 'row',
+                          position: 'relative',
+                        },
+                      ],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                         _reactNative.View,
                         {
-                          style: styles.brIcon,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _InternetIcon.default,
-                          null,
-                        ),
-                      ),
-                    )
-                : searchResult.chatType === 'userchatconf'
-                  ? /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: styles.brHistorySummaryImage,
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.View,
-                        {
-                          style: styles.brIcon,
-                        },
-                        /*#__PURE__*/ _react.default.createElement(
-                          _ConferenceForegroundSelectedIcon.default,
-                          null,
-                        ),
-                      ),
-                    )
-                  : ((profile_image_url = (0, _strings.string)(
-                      (
-                        props.uiData.ucUiStore.getBuddyUserForUi(
-                          searchResult._topic && searchResult._topic.peer,
-                        ) || {}
-                      ).profile_image_url,
-                    )) &&
-                      false) ||
-                    /*#__PURE__*/ _react.default.createElement(
-                      _reactNative.View,
-                      {
-                        style: [
-                          styles.brHistorySummaryImage,
-                          profile_image_url
-                            ? (0, _strings.string)(profile_image_url).indexOf(
-                                _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
-                              ) === -1
-                              ? styles.brMyProfileImageUrl
-                              : {}
-                            : styles.brNoImage,
-                        ],
-                      },
-                      /*#__PURE__*/ _react.default.createElement(
-                        _reactNative.Image,
-                        {
-                          source: {
-                            uri: profile_image_url,
+                          style: {
+                            alignItems: 'flex-start',
+                            gap: 3,
                           },
-                          style: styles.brHistorySummaryImage,
+                          children: [
+                            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+                              _reactNative.View,
+                              {
+                                style: {
+                                  flexDirection: 'row',
+                                },
+                                children: [
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      style: styles.brHistorySummaryName,
+                                      children:
+                                        searchResult.chatType === 'webchat'
+                                          ? (0, _strings.string)(
+                                              searchResult.customerName,
+                                            )
+                                          : searchResult.chatType ===
+                                              'userchatconf'
+                                            ? (0, _strings.string)(
+                                                searchResult._topic &&
+                                                  searchResult._topic.peer &&
+                                                  searchResult._topic.peer
+                                                    .subject,
+                                              )
+                                            : (0, _strings.string)(
+                                                searchResult._topic &&
+                                                  searchResult._topic.peer &&
+                                                  (searchResult._topic.peer
+                                                    .user_name ||
+                                                    searchResult._topic.peer
+                                                      .user_id),
+                                              ),
+                                    },
+                                  ),
+                                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _reactNative.Text,
+                                    {
+                                      style: styles.brHistorySummaryTime,
+                                      children: searchResult.customerStartTime
+                                        ? (0, _strings.formatMessageDateTime)(
+                                            searchResult.customerStartTime,
+                                          )
+                                        : '',
+                                    },
+                                  ),
+                                ],
+                              },
+                            ),
+                            searchResult._profinfoFormatted
+                              ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    style: styles.brHistorySummaryProfinfo,
+                                    children: (0, _strings.string)(
+                                      searchResult._profinfoFormatted,
+                                    ),
+                                  },
+                                )
+                              : null,
+                            (searchResult.chatType === 'webchat' &&
+                              searchResult._topic &&
+                              searchResult.customerTenant ===
+                                searchResult._topic.content_sender_tenant &&
+                              searchResult.customerUserId ===
+                                searchResult._topic.content_sender_user_id) ||
+                            (searchResult.chatType === '' &&
+                              searchResult._topic &&
+                              searchResult._topic.peer &&
+                              searchResult._topic.peer.tenant ===
+                                searchResult._topic.content_sender_tenant &&
+                              searchResult._topic.peer.user_id ===
+                                searchResult._topic.content_sender_user_id)
+                              ? null
+                              : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                  _reactNative.Text,
+                                  {
+                                    children: (0, _strings.string)(
+                                      (
+                                        (searchResult._topic &&
+                                          props.uiData.ucUiStore.getBuddyUserForUi(
+                                            {
+                                              tenant:
+                                                searchResult._topic
+                                                  .content_sender_tenant,
+                                              user_id:
+                                                searchResult._topic
+                                                  .content_sender_user_id,
+                                            },
+                                          )) ||
+                                        {}
+                                      ).name,
+                                    ),
+                                  },
+                                ),
+                            /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              _reactNative.Text,
+                              {
+                                style: styles.brHistorySummarySummary,
+                                children: _this2.convertSummary(
+                                  searchResult.summary,
+                                  (
+                                    (searchResult._topic &&
+                                      props.uiData.ucUiStore.getBuddyUserForUi({
+                                        tenant:
+                                          searchResult._topic
+                                            .content_sender_tenant,
+                                        user_id:
+                                          searchResult._topic
+                                            .content_sender_user_id,
+                                      })) ||
+                                    {}
+                                  ).isMe,
+                                ),
+                              },
+                            ),
+                          ],
                         },
                       ),
-                    ),
-              /*#__PURE__*/ _react.default.createElement(
-                _ButtonIconic.default,
-                {
-                  style: styles.brHistorySummaryExpandButton,
-                  iconSource: searchResult._expanded
-                    ? /*#__PURE__*/ _react.default.createElement(
-                        _ChevronUpIcon.default,
-                        null,
-                      )
-                    : /*#__PURE__*/ _react.default.createElement(
-                        _ChevronDownIcon.default,
-                        null,
-                      ),
-                  accessibilityLabel:
-                    _uawmsgs.default.LBL_HISTORY_SUMMARY_EXPAND_BUTTON,
-                  onPress: _this2.handleHistorySummaryExpandButtonClick.bind(
-                    _this2,
-                    searchResult.searchResultId,
-                  ),
-                },
-              ),
-              searchResult._expanded &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
-                    style: {
-                      flex: 1,
-                    },
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _HistoryDetailArea.default,
-                    {
-                      uiData: props.uiData,
-                      hasMore: searchWorkData.hasMore,
-                      panelType: 'SEARCHRESULTDETAIL',
-                      panelCode: searchResult.searchResultId,
-                    },
-                  ),
-                ),
-            ),
+                    }),
+                    searchResult._expanded &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: styles.brHistorySummaryMarker,
+                      }),
+                    searchResult.chatType === 'webchat'
+                      ? ((profile_image_url = (0, _strings.string)(
+                          searchResult._topic &&
+                            searchResult._topic.tags &&
+                            searchResult._topic.tags
+                              .filter(function (tag) {
+                                return (
+                                  tag.tag_type === '_webchat' &&
+                                  tag.tag_key === 'myProfileImageUrl'
+                                )
+                              })
+                              .sort(function (tag1, tag2) {
+                                return tag1.tstamp - tag2.tstamp
+                              })
+                              .map(function (tag) {
+                                return tag.tag_value
+                              })
+                              .pop(),
+                        )) &&
+                          false) ||
+                        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                          style: [
+                            styles.brHistorySummaryImage,
+                            profile_image_url
+                              ? (0, _strings.string)(profile_image_url).indexOf(
+                                  _constants.default.PROFILE_IMAGE_URL_DOWNLOAD,
+                                ) === -1
+                                ? styles.brMyProfileImageUrl
+                                : {}
+                              : styles.brWithIcon,
+                          ],
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.brIcon,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _InternetIcon.default,
+                                {},
+                              ),
+                            },
+                          ),
+                        })
+                      : searchResult.chatType === 'userchatconf'
+                        ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: styles.brHistorySummaryImage,
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.View,
+                                {
+                                  style: styles.brIcon,
+                                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                    _ConferenceForegroundSelectedIcon.default,
+                                    {},
+                                  ),
+                                },
+                              ),
+                            },
+                          )
+                        : ((profile_image_url = (0, _strings.string)(
+                            (
+                              props.uiData.ucUiStore.getBuddyUserForUi(
+                                searchResult._topic && searchResult._topic.peer,
+                              ) || {}
+                            ).profile_image_url,
+                          )) &&
+                            false) ||
+                          /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.View,
+                            {
+                              style: [
+                                styles.brHistorySummaryImage,
+                                profile_image_url
+                                  ? (0, _strings.string)(
+                                      profile_image_url,
+                                    ).indexOf(
+                                      _constants.default
+                                        .PROFILE_IMAGE_URL_DOWNLOAD,
+                                    ) === -1
+                                    ? styles.brMyProfileImageUrl
+                                    : {}
+                                  : styles.brNoImage,
+                              ],
+                              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                                _reactNative.Image,
+                                {
+                                  source: {
+                                    uri: profile_image_url,
+                                  },
+                                  style: styles.brHistorySummaryImage,
+                                },
+                              ),
+                            },
+                          ),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+                      style: styles.brHistorySummaryExpandButton,
+                      iconSource: searchResult._expanded
+                        ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _ChevronUpIcon.default,
+                            {},
+                          )
+                        : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _ChevronDownIcon.default,
+                            {},
+                          ),
+                      accessibilityLabel:
+                        _uawmsgs.default.LBL_HISTORY_SUMMARY_EXPAND_BUTTON,
+                      onPress:
+                        _this2.handleHistorySummaryExpandButtonClick.bind(
+                          _this2,
+                          searchResult.searchResultId,
+                        ),
+                    }),
+                    searchResult._expanded &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                        style: {
+                          flex: 1,
+                        },
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _HistoryDetailArea.default,
+                          {
+                            uiData: props.uiData,
+                            hasMore: searchWorkData.hasMore,
+                            panelType: 'SEARCHRESULTDETAIL',
+                            panelCode: searchResult.searchResultId,
+                          },
+                        ),
+                      }),
+                  ],
+                }),
+              ],
+            },
+            (0, _strings.string)(searchResult.searchResultId),
           )
         })
         // conditions
@@ -1016,17 +1011,13 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           ? (0, _moment.default)((0, _strings.int)(startEnd[1]))
           : null
         console.log('#Duy Phan console count expands', entries.length)
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [
-              styles.brHistorySummariesPanel,
-              props.withHeader && styles.brWithHeader,
-            ],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.ScrollView,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [
+            styles.brHistorySummariesPanel,
+            props.withHeader && styles.brWithHeader,
+          ],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.ScrollView, {
               ref: this.historySummariesAreaRef,
               style: [
                 styles.brHistorySummariesArea,
@@ -1045,169 +1036,154 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               onScroll: this.handleHistorySummariesAreaScroll,
               onContentSizeChange: this.handleContentSizeChange,
               nestedScrollEnabled: true,
-            },
-            entries.length > 0 &&
-              /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                style: [
-                  styles.brHistorySummariesAreaMarker,
-                  {
-                    height: this.state.areaHeight,
-                  },
-                ],
-              }),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.brHistorySummariesList,
-              },
-              entries,
-              entries.length === 0 &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brHistoryNoResults,
-                  },
-                  _uawmsgs.default.LBL_HISTORY_NO_RESULTS,
-                ),
-              searchWorkData.errorType &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  {
-                    style: styles.brHistoryError,
-                  },
-                  (_uawmsgs.default[searchWorkData.errorType] ||
-                    searchWorkData.errorType) +
-                    (searchWorkData.errorDetail
-                      ? ' ('.concat(searchWorkData.errorDetail, ')')
-                      : ''),
-                ),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  ref: this.historyProgressRef,
-                  style: styles.brHistoryProgress,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Animated.View,
-                  {
+              children: [
+                entries.length > 0 &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                     style: [
-                      styles.brHistoryProgressInner,
+                      styles.brHistorySummariesAreaMarker,
                       {
-                        transform: [
-                          {
-                            rotate: this.progressAnimation.interpolate({
-                              inputRange: [0, 1],
-                              outputRange: ['0deg', '360deg'],
-                            }),
-                          },
-                        ],
+                        height: this.state.areaHeight,
                       },
                     ],
-                  },
-                ),
-              ),
-            ),
-          ),
-          props.withHeader &&
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+                  }),
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                  style: styles.brHistorySummariesList,
+                  children: [
+                    entries,
+                    entries.length === 0 &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.brHistoryNoResults,
+                        children: _uawmsgs.default.LBL_HISTORY_NO_RESULTS,
+                      }),
+                    searchWorkData.errorType &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.brHistoryError,
+                        children:
+                          (_uawmsgs.default[searchWorkData.errorType] ||
+                            searchWorkData.errorType) +
+                          (searchWorkData.errorDetail
+                            ? ' ('.concat(searchWorkData.errorDetail, ')')
+                            : ''),
+                      }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      ref: this.historyProgressRef,
+                      style: styles.brHistoryProgress,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.Animated.View,
+                        {
+                          style: [
+                            styles.brHistoryProgressInner,
+                            {
+                              transform: [
+                                {
+                                  rotate: this.progressAnimation.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: ['0deg', '360deg'],
+                                  }),
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ),
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            props.withHeader &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: styles.brHistorySummariesHeader,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.brHistorySummariesHeaderDateLabel,
-                },
-                _uawmsgs.default.LBL_HISTORY_DATE,
-              ),
-              /*#__PURE__*/ _react.default.createElement(CustomDatePicker, {
-                style: [styles.brSearchConditionsDatePicker],
-                value: startMoment ? startMoment.toDate() : null,
-                onChange: function onChange(date) {
-                  _this2.handleSearchConditionsDatePickerChange(
-                    false,
-                    date ? (0, _moment.default)(date) : null,
-                  )
-                },
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.brHistorySummariesHeaderDateSeparator,
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  '-',
-                ),
-              ),
-              /*#__PURE__*/ _react.default.createElement(CustomDatePicker, {
-                style: [styles.brSearchConditionsDatePicker],
-                value: endMoment ? endMoment.toDate() : null,
-                onChange: function onChange(date) {
-                  _this2.handleSearchConditionsDatePickerChange(
-                    true,
-                    date ? (0, _moment.default)(date) : null,
-                  )
-                },
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _DropDownMenu.default,
-                {
-                  uiData: props.uiData,
-                  style: styles.brSearchConditionsWebchatMenu,
-                  dialogStyle: {
-                    minWidth: 160,
-                    left: 16,
-                    top: 32,
-                  },
-                  dia: true,
-                  text:
-                    (0, _strings.string)(conditions._onlyMe.conditionValue) ===
-                    '2'
-                      ? _uawmsgs.default.LBL_HISTORY_YOUR_CHATS
-                      : (0, _strings.string)(
-                            conditions._chatType.conditionValue,
-                          ) === 'webchat'
-                        ? _uawmsgs.default.LBL_HISTORY_WEBCHATS
-                        : '',
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _MenuItem.default,
-                  {
-                    style: styles.brSearchConditionsWebchatItem,
-                    dropDown: true,
-                    onPress: this.handleSearchConditionsWebchatItemClick.bind(
-                      this,
-                      0,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    style: styles.brHistorySummariesHeaderDateLabel,
+                    children: _uawmsgs.default.LBL_HISTORY_DATE,
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(CustomDatePicker, {
+                    style: [styles.brSearchConditionsDatePicker],
+                    value: startMoment ? startMoment.toDate() : null,
+                    onChange: function onChange(date) {
+                      _this2.handleSearchConditionsDatePickerChange(
+                        false,
+                        date ? (0, _moment.default)(date) : null,
+                      )
+                    },
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: styles.brHistorySummariesHeaderDateSeparator,
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        children: '-',
+                      },
                     ),
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    _uawmsgs.default.LBL_HISTORY_YOUR_CHATS,
-                  ),
-                ),
-                /*#__PURE__*/ _react.default.createElement(
-                  _MenuItem.default,
-                  {
-                    style: styles.brSearchConditionsWebchatItem,
-                    dropDown: true,
-                    onPress: this.handleSearchConditionsWebchatItemClick.bind(
-                      this,
-                      1,
-                    ),
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    null,
-                    _uawmsgs.default.LBL_HISTORY_WEBCHATS,
-                  ),
-                ),
-              ),
-            ),
-        )
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(CustomDatePicker, {
+                    style: [styles.brSearchConditionsDatePicker],
+                    value: endMoment ? endMoment.toDate() : null,
+                    onChange: function onChange(date) {
+                      _this2.handleSearchConditionsDatePickerChange(
+                        true,
+                        date ? (0, _moment.default)(date) : null,
+                      )
+                    },
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_DropDownMenu.default, {
+                    uiData: props.uiData,
+                    style: styles.brSearchConditionsWebchatMenu,
+                    dialogStyle: {
+                      minWidth: 160,
+                      left: 16,
+                      top: 32,
+                    },
+                    dia: true,
+                    text:
+                      (0, _strings.string)(
+                        conditions._onlyMe.conditionValue,
+                      ) === '2'
+                        ? _uawmsgs.default.LBL_HISTORY_YOUR_CHATS
+                        : (0, _strings.string)(
+                              conditions._chatType.conditionValue,
+                            ) === 'webchat'
+                          ? _uawmsgs.default.LBL_HISTORY_WEBCHATS
+                          : '',
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuItem.default, {
+                        style: styles.brSearchConditionsWebchatItem,
+                        dropDown: true,
+                        onPress:
+                          this.handleSearchConditionsWebchatItemClick.bind(
+                            this,
+                            0,
+                          ),
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.Text,
+                          {
+                            children: _uawmsgs.default.LBL_HISTORY_YOUR_CHATS,
+                          },
+                        ),
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuItem.default, {
+                        style: styles.brSearchConditionsWebchatItem,
+                        dropDown: true,
+                        onPress:
+                          this.handleSearchConditionsWebchatItemClick.bind(
+                            this,
+                            1,
+                          ),
+                        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                          _reactNative.Text,
+                          {
+                            children: _uawmsgs.default.LBL_HISTORY_WEBCHATS,
+                          },
+                        ),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+          ],
+        })
       },
     },
   ])
@@ -1223,41 +1199,34 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
   var displayDate = value
     ? (0, _moment.default)(value).format('YYYY-MM-DD')
     : 'Select date'
-  return /*#__PURE__*/ _react.default.createElement(
-    _reactNative.View,
-    {
-      style: style,
-    },
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNative.TouchableOpacity,
-      {
+  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+    style: style,
+    children: [
+      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TouchableOpacity, {
         onPress: function onPress() {
           return setShow(true)
         },
         style: styles.datePickerButton,
-      },
-      /*#__PURE__*/ _react.default.createElement(
-        _reactNative.Text,
-        {
+        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
           style: styles.datePickerButtonText,
+          children: displayDate,
+        }),
+      }),
+      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeDatePicker.default, {
+        date: value || new Date(),
+        open: show,
+        mode: 'date',
+        modal: true,
+        onConfirm: function onConfirm(selectedDate) {
+          setShow(false)
+          onChange(selectedDate)
         },
-        displayDate,
-      ),
-    ),
-    /*#__PURE__*/ _react.default.createElement(_reactNativeDatePicker.default, {
-      date: value || new Date(),
-      open: show,
-      mode: 'date',
-      modal: true,
-      onConfirm: function onConfirm(selectedDate) {
-        setShow(false)
-        onChange(selectedDate)
-      },
-      onCancel: function onCancel() {
-        return setShow(false)
-      },
-    }),
-  )
+        onCancel: function onCancel() {
+          return setShow(false)
+        },
+      }),
+    ],
+  })
 }
 var styles = _reactNative.StyleSheet.create({
   brHistorySummariesPanel: {

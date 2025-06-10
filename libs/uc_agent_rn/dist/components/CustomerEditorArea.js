@@ -11,6 +11,7 @@ var _strings = require('../utilities/strings')
 var _ButtonIconic = _interopRequireDefault(require('./ButtonIconic'))
 var _MenuBalloonDialog = _interopRequireDefault(require('./MenuBalloonDialog'))
 var _MenuItem = _interopRequireDefault(require('./MenuItem'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -145,8 +146,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * CustomerEditorArea
  * props.uiData
  * props.uiData.ucUiStore
@@ -307,31 +307,28 @@ var CustomerEditorArea = (exports.default = /*#__PURE__*/ (function (
             },
             transcript: {
               eventName: 'editorReportMailLink_onClick',
-              label: /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: styles.transcriptLabel,
-                },
-                /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-                  style: [
-                    styles.reportMailIcon,
-                    ((settings === null ||
-                    settings === void 0 ||
-                    (_settings$optional_se = settings.optional_settings) ===
-                      null ||
-                    _settings$optional_se === void 0
-                      ? void 0
-                      : _settings$optional_se.send_report_mail) ||
-                      props.uiData.reportMailStatus[props.panelCode] === 2) &&
-                      styles.reportMailIconChecked,
-                  ],
-                }),
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.Text,
-                  null,
-                  _uawmsgs.default.LBL_EDITOR_REPORT_MAIL_LINK,
-                ),
-              ),
+              label: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                style: styles.transcriptLabel,
+                children: [
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: [
+                      styles.reportMailIcon,
+                      ((settings === null ||
+                      settings === void 0 ||
+                      (_settings$optional_se = settings.optional_settings) ===
+                        null ||
+                      _settings$optional_se === void 0
+                        ? void 0
+                        : _settings$optional_se.send_report_mail) ||
+                        props.uiData.reportMailStatus[props.panelCode] === 2) &&
+                        styles.reportMailIconChecked,
+                    ],
+                  }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                    children: _uawmsgs.default.LBL_EDITOR_REPORT_MAIL_LINK,
+                  }),
+                ],
+              }),
               enabled:
                 signedIn ||
                 props.uiData.reportMailStatus[props.panelCode] !== 2,
@@ -360,10 +357,9 @@ var CustomerEditorArea = (exports.default = /*#__PURE__*/ (function (
           menuOptions = props.uiData.configurations.menuOptions.map(
             function (s, i) {
               if (optionInfoTable[s]) {
-                return /*#__PURE__*/ _react.default.createElement(
+                return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _MenuItem.default,
                   {
-                    key: i,
                     style: styles.brEditorOptionsItem,
                     disabled: !optionInfoTable[s].enabled,
                     onPress: function onPress() {
@@ -372,80 +368,74 @@ var CustomerEditorArea = (exports.default = /*#__PURE__*/ (function (
                         optionInfoTable[s].enabled,
                       )
                     },
+                    children: optionInfoTable[s].label,
                   },
-                  optionInfoTable[s].label,
+                  i,
                 )
               } else if (s === 'separator') {
-                return /*#__PURE__*/ _react.default.createElement(
+                return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNative.View,
                   {
-                    key: i,
                     style: styles.brEditorOptionsSeparator,
                   },
+                  i,
                 )
               }
               return null
             },
           )
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: containerStyle,
-          },
-          /*#__PURE__*/ _react.default.createElement(_reactNative.TextInput, {
-            ref: this.editorTextarea,
-            style: styles.brEditorTextarea,
-            multiline: true,
-            placeholder: disabled
-              ? ''
-              : _uawmsgs.default.LBL_EDITOR_TEXTAREA_PLACEHOLDER,
-            onKeyPress: function onKeyPress(e) {
-              return props.uiData.fire(
-                'editorTextarea_onKeyDown',
-                props.panelType,
-                props.panelCode,
-                disabled,
-                e,
-              )
-            },
-            editable: !disabled,
-          }),
-          /*#__PURE__*/ _react.default.createElement(_ButtonIconic.default, {
-            style: styles.brEditorSendButton,
-            iconName: 'chat',
-            title: _uawmsgs.default.LBL_EDITOR_SEND_BUTTON_TOOLTIP,
-            onPress: this.handleSendButtonPress,
-            disabled: disabled,
-          }),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.TouchableOpacity,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: containerStyle,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TextInput, {
+              ref: this.editorTextarea,
+              style: styles.brEditorTextarea,
+              multiline: true,
+              placeholder: disabled
+                ? ''
+                : _uawmsgs.default.LBL_EDITOR_TEXTAREA_PLACEHOLDER,
+              onKeyPress: function onKeyPress(e) {
+                return props.uiData.fire(
+                  'editorTextarea_onKeyDown',
+                  props.panelType,
+                  props.panelCode,
+                  disabled,
+                  e,
+                )
+              },
+              editable: !disabled,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
+              style: styles.brEditorSendButton,
+              iconName: 'chat',
+              title: _uawmsgs.default.LBL_EDITOR_SEND_BUTTON_TOOLTIP,
+              onPress: this.handleSendButtonPress,
+              disabled: disabled,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TouchableOpacity, {
               style: styles.brEditorOptionsButton,
               onPress: this.handleOptionsPress,
               disabled: !props.withMenuOptions,
-            },
-            /*#__PURE__*/ _react.default.createElement(_reactNative.View, {
-              style: [
-                styles.brEditorOptionsIcon,
-                props.uiData.showingDialogVersion ===
-                this.state.showingDialogVersion
-                  ? styles.iconUp
-                  : styles.iconDown,
-              ],
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                style: [
+                  styles.brEditorOptionsIcon,
+                  props.uiData.showingDialogVersion ===
+                  this.state.showingDialogVersion
+                    ? styles.iconUp
+                    : styles.iconDown,
+                ],
+              }),
             }),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _MenuBalloonDialog.default,
-            {
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MenuBalloonDialog.default, {
               showing:
                 props.uiData.showingDialogVersion ===
                 this.state.showingDialogVersion,
               style: styles.brEditorOptionsBalloon,
-            },
-            menuOptions,
-          ),
-        )
+              children: menuOptions,
+            }),
+          ],
+        })
       },
     },
   ])

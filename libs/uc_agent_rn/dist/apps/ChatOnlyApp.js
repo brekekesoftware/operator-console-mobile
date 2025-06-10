@@ -26,6 +26,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _ChatArea = _interopRequireDefault(require('../components/ChatArea'))
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -128,8 +129,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * ChatOnlyApp
  * props.uiData
  * props.panelType
@@ -146,10 +146,8 @@ var ChatOnlyApp = /*#__PURE__*/ (function (_React$Component) {
       key: 'render',
       value: function render() {
         var props = this.props
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          null,
-          /*#__PURE__*/ _react.default.createElement(_ChatArea.default, {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatArea.default, {
             uiData: props.uiData,
             panelType: props.panelType,
             panelCode: props.panelCode,
@@ -157,7 +155,7 @@ var ChatOnlyApp = /*#__PURE__*/ (function (_React$Component) {
               bottom: 0,
             },
           }),
-        )
+        })
       },
     },
   ])

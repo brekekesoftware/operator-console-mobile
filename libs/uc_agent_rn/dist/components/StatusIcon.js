@@ -7,6 +7,7 @@ exports.default = void 0
 var _reactNative = require('react-native')
 var _reactNativeSvg = _interopRequireWildcard(require('react-native-svg'))
 var _strings = require('../utilities/strings')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
     var r = new WeakMap(),
@@ -199,32 +200,28 @@ var _default = (exports.default = function _default(props) {
     path += 'Z'
     return path
   }
-  return /*#__PURE__*/ React.createElement(
-    _reactNative.View,
-    {
-      style: [styles.container, props.style],
-    },
-    /*#__PURE__*/ React.createElement(
-      _reactNativeSvg.default,
-      {
-        width: '12',
-        height: '12',
-        style: styles.baseStatusIcon,
-      },
-      /*#__PURE__*/ React.createElement(_reactNativeSvg.Circle, {
-        cx: '6',
-        cy: '6',
-        r: '5',
-        fill: statusColor,
-        stroke: statusColor,
-        strokeWidth: '2',
-      }),
-      props.degree &&
-        /*#__PURE__*/ React.createElement(_reactNativeSvg.Path, {
-          d: createConicGradientPath(degree),
-          fill: colors.white,
-          fillOpacity: 0.5,
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+    style: [styles.container, props.style],
+    children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.default, {
+      width: '12',
+      height: '12',
+      style: styles.baseStatusIcon,
+      children: [
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Circle, {
+          cx: '6',
+          cy: '6',
+          r: '5',
+          fill: statusColor,
+          stroke: statusColor,
+          strokeWidth: '2',
         }),
-    ),
-  )
+        props.degree &&
+          /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
+            d: createConicGradientPath(degree),
+            fill: colors.white,
+            fillOpacity: 0.5,
+          }),
+      ],
+    }),
+  })
 })

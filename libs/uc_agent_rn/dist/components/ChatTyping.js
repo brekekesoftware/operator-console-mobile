@@ -7,6 +7,7 @@ exports.default = void 0
 var _reactNative = require('react-native')
 var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -41,24 +42,20 @@ var _default = (exports.default = function _default(props) {
     chatCode: props.panelCode,
   })
   if (typingBuddy && typingBuddy.user_id) {
-    return /*#__PURE__*/ React.createElement(
-      _reactNative.View,
-      {
-        style: styles.chatTyping,
-      },
-      /*#__PURE__*/ React.createElement(_NameEmbeddedSpan.default, {
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+      style: styles.chatTyping,
+      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_NameEmbeddedSpan.default, {
         ucUiStore: props.uiData.ucUiStore,
         format: _uawmsgs.default.MSG_TYPING,
         buddy: typingBuddy,
       }),
-    )
+    })
   } else {
-    return /*#__PURE__*/ React.createElement(
-      _reactNative.View,
-      {
-        style: [styles.chatTyping, styles.emptySpace],
-      },
-      /*#__PURE__*/ React.createElement(_reactNative.Text, null, '\xA0'),
-    )
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+      style: [styles.chatTyping, styles.emptySpace],
+      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+        children: '\xA0',
+      }),
+    })
   }
 })

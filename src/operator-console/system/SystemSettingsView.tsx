@@ -344,8 +344,8 @@ export class SystemSettingsView extends React.Component<Props, State> {
             top: 50,
             paddingRight: 20,
             paddingBottom: 20,
-            width: Dimensions.get('screen').width - 40,
-            height: Dimensions.get('screen').height - 60,
+            width: Dimensions.get('window').width - 40,
+            height: Dimensions.get('window').height - 60,
             zIndex: 1,
           }}
         >

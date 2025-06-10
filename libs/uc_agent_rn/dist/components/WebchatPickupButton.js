@@ -11,6 +11,7 @@ var _widgetconstants = _interopRequireDefault(
   require('../utilities/widgetconstants'),
 )
 var _reactNative = require('react-native')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -34,10 +35,8 @@ var _default = (exports.default = function _default(props) {
         _constants.default.CONF_STATUS_INVITED_WEBCHAT
       )
     }).length
-  return /*#__PURE__*/ React.createElement(
-    _reactNative.View,
-    null,
-    /*#__PURE__*/ React.createElement(_ToolbarButton.default, {
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ToolbarButton.default, {
       iconSource: require('../images/webchatpickup.png'),
       title: _uawmsgs.default.LBL_WEBCHAT_PICKUP_BUTON_TOOLTIP,
       clickableInterval: _widgetconstants.default.CLICKABLE_INTERVAL,
@@ -48,5 +47,5 @@ var _default = (exports.default = function _default(props) {
         {},
       ),
     }),
-  )
+  })
 })

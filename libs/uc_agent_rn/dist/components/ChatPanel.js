@@ -13,6 +13,7 @@ var _CallArea = _interopRequireDefault(require('./CallArea'))
 var _ChatArea = _interopRequireDefault(require('./ChatArea'))
 var _DndableSafe = _interopRequireDefault(require('./DndableSafe'))
 var _EditorArea = _interopRequireDefault(require('./EditorArea'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -147,8 +148,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * ChatPanel
  * props.uiData
  * props.uiData.ucUiStore
@@ -258,14 +258,10 @@ var ChatPanel = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             myUcCimUserType) !==
           myUcCimUserType
         console.log('#Duy Phan console render ChatPanel')
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [styles.brChatPanel],
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: [styles.brChatPanel],
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               ref: this.chatAreaRef,
               style: [
                 styles.chatArea,
@@ -273,20 +269,17 @@ var ChatPanel = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   top: this.state.chatAreaTop,
                 },
               ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_ChatArea.default, {
-              uiData: props.uiData,
-              panelType: props.panelType,
-              panelCode: props.panelCode,
-              style: {
-                flex: 1,
-              },
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ChatArea.default, {
+                uiData: props.uiData,
+                panelType: props.panelType,
+                panelCode: props.panelCode,
+                style: {
+                  flex: 1,
+                },
+              }),
             }),
-          ),
-          !this.state.isScrolledToBottom &&
-            /*#__PURE__*/ _react.default.createElement(
-              _ButtonIconic.default,
-              {
+            !this.state.isScrolledToBottom &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonIconic.default, {
                 style: [
                   styles.brChatAreaScrollToBottomButton,
                   unread && styles.brUnread,
@@ -307,37 +300,35 @@ var ChatPanel = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     isPressed: false,
                   })
                 },
-              },
-              unread > 0 &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  {
+                children:
+                  unread > 0 &&
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                     style: styles.brUnreadArea,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
-                    {
-                      style: styles.brUnreadInfo,
-                    },
-                    unread,
-                  ),
-                ),
-            ),
-          /*#__PURE__*/ _react.default.createElement(_EditorArea.default, {
-            ref: this.editorAreaRef,
-            uiData: props.uiData,
-            panelType: props.panelType,
-            panelCode: props.panelCode,
-            disabled: this.state.editorAreaDisabled,
-          }),
-          /*#__PURE__*/ _react.default.createElement(_CallArea.default, {
-            ref: 'callArea',
-            uiData: props.uiData,
-            panelType: props.panelType,
-            panelCode: props.panelCode,
-            onResize: this.handleCallAreaResize,
-          }),
-        )
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        style: styles.brUnreadInfo,
+                        children: unread,
+                      },
+                    ),
+                  }),
+              }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_EditorArea.default, {
+              ref: this.editorAreaRef,
+              uiData: props.uiData,
+              panelType: props.panelType,
+              panelCode: props.panelCode,
+              disabled: this.state.editorAreaDisabled,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CallArea.default, {
+              ref: 'callArea',
+              uiData: props.uiData,
+              panelType: props.panelType,
+              panelCode: props.panelCode,
+              onResize: this.handleCallAreaResize,
+            }),
+          ],
+        })
       },
     },
   ])

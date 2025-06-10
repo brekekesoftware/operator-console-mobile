@@ -17,6 +17,7 @@ var _CustomerSignInWebchatOptionsSelect = _interopRequireDefault(
   require('./CustomerSignInWebchatOptionsSelect'),
 )
 var _reactNativeLinearGradient = require('react-native-linear-gradient')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -60,61 +61,51 @@ var _default = (exports.default = function _default(props) {
       props.uiData.configurations.signInButtonLabel ||
       _uawmsgs.default.LBL_SIGN_IN_BUTTON
   }
-  return /*#__PURE__*/ _react.default.createElement(
-    _reactNative.ScrollView,
-    {
-      style: [styles.signInArea, customSignInAreaStyle],
-      contentContainerStyle: styles.scrollContent,
-    },
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNative.View,
-      {
-        style: [styles.signInFormArea, customFormAreaStyle],
-      },
-      /*#__PURE__*/ _react.default.createElement(_CustomerSignInError.default, {
-        uiData: props.uiData,
-      }),
-      /*#__PURE__*/ _react.default.createElement(
-        _CustomerSignInProfinfoInputs.default,
-        {
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.ScrollView, {
+    style: [styles.signInArea, customSignInAreaStyle],
+    contentContainerStyle: styles.scrollContent,
+    children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+      style: [styles.signInFormArea, customFormAreaStyle],
+      children: [
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_CustomerSignInError.default, {
           uiData: props.uiData,
-        },
-      ),
-      /*#__PURE__*/ _react.default.createElement(
-        _CustomerSignInWebchatOptionsSelect.default,
-        {
-          uiData: props.uiData,
-        },
-      ),
-      /*#__PURE__*/ _react.default.createElement(
-        _reactNative.TouchableOpacity,
-        {
+        }),
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+          _CustomerSignInProfinfoInputs.default,
+          {
+            uiData: props.uiData,
+          },
+        ),
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+          _CustomerSignInWebchatOptionsSelect.default,
+          {
+            uiData: props.uiData,
+          },
+        ),
+        /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TouchableOpacity, {
           style: [styles.buttonContainer, customButtonStyle],
           onPress: handleSignIn,
           disabled: props.uiData.ucUiStore.getSignInStatus() === 2,
           activeOpacity: 0.7,
-        },
-        /*#__PURE__*/ _react.default.createElement(
-          _reactNativeLinearGradient.LinearGradient,
-          {
-            colors: [
-              'rgba(255,255,255,0.35)',
-              'rgba(255,255,255,0.25)',
-              'rgba(255,255,255,0.1)',
-            ],
-            style: styles.buttonGradient,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+            _reactNativeLinearGradient.LinearGradient,
             {
-              style: styles.buttonText,
+              colors: [
+                'rgba(255,255,255,0.35)',
+                'rgba(255,255,255,0.25)',
+                'rgba(255,255,255,0.1)',
+              ],
+              style: styles.buttonGradient,
+              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                style: styles.buttonText,
+                children: buttonContent,
+              }),
             },
-            buttonContent,
           ),
-        ),
-      ),
-    ),
-  )
+        }),
+      ],
+    }),
+  })
 })
 var colors = {
   white: '#FFFFFF',

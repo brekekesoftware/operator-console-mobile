@@ -26,6 +26,7 @@ exports.default = void 0
 var _react = _interopRequireDefault(require('react'))
 var _reactNative = require('react-native')
 var _HistoryDetailArea = _interopRequireDefault(require('./HistoryDetailArea'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -128,8 +129,7 @@ function _setPrototypeOf(t, e) {
         }),
     _setPrototypeOf(t, e)
   )
-}
-/**
+} /**
  * HistoryDetailPanel - React Native version
  * A panel component for displaying history details
  *
@@ -150,12 +150,9 @@ var HistoryDetailPanel = (exports.default = /*#__PURE__*/ (function (
       key: 'render',
       value: function render() {
         var props = this.props
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.historyDetailPanel,
-          },
-          /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: styles.historyDetailPanel,
+          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _HistoryDetailArea.default,
             {
               style: styles.historyDetailArea,
@@ -164,7 +161,7 @@ var HistoryDetailPanel = (exports.default = /*#__PURE__*/ (function (
               panelCode: props.panelCode,
             },
           ),
-        )
+        })
       },
     },
   ])

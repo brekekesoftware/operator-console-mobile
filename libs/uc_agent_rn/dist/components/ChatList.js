@@ -12,6 +12,7 @@ var _ChatSysmsg = _interopRequireDefault(require('./ChatSysmsg'))
 var _ChatParagraph = _interopRequireDefault(require('./ChatParagraph'))
 var _ChatShowmorelink = _interopRequireDefault(require('./ChatShowmorelink'))
 var _uiconstants = _interopRequireDefault(require('../utilities/uiconstants'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -337,8 +338,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * ChatList
  * props.uiData
  * props.uiData.ucUiStore
@@ -562,10 +562,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
           .forEach(function (chat, index, array) {
             if (chat.type === 'sysmsg') {
               chatNodes.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _ChatSysmsg.default,
                   {
-                    key: chat.key,
                     ref: function ref(_ref) {
                       return (_this2.refs[chat.key] = _ref)
                     },
@@ -573,6 +572,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     sysmsg: chat,
                     nextChat: array[index + 1],
                   },
+                  chat.key,
                 ),
               )
             } else if (chat.type === 'paragraph') {
@@ -592,10 +592,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               }
               if (!paragraphFiltered) {
                 chatNodes.push(
-                  /*#__PURE__*/ _react.default.createElement(
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                     _ChatParagraph.default,
                     {
-                      key: chat.key,
                       ref: function ref(_ref2) {
                         return (_this2.refs[chat.key] = _ref2)
                       },
@@ -606,6 +605,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                       previousParagraph: previousParagraph,
                       isLast: index === array.length - 1,
                     },
+                    chat.key,
                   ),
                 )
                 previousParagraph = chat
@@ -625,10 +625,9 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 showmorelinkTried = true
               }
               chatNodes.push(
-                /*#__PURE__*/ _react.default.createElement(
+                /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _ChatShowmorelink.default,
                   {
-                    key: chat.key,
                     ref: function ref(_ref3) {
                       return (_this2.refs[chat.key] = _ref3)
                     },
@@ -640,6 +639,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     begin: displayPeriodBegin,
                     onClick: _this2.savePositionBeforeReceiveMore.bind(_this2),
                   },
+                  chat.key,
                 ),
               )
             }
@@ -650,49 +650,49 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             messageCount < _uiconstants.default.SEARCH_PREV_NEXT_TEXTS_MAX &&
             showmorelinkTried)
         console.log('#Duy Phan console chatNodes', chatNodes.length)
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: styles.brChatList,
-          },
-          !!isFiltered &&
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.TouchableOpacity,
-              {
-                style: styles.brChatListOpenDetailLink,
-                onPress: function onPress() {
-                  return props.uiData.fire(
-                    'chatListOpenDetailLink_onClick',
-                    props.panelType,
-                    props.panelCode,
-                  )
-                },
-                activeOpacity: 0.7,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: styles.brChatList,
+          children: [
+            !!isFiltered &&
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.TouchableOpacity,
                 {
-                  style: styles.brChatListOpenDetailLinkText,
+                  style: styles.brChatListOpenDetailLink,
+                  onPress: function onPress() {
+                    return props.uiData.fire(
+                      'chatListOpenDetailLink_onClick',
+                      props.panelType,
+                      props.panelCode,
+                    )
+                  },
+                  activeOpacity: 0.7,
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      style: styles.brChatListOpenDetailLinkText,
+                      children:
+                        _uawmsgs.default.LBL_CHAT_LIST_OPEN_DETAIL_LINK_CONTENT,
+                    },
+                  ),
                 },
-                _uawmsgs.default.LBL_CHAT_LIST_OPEN_DETAIL_LINK_CONTENT,
               ),
-            ),
-          chatNodes.map(function (node) {
-            return /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                key: node.key,
-                ref: function ref(_ref4) {
-                  return (_this2.refs[node.key] = _ref4)
+            chatNodes.map(function (node) {
+              return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.View,
+                {
+                  ref: function ref(_ref4) {
+                    return (_this2.refs[node.key] = _ref4)
+                  },
+                  onLayout: function onLayout(event) {
+                    return _this2.handleLayout(node.key, event)
+                  },
+                  children: node,
                 },
-                onLayout: function onLayout(event) {
-                  return _this2.handleLayout(node.key, event)
-                },
-              },
-              node,
-            )
-          }),
-        )
+                node.key,
+              )
+            }),
+          ],
+        })
       },
     },
   ])

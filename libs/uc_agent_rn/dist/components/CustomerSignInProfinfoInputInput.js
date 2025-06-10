@@ -6,6 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.default = void 0
 var _reactNative = require('react-native')
 var _strings = require('../utilities/strings.js')
+var _jsxRuntime = require('react/jsx-runtime')
 /**
  * CustomerSignInProfinfoInputInput - React Native version
  * A text input component for sign-in profile information
@@ -35,7 +36,7 @@ var _default = (exports.default = function _default(props) {
   var customStyle =
     props.uiData.configurations.signInFormStyles &&
     props.uiData.configurations.signInFormStyles.brSignInProfinfoInputInput
-  return /*#__PURE__*/ React.createElement(_reactNative.TextInput, {
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.TextInput, {
     style: [styles.signInProfinfoInputInput, customStyle],
     value: inputValue,
     placeholder: props.profinfoInput.placeholder,

@@ -8,6 +8,7 @@ var _react = _interopRequireDefault(require('react'))
 var _strings = require('../utilities/strings')
 var _reactNative = require('react-native')
 var _reactNativeSvg = _interopRequireWildcard(require('react-native-svg'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireWildcard(e, t) {
   if ('function' == typeof WeakMap)
     var r = new WeakMap(),
@@ -55,20 +56,6 @@ function _typeof(o) {
               : typeof o
           }),
     _typeof(o)
-  )
-}
-function _extends() {
-  return (
-    (_extends = Object.assign
-      ? Object.assign.bind()
-      : function (n) {
-          for (var e = 1; e < arguments.length; e++) {
-            var t = arguments[e]
-            for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r])
-          }
-          return n
-        }),
-    _extends.apply(null, arguments)
   )
 }
 function ownKeys(e, r) {
@@ -210,8 +197,7 @@ function _toPrimitive(t, r) {
     throw new TypeError('@@toPrimitive must return a primitive value.')
   }
   return ('string' === r ? String : Number)(t)
-}
-/**
+} /**
  * DialogResizableBox
  * props.style - replaces className
  * props.disabled
@@ -536,7 +522,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var _this$state = this.state,
           pan = _this$state.pan,
           size = _this$state.size
-        var contents = /*#__PURE__*/ _react.default.createElement(
+        var contents = /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
           _reactNative.Animated.View,
           {
             style: [
@@ -547,40 +533,58 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 height: size.y,
               },
             ],
-          },
-          props.children,
-          !props.disabled &&
-            /*#__PURE__*/ _react.default.createElement(
-              _react.default.Fragment,
-              null,
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                _extends(
-                  {
-                    style: styles.resizeHandle,
-                  },
-                  this.resizePanResponder.panHandlers,
-                ),
-                /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-                  source: images.resize,
-                  style: styles.resizeHandleImage,
+            children: [
+              props.children,
+              !props.disabled &&
+                /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.View,
+                      _objectSpread(
+                        _objectSpread(
+                          {
+                            style: styles.resizeHandle,
+                          },
+                          this.resizePanResponder.panHandlers,
+                        ),
+                        {},
+                        {
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Image,
+                            {
+                              source: images.resize,
+                              style: styles.resizeHandleImage,
+                            },
+                          ),
+                        },
+                      ),
+                    ),
+                    props.movable &&
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.View,
+                        _objectSpread(
+                          _objectSpread(
+                            {
+                              style: styles.dragHandle,
+                            },
+                            this.movePanResponder.panHandlers,
+                          ),
+                          {},
+                          {
+                            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                              DragIcon,
+                              {},
+                            ),
+                          },
+                        ),
+                      ),
+                  ],
                 }),
-              ),
-              props.movable &&
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.View,
-                  _extends(
-                    {
-                      style: styles.dragHandle,
-                    },
-                    this.movePanResponder.panHandlers,
-                  ),
-                  /*#__PURE__*/ _react.default.createElement(DragIcon, null),
-                ),
-            ),
+            ],
+          },
         )
         if (props.movable) {
-          contents = /*#__PURE__*/ _react.default.createElement(
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(
             _reactNative.Animated.View,
             {
               style: [
@@ -591,47 +595,36 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   top: (0, _strings.int)(props.initialTop),
                 },
               ],
+              children: contents,
             },
-            contents,
           )
         }
         if (props.modal) {
-          contents = /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: styles.brDialogResizableBoxModal,
-            },
-            contents,
-          )
+          contents = /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+            style: styles.brDialogResizableBoxModal,
+            children: contents,
+          })
         }
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: [styles.container, props.style],
-          },
-          contents,
-        )
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+          style: [styles.container, props.style],
+          children: contents,
+        })
       },
     },
   ])
 })(_react.default.Component))
 var DragIcon = function DragIcon() {
-  return /*#__PURE__*/ _react.default.createElement(
-    _reactNative.View,
-    null,
-    /*#__PURE__*/ _react.default.createElement(
-      _reactNativeSvg.default,
-      {
-        height: 24,
-        viewBox: '0 0 24 24',
-        width: 24,
-      },
-      /*#__PURE__*/ _react.default.createElement(_reactNativeSvg.Path, {
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.default, {
+      height: 24,
+      viewBox: '0 0 24 24',
+      width: 24,
+      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
         d: 'M22.67,12L18.18,16.5L15.67,14L17.65,12L15.67,10.04L18.18,7.53L22.67,12M12,1.33L16.47,5.82L13.96,8.33L12,6.35L10,8.33L7.5,5.82L12,1.33M12,22.67L7.53,18.18L10.04,15.67L12,17.65L14,15.67L16.5,18.18L12,22.67M1.33,12L5.82,7.5L8.33,10L6.35,12L8.33,13.96L5.82,16.47L1.33,12M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10Z',
         fill: '#b6b6b6',
       }),
-    ),
-  )
+    }),
+  })
 }
 var styles = _reactNative.StyleSheet.create({
   container: {

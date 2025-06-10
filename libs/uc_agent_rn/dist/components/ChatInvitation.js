@@ -9,6 +9,7 @@ var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _constants = _interopRequireDefault(require('../utilities/constants'))
 var _strings = require('../utilities/strings')
 var _ButtonLabeled = _interopRequireDefault(require('./ButtonLabeled'))
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -40,43 +41,30 @@ var _default = (exports.default = function _default(props) {
     return null
   }
   if (conference.invite_properties && conference.invite_properties.rejoinable) {
-    return /*#__PURE__*/ React.createElement(
-      _reactNative.View,
-      {
-        style: styles.brChatInvitationVisible,
-      },
-      /*#__PURE__*/ React.createElement(
-        _ButtonLabeled.default,
-        {
-          style: styles.brJoinButton,
-          vivid: true,
-          title: _uawmsgs.default.LBL_CONFERENCE_REJOIN_BUTTON_TOOLTIP,
-          onPress: function onPress() {
-            return props.uiData.fire(
-              'chatInvitationJoinButton_onClick',
-              props.panelType,
-              props.panelCode,
-            )
-          },
-        },
-        /*#__PURE__*/ React.createElement(
-          _reactNative.Text,
-          {
-            style: styles.brTextButton,
-          },
-          _uawmsgs.default.LBL_CONFERENCE_REJOIN_BUTTON,
-        ),
-      ),
-    )
-  }
-  return /*#__PURE__*/ React.createElement(
-    _reactNative.View,
-    {
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
       style: styles.brChatInvitationVisible,
-    },
-    /*#__PURE__*/ React.createElement(
-      _ButtonLabeled.default,
-      {
+      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
+        style: styles.brJoinButton,
+        vivid: true,
+        title: _uawmsgs.default.LBL_CONFERENCE_REJOIN_BUTTON_TOOLTIP,
+        onPress: function onPress() {
+          return props.uiData.fire(
+            'chatInvitationJoinButton_onClick',
+            props.panelType,
+            props.panelCode,
+          )
+        },
+        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+          style: styles.brTextButton,
+          children: _uawmsgs.default.LBL_CONFERENCE_REJOIN_BUTTON,
+        }),
+      }),
+    })
+  }
+  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+    style: styles.brChatInvitationVisible,
+    children: [
+      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
         style: styles.brJoinButton,
         vivid: true,
         title: _uawmsgs.default.LBL_CONFERENCE_JOIN_BUTTON_TOOLTIP,
@@ -87,18 +75,12 @@ var _default = (exports.default = function _default(props) {
             props.panelCode,
           )
         },
-      },
-      /*#__PURE__*/ React.createElement(
-        _reactNative.Text,
-        {
+        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
           style: styles.brTextButton,
-        },
-        _uawmsgs.default.LBL_CONFERENCE_JOIN_BUTTON,
-      ),
-    ),
-    /*#__PURE__*/ React.createElement(
-      _ButtonLabeled.default,
-      {
+          children: _uawmsgs.default.LBL_CONFERENCE_JOIN_BUTTON,
+        }),
+      }),
+      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_ButtonLabeled.default, {
         style: styles.brRejectButton,
         title: _uawmsgs.default.LBL_CONFERENCE_REJECT_BUTTON_TOOLTIP,
         onPress: function onPress() {
@@ -108,16 +90,13 @@ var _default = (exports.default = function _default(props) {
             props.panelCode,
           )
         },
-      },
-      /*#__PURE__*/ React.createElement(
-        _reactNative.Text,
-        {
+        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
           style: styles.brTextButton,
-        },
-        _uawmsgs.default.LBL_CONFERENCE_REJECT_BUTTON,
-      ),
-    ),
-  )
+          children: _uawmsgs.default.LBL_CONFERENCE_REJECT_BUTTON,
+        }),
+      }),
+    ],
+  })
 })
 var styles = _reactNative.StyleSheet.create({
   brChatInvitationVisible: {

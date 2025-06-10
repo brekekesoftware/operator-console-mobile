@@ -16,6 +16,7 @@ var _RadioCheckboxUncheckedIcon = _interopRequireDefault(
   require('../icons/RadioCheckboxUncheckedIcon'),
 )
 var _reactNativeGestureHandler = require('react-native-gesture-handler')
+var _jsxRuntime = require('react/jsx-runtime')
 function _interopRequireDefault(e) {
   return e && e.__esModule ? e : { default: e }
 }
@@ -463,39 +464,33 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
       })
     })
     _defineProperty(_this, 'renderCheckbox', function (selected) {
-      return /*#__PURE__*/ _react.default.createElement(
-        _reactNative.View,
-        {
-          style: styles.checkbox,
-        },
-        selected
-          ? /*#__PURE__*/ _react.default.createElement(
+      return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+        style: styles.checkbox,
+        children: selected
+          ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _RadioCheckboxCheckedIcon.default,
-              null,
+              {},
             )
-          : /*#__PURE__*/ _react.default.createElement(
+          : /*#__PURE__*/ (0, _jsxRuntime.jsx)(
               _RadioCheckboxUncheckedIcon.default,
-              null,
+              {},
             ),
-      )
+      })
     })
     _defineProperty(
       _this,
       'renderButton',
       function (text, onPress, selected, style, textStyle) {
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
           _reactNative.TouchableOpacity,
           {
             style: [style, selected && styles.selectButtonSelected],
             onPress: onPress,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.Text,
-            {
+            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
               style: textStyle,
-            },
-            text,
-          ),
+              children: text,
+            }),
+          },
         )
       },
     )
@@ -511,126 +506,123 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var isHovered = hoveredRow === index
         var isActive = activeRow === index
         console.log('#Duy Phan console searchResult', searchResult)
-        return /*#__PURE__*/ _react.default.createElement(
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
           _react.default.Fragment,
           {
-            key: 'result-'.concat(index),
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.TouchableOpacity,
-            {
-              style: [
-                styles.row,
-                isHovered && styles.rowHovered,
-                isActive && styles.rowActive,
-              ],
-              onPress: function onPress() {
-                return _this.handleResultPress(searchResult.searchResultId)
-              },
-              onPressIn: function onPressIn() {
-                return _this.setState({
-                  hoveredRow: index,
-                })
-              },
-              onPressOut: function onPressOut() {
-                return _this.setState({
-                  hoveredRow: null,
-                  activeRow: null,
-                })
-              },
-              activeOpacity: 1,
-            },
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: [
-                  styles.checkCell,
-                  (!props.selectable || !props.checkBox) &&
-                    styles.checkCellHidden,
-                ],
-              },
-              /*#__PURE__*/ _react.default.createElement(
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
                 _reactNative.TouchableOpacity,
                 {
-                  onPress: function onPress(e) {
-                    _this.handleSelectPress(searchResult.searchResultId)
+                  style: [
+                    styles.row,
+                    isHovered && styles.rowHovered,
+                    isActive && styles.rowActive,
+                  ],
+                  onPress: function onPress() {
+                    return _this.handleResultPress(searchResult.searchResultId)
                   },
+                  onPressIn: function onPressIn() {
+                    return _this.setState({
+                      hoveredRow: index,
+                    })
+                  },
+                  onPressOut: function onPressOut() {
+                    return _this.setState({
+                      hoveredRow: null,
+                      activeRow: null,
+                    })
+                  },
+                  activeOpacity: 1,
+                  children: [
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [
+                        styles.checkCell,
+                        (!props.selectable || !props.checkBox) &&
+                          styles.checkCellHidden,
+                      ],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          onPress: function onPress(e) {
+                            _this.handleSelectPress(searchResult.searchResultId)
+                          },
+                          children: _this.renderCheckbox(searchResult.selected),
+                        },
+                      ),
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.timeCell,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.Text,
+                        {
+                          children: (0, _strings.formatTopicDate)(
+                            searchResult.customerStartTime,
+                          ),
+                        },
+                      ),
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.nameCell,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.Text,
+                        {
+                          style: styles.nameText,
+                          children: searchResult.customerName,
+                        },
+                      ),
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: styles.summaryCell,
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.Text,
+                        {
+                          children: searchResult.summary.replace(
+                            /<[^>]*>/g,
+                            '',
+                          ),
+                        },
+                      ),
+                    }),
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [
+                        styles.selectCell,
+                        (!props.selectable || props.checkBox) &&
+                          styles.selectCellHidden,
+                      ],
+                      children:
+                        props.selectable &&
+                        !props.checkBox &&
+                        _this.renderButton(
+                          _uawmsgs.default.LBL_SEARCH_SELECT_BUTTON,
+                          function (e) {
+                            _this.handleSelectPress(searchResult.searchResultId)
+                            e.stopPropagation()
+                          },
+                          searchResult.selected,
+                          styles.selectButton,
+                          styles.selectButtonText,
+                        ),
+                    }),
+                  ],
                 },
-                _this.renderCheckbox(searchResult.selected),
               ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.timeCell,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                (0, _strings.formatTopicDate)(searchResult.customerStartTime),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.nameCell,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.nameText,
-                },
-                searchResult.customerName,
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: styles.summaryCell,
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                null,
-                searchResult.summary.replace(/<[^>]*>/g, ''),
-              ),
-            ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
                 style: [
-                  styles.selectCell,
-                  (!props.selectable || props.checkBox) &&
-                    styles.selectCellHidden,
+                  styles.detailRow,
+                  searchResult._expanded && styles.detailRowExpanded,
                 ],
-              },
-              props.selectable &&
-                !props.checkBox &&
-                _this.renderButton(
-                  _uawmsgs.default.LBL_SEARCH_SELECT_BUTTON,
-                  function (e) {
-                    _this.handleSelectPress(searchResult.searchResultId)
-                    e.stopPropagation()
+                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                  _ChatList.default,
+                  {
+                    uiData: props.uiData,
+                    panelType: 'SEARCHRESULTDETAIL',
+                    panelCode: searchResult.searchResultId,
                   },
-                  searchResult.selected,
-                  styles.selectButton,
-                  styles.selectButtonText,
                 ),
-            ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
-              style: [
-                styles.detailRow,
-                searchResult._expanded && styles.detailRowExpanded,
-              ],
-            },
-            /*#__PURE__*/ _react.default.createElement(_ChatList.default, {
-              uiData: props.uiData,
-              panelType: 'SEARCHRESULTDETAIL',
-              panelCode: searchResult.searchResultId,
-            }),
-          ),
+              }),
+            ],
+          },
+          'result-'.concat(index),
         )
       },
     )
@@ -667,112 +659,98 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             searchResults.length &&
             styles.scrollableWithHeader,
         ]
-        return /*#__PURE__*/ _react.default.createElement(
-          _reactNative.View,
-          {
-            style: containerStyles,
-          },
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNative.View,
-            {
+        return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+          style: containerStyles,
+          children: [
+            /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
               style: headerStyles,
-            },
-            props.checkBox
-              ? /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
-                    style: styles.checkboxButton,
-                    onPress: this.handleSelectAllPress,
-                  },
-                  this.renderCheckbox(this.state.selectedAll),
-                )
-              : this.renderButton(
-                  _uawmsgs.default.LBL_SEARCH_SELECT_ALL_BUTTON,
-                  this.handleSelectAllPress,
-                  this.state.selectedAll,
-                  styles.selectAllButton,
-                  styles.selectAllButtonText,
-                ),
-          ),
-          /*#__PURE__*/ _react.default.createElement(
-            _reactNativeGestureHandler.ScrollView,
-            {
-              style: scrollableStyles,
-            },
-            searchResults.length > 0 &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.tableContainer],
-                },
-                searchResults.map(function (result, index) {
-                  return _this7.renderSearchResult(result, index)
-                }),
-              ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
-              {
-                style: [
-                  styles.errorArea,
-                  !searchWorkData.errorType && styles.errorAreaHidden,
-                ],
-              },
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.errorMessage,
-                },
-                (_uawmsgs.default[searchWorkData.errorType] ||
-                  searchWorkData.errorType) +
-                  (searchWorkData.errorDetail
-                    ? ' (' + searchWorkData.errorDetail + ')'
-                    : ''),
-              ),
-            ),
-            searchWorkData.hasMore &&
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.View,
-                {
-                  style: [styles.searchMoreArea],
-                },
-                /*#__PURE__*/ _react.default.createElement(
-                  _reactNative.TouchableOpacity,
-                  {
-                    style: styles.searchMoreButton,
-                    onPress: this.handleSearchMorePress,
-                  },
-                  /*#__PURE__*/ _react.default.createElement(
-                    _reactNative.Text,
+              children: props.checkBox
+                ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.TouchableOpacity,
                     {
-                      style: styles.searchMoreButtonText,
+                      style: styles.checkboxButton,
+                      onPress: this.handleSelectAllPress,
+                      children: this.renderCheckbox(this.state.selectedAll),
                     },
-                    _uawmsgs.default.LBL_SEARCH_MORE_BUTTON,
+                  )
+                : this.renderButton(
+                    _uawmsgs.default.LBL_SEARCH_SELECT_ALL_BUTTON,
+                    this.handleSelectAllPress,
+                    this.state.selectedAll,
+                    styles.selectAllButton,
+                    styles.selectAllButtonText,
                   ),
-                ),
-              ),
-            /*#__PURE__*/ _react.default.createElement(
-              _reactNative.View,
+            }),
+            /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+              _reactNativeGestureHandler.ScrollView,
               {
-                style: [
-                  styles.searchingArea,
-                  !(searchWorkData.searching && !searchWorkData.clearing) &&
-                    styles.searchingAreaHidden,
+                style: scrollableStyles,
+                children: [
+                  searchResults.length > 0 &&
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [styles.tableContainer],
+                      children: searchResults.map(function (result, index) {
+                        return _this7.renderSearchResult(result, index)
+                      }),
+                    }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                    style: [
+                      styles.errorArea,
+                      !searchWorkData.errorType && styles.errorAreaHidden,
+                    ],
+                    children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                      _reactNative.Text,
+                      {
+                        style: styles.errorMessage,
+                        children:
+                          (_uawmsgs.default[searchWorkData.errorType] ||
+                            searchWorkData.errorType) +
+                          (searchWorkData.errorDetail
+                            ? ' (' + searchWorkData.errorDetail + ')'
+                            : ''),
+                      },
+                    ),
+                  }),
+                  searchWorkData.hasMore &&
+                    /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.View, {
+                      style: [styles.searchMoreArea],
+                      children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                        _reactNative.TouchableOpacity,
+                        {
+                          style: styles.searchMoreButton,
+                          onPress: this.handleSearchMorePress,
+                          children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                            _reactNative.Text,
+                            {
+                              style: styles.searchMoreButtonText,
+                              children: _uawmsgs.default.LBL_SEARCH_MORE_BUTTON,
+                            },
+                          ),
+                        },
+                      ),
+                    }),
+                  /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+                    style: [
+                      styles.searchingArea,
+                      !(searchWorkData.searching && !searchWorkData.clearing) &&
+                        styles.searchingAreaHidden,
+                    ],
+                    children: [
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Image, {
+                        source: require('../images/progress.gif'),
+                        style: styles.searchingIcon,
+                      }),
+                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                        style: styles.searchingMessage,
+                        children: _uawmsgs.default.LBL_SEARCH_SEARCHING,
+                      }),
+                    ],
+                  }),
                 ],
               },
-              /*#__PURE__*/ _react.default.createElement(_reactNative.Image, {
-                source: require('../images/progress.gif'),
-                style: styles.searchingIcon,
-              }),
-              /*#__PURE__*/ _react.default.createElement(
-                _reactNative.Text,
-                {
-                  style: styles.searchingMessage,
-                },
-                _uawmsgs.default.LBL_SEARCH_SEARCHING,
-              ),
             ),
-          ),
-        )
+          ],
+        })
       },
     },
   ])
