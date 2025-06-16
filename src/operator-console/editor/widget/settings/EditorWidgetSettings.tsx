@@ -65,7 +65,7 @@ export class EditorWidgetSettings extends Component<Props, State> {
             paddingBottom: 12,
             paddingRight: 12,
             paddingLeft: 12,
-            height: 150,
+            // height: 150,
           }}
         >
           <Popconfirm
@@ -77,7 +77,7 @@ export class EditorWidgetSettings extends Component<Props, State> {
             }
             okText={i18n.t('yes')}
             cancelText={i18n.t('no')}
-            popStyle={{ bottom: 30, top: undefined }}
+            popStyle={{ bottom: undefined, top: -80 }}
           >
             <Button disabled style={{ minWidth: 80 }}>
               {i18n.t('remove')}

@@ -1,0 +1,7 @@
+.provider-wrapper div[class^='r-overflow'] {
+  overflow: visible !important;
+}
+
+.provider-wrapper {
+    flex: 1
+}

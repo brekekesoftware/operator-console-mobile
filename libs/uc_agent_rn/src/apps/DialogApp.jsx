@@ -139,8 +139,9 @@ class DialogApp extends React.Component {
         >
           <View
             style={{
-              width: '100%',
-              height: '100%',
+              // width: '100%',
+              // height: '100%',
+              flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               flexDirection: 'column',
@@ -153,7 +154,17 @@ class DialogApp extends React.Component {
                 option.draggable && styles.brDraggable,
               ]}
             >
-              <Text style={{ flex: 1 }}>{string(option.title)}</Text>
+              <Text
+                style={{
+                  flex: 1,
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  MozUserSelect: 'none',
+                  msUserSelect: 'none',
+                }}
+              >
+                {string(option.title)}
+              </Text>
               <TouchableOpacity
                 style={[
                   styles.brDialogCloseButton,
@@ -296,11 +307,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dcdcd5',
     backgroundColor: '#ffffff',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     // width: 500,
     // minWidth: 500,
     // minHeight: 400,
-    flex: 1,
+    // flex: 1,
   },
   brWithButtons: {
     bottom: 40,

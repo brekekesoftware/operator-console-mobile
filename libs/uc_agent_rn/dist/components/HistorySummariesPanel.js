@@ -16,9 +16,7 @@ var _MenuItem = _interopRequireDefault(require('./MenuItem'))
 var _NameEmbeddedSpan = _interopRequireDefault(require('./NameEmbeddedSpan'))
 var _moment = _interopRequireDefault(require('moment'))
 var _reactNative = require('react-native')
-var _reactNativeDatePicker = _interopRequireDefault(
-  require('react-native-date-picker'),
-)
+var _DatePicker = require('../components/DatePicker')
 var _NewWindowIcon = _interopRequireDefault(require('../icons/NewWindowIcon'))
 var _ReplyIcon = _interopRequireDefault(require('../icons/ReplyIcon'))
 var _InternetIcon = _interopRequireDefault(require('../icons/InternetIcon'))
@@ -1101,11 +1099,11 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   }),
                   /*#__PURE__*/ (0, _jsxRuntime.jsx)(CustomDatePicker, {
                     style: [styles.brSearchConditionsDatePicker],
-                    value: startMoment ? startMoment.toDate() : null,
+                    value: startMoment ? startMoment : null,
                     onChange: function onChange(date) {
                       _this2.handleSearchConditionsDatePickerChange(
                         false,
-                        date ? (0, _moment.default)(date) : null,
+                        date !== null && date !== void 0 ? date : null,
                       )
                     },
                   }),
@@ -1120,11 +1118,11 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   }),
                   /*#__PURE__*/ (0, _jsxRuntime.jsx)(CustomDatePicker, {
                     style: [styles.brSearchConditionsDatePicker],
-                    value: endMoment ? endMoment.toDate() : null,
+                    value: endMoment ? endMoment : null,
                     onChange: function onChange(date) {
                       _this2.handleSearchConditionsDatePickerChange(
                         true,
-                        date ? (0, _moment.default)(date) : null,
+                        date !== null && date !== void 0 ? date : null,
                       )
                     },
                   }),
@@ -1190,7 +1188,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
 })(_react.default.Component))
 var CustomDatePicker = function CustomDatePicker(_ref) {
   var value = _ref.value,
-    onChange = _ref.onChange,
+    _onChange = _ref.onChange,
     style = _ref.style
   var _React$useState = _react.default.useState(false),
     _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -1199,6 +1197,26 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
   var displayDate = value
     ? (0, _moment.default)(value).format('YYYY-MM-DD')
     : 'Select date'
+  if (_reactNative.Platform.OS === 'web') {
+    var _value$toDate
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(DatePicker, {
+      className:
+        'brSearchConditionsDatePicker brSearchConditionsStartDatePicker',
+      selected:
+        (_value$toDate =
+          value === null || value === void 0 ? void 0 : value.toDate()) !==
+          null && _value$toDate !== void 0
+          ? _value$toDate
+          : new Date(),
+      style: style,
+      // isClearable={true}
+      showMonthDropdown: true,
+      showYearDropdown: true,
+      onChange: function onChange(d) {
+        return _onChange((0, _moment.default)(d))
+      },
+    })
+  }
   return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
     style: style,
     children: [
@@ -1212,14 +1230,14 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
           children: displayDate,
         }),
       }),
-      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeDatePicker.default, {
-        date: value || new Date(),
+      /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DatePicker.DatePicker, {
+        date: value ? value.toDate() : new Date(),
         open: show,
         mode: 'date',
         modal: true,
         onConfirm: function onConfirm(selectedDate) {
           setShow(false)
-          onChange(selectedDate)
+          _onChange((0, _moment.default)(selectedDate))
         },
         onCancel: function onCancel() {
           return setShow(false)

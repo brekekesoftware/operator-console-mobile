@@ -1,6 +1,13 @@
 import { Tabs } from '@ant-design/react-native'
 import type { TabData } from '@ant-design/react-native/lib/tabs/PropsType'
-import { forwardRef, useCallback, useEffect, useRef } from 'react'
+import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core'
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+  useSortable,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { cloneElement, forwardRef, useCallback, useEffect, useRef } from 'react'
 import {
   Platform,
   ScrollView,
@@ -12,14 +19,31 @@ import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist'
 
-import { Util } from '../Util'
 import { RuntimeTabChildren } from './RuntimeTabChildren'
-import { RuntimeWidgetFactory } from './widget/runtime/RuntimeWidgetFactory'
 
 const _onTabClick = (tabKey, runtimePaneAsParent) => {
   const pane = runtimePaneAsParent
   const paneId = pane.getPaneId()
   pane.onTabClickByRuntimeTabFunctionComponent(tabKey)
+}
+
+const DraggableTabNode = ({ className, ...props }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: props['nodeKey'],
+    })
+  const style = {
+    ...props.style,
+    transform: CSS.Translate.toString(transform),
+    transition,
+    cursor: 'move',
+  }
+  return cloneElement(props.children, {
+    ref: setNodeRef,
+    style,
+    ...attributes,
+    ...listeners,
+  })
 }
 
 export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
@@ -52,10 +76,17 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
     tabItems[i] = tabItem
   }
 
-  const onDragEnd = ({ from, to }) => {
-    tabsData.replaceTabData(from, to)
-    tabsData.replaceTabData(to, to)
-    runtimePaneAsParent.setState({ rerender: true })
+  const onDragEnd = ({ active, over }) => {
+    if (!over) {
+      return
+    }
+
+    if (active.id !== over.id) {
+      const activeIndex = tabItems.findIndex(i => i.key === active.id)
+      const overIndex = tabItems.findIndex(i => i.key === over?.id)
+      tabsData.replaceTabData(activeIndex, overIndex)
+      runtimePaneAsParent.setState({ rerender: true })
+    }
   }
 
   const _onChangeByTabs = selectedKey => {
@@ -87,20 +118,19 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
 
   const renderItem = useCallback(
     (info, tabBarProps) => {
-      const index = info.getIndex()
+      const index = info.index
       return (
-        <ScaleDecorator key={info.item.key}>
+        <View key={info.key}>
           <TouchableOpacity
             activeOpacity={0.9}
             style={{
               padding: 6,
-              borderColor: activeKey === info.item.key ? '#1677ff' : undefined,
-              borderBottomWidth: activeKey === info.item.key ? 1 : undefined,
+              borderColor: activeKey === info.key ? '#1677ff' : undefined,
+              borderBottomWidth: activeKey === info.key ? 2 : undefined,
             }}
-            onLongPress={info.drag}
             onPress={() => {
-              _onTabClick(info.item.key, runtimePaneAsParent)
-              _onChangeByTabs(info.item.key)
+              _onTabClick(info.key, runtimePaneAsParent)
+              _onChangeByTabs(info.key)
 
               const { goToTab, onTabClick } = tabBarProps
               // tslint:disable-next-line:no-unused-expression
@@ -111,13 +141,13 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
           >
             <Text
               style={{
-                color: activeKey === info.item.key ? '#1677ff' : '#333333',
+                color: activeKey === info.key ? '#1677ff' : '#333333',
               }}
             >
-              {info.item.label}
+              {info.label}
             </Text>
           </TouchableOpacity>
-        </ScaleDecorator>
+        </View>
       )
     },
     [activeKey],
@@ -132,6 +162,11 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
       )),
     [],
   )
+  const sensor = useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 10,
+    },
+  })
 
   const jsx = (
     <View style={css} ref={ref}>
@@ -144,18 +179,20 @@ export const RuntimeTabFunctionComponent = forwardRef((props, ref) => {
         initialPage={activeKey}
         swipeable={false}
         renderTabBar={tabBarProps => (
-          <DraggableFlatList
-            data={tabItems.map(item => ({
-              key: item.key,
-              label: item.label,
-              height: 40,
-              width: 100,
-            }))}
-            keyExtractor={(_, i) => i.toString()}
-            renderItem={(info: any) => renderItem(info, tabBarProps)}
-            horizontal
-            onDragEnd={onDragEnd}
-          />
+          <DndContext sensors={[sensor]} onDragEnd={onDragEnd}>
+            <SortableContext
+              items={tabItems.map(i => i.key)}
+              strategy={horizontalListSortingStrategy}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {tabItems.map((item, index) => (
+                  <DraggableTabNode nodeKey={item.key} {...item} key={item.key}>
+                    {renderItem({ ...item, index }, tabBarProps)}
+                  </DraggableTabNode>
+                ))}
+              </View>
+            </SortableContext>
+          </DndContext>
         )}
       >
         {renderTabs()}

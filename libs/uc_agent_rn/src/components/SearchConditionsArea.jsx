@@ -7,11 +7,12 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
+  PlatformColor,
 } from 'react-native'
 import uawMsgs from '../utilities/uawmsgs'
 import { int, string } from '../utilities/strings'
 import { Picker } from '@react-native-picker/picker'
-import DatePicker from 'react-native-date-picker'
+import { DatePicker } from '../components/DatePicker'
 import '../utilities/disableamd'
 import '../utilities/restoreamd'
 import 'moment/locale/ja'
@@ -139,6 +140,85 @@ export default class SearchConditionsArea extends React.Component {
     }
   }
 
+  renderPicker(searchCondition, i) {
+    if (Platform.OS === 'web') {
+       const startEnd = string(searchCondition.conditionValue).split('-');
+                const startMoment = startEnd[0] ? new Date(int(startEnd[0])) : null;
+                const endMoment = startEnd[1] ? new Date(int(startEnd[1])) : null;
+      return (
+        <View style={styles.datePickerContainer}>
+          <DatePicker
+            dateFormat='MM-dd-yyyy'
+            className='brSearchConditionValueStartDatePicker'
+            style={{ width: 100 }}
+            selected={startMoment}
+            // selected={moment(new Date())}
+            // isClearable={true}
+            // showMonthDropdown
+            pickerId="start-condition-picker"
+            showYearDropdown
+            onChange={this.handleDatePickerChange.bind(this, i, false)}
+          />
+          <Text style={styles.separator}>-</Text>
+          <DatePicker
+            dateFormat='MM-dd-yyyy'
+            className='brSearchConditionValueEndDatePicker'
+            selected={endMoment}
+            // selected={moment(new Date())}
+            style={{ width: 100 }}
+             pickerId="end-condition-picker"
+            // isClearable={true}
+            // showMonthDropdown
+            showYearDropdown
+            onChange={this.handleDatePickerChange.bind(this, i, true)}
+          />
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.datePickerContainer}>
+          <TouchableOpacity
+            style={styles.datePickerButton}
+            onPress={() => this.setState({ showStartDatePicker: true })}
+          >
+            <Text>
+              {this.getFormattedDate(searchCondition.conditionValue, false)}
+            </Text>
+          </TouchableOpacity>
+
+          <Text style={styles.separator}>-</Text>
+
+          <TouchableOpacity
+            style={styles.datePickerButton}
+            onPress={() => this.setState({ showEndDatePicker: true })}
+          >
+            <Text>
+              {this.getFormattedDate(searchCondition.conditionValue, true)}
+            </Text>
+          </TouchableOpacity>
+
+          <DatePicker
+            date={this.getDateValue(searchCondition.conditionValue, false)}
+            modal
+            mode='date'
+            open={this.state.showStartDatePicker}
+            onConfirm={date => this.handleDatePickerChange(i, false, date)}
+            onCancel={() => this.setState({ showStartDatePicker: false })}
+          />
+
+          <DatePicker
+            date={this.getDateValue(searchCondition.conditionValue, true)}
+            modal
+            mode='date'
+            open={this.state.showEndDatePicker}
+            onConfirm={date => this.handleDatePickerChange(i, true, date)}
+            onCancel={() => this.setState({ showEndDatePicker: false })}
+          />
+        </View>
+      )
+    }
+  }
+
   render() {
     const { props } = this
     console.log(
@@ -177,71 +257,7 @@ export default class SearchConditionsArea extends React.Component {
                 <Text style={styles.labelColumn}>{conditionLabel}</Text>
                 <View style={styles.inputColumn}>
                   {searchCondition.conditionKey === '_datetime' ? (
-                    <View style={styles.datePickerContainer}>
-                      <TouchableOpacity
-                        style={styles.datePickerButton}
-                        onPress={() =>
-                          this.setState({ showStartDatePicker: true })
-                        }
-                      >
-                        <Text>
-                          {this.getFormattedDate(
-                            searchCondition.conditionValue,
-                            false,
-                          )}
-                        </Text>
-                      </TouchableOpacity>
-
-                      <Text style={styles.separator}>-</Text>
-
-                      <TouchableOpacity
-                        style={styles.datePickerButton}
-                        onPress={() =>
-                          this.setState({ showEndDatePicker: true })
-                        }
-                      >
-                        <Text>
-                          {this.getFormattedDate(
-                            searchCondition.conditionValue,
-                            true,
-                          )}
-                        </Text>
-                      </TouchableOpacity>
-
-                      <DatePicker
-                        date={this.getDateValue(
-                          searchCondition.conditionValue,
-                          false,
-                        )}
-                        modal
-                        mode='date'
-                        open={this.state.showStartDatePicker}
-                        onConfirm={date =>
-                          this.handleDatePickerChange(i, false, date)
-                        }
-                        onCancel={() =>
-                          this.setState({ showStartDatePicker: false })
-                        }
-                      />
-
-                      {/* {this.state.showEndDatePicker && ( */}
-                      <DatePicker
-                        date={this.getDateValue(
-                          searchCondition.conditionValue,
-                          true,
-                        )}
-                        modal
-                        mode='date'
-                        open={this.state.showEndDatePicker}
-                        onConfirm={date =>
-                          this.handleDatePickerChange(i, true, date)
-                        }
-                        onCancel={() =>
-                          this.setState({ showEndDatePicker: false })
-                        }
-                      />
-                      {/* )} */}
-                    </View>
+                    this.renderPicker(searchCondition, i)
                   ) : searchCondition.options?.length ? (
                     <Picker
                       style={[

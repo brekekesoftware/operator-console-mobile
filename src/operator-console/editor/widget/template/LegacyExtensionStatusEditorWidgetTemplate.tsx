@@ -28,7 +28,7 @@ export class LegacyExtensionStatusEditorWidgetTemplate extends EditorWidgetTempl
     return (
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View style={OperatorConsoleStyles['led-grey']}></View>
-        <Text style={{ textAlign: 'center' }}>
+        <Text style={{ textAlign: 'center' }} selectable={false}>
           {i18n.t('extension_status')}
         </Text>
       </View>

@@ -22,7 +22,7 @@ import {
   Animated,
   Easing,
 } from 'react-native'
-import DateTimePicker from 'react-native-date-picker'
+import { DatePicker as DateTimePicker } from '../components/DatePicker'
 import NewWindowIcon from '../icons/NewWindowIcon'
 import ReplyIcon from '../icons/ReplyIcon'
 import InternetIcon from '../icons/InternetIcon'
@@ -741,12 +741,9 @@ export default class extends React.Component {
             </Text>
             <CustomDatePicker
               style={[styles.brSearchConditionsDatePicker]}
-              value={startMoment ? startMoment.toDate() : null}
+              value={startMoment ? startMoment : null}
               onChange={date => {
-                this.handleSearchConditionsDatePickerChange(
-                  false,
-                  date ? moment(date) : null,
-                )
+                this.handleSearchConditionsDatePickerChange(false, date ?? null)
               }}
             />
             <View style={styles.brHistorySummariesHeaderDateSeparator}>
@@ -754,12 +751,9 @@ export default class extends React.Component {
             </View>
             <CustomDatePicker
               style={[styles.brSearchConditionsDatePicker]}
-              value={endMoment ? endMoment.toDate() : null}
+              value={endMoment ? endMoment : null}
               onChange={date => {
-                this.handleSearchConditionsDatePickerChange(
-                  true,
-                  date ? moment(date) : null,
-                )
+                this.handleSearchConditionsDatePickerChange(true, date ?? null)
               }}
             />
             <DropDownMenu
@@ -807,6 +801,20 @@ const CustomDatePicker = ({ value, onChange, style }) => {
   const [show, setShow] = React.useState(false)
   const displayDate = value ? moment(value).format('YYYY-MM-DD') : 'Select date'
 
+  if (Platform.OS === 'web') {
+    return (
+      <DatePicker
+        className='brSearchConditionsDatePicker brSearchConditionsStartDatePicker'
+        selected={value?.toDate() ?? new Date()}
+        style={style}
+        // isClearable={true}
+        showMonthDropdown
+        showYearDropdown
+        onChange={d => onChange(moment(d))}
+      />
+    )
+  }
+
   return (
     <View style={style}>
       <TouchableOpacity
@@ -817,13 +825,13 @@ const CustomDatePicker = ({ value, onChange, style }) => {
       </TouchableOpacity>
 
       <DateTimePicker
-        date={value || new Date()}
+        date={value ? value.toDate() : new Date()}
         open={show}
         mode='date'
         modal
         onConfirm={selectedDate => {
           setShow(false)
-          onChange(selectedDate)
+          onChange(moment(selectedDate))
         }}
         onCancel={() => setShow(false)}
       />

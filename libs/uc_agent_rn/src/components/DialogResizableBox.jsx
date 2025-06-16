@@ -69,6 +69,7 @@ export default class extends React.Component {
         this.handleStartDraggable()
       },
       onPanResponderMove: (e, gesture) => {
+        e.stopPropagation()
         Animated.event([null, { dx: this.state.pan.x, dy: this.state.pan.y }], {
           useNativeDriver: false,
         })(e, gesture)
@@ -102,6 +103,7 @@ export default class extends React.Component {
         this.handleResizeStart()
       },
       onPanResponderMove: (e, gesture) => {
+          e.stopPropagation()
         const { resizableOpts } = this.props
         const { screenWidth, screenHeight } = this.state
 

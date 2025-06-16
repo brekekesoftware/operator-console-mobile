@@ -335,6 +335,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             _this2.handleStartDraggable()
           },
           onPanResponderMove: function onPanResponderMove(e, gesture) {
+            e.stopPropagation()
             _reactNative.Animated.event(
               [
                 null,
@@ -400,6 +401,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               _resizableOpts$maxCon2,
               _resizableOpts$maxCon3,
               _resizableOpts$maxCon4
+            e.stopPropagation()
             var resizableOpts = _this2.props.resizableOpts
             var _this2$state = _this2.state,
               screenWidth = _this2$state.screenWidth,

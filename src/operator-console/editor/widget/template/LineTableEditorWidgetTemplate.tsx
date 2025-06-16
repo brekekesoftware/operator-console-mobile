@@ -41,6 +41,7 @@ export class LineTableEditorWidgetTemplate extends EditorWidgetTemplate {
             fontSize: 14,
             fontWeight: 'bold',
           }}
+          selectable={false}
         >
           {i18n.t('LineTable')}
         </Text>

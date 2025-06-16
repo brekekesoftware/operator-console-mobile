@@ -28,9 +28,7 @@ var _reactNative = require('react-native')
 var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _strings = require('../utilities/strings')
 var _picker = require('@react-native-picker/picker')
-var _reactNativeDatePicker = _interopRequireDefault(
-  require('react-native-date-picker'),
-)
+var _DatePicker = require('../components/DatePicker')
 require('../utilities/disableamd')
 require('../utilities/restoreamd')
 require('moment/locale/ja')
@@ -349,9 +347,141 @@ var SearchConditionsArea = (exports.default = /*#__PURE__*/ (function (
       },
     },
     {
+      key: 'renderPicker',
+      value: function renderPicker(searchCondition, i) {
+        var _this3 = this
+        if (_reactNative.Platform.OS === 'web') {
+          var startEnd = (0, _strings.string)(
+            searchCondition.conditionValue,
+          ).split('-')
+          var startMoment = startEnd[0]
+            ? new Date((0, _strings.int)(startEnd[0]))
+            : null
+          var endMoment = startEnd[1]
+            ? new Date((0, _strings.int)(startEnd[1]))
+            : null
+          return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+            style: styles.datePickerContainer,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DatePicker.DatePicker, {
+                dateFormat: 'MM-dd-yyyy',
+                className: 'brSearchConditionValueStartDatePicker',
+                style: {
+                  width: 100,
+                },
+                selected: startMoment,
+                // selected={moment(new Date())}
+                // isClearable={true}
+                // showMonthDropdown
+                pickerId: 'start-condition-picker',
+                showYearDropdown: true,
+                onChange: this.handleDatePickerChange.bind(this, i, false),
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                style: styles.separator,
+                children: '-',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DatePicker.DatePicker, {
+                dateFormat: 'MM-dd-yyyy',
+                className: 'brSearchConditionValueEndDatePicker',
+                selected: endMoment,
+                // selected={moment(new Date())}
+                style: {
+                  width: 100,
+                },
+                pickerId: 'end-condition-picker',
+                // isClearable={true}
+                // showMonthDropdown
+                showYearDropdown: true,
+                onChange: this.handleDatePickerChange.bind(this, i, true),
+              }),
+            ],
+          })
+        } else {
+          return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
+            style: styles.datePickerContainer,
+            children: [
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.TouchableOpacity,
+                {
+                  style: styles.datePickerButton,
+                  onPress: function onPress() {
+                    return _this3.setState({
+                      showStartDatePicker: true,
+                    })
+                  },
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      children: this.getFormattedDate(
+                        searchCondition.conditionValue,
+                        false,
+                      ),
+                    },
+                  ),
+                },
+              ),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
+                style: styles.separator,
+                children: '-',
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                _reactNative.TouchableOpacity,
+                {
+                  style: styles.datePickerButton,
+                  onPress: function onPress() {
+                    return _this3.setState({
+                      showEndDatePicker: true,
+                    })
+                  },
+                  children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
+                    _reactNative.Text,
+                    {
+                      children: this.getFormattedDate(
+                        searchCondition.conditionValue,
+                        true,
+                      ),
+                    },
+                  ),
+                },
+              ),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DatePicker.DatePicker, {
+                date: this.getDateValue(searchCondition.conditionValue, false),
+                modal: true,
+                mode: 'date',
+                open: this.state.showStartDatePicker,
+                onConfirm: function onConfirm(date) {
+                  return _this3.handleDatePickerChange(i, false, date)
+                },
+                onCancel: function onCancel() {
+                  return _this3.setState({
+                    showStartDatePicker: false,
+                  })
+                },
+              }),
+              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DatePicker.DatePicker, {
+                date: this.getDateValue(searchCondition.conditionValue, true),
+                modal: true,
+                mode: 'date',
+                open: this.state.showEndDatePicker,
+                onConfirm: function onConfirm(date) {
+                  return _this3.handleDatePickerChange(i, true, date)
+                },
+                onCancel: function onCancel() {
+                  return _this3.setState({
+                    showEndDatePicker: false,
+                  })
+                },
+              }),
+            ],
+          })
+        }
+      },
+    },
+    {
       key: 'render',
       value: function render() {
-        var _this3 = this
+        var _this4 = this
         var props = this.props
         console.log(
           '#Duy Phan console this.state.showStartDatePicker',
@@ -399,106 +529,7 @@ var SearchConditionsArea = (exports.default = /*#__PURE__*/ (function (
                           style: styles.inputColumn,
                           children:
                             searchCondition.conditionKey === '_datetime'
-                              ? /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
-                                  _reactNative.View,
-                                  {
-                                    style: styles.datePickerContainer,
-                                    children: [
-                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
-                                        _reactNative.TouchableOpacity,
-                                        {
-                                          style: styles.datePickerButton,
-                                          onPress: function onPress() {
-                                            return _this3.setState({
-                                              showStartDatePicker: true,
-                                            })
-                                          },
-                                          children: /*#__PURE__*/ (0,
-                                          _jsxRuntime.jsx)(_reactNative.Text, {
-                                            children: _this3.getFormattedDate(
-                                              searchCondition.conditionValue,
-                                              false,
-                                            ),
-                                          }),
-                                        },
-                                      ),
-                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
-                                        _reactNative.Text,
-                                        {
-                                          style: styles.separator,
-                                          children: '-',
-                                        },
-                                      ),
-                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
-                                        _reactNative.TouchableOpacity,
-                                        {
-                                          style: styles.datePickerButton,
-                                          onPress: function onPress() {
-                                            return _this3.setState({
-                                              showEndDatePicker: true,
-                                            })
-                                          },
-                                          children: /*#__PURE__*/ (0,
-                                          _jsxRuntime.jsx)(_reactNative.Text, {
-                                            children: _this3.getFormattedDate(
-                                              searchCondition.conditionValue,
-                                              true,
-                                            ),
-                                          }),
-                                        },
-                                      ),
-                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
-                                        _reactNativeDatePicker.default,
-                                        {
-                                          date: _this3.getDateValue(
-                                            searchCondition.conditionValue,
-                                            false,
-                                          ),
-                                          modal: true,
-                                          mode: 'date',
-                                          open: _this3.state
-                                            .showStartDatePicker,
-                                          onConfirm: function onConfirm(date) {
-                                            return _this3.handleDatePickerChange(
-                                              i,
-                                              false,
-                                              date,
-                                            )
-                                          },
-                                          onCancel: function onCancel() {
-                                            return _this3.setState({
-                                              showStartDatePicker: false,
-                                            })
-                                          },
-                                        },
-                                      ),
-                                      /*#__PURE__*/ (0, _jsxRuntime.jsx)(
-                                        _reactNativeDatePicker.default,
-                                        {
-                                          date: _this3.getDateValue(
-                                            searchCondition.conditionValue,
-                                            true,
-                                          ),
-                                          modal: true,
-                                          mode: 'date',
-                                          open: _this3.state.showEndDatePicker,
-                                          onConfirm: function onConfirm(date) {
-                                            return _this3.handleDatePickerChange(
-                                              i,
-                                              true,
-                                              date,
-                                            )
-                                          },
-                                          onCancel: function onCancel() {
-                                            return _this3.setState({
-                                              showEndDatePicker: false,
-                                            })
-                                          },
-                                        },
-                                      ),
-                                    ],
-                                  },
-                                )
+                              ? _this4.renderPicker(searchCondition, i)
                               : (_searchCondition$opti =
                                     searchCondition.options) !== null &&
                                   _searchCondition$opti !== void 0 &&
@@ -519,7 +550,7 @@ var SearchConditionsArea = (exports.default = /*#__PURE__*/ (function (
                                       onValueChange: function onValueChange(
                                         value,
                                       ) {
-                                        return _this3.handleSelectChange(
+                                        return _this4.handleSelectChange(
                                           i,
                                           value,
                                         )
@@ -551,14 +582,14 @@ var SearchConditionsArea = (exports.default = /*#__PURE__*/ (function (
                                           styles.webchatIdsInput,
                                       ],
                                       value:
-                                        _this3.state.inputValues[i] !==
+                                        _this4.state.inputValues[i] !==
                                         undefined
-                                          ? _this3.state.inputValues[i]
+                                          ? _this4.state.inputValues[i]
                                           : searchCondition.conditionValue,
                                       onChangeText: function onChangeText(
                                         text,
                                       ) {
-                                        return _this3.handleInputChange(i, text)
+                                        return _this4.handleInputChange(i, text)
                                       },
                                       // onBlur={() => this.handleInputBlur(i)}
                                       // onSubmitEditing={() => this.handleInputSubmit(i)}
@@ -582,7 +613,7 @@ var SearchConditionsArea = (exports.default = /*#__PURE__*/ (function (
                       ],
                       disabled: searchWorkData.searching,
                       onPress: function onPress() {
-                        return _this3.handleDoSearchPress()
+                        return _this4.handleDoSearchPress()
                       },
                       activeOpacity: 0.8,
                       pressRetentionOffset: {

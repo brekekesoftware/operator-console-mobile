@@ -30,7 +30,11 @@ export class TextEditorWidgetTemplate extends EditorWidgetTemplate {
           backgroundColor: 'rgb(245,245,245)',
         }}
       >
-        <Text style={{ textAlign: 'center' }} numberOfLines={1}>
+        <Text
+          style={{ textAlign: 'center' }}
+          numberOfLines={1}
+          selectable={false}
+        >
           {i18n.t('text')}
         </Text>
       </View>

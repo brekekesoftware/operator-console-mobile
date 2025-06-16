@@ -1,31 +1,43 @@
 import { Tabs } from '@ant-design/react-native'
-import { forwardRef, useEffect, useRef } from 'react'
-import type { LayoutRectangle } from 'react-native'
+import { DndContext, PointerSensor, useSensor } from '@dnd-kit/core'
 import {
-  InteractionManager,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
-import DraggableFlatList, {
-  ScaleDecorator,
-} from 'react-native-draggable-flatlist'
+  horizontalListSortingStrategy,
+  SortableContext,
+  useSortable,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { cloneElement, forwardRef, useEffect, useRef } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
 
-import { GridLines } from '../common/GridLines'
 import { WidgetData } from '../data/widgetData/WidgetData'
 import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
-import { Util } from '../Util'
 import { EditorTabChildren } from './EditorTabChildren'
-import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
 
 const _onTabClick = (tabKey, editorPaneAsParent) => {
   const pane = editorPaneAsParent
   const paneId = pane.getPaneId()
   pane.onTabClickByEditorTabFunctionComponent(tabKey)
+}
+
+const DraggableTabNode = ({ className, ...props }) => {
+  console.log('#Duy Phan console key', props.nodeKey)
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: props['nodeKey'],
+    })
+  const style = {
+    ...props.style,
+    transform: CSS.Translate.toString(transform),
+    transition,
+    cursor: 'move',
+  }
+  return cloneElement(props.children, {
+    ref: setNodeRef,
+    style,
+    ...attributes,
+    ...listeners,
+  })
 }
 
 const isDropZone = (gesture, measure) => {
@@ -179,9 +191,24 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
 
   const tabsCheck = tabItems.map(item => ({ key: item.key, title: item.title }))
 
-  const onDragEnd = ({ from, to }) => {
-    tabsData.replaceTabData(from, to)
-    editorPaneAsParent.setState({ rerender: true })
+  const onDragEnd = ({ active, over }) => {
+    if (!over) {
+      return
+    }
+
+    if (active.id !== over.id) {
+      const activeIndex = tabItems.findIndex(i => i.key === active.id)
+      const overIndex = tabItems.findIndex(i => i.key === over?.id)
+      tabsData.replaceTabData(activeIndex, overIndex)
+      editorPaneAsParent.setState({ rerender: true })
+
+      // setItems((prev) => {
+      //     const activeIndex = prev.findIndex((i) => i.key === active.id);
+      //     const overIndex = prev.findIndex((i) => i.key === over?.id);
+      //     const arrayMoved = arrayMove(prev, activeIndex, overIndex);
+      //     return arrayMoved;
+      // });
+    }
   }
 
   const _onChangeByTabs = selectedKey => {
@@ -217,20 +244,20 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
     ))
 
   const renderItem = (info, tabBarProps) => {
-    const index = info.getIndex()
+    const index = info.index
     return (
-      <ScaleDecorator>
+      <View>
         <TouchableOpacity
           activeOpacity={0.9}
           style={{
             padding: 6,
-            borderColor: activeKey === info.item.key ? '#1677ff' : undefined,
-            borderBottomWidth: activeKey === info.item.key ? 1 : undefined,
+            borderColor: activeKey === info.key ? '#1677ff' : undefined,
+            borderBottomWidth: activeKey === info.key ? 2 : undefined,
+            // minWidth: 120,
           }}
-          onLongPress={info.drag}
           onPress={() => {
-            _onTabClick(info.item.key, editorPaneAsParent)
-            _onChangeByTabs(info.item.key)
+            _onTabClick(info.key, editorPaneAsParent)
+            _onChangeByTabs(info.key)
             const { goToTab, onTabClick } = tabBarProps
             onTabClick && onTabClick(tabBarProps.tabs[index], index)
             goToTab && goToTab(index)
@@ -239,15 +266,21 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         >
           <Text
             style={{
-              color: activeKey === info.item.key ? '#1677ff' : '#333333',
+              color: activeKey === info.key ? '#1677ff' : '#333333',
             }}
           >
-            {info.item.label}
+            {info.title}
           </Text>
         </TouchableOpacity>
-      </ScaleDecorator>
+      </View>
     )
   }
+
+  const sensor = useSensor(PointerSensor, {
+    activationConstraint: {
+      distance: 10,
+    },
+  })
 
   const jsx = (
     <View
@@ -271,18 +304,20 @@ export const EditorTabFunctionComponent = forwardRef((props, ref: any) => {
         swipeable={false}
         animated={false}
         renderTabBar={tabBarProps => (
-          <DraggableFlatList
-            data={tabItems.map(item => ({
-              key: item.key,
-              label: item.title,
-              width: 100,
-              height: 40,
-            }))}
-            keyExtractor={item => item.key}
-            renderItem={info => renderItem(info, tabBarProps)}
-            horizontal
-            onDragEnd={onDragEnd}
-          />
+          <DndContext sensors={[sensor]} onDragEnd={onDragEnd}>
+            <SortableContext
+              items={tabItems.map(i => i.key)}
+              strategy={horizontalListSortingStrategy}
+            >
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {tabItems.map((item, index) => (
+                  <DraggableTabNode nodeKey={item.key} {...item} key={item.key}>
+                    {renderItem({ ...item, index }, tabBarProps)}
+                  </DraggableTabNode>
+                ))}
+              </View>
+            </SortableContext>
+          </DndContext>
         )}
       >
         {renderT(tabItems)}

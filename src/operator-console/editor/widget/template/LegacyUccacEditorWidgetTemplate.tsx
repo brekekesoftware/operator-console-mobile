@@ -42,6 +42,7 @@ export class LegacyUccacEditorWidgetTemplate extends EditorWidgetTemplate {
             fontWeight: 'bold',
           }}
           numberOfLines={2}
+          selectable={false}
         >
           {i18n.t('ucChatAgentComponent')}
         </Text>

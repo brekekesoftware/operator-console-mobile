@@ -1,7 +1,7 @@
 // api was a component but had been rewritten to a listener
 import '../api'
 
-import { Provider } from '@ant-design/react-native'
+// import { Provider } from '@ant-design/react-native'
 import NetInfo from '@react-native-community/netinfo'
 import { debounce } from 'lodash'
 import { reaction, runInAction } from 'mobx'
@@ -26,6 +26,7 @@ import { sip } from '../api/sip'
 import { SyncPnToken } from '../api/syncPnToken'
 import { getWebRootIdProps } from '../embed/polyfill'
 import { IconError, IconSuccess, IconWarning } from '../operator-console/icons'
+import { OCMain } from '../operator-console/OCMain'
 import { BrekekeOperatorConsole } from '../operator-console/OperatorConsole'
 import { RenderAllCalls } from '../pages/PageCallManage'
 import { PageCustomPageView } from '../pages/PageCustomPageView'
@@ -403,10 +404,10 @@ export const App = observer(() => {
           >
             <GestureHandlerRootView style={{ flex: 1 }}>
               <ViewRegistryProvider>
-                <View style={{ flex: 1, overflow: 'hidden' }}>
-                  <Provider>
-                    <BrekekeOperatorConsole />
-                  </Provider>
+                <View style={{ flex: 1 }}>
+                  {/* <Provider> */}
+                  <OCMain />
+                  {/* </Provider> */}
                 </View>
               </ViewRegistryProvider>
             </GestureHandlerRootView>

@@ -291,8 +291,9 @@ var DialogApp = /*#__PURE__*/ (function (_React$Component) {
               },
               children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNative.View, {
                 style: {
-                  width: '100%',
-                  height: '100%',
+                  // width: '100%',
+                  // height: '100%',
+                  flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
                   flexDirection: 'column',
@@ -308,6 +309,10 @@ var DialogApp = /*#__PURE__*/ (function (_React$Component) {
                       /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNative.Text, {
                         style: {
                           flex: 1,
+                          userSelect: 'none',
+                          WebkitUserSelect: 'none',
+                          MozUserSelect: 'none',
+                          msUserSelect: 'none',
                         },
                         children: (0, _strings.string)(option.title),
                       }),
@@ -497,11 +502,11 @@ var styles = _reactNative.StyleSheet.create({
     borderWidth: 1,
     borderColor: '#dcdcd5',
     backgroundColor: '#ffffff',
-    overflow: 'hidden',
+    // overflow: 'hidden',
     // width: 500,
     // minWidth: 500,
     // minHeight: 400,
-    flex: 1,
+    // flex: 1,
   },
   brWithButtons: {
     bottom: 40,

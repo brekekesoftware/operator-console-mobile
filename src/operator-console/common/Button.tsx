@@ -8,7 +8,7 @@ type Props = Omit<ButtonProps, 'type'> & {
   shape?: 'circle'
   icon?: React.ReactNode
 }
-export const Button = (props: Props) => {
+export const Button = ({ children, ...props }: Props) => {
   let color: string | undefined = ''
   let bgColor: string | undefined = ''
   switch (props.type) {
@@ -47,14 +47,20 @@ export const Button = (props: Props) => {
           flexDirection: 'row',
         },
         props.style,
-        { opacity: props.disabled ? 0.7 : 1 },
       ]}
+      styles={{ container: { pointerEvents: 'none' } }}
     >
-      {/* {props.icon} */}
-      {typeof props.children === 'string' ? (
-        <Text style={{ color }}>{props.children}</Text>
+      {typeof children === 'string' ? (
+        <Text
+          style={{
+            color,
+          }}
+          disabled
+        >
+          {children}
+        </Text>
       ) : (
-        props.children
+        children
       )}
     </Btn>
   )

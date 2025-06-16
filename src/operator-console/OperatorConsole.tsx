@@ -1,4 +1,4 @@
-import { ActivityIndicator, Tabs } from '@ant-design/react-native'
+import { ActivityIndicator, Provider, Tabs } from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'

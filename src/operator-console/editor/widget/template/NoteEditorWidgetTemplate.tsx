@@ -32,7 +32,7 @@ export class NoteEditorWidgetTemplate extends EditorWidgetTemplate {
             height: ' 100%',
           }}
         >
-          <Text>{i18n.t('Note')}</Text>
+          <Text selectable={false}>{i18n.t('Note')}</Text>
         </View>
       </LinearGradient>
     )

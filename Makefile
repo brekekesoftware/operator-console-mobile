@@ -138,3 +138,6 @@ keyhash1:
 
 keyhash2:
 	openssl pkcs12 -in ../0/brekeke/tomcat7.p12 -clcerts -nokeys | openssl x509 -pubkey -in /dev/stdin -noout | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64;
+
+build-uc:
+	rm -rf node_modules/.cache && rm -rf node_modules/uc_agent_rn && yarn add ./libs/uc_agent_rn
