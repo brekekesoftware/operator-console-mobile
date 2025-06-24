@@ -9,24 +9,29 @@ const StatusClickedIcon = ({
 }) => (
   <Svg width={width} height={height} viewBox='0 0 8 8' {...props}>
     <Defs>
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2hse0brql2' fill='white'>
+        <Use xlinkHref='#path-1hse0brql2'></Use>
       </Mask>
-      <Polygon id='path-1' points='4 5 6 7 8 5' />
-      <Use xlinkHref='#path-1' />
-      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+      <Polygon id='path-1hse0brql2' points='4 5 6 7 8 5' />
+      <Use xlinkHref='#path-1hse0brql2' />
+      <Use
+        id='Shapehse0brql2'
+        fill='#191919'
+        fillRule='nonzero'
+        xlinkHref='#path-1hse0brql2'
+      />
     </Defs>
     <G
-      id='icon/status-clicked'
+      id='icon/status-clickedhse0brql2'
       fill='none'
-      mask='url(#mask-2)'
+      mask='url(#mask-2hse0brql2)'
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
       transform='translate(-2.000000, -2.000000)'
     >
       <Circle
-        id='components/avatar/status-online'
+        id='components/avatar/status-onlinehse0brql2'
         stroke='#F5F5F5'
         fill='#FFFFFF'
         fillRule='nonzero'
@@ -35,17 +40,17 @@ const StatusClickedIcon = ({
         r='4'
       ></Circle>
 
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2hse0brql2' fill='white'>
+        <Use xlinkHref='#path-1hse0brql2'></Use>
       </Mask>
       <Use
-        id='Shape'
+        id='Shapehse0brql2'
         fill='#191919'
         fillRule='nonzero'
-        xlinkHref='#path-1'
+        xlinkHref='#path-1hse0brql2'
       ></Use>
 
-      <Rect id='Rectangle' x='0' y='0' width='12' height='12'></Rect>
+      <Rect id='Rectanglehse0brql2' x='0' y='0' width='12' height='12'></Rect>
     </G>
   </Svg>
 )

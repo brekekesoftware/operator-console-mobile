@@ -180,6 +180,9 @@ uiData.prototype.initApp = function (option) {
   if (option.handler) {
     this.addHandler(option.handler)
   }
+  if (Platform.OS === 'web') {
+    this.ownerDocument = option.ownerDocument || document
+  }
 
   this.ucUiAction = option.ucUiAction
   this.ucUiStore = option.ucUiStore
@@ -345,8 +348,6 @@ uiData.prototype.destroyApp = function () {
   let parentElement =
     typeof this.parentElement === 'string' ? this.parentElement : null
   if (this.ownerDocument) {
-    parentElement =
-      typeof this.parentElement === 'string' ? this.parentElement : null
     this.addedEventListeners = []
 
     if (
@@ -4066,6 +4067,28 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
           this.ucUiStore.getLogger().log('error', 'Error picking files: ' + err)
         }
       })
+  } else {
+    let input = this.ownerDocument.querySelector('input.brPanelHeaderFileInput')
+    if (!input) {
+      input = this.ownerDocument.createElement('input')
+      input.type = 'file'
+      input.className = 'brPanelHeaderFileInput'
+      input.multiple = 'multiple'
+      input.style.display = 'none'
+      this.ownerDocument.body.appendChild(input)
+    }
+    input.onchange = () => {
+      if (input.files && input.files.length) {
+        this.ucUiAction.sendFiles({
+          chatType: panelType,
+          chatCode: panelCode,
+          files: input.files,
+        })
+      } else {
+        this.ucUiStore.getLogger().log('info', 'empty input.files')
+      }
+    }
+    input.click()
   }
 }
 uiData.prototype.panelHeaderVoiceButton_onClick = function (

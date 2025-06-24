@@ -161,57 +161,57 @@ var StarFullIcon = function StarFullIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2uidpkv1x1',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1uidpkv1x1',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Polygon, {
-                id: 'path-1',
+                id: 'path-1uidpkv1x1',
                 points:
                   '12 16.1442963 16.9441781 19.1111111 15.6319551 13.52 20 9.75805291 14.2480774 9.2730582 12 4 9.75192255 9.2730582 4 9.75805291 8.36804487 13.52 7.05582195 19.1111111',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1uidpkv1x1',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapeuidpkv1x1',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1uidpkv1x1',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
-            id: 'icon/star-full',
+            id: 'icon/star-fulluidpkv1x1',
             fill: 'none',
-            mask: 'url(#mask-2)',
+            mask: 'url(#mask-2uidpkv1x1)',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2uidpkv1x1',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1uidpkv1x1',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapeuidpkv1x1',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1uidpkv1x1',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-                id: 'Rectangle',
+                id: 'Rectangleuidpkv1x1',
                 x: '0',
                 y: '0',
                 width: '24',

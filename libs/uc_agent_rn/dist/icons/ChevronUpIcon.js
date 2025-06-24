@@ -161,35 +161,35 @@ var ChevronUpIcon = function ChevronUpIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2id9kl5ba6',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1id9kl5ba6',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Polygon, {
-                id: 'path-1',
+                id: 'path-1id9kl5ba6',
                 points:
                   '8.98841703 10 8 10.988417 12.0000002 14.9884169 16 10.988417 15.011583 10 12.0000002 13.0115828',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1id9kl5ba6',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapeid9kl5ba6',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1id9kl5ba6',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
-            id: 'icon/chevron-up',
+            id: 'icon/chevron-upid9kl5ba6',
             fill: 'none',
-            mask: 'url(#mask-2)',
+            mask: 'url(#mask-2id9kl5ba6)',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
@@ -197,23 +197,23 @@ var ChevronUpIcon = function ChevronUpIcon(_ref) {
               'translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) ',
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2id9kl5ba6',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1id9kl5ba6',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapeid9kl5ba6',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1id9kl5ba6',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-                id: 'Rectangle',
+                id: 'Rectangleid9kl5ba6',
                 x: '0',
                 y: '0',
                 width: '24',

@@ -1,5 +1,11 @@
 import React from 'react'
-import { View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Platform,
+} from 'react-native'
 import uawMsgs from '../utilities/uawmsgs'
 import { int } from '../utilities/strings'
 import NameEmbeddedSpan from './NameEmbeddedSpan'
@@ -141,9 +147,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   brStatusIcon: {
-    height: 10,
-    width: 10,
-    marginRight: 5,
+    ...Platform.select({
+      ios: {
+        height: 10,
+        width: 10,
+      },
+      android: {
+        height: 10,
+        width: 10,
+      },
+      web: {
+        marginRight: 5,
+      },
+    }),
   },
   brNameEmbeddedSpan: {
     fontSize: 13,

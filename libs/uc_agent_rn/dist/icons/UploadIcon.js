@@ -144,7 +144,7 @@ var UploadIcon = function UploadIcon(_ref) {
     _ref$color = _ref.color,
     color = _ref$color === void 0 ? '#212121' : _ref$color,
     props = _objectWithoutProperties(_ref, _excluded)
-  return /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(
     _reactNativeSvg.default,
     _objectSpread(
       _objectSpread(
@@ -157,58 +157,10 @@ var UploadIcon = function UploadIcon(_ref) {
       ),
       {},
       {
-        children: [
-          /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
-            children: [
-              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
-                id: 'path-1',
-                d: 'M12,4.49999996 L7.49999998,8.99999998 L10.5,8.99999998 L10.5,15 C10.5,15.414 10.836,15.75 11.25,15.75 L12.75,15.75 C13.164,15.75 13.5,15.414 13.5,15 L13.5,8.99999998 L16.5,8.99999998 L12,4.49999996 Z M4.49999996,18 L4.49999996,19.5 L19.5,19.5 L19.5,18 L4.49999996,18 Z',
-              }),
-              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
-                fill: 'white',
-                children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
-                  _reactNativeSvg.Use,
-                  {
-                    xlinkHref: '#path-1',
-                  },
-                ),
-              }),
-              /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
-              }),
-            ],
-          }),
-          /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/upload',
-            fill: 'none',
-            fillRule: 'evenodd',
-            stroke: 'none',
-            strokeWidth: '1',
-            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-              id: 'mask-2',
-              fill: 'white',
-              children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
-                _reactNativeSvg.Use,
-                {
-                  xlinkHref: '#path-1',
-                },
-              ),
-            }),
-          }),
-          /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'colors/default/black',
-            fill: color,
-            mask: 'url(#mask-2)',
-            children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-              id: 'Rectangle',
-              x: '0',
-              y: '0',
-              width: '24',
-              height: '24',
-            }),
-          }),
-        ],
+        children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
+          d: 'M12,4.5 L7.5,9 L10.5,9 L10.5,15 C10.5,15.414 10.836,15.75 11.25,15.75 L12.75,15.75 C13.164,15.75 13.5,15.414 13.5,15 L13.5,9 L16.5,9 L12,4.5 Z M4.5,18 L4.5,19.5 L19.5,19.5 L19.5,18 L4.5,18 Z',
+          fill: color,
+        }),
       },
     ),
   )

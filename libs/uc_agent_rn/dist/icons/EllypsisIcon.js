@@ -161,56 +161,56 @@ var EllypsisIcon = function EllypsisIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
-                id: 'path-1',
+                id: 'path-1ecaor9ebf',
                 d: 'M6.08695652,10 C4.93478261,10 4,10.9347826 4,12.0869565 C4,13.2391304 4.93478261,14.173913 6.08695652,14.173913 C7.23913043,14.173913 8.17391304,13.2391304 8.17391304,12.0869565 C8.17391304,10.9347826 7.23913043,10 6.08695652,10 Z M12,10 C10.8478261,10 9.91304348,10.9347826 9.91304348,12.0869565 C9.91304348,13.2391304 10.8478261,14.173913 12,14.173913 C13.1521739,14.173913 14.0869565,13.2391304 14.0869565,12.0869565 C14.0869565,10.9347826 13.1521739,10 12,10 Z M17.9130435,10 C16.7608696,10 15.826087,10.9347826 15.826087,12.0869565 C15.826087,13.2391304 16.7608696,14.173913 17.9130435,14.173913 C19.0652174,14.173913 20,13.2391304 20,12.0869565 C20,10.9347826 19.0652174,10 17.9130435,10 Z',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2ecaor9ebf',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1ecaor9ebf',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1ecaor9ebf',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapeecaor9ebf',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1ecaor9ebf',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
-            id: 'icon/ellypsis',
+            id: 'icon/ellypsisecaor9ebf',
             fill: 'none',
-            mask: 'url(#mask-2)',
+            mask: 'url(#mask-2ecaor9ebf)',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2ecaor9ebf',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1ecaor9ebf',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapeecaor9ebf',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1ecaor9ebf',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-                id: 'Rectangle',
+                id: 'Rectangleecaor9ebf',
                 x: '0',
                 y: '0',
                 width: '24',

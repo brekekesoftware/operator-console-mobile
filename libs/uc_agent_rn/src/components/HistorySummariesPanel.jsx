@@ -803,11 +803,10 @@ const CustomDatePicker = ({ value, onChange, style }) => {
 
   if (Platform.OS === 'web') {
     return (
-      <DatePicker
+      <DateTimePicker
         className='brSearchConditionsDatePicker brSearchConditionsStartDatePicker'
         selected={value?.toDate() ?? new Date()}
         style={style}
-        // isClearable={true}
         showMonthDropdown
         showYearDropdown
         onChange={d => onChange(moment(d))}

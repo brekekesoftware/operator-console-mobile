@@ -51,7 +51,8 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
     const jsx = (
       <>
         <Text>{i18n.t('text')}</Text>
-        <Input.TextArea
+        <Input
+          multiline
           style={{
             width: '100%',
             height: 160,
@@ -59,6 +60,10 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
             borderColor: '#efefef',
             borderRadius: 4,
             padding: 10,
+            alignItems: 'flex-start',
+          }}
+          styles={{
+            input: { width: '100%', height: '100%', overflow: 'scroll' },
           }}
           value={widgetData.getText()}
           onChange={e => this._onChangeTextArea(e)}

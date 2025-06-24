@@ -161,34 +161,34 @@ var TriangleUpIcon = function TriangleUpIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2c34r4m2v7',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1c34r4m2v7',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Polygon, {
-                id: 'path-1',
+                id: 'path-1c34r4m2v7',
                 points: '8 10 12 14 16 10',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1c34r4m2v7',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
-                fill: color,
+                id: 'Shapec34r4m2v7',
+                fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1c34r4m2v7',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
-            id: 'icon/triangle-up',
+            id: 'icon/triangle-upc34r4m2v7',
             fill: 'none',
-            mask: 'url(#mask-2)',
+            mask: 'url(#mask-2c34r4m2v7)',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
@@ -196,23 +196,23 @@ var TriangleUpIcon = function TriangleUpIcon(_ref) {
               'translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) ',
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2c34r4m2v7',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1c34r4m2v7',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapec34r4m2v7',
                 fill: color,
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1c34r4m2v7',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-                id: 'Rectangle',
+                id: 'Rectanglec34r4m2v7',
                 x: '0',
                 y: '0',
                 width: '24',

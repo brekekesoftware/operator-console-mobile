@@ -54,9 +54,6 @@ function _toPrimitive(t, r) {
   }
   return ('string' === r ? String : Number)(t)
 }
-function _readOnlyError(r) {
-  throw new TypeError('"' + r + '" is read-only')
-}
 function _typeof(o) {
   '@babel/helpers - typeof'
   return (
@@ -76,11 +73,8 @@ function _typeof(o) {
     _typeof(o)
   )
 }
-/* ucclient.js compatible with 1.2.9.6u2294
- * require jsonrpc.js
- * require jssip-0.4.2.js (optional)
- * require webrtc.js (optional)
- */
+var _require = require('react-native'),
+  Platform = _require.Platform
 ;(function (root, factory) {
   if (
     (typeof module === 'undefined' ? 'undefined' : _typeof(module)) ===
@@ -3821,28 +3815,28 @@ function _typeof(o) {
             function (result) {
               this._lastMessageTime = int(result.tstamp)
               var form
-              var fd = new FormData()
-              fd.append(
-                'file',
-                _objectSpread(
-                  _objectSpread({}, file),
-                  {},
-                  {
-                    type: 'multipart/form-data',
-                  },
-                ),
-              )
-              inputrn = {
-                form: 'This is not a form element, see src/api/uc.ts for detail',
-                files: [file],
-                __rnFormData: fd,
-              } // __rnFormData from react native ./uc.js
+              var fd
+              if (Platform.OS !== 'web') {
+                fd = new FormData()
+                fd.append(
+                  'file',
+                  _objectSpread(
+                    _objectSpread({}, file),
+                    {},
+                    {
+                      type: 'multipart/form-data',
+                    },
+                  ),
+                )
+              }
               if (!fd && window.FormData) {
                 // FormData enabled
                 // upload with XHR + FormData
-                options.input.form.method = 'POST'
-                options.input.form.enctype = 'multipart/form-data'
-                new window.FormData(options.input.form), _readOnlyError('fd')
+                form = document.createElement('form')
+                form.method = 'POST'
+                form.enctype = 'multipart/form-data'
+                fd = new window.FormData(form)
+                fd.append(name, file)
               }
               // new file info
               this._newFileInfo(
@@ -8027,6 +8021,7 @@ function _typeof(o) {
       }
     },
     _convertJsonToOutline: function _convertJsonToOutline(content) {
+      return
       var jloh = ((this._configProperties || {}).optional_config || {}).jloh
       var jlool = ((this._configProperties || {}).optional_config || {}).jlool
       var jloolAry = jlool ? string(jlool).split(',') : []
@@ -8077,6 +8072,7 @@ function _typeof(o) {
       changed,
       jloolAry,
     ) {
+      console.log('#Duy Phan console object', object)
       for (key in object) {
         if (_typeof(object[key]) === 'object') {
           if (
@@ -8532,6 +8528,7 @@ function _typeof(o) {
     },
     _signInActionStatusNG: function _signInActionStatusNG(args) {
       this._logger.log('info', '_signInActionStatusNG code: ' + args.code)
+      console.log('#Duy Phan console args', args)
       if (this._signInStatus === 2) {
         if (args.nonce) {
           // update tenant

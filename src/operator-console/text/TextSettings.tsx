@@ -49,7 +49,7 @@ export class TextSettings extends Component<Props, State> {
         onValuesChange={this.onChangeDebounced}
       >
         <Form.Item label={i18n.t('text')} name='text'>
-          <Input.TextArea rows={6} />
+          <Input multiline />
         </Form.Item>
         <Form.Item
           label={i18n.t('fgColor')}

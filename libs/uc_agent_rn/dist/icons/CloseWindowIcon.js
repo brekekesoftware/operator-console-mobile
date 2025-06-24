@@ -161,47 +161,47 @@ var CloseWindowIcon = function CloseWindowIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
-                id: 'path-1',
+                id: 'path-1m424ecn96',
                 d: 'M16.6666667,5.99999996 L7.3333333,5.99999996 C6.59666663,5.99999996 5.99999996,6.59666663 5.99999996,7.3333333 L5.99999996,16.6666667 C5.99999996,17.4033334 6.59666663,18 7.3333333,18 L16.6666667,18 C17.4033334,18 18,17.4033334 18,16.6666667 L18,7.3333333 C18,6.59666663 17.4033334,5.99999996 16.6666667,5.99999996 Z M15.3333334,14.3933333 L14.3933333,15.3333334 L12,12.94 L9.60666665,15.3333334 L8.66666665,14.3933333 L11.06,12 L8.66666665,9.60666665 L9.60666665,8.66666665 L12,11.06 L14.3933333,8.66666665 L15.3333334,9.60666665 L12.94,12 L15.3333334,14.3933333 Z',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2m424ecn96',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1m424ecn96',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1m424ecn96',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/close-window',
+            id: 'icon/close-windowm424ecn96',
             fill: 'none',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-              id: 'mask-2',
+              id: 'mask-2m424ecn96',
               fill: 'white',
               children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNativeSvg.Use,
                 {
-                  xlinkHref: '#path-1',
+                  xlinkHref: '#path-1m424ecn96',
                 },
               ),
             }),
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'colors/default/black',
-            fill: color,
-            mask: 'url(#mask-2)',
+            id: 'colors/default/blackm424ecn96',
+            fill: '#212121',
+            mask: 'url(#mask-2m424ecn96)',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-              id: 'Rectangle',
+              id: 'Rectanglem424ecn96',
               x: '0',
               y: '0',
               width: '24',

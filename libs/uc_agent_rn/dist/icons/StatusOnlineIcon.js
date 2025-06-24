@@ -160,13 +160,13 @@ var StatusOnlineIcon = function StatusOnlineIcon(_ref) {
         children: [
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Defs, {}),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/status-online',
+            id: 'icon/status-onlinenqqiksh2l',
             fill: 'none',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(Circle, {
-              id: 'components/avatar/status-online',
+              id: 'components/avatar/status-onlinenqqiksh2l',
               stroke: '#F5F5F5',
               fill: '#74BF53',
               fillRule: 'nonzero',

@@ -10,34 +10,39 @@ const CheckIcon = ({
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
       <Path
-        id='path-1'
+        id='path-1j83auh8kg'
         d='M18,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,6 C20,4.8954305 19.1045695,4 18,4 Z M10.4444444,16.2108889 L6.78344444,12.5498889 L7.88322222,11.4501111 L10.4444444,14.0113333 L16.1167778,8.339 L17.2165556,9.43877778 L10.4444444,16.2108889 Z'
       />
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2j83auh8kg' fill='white'>
+        <Use xlinkHref='#path-1j83auh8kg'></Use>
       </Mask>
-      <Use xlinkHref='#path-1' />
-      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+      <Use xlinkHref='#path-1j83auh8kg' />
+      <Use
+        id='Shapej83auh8kg'
+        fill='#191919'
+        fillRule='nonzero'
+        xlinkHref='#path-1j83auh8kg'
+      />
     </Defs>
     <G
-      id='icon/check'
+      id='icon/checkj83auh8kg'
       fill='none'
-      mask='url(#mask-2)'
+      mask='url(#mask-2j83auh8kg)'
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
     >
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2j83auh8kg' fill='white'>
+        <Use xlinkHref='#path-1j83auh8kg'></Use>
       </Mask>
       <Use
-        id='Shape'
+        id='Shapej83auh8kg'
         fill='#191919'
         fillRule='nonzero'
-        xlinkHref='#path-1'
+        xlinkHref='#path-1j83auh8kg'
       ></Use>
 
-      <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
+      <Rect id='Rectanglej83auh8kg' x='0' y='0' width='24' height='24'></Rect>
     </G>
   </Svg>
 )

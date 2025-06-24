@@ -18,7 +18,7 @@ mkdir -p ../src/icons
 
 # Clean up any existing files with hyphens in their names
 echo "Cleaning up existing files with hyphens..."
-find ../src/icons -name "*-*Icon.js" -type f -delete
+find ../src/icons -name "*-*Icon.jsx" -type f -delete
 
 # Check if there are any SVG files
 if [ ! "$(ls -A ../src/svg/*.svg 2>/dev/null)" ]; then

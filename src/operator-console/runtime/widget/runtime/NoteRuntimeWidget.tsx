@@ -223,7 +223,7 @@ export class NoteRuntimeWidget extends RuntimeWidget {
           {this.state.loading ? (
             <Empty image={null} description={<ActivityIndicator />} />
           ) : (
-            <Input.TextArea
+            <Input
               value={this.state.content}
               onChange={this._onContentChanged}
               onFocus={() => {
@@ -238,7 +238,6 @@ export class NoteRuntimeWidget extends RuntimeWidget {
               }}
               readOnly={this._readonly}
               multiline
-              autoSize={{ maxRows: 30, minRows: 2 }}
               maxLength={10000000}
               // style={{
               //   fontSize: noteBodyFontSize,

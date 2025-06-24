@@ -1,3 +1,5 @@
+const { Platform } = require('react-native')
+
 /* ucclient.js compatible with 1.2.9.6u2294
  * require jsonrpc.js
  * require jssip-0.4.2.js (optional)
@@ -3777,23 +3779,24 @@
             function (result) {
               this._lastMessageTime = int(result.tstamp)
 
-              var form
-              const fd = new FormData()
-              fd.append('file', {
-                ...file,
-                type: 'multipart/form-data',
-              })
-              inputrn = {
-                form: 'This is not a form element, see src/api/uc.ts for detail',
-                files: [file],
-                __rnFormData: fd,
-              } // __rnFormData from react native ./uc.js
+              let form
+              let fd
+              if (Platform.OS !== 'web') {
+                fd = new FormData()
+                fd.append('file', {
+                  ...file,
+                  type: 'multipart/form-data',
+                })
+              }
+
               if (!fd && window.FormData) {
                 // FormData enabled
                 // upload with XHR + FormData
-                options.input.form.method = 'POST'
-                options.input.form.enctype = 'multipart/form-data'
-                fd = new window.FormData(options.input.form)
+                form = document.createElement('form')
+                form.method = 'POST'
+                form.enctype = 'multipart/form-data'
+                fd = new window.FormData(form)
+                fd.append(name, file)
               }
               // new file info
               this._newFileInfo(
@@ -8051,6 +8054,7 @@
       }
     },
     _convertJsonToOutline: function (content) {
+      return
       var jloh = ((this._configProperties || {}).optional_config || {}).jloh
       var jlool = ((this._configProperties || {}).optional_config || {}).jlool
       var jloolAry = jlool ? string(jlool).split(',') : []
@@ -8096,6 +8100,7 @@
       return content
     },
     _modifyObjectJsonToOutline: function (object, jlohAry, changed, jloolAry) {
+      console.log('#Duy Phan console object', object)
       for (key in object) {
         if (typeof object[key] === 'object') {
           if (
@@ -8566,6 +8571,7 @@
     },
     _signInActionStatusNG: function (args) {
       this._logger.log('info', '_signInActionStatusNG code: ' + args.code)
+      console.log('#Duy Phan console args', args)
       if (this._signInStatus === 2) {
         if (args.nonce) {
           // update tenant

@@ -161,48 +161,48 @@ var StrikethroughIcon = function StrikethroughIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2xukxxs9om',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1xukxxs9om',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Polygon, {
-                id: 'path-1',
+                id: 'path-1xukxxs9om',
                 points:
                   '7.3333333 5.99999996 7.3333333 7.60416664 11 7.60416664 11 11.3333333 7.99999997 11.3333333 7.99999997 12.6666667 11 12.6666667 11 18 13 18 13 12.6666667 16 12.6666667 16 11.3333333 13 11.3333333 13 7.60416664 16.6666667 7.60416664 16.6666667 5.99999996',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1xukxxs9om',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/strikethrough',
+            id: 'icon/strikethroughxukxxs9om',
             fill: 'none',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-              id: 'mask-2',
+              id: 'mask-2xukxxs9om',
               fill: 'white',
               children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNativeSvg.Use,
                 {
-                  xlinkHref: '#path-1',
+                  xlinkHref: '#path-1xukxxs9om',
                 },
               ),
             }),
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'colors/default/black',
-            fill: color,
-            mask: 'url(#mask-2)',
+            id: 'colors/default/blackxukxxs9om',
+            fill: '#212121',
+            mask: 'url(#mask-2xukxxs9om)',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-              id: 'Rectangle',
+              id: 'Rectanglexukxxs9om',
               x: '0',
               y: '0',
               width: '24',

@@ -308,7 +308,11 @@ export class RuntimePane extends BasePane {
             ref={this._refEditor}
             collapsable={false}
           >
-            <ScrollView horizontal bounces={false}>
+            <ScrollView
+              horizontal
+              bounces={false}
+              style={Util.getStyleScrollBar()}
+            >
               <ScrollView bounces={false}>
                 <View ref={this._refScroll}>
                   {widgetDataArray.map((widgetData, index) => {

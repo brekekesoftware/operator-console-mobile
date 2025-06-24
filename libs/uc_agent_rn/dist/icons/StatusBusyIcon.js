@@ -160,13 +160,13 @@ var StatusBusyIcon = function StatusBusyIcon(_ref) {
         children: [
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Defs, {}),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/status-busy',
+            id: 'icon/status-busyw2ikyqemf',
             fill: 'none',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(Circle, {
-              id: 'components/avatar/status-online',
+              id: 'components/avatar/status-onlinew2ikyqemf',
               stroke: '#F5F5F5',
               fill: '#FF1441',
               fillRule: 'nonzero',

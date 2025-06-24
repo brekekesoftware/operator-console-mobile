@@ -1,5 +1,5 @@
 import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react'
-import { TextInput, View, StyleSheet } from 'react-native'
+import { TextInput, View, StyleSheet, Platform } from 'react-native'
 
 const CustomTextInput = forwardRef((props, ref) => {
   const internalRef = useRef(null)
@@ -12,7 +12,12 @@ const CustomTextInput = forwardRef((props, ref) => {
       setValue('')
     },
     setValue: val => {
-      internalRef.current?.setNativeProps({ text: val })
+      if (Platform.OS === 'web') {
+        internalRef.current.value = val
+      } else {
+        internalRef.current?.setNativeProps({ text: val })
+      }
+
       setValue(val)
     },
     getValue: () => value,

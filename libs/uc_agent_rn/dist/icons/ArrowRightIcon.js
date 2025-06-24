@@ -161,35 +161,35 @@ var ArrowRightIcon = function ArrowRightIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2t13p52hh2',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1t13p52hh2',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Polygon, {
-                id: 'path-1',
+                id: 'path-1t13p52hh2',
                 points:
                   '10.7275401 0 10.7275401 20.1581192 6.419144 15.8497229 5 17.2688665 11.7311337 24 18.4622672 17.2688665 17.0431236 15.8497229 12.7347273 20.1581192 12.7347273 0',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1t13p52hh2',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapet13p52hh2',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1t13p52hh2',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
-            id: 'icon/arrow-right',
+            id: 'icon/arrow-rightt13p52hh2',
             fill: 'none',
-            mask: 'url(#mask-2)',
+            mask: 'url(#mask-2t13p52hh2)',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
@@ -197,23 +197,23 @@ var ArrowRightIcon = function ArrowRightIcon(_ref) {
               'translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000) ',
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2t13p52hh2',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1t13p52hh2',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapet13p52hh2',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1t13p52hh2',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-                id: 'Rectangle',
+                id: 'Rectanglet13p52hh2',
                 x: '0',
                 y: '0',
                 width: '24',

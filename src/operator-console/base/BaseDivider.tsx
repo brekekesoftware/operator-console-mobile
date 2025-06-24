@@ -7,11 +7,15 @@ import type { RuntimeChildPane } from '../runtime/RuntimeChildPane'
 import type { RuntimeRootPane } from '../runtime/RuntimeRootPane'
 
 type Props = {
-  editorPaneAsParent?: EditorPane | EditorRootPane
-  runtimePaneAsParent?: RuntimeChildPane | RuntimeRootPane
+  editorPaneAsParent?: any
+  runtimePaneAsParent?: any
   cssClass?: StyleProp<ViewStyle>
 }
-export class BaseDivider extends Component<Props> {
+type State = {
+  upperHeight: number
+  leftWidth: number
+}
+export class BaseDivider extends Component<Props, State> {
   constructor(props: any) {
     super(props)
   }

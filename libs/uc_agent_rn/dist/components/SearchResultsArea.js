@@ -10,10 +10,10 @@ var _uawmsgs = _interopRequireDefault(require('../utilities/uawmsgs'))
 var _ChatList = _interopRequireDefault(require('./ChatList'))
 var _strings = require('../utilities/strings')
 var _RadioCheckboxCheckedIcon = _interopRequireDefault(
-  require('../icons/RadioCheckboxCheckedIcon'),
+  require('./RadioCheckboxCheckedIcon'),
 )
 var _RadioCheckboxUncheckedIcon = _interopRequireDefault(
-  require('../icons/RadioCheckboxUncheckedIcon'),
+  require('./RadioCheckboxUncheckedIcon'),
 )
 var _reactNativeGestureHandler = require('react-native-gesture-handler')
 var _jsxRuntime = require('react/jsx-runtime')

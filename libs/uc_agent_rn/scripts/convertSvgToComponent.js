@@ -373,7 +373,7 @@ function extractGroups(svgContent) {
 function convertSvgToComponent(svgPath, outputDir) {
   const fileName = path.basename(svgPath, '.svg')
   const componentName = toPascalCase(fileName) + 'Icon'
-  const outputPath = path.join(outputDir, `${componentName}.js`)
+  const outputPath = path.join(outputDir, `${componentName}.jsx`)
 
   // Read SVG content
   const svgContent = fs.readFileSync(svgPath, 'utf8')
@@ -388,6 +388,26 @@ function convertSvgToComponent(svgPath, outputDir) {
   // Extract groups with their attributes
   const groups = extractGroups(svgContent)
 
+  const prefix = Math.random().toString(36).substr(2, 9)
+
+  // Helper to add prefix to id references
+  const addPrefix = id => (id ? id + prefix : '')
+
+  // Helper to replace all id references in content
+  function replaceIdRefs(content) {
+    return content
+      .replace(/id="([^"]+)"/g, (m, id) => `id="${addPrefix(id)}"`)
+      .replace(
+        /xlinkHref="#([^"]+)"/g,
+        (m, id) => `xlinkHref="#${addPrefix(id)}"`,
+      )
+      .replace(
+        /mask="url\(#([^)]+)\)"/g,
+        (m, id) => `mask="url(#${addPrefix(id)})"`,
+      )
+      .replace(/url\(#([^)]+)\)/g, (m, id) => `url(#${addPrefix(id)})`)
+  }
+
   // Generate component code
   const componentCode = `import React from 'react';
 import Svg, { Path, G, Mask, Use, Rect, Defs, Polygon } from 'react-native-svg';
@@ -399,25 +419,27 @@ const ${componentName} = ({ width = 24, height = 24, color = '#212121', ...props
         .map(element => {
           if (element.type === 'path') {
             return `<Path
-        id="${element.id}"
+        id="${addPrefix(element.id)}"
         d="${element.d}"
       />`
           } else if (element.type === 'mask') {
-            return `<Mask id="${element.id}" fill="white">
-        ${convertSvgContent(element.content)}
+            return `<Mask id="${addPrefix(element.id)}" fill="white">
+        ${replaceIdRefs(convertSvgContent(element.content))}
       </Mask>`
           } else if (element.type === 'polygon') {
             return `<Polygon
-        id="${element.id}"
+        id="${addPrefix(element.id)}"
         points="${element.points}"
       />`
           } else if (element.type === 'use') {
             const attrs = []
-            if (element.id) attrs.push(`id="${element.id}"`)
+            if (element.id) attrs.push(`id="${addPrefix(element.id)}"`)
             if (element.fill) attrs.push(`fill="${element.fill}"`)
             if (element.fillRule) attrs.push(`fillRule="${element.fillRule}"`)
             if (element.xlinkHref)
-              attrs.push(`xlinkHref="${element.xlinkHref}"`)
+              attrs.push(
+                `xlinkHref="#${addPrefix(element.xlinkHref.replace('#', ''))}"`,
+              )
 
             return `<Use ${attrs.join(' ')} />`
           }
@@ -427,16 +449,16 @@ const ${componentName} = ({ width = 24, height = 24, color = '#212121', ...props
     ${groups
       .map(group => {
         const attrs = []
-        if (group.id) attrs.push(`id="${group.id}"`)
+        if (group.id) attrs.push(`id="${addPrefix(group.id)}"`)
         if (group.fill) attrs.push(`fill="${group.fill}"`)
-        if (group.mask) attrs.push(`mask="url(#${group.mask})"`)
+        if (group.mask) attrs.push(`mask="url(#${addPrefix(group.mask)})"`)
         if (group.fillRule) attrs.push(`fillRule="${group.fillRule}"`)
         if (group.stroke) attrs.push(`stroke="${group.stroke}"`)
         if (group.strokeWidth) attrs.push(`strokeWidth="${group.strokeWidth}"`)
         if (group.transform) attrs.push(`transform="${group.transform}"`)
 
         return `<G ${attrs.join(' ')}>
-      ${convertSvgContent(group.content)}
+      ${replaceIdRefs(convertSvgContent(group.content))}
     </G>`
       })
       .join('\n')}

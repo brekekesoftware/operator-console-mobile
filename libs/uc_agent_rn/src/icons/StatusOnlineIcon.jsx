@@ -10,14 +10,14 @@ const StatusOnlineIcon = ({
   <Svg width={width} height={height} viewBox='0 0 8 8' {...props}>
     <Defs></Defs>
     <G
-      id='icon/status-online'
+      id='icon/status-onlinenqqiksh2l'
       fill='none'
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
     >
       <Circle
-        id='components/avatar/status-online'
+        id='components/avatar/status-onlinenqqiksh2l'
         stroke='#F5F5F5'
         fill='#74BF53'
         fillRule='nonzero'

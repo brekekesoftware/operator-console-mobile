@@ -9,8 +9,8 @@ import {
 import uawMsgs from '../utilities/uawmsgs'
 import ChatList from './ChatList'
 import { formatTopicDate } from '../utilities/strings'
-import RadioCheckboxCheckedIcon from '../icons/RadioCheckboxCheckedIcon'
-import RadioCheckboxUncheckedIcon from '../icons/RadioCheckboxUncheckedIcon'
+import RadioCheckboxCheckedIcon from './RadioCheckboxCheckedIcon'
+import RadioCheckboxUncheckedIcon from './RadioCheckboxUncheckedIcon'
 import { ScrollView } from 'react-native-gesture-handler'
 
 const colors = {

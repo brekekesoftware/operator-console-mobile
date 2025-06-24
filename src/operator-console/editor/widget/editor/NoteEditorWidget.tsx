@@ -214,13 +214,13 @@ export class NoteEditorWidget extends EditorWidget {
           {this.state.loading ? (
             <Empty image={null} description={<ActivityIndicator />} />
           ) : (
-            <Input.TextArea
+            <Input
               value={this.state.content}
               onChange={this._onContentChanged}
               readOnly={this._readonly}
               maxLength={10000000}
               multiline
-              autoSize={{ maxRows: 30, minRows: 2 }}
+              // autoSize={{ maxRows: 30, minRows: 2 }}
               // style={{
               //   fontSize: noteBodyFontSize,
               //   color: noteTextForegroundColor,

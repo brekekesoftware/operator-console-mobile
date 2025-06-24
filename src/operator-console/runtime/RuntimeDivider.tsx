@@ -1,5 +1,5 @@
 import type { PanResponderInstance } from 'react-native'
-import { PanResponder, View } from 'react-native'
+import { PanResponder, Platform, View } from 'react-native'
 
 import { BaseDivider } from '../base/BaseDivider'
 import { BaseDividerData } from '../data/BaseDividerData'
@@ -23,18 +23,32 @@ export class RuntimeDivider extends BaseDivider {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (e, gestureState) => {
-        // this._onTouchStart(e, gestureState);
-      },
+      onPanResponderGrant: (e, gestureState) => {},
       onPanResponderMove: (e, gestureState) => {
-        // this._onTouchMove(e, gestureState)
-
         this._onMouseDown(gestureState)
       },
       onPanResponderRelease: (e, gestureState) => {
-        // this._onTouchEnd(e, gestureState);
+        this._onTouchEnd(e, gestureState)
       },
     })
+
+    this.state = {
+      upperHeight: 0,
+      leftWidth: 0,
+    }
+  }
+
+  componentDidMount(): void {
+    this.props.runtimePaneAsParent?.refLeft?._refEditor?.current?.measure(
+      (fx, fy, w, h, x, y) => {
+        this.setState({ leftWidth: w })
+      },
+    )
+    this.props.runtimePaneAsParent?.refTop?._refEditor?.current?.measure(
+      (fx, fy, w, h, x, y) => {
+        this.setState({ upperHeight: h })
+      },
+    )
   }
 
   static getRuntimeDividerByContainerId(id) {
@@ -51,14 +65,23 @@ export class RuntimeDivider extends BaseDivider {
   getProps(): any {
     throw new Error('Not implemented.')
   }
+  _onTouchEnd(e, gestureState) {
+    const direction = this.getDividerDirection()
+    switch (direction) {
+      case BaseDividerData.DIVIDER_DIRECTIONS.horizontal:
+        this.setState({ upperHeight: this.state.upperHeight + gestureState.dy })
+        break
+      case BaseDividerData.DIVIDER_DIRECTIONS.vertical:
+        this.setState({ leftWidth: this.state.leftWidth + gestureState.dx })
+        break
+    }
+
+    this._RuntimePaneAsParent
+      .getRuntimeScreenView()
+      .setState({ rerender: true })
+  }
 
   _onMouseDown(gestureState) {
-    // const eDivider = ev.target
-    // this._element = eDivider
-
-    // this._startClientX = ev.clientX
-    // this._startClientY = ev.clientY
-
     const direction = this.getDividerDirection()
     switch (direction) {
       case BaseDividerData.DIVIDER_DIRECTIONS.horizontal:
@@ -72,84 +95,72 @@ export class RuntimeDivider extends BaseDivider {
   }
 
   _mouseMoveHandlerForHorizontal(gestureState) {
-    let topWidth = 0
-    this.props.runtimePaneAsParent?.refTop?._refEditor?.current?.measure(
-      (fx, fy, w, h, x, y) => {
-        topWidth = h
-
-        this.props.runtimePaneAsParent?.refMain?.measure(
-          (fx, fy, mW, mH, x, y) => {
-            const newTopWidth = ((topWidth + gestureState.dy * 0.2) * 100) / mH
-            if (newTopWidth < 0 || newTopWidth > 100) {
-              return
-            }
-            const leftPaneId = this.props.runtimePaneAsParent?.refTop?.paneNum
-            const leftEditorPane =
-              RuntimePane.getRuntimePaneByContainerId(leftPaneId)
-            const leftEditorPaneData = leftEditorPane.getRuntimePaneData()
-            leftEditorPaneData.setPaneHeight(newTopWidth)
-            const newBottomWidth = 100 - newTopWidth
-            if (newBottomWidth > 0) {
-              const rightPaneId =
-                this.props.runtimePaneAsParent?.refBottom?.paneNum
-              const rightEditorPane =
-                RuntimePane.getRuntimePaneByContainerId(rightPaneId)
-              const rightEditorPaneData = rightEditorPane.getRuntimePaneData()
-              rightEditorPaneData.setPaneHeight(newBottomWidth)
-              this.props.runtimePaneAsParent
-                ?.getRuntimeScreenView()
-                .setState({ rerender: true })
-            }
-          },
-        )
-      },
-    )
+    this.props.runtimePaneAsParent?.refMain?.measure((fx, fy, mW, mH, x, y) => {
+      const newTopWidth =
+        ((this.state.upperHeight + gestureState.dy) * 100) / mH
+      if (newTopWidth < 0 || newTopWidth > 100) {
+        return
+      }
+      const leftPaneId = this.props.runtimePaneAsParent?.refTop?.paneNum
+      const leftEditorPane = RuntimePane.getRuntimePaneByContainerId(leftPaneId)
+      const leftEditorPaneData = leftEditorPane.getRuntimePaneData()
+      leftEditorPaneData.setPaneHeight(newTopWidth)
+      const newBottomWidth = 100 - newTopWidth
+      if (newBottomWidth > 0) {
+        const rightPaneId = this.props.runtimePaneAsParent?.refBottom?.paneNum
+        const rightEditorPane =
+          RuntimePane.getRuntimePaneByContainerId(rightPaneId)
+        const rightEditorPaneData = rightEditorPane.getRuntimePaneData()
+        rightEditorPaneData.setPaneHeight(newBottomWidth)
+        this.props.runtimePaneAsParent
+          ?.getRuntimeScreenView()
+          .setState({ rerender: true })
+      }
+    })
   }
 
   _mouseMoveHandlerForVertical(gestureState) {
-    let leftWidth = this._startLeftWidth
+    this.props.runtimePaneAsParent?.refMain?.measure((fx, fy, mW, h, x, y) => {
+      const newLeftWidth = ((this.state.leftWidth + gestureState.dx) * 100) / mW
+      if (newLeftWidth < 0 || newLeftWidth > 100) {
+        return
+      }
+      const leftPaneId = this.props.runtimePaneAsParent?.refLeft?.paneNum
+      const leftEditorPane = RuntimePane.getRuntimePaneByContainerId(leftPaneId)
+      const leftEditorPaneData = leftEditorPane.getRuntimePaneData()
 
-    this.props.runtimePaneAsParent?.refLeft?._refEditor?.current?.measure(
-      (fx, fy, w, h, x, y) => {
-        leftWidth = w
-
-        this.props.runtimePaneAsParent?.refMain?.measure(
-          (fx, fy, mW, h, x, y) => {
-            const newLeftWidth =
-              ((leftWidth + gestureState.dx * 0.2) * 100) / mW
-            if (newLeftWidth < 0 || newLeftWidth > 100) {
-              return
-            }
-            const leftPaneId = this.props.runtimePaneAsParent?.refLeft?.paneNum
-            const leftEditorPane =
-              RuntimePane.getRuntimePaneByContainerId(leftPaneId)
-            const leftEditorPaneData = leftEditorPane.getRuntimePaneData()
-
-            leftEditorPaneData.setPaneWidth(newLeftWidth)
-            const newRightWidth = 100 - newLeftWidth
-            if (newRightWidth > 0) {
-              const rightPaneId =
-                this.props.runtimePaneAsParent?.refRight?.paneNum
-              const rightEditorPane =
-                RuntimePane.getRuntimePaneByContainerId(rightPaneId)
-              const rightEditorPaneData = rightEditorPane.getRuntimePaneData()
-              rightEditorPaneData.setPaneWidth(newRightWidth)
-              this.props.runtimePaneAsParent
-                ?.getRuntimeScreenView()
-                .setState({ rerender: true })
-            }
-          },
-        )
-      },
-    )
+      leftEditorPaneData.setPaneWidth(newLeftWidth)
+      const newRightWidth = 100 - newLeftWidth
+      if (newRightWidth > 0) {
+        const rightPaneId = this.props.runtimePaneAsParent?.refRight?.paneNum
+        const rightEditorPane =
+          RuntimePane.getRuntimePaneByContainerId(rightPaneId)
+        const rightEditorPaneData = rightEditorPane.getRuntimePaneData()
+        rightEditorPaneData.setPaneWidth(newRightWidth)
+        this.props.runtimePaneAsParent
+          ?.getRuntimeScreenView()
+          .setState({ rerender: true })
+      }
+    })
   }
 
   render() {
     const props = this.getProps()
+    const direction = this.getDividerDirection()
     return (
       <View
         data-br-runtime-divider-id={this._RuntimeDividerId}
-        style={props.cssClass}
+        style={[
+          props.cssClass,
+          Platform.OS === 'web'
+            ? {
+                cursor:
+                  direction === BaseDividerData.DIVIDER_DIRECTIONS.vertical
+                    ? 'col-resize'
+                    : 'row-resize',
+              }
+            : undefined,
+        ]}
         {...this.panResponder.panHandlers}
       ></View>
     )

@@ -1199,7 +1199,7 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
     : 'Select date'
   if (_reactNative.Platform.OS === 'web') {
     var _value$toDate
-    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(DatePicker, {
+    return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_DatePicker.DatePicker, {
       className:
         'brSearchConditionsDatePicker brSearchConditionsStartDatePicker',
       selected:
@@ -1209,7 +1209,6 @@ var CustomDatePicker = function CustomDatePicker(_ref) {
           ? _value$toDate
           : new Date(),
       style: style,
-      // isClearable={true}
       showMonthDropdown: true,
       showYearDropdown: true,
       onChange: function onChange(d) {

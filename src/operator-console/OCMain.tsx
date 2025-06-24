@@ -4,7 +4,6 @@ import { BrekekeOperatorConsole } from './OperatorConsole'
 
 export const OCMain = () => (
   <Provider>
-    {' '}
     <BrekekeOperatorConsole />
   </Provider>
 )

@@ -1,4 +1,5 @@
 import type { TextStyle, ViewStyle } from 'react-native'
+import { Platform } from 'react-native'
 
 export class Util {
   static isNumber(val) {
@@ -269,4 +270,12 @@ export class Util {
     console.log('#Duy Phan console whc', maxRight, maxBottom)
     return { width: maxRight + 100, height: maxBottom + 100 }
   }
+
+  static getStyleScrollBar = () =>
+    Platform.OS === 'web'
+      ? ({
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#6b6b6b transparent',
+        } as any)
+      : undefined
 }

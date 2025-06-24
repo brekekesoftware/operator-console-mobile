@@ -182,8 +182,9 @@ export const SystemSettingsForm = props => {
         styles={formItemStyle}
         labelStyle={{ marginBottom: 10 }}
       >
-        <AntdInput.TextArea
-          rows={30}
+        <AntdInput
+          multiline
+          numberOfLines={30}
           maxLength={1000000}
           style={{
             minHeight: 600,

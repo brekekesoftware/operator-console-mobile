@@ -9,28 +9,38 @@ const TriangleUpIcon = ({
 }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2c34r4m2v7' fill='white'>
+        <Use xlinkHref='#path-1c34r4m2v7'></Use>
       </Mask>
-      <Polygon id='path-1' points='8 10 12 14 16 10' />
-      <Use xlinkHref='#path-1' />
-      <Use id='Shape' fill={color} fillRule='nonzero' xlinkHref='#path-1' />
+      <Polygon id='path-1c34r4m2v7' points='8 10 12 14 16 10' />
+      <Use xlinkHref='#path-1c34r4m2v7' />
+      <Use
+        id='Shapec34r4m2v7'
+        fill='#191919'
+        fillRule='nonzero'
+        xlinkHref='#path-1c34r4m2v7'
+      />
     </Defs>
     <G
-      id='icon/triangle-up'
+      id='icon/triangle-upc34r4m2v7'
       fill='none'
-      mask='url(#mask-2)'
+      mask='url(#mask-2c34r4m2v7)'
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
       transform='translate(12.000000, 12.000000) rotate(-180.000000) translate(-12.000000, -12.000000) '
     >
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2c34r4m2v7' fill='white'>
+        <Use xlinkHref='#path-1c34r4m2v7'></Use>
       </Mask>
-      <Use id='Shape' fill={color} fillRule='nonzero' xlinkHref='#path-1'></Use>
+      <Use
+        id='Shapec34r4m2v7'
+       fill={color}
+        fillRule='nonzero'
+        xlinkHref='#path-1c34r4m2v7'
+      ></Use>
 
-      <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
+      <Rect id='Rectanglec34r4m2v7' x='0' y='0' width='24' height='24'></Rect>
     </G>
   </Svg>
 )

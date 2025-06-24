@@ -5,27 +5,31 @@ const AddIcon = ({ width = 24, height = 24, color = '#212121', ...props }) => (
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
       <Path
-        id='path-1'
+        id='path-1u56nz4xfq'
         d='M12,5.33333329 C8.31799998,5.33333329 5.33333329,8.31799998 5.33333329,12 C5.33333329,15.682 8.31799998,18.6666667 12,18.6666667 C15.682,18.6666667 18.6666667,15.682 18.6666667,12 C18.6666667,8.31799998 15.682,5.33333329 12,5.33333329 Z M14.6666667,12.6666667 L12.6666667,12.6666667 L12.6666667,14.6666667 L11.3333333,14.6666667 L11.3333333,12.6666667 L9.33333332,12.6666667 L9.33333332,11.3333333 L11.3333333,11.3333333 L11.3333333,9.33333332 L12.6666667,9.33333332 L12.6666667,11.3333333 L14.6666667,11.3333333 L14.6666667,12.6666667 Z'
       />
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2u56nz4xfq' fill='white'>
+        <Use xlinkHref='#path-1u56nz4xfq'></Use>
       </Mask>
-      <Use xlinkHref='#path-1' />
+      <Use xlinkHref='#path-1u56nz4xfq' />
     </Defs>
     <G
-      id='icon/add'
+      id='icon/addu56nz4xfq'
       fill='none'
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
     >
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2u56nz4xfq' fill='white'>
+        <Use xlinkHref='#path-1u56nz4xfq'></Use>
       </Mask>
     </G>
-    <G id='colors/default/black' fill={color} mask='url(#mask-2)'>
-      <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
+    <G
+      id='colors/default/blacku56nz4xfq'
+      fill='#212121'
+      mask='url(#mask-2u56nz4xfq)'
+    >
+      <Rect id='Rectangleu56nz4xfq' x='0' y='0' width='24' height='24'></Rect>
     </G>
   </Svg>
 )

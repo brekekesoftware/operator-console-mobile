@@ -9,24 +9,29 @@ const StatusHoverIcon = ({
 }) => (
   <Svg width={width} height={height} viewBox='0 0 8 8' {...props}>
     <Defs>
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2mhgk0j9q8' fill='white'>
+        <Use xlinkHref='#path-1mhgk0j9q8'></Use>
       </Mask>
-      <Polygon id='path-1' points='4 5 6 7 8 5' />
-      <Use xlinkHref='#path-1' />
-      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+      <Polygon id='path-1mhgk0j9q8' points='4 5 6 7 8 5' />
+      <Use xlinkHref='#path-1mhgk0j9q8' />
+      <Use
+        id='Shapemhgk0j9q8'
+        fill='#191919'
+        fillRule='nonzero'
+        xlinkHref='#path-1mhgk0j9q8'
+      />
     </Defs>
     <G
-      id='icon/status-hover'
+      id='icon/status-hovermhgk0j9q8'
       fill='none'
-      mask='url(#mask-2)'
+      mask='url(#mask-2mhgk0j9q8)'
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
       transform='translate(-2.000000, -2.000000)'
     >
       <Circle
-        id='components/avatar/status-online'
+        id='components/avatar/status-onlinemhgk0j9q8'
         stroke='#F5F5F5'
         fill='#FFFFFF'
         fillRule='nonzero'
@@ -35,17 +40,17 @@ const StatusHoverIcon = ({
         r='4'
       ></Circle>
 
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-2mhgk0j9q8' fill='white'>
+        <Use xlinkHref='#path-1mhgk0j9q8'></Use>
       </Mask>
       <Use
-        id='Shape'
+        id='Shapemhgk0j9q8'
         fill='#191919'
         fillRule='nonzero'
-        xlinkHref='#path-1'
+        xlinkHref='#path-1mhgk0j9q8'
       ></Use>
 
-      <Rect id='Rectangle' x='0' y='0' width='12' height='12'></Rect>
+      <Rect id='Rectanglemhgk0j9q8' x='0' y='0' width='12' height='12'></Rect>
     </G>
   </Svg>
 )

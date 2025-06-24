@@ -388,6 +388,9 @@ uiData.prototype.initApp = function (option) {
   if (option.handler) {
     this.addHandler(option.handler)
   }
+  if (_reactNative.Platform.OS === 'web') {
+    this.ownerDocument = option.ownerDocument || document
+  }
   this.ucUiAction = option.ucUiAction
   this.ucUiStore = option.ucUiStore
   this.ucUiStore.addHandler(this)
@@ -552,8 +555,6 @@ uiData.prototype.destroyApp = function () {
   var parentElement =
     typeof this.parentElement === 'string' ? this.parentElement : null
   if (this.ownerDocument) {
-    parentElement =
-      typeof this.parentElement === 'string' ? this.parentElement : null
     this.addedEventListeners = []
     if (
       global.$brUCDndEnabledApp &&
@@ -4569,6 +4570,28 @@ uiData.prototype.panelHeaderFileButton_onClick = function (
             .log('error', 'Error picking files: ' + err)
         }
       })
+  } else {
+    var input = this.ownerDocument.querySelector('input.brPanelHeaderFileInput')
+    if (!input) {
+      input = this.ownerDocument.createElement('input')
+      input.type = 'file'
+      input.className = 'brPanelHeaderFileInput'
+      input.multiple = 'multiple'
+      input.style.display = 'none'
+      this.ownerDocument.body.appendChild(input)
+    }
+    input.onchange = function () {
+      if (input.files && input.files.length) {
+        _this24.ucUiAction.sendFiles({
+          chatType: panelType,
+          chatCode: panelCode,
+          files: input.files,
+        })
+      } else {
+        _this24.ucUiStore.getLogger().log('info', 'empty input.files')
+      }
+    }
+    input.click()
   }
 }
 uiData.prototype.panelHeaderVoiceButton_onClick = function (

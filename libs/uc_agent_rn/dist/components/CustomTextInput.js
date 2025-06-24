@@ -203,12 +203,16 @@ var CustomTextInput = /*#__PURE__*/ (0, _react.forwardRef)(
           _setValue('')
         },
         setValue: function setValue(val) {
-          var _internalRef$current3
-          ;(_internalRef$current3 = internalRef.current) === null ||
-            _internalRef$current3 === void 0 ||
-            _internalRef$current3.setNativeProps({
-              text: val,
-            })
+          if (_reactNative.Platform.OS === 'web') {
+            internalRef.current.value = val
+          } else {
+            var _internalRef$current3
+            ;(_internalRef$current3 = internalRef.current) === null ||
+              _internalRef$current3 === void 0 ||
+              _internalRef$current3.setNativeProps({
+                text: val,
+              })
+          }
           _setValue(val)
         },
         getValue: function getValue() {

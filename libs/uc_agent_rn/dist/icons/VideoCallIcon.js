@@ -161,47 +161,47 @@ var VideoCallIcon = function VideoCallIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
-                id: 'path-1',
+                id: 'path-1kmoni49jk',
                 d: 'M5.99999996,7.3333333 C5.26466662,7.3333333 4.66666662,7.93133331 4.66666662,8.66666665 L4.66666662,15.3333334 C4.66666662,16.0686667 5.26466662,16.6666667 5.99999996,16.6666667 L14.6666667,16.6666667 C15.402,16.6666667 16,16.0686667 16,15.3333334 L16,13.3867187 L19.3333334,16.0533854 L19.3333334,7.94661457 L16,10.6132813 L16,8.66666665 C16,7.93133331 15.402,7.3333333 14.6666667,7.3333333 L5.99999996,7.3333333 Z',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2kmoni49jk',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1kmoni49jk',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1kmoni49jk',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/video-call',
+            id: 'icon/video-callkmoni49jk',
             fill: 'none',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-              id: 'mask-2',
+              id: 'mask-2kmoni49jk',
               fill: 'white',
               children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNativeSvg.Use,
                 {
-                  xlinkHref: '#path-1',
+                  xlinkHref: '#path-1kmoni49jk',
                 },
               ),
             }),
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'colors/default/black',
-            fill: color,
-            mask: 'url(#mask-2)',
+            id: 'colors/default/blackkmoni49jk',
+            fill: '#212121',
+            mask: 'url(#mask-2kmoni49jk)',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-              id: 'Rectangle',
+              id: 'Rectanglekmoni49jk',
               x: '0',
               y: '0',
               width: '24',

@@ -160,13 +160,13 @@ var StatusOfflineIcon = function StatusOfflineIcon(_ref) {
         children: [
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Defs, {}),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/status-offline',
+            id: 'icon/status-offlineuw09aq5k0',
             fill: 'none',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(Circle, {
-              id: 'components/avatar/status-online',
+              id: 'components/avatar/status-onlineuw09aq5k0',
               stroke: '#F5F5F5',
               fill: '#E0E0E0',
               fillRule: 'nonzero',

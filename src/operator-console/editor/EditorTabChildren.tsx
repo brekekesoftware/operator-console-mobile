@@ -61,7 +61,7 @@ export const EditorTabChildren = ({
         cellHeight={editingScreenGrid * 10}
         cellHeight2={editingScreenGrid}
       >
-        <ScrollView horizontal bounces={false}>
+        <ScrollView horizontal bounces={false} style={Util.getStyleScrollBar()}>
           <ScrollView bounces={false}>
             <TouchableWithoutFeedback
               onPress={() => {

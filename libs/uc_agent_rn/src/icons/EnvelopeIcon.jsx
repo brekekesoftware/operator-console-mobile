@@ -10,29 +10,39 @@ const EnvelopeIcon = ({
   <Svg width={width} height={height} viewBox='0 0 24 24' {...props}>
     <Defs>
       <Path
-        id='path-1'
+        id='path-101vzc7fhj'
         d='M18.4,6 L5.6,6 C4.716,6 4,6.716 4,7.6 L4,17.2 C4,18.084 4.716,18.8 5.6,18.8 L18.4,18.8 C19.284,18.8 20,18.084 20,17.2 L20,7.6 C20,6.716 19.284,6 18.4,6 Z M18.4,9.2 L12,13.2 L5.6,9.2 L5.6,7.6 L12,11.6 L18.4,7.6 L18.4,9.2 Z'
       />
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-201vzc7fhj' fill='white'>
+        <Use xlinkHref='#path-101vzc7fhj'></Use>
       </Mask>
-      <Use xlinkHref='#path-1' />
-      <Use id='Shape' fill='#191919' fillRule='nonzero' xlinkHref='#path-1' />
+      <Use xlinkHref='#path-101vzc7fhj' />
+      <Use
+        id='Shape01vzc7fhj'
+        fill='#191919'
+        fillRule='nonzero'
+        xlinkHref='#path-101vzc7fhj'
+      />
     </Defs>
     <G
-      id='icon/envelope'
+      id='icon/envelope01vzc7fhj'
       fill='none'
-      mask='url(#mask-2)'
+      mask='url(#mask-201vzc7fhj)'
       fillRule='evenodd'
       stroke='none'
       strokeWidth='1'
     >
-      <Mask id='mask-2' fill='white'>
-        <Use xlinkHref='#path-1'></Use>
+      <Mask id='mask-201vzc7fhj' fill='white'>
+        <Use xlinkHref='#path-101vzc7fhj'></Use>
       </Mask>
-      <Use id='Shape' fill={color} fillRule='nonzero' xlinkHref='#path-1'></Use>
+      <Use
+        id='Shape01vzc7fhj'
+        fill='#191919'
+        fillRule='nonzero'
+        xlinkHref='#path-101vzc7fhj'
+      ></Use>
 
-      <Rect id='Rectangle' x='0' y='0' width='24' height='24'></Rect>
+      <Rect id='Rectangle01vzc7fhj' x='0' y='0' width='24' height='24'></Rect>
     </G>
   </Svg>
 )

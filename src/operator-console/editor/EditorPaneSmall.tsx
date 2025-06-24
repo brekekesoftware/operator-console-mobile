@@ -63,6 +63,7 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
           })
         } else {
           const el = refScroll.current as HTMLElement
+          console.log('#Duy Phan console htmlW', w, h, width, height)
           el.style.width = w < width ? `${width}px` : `${w}px`
           el.style.height = h < height ? `${height}px` : `${h}px`
         }
@@ -82,8 +83,6 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
     >
       <GridLines
         style={{
-          // width: '100%',
-          // height: '100%',
           flex: 1,
           overflow: 'hidden',
         }}
@@ -97,6 +96,7 @@ export const EditorPaneSmall = forwardRef((props: any, ref: any) => {
           horizontal
           bounces={false}
           keyboardShouldPersistTaps='handled'
+          style={Util.getStyleScrollBar()}
         >
           <ScrollView bounces={false} keyboardShouldPersistTaps='handled'>
             <TouchableWithoutFeedback

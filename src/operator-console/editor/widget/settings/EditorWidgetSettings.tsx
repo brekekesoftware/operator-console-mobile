@@ -4,6 +4,7 @@ import { ScrollView, Text, View } from 'react-native'
 import { Button } from '../../../common/Button'
 import { Popconfirm } from '../../../common/Popconfirm'
 import { i18n } from '../../../i18n'
+import { Util } from '../../../Util'
 import type { EditScreenView } from '../../EditScreenView'
 
 // !abstract
@@ -56,7 +57,11 @@ export class EditorWidgetSettings extends Component<Props, State> {
             paddingRight: 12,
           }}
         >
-          <ScrollView persistentScrollbar contentContainerStyle={{ gap: 16 }}>
+          <ScrollView
+            persistentScrollbar
+            contentContainerStyle={{ gap: 16 }}
+            style={Util.getStyleScrollBar()}
+          >
             {this._getRenderMainJsx()}
           </ScrollView>
         </View>

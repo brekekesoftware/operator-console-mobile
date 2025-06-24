@@ -161,41 +161,41 @@ var StatusClickedIcon = function StatusClickedIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2hse0brql2',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1hse0brql2',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Polygon, {
-                id: 'path-1',
+                id: 'path-1hse0brql2',
                 points: '4 5 6 7 8 5',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1hse0brql2',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapehse0brql2',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1hse0brql2',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.G, {
-            id: 'icon/status-clicked',
+            id: 'icon/status-clickedhse0brql2',
             fill: 'none',
-            mask: 'url(#mask-2)',
+            mask: 'url(#mask-2hse0brql2)',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             transform: 'translate(-2.000000, -2.000000)',
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(Circle, {
-                id: 'components/avatar/status-online',
+                id: 'components/avatar/status-onlinehse0brql2',
                 stroke: '#F5F5F5',
                 fill: '#FFFFFF',
                 fillRule: 'nonzero',
@@ -204,23 +204,23 @@ var StatusClickedIcon = function StatusClickedIcon(_ref) {
                 r: '4',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2hse0brql2',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1hse0brql2',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                id: 'Shape',
+                id: 'Shapehse0brql2',
                 fill: '#191919',
                 fillRule: 'nonzero',
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1hse0brql2',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-                id: 'Rectangle',
+                id: 'Rectanglehse0brql2',
                 x: '0',
                 y: '0',
                 width: '12',

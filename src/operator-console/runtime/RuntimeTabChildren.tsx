@@ -35,7 +35,7 @@ export const RuntimeTabChildren = ({
 
   return (
     <View style={{ flex: 1 }} ref={refLayout} collapsable={false}>
-      <ScrollView horizontal bounces={false}>
+      <ScrollView horizontal bounces={false} style={Util.getStyleScrollBar()}>
         <ScrollView bounces={false}>
           <View ref={refScroll}>
             {widgetDataArray.map((widgetData, index) => {

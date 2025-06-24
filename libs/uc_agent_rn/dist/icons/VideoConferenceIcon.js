@@ -161,47 +161,47 @@ var VideoConferenceIcon = function VideoConferenceIcon(_ref) {
           /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_reactNativeSvg.Defs, {
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Path, {
-                id: 'path-1',
+                id: 'path-1sdzgluui4',
                 d: 'M5.99999996,5.99999996 C5.26333329,5.99999996 4.66666662,6.59666663 4.66666662,7.3333333 L4.66666662,15.3333334 C4.66666662,16.07 5.26333329,16.6666667 5.99999996,16.6666667 L9.33333332,16.6666667 L9.33333332,18 L14.6666667,18 L14.6666667,16.6666667 L18,16.6666667 C18.7366667,16.6666667 19.3333334,16.07 19.3333334,15.3333334 L19.3333334,7.3333333 C19.3333334,6.59666663 18.7366667,5.99999996 18,5.99999996 L5.99999996,5.99999996 Z M5.99999996,7.3333333 L18,7.3333333 L18,15.3333334 L5.99999996,15.3333334 L5.99999996,7.3333333 Z M7.3333333,8.66666665 L7.3333333,10.6666667 L9.99999999,10.6666667 L9.99999999,8.66666665 L7.3333333,8.66666665 Z M14,8.66666665 C13.2636203,8.66666665 12.6666667,9.26362032 12.6666667,9.99999999 C12.6666667,10.7363797 13.2636203,11.3333333 14,11.3333333 C14.7363797,11.3333333 15.3333334,10.7363797 15.3333334,9.99999999 C15.3333334,9.26362032 14.7363797,8.66666665 14,8.66666665 Z M7.3333333,12 L7.3333333,14 L9.99999999,14 L9.99999999,12 L7.3333333,12 Z M14,12 C12.5433333,12 11.3333333,12.6058647 11.3333333,13.4778647 L11.3333333,14 L16.6666667,14 L16.6666667,13.4778647 C16.6666667,12.6058647 15.4566667,12 14,12 Z',
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-                id: 'mask-2',
+                id: 'mask-2sdzgluui4',
                 fill: 'white',
                 children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                   _reactNativeSvg.Use,
                   {
-                    xlinkHref: '#path-1',
+                    xlinkHref: '#path-1sdzgluui4',
                   },
                 ),
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Use, {
-                xlinkHref: '#path-1',
+                xlinkHref: '#path-1sdzgluui4',
               }),
             ],
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'icon/video-conference',
+            id: 'icon/video-conferencesdzgluui4',
             fill: 'none',
             fillRule: 'evenodd',
             stroke: 'none',
             strokeWidth: '1',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Mask, {
-              id: 'mask-2',
+              id: 'mask-2sdzgluui4',
               fill: 'white',
               children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(
                 _reactNativeSvg.Use,
                 {
-                  xlinkHref: '#path-1',
+                  xlinkHref: '#path-1sdzgluui4',
                 },
               ),
             }),
           }),
           /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.G, {
-            id: 'colors/default/black',
-            fill: color,
-            mask: 'url(#mask-2)',
+            id: 'colors/default/blacksdzgluui4',
+            fill: '#212121',
+            mask: 'url(#mask-2sdzgluui4)',
             children: /*#__PURE__*/ (0, _jsxRuntime.jsx)(_reactNativeSvg.Rect, {
-              id: 'Rectangle',
+              id: 'Rectanglesdzgluui4',
               x: '0',
               y: '0',
               width: '24',
