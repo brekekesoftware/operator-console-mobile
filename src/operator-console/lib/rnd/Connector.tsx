@@ -44,11 +44,7 @@ export class Connector extends Component<Props> {
       // Ask to be the responder:
       onStartShouldSetPanResponder: (event, gestureState) => true,
       onStartShouldSetPanResponderCapture: (event, gestureState) => false,
-      onMoveShouldSetPanResponder: (evt, gestureState) => {
-        const dx = Math.abs(gestureState.dx)
-        const dy = Math.abs(gestureState.dy)
-        return dx > 5 || dy > 5
-      },
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
       onPanResponderGrant: (event, gestureState) => {
@@ -63,7 +59,8 @@ export class Connector extends Component<Props> {
       },
       onPanResponderMove: (event, gestureState) => {
         const { onMove } = this.props
-
+        event.preventDefault()
+        event.stopPropagation()
         onMove?.([
           gestureState.dx - this.position.x,
           gestureState.dy - this.position.y,

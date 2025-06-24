@@ -164,6 +164,7 @@ export class Rnd extends Component<Props, State> {
   }
 
   onPress = event => {
+    console.log('#Duy Phan console onPOress')
     this.props.onPress?.(event)
     this.setState({
       isShowConnector: !this.state.isShowConnector,
@@ -521,10 +522,10 @@ export class Rnd extends Component<Props, State> {
       return
     }
 
-    this.setState(() => {
+    this.setState(s => {
       const newX = this.state.x + coord[0]
       const newY = this.state.y + coord[1]
-      const nS = { ...this.state }
+      const nS = { ...s }
 
       if (axis != AXIS_Y) {
         if (limitation.x <= newX && limitation.w >= newX + this.state.w) {
@@ -538,17 +539,17 @@ export class Rnd extends Component<Props, State> {
         }
       }
 
-      const deltaX = coord[0] || 0
-      const deltaY = coord[1] || 0
+      // const deltaX = coord[0] || 0
+      // const deltaY = coord[1] || 0
 
-      const [newDX, newDY] = this.snapToGrid(grid, deltaX, deltaY)
+      // const [newDX, newDY] = this.snapToGrid(grid, deltaX, deltaY)
 
-      if (!deltaX && !deltaY) {
-        return
-      } else {
-        nS.x = this.state.x + newDX
-        nS.y = this.state.y + newDY
-      }
+      // if (!deltaX && !deltaY) {
+      //   return
+      // } else {
+      //   nS.x = this.state.x + newDX
+      //   nS.y = this.state.y + newDY
+      // }
       onDrag?.([nS.x, nS.y])
 
       return nS
