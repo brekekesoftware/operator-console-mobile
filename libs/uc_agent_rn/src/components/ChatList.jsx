@@ -29,13 +29,13 @@ export default class extends React.Component {
     this.nodeLayouts = {}
 
     // Add refs object to store multiple refs
-    this.refs = {}
+    this.nodeRefs = {}
   }
 
   measureNode = key => {
     return new Promise(resolve => {
-      if (this.refs[key] && this.refs[key].measure) {
-        this.refs[key].measure((x, y, width, height, pageX, pageY) => {
+      if (this.nodeRefs[key] && this.nodeRefs[key].measure) {
+        this.nodeRefs[key].measure((x, y, width, height, pageX, pageY) => {
           resolve({ top: pageY, height })
         })
       } else {
@@ -110,7 +110,7 @@ export default class extends React.Component {
     }
 
     const chatShowmorelink =
-      this.firstShowmorelinkNodeKey && this.refs[this.firstShowmorelinkNodeKey]
+      this.firstShowmorelinkNodeKey && this.nodeRefs[this.firstShowmorelinkNodeKey]
     if (
       ev &&
       chatShowmorelink &&
@@ -154,7 +154,7 @@ export default class extends React.Component {
           chatNodes.push(
             <ChatSysmsg
               key={chat.key}
-              ref={ref => (this.refs[chat.key] = ref)}
+              ref={ref => (this.nodeRefs[chat.key] = ref)}
               uiData={props.uiData}
               sysmsg={chat}
               nextChat={array[index + 1]}
@@ -176,7 +176,7 @@ export default class extends React.Component {
             chatNodes.push(
               <ChatParagraph
                 key={chat.key}
-                ref={ref => (this.refs[chat.key] = ref)}
+                ref={ref => (this.nodeRefs[chat.key] = ref)}
                 uiData={props.uiData}
                 panelType={props.panelType}
                 panelCode={props.panelCode}
@@ -202,7 +202,7 @@ export default class extends React.Component {
           chatNodes.push(
             <ChatShowmorelink
               key={chat.key}
-              ref={ref => (this.refs[chat.key] = ref)}
+              ref={ref => (this.nodeRefs[chat.key] = ref)}
               uiData={props.uiData}
               showmorelink={chat}
               isFirst={index === 0}
@@ -245,7 +245,7 @@ export default class extends React.Component {
         {chatNodes.map(node => (
           <View
             key={node.key}
-            ref={ref => (this.refs[node.key] = ref)}
+            ref={ref => (this.nodeRefs[node.key] = ref)}
             onLayout={event => this.handleLayout(node.key, event)}
           >
             {node}

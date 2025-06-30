@@ -82,7 +82,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         key: '1',
         label: (
-          <TouchableOpacity onPress={operatorConsole.startEditingScreen_ver2}>
+          <TouchableOpacity
+            onPress={operatorConsole.startEditingScreen_ver2}
+            style={{ flex: 1 }}
+          >
             <Text>{i18n.t('editLayout')}</Text>
           </TouchableOpacity>
         ),
@@ -90,7 +93,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         key: '2',
         label: (
-          <TouchableOpacity onPress={operatorConsole.startShowScreen_ver2}>
+          <TouchableOpacity
+            onPress={operatorConsole.startShowScreen_ver2}
+            style={{ flex: 1 }}
+          >
             <Text>{i18n.t('show_screen')}</Text>
           </TouchableOpacity>
         ),
@@ -98,7 +104,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         key: '3',
         label: (
-          <TouchableOpacity onPress={showNewLayoutModalFunc}>
+          <TouchableOpacity
+            onPress={showNewLayoutModalFunc}
+            style={{ flex: 1 }}
+          >
             <Text>{i18n.t('newLayout')}</Text>
           </TouchableOpacity>
         ),
@@ -106,7 +115,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         key: '4',
         label: (
-          <TouchableOpacity onPress={showOpenLayoutModalFunc}>
+          <TouchableOpacity
+            onPress={showOpenLayoutModalFunc}
+            style={{ flex: 1 }}
+          >
             <Text>{i18n.t('openLayout')}</Text>
           </TouchableOpacity>
         ),
@@ -115,7 +127,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         key: '5',
         label: (
-          <TouchableOpacity onPress={operatorConsole.startSettingsScreen}>
+          <TouchableOpacity
+            onPress={operatorConsole.startSettingsScreen}
+            style={{ flex: 1 }}
+          >
             <Text>{i18n.t('settings_screen')}</Text>
           </TouchableOpacity>
         ),
@@ -125,6 +140,7 @@ export const DropDownMenu = ({ operatorConsole }) => {
         label: (
           <TouchableOpacity
             onPress={() => operatorConsole.openAboutOCModalByState()}
+            style={{ flex: 1 }}
           >
             <Text>{i18n.t('About_OperatorConsole')}</Text>
           </TouchableOpacity>
@@ -141,7 +157,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
           {
             key: '101',
             label: (
-              <TouchableOpacity onPress={showOpenLayoutModalFunc}>
+              <TouchableOpacity
+                onPress={showOpenLayoutModalFunc}
+                style={{ flex: 1 }}
+              >
                 <Text>{i18n.t('openLayout')}</Text>
               </TouchableOpacity>
             ),
@@ -154,7 +173,10 @@ export const DropDownMenu = ({ operatorConsole }) => {
       {
         key: '1',
         label: (
-          <TouchableOpacity onPress={showOpenLayoutModalFunc}>
+          <TouchableOpacity
+            onPress={showOpenLayoutModalFunc}
+            style={{ flex: 1 }}
+          >
             <Text>{i18n.t('openLayout')}</Text>
           </TouchableOpacity>
         ),
@@ -172,6 +194,7 @@ export const DropDownMenu = ({ operatorConsole }) => {
         label: (
           <TouchableOpacity
             onPress={() => operatorConsole.openAboutOCModalByState()}
+            style={{ flex: 1 }}
           >
             <Text>{i18n.t('About_OperatorConsole')}</Text>
           </TouchableOpacity>

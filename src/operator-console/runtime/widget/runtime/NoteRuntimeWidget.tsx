@@ -1,7 +1,7 @@
 import { ActivityIndicator, Input } from '@ant-design/react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import debounce from 'debounce'
-import { Text, View } from 'react-native'
+import { Platform, Text, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { Empty } from '../../../common/Empty'
@@ -222,7 +222,7 @@ export class NoteRuntimeWidget extends RuntimeWidget {
           </View>
           {this.state.loading ? (
             <Empty image={null} description={<ActivityIndicator />} />
-          ) : (
+          ) : Platform.OS === 'web' ? (
             <Input
               value={this.state.content}
               onChange={this._onContentChanged}
@@ -239,10 +239,33 @@ export class NoteRuntimeWidget extends RuntimeWidget {
               readOnly={this._readonly}
               multiline
               maxLength={10000000}
+              styles={{
+                input: { width: '100%', height: '100%', overflow: 'scroll' },
+              }}
+              style={{ flex: 1 }}
               // style={{
               //   fontSize: noteBodyFontSize,
               //   color: noteTextForegroundColor,
               // }}
+            />
+          ) : (
+            <Input.TextArea
+              value={this.state.content}
+              onChange={this._onContentChanged}
+              onFocus={() => {
+                const oc = BrekekeOperatorConsole.getStaticInstance()
+                oc.addDisableKeydownToDialingCounter()
+                oc.addDisablePasteToDialingCounter()
+              }}
+              onBlur={() => {
+                const oc = BrekekeOperatorConsole.getStaticInstance()
+                oc.subtractDisableKeydownToDialingCounter()
+                oc.subtractDisablePasteToDialingCounter()
+              }}
+              readOnly={this._readonly}
+              multiline
+              autoSize={{ maxRows: 30, minRows: 2 }}
+              maxLength={10000000}
             />
           )}
           {(this.state.error || this.state.saving) && (

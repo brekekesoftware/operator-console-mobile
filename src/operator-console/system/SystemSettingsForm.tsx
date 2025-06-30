@@ -5,7 +5,7 @@ import {
   Radio,
 } from '@ant-design/react-native'
 import type { StyleProp, TextStyle } from 'react-native'
-import { Text } from 'react-native'
+import { Platform, Text } from 'react-native'
 
 import { CallHistory2 } from '../call/CallHistory2'
 import { Input } from '../common/Input'
@@ -182,20 +182,36 @@ export const SystemSettingsForm = props => {
         styles={formItemStyle}
         labelStyle={{ marginBottom: 10 }}
       >
-        <AntdInput
-          multiline
-          numberOfLines={30}
-          maxLength={1000000}
-          style={{
-            minHeight: 600,
-            minWidth: 800,
-            height: 600,
-            marginRight: 30,
-            borderWidth: 1,
-            borderColor: '#e0e0e0',
-            padding: 10,
-          }}
-        />
+        {Platform.OS === 'web' ? (
+          <AntdInput
+            multiline
+            numberOfLines={30}
+            maxLength={1000000}
+            style={{
+              minHeight: 600,
+              minWidth: 800,
+              height: 600,
+              marginRight: 30,
+              borderWidth: 1,
+              borderColor: '#e0e0e0',
+              padding: 10,
+            }}
+          />
+        ) : (
+          <AntdInput.TextArea
+            rows={30}
+            maxLength={1000000}
+            style={{
+              minHeight: 600,
+              minWidth: 800,
+              height: 600,
+              marginRight: 30,
+              borderWidth: 1,
+              borderColor: '#e0e0e0',
+              padding: 10,
+            }}
+          />
+        )}
       </Form.Item>
     </Form>
   )

@@ -151,10 +151,12 @@ const styles = StyleSheet.create({
       ios: {
         height: 10,
         width: 10,
+        marginRight: 5,
       },
       android: {
         height: 10,
         width: 10,
+        marginRight: 5,
       },
       web: {
         marginRight: 5,

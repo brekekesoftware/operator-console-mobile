@@ -1,5 +1,5 @@
 import { Input } from '@ant-design/react-native'
-import { Text } from 'react-native'
+import { Platform, Text } from 'react-native'
 
 import { ColorPicker } from '../../../common/ColorPicker'
 import { InputNumber } from '../../../common/InputNumber'
@@ -51,23 +51,39 @@ export class TextEditorWidgetSettings extends EditorWidgetSettings {
     const jsx = (
       <>
         <Text>{i18n.t('text')}</Text>
-        <Input
-          multiline
-          style={{
-            width: '100%',
-            height: 160,
-            borderWidth: 1,
-            borderColor: '#efefef',
-            borderRadius: 4,
-            padding: 10,
-            alignItems: 'flex-start',
-          }}
-          styles={{
-            input: { width: '100%', height: '100%', overflow: 'scroll' },
-          }}
-          value={widgetData.getText()}
-          onChange={e => this._onChangeTextArea(e)}
-        />
+        {Platform.OS === 'web' ? (
+          <Input
+            multiline
+            style={{
+              width: '100%',
+              height: 160,
+              borderWidth: 1,
+              borderColor: '#efefef',
+              borderRadius: 4,
+              padding: 10,
+              alignItems: 'flex-start',
+            }}
+            styles={{
+              input: { width: '100%', height: '100%', overflow: 'scroll' },
+            }}
+            value={widgetData.getText()}
+            onChange={e => this._onChangeTextArea(e)}
+          />
+        ) : (
+          <Input.TextArea
+            style={{
+              width: '100%',
+              height: 160,
+              borderWidth: 1,
+              borderColor: '#efefef',
+              borderRadius: 4,
+              padding: 10,
+            }}
+            value={widgetData.getText()}
+            onChange={e => this._onChangeTextArea(e)}
+          />
+        )}
+
         <Text>{i18n.t('Text_size')}</Text>
         <InputNumber
           min='0'

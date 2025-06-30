@@ -355,13 +355,15 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
     _this = _callSuper(this, _default, [_props])
     _defineProperty(_this, 'measureNode', function (key) {
       return new Promise(function (resolve) {
-        if (_this.refs[key] && _this.refs[key].measure) {
-          _this.refs[key].measure(function (x, y, width, height, pageX, pageY) {
-            resolve({
-              top: pageY,
-              height: height,
-            })
-          })
+        if (_this.nodeRefs[key] && _this.nodeRefs[key].measure) {
+          _this.nodeRefs[key].measure(
+            function (x, y, width, height, pageX, pageY) {
+              resolve({
+                top: pageY,
+                height: height,
+              })
+            },
+          )
         } else {
           resolve(null)
         }
@@ -395,7 +397,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
       }
       var chatShowmorelink =
         _this.firstShowmorelinkNodeKey &&
-        _this.refs[_this.firstShowmorelinkNodeKey]
+        _this.nodeRefs[_this.firstShowmorelinkNodeKey]
       if (
         ev &&
         chatShowmorelink &&
@@ -414,7 +416,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
     _this.nodeLayouts = {}
 
     // Add refs object to store multiple refs
-    _this.refs = {}
+    _this.nodeRefs = {}
     return _this
   }
   _inherits(_default, _React$Component)
@@ -566,7 +568,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   _ChatSysmsg.default,
                   {
                     ref: function ref(_ref) {
-                      return (_this2.refs[chat.key] = _ref)
+                      return (_this2.nodeRefs[chat.key] = _ref)
                     },
                     uiData: props.uiData,
                     sysmsg: chat,
@@ -596,7 +598,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                     _ChatParagraph.default,
                     {
                       ref: function ref(_ref2) {
-                        return (_this2.refs[chat.key] = _ref2)
+                        return (_this2.nodeRefs[chat.key] = _ref2)
                       },
                       uiData: props.uiData,
                       panelType: props.panelType,
@@ -629,7 +631,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                   _ChatShowmorelink.default,
                   {
                     ref: function ref(_ref3) {
-                      return (_this2.refs[chat.key] = _ref3)
+                      return (_this2.nodeRefs[chat.key] = _ref3)
                     },
                     uiData: props.uiData,
                     showmorelink: chat,
@@ -681,7 +683,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
                 _reactNative.View,
                 {
                   ref: function ref(_ref4) {
-                    return (_this2.refs[node.key] = _ref4)
+                    return (_this2.nodeRefs[node.key] = _ref4)
                   },
                   onLayout: function onLayout(event) {
                     return _this2.handleLayout(node.key, event)

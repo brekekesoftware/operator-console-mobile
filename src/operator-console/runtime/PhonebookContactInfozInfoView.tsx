@@ -519,7 +519,7 @@ export class PhonebookContactInfozInfoView extends React.Component<
           }}
         >
           <View style={{ flex: 1 }}>
-            <TableWrapper>
+            <TableWrapper style={{ zIndex: 118 }}>
               <View style={{ flex: 1, alignItems: 'flex-end' }}>
                 {isSaveable && (
                   <Popconfirm
