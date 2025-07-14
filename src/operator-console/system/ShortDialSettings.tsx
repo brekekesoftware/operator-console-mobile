@@ -91,7 +91,13 @@ export class ShortDialSettings extends React.Component {
               }}
             >
               <Button onPress={() => add()}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 10,
+                  }}
+                >
                   <RnIcon path={mdiPlus} size={20} />
                   <Text style={{ fontSize: 16 }}> {i18n.t('addField')}</Text>
                 </View>

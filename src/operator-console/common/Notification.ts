@@ -13,7 +13,7 @@ export const Notification = {
   },
   error: ({
     message,
-    duration = 2000,
+    duration,
     content,
   }: {
     message: string

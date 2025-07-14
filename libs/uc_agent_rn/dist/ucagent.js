@@ -2054,7 +2054,17 @@ uiData.prototype.sendTextFromEditor = function (
   subjectTextBox,
   isEmail,
 ) {
-  var _this10 = this
+  var _editorTextarea$getVa,
+    _this10 = this
+  console.log(
+    '#Duy Phan console va',
+    editorTextarea === null ||
+      editorTextarea === void 0 ||
+      (_editorTextarea$getVa = editorTextarea.getValue) === null ||
+      _editorTextarea$getVa === void 0
+      ? void 0
+      : _editorTextarea$getVa.call(editorTextarea),
+  )
   if (editorTextarea && editorTextarea.getValue()) {
     var text = (0, _strings.string)(editorTextarea.getValue())
     var isRichText = false
@@ -5262,12 +5272,24 @@ uiData.prototype.editorTextarea_onKeyDown = function (
   panelCode,
   disabled,
   isEmail,
+  editor,
   ev,
 ) {
+  // console.log('#Duy Phan console ev', t)
   if (!isEmail) {
     if (ev.keyCode === 13 && !ev.shiftKey) {
       if (!disabled) {
-        this.sendTextFromEditor(panelType, panelCode, ev.target, null, isEmail)
+        var _editor$getValue
+        console.log(
+          '#Duy Phan console send ',
+          editor === null ||
+            editor === void 0 ||
+            (_editor$getValue = editor.getValue) === null ||
+            _editor$getValue === void 0
+            ? void 0
+            : _editor$getValue.call(editor),
+        )
+        this.sendTextFromEditor(panelType, panelCode, editor, null, isEmail)
       }
       ev.preventDefault()
     } else if (

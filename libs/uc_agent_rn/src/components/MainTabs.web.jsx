@@ -709,26 +709,6 @@ export default class extends React.Component {
         >
           <TriangleDownIcon />
         </TouchableOpacity>
-        {/* <DndableSafe
-          uiData={props.uiData}
-          className='brMainTabLinksLastDndable'
-          style={{ left: Math.max(1, this.state.tabDndableLeft) }}
-          onCheckCanDrop={ev =>
-            ev.dragSourceInfo &&
-            ev.dragSourceInfo.dragSourceInfoType === 'mainTabLinkSpan' &&
-            string(props.position).indexOf(
-              string(ev.dragSourceInfo.dragSourceInfoCode).split('|')[0],
-            ) === -1
-          }
-          onDrop={props.uiData.fire.bind(
-            props.uiData,
-            'mainTabsDndable_onDrop',
-            {
-              dropTargetInfoType: 'mainTabLinksLast',
-              dropTargetInfoCode: string(props.position),
-            },
-          )}
-        /> */}
         <View
           style={[
             styles.brMainTabContent,
@@ -752,18 +732,6 @@ export default class extends React.Component {
           bounces={false}
           decelerationRate='fast'
         >
-          {/* <DraggableFlatList
-            data={tabLinkList}
-            keyExtractor={item => item.key}
-            renderItem={this.renderItem}
-            horizontal
-            onDragStart={this.handleDragStart}
-            onDragEnd={this.handleDragEnd}
-            activationDistance={15}
-            containerStyle={styles.draggableList}
-            scrollEnabled={false}
-            dragHitSlop={{ top: 10, bottom: 10, left: 15, right: 15 }}
-          /> */}
           <DndSort
             renderItem={this.renderItem}
             data={tabLinkList}
@@ -972,6 +940,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e0e0e0',
     backgroundColor: '#FFFFFF',
+    zIndex: 1
   },
   brMainTabContentSelected: {
     backgroundColor: '#FFFFFF',

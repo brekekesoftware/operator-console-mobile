@@ -14,13 +14,13 @@ import { OCUtil } from '../OCUtil'
 import { OperatorConsoleStyles } from '../OperatorConsoleStyles'
 import { Util } from '../Util'
 
-const _getLightClassname = (line, context = {}) => {
+const _getLightClassname = (line, context: any) => {
   const {
     myParksStatus = {},
     linesStatus = {},
     parksStatus = {},
     loginUser,
-  } = context
+  } = context || {}
   const { line_talker, room_id, status } = linesStatus[line] || {}
   let lightClassname = ''
   if (status === 'on') {
@@ -696,7 +696,7 @@ export const LineTable = props => {
     for (let i = 0; i < lineCount; i++) {
       const line = props['line' + i]
       const { line_talker, room_id, line_talker_id } = linesStatus[line] || {}
-      const lineInfo = {}
+      const lineInfo = {} as any
       lineInfo.line = props['line' + i]
       lineInfo.lineLabel = props['lineLabel' + i]
       lineInfo.label = i18n.t('line') + ' ' + (i + 1)

@@ -1,7 +1,7 @@
 import type React from 'react'
 import { Component } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
-import { TouchableWithoutFeedback, View } from 'react-native'
+import { View } from 'react-native'
 
 import {
   Connector,
@@ -515,7 +515,7 @@ export class Rnd extends Component<Props, State> {
       isDraggable,
       limitation,
       onDrag,
-      grid = [10, 10],
+      // grid = [10, 10],
     } = this.props
 
     if (!isDraggable) {

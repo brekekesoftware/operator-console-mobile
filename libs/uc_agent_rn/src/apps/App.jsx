@@ -20,9 +20,9 @@ class App extends React.Component {
     const props = this.props
     return (
       <View style={{ flex: 1 }}>
-        <WidgetBody uiData={props.uiData} modalOverlayClassName='brUCAgentApp'>
+        <WidgetBody uiData={props.uiData}>
           <RnAudioPlayer source={sound} />
-          <MainArea className='brWithToolbar' uiData={props.uiData} />
+          <MainArea uiData={props.uiData} />
           <Toolbar>
             <WebchatQueueButton uiData={props.uiData} disabled={false} />
             <WebchatPickupButton uiData={props.uiData} disabled={false} />

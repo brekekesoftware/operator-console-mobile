@@ -656,26 +656,6 @@ export default class extends React.Component {
         >
           <TriangleDownIcon />
         </TouchableOpacity>
-        {/* <DndableSafe
-          uiData={props.uiData}
-          className='brMainTabLinksLastDndable'
-          style={{ left: Math.max(1, this.state.tabDndableLeft) }}
-          onCheckCanDrop={ev =>
-            ev.dragSourceInfo &&
-            ev.dragSourceInfo.dragSourceInfoType === 'mainTabLinkSpan' &&
-            string(props.position).indexOf(
-              string(ev.dragSourceInfo.dragSourceInfoCode).split('|')[0],
-            ) === -1
-          }
-          onDrop={props.uiData.fire.bind(
-            props.uiData,
-            'mainTabsDndable_onDrop',
-            {
-              dropTargetInfoType: 'mainTabLinksLast',
-              dropTargetInfoCode: string(props.position),
-            },
-          )}
-        /> */}
         <View
           style={[
             styles.brMainTabContent,
@@ -914,6 +894,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e0e0e0',
     backgroundColor: '#FFFFFF',
+    zIndex: 1
   },
   brMainTabContentSelected: {
     backgroundColor: '#FFFFFF',

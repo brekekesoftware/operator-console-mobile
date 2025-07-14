@@ -40,10 +40,10 @@ export class LineTableSettings extends React.Component<Props, State> {
       // this._checkInput( this.formRef.current.getFieldsValue() );
     }
     // this._operatorConsoleAsParent.setState( {isSaveEditingScreenButtonDisabled : true } );
-    const added =
-      this._operatorConsoleAsParent.addOnBeginSaveEditingScreenFunctionIfNotExists(
-        LineTableSettings._OnBeginSaveEditingScreenFunction,
-      )
+    // const added =
+    //   this._operatorConsoleAsParent.addOnBeginSaveEditingScreenFunctionIfNotExists(
+    //     LineTableSettings._OnBeginSaveEditingScreenFunction,
+    //   )
     // const thisEditingWidget = this._operatorConsoleAsParent.getEditingWidget();
     // thisEditingWidget.OnDeselectEditingWidget = this.OnDeselectEditingWidget.bind(this);
     // thisEditingWidget.OnRemovingWidget = this.OnRemovingWidget.bind(this);
@@ -233,7 +233,7 @@ export class LineTableSettings extends React.Component<Props, State> {
   }
 
   render() {
-    const lineInfos = []
+    const lineInfos: any = []
     for (let i = 0; i < this.props.widget.lineCount; i++) {
       lineInfos.push(i)
     }
@@ -267,7 +267,6 @@ export class LineTableSettings extends React.Component<Props, State> {
               key={key++}
               label={i18n.t('resourceName')}
               name={'line' + i}
-              maxLength={300}
               rules={[
                 {
                   required: true,
@@ -281,7 +280,6 @@ export class LineTableSettings extends React.Component<Props, State> {
               key={key++}
               label={i18n.t('lineLabel')}
               name={'lineLabel' + i}
-              maxLength={300}
             >
               <Input allowClear />
             </Form.Item>

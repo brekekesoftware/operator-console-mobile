@@ -1773,6 +1773,7 @@ uiData.prototype.sendTextFromEditor = function (
   subjectTextBox,
   isEmail,
 ) {
+  console.log('#Duy Phan console va', editorTextarea?.getValue?.())
   if (editorTextarea && editorTextarea.getValue()) {
     let text = string(editorTextarea.getValue())
     let isRichText = false
@@ -4712,12 +4713,15 @@ uiData.prototype.editorTextarea_onKeyDown = function (
   panelCode,
   disabled,
   isEmail,
+  editor,
   ev,
 ) {
+  // console.log('#Duy Phan console ev', t)
   if (!isEmail) {
     if (ev.keyCode === 13 && !ev.shiftKey) {
       if (!disabled) {
-        this.sendTextFromEditor(panelType, panelCode, ev.target, null, isEmail)
+        console.log('#Duy Phan console send ', editor?.getValue?.())
+        this.sendTextFromEditor(panelType, panelCode, editor, null, isEmail)
       }
       ev.preventDefault()
     } else if (

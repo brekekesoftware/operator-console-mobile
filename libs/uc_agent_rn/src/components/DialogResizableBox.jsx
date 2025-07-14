@@ -112,7 +112,7 @@ export default class extends React.Component {
 
         const minWidth = resizableOpts?.minConstraints?.[0] ?? 200
         const minHeight = resizableOpts?.minConstraints?.[1] ?? 200
-
+console.log('#Duy Phan console screenWidth',screenWidth)
         const maxWidth = Math.min(
           screenWidth - this.state.currentRect.left - 20,
           resizableOpts?.maxConstraints?.[0] ?? screenWidth,
@@ -121,6 +121,7 @@ export default class extends React.Component {
           screenHeight - this.state.currentRect.top - 20,
           resizableOpts?.maxConstraints?.[1] ?? screenHeight,
         )
+        
 
         const width = Math.max(minWidth, Math.min(newWidth, maxWidth))
         const height = Math.max(minHeight, Math.min(newHeight, maxHeight))
@@ -211,6 +212,7 @@ export default class extends React.Component {
   render() {
     const { props } = this
     const { pan, size } = this.state
+    console.log('#Duy Phan console size',size)
 
     let contents = (
       <Animated.View
@@ -300,7 +302,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    flex: 1,
+    // flex: 1,
   },
 
   brDisabled: {

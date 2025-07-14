@@ -63,7 +63,6 @@ export class SystemSettingsView extends React.Component<Props, State> {
           ) {
           } else {
             try {
-              const url = new URL(values.ucUrl)
             } catch (err) {
               Notification.error({
                 message:
@@ -222,7 +221,6 @@ export class SystemSettingsView extends React.Component<Props, State> {
 
     const shortname = this.operatorConsoleAsParent.getLastLayoutShortname()
     const noteContent = JSON.stringify(layoutsAndSettingsData)
-    let error
     const this_ = this
     const noteName = BrekekeOperatorConsole.getOCNoteName(shortname)
 
@@ -296,7 +294,6 @@ export class SystemSettingsView extends React.Component<Props, State> {
         ?.getPhoneClient?.()
         ?.getCallInfos?.()
         ?.getCallInfoCount?.() !== 0
-    const this_ = this
     const isButtonsEnabled = this.state.isSystemSettingsSaving === true
     return (
       <>

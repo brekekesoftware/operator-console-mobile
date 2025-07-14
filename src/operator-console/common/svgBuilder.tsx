@@ -122,7 +122,7 @@ export const buildGridSvg = (
   scale,
   format,
   orientation,
-) => {
+): any => {
   const page = getWidthAndHeight(getPageSize(format, orientation), scale)
   w = w * scale
   h = h * scale
@@ -142,13 +142,18 @@ export const buildGridSvg = (
 
   const svgW = page ? page.width : w
   const svgH = page ? page.height : h
-  var svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${svgW}' height='${svgH}'>${pat}</svg>`
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${svgW}' height='${svgH}'>${pat}</svg>`
 
   if (Platform.OS === 'web') {
     return (
       <div
+        style={{
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+          display: 'flex',
+        }}
         dangerouslySetInnerHTML={{ __html: svg }}
-        style={{ width: '100%', height: '100%', overflow: 'hidden' }}
       />
     )
   }

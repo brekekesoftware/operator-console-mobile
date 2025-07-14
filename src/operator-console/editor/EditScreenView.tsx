@@ -490,7 +490,8 @@ export class EditScreenView extends React.Component<Props, State> {
         <View
           style={{
             display: 'flex',
-            height: Dimensions.get('window').height - 47,
+            // height: Dimensions.get('window').height - 47,
+            flex: 1,
             flexDirection: 'row',
           }}
         >
@@ -518,7 +519,7 @@ export class EditScreenView extends React.Component<Props, State> {
               flexDirection: 'column',
               gap: 20,
               margin: 4,
-              height: '100%',
+              // height: '100%',
             }}
           >
             {settingsAreaJsx}

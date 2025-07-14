@@ -43,14 +43,14 @@ export class UccacAc {
     } else {
       acConsoleLogType = null // !default
     }
-    let acConfigurations
+    let acConfigurations = null
 
     if (options.acConfigurations) {
       acConfigurations = options.acConfigurations
     } else {
-      acConfigurations = {
-        queueLines: 2,
-      } // !default
+      // acConfigurations = {
+      //   queueLines: 2,
+      // } // !default
     }
 
     const this_ = this

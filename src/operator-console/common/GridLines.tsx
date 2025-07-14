@@ -43,13 +43,13 @@ export const GridLines = React.forwardRef((props: GridLinesProps, ref) => {
     children,
     ...rest
   } = props
-  const [bg, setBg] = useState('')
+  const [bgContent, setBgContent] = useState<React.ReactNode | null>(null)
   const h = cellHeight || cellWidth
   const h2 = cellHeight2 || cellWidth2
   const ComponentProp = component
 
   useEffect(() => {
-    setBg(
+    setBgContent(
       buildGridSvg(
         cellWidth,
         h,
@@ -88,22 +88,28 @@ export const GridLines = React.forwardRef((props: GridLinesProps, ref) => {
       style={[
         style,
         {
-          // zIndex: -1,
-          // position: 'relative'
+          position: 'relative',
+          overflow: 'hidden',
         },
       ]}
       {...rest}
     >
-      <View style={{ zIndex: -1 }}>{bg}</View>
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: -1,
+        }}
+      >
+        {bgContent}
+      </View>
       <View
         style={{
           flex: 1,
-          zIndex: 999,
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          left: 0,
-          bottom: 0,
+          zIndex: 1,
         }}
       >
         {children}

@@ -1,4 +1,4 @@
-import { ActivityIndicator, Provider, Tabs } from '@ant-design/react-native'
+import { ActivityIndicator, Tabs } from '@ant-design/react-native'
 import { library as FontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -2513,7 +2513,6 @@ export class BrekekeOperatorConsole extends React.Component<
   }
 
   removeTabInEditMode(tabIndex) {
-    const screen = this.state.screens[this.state.currentScreenIndex]
     if (this.state.editingTabDatas.length == 1) {
       Notification.warning({ message: i18n.t('YouCanNotDeleteLastTab') })
       return
@@ -2790,7 +2789,7 @@ export class BrekekeOperatorConsole extends React.Component<
         return
       }
       const talker_id = Object.keys(extStatus.callStatus).find(
-        talker_id => extStatus.callStatus[talker_id] === 'talking',
+        id => extStatus.callStatus[id] === 'talking',
       )
       if (!talker_id) {
         Notification.error({
@@ -3316,6 +3315,7 @@ export class BrekekeOperatorConsole extends React.Component<
     }
 
     currentCallInfo.toggleHoldWithCheck()
+    return false
     // this.setState({dialing: ''});
   }
 
@@ -3898,7 +3898,6 @@ export class BrekekeOperatorConsole extends React.Component<
     )
 
     i18n.locale = isValidLocale(language) ? language : DEFAULT_LOCALE
-    const this_ = this
     const loginUser = {
       pbxHost,
       pbxPort,

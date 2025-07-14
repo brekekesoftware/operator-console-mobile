@@ -52,6 +52,14 @@ var styles = _reactNative.StyleSheet.create({
     padding: 0,
     backgroundColor: 'white',
     borderRadius: 4,
+    elevation: 2,
+    shadowColor: '#e0e0e0',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   },
   brAnchorLeft: {
     left: 0,

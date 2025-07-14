@@ -354,10 +354,6 @@ export default class MainArea extends React.Component {
 
   render() {
     const { uiData } = this.props
-    console.log(
-      '#Duy Phan console uiData.mainAreaSplitters',
-      uiData.mainAreaSplitters,
-    )
     if (uiData.mainAreaSplitters === 2) {
       return this.renderWithTwoSplitters()
     } else if (uiData.mainAreaSplitters === 1) {

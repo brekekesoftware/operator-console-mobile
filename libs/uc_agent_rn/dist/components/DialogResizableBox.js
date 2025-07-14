@@ -432,6 +432,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
               _resizableOpts$minCon3 !== void 0
                 ? _resizableOpts$minCon3
                 : 200
+            console.log('#Duy Phan console screenWidth', screenWidth)
             var maxWidth = Math.min(
               screenWidth - _this2.state.currentRect.left - 20,
               (_resizableOpts$maxCon =
@@ -462,6 +463,10 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
             var width = Math.max(minWidth, Math.min(newWidth, maxWidth))
             var height = Math.max(minHeight, Math.min(newHeight, maxHeight))
+            console.log('#Duy Phan console maxHeight', maxHeight)
+            console.log('#Duy Phan console maxHeight', minHeight)
+            console.log('#Duy Phan console maxHeight', maxHeight)
+            console.log('#Duy Phan console wh222', width, height)
             _this2.state.size.setValue({
               x: width,
               y: height,
@@ -524,6 +529,7 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
         var _this$state = this.state,
           pan = _this$state.pan,
           size = _this$state.size
+        console.log('#Duy Phan console size', size)
         var contents = /*#__PURE__*/ (0, _jsxRuntime.jsxs)(
           _reactNative.Animated.View,
           {
@@ -643,7 +649,7 @@ var styles = _reactNative.StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    flex: 1,
+    // flex: 1,
   },
   brDisabled: {
     opacity: 0.5,

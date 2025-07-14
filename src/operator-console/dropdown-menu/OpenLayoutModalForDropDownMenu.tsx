@@ -52,12 +52,12 @@ export const refreshNoteNamesContent = (
   setOpenLayoutModalOpenFunc,
   setIsLoading,
 ) => {
-  const selectOCNoteByShortname = (operatorConsole, shortname) => {
+  const selectOCNoteByShortname = (oc, shortname) => {
     const noteName = BrekekeOperatorConsole.getOCNoteName(shortname)
     const getNoteOptions = {
       methodName: 'getNote',
       methodParams: JSON.stringify({
-        tenant: operatorConsole.getLoggedinTenant(),
+        tenant: oc.getLoggedinTenant(),
         name: noteName,
       }),
       onSuccessFunction: res => {

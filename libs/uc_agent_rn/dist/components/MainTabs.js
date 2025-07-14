@@ -1204,6 +1204,7 @@ var styles = _reactNative.StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e0e0e0',
     backgroundColor: '#FFFFFF',
+    zIndex: 1,
   },
   brMainTabContentSelected: {
     backgroundColor: '#FFFFFF',

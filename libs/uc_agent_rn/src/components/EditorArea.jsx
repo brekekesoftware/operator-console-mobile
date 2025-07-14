@@ -699,14 +699,18 @@ export default class extends React.Component {
             placeholder={
               disabled || isEmail ? '' : uawMsgs.LBL_EDITOR_TEXTAREA_PLACEHOLDER
             }
-            onKeyPress={props.uiData.fire.bind(
-              props.uiData,
-              'editorTextarea_onKeyDown',
-              props.panelType,
-              props.panelCode,
-              disabled,
-              isEmail,
-            )}
+            onKeyPress={e => {
+              const r = this.editorTextareaRef.current
+              props.uiData.fire(
+                'editorTextarea_onKeyDown',
+                props.panelType,
+                props.panelCode,
+                disabled,
+                isEmail,
+                r,
+                e,
+              )
+            }}
             multiline
           />
         </View>
