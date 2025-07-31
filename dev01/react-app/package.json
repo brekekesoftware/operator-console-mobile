@@ -3,8 +3,8 @@
   "version": "0.0.0-locked",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
+    "start": "node init && react-scripts start",
+    "build": "node init && react-scripts build"
   },
   "dependencies": {
     "humanize-duration": "3.29.0",
