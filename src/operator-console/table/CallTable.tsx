@@ -50,8 +50,6 @@ export const CallTable = props => {
     currentCallIndex = callInfos.getCurrentCallIndex()
   }
 
-  const idKey = 0
-
   const CallTableColumns = [
     // !overhead
     {
