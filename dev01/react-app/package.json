@@ -3,7 +3,7 @@
   "version": "0.0.0-locked",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node api.js && react-scripts start",
     "build": "react-scripts build"
   },
   "dependencies": {

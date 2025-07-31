@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "./",
   "scripts": {
-    "start": "make -Bs start",
+    "start": "node api.js && make -Bs start",
     "build": "make -Bs build",
     "clean": "react-native clean-project-auto && make -Bs clean",
     "intl": "make -Bs intl",
