@@ -168,13 +168,11 @@ var App = /*#__PURE__*/ (function (_React$Component) {
           },
           children: /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_WidgetBody.default, {
             uiData: props.uiData,
-            modalOverlayClassName: 'brUCAgentApp',
             children: [
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_RnAudioPlayer.RnAudioPlayer, {
                 source: sound,
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsx)(_MainArea.default, {
-                className: 'brWithToolbar',
                 uiData: props.uiData,
               }),
               /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_Toolbar.default, {

