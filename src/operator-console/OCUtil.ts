@@ -1,24 +1,6 @@
 import { Notification } from './common/Notification'
 
 export class OCUtil {
-  // static removeElementFromArray( array, element ){
-  //     const index = OCUtil.indexOfElementFromArray( array, element );
-  //     if( index !== -1 ){
-  //         array.splice( index, 1 );
-  //     }
-  //     return index;
-  // }
-  //
-  // static indexOfElementFromArray( array, element ){
-  //     for( let i = 0; i < array.length; i++ ){
-  //         const itm = array[i];
-  //         if( itm === element ){
-  //             return i;
-  //         }
-  //     }
-  //     return -1;
-  // }
-
   static removeChar(s, c) {
     let bContinue = true
     let sRemoved = s

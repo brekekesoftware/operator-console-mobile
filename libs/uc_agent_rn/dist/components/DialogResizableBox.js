@@ -463,10 +463,6 @@ var _default = (exports.default = /*#__PURE__*/ (function (_React$Component) {
             )
             var width = Math.max(minWidth, Math.min(newWidth, maxWidth))
             var height = Math.max(minHeight, Math.min(newHeight, maxHeight))
-            console.log('#Duy Phan console maxHeight', maxHeight)
-            console.log('#Duy Phan console maxHeight', minHeight)
-            console.log('#Duy Phan console maxHeight', maxHeight)
-            console.log('#Duy Phan console wh222', width, height)
             _this2.state.size.setValue({
               x: width,
               y: height,

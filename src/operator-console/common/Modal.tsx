@@ -1,5 +1,4 @@
 import { Text, View } from 'react-native'
-import type { ModalProps } from 'react-native-modal'
 import RNModal from 'react-native-modal'
 
 type Props = {
@@ -10,10 +9,10 @@ type Props = {
   footer?: React.ReactNode
   title?: string
   width?: number
-} & Omit<ModalProps, 'children'>
+  style?: any
+}
 
 export const Modal = ({
-  children,
   open,
   footer,
   onOk,
@@ -60,7 +59,11 @@ export const Modal = ({
           </Text>
         </View>
         <View style={{ flex: 1 }}>
-          {typeof children === 'string' ? <Text>{children}</Text> : children}
+          {typeof props.children === 'string' ? (
+            <Text>{props.children}</Text>
+          ) : (
+            props.children
+          )}
         </View>
         <View
           style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: 15 }}

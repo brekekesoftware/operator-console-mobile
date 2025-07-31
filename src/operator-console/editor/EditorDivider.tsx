@@ -1,4 +1,3 @@
-import { createRef } from 'react'
 import type { PanResponderInstance } from 'react-native'
 import {
   PanResponder,
@@ -9,7 +8,6 @@ import {
 
 import { BaseDivider } from '../base/BaseDivider'
 import { BaseDividerData } from '../data/BaseDividerData'
-import { Draggable } from '../lib/rnd/Draggable'
 import { EditorPane } from './EditorPane'
 
 let _EDITOR_DIVIDER_ID = -1

@@ -124,44 +124,22 @@ export class Draggable extends Component<Props, State> {
   render(): ReactNode {
     const { x, y, w, h, isSelected } = this.state
     return (
-      <>
-        {/* {isSelected && (
-          <View
-            style={[
-              {
-                // position: 'relative',
-                left: 0,
-                top: 0,
-                width: w,
-                height: h,
-                backgroundColor: 'red',
-                zIndex: -1
-              },
-              this.props.style,
-            ]}
-          >
-            {this.props.children}
-          </View>
-        )} */}
-        <View
-          style={[
-            {
-              // position: 'absolute',
-              left: x,
-              top: y,
-              width: w,
-              height: h,
-              zIndex: isSelected ? 9999 : undefined,
-              // backgroundColor: 'yellow'
-            },
-            this.props.style,
-          ]}
-          {...this._panResponder.panHandlers}
-          ref={r => (this.refDrag = r)}
-        >
-          {this.props.children}
-        </View>
-      </>
+      <View
+        style={[
+          {
+            left: x,
+            top: y,
+            width: w,
+            height: h,
+            zIndex: isSelected ? 9999 : undefined,
+          },
+          this.props.style,
+        ]}
+        {...this._panResponder.panHandlers}
+        ref={r => (this.refDrag = r)}
+      >
+        {this.props.children}
+      </View>
     )
   }
 }

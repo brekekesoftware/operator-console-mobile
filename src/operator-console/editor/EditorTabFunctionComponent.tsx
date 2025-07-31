@@ -1,25 +1,13 @@
 import { Tabs } from '@ant-design/react-native'
 import { forwardRef, useEffect, useRef } from 'react'
-import type { LayoutRectangle } from 'react-native'
-import {
-  InteractionManager,
-  Platform,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist'
 
-import { GridLines } from '../common/GridLines'
 import { WidgetData } from '../data/widgetData/WidgetData'
 import { dndEventEmiter } from '../lib/rnd/DndEventEmiter'
-import { Util } from '../Util'
 import { EditorTabChildren } from './EditorTabChildren'
-import { EditorWidgetFactory } from './widget/editor/EditorWidgetFactory'
 import { EditorWidgetTemplateFactory } from './widget/template/EditorWidgetTemplateFactory'
 
 const _onTabClick = (tabKey, editorPaneAsParent) => {
