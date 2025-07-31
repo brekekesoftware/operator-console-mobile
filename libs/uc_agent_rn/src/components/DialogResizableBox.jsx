@@ -52,7 +52,6 @@ export default class extends React.Component {
 
     this.setupPanResponders()
   }
-  holdTimeout = null
 
   setupPanResponders() {
     // Pan responder for moving
@@ -112,7 +111,7 @@ export default class extends React.Component {
 
         const minWidth = resizableOpts?.minConstraints?.[0] ?? 200
         const minHeight = resizableOpts?.minConstraints?.[1] ?? 200
-console.log('#Duy Phan console screenWidth',screenWidth)
+
         const maxWidth = Math.min(
           screenWidth - this.state.currentRect.left - 20,
           resizableOpts?.maxConstraints?.[0] ?? screenWidth,

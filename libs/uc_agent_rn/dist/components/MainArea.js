@@ -600,10 +600,6 @@ var MainArea = (exports.default = /*#__PURE__*/ (function (_React$Component) {
       key: 'render',
       value: function render() {
         var uiData = this.props.uiData
-        console.log(
-          '#Duy Phan console uiData.mainAreaSplitters',
-          uiData.mainAreaSplitters,
-        )
         if (uiData.mainAreaSplitters === 2) {
           return this.renderWithTwoSplitters()
         } else if (uiData.mainAreaSplitters === 1) {
