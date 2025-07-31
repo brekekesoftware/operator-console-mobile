@@ -1,23 +1,14 @@
 // api was a component but had been rewritten to a listener
 import '../api'
 
-// import { Provider } from '@ant-design/react-native'
 import NetInfo from '@react-native-community/netinfo'
 import { debounce } from 'lodash'
 import { reaction, runInAction } from 'mobx'
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
-import {
-  ActivityIndicator,
-  AppState,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { AppState, Platform, StyleSheet, Text, View } from 'react-native'
 import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import KeyboardSpacer from 'react-native-keyboard-spacer'
 import SplashScreen from 'react-native-splash-screen'
 import { ToastProvider } from 'react-native-toast-notifications'
 import { ViewRegistryProvider } from 'uc_agent_rn'
@@ -27,9 +18,6 @@ import { SyncPnToken } from '../api/syncPnToken'
 import { getWebRootIdProps } from '../embed/polyfill'
 import { IconError, IconSuccess, IconWarning } from '../operator-console/icons'
 import { OCMain } from '../operator-console/OCMain'
-import { BrekekeOperatorConsole } from '../operator-console/OperatorConsole'
-import { RenderAllCalls } from '../pages/PageCallManage'
-import { PageCustomPageView } from '../pages/PageCustomPageView'
 import { accountStore, getLastSignedInId } from '../stores/accountStore'
 import {
   isFirstRunFromLocalStorage,
@@ -47,9 +35,7 @@ import { intlStore } from '../stores/intlStore'
 import { Nav } from '../stores/Nav'
 import { RnAlert } from '../stores/RnAlert'
 import { RnAlertRoot } from '../stores/RnAlertRoot'
-import { RnPickerRoot } from '../stores/RnPickerRoot'
 import { RnStacker } from '../stores/RnStacker'
-import { RnStackerRoot } from '../stores/RnStackerRoot'
 import { userStore } from '../stores/userStore'
 import { BackgroundTimer } from '../utils/BackgroundTimer'
 import { setupCallKeepEvents } from '../utils/callkeep'
@@ -58,15 +44,8 @@ import { PushNotification } from '../utils/PushNotification'
 import { registerOnUnhandledError } from '../utils/registerOnUnhandledError'
 import { waitTimeout } from '../utils/waitTimeout'
 import { webPromptPermission } from '../utils/webPromptPermission'
-import { AnimatedSize } from './AnimatedSize'
-import { CallBar } from './CallBar'
 import { CallNotify } from './CallNotify'
-import { CallVideos } from './CallVideos'
-import { CallVoices } from './CallVoices'
-import { ChatGroupInvite, UnreadChatNoti } from './ChatGroupInvite'
-import { PhonebookAddItem } from './PhonebookAddItem'
-import { AudioPlayer, RnStatusBar, RnText } from './Rn'
-import { RnTouchableOpacity } from './RnTouchableOpacity'
+import { AudioPlayer, RnStatusBar } from './Rn'
 import { v } from './variables'
 
 const initApp = async () => {
@@ -405,9 +384,7 @@ export const App = observer(() => {
             <GestureHandlerRootView style={{ flex: 1 }}>
               <ViewRegistryProvider>
                 <View style={{ flex: 1 }}>
-                  {/* <Provider> */}
                   <OCMain />
-                  {/* </Provider> */}
                 </View>
               </ViewRegistryProvider>
             </GestureHandlerRootView>
