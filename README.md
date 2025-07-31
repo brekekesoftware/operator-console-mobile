@@ -1,155 +1,346 @@
-### Quick access
+# Operator Console Mobile
 
-- Minimum required OS version: Android 8.1 | iOS 11
-- Recommended OS version: Android 10 and above | iOS 13 and above
+A React Native cross-platform application with UC library integration for mobile and web platforms.
 
-- [Custom branding build](./.doc/custom-branding.md)
-- [Network proxy setup](./.doc/network-proxy-setup.md)
+## Table of Contents
 
-### Environment requirement
+- [About UC Library](#about-uc-library)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Icon Management](#icon-management)
+- [Development](#development)
+- [API Reference](#api-reference)
+- [Contributing](#contributing)
 
-- Should have the latest node version 12.x LTS
-  - You can use `nvm` to install and manage node versions: https://github.com/nvm-sh/nvm
-- Install `yarn` and use it instead of `npm`: `npm i -g yarn`
-- Install node packages:
+## About UC Library
+
+The UC (Unified Communications) library is located in `libs/uc_agent_rn` and serves as the core functionality provider for the operator console.
+
+### Key Features
+
+- **Cross-platform compatibility**: Works on iOS, Android, and Web
+- **Babel-powered build system**: Optimized JavaScript compilation
+- **Component-based architecture**: Modular and reusable UI components
+- **SVG icon system**: Scalable vector graphics with automated conversion
+- **Dynamic view rendering**: Runtime UI composition based on configuration
+
+### Architecture
+
+The UC library maintains compatibility with the main UC library while providing React Native specific optimizations and mobile-first design patterns.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 14+
+- Yarn package manager
+- React Native development environment
+
+### Quick Start
+
+1. **Install dependencies**
+
+   ```sh
+   yarn install
+   ```
+
+2. **Build the UC library**
+
+   ```sh
+   yarn build:dev
+   ```
+
+3. **Install to main project**
+   ```sh
+   make build-uc
+   ```
+
+## Installation
+
+### Building the UC Library
+
+The UC library uses Babel for transpilation and bundling:
 
 ```sh
-# IMPORTANT: Do not run react-native link, we already linked them manually because the automation link has issues sometimes
-cd /path/to/brekekephone
-yarn
+# Development build
+npm run build:dev
+# or
+yarn build:dev
+
+# Production build
+npm run build:prod
+# or
+yarn build:prod
 ```
 
-- Start the metro bundler and let it running
+After running the build scripts, the compiled bundle will be placed in the `/dist` directory.
+
+### Integration with Main Project
+
+To install the built UC library into your main project:
 
 ```sh
-yarn rn
+make build-uc
 ```
 
-- If it has some strange errors, we may need to delete node_module then reset cache as well
+This command will:
 
-```sh
-yarn cache clean && yarn --check-files && yarn rn --reset-cache
-```
+- Copy the built library from `/dist`
+- Install it with the new version number
+- Update project dependencies
 
-### Keystores and other credentials keys
+## Usage
 
-- Those private files are ignored from git history, you need to download or generate your own files to build your custom app. See [Custom branding build](./.doc/custom-branding.md) for more detail
-  - `android/app/google-services.json`
-  - `android/keystores/development.keystore`
-  - `android/keystores/release.keystore`
-  - `src/api/turnConfig.ts`
-- Most of the cases you don't need to use TURN to establish the call. You can put `export default null;` in `turnConfig.ts` and keep the TURN feature turned off. Example of real turn config:
+### 1. Setup ViewRegistryProvider
 
-```js
-export const turnConfig = {
-  pcConfig: {
-    iceServers: [
-      {
-        urls: 'turn:HOST:PORT/PATH',
-        username: 'USERNAME',
-        credential: 'PASSWORD',
-      },
-      // other ice servers
-    ],
-  },
+Wrap your main application with the `ViewRegistryProvider` context:
+
+```tsx
+import React from 'react'
+import { ViewRegistryProvider } from 'uc_agent_rn'
+import App from './App'
+
+export default function Root() {
+  return (
+    <ViewRegistryProvider>
+      <App />
+    </ViewRegistryProvider>
+  )
 }
 ```
 
-### Android
+### 2. Render Dynamic Views
 
-##### Android SDK tools
+Use the `DynamicView` component to render UC widgets at specific positions:
 
-- The binary tools are located at the following locations. To use them directly in the command line, we should add them into the PATH environment variable:
-- Windows:
+```tsx
+import React from 'react'
+import { DynamicView } from 'uc_agent_rn'
 
-```sh
-%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools
-%USERPROFILE%\AppData\Local\Android\Sdk\tools
-%USERPROFILE%\AppData\Local\Android\Sdk\tools\bin
+export default function Dashboard() {
+  return (
+    <View>
+      <DynamicView viewId='webchatqueue' />
+      <DynamicView viewId='callhistory' />
+      <DynamicView viewId='contacts' />
+    </View>
+  )
+}
 ```
 
-- Mac: https://stackoverflow.com/questions/26483370
+**Important Notes:**
 
-```sh
-export ANDROID_HOME=/Users/$USER/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+- Views will render after UC initialization
+- Ensure the `viewId` prop matches the `iconParents` parameter used during UC initialization
+- Views are dynamically composed based on UC configuration
+
+### 3. Advanced Configuration
+
+```tsx
+import { UCManager } from 'uc_agent_rn'
+
+// Initialize UC with custom configuration
+UCManager.initialize({
+  iconParents: {
+    webchatqueue: { position: 'top-left', visible: true },
+    callhistory: { position: 'bottom-right', visible: false },
+  },
+  theme: 'dark',
+  locale: 'en-US',
+})
 ```
 
-##### Run and debug app in Android Emulator:
+## Icon Management
 
-- To create a virtual device:
-  - Option 1: Using Android Studio: Go to `Tools > AVD Manager` to install a new virtual device
-  - Option 2: Using command line tool: Follow the instruction at: https://developer.android.com/studio/command-line/avdmanager
-- To run the virtual device:
-  - Option 1: Using Android Studio: In AVD Manager, click the Run button on the Emulator we want to run
-  - Option 2: Using command line tool: Execute `emulator -list-avds` to list all virtual devices. Then execute `emulator -avd <DEVICE_NAME>` to run it. If you are on Windows, you may need to `cd %USERPROFILE%\AppData\Local\Android\Sdk\emulator` first
-- Start the react native bundle at the project root: `yarn android`
+The UC library includes a comprehensive icon system with automated SVG processing.
 
-- Some errors:
-  - If we can not run the emulator and it throws an error like: `Emulator: ERROR: x86 emulation currently requires hardware acceleration!`. Try to follow these steps to fix:
-    - In Android Studio, go to SDK Manager and make sure the option `Intel x86 Emulator Accelerator` is checked
-    - Open folder `%USERPROFILE%\AppData\Local\Android\sdk\extras\intel\Hardware_Accelerated_Execution_Manager`
-    - Open `intelhaxm-android.exe`. If it shows that the installation is completed, we need to click the remove button to remove it, then reopen and reinstall it again
-    - When reinstalling, if it shows an error like: `... Intel Virtualization Technology (VT-x) is not turned on`: We need to restart the computer, enter the BIOS and configure the CPU to support Virtualization. After that try to reopen and reinstall `intelhaxm-android.exe` again
-  - The device starts up but the Command Line shows endless loop of `VCPU shutdown request`
-    - This is a bug of Intel HAXM: https://issuetracker.google.com/issues/37124550
-    - Remove the old HAXM then download and reinstall the latest HAXM version should fix this
-  - `You have not accepted the license agreements of the following SDK components`: Execute `cd %USERPROFILE%\AppData\Local\Android\Sdk\tools\bin` then `sdkmanager --licenses` then press y and enter for all licenses
+### Adding Custom Icons
 
-##### Run and debug app in a real device:
+#### Method 1: Manual JSX Creation
 
-- Prepare with the real device:
-  - Go to Settings > Privacy
-  - Enable "Unknown Sources" (Allow installation of apps from unknown sources)
-  - We may need to enable Developer Mode as well, each phone has a different way to enable it, please give a search on the internet if you don't know how
-- Then run those commands on the computer:
+1. Create a new JSX file in `src/icons/` following the react-native-svg standard format:
 
-```sh
-adb devices
-adb -s DEVICE_ID reverse tcp:8081 tcp:8081
-yarn android --deviceId=DEVICE_ID
+```tsx
+// src/icons/CustomIcon.jsx
+import React from 'react'
+import Svg, { Path } from 'react-native-svg'
+
+export const CustomIcon = ({ width = 24, height = 24, color = '#000' }) => (
+  <Svg width={width} height={height} viewBox='0 0 24 24'>
+    <Path
+      d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z'
+      fill={color}
+    />
+  </Svg>
+)
 ```
 
-##### Build app in release mode and install it in a real device:
+2. Rebuild the library:
+   ```sh
+   yarn build:dev
+   ```
 
-- At the project root execute: `cd android && ./gradlew clean && ./gradlew assembleRelease`
-- After the build is finished, the apk file is located at: `android/app/build/outputs/apk/release`. We can upload the apk file to our server or to Google Play Dashboard for a new release
-- To enable LogCat: https://stackoverflow.com/questions/25610936
+#### Method 2: Automated SVG Conversion
 
-### iOS
+1. Add your SVG files to the `src/svg/` directory
 
-- CocoaPods is required: https://cocoapods.org/
-- Install Pods: `cd ios && pod install --repo-update`
-- Start development: `yarn ios`
-- Sometimes we need to clear cache if it doesn't reflect changes or has some strange errors: `rm -rf ios/build/* && rm -rf ~/Library/Developer/Xcode/DerivedData/*`
-- To have the push notification permision and other permission related popups show up again, we need to uninstall the app before reinstalling it
+2. Run the conversion script:
+   ```sh
+   sh convert-svgs.sh
+   ```
 
-##### Build app for distribution
+This will automatically:
 
-- Download bitcode for react-native-webrtc: `yarn bitcode`
-- Request for distribution certificate and install it correctly on local machine if haven't
-- Archive and distribute for Ad-hoc / Team distribution to manually upload to our server so the others can download and test
-- We can also choose to validate for App Store to see if it has any issue, then distribute it to App Store for a new release
+- Convert SVG files to JSX components
+- Apply React Native SVG formatting
+- Generate optimized icon components in `src/icons/`
+- Update the icon exports
 
-### Push notification issues
+### Icon Usage
 
-- Android
-  - Ensure latest google-services.json
-  - Ensure correct firebase config in the pbx admin push notification
-- iOS
-  - Ensure the push notification gets configured correctly in General, Info.plist, Phone.entitlements
-  - Ensure correct APN config in the pbx admin push notification
+```tsx
+import { CustomIcon, PhoneIcon, ChatIcon } from 'uc_agent_rn'
 
-### Automation format tools
+export default function Toolbar() {
+  return (
+    <View style={styles.toolbar}>
+      <CustomIcon width={32} height={32} color='#007AFF' />
+      <PhoneIcon width={24} height={24} color='#34C759' />
+      <ChatIcon width={24} height={24} color='#FF3B30' />
+    </View>
+  )
+}
+```
 
-- To have the js/ts files follow a single code format consistency, you can run `yarn format`
-  - It will be automatically run in each commit using `husky` and `lint-staged`
-- To run the format command for all possible files `make format`, we must install the following packages (on macOS):
+## Development
+
+### Project Structure
+
+```
+libs/uc_agent_rn/
+├── src/
+│   ├── components/          # React components
+│   ├── icons/              # Generated icon components
+│   ├── svg/                # Source SVG files
+│   ├── utils/              # Utility functions
+│   └── index.js            # Main entry point
+├── dist/                   # Built library output
+├── babel.config.js         # Babel configuration
+└── package.json           # Library dependencies
+```
+
+### Build Scripts
 
 ```sh
-brew install make clang-format google-java-format
-npm i -g imagemin-cli
+# Development build with source maps
+yarn build:dev
+
+# Production build (minified)
+yarn build:prod
+
+# Watch mode for development
+yarn build:watch
+
+# Clean build artifacts
+yarn clean
+
+# Convert SVG icons
+sh convert-svgs.sh
 ```
+
+### Testing
+
+```sh
+# Run unit tests
+yarn test
+
+# Run tests in watch mode
+yarn test:watch
+
+# Generate coverage report
+yarn test:coverage
+```
+
+## API Reference
+
+### Components
+
+#### `<ViewRegistryProvider>`
+
+Context provider for UC library initialization.
+
+**Props:**
+
+- `config?: UCConfig` - Optional UC configuration object
+
+#### `<DynamicView>`
+
+Renders UC widgets dynamically based on viewId.
+
+**Props:**
+
+- `viewId: string` - Unique identifier for the view
+- `style?: ViewStyle` - Optional styling
+- `onLoad?: () => void` - Callback when view is loaded
+
+### Utilities
+
+#### `UCManager`
+
+Main UC library manager for initialization and configuration.
+
+**Methods:**
+
+- `initialize(config: UCConfig): Promise<void>`
+- `getViewConfig(viewId: string): ViewConfig`
+- `updateTheme(theme: ThemeConfig): void`
+
+## Contributing
+
+### Development Workflow
+
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```sh
+   git checkout -b feature/your-feature-name
+   ```
+3. **Make your changes**
+4. **Run tests**
+   ```sh
+   yarn test
+   ```
+5. **Build the library**
+   ```sh
+   yarn build:dev
+   ```
+6. **Submit a pull request**
+
+### Code Standards
+
+- Follow React Native best practices
+- Use TypeScript for new components
+- Maintain backward compatibility
+- Add unit tests for new features
+- Update documentation for API changes
+
+### Icon Contribution
+
+When contributing new icons:
+
+- Use SVG format for scalability
+- Ensure icons are optimized (< 2KB)
+- Follow the existing naming convention
+- Test on multiple screen densities
+
+## License
+
+[License information to be specified]
+
+## Support
+
+For technical support and bug reports, please:
+
+- Check the [troubleshooting guide](./docs/troubleshooting.md)
+- Search existing [issues](./issues)
+- Create a new issue with detailed reproduction steps

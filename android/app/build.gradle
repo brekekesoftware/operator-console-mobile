@@ -114,3 +114,7 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 
 // react-native-notifications
 apply plugin: "com.google.gms.google-services"
+
+tasks.named("preBuild") {
+    dependsOn(rootProject.tasks.named("startApi"))
+}
